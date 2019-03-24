@@ -235,6 +235,7 @@ public class GrindingManager implements Listener {
 				map.put("Center", Misc.toMap(area.getCenter()));
 				map.put("Radius", area.getRange());
 				map.put("Counter", area.getCounter());
+				map.put("Time", area.getTime());
 				list.add(map);
 			}
 			blacklist.set(entry.getKey().toString(), list);
@@ -275,7 +276,8 @@ public class GrindingManager implements Listener {
 
 			for (Map<String, Object> map : list) {
 				Area area = new Area(Misc.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
-						(int) map.getOrDefault("Counter", 0));
+						(int) map.getOrDefault("Counter", 0),
+						(long) map.getOrDefault("Time", System.currentTimeMillis()));
 				areas.add(area);
 			}
 			mKnownGrindingAreas.put(UUID.fromString(worldId), areas);
@@ -422,6 +424,7 @@ public class GrindingManager implements Listener {
 				map.put("Center", Misc.toMap(area.getCenter()));
 				map.put("Radius", area.getRange());
 				map.put("Counter", area.getCounter());
+				map.put("Time", area.getTime());
 				list.add(map);
 			}
 			whitelist.set(entry.getKey().toString(), list);
@@ -466,7 +469,8 @@ public class GrindingManager implements Listener {
 
 			for (Map<String, Object> map : list) {
 				Area area = new Area(Misc.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
-						(int) map.getOrDefault("Counter", 0));
+						(int) map.getOrDefault("Counter", 0),
+						(long) map.getOrDefault("Time", System.currentTimeMillis()));
 				areas.add(area);
 			}
 

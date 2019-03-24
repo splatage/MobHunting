@@ -25,6 +25,9 @@ public class McMMOCompat implements Listener {
 	private static Plugin mPlugin;
 	public static final String MH_MCMMO = "MH:MCMMO";
 
+	// McMMO 2.1.0 documentation:
+	// https://docs.google.com/document/d/1qY6hEyGCO5z1PRup_OvMBxAmumydxxoO_H-pnUrVK8M/edit#heading=h.474ghxburdpp
+
 	public McMMOCompat() {
 		if (!isEnabledInConfig()) {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
@@ -32,7 +35,16 @@ public class McMMOCompat implements Listener {
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.mcMMO.getName());
 
-			if (mPlugin.getDescription().getVersion().compareTo("1.5.00") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo("2.0") >= 0) {
+				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+						+ "Enabling compatibility with McMMO (" + getMcMmoAPI().getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender()
+						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "McMMO Level rewards is "
+								+ (MobHunting.getInstance().getConfigManager().enableMcMMOLevelRewards ? "enabled"
+										: "disabled"));
+				supported = true;
+			} else if (mPlugin.getDescription().getVersion().compareTo("1.5.00") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 						+ "Enabling compatibility with McMMO (" + getMcMmoAPI().getDescription().getVersion() + ")");

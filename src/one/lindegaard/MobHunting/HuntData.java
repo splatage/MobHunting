@@ -104,7 +104,7 @@ public class HuntData{
 			}
 		}
 
-		Area area = new Area(lastKillAreaCenter, cDampnerRange, dampenedKills);
+		Area area = new Area(lastKillAreaCenter, cDampnerRange, dampenedKills, System.currentTimeMillis());
 		lastGridingAreas.add(area);
 	}
 

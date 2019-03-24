@@ -923,28 +923,34 @@ public class RewardManager {
 	}
 
 	private double getPrice(Entity mob, String str) {
-		if (str == null || str.equals("") || str.isEmpty()) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-							+ " The prize for killing a " + mob.getName()
-							+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
-			return 0;
-		} else if (str.startsWith(":")) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-							+ " The prize for killing a " + mob.getName()
-							+ " in config.yml has a wrong format. The prize can't start with \":\"");
-			if (str.length() > 1)
-				return getPrice(mob, str.substring(1, str.length()));
-			else
+		try {
+			if (str == null || str.equals("") || str.isEmpty()) {
+				Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]"
+						+ ChatColor.RESET + " The prize for killing a " + mob.getName()
+						+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
 				return 0;
-		} else if (str.contains(":")) {
-			String[] str1 = str.split(":");
-			double prize = (plugin.mRand.nextDouble() * (Double.valueOf(str1[1]) - Double.valueOf(str1[0]))
-					+ Double.valueOf(str1[0]));
-			return Misc.round(prize);
-		} else
-			return Double.valueOf(str);
+			} else if (str.startsWith(":")) {
+				Bukkit.getServer().getConsoleSender()
+						.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
+								+ " The prize for killing a " + mob.getName()
+								+ " in config.yml has a wrong format. The prize can't start with \":\"");
+				if (str.length() > 1)
+					return getPrice(mob, str.substring(1, str.length()));
+				else
+					return 0;
+			} else if (str.contains(":")) {
+				String[] str1 = str.split(":");
+				double prize = (plugin.mRand.nextDouble() * (Double.valueOf(str1[1]) - Double.valueOf(str1[0]))
+						+ Double.valueOf(str1[0]));
+				return Misc.round(prize);
+			} else
+				return Double.valueOf(str);
+		} catch (NumberFormatException e) {
+			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
+					+ " The prize for killing a " + mob.getName() + " has an unknown format in config.yml.");
+			//e.printStackTrace();
+			return 0;
+		}
 	}
 
 	/**

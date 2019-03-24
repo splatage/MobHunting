@@ -1,4 +1,5 @@
 V6.5.2
+* Compiled MobHunting with McMMO 2.0.1, if you want to use McMMO Classic or other old versions you need to stay on MobHunting 6.5.1 or disable integration to McMMO. 
 * Added new option for Towny servers. disable_rewards_in_any_town - used to deny player MobHunting rewards in any town. Hometown or not.
 V6.5.1
 * Support for McMMOHorses Added. You dont get a reward for killing MCHorses

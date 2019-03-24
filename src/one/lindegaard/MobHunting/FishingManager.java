@@ -22,7 +22,7 @@ import org.bukkit.event.player.PlayerFishEvent.State;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import com.gmail.nossr50.datatypes.skills.SkillType;
+import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 
 import one.lindegaard.MobHunting.compatibility.FactionsHelperCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
@@ -275,7 +275,7 @@ public class FishingManager implements Listener {
 					plugin.getMessages().debug("If %s<%s %s will get a McMMO Level for fishing", chance,
 							plugin.getRewardManager().getMcMMOChance(fish), player.getName());
 					if (chance < plugin.getRewardManager().getMcMMOChance(fish)) {
-						McMMOCompat.addLevel(player, SkillType.FISHING.getName(), level);
+						McMMOCompat.addLevel(player, PrimarySkillType.FISHING.getName(), level);
 						plugin.getMessages().debug("%s was rewarded with %s McMMO level for Fishing", player.getName(),
 								level);
 						plugin.getMessages().playerSendMessage(player,
