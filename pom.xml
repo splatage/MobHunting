@@ -4,11 +4,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>one.lindegaard</groupId>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<version>6.5.2</version>
-	<!-- <version>6.5.2-SNAPSHOT-B${build.number}</version> -->
+	<!-- <version>6.5.3</version> -->
+	<version>6.5.3-SNAPSHOT-B${build.number}</version>
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -18,109 +17,12 @@
 		<developerConnection>scm:svn:https://github.com/Rocologo/MobHunting.git</developerConnection>
 		<url>http://127.0.0.1/dummy</url>
 	</scm>
-	<organization>
-		<name>Rocologo</name>
-		<url>https://fractal.lindegaard.one</url>
-	</organization>
 
-	<!-- ********************************************************************** -->
-	<!-- ***************************** Properties ***************************** -->
-	<!-- ********************************************************************** -->
-	<properties>
-
-		<build.number>1337</build.number>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<mainClass>${project.groupId}.${project.artifactId}</mainClass>
-		<spigotmc113.version>1.13.2-R1</spigotmc113.version>
-		<craftbukkit113R2.version>1.13-R2</craftbukkit113R2.version>
-		<craftbukkit113R1.version>1.13-R1</craftbukkit113R1.version>
-		<craftbukkit112R1.version>1.12-R1</craftbukkit112R1.version>
-		<craftbukkit111R1.version>1.11-R1</craftbukkit111R1.version>
-		<craftbukkit110R1.version>1.10-R1</craftbukkit110R1.version>
-		<craftbukkit19R1.version>1.9-R1</craftbukkit19R1.version>
-		<craftbukkit19R2.version>1.9-R2</craftbukkit19R2.version>
-		<craftbukkit18R3.version>1.8-R3</craftbukkit18R3.version>
-		<craftbukkit18R2.version>1.8-R2</craftbukkit18R2.version>
-		<craftbukkit18R1.version>1.8-R1</craftbukkit18R1.version>
-		<spongeapi.version>5.1.0-SNAPSHOT</spongeapi.version>
-
-		<javacompiler.version>1.8</javacompiler.version>
-		<mavenCompilerPlugin.version>3.7.0</mavenCompilerPlugin.version>
-		<mavenJarPlugin.version>3.1.0</mavenJarPlugin.version>
-		<mavenShadePlugin.version>3.1.1</mavenShadePlugin.version>
-
-		<bagofgold.version>2.5.2</bagofgold.version>
-
-		<vault.version>1.6.6</vault.version>
-		<bstats.version>1.4</bstats.version>
-		<protocollib.version>4.4.0-SNAPSHOT</protocollib.version>
-		<EssentialsX.version>2.0.1</EssentialsX.version>
-		<spigetupdate.version>1.4.0</spigetupdate.version>
-
-		<bossbarapi.version>2.4.1</bossbarapi.version>
-		<barapi.version>3.4</barapi.version>
-		<titlemanager.version>2.0.0</titlemanager.version>
-		<ActionBarAPI.version>1.5.2</ActionBarAPI.version>
-		<ActionAnnouncer.version>1.10.0</ActionAnnouncer.version>
-		<placeholderapi.version>2.0.8</placeholderapi.version>
-		<TitleAPI.version>1.7.5</TitleAPI.version>
-
-		<citizensapi.version>2.0.22-SNAPSHOT</citizensapi.version>
-		<holograms.version>2.5.0-SNAPSHOT</holograms.version>
-		<hologramdisplays.version>2.2.6</hologramdisplays.version>
-
-		<minigames.version>1.9.0-SNAPSHOT</minigames.version>
-		<minigameslib.version>1.14.14</minigameslib.version>
-		<mypet.version>2.3.4</mypet.version>
-		<mcmmohorses.version>4.3.45c</mcmmohorses.version>
-		<worldedit.version>7.0.0</worldedit.version>
-		<worldguard.version>7.0.0</worldguard.version>
-		<PreciousStones.version>10.7.2</PreciousStones.version>
-		<libsdisguises.version>9.5.1-SNAPSHOT</libsdisguises.version>
-		<battleArena.version>3.9.10.6.2</battleArena.version>
-		<placeholderapi.version>2.0.6</placeholderapi.version>
-		<custommobs.version>4.16</custommobs.version>
-		<mobarena.version>0.97.1</mobarena.version>
-		<massivecore.version>2.12.1</massivecore.version>
-		<factions.version>2.12.1</factions.version>
-		<factionsuuid.version>1.6.9.5-U0.2.1-SNAPSHOT</factionsuuid.version>
-		<factionsuuid.jar.version>FactionsUUID-1.6.9.5-B52.jar</factionsuuid.jar.version>
-
-		<iDisguise.version>5.5.5</iDisguise.version>
-		<vanishnopacket.version>3.20</vanishnopacket.version>
-		<mcmmo161.version>1.6.1-SNAPSHOT</mcmmo161.version>
-		<mcmmo210.version>2.1.0-SNAPSHOT</mcmmo210.version>
-		<disguisecraft.version>5.1</disguisecraft.version>
-		<crackshot.version>0.98.5</crackshot.version>
-		<PvpArena.version>1.3</PvpArena.version>
-		<TARDISWeepingAngels.version>2.4</TARDISWeepingAngels.version>
-		<ConquestiaMobs.version>3.3.3</ConquestiaMobs.version>
-		<LorinthsRpgMobs.version>1.1.2</LorinthsRpgMobs.version>
-		<MysteriousHalloween.version>1.3.5</MysteriousHalloween.version>
-		<EliteMobs.version>6.5.0</EliteMobs.version>
-		<SmartGiants.version>2.3.6</SmartGiants.version>
-		<Herobrine.version>1.7.1</Herobrine.version>
-		<towny.version>0.91.4.2</towny.version>
-		<residence.version>4.7.0.1</residence.version>
-		<bossshop.version>2.7.3</bossshop.version>
-		<MobStacker.version>2.0.0</MobStacker.version>
-		<mythicmobsold.version>2.5.1</mythicmobsold.version>
-		<mythicmobs.version>4.1.0-SNAPSHOT</mythicmobs.version>
-		<mythiclib.version>0.0.1-20170628.172950-1</mythiclib.version>
-		<StackMob.version>2.1.1</StackMob.version>
-		<InfernalMobs.version>5.3</InfernalMobs.version>
-		<PVPControl.version>1.4.1-SNAPSHOT</PVPControl.version>
-
-		<minigameslib.version>1.14.15.jar</minigameslib.version>
-
-		<gringotts.version>2.10-20170805.084200-1</gringotts.version>
-		<gringotts.jar.version>Gringotts-2.10-SNAPSHOT.jar</gringotts.jar.version>
-		<extrahardmode.version>3.12.1</extrahardmode.version>
-		<extrahardmode.jar.version>ExtraHardMode-3.12.1.jar</extrahardmode.jar.version>
-
-	</properties>
-
+	<parent>
+		<groupId>one.lindegaard</groupId>
+		<artifactId>Core</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
 	<!-- ********************************************************************** -->
 	<!-- ******************************** Build ******************************* -->
@@ -203,241 +105,9 @@
 
 
 	<!-- ********************************************************************** -->
-	<!-- **************************** Repositories **************************** -->
-	<!-- ********************************************************************** -->
-	<repositories>
-
-		<!-- Rocologo repository -->
-		<repository>
-			<id>fractal-release</id>
-			<url>https://fractal.lindegaard.one:8187/plugins-release/</url>
-		</repository>
-		<repository>
-			<id>fractal-snapshots</id>
-			<url>https://fractal.lindegaard.one:8187/plugins-snapshot/</url>
-		</repository>
-
-		<!-- SpigotMC Repository -->
-		<repository>
-			<id>spigot-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-
-		<!-- Sponge -->
-		<repository>
-			<id>sponge</id>
-			<url>http://repo.spongepowered.org/maven</url>
-		</repository>
-
-		<!-- Vault -->
-		<repository>
-			<id>vault-repo</id>
-			<url>http://nexus.hc.to/content/repositories/pub_releases</url>
-		</repository>
-
-		<!-- sk89q WorldGuard WorldEdit repositories -->
-		<repository>
-			<id>sk89q-repo</id>
-			<url>http://maven.sk89q.com/repo/</url>
-		</repository>
-
-		<!-- dmulloy2 repository / ProtocolLib -->
-		<repository>
-			<id>dmulloy2-repo</id>
-			<url>http://repo.dmulloy2.net/content/groups/public/</url>
-		</repository>
-
-		<!-- mypet repository -->
-		<repository>
-			<id>mypet-repo1</id>
-			<url>http://repo.keyle.de/</url>
-		</repository>
-
-		<!-- BattleArena -->
-		<repository>
-			<id>battleplugins-net</id>
-			<name>BattlePlugins</name>
-			<url>http://rainbowcraft.sytes.net/maven/repository/</url>
-		</repository>
-
-		<!-- MiniGamesLib / MinigamesAPI repo -->
-		<repository>
-			<id>minigameslib-repo</id>
-			<url>http://nexus.xworlds.eu/nexus/content/repositories/</url>
-		</repository>
-
-		<!-- Inventive Repo / SpigetUpdater / BossBarAPI -->
-		<repository>
-			<id>inventive-repo</id>
-			<url>http://repo.inventivetalent.org/content/groups/public/</url>
-		</repository>
-
-		<!-- BarAPI -->
-		<repository>
-			<id>confuser-repo</id>
-			<url>http://ci.frostcast.net/plugin/repository/everything/</url>
-		</repository>
-
-		<!-- TitleManager -->
-		<repository>
-			<id>puha-repo</id>
-			<url>http://repo.puha.io/nexus/content/repositories/releases/</url>
-		</repository>
-
-		<!-- citizens repository -->
-		<repository>
-			<id>citizens-repo</id>
-			<url>http://repo.citizensnpcs.co/</url>
-		</repository>
-
-		<!-- Minigames / Addstar repo -->
-		<repository>
-			<id>addstar-snapshot-repo</id>
-			<url>http://maven.addstar.com.au/artifactory/ext-snapshot-local/</url>
-		</repository>
-
-		<!-- md5 repository -->
-		<!-- mcMMO -->
-		<!-- LibsDisguises -->
-		<repository>
-			<id>md5-repo</id>
-			<url>http://repo.md-5.net/content/repositories/public/</url>
-		</repository>
-
-		<!-- bStats repository -->
-		<repository>
-			<id>CodeMC</id>
-			<url>https://repo.codemc.org/repository/maven-public</url>
-		</repository>
-
-		<!-- PlaceholderAPI -->
-		<repository>
-			<id>placeholderapi</id>
-			<url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
-		</repository>
-
-		<!-- FactionsUUID repository -->
-		<repository>
-			<id>factionsuuid-repo</id>
-			<url>https://ci.ender.zone/plugin/repository/everything/com/massivecraft/Factions/</url>
-		</repository>
-
-		<repository>
-			<id>MinigamesAPI-Repo</id>
-			<name>MinigamesAPI Repository</name>
-			<url>http://nexus.xworlds.eu/nexus/content/repositories/mce/</url>
-		</repository>
-
-	</repositories>
-
-
-	<!-- ********************************************************************** -->
 	<!-- **************************** Dependencies **************************** -->
 	<!-- ********************************************************************** -->
 	<dependencies>
-		<!-- SpigotMC -->
-
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>${spigotmc113.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/spigot-1.13.2.jar</systemPath>
-		</dependency>
-
-		<!-- CraftBukkit -->
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit113R2</artifactId>
-			<version>${craftbukkit113R2.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.13.2.jar</systemPath>
-		</dependency>
-
-		<!-- CraftBukkit -->
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit113R1</artifactId>
-			<version>${craftbukkit113R1.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.13.jar</systemPath>
-		</dependency>
-
-		<!-- CraftBukkit -->
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit112R1</artifactId>
-			<version>${craftbukkit112R1.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.12.2.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit111R1</artifactId>
-			<version>${craftbukkit111R1.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.11.2.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit110R1</artifactId>
-			<version>${craftbukkit110R1.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.10.2-R0.1-SNAPSHOT.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit19R2</artifactId>
-			<version>${craftbukkit19R2.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.9.4-R0.1-SNAPSHOT.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit19R1</artifactId>
-			<version>${craftbukkit19R1.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.9-R0.1-SNAPSHOT.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit18R3</artifactId>
-			<version>${craftbukkit18R3.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.8.8-R0.1-SNAPSHOT.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit18R2</artifactId>
-			<version>${craftbukkit18R2.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.8.3-R0.1-SNAPSHOT.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>org.craftbukkit</groupId>
-			<artifactId>craftbukkit18R1</artifactId>
-			<version>${craftbukkit18R1.version}</version>
-			<!-- <scope>provided</scope> -->
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/craftbukkit-1.8-R0.1-SNAPSHOT.jar</systemPath>
-		</dependency>
-
-		<!-- Vault / -->
-		<dependency>
-			<groupId>net.milkbowl.vault</groupId>
-			<artifactId>Vault</artifactId>
-			<version>${vault.version}</version>
-			<scope>provided</scope>
-		</dependency>
 
 		<!-- BagOfGold / -->
 		<dependency>
@@ -445,6 +115,15 @@
 			<artifactId>BagOfGold</artifactId>
 			<version>${bagofgold.version}</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- Gringotts -->
+		<dependency>
+			<groupId>org.gestern.gringotts</groupId>
+			<artifactId>Gringotts</artifactId>
+			<version>${gringotts.jar.version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/${gringotts.jar.version}</systemPath>
 		</dependency>
 
 		<!-- WorldEdit -->
@@ -458,14 +137,6 @@
 			<systemPath>${project.basedir}/lib/worldedit-bukkit-7.0.0-SNAPSHOT-dist-B3950.jar</systemPath>
 		</dependency>
 
-		<!-- ProtocolLib -->
-		<dependency>
-			<groupId>com.comphenix.protocol</groupId>
-			<artifactId>ProtocolLib-API</artifactId>
-			<version>${protocollib.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- McMMO -->
 		<dependency>
 			<groupId>com.gmail.nossr50.mcMMO</groupId>
@@ -474,7 +145,15 @@
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
-		
+		<!-- McMMO Classic-->
+		<dependency>
+			<groupId>com.gmail.nossr50.mcMMO</groupId>
+			<artifactId>mcMMO2</artifactId>
+			<version>${mcmmo161.version}</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/${mcmmo160.jar.version}</systemPath>
+		</dependency>
+
 		<!-- MyPet -->
 		<dependency>
 			<groupId>de.keyle</groupId>
@@ -502,27 +181,10 @@
 			<systemPath>${project.basedir}/lib/worldguard-legacy-7.0.0-SNAPSHOT-dist-B1758.jar</systemPath>
 		</dependency>
 
-
 		<dependency>
 			<groupId>net.sacredlabyrinth.Phaed</groupId>
 			<artifactId>PreciousStones</artifactId>
 			<version>${PreciousStones.version}</version>
-		</dependency>
-
-		<!-- Citizens -->
-		<dependency>
-			<groupId>net.citizensnpcs</groupId>
-			<artifactId>citizensapi</artifactId>
-			<version>${citizensapi.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- LibsDisguises -->
-		<dependency>
-			<groupId>LibsDisguises</groupId>
-			<artifactId>LibsDisguises</artifactId>
-			<version>${libsdisguises.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- BattleArena -->
@@ -530,36 +192,6 @@
 			<groupId>mc.alk</groupId>
 			<artifactId>BattleArena</artifactId>
 			<version>${battleArena.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- BossBarAPI -->
-		<dependency>
-			<groupId>org.inventivetalent</groupId>
-			<artifactId>bossbarapi</artifactId>
-			<version>${bossbarapi.version}</version>
-			<scope>provided</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>metrics-lite</artifactId>
-					<groupId>org.mcstats.bukkit</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- BarAPI -->
-		<dependency>
-			<groupId>me.confuser</groupId>
-			<artifactId>BarAPI</artifactId>
-			<version>${barapi.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- TitleManager -->
-		<dependency>
-			<groupId>io.puharesource.mc</groupId>
-			<artifactId>TitleManager</artifactId>
-			<version>${titlemanager.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -648,25 +280,11 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- TitleAPI -->
-		<dependency>
-			<groupId>com.connorlinfoot</groupId>
-			<artifactId>TitleAPI</artifactId>
-			<version>${TitleAPI.version}</version>
-		</dependency>
-
 		<!-- VanishNoPacket -->
 		<dependency>
 			<groupId>org.kitteh</groupId>
 			<artifactId>VanishNoPacket</artifactId>
 			<version>${vanishnopacket.version}</version>
-		</dependency>
-
-		<!-- Essentials -->
-		<dependency>
-			<groupId>net.ess3</groupId>
-			<artifactId>EssentialsX</artifactId>
-			<version>${EssentialsX.version}</version>
 		</dependency>
 
 		<!-- MobStacker -->
@@ -724,20 +342,6 @@
 			<version>${mobarena.version}</version>
 		</dependency>
 
-		<!-- ActionBarAPI -->
-		<dependency>
-			<groupId>ActionBarAPI</groupId>
-			<artifactId>ActionBarAPI</artifactId>
-			<version>${ActionBarAPI.version}</version>
-		</dependency>
-
-		<!-- ActionAnnouncer -->
-		<dependency>
-			<groupId>me.clip.actionannouncer.ActionAnnouncer</groupId>
-			<artifactId>ActionAnnouncer</artifactId>
-			<version>${ActionAnnouncer.version}</version>
-		</dependency>
-
 		<!-- Holograms -->
 		<dependency>
 			<groupId>com.sainttx.holograms</groupId>
@@ -747,7 +351,7 @@
 
 		<!-- HologramDisplays -->
 		<dependency>
-			<groupId>com.gmail.filoghost.holographicdisplays.HolographicDisplays</groupId>
+			<groupId>com.gmail.filoghost.holographicdisplays</groupId>
 			<artifactId>HolographicDisplays</artifactId>
 			<version>${hologramdisplays.version}</version>
 		</dependency>
@@ -776,15 +380,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-		<!-- bStats.org -->
-		<dependency>
-			<groupId>org.bstats</groupId>
-			<artifactId>bstats-bukkit</artifactId>
-			<version>${bstats.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
 
 		<!-- MassiveCore / Factions -->
 		<dependency>
@@ -822,22 +417,6 @@
 			<version>${residence.version}</version>
 		</dependency>
 
-		<!-- PlacholdeAPI -->
-		<dependency>
-			<groupId>me.clip</groupId>
-			<artifactId>placeholderapi</artifactId>
-			<version>${placeholderapi.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- BossShop -->
-		<dependency>
-			<groupId>org.black_ixx</groupId>
-			<artifactId>BossShop</artifactId>
-			<version>${bossshop.version}</version>
-		</dependency>
-
-
 		<!-- CrackShot -->
 		<dependency>
 			<groupId>CrackShot</groupId>
@@ -853,60 +432,11 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/${extrahardmode.jar.version}</systemPath>
 		</dependency>
-
-		<!-- SpigetUpdate -->
-		<dependency>
-			<groupId>org.inventivetalent.spiget-update</groupId>
-			<artifactId>bukkit</artifactId>
-			<version>${spigetupdate.version}</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- PVPControl <dependency> <groupId>com.gmail.nowyarek.pvpcontrol</groupId> 
-			<artifactId>PVPControl</artifactId> <version>1.4.1-20180825.084515-1</version> 
-			</dependency> -->
-		<!-- <dependency> <groupId>com.gmail.nowyarek.pvpcontrol.PVPControl</groupId> 
-			<artifactId>PVPControl</artifactId> <version>${PVPControl.version}</version> 
-			</dependency> -->
-
+		
 	</dependencies>
-
-
-	<!-- ********************************************************************** -->
-	<!-- ********************** Dependency Management ************************* -->
-	<!-- ********************************************************************** -->
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.testng</groupId>
-				<artifactId>testng</artifactId>
-				<scope>test</scope>
-				<version>6.8.8</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-
-	<!-- ********************************************************************** -->
-	<!-- ******************** Distribution Management ************************* -->
-	<!-- ********************************************************************** -->
-	<!-- This is where the plugin is deployed -->
-	<distributionManagement>
-		<repository>
-			<id>central</id>
-			<name>fractal-releases</name>
-			<url>https://fractal.lindegaard.one:8187/plugins-release-local</url>
-		</repository>
-		<snapshotRepository>
-			<id>snapshots</id>
-			<name>fractal-snapshot</name>
-			<url>https://fractal.lindegaard.one:8187/plugins-snapshot-local</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 	<issueManagement>
 		<url>https://github.com/Rocologo/MobHunting/issues</url>
 	</issueManagement>
-
 
 </project>

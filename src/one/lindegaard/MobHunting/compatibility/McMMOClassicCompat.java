@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.api.ExperienceAPI;
-import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
+import com.gmail.nossr50.datatypes.skills.SkillType;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingTreasureEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerMagicHunterEvent;
@@ -22,16 +22,13 @@ import one.lindegaard.MobHunting.DamageInformation;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.util.Misc;
 
-public class McMMOCompat implements Listener {
+public class McMMOClassicCompat implements Listener {
 
 	private static boolean supported = false;
 	private static Plugin mPlugin;
 	public static final String MH_MCMMO = "MH:MCMMO";
 
-	// McMMO 2.1.0 documentation:
-	// https://docs.google.com/document/d/1qY6hEyGCO5z1PRup_OvMBxAmumydxxoO_H-pnUrVK8M/edit#heading=h.474ghxburdpp
-
-	public McMMOCompat() {
+	public McMMOClassicCompat() {
 		if (!isEnabledInConfig()) {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 					+ "Compatibility with McMMO is disabled in config.yml");
@@ -86,20 +83,20 @@ public class McMMOCompat implements Listener {
 	public static boolean isEnabledInConfig() {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationMcMMO;
 	}
-	
+
 	public static String getSKillTypeName(DamageInformation info) {
-		PrimarySkillType skilltype = null;
+		SkillType skilltype = null;
 		if (Misc.isAxe(info.getWeapon()))
-			skilltype = PrimarySkillType.AXES;
+			skilltype = SkillType.AXES;
 		else if (Misc.isSword(info.getWeapon()))
-			skilltype = PrimarySkillType.SWORDS;
+			skilltype = SkillType.SWORDS;
 		else if (Misc.isBow(info.getWeapon()))
-			skilltype = PrimarySkillType.ARCHERY;
+			skilltype = SkillType.ARCHERY;
 		else if (Misc.isUnarmed(info.getWeapon()))
-			skilltype = PrimarySkillType.UNARMED;
+			skilltype = SkillType.UNARMED;
 		return skilltype.getName();
 	}
-
+	
 	public static void addXP2(Player player, String skillType, int XP, String xpGainReason) {
 		ExperienceAPI.addXP(player, skillType, XP, xpGainReason);
 	}

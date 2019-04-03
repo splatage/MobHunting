@@ -1709,28 +1709,20 @@ public class MobHuntingManager implements Listener {
 		if (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards
 				&& data.getDampenedKills() < 10 && !CrackShotCompat.isCrackShotUsed(killed)) {
 
-			PrimarySkillType skilltype = null;
-			if (Misc.isAxe(info.getWeapon()))
-				skilltype = PrimarySkillType.AXES;
-			else if (Misc.isSword(info.getWeapon()))
-				skilltype = PrimarySkillType.SWORDS;
-			else if (Misc.isBow(info.getWeapon()))
-				skilltype = PrimarySkillType.ARCHERY;
-			else if (Misc.isUnarmed(info.getWeapon()))
-				skilltype = PrimarySkillType.UNARMED;
-
-			if (skilltype != null) {
+			String skilltypename = McMMOCompatHelper.getSkilltypeName(info);
+			
+			if (skilltypename != null) {
 				double chance = plugin.mRand.nextDouble();
 				plugin.getMessages().debug("If %s<%s %s will get a McMMO Level for %s", chance,
-						plugin.getRewardManager().getMcMMOChance(killed), killer.getName(), skilltype.getName());
+						plugin.getRewardManager().getMcMMOChance(killed), killer.getName(), skilltypename);
 
 				if (chance < plugin.getRewardManager().getMcMMOChance(killed)) {
 					int level = plugin.getRewardManager().getMcMMOLevel(killed);
-					McMMOCompat.addLevel(killer, skilltype.getName(), level);
+					McMMOCompat.addLevel(killer, skilltypename, level);
 					plugin.getMessages().debug("%s was rewarded with %s McMMO Levels for %s", killer.getName(),
-							plugin.getRewardManager().getMcMMOLevel(killed), skilltype.getName());
+							plugin.getRewardManager().getMcMMOLevel(killed), skilltypename);
 					killer.sendMessage(plugin.getMessages().getString("mobhunting.mcmmo.skilltype_level", "mcmmo_level",
-							level, "skilltype", skilltype.getName()));
+							level, "skilltype", skilltypename));
 				}
 			}
 		}
