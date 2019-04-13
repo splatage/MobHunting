@@ -1,6 +1,5 @@
 package one.lindegaard.MobHunting;
 
-import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.sk89q.worldguard.protection.flags.Flags;
 
 import one.lindegaard.BagOfGold.BagOfGold;
