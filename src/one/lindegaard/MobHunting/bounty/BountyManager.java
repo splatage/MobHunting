@@ -127,9 +127,11 @@ public class BountyManager implements Listener {
 	class BountyComparator implements Comparator<Bounty> {
 		@Override
 		public int compare(Bounty b1, Bounty b2) {
-			if (b2 == null)
+			if (b2 == null || b2.getWantedPlayer() == null)
 				return -1;
-			if (b1.equals(b2))
+			else if (b1 == null || b1.getWantedPlayer() == null)
+				return 1;
+			else if (b1.equals(b2))
 				return Double.compare(b1.getPrize(), b2.getPrize());
 			else if (b1.getWantedPlayer().getName().equals(b2.getWantedPlayer().getName()))
 				if (b1.getBountyOwner() == null)
