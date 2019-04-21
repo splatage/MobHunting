@@ -86,12 +86,12 @@
 						<!-- 	<include>one.lindegaard.Core:*</include> -->
 						</includes>
 					</artifactSet>
-					<relocations>
+					<!-- <relocations>
 						<relocation>
 							<pattern>org.bstats</pattern>
 							<shadedPattern>one.lindegaard.MobHunting</shadedPattern>
 						</relocation>
-					</relocations>
+					</relocations> -->
 				</configuration>
 				<executions>
 					<execution>
@@ -117,7 +117,7 @@
 			<artifactId>BagOfGold</artifactId>
 			<version>${bagofgold.version}</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Gringotts -->
