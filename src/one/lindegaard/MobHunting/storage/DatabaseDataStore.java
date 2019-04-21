@@ -1404,7 +1404,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	}
 
 	/**
-	 * getPlayerByName - get the player
+	 * getPlayerByPlayerId - get the player
 	 * 
 	 * @param name
 	 *            : String
