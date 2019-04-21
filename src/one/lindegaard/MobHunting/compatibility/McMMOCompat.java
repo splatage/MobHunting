@@ -86,7 +86,7 @@ public class McMMOCompat implements Listener {
 	public static boolean isEnabledInConfig() {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationMcMMO;
 	}
-	
+
 	public static String getSKillTypeName(DamageInformation info) {
 		PrimarySkillType skilltype = null;
 		if (Misc.isAxe(info.getWeapon()))
@@ -97,7 +97,10 @@ public class McMMOCompat implements Listener {
 			skilltype = PrimarySkillType.ARCHERY;
 		else if (Misc.isUnarmed(info.getWeapon()))
 			skilltype = PrimarySkillType.UNARMED;
-		return skilltype.getName();
+		if (skilltype != null)
+			return skilltype.getName();
+		else
+			return "";
 	}
 
 	public static void addXP2(Player player, String skillType, int XP, String xpGainReason) {
