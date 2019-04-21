@@ -21,8 +21,8 @@
 	<parent>
 		<groupId>one.lindegaard</groupId>
 		<artifactId>Main</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
-		<relativePath>../Core/pom.xml</relativePath>
+		<version>0.0.3</version>
+		<relativePath>../Main/pom.xml</relativePath>
 	</parent>
 
 	<!-- ********************************************************************** -->
