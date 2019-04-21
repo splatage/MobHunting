@@ -572,10 +572,6 @@ public class Messages {
 			return;
 
 		message = PlaceholderAPICompat.setPlaceholders(player, message);
-
-		if (messageQueue.isEmpty()) {
-
-		}
 		if (TitleManagerCompat.isSupported()) {
 			TitleManagerCompat.setActionBar(player, message);
 		} else if (ActionbarCompat.isSupported()) {
