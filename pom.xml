@@ -111,6 +111,15 @@
 	<!-- ********************************************************************** -->
 	<dependencies>
 
+		<!-- Rocologo Core -->
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>Core</artifactId>
+			<version>${core.version}</version>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- BagOfGold / -->
 		<dependency>
 			<groupId>one.lindegaard</groupId>
