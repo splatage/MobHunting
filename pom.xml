@@ -7,9 +7,9 @@
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
 	<!-- <version>6.5.4</version> -->
-	<version>6.5.4-SNAPSHOT-B${build.number}</version> 
+	<version>6.5.4-SNAPSHOT-B${build.number}</version>
 	<name>MobHunting</name>
-	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url> 
+	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
 
 	<scm>
@@ -83,15 +83,15 @@
 						<includes>
 							<include>org.bstats:*</include>
 							<include>org.inventivetalent.spiget-update:bukkit**</include>
-						<!-- 	<include>one.lindegaard.Core:*</include> -->
+							<include>one.lindegaard.Core:*</include>
 						</includes>
 					</artifactSet>
-					<!-- <relocations>
+					<relocations>
 						<relocation>
 							<pattern>org.bstats</pattern>
 							<shadedPattern>one.lindegaard.MobHunting</shadedPattern>
 						</relocation>
-					</relocations> -->
+					</relocations>
 				</configuration>
 				<executions>
 					<execution>
@@ -157,7 +157,7 @@
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
-		<!-- McMMO Classic-->
+		<!-- McMMO Classic -->
 		<dependency>
 			<groupId>com.gmail.nossr50.mcMMO</groupId>
 			<artifactId>mcMMO2</artifactId>
@@ -444,7 +444,7 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/${extrahardmode.jar.version}</systemPath>
 		</dependency>
-		
+
 	</dependencies>
 
 	<issueManagement>
