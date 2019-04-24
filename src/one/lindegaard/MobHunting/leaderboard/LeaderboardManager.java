@@ -14,7 +14,6 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -38,6 +37,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.google.common.collect.HashMultimap;
 
+import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.HologramManager;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
@@ -296,7 +296,7 @@ public class LeaderboardManager implements Listener {
 
 		Block block = event.getClickedBlock();
 
-		if (block.getType() != Material.WALL_SIGN)
+		if (!Materials.isWallSign(block))
 			return;
 
 		for (WorldLeaderboard board : mLeaderboards.get(block.getWorld())) {
@@ -342,11 +342,11 @@ public class LeaderboardManager implements Listener {
 	private void onBlockBreak(BlockBreakEvent event) {
 		Block block = event.getBlock();
 
-		if (block.getType() != Material.WALL_SIGN) {
-			if (block.getRelative(BlockFace.NORTH).getType() != Material.WALL_SIGN
-					&& block.getRelative(BlockFace.SOUTH).getType() != Material.WALL_SIGN
-					&& block.getRelative(BlockFace.EAST).getType() != Material.WALL_SIGN
-					&& block.getRelative(BlockFace.WEST).getType() != Material.WALL_SIGN)
+		if (!Materials.isWallSign(block)) {
+			if (!Materials.isWallSign(block.getRelative(BlockFace.NORTH))
+					&& !Materials.isWallSign(block.getRelative(BlockFace.SOUTH))
+					&& !Materials.isWallSign(block.getRelative(BlockFace.EAST))
+					&& !Materials.isWallSign(block.getRelative(BlockFace.WEST)))
 				// return if the sign is not a leaderboard
 				return;
 		}
@@ -359,9 +359,9 @@ public class LeaderboardManager implements Listener {
 					// Allow the block to be broken if player has permission to
 					return;
 
-				if (block.getType() == Material.WALL_SIGN)
+				if (Materials.isWallSign(block))
 					event.setCancelled(true);
-				else if (block.getRelative(board.getFacing()).getType() == Material.WALL_SIGN)
+				else if (Materials.isWallSign(block.getRelative(board.getFacing())))
 					event.setCancelled(true);
 			}
 		}
@@ -370,7 +370,7 @@ public class LeaderboardManager implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onBlockBreakFinal(BlockBreakEvent event) {
 		Block block = event.getBlock();
-		if (block.getType() != Material.WALL_SIGN || !event.getPlayer().hasPermission("mobhunting.leaderboard"))
+		if (!Materials.isWallSign(block) || !event.getPlayer().hasPermission("mobhunting.leaderboard"))
 			return;
 
 		for (WorldLeaderboard board : mLeaderboards.get(block.getWorld())) {
@@ -389,19 +389,19 @@ public class LeaderboardManager implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	private void onBlockPiston(BlockPistonExtendEvent event) {
 		for (Block block : event.getBlocks()) {
-			if (block.getType() != Material.WALL_SIGN) {
-				if (block.getRelative(BlockFace.NORTH).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.SOUTH).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.EAST).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.WEST).getType() != Material.WALL_SIGN)
+			if (!Materials.isWallSign(block)) {
+				if (!Materials.isWallSign(block.getRelative(BlockFace.NORTH))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.SOUTH))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.EAST))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.WEST)))
 					continue;
 			}
 
 			for (WorldLeaderboard board : mLeaderboards.get(block.getWorld())) {
 				if (board.isInBounds(block.getLocation())) {
-					if (block.getType() == Material.WALL_SIGN)
+					if (Materials.isWallSign(block))
 						event.setCancelled(true);
-					else if (block.getRelative(board.getFacing()).getType() == Material.WALL_SIGN)
+					else if (Materials.isWallSign(block.getRelative(board.getFacing())))
 						event.setCancelled(true);
 				}
 			}
@@ -413,19 +413,19 @@ public class LeaderboardManager implements Listener {
 	private void onBlockPiston(BlockPistonRetractEvent event) {
 		if (event.isSticky()) {
 			Block block = event.getRetractLocation().getBlock();
-			if (block.getType() != Material.WALL_SIGN) {
-				if (block.getRelative(BlockFace.NORTH).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.SOUTH).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.EAST).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.WEST).getType() != Material.WALL_SIGN)
+			if (!Materials.isWallSign(block)) {
+				if (!Materials.isWallSign(block.getRelative(BlockFace.NORTH))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.SOUTH))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.EAST))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.WEST)))
 					return;
 			}
 
 			for (WorldLeaderboard board : mLeaderboards.get(block.getWorld())) {
 				if (board.isInBounds(block.getLocation())) {
-					if (block.getType() == Material.WALL_SIGN)
+					if (Materials.isWallSign(block))
 						event.setCancelled(true);
-					else if (block.getRelative(board.getFacing()).getType() == Material.WALL_SIGN)
+					else if (Materials.isWallSign(block.getRelative(board.getFacing())))
 						event.setCancelled(true);
 				}
 			}
@@ -435,19 +435,19 @@ public class LeaderboardManager implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	private void onBlockBurn(BlockBurnEvent event) {
 		Block block = event.getBlock();
-		if (block.getType() != Material.WALL_SIGN) {
-			if (block.getRelative(BlockFace.NORTH).getType() != Material.WALL_SIGN
-					&& block.getRelative(BlockFace.SOUTH).getType() != Material.WALL_SIGN
-					&& block.getRelative(BlockFace.EAST).getType() != Material.WALL_SIGN
-					&& block.getRelative(BlockFace.WEST).getType() != Material.WALL_SIGN)
+		if (!Materials.isWallSign(block)) {
+			if (!Materials.isWallSign(block.getRelative(BlockFace.NORTH))
+					&& !Materials.isWallSign(block.getRelative(BlockFace.SOUTH))
+					&& !Materials.isWallSign(block.getRelative(BlockFace.EAST))
+					&& !Materials.isWallSign(block.getRelative(BlockFace.WEST)))
 				return;
 		}
 
 		for (WorldLeaderboard board : mLeaderboards.get(block.getWorld())) {
 			if (board.isInBounds(block.getLocation())) {
-				if (block.getType() == Material.WALL_SIGN)
+				if (Materials.isWallSign(block))
 					event.setCancelled(true);
-				else if (block.getRelative(board.getFacing()).getType() == Material.WALL_SIGN)
+				else if (Materials.isWallSign(block.getRelative(board.getFacing())))
 					event.setCancelled(true);
 			}
 		}
@@ -456,19 +456,19 @@ public class LeaderboardManager implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	private void onBlockExplode(EntityExplodeEvent event) {
 		for (Block block : event.blockList()) {
-			if (block.getType() != Material.WALL_SIGN) {
-				if (block.getRelative(BlockFace.NORTH).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.SOUTH).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.EAST).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.WEST).getType() != Material.WALL_SIGN)
-					continue;
+			if (!Materials.isWallSign(block)) {
+				if (!Materials.isWallSign(block.getRelative(BlockFace.NORTH))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.SOUTH))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.EAST))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.WEST)))
+					return;
 			}
 
 			for (WorldLeaderboard board : mLeaderboards.get(block.getWorld())) {
 				if (board.isInBounds(block.getLocation())) {
-					if (block.getType() == Material.WALL_SIGN)
+					if (Materials.isWallSign(block))
 						event.setCancelled(true);
-					else if (block.getRelative(board.getFacing()).getType() == Material.WALL_SIGN)
+					else if (Materials.isWallSign(block.getRelative(board.getFacing())))
 						event.setCancelled(true);
 				}
 			}
@@ -479,19 +479,19 @@ public class LeaderboardManager implements Listener {
 	private void onBlockPickup(EntityChangeBlockEvent event) {
 		if (!event.getTo().isSolid()) {
 			Block block = event.getBlock();
-			if (block.getType() != Material.WALL_SIGN) {
-				if (block.getRelative(BlockFace.NORTH).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.SOUTH).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.EAST).getType() != Material.WALL_SIGN
-						&& block.getRelative(BlockFace.WEST).getType() != Material.WALL_SIGN)
+			if (!Materials.isWallSign(block)) {
+				if (!Materials.isWallSign(block.getRelative(BlockFace.NORTH))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.SOUTH))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.EAST))
+						&& !Materials.isWallSign(block.getRelative(BlockFace.WEST)))
 					return;
 			}
 
 			for (WorldLeaderboard board : mLeaderboards.get(block.getWorld())) {
 				if (board.isInBounds(block.getLocation())) {
-					if (block.getType() == Material.WALL_SIGN)
+					if (Materials.isWallSign(block))
 						event.setCancelled(true);
-					else if (block.getRelative(board.getFacing()).getType() == Material.WALL_SIGN)
+					else if (Materials.isWallSign(block.getRelative(board.getFacing())))
 						event.setCancelled(true);
 				}
 			}

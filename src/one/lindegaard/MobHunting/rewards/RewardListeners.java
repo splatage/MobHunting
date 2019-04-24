@@ -38,6 +38,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import org.bukkit.event.block.Action;
 
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
@@ -431,7 +432,7 @@ public class RewardListeners implements Listener {
 		if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
 			return;
 
-		if (Misc.isMC19OrNewer() && event.getHand() != EquipmentSlot.HAND)
+		if (Servers.isMC19OrNewer() && event.getHand() != EquipmentSlot.HAND)
 			return;
 
 		Player player = event.getPlayer();
@@ -451,7 +452,7 @@ public class RewardListeners implements Listener {
 										? plugin.getRewardManager().format(reward.getMoney())
 										: reward.getDisplayname() + " ("
 												+ plugin.getRewardManager().format(reward.getMoney()) + ")"));
-		} else if (Misc.isMC113OrNewer()
+		} else if (Servers.isMC113OrNewer()
 				&& (block.getType() == Material.PLAYER_HEAD || block.getType() == Material.PLAYER_WALL_HEAD)) {
 			Skull skullState = (Skull) block.getState();
 			OfflinePlayer owner = skullState.getOwningPlayer();
@@ -462,7 +463,7 @@ public class RewardListeners implements Listener {
 			Skull skullState = (Skull) block.getState();
 			switch (skullState.getSkullType()) {
 			case PLAYER:
-				if (Misc.isMC19OrNewer()) {
+				if (Servers.isMC19OrNewer()) {
 					OfflinePlayer owner = skullState.getOwningPlayer();
 					if (owner != null && owner.getName() != null) {
 						plugin.getMessages().playerActionBarMessageQueue(player,
@@ -605,7 +606,7 @@ public class RewardListeners implements Listener {
 			}
 		}
 
-		if (event.getClickedInventory().getName().equalsIgnoreCase("Inventory")) {
+		if (event.getView().getTitle().equalsIgnoreCase("Inventory")) {
 			if (action == InventoryAction.PLACE_ALL && Reward.isReward(isCurrentSlot)
 					&& isCursor.getType() == Material.AIR) {
 				Reward reward = Reward.getReward(isCurrentSlot);

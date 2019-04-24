@@ -1,6 +1,7 @@
 package one.lindegaard.MobHunting.commands;
 
 import one.lindegaard.BagOfGold.BagOfGold;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.BossShopCompat;
@@ -227,7 +228,7 @@ public class MoneyCommand implements ICommand {
 				} else {
 					if (args[1].matches("\\d+(\\.\\d+)?")) {
 						Player player = (Player) sender;
-						Location location = Misc.getTargetBlock(player, 20).getLocation();
+						Location location = Tools.getTargetBlock(player, 20).getLocation();
 						double money = Misc.floor(Double.valueOf(args[1]));
 						if (money > plugin.getConfigManager().limitPerBag * 100) {
 							money = plugin.getConfigManager().limitPerBag * 100;
@@ -246,7 +247,7 @@ public class MoneyCommand implements ICommand {
 					} else if (Bukkit.getServer().getOfflinePlayer(args[1]).isOnline()) {
 						if (args[2].matches("\\d+(\\.\\d+)?")) {
 							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[1]));
-							Location location = Misc.getTargetBlock(player, 3).getLocation();
+							Location location = Tools.getTargetBlock(player, 3).getLocation();
 							double money = Misc.floor(Double.valueOf(args[2]));
 							if (money > plugin.getConfigManager().limitPerBag * 100) {
 								money = plugin.getConfigManager().limitPerBag * 100;

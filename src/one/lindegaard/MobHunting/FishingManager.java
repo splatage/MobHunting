@@ -74,7 +74,7 @@ public class FishingManager implements Listener {
 			plugin.getMessages().debug("FishingEvent: player was null");
 			return;
 		}
-
+		
 		if (!plugin.getMobHuntingManager().isHuntEnabled(player)) {
 			plugin.getMessages().debug("FishingEvent %s: Player doesnt have permission mobhunting.enable",
 					player.getName());

@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.Messages;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
@@ -13,7 +14,6 @@ import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
 import one.lindegaard.MobHunting.compatibility.MysteriousHalloweenCompat;
 import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
 import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class ReloadCommand implements ICommand {
 
@@ -75,18 +75,18 @@ public class ReloadCommand implements ICommand {
 		plugin.setMessages(new Messages(plugin));
 		
 		if (plugin.getConfigManager().loadConfig()) {
-			int n = Misc.getOnlinePlayersAmount();
+			int n = Tools.getOnlinePlayersAmount();
 			if (n > 0) {
 				plugin.getMessages().debug("Reloading %s online playerSettings from the database", n);
 				// reload player settings
-				for (Player player : Misc.getOnlinePlayers())
+				for (Player player : Tools.getOnlinePlayers())
 					plugin.getPlayerSettingsManager().load(player);
 				// reload bounties
 				if (plugin.getConfigManager().enablePlayerBounties)
-					for (Player player : Misc.getOnlinePlayers())
+					for (Player player : Tools.getOnlinePlayers())
 						plugin.getBountyManager().load(player);
 				// reload achievements
-				for (Player player : Misc.getOnlinePlayers())
+				for (Player player : Tools.getOnlinePlayers())
 					MobHunting.getInstance().getAchievementManager().load(player);
 			}
 

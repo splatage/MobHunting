@@ -26,6 +26,7 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.util.Misc;
@@ -232,7 +233,7 @@ public class GrindingManager implements Listener {
 			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 			for (Area area : entry.getValue()) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("Center", Misc.toMap(area.getCenter()));
+				map.put("Center", Tools.toMap(area.getCenter()));
 				map.put("Radius", area.getRange());
 				map.put("Counter", area.getCounter());
 				map.put("Time", area.getTime());
@@ -275,7 +276,7 @@ public class GrindingManager implements Listener {
 				continue;
 
 			for (Map<String, Object> map : list) {
-				Area area = new Area(Misc.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
+				Area area = new Area(Tools.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
 						(int) map.getOrDefault("Counter", 0),
 						(long) map.getOrDefault("Time", System.currentTimeMillis()));
 				areas.add(area);
@@ -421,7 +422,7 @@ public class GrindingManager implements Listener {
 			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 			for (Area area : entry.getValue()) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("Center", Misc.toMap(area.getCenter()));
+				map.put("Center", Tools.toMap(area.getCenter()));
 				map.put("Radius", area.getRange());
 				map.put("Counter", area.getCounter());
 				map.put("Time", area.getTime());
@@ -468,7 +469,7 @@ public class GrindingManager implements Listener {
 				continue;
 
 			for (Map<String, Object> map : list) {
-				Area area = new Area(Misc.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
+				Area area = new Area(Tools.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
 						(int) map.getOrDefault("Counter", 0),
 						(long) map.getOrDefault("Time", System.currentTimeMillis()));
 				areas.add(area);

@@ -15,11 +15,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.rewards.Reward;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class HeadCommand implements ICommand, Listener {
 
@@ -263,7 +263,7 @@ public class HeadCommand implements ICommand, Listener {
 					//double money = 0;
 					if (args.length == 2) {
 						Player player = (Player) sender;
-						Location location = Misc.getTargetBlock(player, 20).getLocation();
+						Location location = Tools.getTargetBlock(player, 20).getLocation();
 						if (mob == MinecraftMob.PvpPlayer) {
 							OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
 							player.getWorld().dropItem(location,
@@ -276,7 +276,7 @@ public class HeadCommand implements ICommand, Listener {
 						if (Bukkit.getServer().getOfflinePlayer(args[2]).isOnline()) {
 							OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
 							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[2]));
-							Location location = Misc.getTargetBlock(player, 3).getLocation();
+							Location location = Tools.getTargetBlock(player, 3).getLocation();
 							if (mob == MinecraftMob.PvpPlayer)
 								player.getWorld().dropItem(location,
 										customItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));

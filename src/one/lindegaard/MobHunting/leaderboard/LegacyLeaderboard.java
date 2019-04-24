@@ -8,13 +8,13 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.util.BlockVector;
 
+import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.storage.IDataCallback;
@@ -22,9 +22,9 @@ import one.lindegaard.MobHunting.storage.StatStore;
 import one.lindegaard.MobHunting.storage.TimePeriod;
 
 public class LegacyLeaderboard implements IDataCallback<List<StatStore>> {
-	
+
 	private MobHunting plugin;
-	
+
 	private String mId;
 	private World mWorld;
 	private BlockVector mMinCorner;
@@ -35,27 +35,20 @@ public class LegacyLeaderboard implements IDataCallback<List<StatStore>> {
 	private TimePeriod mPeriod;
 	private StatType mType;
 
-	public LegacyLeaderboard(MobHunting plugin, String id, StatType type, TimePeriod period,
-			Location pointA, Location pointB, boolean horizontal)
-			throws IllegalArgumentException {
+	public LegacyLeaderboard(MobHunting plugin, String id, StatType type, TimePeriod period, Location pointA,
+			Location pointB, boolean horizontal) throws IllegalArgumentException {
 		mId = id;
 		mType = type;
 		mPeriod = period;
 		mWorld = pointA.getWorld();
 
-		mMinCorner = new BlockVector(Math.min(pointA.getBlockX(),
-				pointB.getBlockX()), Math.min(pointA.getBlockY(),
-				pointB.getBlockY()), Math.min(pointA.getBlockZ(),
-				pointB.getBlockZ()));
-		mMaxCorner = new BlockVector(Math.max(pointA.getBlockX(),
-				pointB.getBlockX()), Math.max(pointA.getBlockY(),
-				pointB.getBlockY()), Math.max(pointA.getBlockZ(),
-				pointB.getBlockZ()));
+		mMinCorner = new BlockVector(Math.min(pointA.getBlockX(), pointB.getBlockX()),
+				Math.min(pointA.getBlockY(), pointB.getBlockY()), Math.min(pointA.getBlockZ(), pointB.getBlockZ()));
+		mMaxCorner = new BlockVector(Math.max(pointA.getBlockX(), pointB.getBlockX()),
+				Math.max(pointA.getBlockY(), pointB.getBlockY()), Math.max(pointA.getBlockZ(), pointB.getBlockZ()));
 
-		if (mMaxCorner.getBlockX() - mMinCorner.getBlockX() > 1
-				&& mMaxCorner.getBlockZ() - mMaxCorner.getBlockZ() > 1)
-			throw new IllegalArgumentException(
-					plugin.getMessages().getString("leaderboard.thick"));
+		if (mMaxCorner.getBlockX() - mMinCorner.getBlockX() > 1 && mMaxCorner.getBlockZ() - mMaxCorner.getBlockZ() > 1)
+			throw new IllegalArgumentException(plugin.getMessages().getString("leaderboard.thick"));
 
 		mHorizontal = horizontal;
 	}
@@ -67,12 +60,9 @@ public class LegacyLeaderboard implements IDataCallback<List<StatStore>> {
 		ArrayList<Sign> signs = new ArrayList<Sign>();
 		if (mHorizontal) {
 			for (int y = mMaxCorner.getBlockY(); y >= mMinCorner.getBlockY(); --y) {
-				for (int x = mMinCorner.getBlockX(); x <= mMaxCorner
-						.getBlockX(); ++x) {
-					for (int z = mMinCorner.getBlockZ(); z <= mMaxCorner
-							.getBlockZ(); ++z) {
-						BlockState state = mWorld.getBlockAt(x, y, z)
-								.getState();
+				for (int x = mMinCorner.getBlockX(); x <= mMaxCorner.getBlockX(); ++x) {
+					for (int z = mMinCorner.getBlockZ(); z <= mMaxCorner.getBlockZ(); ++z) {
+						BlockState state = mWorld.getBlockAt(x, y, z).getState();
 
 						if (state instanceof Sign)
 							signs.add((Sign) state);
@@ -81,12 +71,9 @@ public class LegacyLeaderboard implements IDataCallback<List<StatStore>> {
 			}
 		} else {
 			for (int z = mMinCorner.getBlockZ(); z <= mMaxCorner.getBlockZ(); ++z) {
-				for (int x = mMinCorner.getBlockX(); x <= mMaxCorner
-						.getBlockX(); ++x) {
-					for (int y = mMaxCorner.getBlockY(); y >= mMinCorner
-							.getBlockY(); --y) {
-						BlockState state = mWorld.getBlockAt(x, y, z)
-								.getState();
+				for (int x = mMinCorner.getBlockX(); x <= mMaxCorner.getBlockX(); ++x) {
+					for (int y = mMaxCorner.getBlockY(); y >= mMinCorner.getBlockY(); --y) {
+						BlockState state = mWorld.getBlockAt(x, y, z).getState();
 
 						if (state instanceof Sign)
 							signs.add((Sign) state);
@@ -102,10 +89,9 @@ public class LegacyLeaderboard implements IDataCallback<List<StatStore>> {
 		int count = 0;
 		for (int x = mMinCorner.getBlockX(); x <= mMaxCorner.getBlockX(); ++x) {
 			for (int y = mMinCorner.getBlockY(); y <= mMaxCorner.getBlockY(); ++y) {
-				for (int z = mMinCorner.getBlockZ(); z <= mMaxCorner
-						.getBlockZ(); ++z) {
+				for (int z = mMinCorner.getBlockZ(); z <= mMaxCorner.getBlockZ(); ++z) {
 					Block block = mWorld.getBlockAt(x, y, z);
-					if (block.getType() == Material.WALL_SIGN)
+					if (Materials.isWallSign(block))
 						++count;
 				}
 			}
@@ -115,8 +101,7 @@ public class LegacyLeaderboard implements IDataCallback<List<StatStore>> {
 	}
 
 	public void updateBoard() {
-		plugin.getDataStoreManager().requestStats(mType, mPeriod,
-				countSigns() * 4, this);
+		plugin.getDataStoreManager().requestStats(mType, mPeriod, countSigns() * 4, this);
 	}
 
 	public String getId() {
@@ -180,14 +165,11 @@ public class LegacyLeaderboard implements IDataCallback<List<StatStore>> {
 	}
 
 	public void read(Map<String, Object> data) {
-		UUID worldId = new UUID(toLong(data.get("world-h")),
-				toLong(data.get("world-l")));
+		UUID worldId = new UUID(toLong(data.get("world-h")), toLong(data.get("world-l")));
 		mWorld = Bukkit.getWorld(worldId);
 
-		mMinCorner = new BlockVector(toInt(data.get("mi-x")),
-				toInt(data.get("mi-y")), toInt(data.get("mi-z")));
-		mMaxCorner = new BlockVector(toInt(data.get("ma-x")),
-				toInt(data.get("ma-y")), toInt(data.get("ma-z")));
+		mMinCorner = new BlockVector(toInt(data.get("mi-x")), toInt(data.get("mi-y")), toInt(data.get("mi-z")));
+		mMaxCorner = new BlockVector(toInt(data.get("ma-x")), toInt(data.get("ma-y")), toInt(data.get("ma-z")));
 
 		mHorizontal = toBool(data.get("hor"));
 
@@ -238,8 +220,7 @@ public class LegacyLeaderboard implements IDataCallback<List<StatStore>> {
 					}
 				}
 
-				signs.get(sign).setLine(line,
-						stat.getAmount() + " " + stat.getPlayer().getName());
+				signs.get(sign).setLine(line, stat.getAmount() + " " + stat.getPlayer().getName());
 
 				++sign;
 			}
@@ -258,8 +239,7 @@ public class LegacyLeaderboard implements IDataCallback<List<StatStore>> {
 				if (sign >= signs.size())
 					break;
 
-				signs.get(sign).setLine(line,
-						stat.getAmount() + " " + stat.getPlayer().getName());
+				signs.get(sign).setLine(line, stat.getAmount() + " " + stat.getPlayer().getName());
 
 				++line;
 			}

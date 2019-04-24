@@ -1,5 +1,6 @@
 package one.lindegaard.MobHunting.bounty;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.achievements.AchievementManager;
 import one.lindegaard.MobHunting.compatibility.EssentialsCompat;
@@ -218,8 +219,8 @@ public class BountyManager implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
 	public void onInventoryClick(InventoryClickEvent event) {
-		if (ChatColor.stripColor(event.getInventory().getName()).startsWith("MostWanted:")
-				|| ChatColor.stripColor(event.getInventory().getName()).startsWith("Wanted:")) {
+		if (ChatColor.stripColor(event.getView().getTitle()).startsWith("MostWanted:")
+				|| ChatColor.stripColor(event.getView().getTitle()).startsWith("Wanted:")) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMap.remove(event.getWhoClicked());
@@ -472,9 +473,9 @@ public class BountyManager implements Listener {
 	public void createRandomBounty() {
 		boolean createBounty = plugin.mRand.nextDouble() <= plugin.getConfigManager().chanceToCreateBounty;
 		if (createBounty) {
-			int noOfPlayers = Misc.getOnlinePlayersAmount();
+			int noOfPlayers = Tools.getOnlinePlayersAmount();
 			int noOfPlayersNotVanished = noOfPlayers;
-			for (Player player : Misc.getOnlinePlayers()) {
+			for (Player player : Tools.getOnlinePlayers()) {
 				if (EssentialsCompat.isVanishedModeEnabled(player) || VanishNoPacketCompat.isVanishedModeEnabled(player)
 						|| player.hasPermission("mobhunting.bounty.randombounty.exempt"))
 					noOfPlayersNotVanished--;
@@ -484,7 +485,7 @@ public class BountyManager implements Listener {
 
 				int random = plugin.mRand.nextInt(noOfPlayersNotVanished);
 				int n = 0;
-				for (Player player : Misc.getOnlinePlayers()) {
+				for (Player player : Tools.getOnlinePlayers()) {
 					if (n == random && !EssentialsCompat.isVanishedModeEnabled(player)
 							&& !VanishNoPacketCompat.isVanishedModeEnabled(player)
 							&& !player.hasPermission("mobhunting.bounty.randombounty.exempt")) {
@@ -500,7 +501,7 @@ public class BountyManager implements Listener {
 									plugin.getRewardManager().getRandomPrice(plugin.getConfigManager().randomBounty)),
 							"Random Bounty");
 					save(randomBounty);
-					for (Player player : Misc.getOnlinePlayers()) {
+					for (Player player : Tools.getOnlinePlayers()) {
 						if (player.getName().equals(randomPlayer.getName()))
 							plugin.getMessages().playerSendMessage(player,
 									plugin.getMessages().getString("mobhunting.bounty.randombounty.self", "prize",

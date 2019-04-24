@@ -18,9 +18,9 @@ import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingTreasureEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerMagicHunterEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerShakeEvent;
 
+import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.DamageInformation;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class McMMOCompat implements Listener {
 
@@ -89,13 +89,13 @@ public class McMMOCompat implements Listener {
 
 	public static String getSKillTypeName(DamageInformation info) {
 		PrimarySkillType skilltype = null;
-		if (Misc.isAxe(info.getWeapon()))
+		if (Materials.isAxe(info.getWeapon()))
 			skilltype = PrimarySkillType.AXES;
-		else if (Misc.isSword(info.getWeapon()))
+		else if (Materials.isSword(info.getWeapon()))
 			skilltype = PrimarySkillType.SWORDS;
-		else if (Misc.isBow(info.getWeapon()))
+		else if (Materials.isBow(info.getWeapon()))
 			skilltype = PrimarySkillType.ARCHERY;
-		else if (Misc.isUnarmed(info.getWeapon()))
+		else if (Materials.isUnarmed(info.getWeapon()))
 			skilltype = PrimarySkillType.UNARMED;
 		if (skilltype != null)
 			return skilltype.getName();

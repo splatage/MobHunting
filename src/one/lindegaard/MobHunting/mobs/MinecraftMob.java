@@ -14,6 +14,7 @@ import org.bukkit.entity.ZombieVillager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.rewards.Reward;
@@ -715,7 +716,7 @@ public enum MinecraftMob {
 	}
 
 	public boolean matches(Entity entity) {
-		if (Misc.isMC113OrNewer())
+		if (Servers.isMC113OrNewer())
 			if (this == Dolphin)
 				return entity instanceof org.bukkit.entity.Dolphin;
 			else if (this == Drowned)
@@ -737,13 +738,13 @@ public enum MinecraftMob {
 				return entity instanceof org.bukkit.entity.PufferFish
 						|| (entity instanceof Item && ((Item) entity).getItemStack().getType() == Material.PUFFERFISH);
 
-		if (Misc.isMC112OrNewer())
+		if (Servers.isMC112OrNewer())
 			if (this == Parrot)
 				return entity instanceof org.bukkit.entity.Parrot;
 			else if (this == Illusioner)
 				return entity instanceof org.bukkit.entity.Illusioner;
 
-		if (Misc.isMC111OrNewer())
+		if (Servers.isMC111OrNewer())
 			if (this == Llama)
 				return entity instanceof org.bukkit.entity.Llama;
 			else if (this == Evoker)
@@ -772,33 +773,34 @@ public enum MinecraftMob {
 				return entity instanceof org.bukkit.entity.Villager
 						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.NITWIT);
 
-		if (Misc.isMC110OrNewer())
+		if (Servers.isMC110OrNewer())
 			if (this == PolarBear)
 				return entity instanceof org.bukkit.entity.PolarBear;
 			else if (this == Stray)
 				return entity instanceof Skeleton && (((Skeleton) entity).getSkeletonType() == SkeletonType.STRAY);
 			else if (this == Husk)
-				return entity instanceof Zombie && ((Zombie) entity).getVillagerProfession() == Profession.HUSK;
-			else if (this == Villager)
-				return entity instanceof org.bukkit.entity.Villager
-						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.NORMAL);
-			else if (this == Butcher)
-				return entity instanceof org.bukkit.entity.Villager
-						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.BUTCHER);
-			else if (this == Blacksmith)
-				return entity instanceof org.bukkit.entity.Villager
-						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.BLACKSMITH);
-			else if (this == Priest)
-				return entity instanceof org.bukkit.entity.Villager
-						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.PRIEST);
-			else if (this == Farmer)
-				return entity instanceof org.bukkit.entity.Villager
-						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.FARMER);
-			else if (this == Librarian)
-				return entity instanceof org.bukkit.entity.Villager
-						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.LIBRARIAN);
+				return entity instanceof Zombie && ((Zombie) entity).getVillagerProfession() == org.bukkit.entity.Villager.Profession.valueOf("HUSK");
+			
+			//else if (this == Villager)
+			//	return entity instanceof org.bukkit.entity.Villager
+			//			&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.NONE); //Profession.NORMAL
+			//else if (this == Butcher)
+			//	return entity instanceof org.bukkit.entity.Villager
+			//			&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.BUTCHER);
+			//else if (this == Blacksmith)
+			//	return entity instanceof org.bukkit.entity.Villager
+			//			&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.BLACKSMITH); //Profession.BLACKSMITH
+			//else if (this == Priest)
+			//	return entity instanceof org.bukkit.entity.Villager
+			//			&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.PRIEST); //Profession.PRIEST
+			//else if (this == Farmer)
+			//	return entity instanceof org.bukkit.entity.Villager
+			//			&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.FARMER);
+			//else if (this == Librarian)
+			//	return entity instanceof org.bukkit.entity.Villager
+			//			&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.LIBRARIAN);
 
-		if (Misc.isMC19OrNewer())
+		if (Servers.isMC19OrNewer())
 			if (this == Shulker)
 				return entity instanceof org.bukkit.entity.Shulker;
 

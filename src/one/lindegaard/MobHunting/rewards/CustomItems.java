@@ -23,6 +23,7 @@ import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.PlayerSettings;
 import one.lindegaard.MobHunting.mobs.MinecraftMob;
@@ -32,12 +33,12 @@ import one.lindegaard.MobHunting.rewards.skins.Skins_1_11_R1;
 import one.lindegaard.MobHunting.rewards.skins.Skins_1_12_R1;
 import one.lindegaard.MobHunting.rewards.skins.Skins_1_13_R1;
 import one.lindegaard.MobHunting.rewards.skins.Skins_1_13_R2;
+import one.lindegaard.MobHunting.rewards.skins.Skins_1_14_R1;
 import one.lindegaard.MobHunting.rewards.skins.Skins_1_8_R1;
 import one.lindegaard.MobHunting.rewards.skins.Skins_1_8_R2;
 import one.lindegaard.MobHunting.rewards.skins.Skins_1_8_R3;
 import one.lindegaard.MobHunting.rewards.skins.Skins_1_9_R1;
 import one.lindegaard.MobHunting.rewards.skins.Skins_1_9_R2;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class CustomItems {
 
@@ -60,9 +61,11 @@ public class CustomItems {
 			whatVersionAreYouUsingException.printStackTrace();
 			return null;
 		}
-		if (version.equals("v1_13_R2")) {
+		if (version.equals("v1_14_R1")) {
+			sk = new Skins_1_14_R1();
+		} else if (version.equals("v1_13_R2")) {
 			sk = new Skins_1_13_R2();
-		} if (version.equals("v1_13_R1")) {
+		} else if (version.equals("v1_13_R1")) {
 			sk = new Skins_1_13_R1();
 		} else if (version.equals("v1_12_R1")) {
 			sk = new Skins_1_12_R1();
@@ -116,7 +119,7 @@ public class CustomItems {
 			}
 
 			if ((skinCache == null || skinCache[0] == null || skinCache[0].isEmpty() || skinCache[1] == null
-					|| skinCache[1].isEmpty()) && Misc.isMC112OrNewer())
+					|| skinCache[1].isEmpty()) && Servers.isMC112OrNewer())
 				return getPlayerHeadOwningPlayer(uuid, amount, money);
 
 			if (skinCache != null && skinCache[0] != null && !skinCache[0].isEmpty() && skinCache[1] != null

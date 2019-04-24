@@ -7,7 +7,6 @@ import java.util.WeakHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.Sign;
 
+import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.leaderboard.WorldLeaderboard;
@@ -329,7 +329,7 @@ public class LeaderboardCommand implements ICommand, Listener {
 		if (state == null)
 			return;
 
-		if (event.getClickedBlock().getType() != Material.WALL_SIGN) {
+		if (Materials.isSign(event.getClickedBlock())) {
 			// TODO: Create new strings in plugin.getMessages().
 			if (state.create)
 				event.getPlayer().sendMessage(ChatColor.RED + "Leaderboard creation cancelled.");

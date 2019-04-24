@@ -1,5 +1,6 @@
 V6.5.4
 * Mute and Learn commands fixed.
+* Core library implemented
 V6.5.3
 * Support for both McMMO 2.1+ and McMMO Classic versions added.
 * Fixed NPE error in BountyManager (Ticket 485 - https://github.com/Rocologo/MobHunting/issues/485)

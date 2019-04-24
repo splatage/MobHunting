@@ -24,6 +24,7 @@ import org.bukkit.util.BlockIterator;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class Misc {
+	/**
 	public static boolean isAxe(ItemStack item) {
 		return item != null && (item.getType() == Material.DIAMOND_AXE || item.getType() == Material.GOLDEN_AXE
 				|| item.getType() == Material.IRON_AXE || item.getType() == Material.STONE_AXE
@@ -55,15 +56,47 @@ public class Misc {
 	}
 
 	public static boolean isSign(Block block) {
-		if (isMC113OrNewer())
-			return block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN;
+		if (isMC114OrNewer())
+			return block.getType() == Material.ACACIA_SIGN || block.getType() == Material.ACACIA_WALL_SIGN
+					|| block.getType() == Material.BIRCH_SIGN || block.getType() == Material.BIRCH_WALL_SIGN
+					|| block.getType() == Material.DARK_OAK_SIGN || block.getType() == Material.DARK_OAK_WALL_SIGN
+					|| block.getType() == Material.JUNGLE_SIGN || block.getType() == Material.JUNGLE_WALL_SIGN
+					|| block.getType() == Material.LEGACY_SIGN || block.getType() == Material.LEGACY_SIGN_POST
+					|| block.getType() == Material.LEGACY_WALL_SIGN || block.getType() == Material.OAK_SIGN
+					|| block.getType() == Material.OAK_WALL_SIGN || block.getType() == Material.SPRUCE_SIGN
+					|| block.getType() == Material.SPRUCE_WALL_SIGN;
+		else if (isMC113OrNewer())
+			return block.getType() == Material.LEGACY_SIGN || block.getType() == Material.LEGACY_SIGN_POST
+					|| block.getType() == Material.LEGACY_SIGN_POST;
 		else
 			return block.getType() == Material.LEGACY_SIGN || block.getType() == Material.LEGACY_SIGN_POST;
 	}
 
+	public static boolean isWallSign(Block block) {
+		if (isMC114OrNewer())
+			return block.getType() == Material.ACACIA_WALL_SIGN || block.getType() == Material.BIRCH_WALL_SIGN
+					|| block.getType() == Material.DARK_OAK_WALL_SIGN || block.getType() == Material.JUNGLE_WALL_SIGN
+					|| block.getType() == Material.LEGACY_WALL_SIGN || block.getType() == Material.OAK_WALL_SIGN
+					|| block.getType() == Material.SPRUCE_WALL_SIGN;
+		else if (isMC113OrNewer())
+			return block.getType() == Material.LEGACY_SIGN;
+		else
+			return block.getType() == Material.LEGACY_SIGN;
+	}
+
 	public static boolean isSign(Material material) {
-		if (isMC113OrNewer())
-			return material == Material.SIGN || material == Material.WALL_SIGN;
+		if (isMC114OrNewer())
+			return material == Material.ACACIA_SIGN || material == Material.ACACIA_WALL_SIGN
+					|| material == Material.BIRCH_SIGN || material == Material.BIRCH_WALL_SIGN
+					|| material == Material.DARK_OAK_SIGN || material == Material.DARK_OAK_WALL_SIGN
+					|| material == Material.JUNGLE_SIGN || material == Material.JUNGLE_WALL_SIGN
+					|| material == Material.LEGACY_SIGN || material == Material.LEGACY_SIGN_POST
+					|| material == Material.LEGACY_WALL_SIGN || material == Material.OAK_SIGN
+					|| material == Material.OAK_WALL_SIGN || material == Material.SPRUCE_SIGN
+					|| material == Material.SPRUCE_WALL_SIGN;
+		else if (isMC113OrNewer())
+			return material == Material.LEGACY_SIGN || material == Material.LEGACY_SIGN_POST
+					|| material == Material.LEGACY_WALL_SIGN;
 		else
 			return material == Material.LEGACY_SIGN || material == Material.LEGACY_SIGN_POST;
 	}
@@ -116,6 +149,10 @@ public class Misc {
 	// *******************************************************************
 	// Version detection
 	// *******************************************************************
+	public static boolean isMC114() {
+		return Bukkit.getBukkitVersion().contains("1.14");
+	}
+
 	public static boolean isMC113() {
 		return Bukkit.getBukkitVersion().contains("1.13");
 	}
@@ -138,6 +175,14 @@ public class Misc {
 
 	public static boolean isMC18() {
 		return Bukkit.getBukkitVersion().contains("1.8");
+	}
+
+	public static boolean isMC114OrNewer() {
+		if (isMC114())
+			return true;
+		else if (isMC113() || isMC112() || isMC111() || isMC110() || isMC19() || isMC18())
+			return false;
+		return true;
 	}
 
 	public static boolean isMC113OrNewer() {
@@ -188,9 +233,9 @@ public class Misc {
 	}
 
 	public static boolean isPaperServer() {
-        return Bukkit.getServer().getName().equalsIgnoreCase("Paper")
-                && Bukkit.getServer().getVersion().toLowerCase().contains("paper");
-    }
+		return Bukkit.getServer().getName().equalsIgnoreCase("Paper")
+				&& Bukkit.getServer().getVersion().toLowerCase().contains("paper");
+	}
 
 	public static boolean isSpigotServer() {
 		return Bukkit.getServer().getName().equalsIgnoreCase("CraftBukkit")
@@ -209,6 +254,8 @@ public class Misc {
 		}
 		return null;
 	}
+	
+	**/
 
 	public static String trimSignText(String string) {
 		return string.length() > 15 ? string.substring(0, 14).trim() : string;
@@ -229,6 +276,7 @@ public class Misc {
 				* MobHunting.getInstance().getConfigManager().rewardRounding;
 	}
 
+/**
 	public static final Block getTargetBlock(Player player, int range) {
 		BlockIterator iter = new BlockIterator(player, range);
 		Block lastBlock = iter.next();
@@ -247,6 +295,7 @@ public class Misc {
 	 *
 	 * @return number of players online
 	 */
+	/**
 	public static int getOnlinePlayersAmount() {
 		try {
 			Method method = Server.class.getMethod("getOnlinePlayers");
@@ -268,6 +317,7 @@ public class Misc {
 	 *         Bukkit.getOnlinePlayers() is Player[] it will be converted to a
 	 *         Collection.
 	 */
+	/**
 	@SuppressWarnings({ "unchecked" })
 	public static Collection<Player> getOnlinePlayers() {
 		Method method;
@@ -302,5 +352,6 @@ public class Misc {
 			return false;
 		}
 	}
+	**/
 
 }

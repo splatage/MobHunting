@@ -1,5 +1,7 @@
 package one.lindegaard.MobHunting.rewards;
 
+import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.util.Misc;
@@ -43,7 +45,7 @@ public class BagOfGoldSign implements Listener {
 		if (event.isCancelled())
 			return;
 
-		if (Misc.isMC19OrNewer() && (event.getHand() == null || event.getHand().equals(EquipmentSlot.OFF_HAND)))
+		if (Servers.isMC19OrNewer() && (event.getHand() == null || event.getHand().equals(EquipmentSlot.OFF_HAND)))
 			return;
 
 		Block clickedBlock = event.getClickedBlock();
@@ -95,7 +97,7 @@ public class BagOfGoldSign implements Listener {
 						}
 						plugin.getRewardManager().getEconomy().depositPlayer(player, money);
 						if (moneyInHand <= moneyOnSign) {
-							if (Misc.isMC19OrNewer()) {
+							if (Servers.isMC19OrNewer()) {
 								event.getItem().setAmount(0);
 								event.getItem().setItemMeta(null);
 								event.getItem().setType(Material.AIR);
@@ -363,7 +365,7 @@ public class BagOfGoldSign implements Listener {
 	// ************************************************************************************
 
 	public boolean isBagOfGoldSign(Block block) {
-		if (Misc.isSign(block))
+		if (Materials.isSign(block))
 			return ChatColor.stripColor(((Sign) block.getState()).getLine(0)).equalsIgnoreCase(
 					ChatColor.stripColor(plugin.getMessages().getString("mobhunting.bagofgoldsign.line1", "rewardname",
 							plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim())))

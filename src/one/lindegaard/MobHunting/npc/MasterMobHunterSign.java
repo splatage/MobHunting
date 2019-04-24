@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.util.Misc;
@@ -240,7 +241,7 @@ public class MasterMobHunterSign implements Listener {
 	// ****************************************************************************'
 
 	public static int getNPCIdOnSign(Block block) {
-		if (!Misc.isSign(block))
+		if (!Materials.isSign(block))
 			return -1;
 		String str = ((Sign) block.getState()).getLine(0);
 
@@ -627,7 +628,7 @@ public class MasterMobHunterSign implements Listener {
 	}
 
 	public static boolean isMHSign(Block block) {
-		if (Misc.isSign(block)) {
+		if (Materials.isSign(block)) {
 			Sign sign = (Sign) block.getState();
 			if (sign.getLine(0).matches(MASTERMOBHUNTERSIGN))
 				return true;

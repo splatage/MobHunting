@@ -8,9 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.storage.DataStoreException;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class DatabaseCommand implements ICommand, Listener {
 
@@ -103,7 +103,7 @@ public class DatabaseCommand implements ICommand, Listener {
 			try {
 				plugin.getStoreManager().resetBounties();
 				plugin.getBountyManager().deleteAllBounties();
-				for (Player player : Misc.getOnlinePlayers())
+				for (Player player : Tools.getOnlinePlayers())
 					plugin.getBountyManager().load(player);
 			} catch (DataStoreException e) {
 				e.printStackTrace();
@@ -114,7 +114,7 @@ public class DatabaseCommand implements ICommand, Listener {
 			try {
 				plugin.getStoreManager().resetAchievements();
 				plugin.getAchievementManager().deleteAllAchivements();
-				for (Player player : Misc.getOnlinePlayers())
+				for (Player player : Tools.getOnlinePlayers())
 					plugin.getAchievementManager().load(player);
 			} catch (DataStoreException e) {
 				e.printStackTrace();

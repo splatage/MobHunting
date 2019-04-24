@@ -3,6 +3,8 @@ package one.lindegaard.MobHunting;
 import java.io.File;
 import java.util.Random;
 
+import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
 import one.lindegaard.MobHunting.bounty.WorldGroup;
@@ -41,7 +43,6 @@ import one.lindegaard.MobHunting.storage.IDataStore;
 import one.lindegaard.MobHunting.storage.MySQLDataStore;
 import one.lindegaard.MobHunting.storage.SQLiteDataStore;
 import one.lindegaard.MobHunting.update.SpigetUpdater;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -168,6 +169,7 @@ public class MobHunting extends JavaPlugin {
 		}
 
 		mWorldGroupManager = new WorldGroup(this);
+
 		mWorldGroupManager.load();
 
 		mCompatibilityManager = new CompatibilityManager(this);
@@ -319,7 +321,7 @@ public class MobHunting extends JavaPlugin {
 		// Check for new MobHuntig updates using Spiget.org
 		mSpigetUpdater.hourlyUpdateCheck(getServer().getConsoleSender(), mConfig.updateCheck, false);
 
-		if (!Misc.isGlowstoneServer()) {
+		if (!Servers.isGlowstoneServer()) {
 			mMetricsManager = new MetricsManager(this);
 			mMetricsManager.start();
 		}
@@ -331,9 +333,9 @@ public class MobHunting extends JavaPlugin {
 		}, 20 * 5);
 
 		// Handle online players when server admin do a /reload or /mh reload
-		if (Misc.getOnlinePlayersAmount() > 0) {
-			getMessages().debug("Reloading %s player settings from the database", Misc.getOnlinePlayersAmount());
-			for (Player player : Misc.getOnlinePlayers()) {
+		if (Tools.getOnlinePlayersAmount() > 0) {
+			getMessages().debug("Reloading %s player settings from the database", Tools.getOnlinePlayersAmount());
+			for (Player player : Tools.getOnlinePlayers()) {
 				mPlayerSettingsManager.load(player);
 				mAchievementManager.load(player);
 				if (mConfig.enablePlayerBounties)
@@ -343,7 +345,7 @@ public class MobHunting extends JavaPlugin {
 		}
 
 		getMessages().debug("Updating advancements");
-		if (!getConfigManager().disableMobHuntingAdvancements && Misc.isMC112OrNewer()) {
+		if (!getConfigManager().disableMobHuntingAdvancements && Servers.isMC112OrNewer()) {
 			mAdvancementManager = new AdvancementManager(this);
 			mAdvancementManager.getAdvancementsFromAchivements();
 
@@ -357,7 +359,7 @@ public class MobHunting extends JavaPlugin {
 
 		}
 
-		if (!Misc.isMC113OrNewer())
+		if (!Servers.isMC113OrNewer())
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
 					+ " version +6.0.0 is only for Minecraft 1.13! You should downgrade to 5.x");
 
@@ -365,7 +367,7 @@ public class MobHunting extends JavaPlugin {
 		// getMessages().debug("Random uuid = %s", UUID.randomUUID());
 
 		mInitialized = true;
-
+		
 	}
 
 	@Override

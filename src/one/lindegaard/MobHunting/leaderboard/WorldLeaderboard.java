@@ -21,6 +21,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.material.Sign;
 import org.bukkit.util.Vector;
 
+import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.storage.IDataCallback;
@@ -136,7 +137,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 					break;
 				}
 
-				if (block.getType() != Material.WALL_SIGN || ((Sign) block.getState().getData()).getFacing() != mFacing)
+				if (block.getType() != Material.LEGACY_SIGN || ((Sign) block.getState().getData()).getFacing() != mFacing)
 					return false;
 			}
 
@@ -150,7 +151,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 
 	public void placeSigns(BlockFace face) {
 		for (Block block : getSignBlocks()) {
-			block.setType(Material.WALL_SIGN);
+			block.setType(Material.LEGACY_SIGN);
 			BlockState state = block.getState();
 			Sign sign = (Sign) state.getData();
 			sign.setFacingDirection(face);
@@ -191,7 +192,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 		Block signBlock = mLocation.getBlock();
 		if (isLoaded(signBlock)) {
 			
-			signBlock.setType(Material.WALL_SIGN);
+			signBlock.setType(Material.LEGACY_SIGN);
 			BlockState state = signBlock.getState();
 			Sign wallSign = (Sign) state.getData();
 			wallSign.setFacingDirection(mFacing);
@@ -236,8 +237,8 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 				stat2 = null;
 
 			if (isLoaded(block)) {
-				if (block.getType() != Material.WALL_SIGN) {
-					block.setType(Material.WALL_SIGN);
+				if (block.getType() != Material.LEGACY_SIGN) {
+					block.setType(Material.LEGACY_SIGN);
 					BlockState state = block.getState();
 					Sign materialSign = (Sign) state.getData();
 					materialSign.setFacingDirection(mFacing);
@@ -554,7 +555,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 						+ ":Invalid stat type " + stats.get(i));
 		}
 
-		if (!Misc.isSign(mLocation.getBlock())) {
+		if (!Materials.isSign(mLocation.getBlock())) {
 			throw new InvalidConfigurationException("[MobHunting] Error on Leaderboard " + section.getName()
 					+ ":Leaderboard in world " + mLocation.getWorld().getName() + " at pos (" + mLocation.getBlockX()
 					+ "," + mLocation.getBlockY() + "," + mLocation.getBlockZ() + ") has been deleted from world");

@@ -7,13 +7,13 @@ import java.util.List;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.npc.MasterMobHunter;
 import one.lindegaard.MobHunting.npc.MasterMobHunterTrait;
 import one.lindegaard.MobHunting.storage.TimePeriod;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -161,7 +161,7 @@ public class NpcCommand implements ICommand, Listener {
 			} else if (args.length == 1 && args[0].equalsIgnoreCase("tphere")) {
 				if (CitizensCompat.getMasterMobHunterManager().contains(npc.getId())) {
 					npc.teleport(((Player) sender).getLocation(), TeleportCause.PLUGIN);
-					Block b = Misc.getTargetBlock((Player) sender, 200);
+					Block b = Tools.getTargetBlock((Player) sender, 200);
 					if (b != null)
 						npc.faceLocation(b.getLocation());
 					// npc.getEntity().teleport((Player)sender);

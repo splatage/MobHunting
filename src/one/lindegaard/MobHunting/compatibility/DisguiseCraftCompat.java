@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.util.Misc;
 import pgDev.bukkit.DisguiseCraft.DisguiseCraft;
 import pgDev.bukkit.DisguiseCraft.disguise.Disguise;
 import pgDev.bukkit.DisguiseCraft.disguise.DisguiseType;
@@ -56,18 +56,18 @@ public class DisguiseCraftCompat implements Listener {
 
 	static {
 		int n = 0;
-		if (Misc.isMC111OrNewer()) {
+		if (Servers.isMC111OrNewer()) {
 			// Not supported by Disguisecraft
 			// aggresiveList[n++] = DisguiseType.VEX;
 			// aggresiveList[n++] = DisguiseType.EVOKER;
 			// aggresiveList[n++] = DisguiseType.VINDICATOR;
 		}
-		if (Misc.isMC111OrNewer()) {
+		if (Servers.isMC111OrNewer()) {
 			// Not supported by Disguisecraft
 			// aggresiveList[n++] = DisguiseType.HUSK;
 			// aggresiveList[n++] = DisguiseType.STRAY;
 		}
-		if (Misc.isMC19OrNewer()) {
+		if (Servers.isMC19OrNewer()) {
 			// Not supported by Disguisecraft
 			// aggresiveList[n++] = DisguiseType.SHULKER;
 		}
@@ -96,10 +96,10 @@ public class DisguiseCraftCompat implements Listener {
 
 	static {
 		int n2 = 0;
-		if (Misc.isMC111OrNewer()) {
+		if (Servers.isMC111OrNewer()) {
 			// passiveList[n2++] = DisguiseType.LLAMA;
 		}
-		if (Misc.isMC110OrNewer()) {
+		if (Servers.isMC110OrNewer()) {
 			// passiveList[n2++] = DisguiseType.POLAR_BEAR;
 		}
 		passiveList[n2++] = DisguiseType.Bat;

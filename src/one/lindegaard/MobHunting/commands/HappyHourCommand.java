@@ -9,8 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class HappyHourCommand implements ICommand {
 
@@ -87,7 +87,7 @@ public class HappyHourCommand implements ICommand {
 					|| Bukkit.getScheduler().isQueued(happyhourevent.getTaskId()))) {
 				minutesLeft = minutesToRun - ((int) (System.currentTimeMillis() - starttime) / (1000 * 60));
 				plugin.getMessages().debug("The happy hour ends in %s minutes", minutesLeft);
-				for (Player player : Misc.getOnlinePlayers()) {
+				for (Player player : Tools.getOnlinePlayers()) {
 					plugin.getMessages().playerSendTitlesMessage(player,
 							plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
 							plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_subtitle", "multiplier",
@@ -116,7 +116,7 @@ public class HappyHourCommand implements ICommand {
 					minutesLeft = 0;
 					multiplier = 1;
 					plugin.getMessages().debug("Happy hour was cancelled");
-					for (Player player : Misc.getOnlinePlayers()) {
+					for (Player player : Tools.getOnlinePlayers()) {
 						plugin.getMessages().playerSendTitlesMessage(player,
 								plugin.getMessages().getString("mobhunting.commands.happyhour.cancelled_title"),
 								plugin.getMessages().getString("mobhunting.commands.happyhour.cancelled_subtitle"), 20, 100, 20);
@@ -146,7 +146,7 @@ public class HappyHourCommand implements ICommand {
 				plugin.getMessages().debug("Happy hour started, minutes left:%s", minutesLeft);
 			}
 
-			for (Player player : Misc.getOnlinePlayers()) {
+			for (Player player : Tools.getOnlinePlayers()) {
 				plugin.getMessages().playerSendTitlesMessage(player,
 						plugin.getMessages().getString("mobhunting.commands.happyhour.started_title"),
 						plugin.getMessages().getString("mobhunting.commands.happyhour.started_subtitle", "multiplier", multiplier,
@@ -165,7 +165,7 @@ public class HappyHourCommand implements ICommand {
 				multiplier = 1;
 				happyhourevent.cancel();
 				plugin.getMessages().debug("Happy hour ended");
-				for (Player player : Misc.getOnlinePlayers()) {
+				for (Player player : Tools.getOnlinePlayers()) {
 					plugin.getMessages().playerSendTitlesMessage(player,
 							plugin.getMessages().getString("mobhunting.commands.happyhour.ended_title"),
 							plugin.getMessages().getString("mobhunting.commands.happyhour.ended_subtitle"), 20, 100, 20);

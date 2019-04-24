@@ -28,6 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.compatibility.ActionAnnouncerCompat;
 import one.lindegaard.MobHunting.compatibility.ActionBarAPICompat;
 import one.lindegaard.MobHunting.compatibility.ActionbarCompat;
@@ -38,7 +39,6 @@ import one.lindegaard.MobHunting.compatibility.PlaceholderAPICompat;
 import one.lindegaard.MobHunting.compatibility.TitleManagerCompat;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class Messages {
 
@@ -438,7 +438,7 @@ public class Messages {
 	public void broadcast(String message, Player except) {
 		if (isEmpty(message))
 			return;
-		Iterator<Player> players = Misc.getOnlinePlayers().iterator();
+		Iterator<Player> players = Tools.getOnlinePlayers().iterator();
 		while (players.hasNext()) {
 			Player player = players.next();
 			if (player.equals(except)

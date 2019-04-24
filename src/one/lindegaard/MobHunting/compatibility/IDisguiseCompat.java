@@ -7,8 +7,8 @@ import java.util.Set;
 import de.robingrether.idisguise.api.*;
 import de.robingrether.idisguise.disguise.*;
 import de.robingrether.idisguise.disguise.DisguiseType;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,16 +47,16 @@ public class IDisguiseCompat implements Listener {
 
 	static {
 		int n = 0;
-		if (Misc.isMC111OrNewer()) {
+		if (Servers.isMC111OrNewer()) {
 			aggresiveList[n++] = DisguiseType.VEX;
 			aggresiveList[n++] = DisguiseType.EVOKER;
 			aggresiveList[n++] = DisguiseType.VINDICATOR;
 		}
-		if (Misc.isMC111OrNewer()) {
+		if (Servers.isMC111OrNewer()) {
 			aggresiveList[n++] = DisguiseType.HUSK;
 			aggresiveList[n++] = DisguiseType.STRAY;
 		}
-		if (Misc.isMC19OrNewer()) {
+		if (Servers.isMC19OrNewer()) {
 			aggresiveList[n++] = DisguiseType.SHULKER;
 		}
 		aggresiveList[n++] = DisguiseType.GUARDIAN;
@@ -84,10 +84,10 @@ public class IDisguiseCompat implements Listener {
 
 	static {
 		int n2 = 0;
-		if (Misc.isMC111OrNewer()) {
+		if (Servers.isMC111OrNewer()) {
 			passiveList[n2++] = DisguiseType.LLAMA;
 		}
-		if (Misc.isMC110OrNewer()) {
+		if (Servers.isMC110OrNewer()) {
 			passiveList[n2++] = DisguiseType.POLAR_BEAR;
 		}
 		passiveList[n2++] = DisguiseType.BAT;

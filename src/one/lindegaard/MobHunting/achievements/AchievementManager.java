@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
@@ -31,7 +32,6 @@ import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.storage.AchievementStore;
 import one.lindegaard.MobHunting.storage.IDataCallback;
 import one.lindegaard.MobHunting.storage.UserNotFoundException;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -399,7 +399,7 @@ public class AchievementManager implements Listener {
 				return;
 			}
 
-		if (!plugin.getConfigManager().disableMobHuntingAdvancements && Misc.isMC112OrNewer())
+		if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC112OrNewer())
 			plugin.getAdvancementManager().grantAdvancement(player, achievement);
 
 		PlayerStorage storage = mStorage.get(player.getUniqueId());
@@ -463,7 +463,7 @@ public class AchievementManager implements Listener {
 									.replaceAll("\\{monstertype\\}", mob.getMobName()));
 		}
 
-		if (Misc.isMC19OrNewer())
+		if (Servers.isMC19OrNewer())
 			player.getWorld().playSound(player.getLocation(), Sound.valueOf("ENTITY_PLAYER_LEVELUP"), 1.0f, 1.0f);
 		else
 			player.getWorld().playSound(player.getLocation(), Sound.valueOf("LEVEL_UP"), 1.0f, 1.0f);
@@ -657,7 +657,7 @@ public class AchievementManager implements Listener {
 						storage.enableAchievements = true;
 						mStorage.put(p.getUniqueId(), storage);
 
-						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Misc.isMC112OrNewer())
+						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC112OrNewer())
 							plugin.getAdvancementManager().updatePlayerAdvancements(player);
 
 					}
@@ -952,7 +952,7 @@ public class AchievementManager implements Listener {
 		if (event.getInventory() == null)
 			return;
 
-		if (ChatColor.stripColor(event.getInventory().getName()).startsWith("Completed:")) {
+		if (ChatColor.stripColor(event.getView().getTitle()).startsWith("Completed:")) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMapCompleted.remove(event.getWhoClicked());
@@ -972,7 +972,7 @@ public class AchievementManager implements Listener {
 		if (event.getInventory() == null)
 			return;
 
-		if (ChatColor.stripColor(event.getInventory().getName()).startsWith("Ongoing:")) {
+		if (ChatColor.stripColor(event.getView().getTitle()).startsWith("Ongoing:")) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMapOngoing.remove(event.getWhoClicked());
@@ -991,7 +991,7 @@ public class AchievementManager implements Listener {
 		if (event.getInventory() == null)
 			return;
 
-		if (ChatColor.stripColor(event.getInventory().getName()).startsWith("Not started:")) {
+		if (ChatColor.stripColor(event.getView().getTitle()).startsWith("Not started:")) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMapNotStarted.remove(event.getWhoClicked());

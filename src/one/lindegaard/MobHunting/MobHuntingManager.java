@@ -4,6 +4,9 @@ import com.sk89q.worldguard.protection.flags.Flags;
 
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.BagOfGold.PlayerBalance;
+import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
 import one.lindegaard.MobHunting.compatibility.*;
@@ -535,7 +538,7 @@ public class MobHuntingManager implements Listener {
 		}
 
 		if (weapon == null && cause != null) {
-			if (Misc.isMC19OrNewer() && projectile) {
+			if (Servers.isMC19OrNewer() && projectile) {
 				PlayerInventory pi = cause.getInventory();
 				if (pi.getItemInMainHand().getType() == Material.BOW)
 					weapon = pi.getItemInMainHand();
@@ -556,8 +559,8 @@ public class MobHuntingManager implements Listener {
 
 		// Take note that a weapon has been used at all
 		if (info.getWeapon() != null
-				&& (Misc.isSword(info.getWeapon()) || Misc.isAxe(info.getWeapon()) || Misc.isPick(info.getWeapon())
-						|| Misc.isTrident(info.getWeapon()) || info.isCrackShotWeaponUsed() || projectile))
+				&& (Materials.isSword(info.getWeapon()) || Materials.isAxe(info.getWeapon()) || Materials.isPick(info.getWeapon())
+						|| Materials.isTrident(info.getWeapon()) || info.isCrackShotWeaponUsed() || projectile))
 			info.setHasUsedWeapon(true);
 
 		if (cause != null) {
@@ -1447,7 +1450,7 @@ public class MobHuntingManager implements Listener {
 					OfflinePlayer bountyOwner = b.getBountyOwner();
 					plugin.getBountyManager().delete(b);
 					if (bountyOwner != null && bountyOwner.isOnline()) {
-						plugin.getMessages().playerActionBarMessageQueue(Misc.getOnlinePlayer(bountyOwner),
+						plugin.getMessages().playerActionBarMessageQueue(Tools.getOnlinePlayer(bountyOwner),
 								plugin.getMessages().getString("mobhunting.bounty.bounty-claimed", "killer",
 										player.getName(), "prize", plugin.getRewardManager().format(b.getPrize()),
 										"money", plugin.getRewardManager().format(b.getPrize()), "killed",

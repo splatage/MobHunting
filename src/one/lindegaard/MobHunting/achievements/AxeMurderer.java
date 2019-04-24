@@ -5,9 +5,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class AxeMurderer implements Achievement, Listener {
 
@@ -39,7 +39,7 @@ public class AxeMurderer implements Achievement, Listener {
 
 	@EventHandler
 	public void onKill(MobHuntKillEvent event) {
-		if (Misc.isAxe(event.getDamageInfo().getWeapon())
+		if (Materials.isAxe(event.getDamageInfo().getWeapon())
 				&& plugin.getRewardManager().getBaseKillPrize(event.getKilledEntity()) > 0)
 			plugin.getAchievementManager().awardAchievement(this, event.getPlayer(),
 					plugin.getExtendedMobManager().getExtendedMobFromEntity(event.getKilledEntity()));

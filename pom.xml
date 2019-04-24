@@ -77,13 +77,21 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>${mavenShadePlugin.version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<artifactSet>
 						<includes>
+							<include>one.lindegaard:Core:*</include>
 							<include>org.bstats:*</include>
 							<include>org.inventivetalent.spiget-update:bukkit**</include>
-							<include>one.lindegaard.Core:*</include>
 						</includes>
 					</artifactSet>
 					<relocations>
@@ -93,14 +101,6 @@
 						</relocation>
 					</relocations>
 				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -110,15 +110,6 @@
 	<!-- **************************** Dependencies **************************** -->
 	<!-- ********************************************************************** -->
 	<dependencies>
-
-		<!-- Rocologo Core -->
-		<dependency>
-			<groupId>one.lindegaard</groupId>
-			<artifactId>Core</artifactId>
-			<version>${core.version}</version>
-			<type>jar</type>
-			<scope>provided</scope>
-		</dependency>
 
 		<!-- BagOfGold / -->
 		<dependency>
