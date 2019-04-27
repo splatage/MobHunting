@@ -25,10 +25,10 @@ import one.lindegaard.MobHunting.compatibility.MysteriousHalloweenCompat;
 import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
 import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
 import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
-import one.lindegaard.MobHunting.mobs.PluginManager;
+import one.lindegaard.MobHunting.mobs.MobPluginManager;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
+import one.lindegaard.Core.mobs.MinecraftMob;
 
 public abstract class DatabaseDataStore implements IDataStore {
 
@@ -1541,7 +1541,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			openPreparedStatements(mConnection, PreparedConnectionType.LOAD_MOBS);
 			ResultSet set = mLoadMobs.executeQuery();
 			while (set.next()) {
-				MobPlugin mp = PluginManager.valueOf(set.getInt("PLUGIN_ID"));
+				MobPlugin mp = MobPluginManager.valueOf(set.getInt("PLUGIN_ID"));
 				switch (mp) {
 				case Citizens:
 					if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig())
@@ -1576,7 +1576,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				default:
 					break;
 				}
-				mobs.add(new ExtendedMob(set.getInt("MOB_ID"), PluginManager.valueOf(set.getInt("PLUGIN_ID")),
+				mobs.add(new ExtendedMob(set.getInt("MOB_ID"), MobPluginManager.valueOf(set.getInt("PLUGIN_ID")),
 						set.getString("MOBTYPE")));
 			}
 			set.close();

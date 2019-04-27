@@ -15,10 +15,10 @@ import one.lindegaard.MobHunting.events.MobHuntEnableCheckEvent;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
 import one.lindegaard.MobHunting.grinding.Area;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
+import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.Core.rewards.CustomItems;
 import one.lindegaard.MobHunting.modifier.*;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderData;
-import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.update.SpigetUpdater;
 import one.lindegaard.MobHunting.util.Misc;
 
@@ -558,9 +558,9 @@ public class MobHuntingManager implements Listener {
 			info.setWeapon(weapon);
 
 		// Take note that a weapon has been used at all
-		if (info.getWeapon() != null
-				&& (Materials.isSword(info.getWeapon()) || Materials.isAxe(info.getWeapon()) || Materials.isPick(info.getWeapon())
-						|| Materials.isTrident(info.getWeapon()) || info.isCrackShotWeaponUsed() || projectile))
+		if (info.getWeapon() != null && (Materials.isSword(info.getWeapon()) || Materials.isAxe(info.getWeapon())
+				|| Materials.isPick(info.getWeapon()) || Materials.isTrident(info.getWeapon())
+				|| info.isCrackShotWeaponUsed() || projectile))
 			info.setHasUsedWeapon(true);
 
 		if (cause != null) {
@@ -1308,24 +1308,26 @@ public class MobHuntingManager implements Listener {
 							* plugin.getConfigManager().grindingDetectionNumberOfDeath)) {
 						if (plugin.getConfigManager().blacklistPlayerGrindingSpotsServerWorldWide)
 							plugin.getGrindingManager().registerKnownGrindingSpot(detectedGrindingArea);
-						//if (System.currentTimeMillis() - detectedGrindingArea.getTime() < 1000 * 60 * 2) {
-							cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
-									plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
-							plugin.getMessages().debug(
-									"DampenedKills reached the limit %s, no rewards paid. Grinding Spot registered.",
-									(isSlimeOrMagmaCube(killed) ? 2 : 1)
-											* plugin.getConfigManager().grindingDetectionNumberOfDeath);
-							plugin.getGrindingManager().showGrindingArea(player, detectedGrindingArea, loc);
-							plugin.getMessages().learn(player,
-									plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
-							plugin.getMessages().debug("1)Dampenedkilles=%s", data.getDampenedKills());
-							plugin.getMessages().debug("======================= kill ended (33)======================");
-							return;
-						//} else {
-						//	plugin.getMessages().debug("KillAllowed: %s - Last kill in this area was %s seconds ago",
-						//			killer.getName(),
-						//			(System.currentTimeMillis() - detectedGrindingArea.getTime()) * 1000);
-						//}
+						// if (System.currentTimeMillis() - detectedGrindingArea.getTime() < 1000 * 60 *
+						// 2) {
+						cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
+								plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
+						plugin.getMessages().debug(
+								"DampenedKills reached the limit %s, no rewards paid. Grinding Spot registered.",
+								(isSlimeOrMagmaCube(killed) ? 2 : 1)
+										* plugin.getConfigManager().grindingDetectionNumberOfDeath);
+						plugin.getGrindingManager().showGrindingArea(player, detectedGrindingArea, loc);
+						plugin.getMessages().learn(player,
+								plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
+						plugin.getMessages().debug("1)Dampenedkilles=%s", data.getDampenedKills());
+						plugin.getMessages().debug("======================= kill ended (33)======================");
+						return;
+						// } else {
+						// plugin.getMessages().debug("KillAllowed: %s - Last kill in this area was %s
+						// seconds ago",
+						// killer.getName(),
+						// (System.currentTimeMillis() - detectedGrindingArea.getTime()) * 1000);
+						// }
 					} else {
 						plugin.getMessages().debug("DampenedKills=%s", data.getDampenedKills());
 					}
@@ -1712,7 +1714,7 @@ public class MobHuntingManager implements Listener {
 				&& data.getDampenedKills() < 10 && !CrackShotCompat.isCrackShotUsed(killed)) {
 
 			String skilltypename = McMMOCompatHelper.getSkilltypeName(info);
-			
+
 			if (skilltypename != null) {
 				double chance = plugin.mRand.nextDouble();
 				plugin.getMessages().debug("If %s<%s %s will get a McMMO Level for %s", chance,
@@ -1848,11 +1850,11 @@ public class MobHuntingManager implements Listener {
 			if (random < plugin.getRewardManager().getHeadDropChance(killed)) {
 				MinecraftMob minecraftMob = MinecraftMob.getMinecraftMobType(killed);
 				if (minecraftMob == MinecraftMob.PvpPlayer) {
-					ItemStack head = new CustomItems(plugin).getPlayerHead(killed.getUniqueId(), 1,
+					ItemStack head = new CustomItems().getPlayerHead(killed.getUniqueId(), 1,
 							plugin.getRewardManager().getHeadValue(killed));
 					player.getWorld().dropItem(killed.getLocation(), head);
 				} else {
-					ItemStack head = new CustomItems(plugin).getCustomHead(minecraftMob, mob.getFriendlyName(), 1,
+					ItemStack head = new CustomItems().getCustomHead(minecraftMob, mob.getFriendlyName(), 1,
 							plugin.getRewardManager().getHeadValue(killed), minecraftMob.getPlayerUUID());
 					player.getWorld().dropItem(killed.getLocation(), head);
 				}

@@ -78,7 +78,7 @@ public class EighthHuntAchievement implements ProgressAchievement, Listener {
 
 	@Override
 	public ItemStack getSymbol() {
-		return mExtendedMob.getCustomHead(plugin, mExtendedMob.getMobName(), 8, 0);
+		return mExtendedMob.getCustomHead(mExtendedMob.getMobName(), 8, 0);
 	}
 
 	@Override

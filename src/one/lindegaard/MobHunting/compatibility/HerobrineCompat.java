@@ -22,7 +22,7 @@ import net.theprogrammersworld.herobrine.Herobrine;
 import net.theprogrammersworld.herobrine.nms.entity.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
+import one.lindegaard.Core.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.rewards.RewardData;
 
 public class HerobrineCompat implements Listener {
@@ -125,7 +125,7 @@ public class HerobrineCompat implements Listener {
 	public static int getProgressAchievementLevel1(String mobtype) {
 		MinecraftMob mob = MinecraftMob.valueOf(mobtype);
 		if (mob != null)
-			return mob.getProgressAchievementLevel1();
+			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
 		else
 			return 100;
 	}

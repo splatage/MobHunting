@@ -18,7 +18,7 @@ import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent;
 import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent.Action;
 import de.Keyle.MyPet.api.event.MyPetPickupItemEvent;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.rewards.Reward;
+import one.lindegaard.Core.rewards.Reward;
 
 public class MyPetCompat implements Listener {
 	private static boolean supported = false;

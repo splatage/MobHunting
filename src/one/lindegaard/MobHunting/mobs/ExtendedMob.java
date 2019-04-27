@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
 import net.citizensnpcs.api.npc.NPC;
+import one.lindegaard.Core.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
@@ -58,8 +59,7 @@ public class ExtendedMob {
 	}
 
 	/**
-	 * @param mobtype
-	 *            the mobtype to set
+	 * @param mobtype the mobtype to set
 	 */
 	public void setMobtype(String mobtype) {
 		this.mobtype = mobtype;
@@ -127,13 +127,17 @@ public class ExtendedMob {
 		if (mobPlugin == MobPlugin.Minecraft)
 			return MobHunting.getInstance().getMessages().getString("mobs." + mobtype + ".name");
 		else
-			return MobHunting.getInstance().getMessages().getString("mobs." + mobPlugin.name() + "_" + mobtype + ".name");
+			return MobHunting.getInstance().getMessages()
+					.getString("mobs." + mobPlugin.name() + "_" + mobtype + ".name");
 	}
 
 	public int getProgressAchievementLevel1() {
 		switch (mobPlugin) {
 		case Minecraft:
-			return MinecraftMob.getMinecraftMobType(mobtype).getProgressAchievementLevel1();
+			MinecraftMob mob = MinecraftMob.getMinecraftMobType(mobtype);
+			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
+		// return
+		// MinecraftMob.getMinecraftMobType(mobtype).getProgressAchievementLevel1(mob);
 		case MythicMobs:
 			return MythicMobsCompat.getProgressAchievementLevel1(mobtype);
 		case Citizens:
@@ -164,15 +168,16 @@ public class ExtendedMob {
 		ExtendedMob mob = MobHunting.getInstance().getExtendedMobManager().getExtendedMobFromEntity(entity);
 		return mobtype.equalsIgnoreCase(mob.mobtype);
 	}
-	
-	public ItemStack getCustomHead(MobHunting plugin, String name, int amount, int money) {
+
+	public ItemStack getCustomHead(String name, int amount, int money) {
 		switch (mobPlugin) {
 		case Minecraft:
 			MinecraftMob mob = MinecraftMob.getMinecraftMobType(name);
-			return mob.getCustomHead(plugin, name, amount, money);
+			return mob.getCustomHead(name, amount, money);
 		default:
 			return new ItemStack(Material.IRON_INGOT, amount);
 		}
 	}
 
+	
 }

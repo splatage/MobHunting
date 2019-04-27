@@ -28,8 +28,7 @@ import org.bukkit.event.world.WorldUnloadEvent;
 
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
-import one.lindegaard.MobHunting.util.Misc;
+import one.lindegaard.Core.mobs.MinecraftMob;
 
 public class GrindingManager implements Listener {
 

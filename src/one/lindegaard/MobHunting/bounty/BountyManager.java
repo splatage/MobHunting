@@ -5,7 +5,7 @@ import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.achievements.AchievementManager;
 import one.lindegaard.MobHunting.compatibility.EssentialsCompat;
 import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
-import one.lindegaard.MobHunting.rewards.CustomItems;
+import one.lindegaard.Core.rewards.CustomItems;
 import one.lindegaard.MobHunting.storage.IDataCallback;
 import one.lindegaard.MobHunting.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.util.Misc;
@@ -337,7 +337,7 @@ public class BountyManager implements Listener {
 			if (hasOpenBounties(wantedPlayer)) {
 				Set<Bounty> bountiesOnWantedPlayer = getOpenBounties(worldGroupName, wantedPlayer);
 				if (useGui) {
-					CustomItems customItems = new CustomItems(plugin);
+					CustomItems customItems = new CustomItems();
 					final Inventory inventory = Bukkit.createInventory(null, 54,
 							ChatColor.BLUE + "" + ChatColor.BOLD + "Wanted:" + wantedPlayer.getName());
 					int n = 0;
@@ -405,7 +405,7 @@ public class BountyManager implements Listener {
 		if (sender instanceof Player) {
 			if (!mOpenBounties.isEmpty()) {
 				if (useGui) {
-					CustomItems customItems = new CustomItems(plugin);
+					CustomItems customItems = new CustomItems();
 					Inventory inventory = Bukkit.createInventory(null, 54,
 							ChatColor.BLUE + "" + ChatColor.BOLD + "MostWanted:");
 					int n = 0;

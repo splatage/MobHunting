@@ -28,15 +28,15 @@ import one.lindegaard.MobHunting.compatibility.FactionsHelperCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
 import one.lindegaard.MobHunting.events.MobHuntFishingEvent;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
+import one.lindegaard.Core.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.modifier.DifficultyBonus;
 import one.lindegaard.MobHunting.modifier.FactionWarZoneBonus;
 import one.lindegaard.MobHunting.modifier.HappyHourBonus;
 import one.lindegaard.MobHunting.modifier.IModifier;
 import one.lindegaard.MobHunting.modifier.RankBonus;
 import one.lindegaard.MobHunting.modifier.WorldBonus;
-import one.lindegaard.MobHunting.rewards.CustomItems;
-import one.lindegaard.MobHunting.rewards.Reward;
+import one.lindegaard.Core.rewards.CustomItems;
+import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.MobHunting.util.Misc;
 
 public class FishingManager implements Listener {
@@ -358,7 +358,7 @@ public class FishingManager implements Listener {
 					double random = plugin.mRand.nextDouble();
 					if (random < plugin.getRewardManager().getHeadDropChance(fish)) {
 						MinecraftMob minecraftMob = MinecraftMob.getMinecraftMobType(fish);
-						ItemStack head = new CustomItems(plugin).getCustomHead(minecraftMob,
+						ItemStack head = new CustomItems().getCustomHead(minecraftMob,
 								minecraftMob.getFriendlyName(), 1, plugin.getRewardManager().getHeadValue(fish),
 								minecraftMob.getPlayerUUID());
 						plugin.getRewardManager().setDisplayNameAndHiddenLores(head, new Reward(minecraftMob.getFriendlyName(),

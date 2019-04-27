@@ -44,7 +44,9 @@ import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibHelper;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
+import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.Core.rewards.CustomItems;
+import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.MobHunting.util.Misc;
 
 public class RewardListeners implements Listener {
@@ -340,7 +342,7 @@ public class RewardListeners implements Listener {
 		if (event.isCancelled())
 			return;
 
-		CustomItems customItems = new CustomItems(plugin);
+		CustomItems customItems = new CustomItems();
 
 		Block block = event.getBlock();
 		if (Reward.hasReward(block)) {

@@ -20,6 +20,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Blaze;
+import org.bukkit.entity.Cat;
 import org.bukkit.entity.CaveSpider;
 import org.bukkit.entity.Chicken;
 import org.bukkit.entity.Cod;
@@ -33,6 +34,7 @@ import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Endermite;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Evoker;
+import org.bukkit.entity.Fox;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.Guardian;
@@ -46,14 +48,17 @@ import org.bukkit.entity.MagmaCube;
 import org.bukkit.entity.Mule;
 import org.bukkit.entity.MushroomCow;
 import org.bukkit.entity.Ocelot;
+import org.bukkit.entity.Panda;
 import org.bukkit.entity.Parrot;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Pillager;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.PolarBear;
 import org.bukkit.entity.PufferFish;
 import org.bukkit.entity.Rabbit;
+import org.bukkit.entity.Ravager;
 import org.bukkit.entity.Salmon;
 import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Shulker;
@@ -94,6 +99,9 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.Core.rewards.CustomItems;
+import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
@@ -106,7 +114,6 @@ import one.lindegaard.MobHunting.compatibility.MysteriousHalloweenCompat;
 import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
 import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
 import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.util.Misc;
 
 @SuppressWarnings("deprecation")
@@ -290,7 +297,7 @@ public class RewardManager {
 					addedMoney = addedMoney + nextBag;
 					ItemStack is;
 					if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL"))
-						is = new CustomItems(plugin).getCustomtexture(
+						is = new CustomItems().getCustomtexture(
 								UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
 								plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 								plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
@@ -314,7 +321,7 @@ public class RewardManager {
 		MobHunting mPlugin = (MobHunting) Bukkit.getPluginManager().getPlugin("MobHunting");
 		double taken = 0;
 		double toBeTaken = Misc.floor(amount);
-		CustomItems customItems = new CustomItems(mPlugin);
+		CustomItems customItems = new CustomItems();
 		for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
 			ItemStack is = player.getInventory().getItem(slot);
 			if (Reward.isReward(is)) {
@@ -370,12 +377,12 @@ public class RewardManager {
 				MinecraftMob mob = MinecraftMob.getMinecraftMobType(killedEntity);
 				uuid = UUID.fromString(Reward.MH_REWARD_KILLED_UUID);
 				skinuuid = mob.getPlayerUUID();
-				is = new CustomItems(plugin).getCustomHead(mob, mob.getFriendlyName(), 1, money, skinuuid);
+				is = new CustomItems().getCustomHead(mob, mob.getFriendlyName(), 1, money, skinuuid);
 
 			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL")) {
 				uuid = UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID);
 				skinuuid = uuid;
-				is = new CustomItems(plugin).getCustomtexture(uuid,
+				is = new CustomItems().getCustomtexture(uuid,
 						plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 						plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 						plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, money, UUID.randomUUID(),
@@ -384,7 +391,7 @@ public class RewardManager {
 			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("KILLER")) {
 				uuid = UUID.fromString(Reward.MH_REWARD_KILLER_UUID);
 				skinuuid = player.getUniqueId();
-				is = new CustomItems(plugin).getPlayerHead(player.getUniqueId(), 1, money);
+				is = new CustomItems().getPlayerHead(player.getUniqueId(), 1, money);
 
 			} else { // ITEM
 				uuid = UUID.fromString(Reward.MH_REWARD_ITEM_UUID);
@@ -733,6 +740,18 @@ public class RewardManager {
 			return 0;
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return getPrice(mob, plugin.getConfigManager().catMoney);
+				else if (mob instanceof Fox)
+					return getPrice(mob, plugin.getConfigManager().foxMoney);
+				else if (mob instanceof Panda)
+					return getPrice(mob, plugin.getConfigManager().pandaMoney);
+				else if (mob instanceof Pillager)
+					return getPrice(mob, plugin.getConfigManager().pillagerMoney);
+				else if (mob instanceof Ravager)
+					return getPrice(mob, plugin.getConfigManager().ravagerMoney);
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getPrice(mob, plugin.getConfigManager().dolphinMoney);
@@ -1025,6 +1044,18 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCommands;
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return plugin.getConfigManager().catCommands;
+				else if (mob instanceof Fox)
+					return plugin.getConfigManager().foxCommands;
+				else if (mob instanceof Panda)
+					return plugin.getConfigManager().pandaCommands;
+				else if (mob instanceof Pillager)
+					return plugin.getConfigManager().pillagerCommands;
+				else if (mob instanceof Ravager)
+					return plugin.getConfigManager().ravagerCommands;
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinCommands;
@@ -1257,6 +1288,18 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMessage;
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return plugin.getConfigManager().catMessage;
+				else if (mob instanceof Fox)
+					return plugin.getConfigManager().foxMessage;
+				else if (mob instanceof Panda)
+					return plugin.getConfigManager().pandaMessage;
+				else if (mob instanceof Pillager)
+					return plugin.getConfigManager().pillagerMessage;
+				else if (mob instanceof Ravager)
+					return plugin.getConfigManager().ravagerMessage;
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMessage;
@@ -1481,6 +1524,18 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCmdRunChance;
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return plugin.getConfigManager().catMoneyChance;
+				else if (mob instanceof Fox)
+					return plugin.getConfigManager().foxMoneyChance;
+				else if (mob instanceof Panda)
+					return plugin.getConfigManager().pandaMoneyChance;
+				else if (mob instanceof Pillager)
+					return plugin.getConfigManager().pillagerMoneyChance;
+				else if (mob instanceof Ravager)
+					return plugin.getConfigManager().ravagerMoneyChance;
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMoneyChance;
@@ -1709,6 +1764,18 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMcMMOSkillRewardChance;
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return plugin.getConfigManager().catMcMMOSkillRewardChance;
+				else if (mob instanceof Fox)
+					return plugin.getConfigManager().foxMcMMOSkillRewardChance;
+				else if (mob instanceof Panda)
+					return plugin.getConfigManager().pandaMcMMOSkillRewardChance;
+				else if (mob instanceof Pillager)
+					return plugin.getConfigManager().pillagerMcMMOSkillRewardChance;
+				else if (mob instanceof Ravager)
+					return plugin.getConfigManager().ravagerMcMMOSkillRewardChance;
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMcMMOSkillRewardChance;
@@ -1961,6 +2028,18 @@ public class RewardManager {
 			return getMcMMOXP(mob, plugin.getConfigManager().wolfMcMMOSkillRewardAmount);
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return getMcMMOXP(mob, plugin.getConfigManager().catMcMMOSkillRewardAmount);
+				else if (mob instanceof Fox)
+					return getMcMMOXP(mob, plugin.getConfigManager().foxMcMMOSkillRewardAmount);
+				else if (mob instanceof Panda)
+					return getMcMMOXP(mob, plugin.getConfigManager().pandaMcMMOSkillRewardAmount);
+				else if (mob instanceof Pillager)
+					return getMcMMOXP(mob, plugin.getConfigManager().pillagerMcMMOSkillRewardAmount);
+				else if (mob instanceof Ravager)
+					return getMcMMOXP(mob, plugin.getConfigManager().ravagerMcMMOSkillRewardAmount);
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getMcMMOXP(mob, plugin.getConfigManager().dolphinMcMMOSkillRewardAmount);
@@ -2184,6 +2263,18 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfEnabled;
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return plugin.getConfigManager().catEnabled;
+				else if (mob instanceof Fox)
+					return plugin.getConfigManager().foxEnabled;
+				else if (mob instanceof Panda)
+					return plugin.getConfigManager().pandaEnabled;
+				else if (mob instanceof Pillager)
+					return plugin.getConfigManager().pillagerEnabled;
+				else if (mob instanceof Ravager)
+					return plugin.getConfigManager().ravagerEnabled;
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinEnabled;
@@ -2418,6 +2509,18 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropHead;
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return plugin.getConfigManager().catHeadDropHead;
+				else if (mob instanceof Fox)
+					return plugin.getConfigManager().foxHeadDropHead;
+				else if (mob instanceof Panda)
+					return plugin.getConfigManager().pandaHeadDropHead;
+				else if (mob instanceof Pillager)
+					return plugin.getConfigManager().pillagerHeadDropHead;
+				else if (mob instanceof Ravager)
+					return plugin.getConfigManager().ravagerHeadDropHead;
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadDropHead;
@@ -2654,6 +2757,18 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropChance;
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return plugin.getConfigManager().catHeadDropChance;
+				else if (mob instanceof Fox)
+					return plugin.getConfigManager().foxHeadDropChance;
+				else if (mob instanceof Panda)
+					return plugin.getConfigManager().pandaHeadDropChance;
+				else if (mob instanceof Pillager)
+					return plugin.getConfigManager().pillagerHeadDropChance;
+				else if (mob instanceof Ravager)
+					return plugin.getConfigManager().ravagerHeadDropChance;
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadDropChance;
@@ -2890,6 +3005,18 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadMessage;
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return plugin.getConfigManager().catHeadMessage;
+				else if (mob instanceof Fox)
+					return plugin.getConfigManager().foxHeadMessage;
+				else if (mob instanceof Panda)
+					return plugin.getConfigManager().pandaHeadMessage;
+				else if (mob instanceof Pillager)
+					return plugin.getConfigManager().pillagerHeadMessage;
+				else if (mob instanceof Ravager)
+					return plugin.getConfigManager().ravagerHeadMessage;
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadMessage;
@@ -3126,6 +3253,18 @@ public class RewardManager {
 			return getPrice(mob, plugin.getConfigManager().wolfHeadPrize);
 
 		} else {
+			if (Servers.isMC114OrNewer())
+				if (mob instanceof Cat)
+					return getPrice(mob, plugin.getConfigManager().catHeadPrize);
+				else if (mob instanceof Fox)
+					return getPrice(mob, plugin.getConfigManager().foxHeadPrize);
+				else if (mob instanceof Panda)
+					return getPrice(mob, plugin.getConfigManager().pandaHeadPrize);
+				else if (mob instanceof Pillager)
+					return getPrice(mob, plugin.getConfigManager().pillagerHeadPrize);
+				else if (mob instanceof Ravager)
+					return getPrice(mob, plugin.getConfigManager().ravagerHeadPrize);
+				 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getPrice(mob, plugin.getConfigManager().dolphinHeadPrize);

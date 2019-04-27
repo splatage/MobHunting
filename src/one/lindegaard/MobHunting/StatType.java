@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
+import one.lindegaard.Core.mobs.MinecraftMob;
 
 public class StatType {
 	public static final StatType AchievementCount = new StatType("achievement_count", "stats.achievement_count");

@@ -77,7 +77,7 @@ public class ThirdHuntAchievement implements ProgressAchievement {
 
 	@Override
 	public ItemStack getSymbol() {
-		return mExtendedMob.getCustomHead(plugin, mExtendedMob.getMobName(), 3, 0);
+		return mExtendedMob.getCustomHead(mExtendedMob.getMobName(), 3, 0);
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 
+import one.lindegaard.Core.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
@@ -152,6 +153,21 @@ public class ExtendedMobManager {
 		return 0;
 	}
 
+		// This is only used to get a "random" mob_id stored when an Achievement is
+	// stored in mh_Daily
+	public ExtendedMob getFirstMob() {
+		int mob_id = mobs.keySet().iterator().next();
+		return mobs.get(mob_id);
+	}
+
+	//public static String getMobName(Entity mob) {
+	//		return mob.getName();
+	//}
+
+	public String getTranslatedName() {
+		return "";
+	};
+
 	public ExtendedMob getExtendedMobFromEntity(Entity entity) {
 		int mob_id;
 		MobPlugin mobPlugin;
@@ -181,7 +197,7 @@ public class ExtendedMobManager {
 			if (mob != null)
 				mobtype = mob.name();
 			else{
-				plugin.getMessages().debug("unhandled entity %s", entity.getType());
+				//plugin.getMessages().debug("unhandled entity %s", entity.getType());
 				mobtype = "";
 			}
 		} else if (HerobrineCompat.isHerobrineMob(entity)){
@@ -203,19 +219,6 @@ public class ExtendedMobManager {
 		return new ExtendedMob(mob_id, mobPlugin, mobtype);
 	}
 
-	// This is only used to get a "random" mob_id stored when an Achievement is
-	// stored in mh_Daily
-	public ExtendedMob getFirstMob() {
-		int mob_id = mobs.keySet().iterator().next();
-		return mobs.get(mob_id);
-	}
 
-	//public static String getMobName(Entity mob) {
-	//		return mob.getName();
-	//}
-
-	public String getTranslatedName() {
-		return "";
-	};
 
 }

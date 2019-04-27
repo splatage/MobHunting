@@ -2,7 +2,7 @@ package one.lindegaard.MobHunting.mobs;
 
 import java.util.HashMap;
 
-public class PluginManager {
+public class MobPluginManager {
 	
 	HashMap <Integer, String> pluginManager = new HashMap<Integer, String>();
 
@@ -10,7 +10,7 @@ public class PluginManager {
 	private String mobType;
 	private int max;
 
-	public PluginManager(MobPlugin mobPlugin, String mobType, int max) {
+	public MobPluginManager(MobPlugin mobPlugin, String mobType, int max) {
 		this.mobPlugin = mobPlugin;
 		this.mobType = mobType;
 		this.max = max;
@@ -22,8 +22,8 @@ public class PluginManager {
 		this.max = max;
 	}
 
-	public PluginManager get() {
-		return new PluginManager(mobPlugin, mobType, max);
+	public MobPluginManager get() {
+		return new MobPluginManager(mobPlugin, mobType, max);
 	}
 
 	public String getMobType() {

@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.rewards.CustomItems;
-import one.lindegaard.MobHunting.rewards.Reward;
+import one.lindegaard.Core.rewards.CustomItems;
+import one.lindegaard.Core.rewards.Reward;
 
 public class BossShopHelper {
 
@@ -35,7 +35,7 @@ public class BossShopHelper {
 
 		UUID uuid = UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID);
 		
-		ItemStack is = new CustomItems(plugin).getCustomtexture(uuid,
+		ItemStack is = new CustomItems().getCustomtexture(uuid,
 				MobHunting.getInstance().getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 				MobHunting.getInstance().getConfigManager().dropMoneyOnGroundSkullTextureValue,
 				MobHunting.getInstance().getConfigManager().dropMoneyOnGroundSkullTextureSignature, 10, UUID.randomUUID(), uuid);

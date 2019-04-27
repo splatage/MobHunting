@@ -77,7 +77,7 @@ public class SeventhHuntAchievement implements ProgressAchievement {
 
 	@Override
 	public ItemStack getSymbol() {
-		return mExtendedMob.getCustomHead(plugin, mExtendedMob.getMobName(), 7, 0);
+		return mExtendedMob.getCustomHead(mExtendedMob.getMobName(), 7, 0);
 	}
 
 	@Override

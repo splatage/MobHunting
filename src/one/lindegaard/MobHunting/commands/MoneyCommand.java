@@ -6,8 +6,8 @@ import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.BossShopCompat;
 import one.lindegaard.MobHunting.compatibility.BossShopHelper;
-import one.lindegaard.MobHunting.rewards.CustomItems;
-import one.lindegaard.MobHunting.rewards.Reward;
+import one.lindegaard.Core.rewards.CustomItems;
+import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
@@ -115,7 +115,7 @@ public class MoneyCommand implements ICommand {
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
 
-		CustomItems customItems = new CustomItems(plugin);
+		CustomItems customItems = new CustomItems();
 
 		if (args.length == 1) {
 			// /mh money help

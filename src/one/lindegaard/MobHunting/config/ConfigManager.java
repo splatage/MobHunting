@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import one.lindegaard.Core.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.MobHunting;
+import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -75,7 +77,9 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.killer_rabbit", "### Killer Rabbit settings ###");
 		setCategoryComment("mobs.magma_cube", "### Magma Cube settings ###");
 		setCategoryComment("mobs.phantom", "### Phantom settings ###");
+		setCategoryComment("mobs.pillager", "### Pillager settings ###");
 		setCategoryComment("mobs.polar_bear", "### Polar Bear settings ###");
+		setCategoryComment("mobs.ravager", "### Ravager settings ###");
 		setCategoryComment("mobs.slime", "### Slime settings ###");
 		setCategoryComment("mobs.shulker", "### Shulker settings ###");
 		setCategoryComment("mobs.silverfish", "### Silverfish settings ###");
@@ -126,15 +130,18 @@ public class ConfigManager extends AutoConfig {
 						+ "\nIf you make the number negative, the reward will be a fine for killing a passive animal.");
 
 		setCategoryComment("passive.bat", "### Bat settings ###");
+		setCategoryComment("passive.cat", "### Cat settings ###");
 		setCategoryComment("passive.chicken", "### Chicken settings ###");
 		setCategoryComment("passive.cow", "### Cow settings ###");
 		setCategoryComment("passive.dolphin", "### Dolphin settings ###");
 		setCategoryComment("passive.donkey", "### Donkey settings ###");
+		setCategoryComment("passive.fox", "### Fox settings ###");
 		setCategoryComment("passive.horse", "### Horse settings ###");
 		setCategoryComment("passive.llama", "### Llama settings ###");
 		setCategoryComment("passive.mule", "### Mule settings ###");
 		setCategoryComment("passive.mushroom_cow", "### Mushroom Cow settings ###");
 		setCategoryComment("passive.ocelot", "### Ocelot settings ###");
+		setCategoryComment("passive.panda", "### Panda settings ###");
 		setCategoryComment("passive.parrot", "### Parrot settings ###");
 		setCategoryComment("passive.pig", "### Pig settings ###");
 		setCategoryComment("passive.rabbit", "### Rabbit settings ###");
@@ -219,29 +226,26 @@ public class ConfigManager extends AutoConfig {
 						+ "\n########################################################################"
 						+ "\nHere you can chance the behavior of the grinding detection.");
 
-		setCategoryComment("grinding.area",
-				"Area grinding detection."
-						+ "\nEnabling this prevents a player from earning too much money from using a mob grinder."
-						+ "\nSet 'enable_grinding_detection: false' to disable the grinding detection."
-						+ "\nOBS: You can whitelist an area to allow grinding using '/mobhunt whitelistarea <add|remove>'"
-						+ "\nif the area is detected as a grinding area. See also '/mobhunt checkgrinding'"
-						+ "\nFor each kill MobHunting check the number of kills within the range"
-						+ "\nIf number of kills exceeds 10, the reward will decrese with 10% until the 'number of deaths'"
-						+ "\nis reached, whereafter the reward will be zero.");
+		setCategoryComment("grinding.area", "Area grinding detection."
+				+ "\nEnabling this prevents a player from earning too much money from using a mob grinder."
+				+ "\nSet 'enable_grinding_detection: false' to disable the grinding detection."
+				+ "\nOBS: You can whitelist an area to allow grinding using '/mobhunt whitelistarea <add|remove>'"
+				+ "\nif the area is detected as a grinding area. See also '/mobhunt checkgrinding'"
+				+ "\nFor each kill MobHunting check the number of kills within the range"
+				+ "\nIf number of kills exceeds 10, the reward will decrese with 10% until the 'number of deaths'"
+				+ "\nis reached, whereafter the reward will be zero.");
 
-		setCategoryComment("grinding.farms",
-				"Detect Grinding Farms."
-						+ "\nWhen this is true, the plugin will try to detect if the players has build a Mob Grinding Farm."
-						+ "\nFarm detection can be completly disabled or you can whitelist an area using the whitelist"
-						+ "\ncommand if you want the players to harvest mobs from a farm.");
+		setCategoryComment("grinding.farms", "Detect Grinding Farms."
+				+ "\nWhen this is true, the plugin will try to detect if the players has build a Mob Grinding Farm."
+				+ "\nFarm detection can be completly disabled or you can whitelist an area using the whitelist"
+				+ "\ncommand if you want the players to harvest mobs from a farm.");
 
-		setCategoryComment("grinding.nether_gold_farms",
-				"Nether Gold Farm detection."
-						+ "\nWhen this is true, the plugin will try to detect if the players has build a Nether Gold Farm."
-						+ "\nThere is no guarantie that the plugin can detect all types of Nether Gold farms, but it has"
-						+ "\nbeen testet on this one: https://www.youtube.com/watch?v=jQWG9Q7HoUA"
-						+ "\nWhen searching for grinding the plugin measures how many mobs dies per timeframe within a range."
-						+ "\nBe careful if you chance this number there is a risk for false positives.");
+		setCategoryComment("grinding.nether_gold_farms", "Nether Gold Farm detection."
+				+ "\nWhen this is true, the plugin will try to detect if the players has build a Nether Gold Farm."
+				+ "\nThere is no guarantie that the plugin can detect all types of Nether Gold farms, but it has"
+				+ "\nbeen testet on this one: https://www.youtube.com/watch?v=jQWG9Q7HoUA"
+				+ "\nWhen searching for grinding the plugin measures how many mobs dies per timeframe within a range."
+				+ "\nBe careful if you chance this number there is a risk for false positives.");
 
 		setCategoryComment("grinding.otherfarms",
 				"Other Farm detection."
@@ -419,8 +423,9 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("plugins.mypet", "########################################################################"
 				+ "\nMyPet" + "\n########################################################################");
 
-		setCategoryComment("plugins.mcmmohorses", "########################################################################"
-				+ "\nMcMMOHorses" + "\n########################################################################");
+		setCategoryComment("plugins.mcmmohorses",
+				"########################################################################" + "\nMcMMOHorses"
+						+ "\n########################################################################");
 
 		setCategoryComment("plugins.minigames",
 				"########################################################################" + "\nMinigames"
@@ -1023,6 +1028,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "phantom.head.message", category = "mobs")
 	public String phantomHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Pillager============================================
+	@ConfigField(name = "pillager.enabled", category = "mobs")
+	public boolean pillagerEnabled = true;
+	@ConfigField(name = "pillager.message", category = "mobs")
+	public String pillagerMessage = "You killed a §1{killed}";
+	@ConfigField(name = "pillager.money.amount", category = "mobs")
+	public String pillagerMoney = "20:40";
+	@ConfigField(name = "pillager.money.chance", category = "mobs")
+	public double pillagerMoneyChance = 1;
+	@ConfigField(name = "pillager.commands", category = "mobs")
+	public List<HashMap<String, String>> pillagerCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.33");
+		pillagerCommands.add(values1);
+	}
+	@ConfigField(name = "pillager.head.drophead", category = "mobs")
+	public boolean pillagerHeadDropHead = true;
+	@ConfigField(name = "pillager.head.value", category = "mobs")
+	public String pillagerHeadPrize = "0";
+	@ConfigField(name = "pillager.head.chance", category = "mobs")
+	public double pillagerHeadDropChance = 0.33;
+	@ConfigField(name = "pillager.head.message", category = "mobs")
+	public String pillagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Polar Bear============================================
 	@ConfigField(name = "polar_bear.enabled", category = "mobs")
 	public boolean polarBearEnabled = true;
@@ -1049,6 +1080,32 @@ public class ConfigManager extends AutoConfig {
 	public double polarBearHeadDropChance = 0.25;
 	@ConfigField(name = "polar_bear.head.message", category = "mobs")
 	public String polarBearHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Ravager============================================
+	@ConfigField(name = "ravager.enabled", category = "mobs")
+	public boolean ravagerEnabled = true;
+	@ConfigField(name = "ravager.message", category = "mobs")
+	public String ravagerMessage = "You killed a §1{killed}";
+	@ConfigField(name = "ravager.money.amount", category = "mobs")
+	public String ravagerMoney = "25";
+	@ConfigField(name = "ravager.money.chance", category = "mobs")
+	public double ravagerMoneyChance = 1;
+	@ConfigField(name = "ravager.commands", category = "mobs")
+	public List<HashMap<String, String>> ravagerCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.05");
+		ravagerCommands.add(values1);
+	}
+	@ConfigField(name = "ravager.head.drophead", category = "mobs")
+	public boolean ravagerHeadDropHead = true;
+	@ConfigField(name = "ravager.head.value", category = "mobs")
+	public String ravagerHeadPrize = "0";
+	@ConfigField(name = "ravager.head.chance", category = "mobs")
+	public double ravagerHeadDropChance = 0.05;
+	@ConfigField(name = "ravager.head.message", category = "mobs")
+	public String ravagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Slime============================================
 	@ConfigField(name = "slime.enabled", category = "mobs")
@@ -1758,6 +1815,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "bat.head.message", category = "passive")
 	public String batHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Cat============================================
+	@ConfigField(name = "cat.enabled", category = "passive")
+	public boolean catEnabled = true;
+	@ConfigField(name = "cat.message", category = "passive")
+	public String catMessage = "You killed a §1{killed}";
+	@ConfigField(name = "cat.money.amount", category = "passive")
+	public String catMoney = "0";
+	@ConfigField(name = "cat.money.chance", category = "passive")
+	public double catMoneyChance = 0.05;
+	@ConfigField(name = "cat.commands", category = "passive")
+	public List<HashMap<String, String>> catCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.05");
+		catCommands.add(values1);
+	}
+	@ConfigField(name = "cat.head.drophead", category = "passive")
+	public boolean catHeadDropHead = true;
+	@ConfigField(name = "cat.head.value", category = "passive")
+	public String catHeadPrize = "0";
+	@ConfigField(name = "cat.head.chance", category = "passive")
+	public double catHeadDropChance = 0.05;
+	@ConfigField(name = "cat.head.message", category = "passive")
+	public String catHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Chicken============================================
 	@ConfigField(name = "chicken.enabled", category = "passive")
 	public boolean chickenEnabled = true;
@@ -1836,6 +1919,32 @@ public class ConfigManager extends AutoConfig {
 	public double donkeyHeadDropChance = 0.05;
 	@ConfigField(name = "donkey.head.message", category = "passive")
 	public String donkeyHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Fox============================================
+	@ConfigField(name = "fox.enabled", category = "passive")
+	public boolean foxEnabled = true;
+	@ConfigField(name = "fox.message", category = "passive")
+	public String foxMessage = "You killed a §1{killed}";
+	@ConfigField(name = "fox.money.amount", category = "passive")
+	public String foxMoney = "0";
+	@ConfigField(name = "fox.money.chance", category = "passive")
+	public double foxMoneyChance = 0.05;
+	@ConfigField(name = "fox.commands", category = "passive")
+	public List<HashMap<String, String>> foxCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.1");
+		foxCommands.add(values1);
+	}
+	@ConfigField(name = "fox.drophead", category = "passive")
+	public boolean foxHeadDropHead = true;
+	@ConfigField(name = "fox.head.value", category = "passive")
+	public String foxHeadPrize = "0";
+	@ConfigField(name = "fox.head.chance", category = "passive")
+	public double foxHeadDropChance = 0.05;
+	@ConfigField(name = "fox.head.message", category = "passive")
+	public String foxHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Horse============================================
 	@ConfigField(name = "horse.enabled", category = "passive")
@@ -1966,6 +2075,32 @@ public class ConfigManager extends AutoConfig {
 	public double ocelotHeadDropChance = 0.05;
 	@ConfigField(name = "ocelot.head.message", category = "passive")
 	public String ocelotHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Panda============================================
+	@ConfigField(name = "panda.enabled", category = "passive")
+	public boolean pandaEnabled = true;
+	@ConfigField(name = "panda.message", category = "passive")
+	public String pandaMessage = "You killed a §1{killed}";
+	@ConfigField(name = "panda.money.amount", category = "passive")
+	public String pandaMoney = "2";
+	@ConfigField(name = "panda.money.chance", category = "passive")
+	public double pandaMoneyChance = 1;
+	@ConfigField(name = "panda.commands", category = "passive")
+	public List<HashMap<String, String>> pandaCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.1");
+		pandaCommands.add(values1);
+	}
+	@ConfigField(name = "panda.head.drophead", category = "passive")
+	public boolean pandaHeadDropHead = true;
+	@ConfigField(name = "panda.head.value", category = "passive")
+	public String pandaHeadPrize = "0";
+	@ConfigField(name = "panda.head.chance", category = "passive")
+	public double pandaHeadDropChance = 0.10;
+	@ConfigField(name = "panda.head.message", category = "passive")
+	public String pandaHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Parrot============================================
 	@ConfigField(name = "parrot.enabled", category = "passive")
@@ -2522,6 +2657,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "bat_level1", category = "achievements.hunter.mob_level")
 	public int batLevel1 = 100;
 
+	@ConfigField(name = "cat_level1", category = "achievements.hunter.mob_level")
+	public int catLevel1 = 100;
+
 	@ConfigField(name = "blaze_level1", category = "achievements.hunter.mob_level")
 	public int blazeLevel1 = 80;
 
@@ -2581,6 +2719,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "fish_level1", category = "achievements.hunter.mob_level")
 	public int fishLevel1 = 100;
 
+	@ConfigField(name = "fox_level1", category = "achievements.hunter.mob_level")
+	public int foxLevel1 = 100;
+
 	@ConfigField(name = "ghast_level1", category = "achievements.hunter.mob_level")
 	public int ghastLevel1 = 80;
 
@@ -2626,11 +2767,17 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "ocelot_level1", category = "achievements.hunter.mob_level")
 	public int ocelotLevel1 = 100;
 
+	@ConfigField(name = "panda_level1", category = "achievements.hunter.mob_level")
+	public int pandaLevel1 = 100;
+
 	@ConfigField(name = "parrot_level1", category = "achievements.hunter.mob_level")
 	public int parrotLevel1 = 100;
 
 	@ConfigField(name = "phantom_level1", category = "achievements.hunter.mob_level")
 	public int phantomLevel1 = 100;
+
+	@ConfigField(name = "pillager_level1", category = "achievements.hunter.mob_level")
+	public int pillagerLevel1 = 100;
 
 	@ConfigField(name = "pig_level1", category = "achievements.hunter.mob_level")
 	public int pigLevel1 = 100;
@@ -2649,6 +2796,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "rabbit_level1", category = "achievements.hunter.mob_level")
 	public int rabbitLevel1 = 100;
+
+	@ConfigField(name = "ravager_level1", category = "achievements.hunter.mob_level")
+	public int ravagerLevel1 = 100;
 
 	@ConfigField(name = "rawfish_level1", category = "achievements.hunter.mob_level")
 	public int rawfishLevel1 = 100;
@@ -2885,7 +3035,7 @@ public class ConfigManager extends AutoConfig {
 	}
 
 	// #####################################################################################
-	// Multiplier pr World 
+	// Multiplier pr World
 	// #####################################################################################
 	@ConfigField(name = "world_multiplier", category = "multiplier.world", comment = "This is the reward multiplier for the different Worlds")
 	public HashMap<String, String> worldMultiplier = new HashMap<String, String>();
@@ -3097,6 +3247,11 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.bat")
 	public double batMcMMOSkillRewardChance = 0.025;
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.cat")
+	public String catMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.cat")
+	public double catMcMMOSkillRewardChance = 0.025;
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.blacksmith")
 	public String blacksmithMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.blacksmith")
@@ -3217,6 +3372,12 @@ public class ConfigManager extends AutoConfig {
 	public double fishMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.fox")
+	public String foxMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.fox")
+	public double foxMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.ghast")
 	public String ghastMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.ghast")
@@ -3314,6 +3475,12 @@ public class ConfigManager extends AutoConfig {
 	public double parrotMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.panda")
+	public String pandaMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.panda")
+	public double pandaMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.phantom")
 	public String phantomMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.phantom")
@@ -3330,6 +3497,12 @@ public class ConfigManager extends AutoConfig {
 	public String polarBearMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.polar_bear")
 	public double polarBearMcMMOSkillRewardChance = 0.05;
+	// Hostile mob, normal
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.pillager")
+	public String pillagerMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.pillager")
+	public double pillagerMcMMOSkillRewardChance = 0.05;
 	// Hostile mob, normal
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.priest")
@@ -3354,6 +3527,12 @@ public class ConfigManager extends AutoConfig {
 	public String rabbitMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.rabbit")
 	public double rabbitMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.ravager")
+	public String ravagerMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.ravager")
+	public double ravagerMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.raw_fish")
@@ -3537,7 +3716,7 @@ public class ConfigManager extends AutoConfig {
 	public boolean enableIntegrationMyPet = true;
 
 	@ConfigField(name = "mcmmohorses.enable_integration_mcmmohorses", category = "plugins", comment = "Enable/Disable integration with McMMOHorses."
-			+"\nhttps://www.spigotmc.org/resources/mcmmohorses.46301/")
+			+ "\nhttps://www.spigotmc.org/resources/mcmmohorses.46301/")
 	public boolean enableIntegrationMcMMOHorses = true;
 
 	@ConfigField(name = "minigames.enable_integration_minigames", category = "plugins", comment = "Enable/Disable integration with MiniGames")
@@ -3641,7 +3820,7 @@ public class ConfigManager extends AutoConfig {
 	public boolean enableIntegrationPreciousStones = true;
 
 	// #####################################################################################
-	// DropMoneyOnGround settings - for servers without the BagOfGold plugin 
+	// DropMoneyOnGround settings - for servers without the BagOfGold plugin
 	// #####################################################################################
 	@ConfigField(name = "drop_money_on_ground", category = "dropmoneyonground", comment = "When a player get a money reward for a kill, the money will go directly"
 			+ "\ninto his pocket. If you set dropMoneyOnGround=true the reward will "
@@ -3677,8 +3856,7 @@ public class ConfigManager extends AutoConfig {
 			+ "\n\nChoose between \"ITEM\",\"KILLED\",\"SKULL\",\"KILLER\"")
 	public String dropMoneyOnGroundItemtype = "SKULL";
 
-	@ConfigField(name = "drop_money_use_item_as_currency", category = "dropmoneyonground", 
-			comment = "Use the reward as a currency (bag of gold) which can be sold, bought, stored in a"
+	@ConfigField(name = "drop_money_use_item_as_currency", category = "dropmoneyonground", comment = "Use the reward as a currency (bag of gold) which can be sold, bought, stored in a"
 			+ "\nprotected chest or a protected area (a Bank?). Check the command /mh money sell."
 			+ "\nSet this to FALSE if you want the BafOfGold to be picked up as money, if true the BagOfGold"
 			+ "\nwill be picked up as an item. OBS: If you want to use the bags as an Economy "
@@ -4679,7 +4857,8 @@ public class ConfigManager extends AutoConfig {
 
 		this.dropMoneyOnGroup = mConfig0.dropMoneyOnGroup;
 		this.dropMoneyOnGroundItemtype = mConfig0.dropMoneyOnGroundItemtype;
-		//this.dropMoneyOnGroundUseAsCurrency = mConfig0.dropMoneyOnGroundUseAsCurrency;
+		// this.dropMoneyOnGroundUseAsCurrency =
+		// mConfig0.dropMoneyOnGroundUseAsCurrency;
 		this.dropMoneyOnGroundMoneyCommandAlias = mConfig0.dropMoneyOnGroundMoneyCommandAlias;
 		this.dropMoneyOnGroundItem = mConfig0.dropMoneyOnGroundItem;
 		this.dropMoneyOnGroundTextColor = mConfig0.dropMoneyOnGroundTextColor;
@@ -4791,4 +4970,355 @@ public class ConfigManager extends AutoConfig {
 			file.delete();
 		return res;
 	}
+	
+	public int getProgressAchievementLevel1(MinecraftMob mob) {
+		switch (mob) {
+		case Bat:
+			return batLevel1;
+		case BonusMob:
+			return bonusMobLevel1;
+		case Blacksmith:
+			return blacksmithLevel1;
+		case Blaze:
+			return blazeLevel1;
+		case Butcher:
+			return butcherLevel1;
+		case TropicalFish:
+			return clownfishLevel1;
+		case CaveSpider:
+			return caveSpiderLevel1;
+		case Chicken:
+			return chickenLevel1;
+		case Cow:
+			return cowLevel1;
+		case Creeper:
+			return creeperLevel1;
+		case Donkey:
+			return donkeyLevel1;
+		case ElderGuardian:
+			return elderGuardianLevel1;
+		case EnderDragon:
+			return enderdragonLevel1;
+		case Enderman:
+			return endermanLevel1;
+		case Endermite:
+			return endermiteLevel1;
+		case Evoker:
+			return evokerLevel1;
+		case Farmer:
+			return farmerLevel1;
+		case Ghast:
+			return ghastLevel1;
+		case Giant:
+			return giantLevel1;
+		case Guardian:
+			return guardianLevel1;
+		case Horse:
+			return horseLevel1;
+		case Husk:
+			return huskLevel1;
+		case Illusioner:
+			return illusionerLevel1;
+		case IronGolem:
+			return ironGolemLevel1;
+		case KillerRabbit:
+			return killerRabbitLevel1;
+		case Librarian:
+			return librarianLevel1;
+		case Llama:
+			return llamaLevel1;
+		case Mule:
+			return muleLevel1;
+		case MagmaCube:
+			return magmaCubeLevel1;
+		case MushroomCow:
+			return mushroomCowLevel1;
+		case Nitwit:
+			return nitwitLevel1;
+		case Ocelot:
+			return ocelotLevel1;
+		case Parrot:
+			return parrotLevel1;
+		case PassiveRabbit:
+			return rabbitLevel1;
+		case Pig:
+			return pigLevel1;
+		case PolarBear:
+			return polarBearLevel1;
+		case Priest:
+			return priestLevel1;
+		case Pufferfish:
+			return pufferfishLevel1;
+		case PvpPlayer:
+			return pvpPlayerLevel1;
+		case Cod:
+			return rawfishLevel1;
+		case Salmon:
+			return rawsalmonLevel1;
+		case Sheep:
+			return sheepLevel1;
+		case Shulker:
+			return shulkerLevel1;
+		case Silverfish:
+			return silverfishLevel1;
+		case Skeleton:
+			return skeletonLevel1;
+		case SkeletonHorse:
+			return skeletonHorseLevel1;
+		case Slime:
+			return slimeLevel1;
+		case Snowman:
+			return snowmanLevel1;
+		case Spider:
+			return spiderLevel1;
+		case Squid:
+			return squidLevel1;
+		case Stray:
+			return strayLevel1;
+		case Vex:
+			return vexLevel1;
+		case Villager:
+			return villagerLevel1;
+		case Vindicator:
+			return vindicatorLevel1;
+		case Witch:
+			return witchLevel1;
+		case Wither:
+			return witherLevel1;
+		case WitherSkeleton:
+			return witherSkeletonLevel1;
+		case Wolf:
+			return wolfLevel1;
+		case Zombie:
+			return zombieLevel1;
+		case ZombieHorse:
+			return zombieHorseLevel1;
+		case ZombiePigman:
+			return zombiePigmanLevel1;
+		case ZombieVillager:
+			return zombieVillagerLevel1;
+		case Dolphin:
+			return dolphinLevel1;
+		case Drowned:
+			return drownedLevel1;
+		case Phantom:
+			return phantomLevel1;
+		case Turtle:
+			return turtleLevel1;
+		case Cat:
+			return catLevel1;
+		case Fox:
+			return foxLevel1;
+		case Panda:
+			return pandaLevel1;
+		case Pillager:
+			return pillagerLevel1;
+		case Ravager:
+			return ravagerLevel1;
+		}
+		return 100;
+	}
+
+	/**
+	 * Return the reward money for a given mob
+	 * 
+	 * @return value
+	 */
+	public double getHeadPrize(MinecraftMob mob) {
+		switch (mob) {
+		case Bat:
+			return getPrice(mob,batHeadPrize);
+		case Blacksmith:
+			return getPrice(mob,blacksmithHeadPrize);
+		case Blaze:
+			return getPrice(mob,blazeHeadPrize);
+		case BonusMob:
+			return getPrice(mob,bonusMobHeadPrize);
+		case Butcher:
+			return getPrice(mob,butcherHeadPrize);
+		// case Cartographer:
+		// return
+		// getPrice(mob,cartographerHeadPrize);
+		case CaveSpider:
+			return getPrice(mob,caveSpiderHeadPrize);
+		case Chicken:
+			return getPrice(mob,chickenHeadPrize);
+		case TropicalFish:
+			return getPrice(mob,tropicalFishHeadPrize);
+		case Cow:
+			return getPrice(mob,cowHeadPrize);
+		case Creeper:
+			return getPrice(mob,creeperHeadPrize);
+		case Donkey:
+			return getPrice(mob,donkeyHeadPrize);
+		case ElderGuardian:
+			return getPrice(mob,elderGuardianHeadPrize);
+		case EnderDragon:
+			return getPrice(mob,enderDragonHeadPrize);
+		case Enderman:
+			return getPrice(mob,endermanHeadPrize);
+		case Endermite:
+			return getPrice(mob,endermiteHeadPrize);
+		case Evoker:
+			return getPrice(mob,evokerHeadPrize);
+		case Farmer:
+			return getPrice(mob,farmerHeadPrize);
+		case Ghast:
+			return getPrice(mob,ghastHeadPrize);
+		case Giant:
+			return getPrice(mob,giantHeadPrize);
+		case Guardian:
+			return getPrice(mob,guardianHeadPrize);
+		case Horse:
+			return getPrice(mob,horseHeadPrize);
+		case Husk:
+			return getPrice(mob,huskHeadPrize);
+		case Illusioner:
+			return getPrice(mob,illusionerHeadPrize);
+		case IronGolem:
+			return getPrice(mob,ironGolemHeadPrize);
+		case KillerRabbit:
+			return getPrice(mob,killerRabbitHeadPrize);
+		case Librarian:
+			return getPrice(mob,librarianHeadPrize);
+		case Llama:
+			return getPrice(mob,llamaHeadPrize);
+		case MagmaCube:
+			return getPrice(mob,magmaCubeHeadPrize);
+		case Mule:
+			return getPrice(mob,muleHeadPrize);
+		case MushroomCow:
+			return getPrice(mob,mushroomCowHeadPrize);
+		case Nitwit:
+			return getPrice(mob,nitwitHeadPrize);
+		case Ocelot:
+			return getPrice(mob,ocelotHeadPrize);
+		case Parrot:
+			return getPrice(mob,parrotHeadPrize);
+		case PassiveRabbit:
+			return getPrice(mob,rabbitHeadPrize);
+		case Pig:
+			return getPrice(mob,pigHeadPrize);
+		case PolarBear:
+			return getPrice(mob,polarBearHeadPrize);
+		case Priest:
+			return getPrice(mob,priestHeadPrize);
+		case Pufferfish:
+			return getPrice(mob,pufferfishHeadPrize);
+		case PvpPlayer:
+			return getPrice(mob,pvpHeadPrize);
+		case Cod:
+			return getPrice(mob,codHeadPrize);
+		case Salmon:
+			return getPrice(mob,salmonHeadPrize);
+		case Sheep:
+			return getPrice(mob,sheepHeadPrize);
+		case Shulker:
+			return getPrice(mob,shulkerHeadPrize);
+		case Silverfish:
+			return getPrice(mob,silverfishHeadPrize);
+		case Skeleton:
+			return getPrice(mob,skeletonHeadPrize);
+		case SkeletonHorse:
+			return getPrice(mob,skeletonHorseHeadPrize);
+		case Slime:
+			return getPrice(mob,slimeHeadPrize);
+		case Snowman:
+			return getPrice(mob,snowmanHeadPrize);
+		case Spider:
+			return getPrice(mob,spiderHeadPrize);
+		case Squid:
+			return getPrice(mob,squidHeadPrize);
+		case Stray:
+			return getPrice(mob,strayHeadPrize);
+		case Vex:
+			return getPrice(mob,vexHeadPrize);
+		case Villager:
+			return getPrice(mob,villagerHeadPrize);
+		case Vindicator:
+			return getPrice(mob,vindicatorHeadPrize);
+		case Witch:
+			return getPrice(mob,witchHeadPrize);
+		case Wither:
+			return getPrice(mob,witherHeadPrize);
+		case WitherSkeleton:
+			return getPrice(mob,witherSkeletonHeadPrize);
+		case Wolf:
+			return getPrice(mob,wolfHeadPrize);
+		case Zombie:
+			return getPrice(mob,zombieHeadPrize);
+		case ZombieHorse:
+			return getPrice(mob,zombieHorseHeadPrize);
+		case ZombiePigman:
+			return getPrice(mob,zombiePigmanHeadPrize);
+		case ZombieVillager:
+			return getPrice(mob,zombieVillagerHeadPrize);
+		case Dolphin:
+			return getPrice(mob,dolphinHeadPrize);
+		case Drowned:
+			return getPrice(mob,drownedHeadPrize);
+		case Phantom:
+			return getPrice(mob,phantomHeadPrize);
+		case Turtle:
+			return getPrice(mob,turtleHeadPrize);
+		case Cat:
+			return getPrice(mob,catHeadPrize);
+		case Fox:
+			return getPrice(mob,foxHeadPrize);
+		case Panda:
+			return getPrice(mob,pandaHeadPrize);
+		case Pillager:
+			return getPrice(mob,pillagerHeadPrize);
+		case Ravager:
+			return getPrice(mob,ravagerHeadPrize);
+		}
+		return 0;
+	}
+
+	private double getPrice(MinecraftMob mob, String str) {
+		if (str == null || str.equals("") || str.isEmpty()) {
+			Bukkit.getServer().getConsoleSender()
+					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
+							+ getFriendlyName(mob)
+							+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
+			return 0;
+		} else if (str.startsWith(":")) {
+			Bukkit.getServer().getConsoleSender()
+					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
+							+ getFriendlyName(mob)
+							+ " in config.yml has a wrong format. The prize can't start with \":\"");
+			if (str.length() > 1)
+				return getPrice(mob,str.substring(1, str.length()));
+			else
+				return 0;
+		} else if (str.contains(":")) {
+			String[] str1 = str.split(":");
+			double prize = (MobHunting.getInstance().mRand.nextDouble()
+					* (Double.valueOf(str1[1]) - Double.valueOf(str1[0])) + Double.valueOf(str1[0]));
+			return Misc.round(prize);
+		} else
+			return Double.valueOf(str);
+	}
+
+	public String getFriendlyName(MinecraftMob mob) {
+		return MobHunting.getInstance().getMessages().getString("mobs." + mob.name() + ".name");
+	}
+
+	/**
+	 * getCommandString. Only used for Minecraft 1.7
+	 * 
+	 * @return the command string which can be run in the console to give the player
+	 *         a head
+	 */
+	public String getCommandString(MinecraftMob mob) {
+		switch (mob) {
+		case PvpPlayer:
+		case Blaze:
+		case Slime:
+			return "minecraft:give {player} skull {amount} 3 {SkullOwner:\"{playername}\",display:{Name:\"{displayname}\",Lore:[{lore}]}}";
+		default:
+			return "minecraft:give {player} skull {amount} 3 {SkullOwner:{Id:\"{playerid}\",Properties:{textures:[{Value:\"{texturevalue}\"}]}},display:{Name:\"{displayname}\",Lore:[{lore}]}}";
+		}
+	}
+	
 }

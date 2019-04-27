@@ -17,9 +17,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
-import one.lindegaard.MobHunting.rewards.CustomItems;
-import one.lindegaard.MobHunting.rewards.Reward;
+import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.Core.rewards.CustomItems;
+import one.lindegaard.Core.rewards.Reward;
 
 public class HeadCommand implements ICommand, Listener {
 
@@ -93,7 +93,7 @@ public class HeadCommand implements ICommand, Listener {
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
 		// /mh head give [toPlayername] [mobname|playername] [displayname]
 		// [amount] [silent]
-		CustomItems customItems = new CustomItems(plugin);
+		CustomItems customItems = new CustomItems();
 		if (args.length >= 2 && (args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("spawn"))) {
 			if (args.length >= 3) {
 				OfflinePlayer offlinePlayer = null, toPlayer = null;
@@ -149,9 +149,9 @@ public class HeadCommand implements ICommand, Listener {
 				// Use GameProfile
 				ItemStack head;
 				if (mob == MinecraftMob.PvpPlayer)
-					head = customItems.getPlayerHead(offlinePlayer.getUniqueId(), amount, mob.getHeadPrize());
+					head = customItems.getPlayerHead(offlinePlayer.getUniqueId(), amount, plugin.getConfigManager().getHeadPrize(mob));
 				else
-					head = customItems.getCustomHead(mob, displayName, amount, mob.getHeadPrize(), mob.getPlayerUUID());
+					head = customItems.getCustomHead(mob, displayName, amount, plugin.getConfigManager().getHeadPrize(mob), mob.getPlayerUUID());
 				((Player) toPlayer).getWorld().dropItem(((Player) toPlayer).getLocation(), head);
 
 				if (toPlayer.isOnline() && !silent)
@@ -259,7 +259,7 @@ public class HeadCommand implements ICommand, Listener {
 					mob = MinecraftMob.PvpPlayer;
 
 				if (mob != null) {
-					double money = mob.getHeadPrize();
+					double money = plugin.getConfigManager().getHeadPrize(mob);
 					//double money = 0;
 					if (args.length == 2) {
 						Player player = (Player) sender;
