@@ -18,14 +18,14 @@ import one.lindegaard.MobHunting.MobHunting;
  * @author Rocologo
  *
  */
-public class WorldGroup {
+public class WorldGroup_slettes {
 
 	private MobHunting plugin;
 	private File file;
 	private YamlConfiguration config = new YamlConfiguration();
 	private HashMap<String, List<String>> worldGroups = new HashMap<String, List<String>>();
 
-	public WorldGroup(MobHunting plugin) {
+	public WorldGroup_slettes(MobHunting plugin) {
 		this.plugin=plugin;
 		 file = new File(plugin.getDataFolder(), "worldGroups.yml");
 		if (worldGroups.isEmpty()) {

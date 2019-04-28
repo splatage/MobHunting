@@ -4,10 +4,10 @@ import java.io.File;
 import java.util.Random;
 
 import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.WorldGroupManager;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
-import one.lindegaard.MobHunting.bounty.WorldGroup;
 import one.lindegaard.MobHunting.commands.BountyCommand;
 import one.lindegaard.MobHunting.commands.CheckGrindingCommand;
 import one.lindegaard.MobHunting.commands.ClearGrindingCommand;
@@ -75,7 +75,7 @@ public class MobHunting extends JavaPlugin {
 	private ParticleManager mParticleManager = new ParticleManager();
 	private MetricsManager mMetricsManager;
 	private PlayerSettingsManager mPlayerSettingsManager;
-	private WorldGroup mWorldGroupManager;
+	private WorldGroupManager mWorldGroupManager;
 	private ExtendedMobManager mExtendedMobManager;
 	private IDataStore mStore;
 	private DataStoreManager mStoreManager;
@@ -166,7 +166,7 @@ public class MobHunting extends JavaPlugin {
 			}
 		}
 
-		mWorldGroupManager = new WorldGroup(this);
+		mWorldGroupManager = new WorldGroupManager(this);
 		mWorldGroupManager.load();
 
 		mCompatibilityManager = new CompatibilityManager(this);
@@ -510,7 +510,7 @@ public class MobHunting extends JavaPlugin {
 	 * 
 	 * @return
 	 */
-	public WorldGroup getWorldGroupManager() {
+	public WorldGroupManager getWorldGroupManager() {
 		return mWorldGroupManager;
 	}
 

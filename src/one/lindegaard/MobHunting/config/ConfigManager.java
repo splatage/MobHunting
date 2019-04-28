@@ -4035,7 +4035,6 @@ public class ConfigManager extends AutoConfig {
 	// Convert config data from old format to new format.
 	// #####################################################################################
 	public boolean convertConfig(ConfigManagerOld mConfig0) {
-		plugin.getMessages().debug("blazePrize=%s old=%s", this.blazeMoney, mConfig0.blazePrize);
 		this.blazeMoney = mConfig0.blazePrize;
 		this.blazeCommands = convertCommands(mConfig0.blazeCmd, mConfig0.blazeCmdRunChance);
 		this.blazeHeadDropHead = convertDropHeadEnabled(mConfig0.blazeCmd);

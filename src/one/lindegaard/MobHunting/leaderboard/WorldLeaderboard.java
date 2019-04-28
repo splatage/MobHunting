@@ -192,7 +192,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 		Block signBlock = mLocation.getBlock();
 		if (isLoaded(signBlock)) {
 			
-			signBlock.setType(Material.LEGACY_SIGN);
+			signBlock.setType(Material.LEGACY_WALL_SIGN);
 			BlockState state = signBlock.getState();
 			Sign wallSign = (Sign) state.getData();
 			wallSign.setFacingDirection(mFacing);

@@ -69,7 +69,7 @@ public class MetricsManager {
 	}
 
 	public void start() {
-		Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
+		Bukkit.getScheduler().runTaskTimer(plugin, new Runnable() {
 			public void run() {
 				try {
 					// make a URL to MCStats.org
