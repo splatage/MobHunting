@@ -58,9 +58,9 @@ public class LeaderboardManager implements Listener {
 		int leaderboardUpdatePeriod = plugin.getConfigManager().leaderboardUpdatePeriod;
 		if (leaderboardUpdatePeriod < 1200) {
 			leaderboardUpdatePeriod = 1200;
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD
-					+ "[MobHunting]"+ChatColor.RED+"[Warning] leaderboard-update-period: in your config.yml is too low. Please raise it to 1200 or higher. Reccommended is 6000. ");
-			plugin.getConfigManager().leaderboardUpdatePeriod=1200;
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
+					+ "[Warning] leaderboard-update-period: in your config.yml is too low. Please raise it to 1200 or higher. Reccommended is 6000. ");
+			plugin.getConfigManager().leaderboardUpdatePeriod = 1200;
 			plugin.getConfigManager().saveConfig();
 		}
 		mUpdater = Bukkit.getScheduler().runTaskTimer(MobHunting.getInstance(), new Updater(), 120L,
@@ -87,11 +87,16 @@ public class LeaderboardManager implements Listener {
 			for (WorldLeaderboard board : mLeaderboards.values())
 				board.update();
 
-			for (HologramLeaderboard board : hologramManager.getHolograms().values())
-				board.update();
+			if (hologramManager != null) {
+				for (HologramLeaderboard board : hologramManager.getHolograms().values())
+					board.update();
 
-			plugin.getMessages().debug("Refreshed %s leaderboards.",
-					hologramManager.getHolograms().size() + mLegacyLeaderboards.size() + mLeaderboards.size());
+				plugin.getMessages().debug("Refreshed %s leaderboards.",
+						hologramManager.getHolograms().size() + mLegacyLeaderboards.size() + mLeaderboards.size());
+			} else {
+				plugin.getMessages().debug("Refreshed %s leaderboards.",
+						mLegacyLeaderboards.size() + mLeaderboards.size());
+			}
 		}
 	}
 
@@ -114,7 +119,7 @@ public class LeaderboardManager implements Listener {
 			boolean horizontal, int width, int height) throws IllegalArgumentException {
 		WorldLeaderboard board = new WorldLeaderboard(plugin, location, facing, width, height, horizontal, type,
 				period);
-		
+
 		if (!board.isSpaceAvailable())
 			throw new IllegalArgumentException("There is not enough room for the signs.");
 		board.placeSigns(facing);
@@ -141,7 +146,8 @@ public class LeaderboardManager implements Listener {
 	// *******************************************************************
 	public void deleteLegacyLeaderboard(String id) throws IllegalArgumentException {
 		if (!mLegacyNameMap.containsKey(id.toLowerCase()))
-			throw new IllegalArgumentException(plugin.getMessages().getString("leaderboard.notexists", "leaderboard", id));
+			throw new IllegalArgumentException(
+					plugin.getMessages().getString("leaderboard.notexists", "leaderboard", id));
 
 		mLegacyLeaderboards.remove(mLegacyNameMap.remove(id.toLowerCase()));
 		saveLegacyBoards();
@@ -217,8 +223,8 @@ public class LeaderboardManager implements Listener {
 		try {
 			config.load(file);
 		} catch (IOException | InvalidConfigurationException e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD
-					+ "[MobHunting]"+ChatColor.RED+"Could not read world leaderboard file: boards-" + world.getName() + ".yml");
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
+					+ "Could not read world leaderboard file: boards-" + world.getName() + ".yml");
 			if (plugin.getConfigManager().killDebug)
 				e.printStackTrace();
 		}
@@ -239,8 +245,8 @@ public class LeaderboardManager implements Listener {
 		}
 
 		if (mLeaderboards.size() > 0)
-			plugin.getMessages().debug("%s Leaderboards in '%s' loaded from file: %s!", mLeaderboards.size(), world.getName(),
-					MobHunting.getInstance().getDataFolder(), "boards-" + world.getName() + ".yml");
+			plugin.getMessages().debug("%s Leaderboards in '%s' loaded from file: %s!", mLeaderboards.size(),
+					world.getName(), MobHunting.getInstance().getDataFolder(), "boards-" + world.getName() + ".yml");
 
 	}
 
@@ -383,7 +389,7 @@ public class LeaderboardManager implements Listener {
 			}
 		}
 		plugin.getMessages().playerActionBarMessageQueue(event.getPlayer(), "The leaderboard was removed.");
-		
+
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)

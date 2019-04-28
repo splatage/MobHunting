@@ -2,7 +2,6 @@ package one.lindegaard.MobHunting;
 
 import java.io.File;
 import java.util.Random;
-import java.util.UUID;
 
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Server.Servers;
@@ -89,9 +88,7 @@ public class MobHunting extends JavaPlugin {
 
 	@Override
 	public void onLoad() {
-
 		instance = this;
-
 		mMessages = new Messages(this);
 
 		// Check what happen if WorldGuard is installed and register MobHuting
@@ -170,7 +167,6 @@ public class MobHunting extends JavaPlugin {
 		}
 
 		mWorldGroupManager = new WorldGroup(this);
-
 		mWorldGroupManager.load();
 
 		mCompatibilityManager = new CompatibilityManager(this);
@@ -364,8 +360,8 @@ public class MobHunting extends JavaPlugin {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
 					+ " version +6.0.0 is only for Minecraft 1.13! You should downgrade to 5.x");
 
-		for (int i = 0; i < 5; i++)
-		 getMessages().debug("Random uuid = %s", UUID.randomUUID());
+		//for (int i = 0; i < 5; i++)
+		// getMessages().debug("Random uuid = %s", UUID.randomUUID());
 
 		mInitialized = true;
 		

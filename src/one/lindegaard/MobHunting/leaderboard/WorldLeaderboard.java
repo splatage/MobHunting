@@ -137,7 +137,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 					break;
 				}
 
-				if (block.getType() != Material.LEGACY_SIGN || ((Sign) block.getState().getData()).getFacing() != mFacing)
+				if (block.getType() != Material.LEGACY_WALL_SIGN || ((Sign) block.getState().getData()).getFacing() != mFacing)
 					return false;
 			}
 
@@ -151,7 +151,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 
 	public void placeSigns(BlockFace face) {
 		for (Block block : getSignBlocks()) {
-			block.setType(Material.LEGACY_SIGN);
+			block.setType(Material.LEGACY_WALL_SIGN);
 			BlockState state = block.getState();
 			Sign sign = (Sign) state.getData();
 			sign.setFacingDirection(face);
@@ -198,7 +198,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 			wallSign.setFacingDirection(mFacing);
 			state.setData(wallSign);
 			state.update(true,false);
-			
+
 			placeSigns(mFacing);
 			org.bukkit.block.Sign sign = (org.bukkit.block.Sign) signBlock.getState();
 			sign.setLine(0, ChatColor.BLUE + ChatColor.BOLD.toString() + "MobHunting");
@@ -237,8 +237,8 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 				stat2 = null;
 
 			if (isLoaded(block)) {
-				if (block.getType() != Material.LEGACY_SIGN) {
-					block.setType(Material.LEGACY_SIGN);
+				if (block.getType() != Material.LEGACY_WALL_SIGN) {
+					block.setType(Material.LEGACY_WALL_SIGN);
 					BlockState state = block.getState();
 					Sign materialSign = (Sign) state.getData();
 					materialSign.setFacingDirection(mFacing);
