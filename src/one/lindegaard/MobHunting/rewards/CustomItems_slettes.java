@@ -41,11 +41,11 @@ import one.lindegaard.Core.skins.Skins_1_8_R3;
 import one.lindegaard.Core.skins.Skins_1_9_R1;
 import one.lindegaard.Core.skins.Skins_1_9_R2;
 
-public class CustomItems_old {
+public class CustomItems_slettes {
 
 	private MobHunting plugin;
 
-	public CustomItems_old(MobHunting plugin) {
+	public CustomItems_slettes(MobHunting plugin) {
 		this.plugin = plugin;
 	}
 

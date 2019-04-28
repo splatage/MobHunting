@@ -21,13 +21,13 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.material.Sign;
 import org.bukkit.util.Vector;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.storage.IDataCallback;
 import one.lindegaard.MobHunting.storage.StatStore;
 import one.lindegaard.MobHunting.storage.TimePeriod;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 
@@ -217,7 +217,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 				sign.setLine(1, statName);
 				sign.setLine(2, EMPTY_STRING);
 			}
-			sign.setLine(3, Misc.trimSignText(getPeriod().translateNameFriendly()));
+			sign.setLine(3, Tools.trimSignText(getPeriod().translateNameFriendly()));
 			sign.update(true, false);
 		}
 
@@ -259,7 +259,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 							name1 = name1.substring(0, 12).trim();
 					sign.setLine(0, ChatColor.GREEN + String.valueOf(place) + " " + ChatColor.BLACK + name1);
 					if (getStatType().getDBColumn().endsWith("_cash"))
-						sign.setLine(1, ChatColor.BLUE + plugin.getRewardManager().format(Misc.round(stat1.getCash())));
+						sign.setLine(1, ChatColor.BLUE + plugin.getRewardManager().format(Tools.round(stat1.getCash())));
 					else
 						sign.setLine(1, ChatColor.BLUE + String.valueOf(stat1.getAmount()));
 				} else {
@@ -278,7 +278,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 							name2 = name2.substring(0, 12).trim();
 					sign.setLine(2, ChatColor.GREEN + String.valueOf(place + 1) + " " + ChatColor.BLACK + name2);
 					if (getStatType().getDBColumn().endsWith("_cash"))
-						sign.setLine(3, ChatColor.BLUE + plugin.getRewardManager().format(Misc.round(stat2.getCash())));
+						sign.setLine(3, ChatColor.BLUE + plugin.getRewardManager().format(Tools.round(stat2.getCash())));
 					else
 						sign.setLine(3, ChatColor.BLUE + String.valueOf(stat2.getAmount()));
 				} else {

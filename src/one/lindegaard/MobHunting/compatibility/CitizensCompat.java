@@ -16,11 +16,11 @@ import net.citizensnpcs.api.trait.TraitInfo;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.commands.NpcCommand;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 import one.lindegaard.MobHunting.npc.MasterMobHunter;
 import one.lindegaard.MobHunting.npc.MasterMobHunterManager;
 import one.lindegaard.MobHunting.npc.MasterMobHunterSign;
 import one.lindegaard.MobHunting.npc.MasterMobHunterTrait;
-import one.lindegaard.MobHunting.rewards.RewardData;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,7 +37,7 @@ public class CitizensCompat implements Listener {
 
 	private static boolean supported = false;
 	private static CitizensPlugin citizensAPI;
-	private static HashMap<String, RewardData> mMobRewardData = new HashMap<String, RewardData>();
+	private static HashMap<String, ExtendedMobRewardData> mMobRewardData = new HashMap<String, ExtendedMobRewardData>();
 	private static MasterMobHunterManager mMasterMobHunterManager;
 	private static File fileMobRewardData = new File(MobHunting.getInstance().getDataFolder(), "citizens-rewards.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
@@ -77,7 +77,7 @@ public class CitizensCompat implements Listener {
 			for (String key : config.getKeys(false)) {
 				if (isNPC(Integer.valueOf(key))) {
 					ConfigurationSection section = config.getConfigurationSection(key);
-					RewardData rewardData = new RewardData();
+					ExtendedMobRewardData rewardData = new ExtendedMobRewardData();
 					rewardData.read(section);
 					mMobRewardData.put(key, rewardData);
 					MobHunting.getInstance().getStoreManager().insertCitizensMobs(key);
@@ -205,7 +205,7 @@ public class CitizensCompat implements Listener {
 			return false;
 	}
 
-	public static HashMap<String, RewardData> getMobRewardData() {
+	public static HashMap<String, ExtendedMobRewardData> getMobRewardData() {
 		return mMobRewardData;
 	}
 
@@ -254,7 +254,7 @@ public class CitizensCompat implements Listener {
 					MobHunting.getInstance().getMessages().debug("A new Sentinel or Sentry NPC was found. ID=%s,%s",
 							npc.getId(), npc.getName());
 					mMobRewardData.put(String.valueOf(npc.getId()),
-							new RewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true, "10", 1,
+							new ExtendedMobRewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true, "10", 1,
 									"You killed a Citizen", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 					saveCitizensData(String.valueOf(npc.getId()));
 				}
@@ -263,7 +263,7 @@ public class CitizensCompat implements Listener {
 				if (!CitizensCompat.getMasterMobHunterManager().contains(npc.getId())) {
 					MasterMobHunter masterMobHunter = new MasterMobHunter(MobHunting.getInstance(), npc);
 					CitizensCompat.getMasterMobHunterManager().put(npc.getId(), masterMobHunter);
-					RewardData rewardData = new RewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true, "0", 1,
+					ExtendedMobRewardData rewardData = new ExtendedMobRewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true, "0", 1,
 							"You killed a Citizen", new ArrayList<HashMap<String, String>>(), 1, 0.02);
 					CitizensCompat.getMobRewardData().put(String.valueOf(npc.getId()), rewardData);
 					npc.getEntity().setMetadata(CitizensCompat.MH_CITIZENS,

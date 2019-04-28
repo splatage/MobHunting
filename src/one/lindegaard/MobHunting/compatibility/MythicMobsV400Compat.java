@@ -16,7 +16,7 @@ import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobSpawnEvent;
 import io.lumine.xikage.mythicmobs.mobs.MythicMob;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.rewards.RewardData;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 
 public class MythicMobsV400Compat implements Listener {
 
@@ -61,7 +61,7 @@ public class MythicMobsV400Compat implements Listener {
 		if (!MythicMobsCompat.getMobRewardData().containsKey(mobtype)) {
 			MobHunting.getInstance().getMessages().debug("New MythicMobType found=%s (%s)", mobtype, event.getMobType().getDisplayName());
 			MythicMobsCompat.getMobRewardData().put(mobtype,
-					new RewardData(MobPlugin.MythicMobs, mobtype, event.getMobType().getDisplayName(),
+					new ExtendedMobRewardData(MobPlugin.MythicMobs, mobtype, event.getMobType().getDisplayName(),
 							true, "10",1,"You killed a MythicMob",
 							new ArrayList<HashMap<String,String>>(), 1, 0.02));
 			MythicMobsCompat.saveMythicMobsData(mobtype);

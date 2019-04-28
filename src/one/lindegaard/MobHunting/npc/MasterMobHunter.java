@@ -7,13 +7,13 @@ import java.util.List;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.storage.IDataCallback;
 import one.lindegaard.MobHunting.storage.StatStore;
 import one.lindegaard.MobHunting.storage.TimePeriod;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -199,9 +199,9 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 								}
 							}
 						}
-						s.setLine(1, (Misc.trimSignText(getRank() + "." + npc.getName())));
-						s.setLine(2, (Misc.trimSignText(getPeriod().translateNameFriendly())));
-						s.setLine(3, (Misc.trimSignText(getNumberOfKills() + " " + getStatType().translateName())));
+						s.setLine(1, (Tools.trimSignText(getRank() + "." + npc.getName())));
+						s.setLine(2, (Tools.trimSignText(getPeriod().translateNameFriendly())));
+						s.setLine(3, (Tools.trimSignText(getNumberOfKills() + " " + getStatType().translateName())));
 						s.update();
 						if (MasterMobHunterSign.isMHSign(sb)) {
 							OfflinePlayer player = Bukkit.getPlayer(npc.getName());

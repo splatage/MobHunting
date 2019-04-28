@@ -2,7 +2,7 @@ package one.lindegaard.MobHunting.util;
 
 import one.lindegaard.MobHunting.MobHunting;
 
-public class Misc {
+public class Misc_slettes {
 
 	public static String trimSignText(String string) {
 		return string.length() > 15 ? string.substring(0, 14).trim() : string;

@@ -39,7 +39,7 @@ import net.citizensnpcs.api.trait.Trait;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.rewards.RewardData;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 
 public class MasterMobHunterManager implements Listener {
 
@@ -322,7 +322,7 @@ public class MasterMobHunterManager implements Listener {
 						// npc.getName(),plugin.getMasterMobHunterManager().getAll().size());
 						MasterMobHunter masterMobHunter = new MasterMobHunter(plugin, npc);
 						CitizensCompat.getMasterMobHunterManager().put(npc.getId(), masterMobHunter);
-						RewardData rewardData = new RewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true,"0",1,"You killed a Citizen",
+						ExtendedMobRewardData rewardData = new ExtendedMobRewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true,"0",1,"You killed a Citizen",
 								new ArrayList<HashMap<String,String>>(), 1, 0.02);
 						CitizensCompat.getMobRewardData().put(String.valueOf(npc.getId()), rewardData);
 						npc.getEntity().setMetadata(CitizensCompat.MH_CITIZENS,

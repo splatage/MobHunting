@@ -18,7 +18,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.rewards.RewardData;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 import me.eccentric_nz.tardisweepingangels.TARDISWeepingAngelSpawnEvent;
 import me.eccentric_nz.tardisweepingangels.TARDISWeepingAngels;
 import me.eccentric_nz.tardisweepingangels.utils.Monster;
@@ -27,7 +27,7 @@ public class TARDISWeepingAngelsCompat implements Listener {
 
 	private static TARDISWeepingAngels mPlugin;
 	private static boolean supported = false;
-	private static HashMap<String, RewardData> mMobRewardData = new HashMap<String, RewardData>();
+	private static HashMap<String, ExtendedMobRewardData> mMobRewardData = new HashMap<String, ExtendedMobRewardData>();
 	private static File file = new File(MobHunting.getInstance().getDataFolder(), "TARDISWeepingAngels-rewards.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	public static final String MH_TARDISWEEPINGANGELS = "MH:TARDISWeepingAngels";
@@ -97,7 +97,7 @@ public class TARDISWeepingAngelsCompat implements Listener {
 		return ((TARDISWeepingAngels) mPlugin).getWeepingAngelsAPI().getWeepingAngelMonsterType(entity);
 	}
 
-	public static HashMap<String, RewardData> getMobRewardData() {
+	public static HashMap<String, ExtendedMobRewardData> getMobRewardData() {
 		return mMobRewardData;
 	}
 
@@ -109,7 +109,7 @@ public class TARDISWeepingAngelsCompat implements Listener {
 			if (!file.exists()) {
 				for (Monster monster : Monster.getValues()) {
 					mMobRewardData.put(monster.name(),
-							new RewardData(MobPlugin.TARDISWeepingAngels, monster.name(), monster.getName(), true,
+							new ExtendedMobRewardData(MobPlugin.TARDISWeepingAngels, monster.name(), monster.getName(), true,
 									"40:60", 1, "You killed a TRADIS Mob", new ArrayList<HashMap<String, String>>(), 1,
 									0.02));
 					saveTARDISWeepingAngelsMobsData(mMobRewardData.get(monster.name()).getMobType());
@@ -122,7 +122,7 @@ public class TARDISWeepingAngelsCompat implements Listener {
 			config.load(file);
 			for (String key : config.getKeys(false)) {
 				ConfigurationSection section = config.getConfigurationSection(key);
-				RewardData mob = new RewardData();
+				ExtendedMobRewardData mob = new ExtendedMobRewardData();
 				mob.read(section);
 				mob.setMobType(key);
 				mMobRewardData.put(key, mob);
@@ -146,7 +146,7 @@ public class TARDISWeepingAngelsCompat implements Listener {
 
 			config.load(file);
 			ConfigurationSection section = config.getConfigurationSection(key);
-			RewardData mob = new RewardData();
+			ExtendedMobRewardData mob = new ExtendedMobRewardData();
 			mob.read(section);
 			mob.setMobType(key);
 			mMobRewardData.put(key, mob);
@@ -210,7 +210,7 @@ public class TARDISWeepingAngelsCompat implements Listener {
 			MobHunting.getInstance().getMessages().debug("New TARDIS mob found=%s (%s)", monster.name(),
 					monster.getName());
 			mMobRewardData.put(monster.name(),
-					new RewardData(MobPlugin.TARDISWeepingAngels, monster.name(), monster.getName(), true, "40:60", 1,
+					new ExtendedMobRewardData(MobPlugin.TARDISWeepingAngels, monster.name(), monster.getName(), true, "40:60", 1,
 							"You killed a TARDIS Mob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 			saveTARDISWeepingAngelsMobsData(monster.name());
 			MobHunting.getInstance().getStoreManager().insertTARDISWeepingAngelsMobs(monster.name);

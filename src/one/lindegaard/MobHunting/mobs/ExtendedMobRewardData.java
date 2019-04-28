@@ -1,4 +1,4 @@
-package one.lindegaard.MobHunting.rewards;
+package one.lindegaard.MobHunting.mobs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,9 +8,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 
 import one.lindegaard.MobHunting.config.ConfigManager;
-import one.lindegaard.MobHunting.mobs.MobPlugin;
 
-public class RewardData {
+public class ExtendedMobRewardData {
 	private final static int PROGRESS_ACHIEVEMENT_LEVEL1 = 50;
 	private MobPlugin mobPluginName;
 	private String mobType = "";
@@ -33,11 +32,11 @@ public class RewardData {
 	private double mcMMOSkillRewardChance = 0.02;
 	private int mcMMOSkillRewardAmount = 1;
 
-	public RewardData() {
+	public ExtendedMobRewardData() {
 		super();
 	}
 
-	public RewardData(MobPlugin pluginName, String mobType, String mobName, boolean mobEnabled, String rewardPrize,
+	public ExtendedMobRewardData(MobPlugin pluginName, String mobType, String mobName, boolean mobEnabled, String rewardPrize,
 			double chance, String message, List<HashMap<String, String>> cmd, int mcmmo_xp, double mcmmo_chance) {
 
 		this.mobPluginName = pluginName;

@@ -9,10 +9,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.storage.UserNotFoundException;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class BountyCommand implements ICommand {
 
@@ -171,7 +171,7 @@ public class BountyCommand implements ICommand {
 				return true;
 			}
 			if (wantedPlayer != null && playerId != 0) {
-				double prize = Misc.round(Double.valueOf(args[1]));
+				double prize = Tools.round(Double.valueOf(args[1]));
 				if (!plugin.getRewardManager().getEconomy().has(bountyOwner, prize)) {
 					plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
 							"mobhunting.commands.bounty.no-money", "money", plugin.getRewardManager().format(prize)));

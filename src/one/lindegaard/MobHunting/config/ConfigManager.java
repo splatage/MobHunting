@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -5294,7 +5294,7 @@ public class ConfigManager extends AutoConfig {
 			String[] str1 = str.split(":");
 			double prize = (MobHunting.getInstance().mRand.nextDouble()
 					* (Double.valueOf(str1[1]) - Double.valueOf(str1[0])) + Double.valueOf(str1[0]));
-			return Misc.round(prize);
+			return Tools.round(prize);
 		} else
 			return Double.valueOf(str);
 	}

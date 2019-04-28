@@ -23,7 +23,7 @@ import com.magmaguy.elitemobs.MetadataHandler;
 
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.rewards.RewardData;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 
 public class EliteMobsCompat implements Listener {
 
@@ -31,7 +31,7 @@ public class EliteMobsCompat implements Listener {
 
 	private static boolean supported = false;
 	private static Plugin mPlugin;
-	private static HashMap<String, RewardData> mMobRewardData = new HashMap<String, RewardData>();
+	private static HashMap<String, ExtendedMobRewardData> mMobRewardData = new HashMap<String, ExtendedMobRewardData>();
 	private static File file = new File(MobHunting.getInstance().getDataFolder(), "EliteMobs-rewards.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	public static final String MH_ELITEMOBS = "MH:ELITEMOBS";
@@ -172,7 +172,7 @@ public class EliteMobsCompat implements Listener {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationEliteMobs;
 	}
 
-	public static HashMap<String, RewardData> getMobRewardData() {
+	public static HashMap<String, ExtendedMobRewardData> getMobRewardData() {
 		return mMobRewardData;
 	}
 
@@ -188,7 +188,7 @@ public class EliteMobsCompat implements Listener {
 			if (!file.exists()) {
 				for (Mobs monster : Mobs.values()) {
 					mMobRewardData.put(monster.name(),
-							new RewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "10:20", 1,
+							new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "10:20", 1,
 									"You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 					saveEliteMobsData(monster.name());
 					MobHunting.getInstance().getStoreManager().insertEliteMobs(monster.name());
@@ -200,7 +200,7 @@ public class EliteMobsCompat implements Listener {
 			config.load(file);
 			for (String key : config.getKeys(false)) {
 				ConfigurationSection section = config.getConfigurationSection(key);
-				RewardData mob = new RewardData();
+				ExtendedMobRewardData mob = new ExtendedMobRewardData();
 				mob.read(section);
 				mob.setMobType(key);
 				mMobRewardData.put(key, mob);
@@ -224,7 +224,7 @@ public class EliteMobsCompat implements Listener {
 
 			config.load(file);
 			ConfigurationSection section = config.getConfigurationSection(key);
-			RewardData mob = new RewardData();
+			ExtendedMobRewardData mob = new ExtendedMobRewardData();
 			mob.read(section);
 			mob.setMobType(key);
 			mMobRewardData.put(key, mob);
@@ -290,7 +290,7 @@ public class EliteMobsCompat implements Listener {
 			if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
 				MobHunting.getInstance().getMessages().debug("New EliteMob found=%s", monster.name());
 				mMobRewardData.put(monster.name(),
-						new RewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "40:60", 1,
+						new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "40:60", 1,
 								"You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 				saveEliteMobsData(monster.name());
 				MobHunting.getInstance().getStoreManager().insertEliteMobs(monster.name());

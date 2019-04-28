@@ -7,19 +7,17 @@ import java.util.regex.Pattern;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.RedstoneWire;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -404,11 +402,11 @@ public class MasterMobHunterSign implements Listener {
 									CitizensCompat.getMasterMobHunterManager().put(id, mmh);
 								}
 								((org.bukkit.block.Sign) event.getClickedBlock().getState()).setLine(1,
-										Misc.trimSignText(mmh.getRank() + "." + npc.getName()));
+										Tools.trimSignText(mmh.getRank() + "." + npc.getName()));
 								((org.bukkit.block.Sign) event.getClickedBlock().getState()).setLine(2,
-										Misc.trimSignText(mmh.getPeriod().translateNameFriendly()));
+										Tools.trimSignText(mmh.getPeriod().translateNameFriendly()));
 								((org.bukkit.block.Sign) event.getClickedBlock().getState()).setLine(3,
-										Misc.trimSignText(
+										Tools.trimSignText(
 												mmh.getNumberOfKills() + " " + mmh.getStatType().translateName()));
 
 								if (turnon) {
@@ -485,10 +483,10 @@ public class MasterMobHunterSign implements Listener {
 									player.getName() + " placed a MobHunting Sign (ID=" + id + ")");
 						}
 
-						event.setLine(1, Misc.trimSignText(mmh.getRank() + "." + npc.getName()));
-						event.setLine(2, Misc.trimSignText(mmh.getPeriod().translateNameFriendly()));
+						event.setLine(1, Tools.trimSignText(mmh.getRank() + "." + npc.getName()));
+						event.setLine(2, Tools.trimSignText(mmh.getPeriod().translateNameFriendly()));
 						event.setLine(3,
-								Misc.trimSignText(mmh.getNumberOfKills() + " " + mmh.getStatType().translateName()));
+								Tools.trimSignText(mmh.getNumberOfKills() + " " + mmh.getStatType().translateName()));
 
 						if (powered) {
 							OfflinePlayer offlinePlayer = Bukkit.getPlayer(npc.getName());

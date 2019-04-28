@@ -27,7 +27,7 @@ import de.hellfirepvp.api.event.CustomMobSpawnEvent;
 import de.hellfirepvp.api.event.CustomMobSpawnEvent.SpawnReason;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.rewards.RewardData;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 
 public class CustomMobsCompat implements Listener {
 
@@ -35,7 +35,7 @@ public class CustomMobsCompat implements Listener {
 
 	private static boolean supported = false;
 	private static Plugin mPlugin;
-	private static HashMap<String, RewardData> mMobRewardData = new HashMap<String, RewardData>();
+	private static HashMap<String, ExtendedMobRewardData> mMobRewardData = new HashMap<String, ExtendedMobRewardData>();
 	private static File file = new File(MobHunting.getInstance().getDataFolder(), "custommobs-rewards.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	public static final String MH_CUSTOMMOBS = "MH:CUSTOMMOBS";
@@ -71,14 +71,14 @@ public class CustomMobsCompat implements Listener {
 			for (String key : CustomMobsAPI.getKnownMobTypes()) {
 				if (config.contains(key)) {
 					ConfigurationSection section = config.getConfigurationSection(key);
-					RewardData mob = new RewardData();
+					ExtendedMobRewardData mob = new ExtendedMobRewardData();
 					if (isCustomMob(key)) {
 						mob.read(section);
 						mob.setMobType(key);
 						if (mob.getMobName() == null)
 							mob.setMobName(mob.getMobType());
 					} else
-						mob = new RewardData(MobPlugin.CustomMobs, CustomMobsAPI.getCustomMob(key).getName(),
+						mob = new ExtendedMobRewardData(MobPlugin.CustomMobs, CustomMobsAPI.getCustomMob(key).getName(),
 								CustomMobsAPI.getCustomMob(key).getDisplayName(), true, "10", 1,
 								"You killed a CustomMob", new ArrayList<HashMap<String, String>>(), 1, 0.02);
 
@@ -103,7 +103,7 @@ public class CustomMobsCompat implements Listener {
 			config.load(file);
 			ConfigurationSection section = config.getConfigurationSection(key);
 			if (isCustomMob(key)) {
-				RewardData mob = new RewardData();
+				ExtendedMobRewardData mob = new ExtendedMobRewardData();
 				mob.read(section);
 				mob.setMobType(key);
 				if (mob.getMobName() == null)
@@ -187,12 +187,12 @@ public class CustomMobsCompat implements Listener {
 		if (killed.hasMetadata(MH_CUSTOMMOBS)) {
 			List<MetadataValue> data = killed.getMetadata(MH_CUSTOMMOBS);
 			MetadataValue value = data.get(0);
-			return ((RewardData) value.value()).getMobType();
+			return ((ExtendedMobRewardData) value.value()).getMobType();
 		} else
 			return "";
 	}
 
-	public static HashMap<String, RewardData> getMobRewardData() {
+	public static HashMap<String, ExtendedMobRewardData> getMobRewardData() {
 		return mMobRewardData;
 	}
 
@@ -234,7 +234,7 @@ public class CustomMobsCompat implements Listener {
 			MobHunting.getInstance().getMessages().debug("New CustomMobName found=%s,%s", mob.getName(),
 					mob.getDisplayName());
 			String name = mob.getDisplayName() == null ? mob.getName() : mob.getDisplayName();
-			mMobRewardData.put(mob.getName(), new RewardData(MobPlugin.CustomMobs, mob.getName(), name, true, "10", 1,
+			mMobRewardData.put(mob.getName(), new ExtendedMobRewardData(MobPlugin.CustomMobs, mob.getName(), name, true, "10", 1,
 					"You killed a CustomMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 			saveCustomMobsData(mob.getName());
 			MobHunting.getInstance().getStoreManager().insertCustomMobs(mob.getName());

@@ -24,13 +24,13 @@ import me.jjm_223.smartgiants.SmartGiants;
 import me.jjm_223.smartgiants.api.util.IGiantTools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.rewards.RewardData;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 
 public class SmartGiantsCompat implements Listener {
 
 	private static Plugin mPlugin;
 	private static boolean supported = false;
-	private static HashMap<String, RewardData> mMobRewardData = new HashMap<String, RewardData>();
+	private static HashMap<String, ExtendedMobRewardData> mMobRewardData = new HashMap<String, ExtendedMobRewardData>();
 	private static File file = new File(MobHunting.getInstance().getDataFolder(), "smartgiants-rewards.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	public static final String MH_SMARTGIANTS = "MH:SMARTGIANTS";
@@ -96,7 +96,7 @@ public class SmartGiantsCompat implements Listener {
 		return false;
 	}
 
-	public static HashMap<String, RewardData> getMobRewardData() {
+	public static HashMap<String, ExtendedMobRewardData> getMobRewardData() {
 		return mMobRewardData;
 	}
 
@@ -108,7 +108,7 @@ public class SmartGiantsCompat implements Listener {
 		if (killed.hasMetadata(MH_SMARTGIANTS)) {
 			List<MetadataValue> data = killed.getMetadata(MH_SMARTGIANTS);
 			MetadataValue value = data.get(0);
-			return ((RewardData) value.value()).getMobType();
+			return ((ExtendedMobRewardData) value.value()).getMobType();
 		} else
 			return MONSTER_NAME;
 	}
@@ -120,7 +120,7 @@ public class SmartGiantsCompat implements Listener {
 		try {
 			if (!file.exists()) {
 				String monster = "SmartGiant";
-				mMobRewardData.put(monster, new RewardData(MobPlugin.SmartGiants, monster, monster, true, "100:200", 1,
+				mMobRewardData.put(monster, new ExtendedMobRewardData(MobPlugin.SmartGiants, monster, monster, true, "100:200", 1,
 						"You killed a SmartGiant", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 				saveSmartGiantsData(mMobRewardData.get(monster).getMobType());
 				return;
@@ -129,7 +129,7 @@ public class SmartGiantsCompat implements Listener {
 			config.load(file);
 			for (String key : config.getKeys(false)) {
 				ConfigurationSection section = config.getConfigurationSection(key);
-				RewardData mob = new RewardData();
+				ExtendedMobRewardData mob = new ExtendedMobRewardData();
 				mob.read(section);
 				mob.setMobType(key);
 				mMobRewardData.put(key, mob);
@@ -151,7 +151,7 @@ public class SmartGiantsCompat implements Listener {
 
 			config.load(file);
 			ConfigurationSection section = config.getConfigurationSection(key);
-			RewardData mob = new RewardData();
+			ExtendedMobRewardData mob = new ExtendedMobRewardData();
 			mob.read(section);
 			mob.setMobType(key);
 			mMobRewardData.put(key, mob);
@@ -218,7 +218,7 @@ public class SmartGiantsCompat implements Listener {
 			if (mMobRewardData != null && !mMobRewardData.containsKey(mobtype)) {
 				MobHunting.getInstance().getMessages().debug("New SmartGiants mob found=%s (%s)", mobtype,
 						mobtype.toString());
-				mMobRewardData.put(mobtype, new RewardData(MobPlugin.SmartGiants, mobtype, mobtype, true, "100:200", 1,
+				mMobRewardData.put(mobtype, new ExtendedMobRewardData(MobPlugin.SmartGiants, mobtype, mobtype, true, "100:200", 1,
 						"You killed a SmartGiant", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 				saveSmartGiantsData(mobtype);
 				MobHunting.getInstance().getStoreManager().insertSmartGiants(mobtype);

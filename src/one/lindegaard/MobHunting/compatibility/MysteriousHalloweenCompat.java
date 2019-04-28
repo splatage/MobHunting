@@ -21,7 +21,7 @@ import org.bukkit.plugin.Plugin;
 
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.rewards.RewardData;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 import me.F_o_F_1092.MysteriousHalloween.MysteriousHalloweenAPI;
 import me.F_o_F_1092.MysteriousHalloween.MysteriousHalloweenAPI.MobType;
 
@@ -29,7 +29,7 @@ public class MysteriousHalloweenCompat implements Listener {
 
 	private static Plugin mPlugin;
 	private static boolean supported = false;
-	private static HashMap<String, RewardData> mMobRewardData = new HashMap<String, RewardData>();
+	private static HashMap<String, ExtendedMobRewardData> mMobRewardData = new HashMap<String, ExtendedMobRewardData>();
 	private static File file = new File(MobHunting.getInstance().getDataFolder(), "MysteriousHalloween-rewards.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	public static final String MH_MYSTERIOUSHALLOWEEN = "MH:MysteriousHalloween";
@@ -103,7 +103,7 @@ public class MysteriousHalloweenCompat implements Listener {
 		return null;
 	}
 
-	public static HashMap<String, RewardData> getMobRewardData() {
+	public static HashMap<String, ExtendedMobRewardData> getMobRewardData() {
 		return mMobRewardData;
 	}
 
@@ -114,7 +114,7 @@ public class MysteriousHalloweenCompat implements Listener {
 		try {
 			if (!file.exists()) {
 				for (MobType monster : MysteriousHalloweenAPI.getMobTypes()) {
-					mMobRewardData.put(monster.name(), new RewardData(MobPlugin.MysteriousHalloween, monster.name(),
+					mMobRewardData.put(monster.name(), new ExtendedMobRewardData(MobPlugin.MysteriousHalloween, monster.name(),
 							MysteriousHalloweenAPI.getMobTypeName(monster), true, "40:60", 1,
 							"You killed a MysteriousHalloween mob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 					saveMysteriousHalloweenMobsData(mMobRewardData.get(monster.name()).getMobType());
@@ -125,7 +125,7 @@ public class MysteriousHalloweenCompat implements Listener {
 			config.load(file);
 			for (String key : config.getKeys(false)) {
 				ConfigurationSection section = config.getConfigurationSection(key);
-				RewardData mob = new RewardData();
+				ExtendedMobRewardData mob = new ExtendedMobRewardData();
 				mob.read(section);
 				mob.setMobType(key);
 				mMobRewardData.put(key, mob);
@@ -149,7 +149,7 @@ public class MysteriousHalloweenCompat implements Listener {
 
 			config.load(file);
 			ConfigurationSection section = config.getConfigurationSection(key);
-			RewardData mob = new RewardData();
+			ExtendedMobRewardData mob = new ExtendedMobRewardData();
 			mob.read(section);
 			mob.setMobType(key);
 			mMobRewardData.put(key, mob);
@@ -217,7 +217,7 @@ public class MysteriousHalloweenCompat implements Listener {
 			if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
 				MobHunting.getInstance().getMessages().debug("New MysteriousHalloween mob found=%s (%s)",
 						monster.name(), monster.toString());
-				mMobRewardData.put(monster.name(), new RewardData(MobPlugin.MysteriousHalloween, monster.name(),
+				mMobRewardData.put(monster.name(), new ExtendedMobRewardData(MobPlugin.MysteriousHalloween, monster.name(),
 						MysteriousHalloweenAPI.getMobTypeName(monster), true, "40:60", 1,
 						"You killed a MysteriousHalloween mob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 				saveMysteriousHalloweenMobsData(monster.name());

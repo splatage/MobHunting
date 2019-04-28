@@ -114,7 +114,7 @@ import one.lindegaard.MobHunting.compatibility.MysteriousHalloweenCompat;
 import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
 import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
 import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
-import one.lindegaard.MobHunting.util.Misc;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 
 @SuppressWarnings("deprecation")
 public class RewardManager {
@@ -282,7 +282,7 @@ public class RewardManager {
 			}
 		}
 		if (!found) {
-			while (Misc.round(moneyLeftToGive) > 0 && canPickupMoney(player)) {
+			while (Tools.round(moneyLeftToGive) > 0 && canPickupMoney(player)) {
 				double nextBag = 0;
 				if (moneyLeftToGive > plugin.getConfigManager().limitPerBag) {
 					nextBag = plugin.getConfigManager().limitPerBag;
@@ -292,7 +292,7 @@ public class RewardManager {
 					moneyLeftToGive = 0;
 				}
 				if (player.getInventory().firstEmpty() == -1)
-					dropMoneyOnGround_RewardManager(player, null, player.getLocation(), Misc.round(nextBag));
+					dropMoneyOnGround_RewardManager(player, null, player.getLocation(), Tools.round(nextBag));
 				else {
 					addedMoney = addedMoney + nextBag;
 					ItemStack is;
@@ -301,13 +301,13 @@ public class RewardManager {
 								UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
 								plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 								plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-								plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, Misc.round(nextBag),
+								plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, Tools.round(nextBag),
 								UUID.randomUUID(), UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID));
 					else {
 						is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
 						setDisplayNameAndHiddenLores(is,
 								new Reward(plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-										Misc.round(nextBag), UUID.fromString(Reward.MH_REWARD_ITEM_UUID),
+										Tools.round(nextBag), UUID.fromString(Reward.MH_REWARD_ITEM_UUID),
 										UUID.randomUUID(), null));
 					}
 					player.getInventory().addItem(is);
@@ -320,14 +320,14 @@ public class RewardManager {
 	public double removeBagOfGoldPlayer(Player player, double amount) {
 		MobHunting mPlugin = (MobHunting) Bukkit.getPluginManager().getPlugin("MobHunting");
 		double taken = 0;
-		double toBeTaken = Misc.floor(amount);
+		double toBeTaken = Tools.floor(amount);
 		CustomItems customItems = new CustomItems();
 		for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
 			ItemStack is = player.getInventory().getItem(slot);
 			if (Reward.isReward(is)) {
 				Reward reward = Reward.getReward(is);
 				if (reward.isBagOfGoldReward()) {
-					double saldo = Misc.floor(reward.getMoney());
+					double saldo = Tools.floor(reward.getMoney());
 					if (saldo > toBeTaken) {
 						reward.setMoney(saldo - toBeTaken);
 						is = customItems.getCustomtexture(reward.getRewardType(),
@@ -358,7 +358,7 @@ public class RewardManager {
 
 	public void dropMoneyOnGround_RewardManager(Player player, Entity killedEntity, Location location, double money) {
 		Item item = null;
-		money = Misc.ceil(money);
+		money = Tools.ceil(money);
 		if (GringottsCompat.isSupported()) {
 			List<Denomination> denoms = Configuration.CONF.currency.denominations();
 			int unit = Configuration.CONF.currency.unit;
@@ -625,7 +625,7 @@ public class RewardManager {
 			String[] str1 = plugin.getConfigManager().mobKillsPlayerPenalty.trim().split(":");
 			double penalty = (plugin.mRand.nextDouble() * (Double.valueOf(str1[1]) - Double.valueOf(str1[0]))
 					+ Double.valueOf(str1[0]));
-			return Misc.round(penalty);
+			return Tools.round(penalty);
 		} else if (plugin.getConfigManager().mobKillsPlayerPenalty.trim().endsWith("%")) {
 			double penalty = 0;
 			double balance = 0;
@@ -645,7 +645,7 @@ public class RewardManager {
 							.valueOf(plugin.getConfigManager().mobKillsPlayerPenalty.trim().substring(0,
 									plugin.getConfigManager().mobKillsPlayerPenalty.trim().length() - 1))
 							* balance / 100);
-			return Misc.round(penalty);
+			return Tools.round(penalty);
 		} else
 			return Double.valueOf(plugin.getConfigManager().mobKillsPlayerPenalty.trim());
 	}
@@ -659,7 +659,7 @@ public class RewardManager {
 			String[] str1 = str.split(":");
 			double prize = (plugin.mRand.nextDouble() * (Double.valueOf(str1[1]) - Double.valueOf(str1[0]))
 					+ Double.valueOf(str1[0]));
-			return Misc.round(prize);
+			return Tools.round(prize);
 		} else
 			return Double.valueOf(str);
 	}
@@ -846,12 +846,12 @@ public class RewardManager {
 							.valueOf(plugin.getConfigManager().pvpKillMoney.trim().substring(0,
 									plugin.getConfigManager().pvpKillMoney.trim().length() - 1))
 							* getBalance((Player) mob) / 100);
-					return Misc.round(prize);
+					return Tools.round(prize);
 				} else if (plugin.getConfigManager().pvpKillMoney.contains(":")) {
 					String[] str1 = plugin.getConfigManager().pvpKillMoney.split(":");
 					double prize2 = (plugin.mRand.nextDouble() * (Double.valueOf(str1[1]) - Double.valueOf(str1[0]))
 							+ Double.valueOf(str1[0]));
-					return Misc.round(Double.valueOf(prize2));
+					return Tools.round(Double.valueOf(prize2));
 				} else
 					return Double.valueOf(plugin.getConfigManager().pvpKillMoney.trim());
 			} else if (mob instanceof Blaze)
@@ -877,13 +877,13 @@ public class RewardManager {
 			else if (mob instanceof PigZombie)
 				// PigZombie is a subclass of Zombie.
 				if (((PigZombie) mob).isBaby())
-					return Misc.round(getPrice(mob, plugin.getConfigManager().zombiePigmanMoney)
+					return Tools.round(getPrice(mob, plugin.getConfigManager().zombiePigmanMoney)
 							* plugin.getConfigManager().babyMultiplier);
 				else
 					return getPrice(mob, plugin.getConfigManager().zombiePigmanMoney);
 			else if (mob instanceof Zombie)
 				if (((Zombie) mob).isBaby())
-					return Misc.round(getPrice(mob, plugin.getConfigManager().zombieMoney)
+					return Tools.round(getPrice(mob, plugin.getConfigManager().zombieMoney)
 							* plugin.getConfigManager().babyMultiplier);
 				else
 					return getPrice(mob, plugin.getConfigManager().zombieMoney);
@@ -964,7 +964,7 @@ public class RewardManager {
 				String[] str1 = str.split(":");
 				double prize = (plugin.mRand.nextDouble() * (Double.valueOf(str1[1]) - Double.valueOf(str1[0]))
 						+ Double.valueOf(str1[0]));
-				return Misc.round(prize);
+				return Tools.round(prize);
 			} else
 				return Double.valueOf(str);
 		} catch (NumberFormatException e) {
@@ -1008,8 +1008,8 @@ public class RewardManager {
 			if (mob.hasMetadata(CustomMobsCompat.MH_CUSTOMMOBS)) {
 				List<MetadataValue> data = mob.getMetadata(CustomMobsCompat.MH_CUSTOMMOBS);
 				for (MetadataValue value : data)
-					if (value.value() instanceof RewardData)
-						return ((RewardData) value.value()).getConsoleRunCommand();
+					if (value.value() instanceof ExtendedMobRewardData)
+						return ((ExtendedMobRewardData) value.value()).getConsoleRunCommand();
 			} else if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
 						.getConsoleRunCommand();

@@ -28,6 +28,7 @@ import one.lindegaard.MobHunting.compatibility.FactionsHelperCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
 import one.lindegaard.MobHunting.events.MobHuntFishingEvent;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.modifier.DifficultyBonus;
 import one.lindegaard.MobHunting.modifier.FactionWarZoneBonus;
@@ -37,7 +38,6 @@ import one.lindegaard.MobHunting.modifier.RankBonus;
 import one.lindegaard.MobHunting.modifier.WorldBonus;
 import one.lindegaard.Core.rewards.CustomItems;
 import one.lindegaard.Core.rewards.Reward;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class FishingManager implements Listener {
 
@@ -180,7 +180,7 @@ public class FishingManager implements Listener {
 
 			cash *= multipliers;
 
-			cash = Misc.ceil(cash);
+			cash = Tools.ceil(cash);
 
 			// Pay the reward to player and assister
 			if (cash >= plugin.getConfigManager().minimumReward || cash <= -plugin.getConfigManager().minimumReward

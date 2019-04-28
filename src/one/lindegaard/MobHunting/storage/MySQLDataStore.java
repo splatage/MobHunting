@@ -18,11 +18,11 @@ import org.bukkit.command.ConsoleCommandSender;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.util.Misc;
 import one.lindegaard.MobHunting.util.UUIDHelper;
 
 public class MySQLDataStore extends DatabaseDataStore {
@@ -274,7 +274,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				}
 				String column2 = "total_cash";
 				int amount = stat.getAmount();
-				double cash = Misc.round(stat.getCash());
+				double cash = Tools.round(stat.getCash());
 				int player_id = getPlayerId(stat.getPlayer());
 				statement.executeUpdate(String.format(Locale.US,
 						"INSERT INTO mh_Daily(ID, MOB_ID, PLAYER_ID, %1$s, %5$s)"

@@ -22,8 +22,8 @@ import net.theprogrammersworld.herobrine.Herobrine;
 import net.theprogrammersworld.herobrine.nms.entity.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 import one.lindegaard.Core.mobs.MinecraftMob;
-import one.lindegaard.MobHunting.rewards.RewardData;
 
 public class HerobrineCompat implements Listener {
 
@@ -31,7 +31,7 @@ public class HerobrineCompat implements Listener {
 
 	private static boolean supported = false;
 	private static Plugin mPlugin;
-	private static HashMap<String, RewardData> mMobRewardData = new HashMap<String, RewardData>();
+	private static HashMap<String, ExtendedMobRewardData> mMobRewardData = new HashMap<String, ExtendedMobRewardData>();
 	private static Herobrine api;
 	public static final String MH_HEROBRINEMOBS = "MH:Herobrine";
 	private static File file = new File(MobHunting.getInstance().getDataFolder(), "herobrine-rewards.yml");
@@ -86,7 +86,7 @@ public class HerobrineCompat implements Listener {
 		return api.getEntityManager().getMobType(entity.getEntityId()).getMobType().name();
 	}
 
-	public static HashMap<String, RewardData> getMobRewardData() {
+	public static HashMap<String, ExtendedMobRewardData> getMobRewardData() {
 		return mMobRewardData;
 	}
 
@@ -145,7 +145,7 @@ public class HerobrineCompat implements Listener {
 			for (String key : config.getKeys(false)) {
 				ConfigurationSection section = config.getConfigurationSection(key);
 				if (isHerobrineMob(key)) {
-					RewardData mob = new RewardData();
+					ExtendedMobRewardData mob = new ExtendedMobRewardData();
 					mob.read(section);
 					mob.setMobType(key);
 					mMobRewardData.put(key, mob);
@@ -174,7 +174,7 @@ public class HerobrineCompat implements Listener {
 			config.load(file);
 			ConfigurationSection section = config.getConfigurationSection(key);
 			if (isHerobrineMob(key)) {
-				RewardData mob = new RewardData();
+				ExtendedMobRewardData mob = new ExtendedMobRewardData();
 				mob.read(section);
 				mob.setMobType(key);
 				mMobRewardData.put(key, mob);

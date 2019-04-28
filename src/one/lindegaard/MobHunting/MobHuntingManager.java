@@ -20,7 +20,6 @@ import one.lindegaard.Core.rewards.CustomItems;
 import one.lindegaard.MobHunting.modifier.*;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderData;
 import one.lindegaard.MobHunting.update.SpigetUpdater;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.*;
 import org.bukkit.command.CommandException;
@@ -1427,7 +1426,7 @@ public class MobHuntingManager implements Listener {
 
 		cash *= multipliers;
 
-		cash = Misc.ceil(cash);
+		cash = Tools.ceil(cash);
 
 		// Handle Bounty Kills
 		double reward = 0;
@@ -1480,7 +1479,7 @@ public class MobHuntingManager implements Listener {
 			}
 		}
 
-		cash = Misc.round(cash);
+		cash = Tools.round(cash);
 		plugin.getMessages().debug("Reward rounded to %s", cash);
 
 		// Check if there is a reward for this kill
@@ -1609,7 +1608,7 @@ public class MobHuntingManager implements Listener {
 							plugin.getRewardManager().format(cash));
 				}
 			} else {
-				cash = Misc.round(cash / 2);
+				cash = Tools.round(cash / 2);
 				if (cash >= plugin.getConfigManager().minimumReward) {
 					if (plugin.getConfigManager().dropMoneyOnGroup) {
 						if (MyPetCompat.isKilledByMyPet(killed))

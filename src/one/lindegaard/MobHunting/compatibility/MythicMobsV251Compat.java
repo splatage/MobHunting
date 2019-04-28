@@ -17,7 +17,7 @@ import net.elseland.xikage.MythicMobs.API.Exceptions.InvalidMobTypeException;
 import net.elseland.xikage.MythicMobs.Mobs.MythicMob;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.rewards.RewardData;
+import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 
 public class MythicMobsV251Compat implements Listener {
 
@@ -62,7 +62,7 @@ public class MythicMobsV251Compat implements Listener {
 		if (!MythicMobsCompat.getMobRewardData().containsKey(mobtype)) {
 			MobHunting.getInstance().getMessages().debug("New MythicMobType found=%s (%s)", mobtype, event.getMobType().getDisplayName());
 			MythicMobsCompat.getMobRewardData().put(mobtype,
-					new RewardData(MobPlugin.MythicMobs, mobtype, event.getMobType().getDisplayName(), 
+					new ExtendedMobRewardData(MobPlugin.MythicMobs, mobtype, event.getMobType().getDisplayName(), 
 							true,"10", 1, "You killed a Mythic mob",
 							new ArrayList<HashMap<String,String>>(), 1, 0.02));
 			MythicMobsCompat.saveMythicMobsData(mobtype);
