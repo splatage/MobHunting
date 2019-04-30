@@ -7,6 +7,8 @@ import one.lindegaard.BagOfGold.PlayerBalance;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.Core.rewards.CustomItems;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
 import one.lindegaard.MobHunting.compatibility.*;
@@ -15,8 +17,6 @@ import one.lindegaard.MobHunting.events.MobHuntEnableCheckEvent;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
 import one.lindegaard.MobHunting.grinding.Area;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.Core.mobs.MinecraftMob;
-import one.lindegaard.Core.rewards.CustomItems;
 import one.lindegaard.MobHunting.modifier.*;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderData;
 import one.lindegaard.MobHunting.update.SpigetUpdater;
@@ -58,6 +58,7 @@ public class MobHuntingManager implements Listener {
 	public MobHuntingManager(MobHunting instance) {
 		this.plugin = instance;
 		registerHuntingModifiers();
+		plugin.getMessages().debug("Register MobHunting Events");
 		Bukkit.getServer().getPluginManager().registerEvents(this, instance);
 	}
 

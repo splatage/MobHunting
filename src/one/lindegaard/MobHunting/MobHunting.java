@@ -6,6 +6,7 @@ import java.util.Random;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.WorldGroupManager;
 import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.update.SpigetUpdaterForced;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
 import one.lindegaard.MobHunting.commands.BountyCommand;
@@ -101,6 +102,14 @@ public class MobHunting extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
+		Plugin bagOfGoldCorePlugin = Bukkit.getPluginManager().getPlugin("BagOfGoldCore");
+		if (bagOfGoldCorePlugin == null && !BagOfGoldCompat.isSupported()) {
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.GREEN
+					+ "BagOfGoldCore is missing. MobHunting is dependend on BagGoldCore. It Will now be downloaded. Restart your server when downloading has finished.");
+			SpigetUpdaterForced.setCurrentJarFile(this.getFile().getName());
+			SpigetUpdaterForced.ForceDownloadJar(this);
+		}
+
 		int config_version = ConfigManager.getConfigVersion(mFile);
 		Bukkit.getConsoleSender().sendMessage(
 				ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Your config version is " + config_version);
@@ -117,8 +126,8 @@ public class MobHunting extends JavaPlugin {
 			}
 			break;
 		case -2:
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Defect config.yml file. Deleted.");
+			Bukkit.getConsoleSender().sendMessage(
+					ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Defect config.yml file. Deleted.");
 		case -1:
 			mConfig = new ConfigManager(this, mFile);
 			if (!mConfig.loadConfig())
@@ -347,12 +356,13 @@ public class MobHunting extends JavaPlugin {
 			mAdvancementManager.getAdvancementsFromAchivements();
 
 			// gives troubles for some plugins like EmeraldTools
-			//Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-			//	public void run() {
-			//		getMessages().debug("Reloading advancements");
-			//		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "minecraft:reload");
-			//	}
-			//}, 20 * 15);
+			// Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			// public void run() {
+			// getMessages().debug("Reloading advancements");
+			// Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
+			// "minecraft:reload");
+			// }
+			// }, 20 * 15);
 
 		}
 
@@ -360,11 +370,11 @@ public class MobHunting extends JavaPlugin {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
 					+ " version +6.0.0 is only for Minecraft 1.13! You should downgrade to 5.x");
 
-		//for (int i = 0; i < 5; i++)
+		// for (int i = 0; i < 5; i++)
 		// getMessages().debug("Random uuid = %s", UUID.randomUUID());
 
 		mInitialized = true;
-		
+
 	}
 
 	@Override
