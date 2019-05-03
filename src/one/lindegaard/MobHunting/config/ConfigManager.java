@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.Tools;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.MobHunting;
 
 import org.bukkit.Bukkit;

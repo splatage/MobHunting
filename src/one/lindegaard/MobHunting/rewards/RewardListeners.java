@@ -38,16 +38,16 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import org.bukkit.event.block.Action;
 
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.BagOfGoldCore.Tools;
+import one.lindegaard.BagOfGoldCore.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibHelper;
-import one.lindegaard.Core.mobs.MinecraftMob;
-import one.lindegaard.Core.rewards.CustomItems;
-import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
+import one.lindegaard.BagOfGoldCore.rewards.Reward;
 
 public class RewardListeners implements Listener {
 

@@ -8,7 +8,7 @@ import me.libraryaddict.disguise.DisguiseAPI;
 import me.libraryaddict.disguise.disguisetypes.DisguiseType;
 import me.libraryaddict.disguise.events.DisguiseEvent;
 import me.libraryaddict.disguise.events.UndisguiseEvent;
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.BagOfGoldCore.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 
 import org.bukkit.Bukkit;

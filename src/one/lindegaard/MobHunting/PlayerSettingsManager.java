@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import one.lindegaard.Core.rewards.CustomItems;
+import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
 import one.lindegaard.MobHunting.storage.DataStoreException;
 import one.lindegaard.MobHunting.storage.IDataCallback;
 

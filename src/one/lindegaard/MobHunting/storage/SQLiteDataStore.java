@@ -17,7 +17,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 
-import one.lindegaard.Core.Tools;
+import one.lindegaard.BagOfGoldCore.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.bounty.Bounty;

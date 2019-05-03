@@ -18,7 +18,7 @@ import one.lindegaard.MobHunting.achievements.ProgressAchievement;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.storage.asynch.AchievementRetrieverTask;
 import one.lindegaard.MobHunting.storage.asynch.IDataStoreTask;

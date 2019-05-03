@@ -1,11 +1,11 @@
 package one.lindegaard.MobHunting.bounty;
 
-import one.lindegaard.Core.Tools;
+import one.lindegaard.BagOfGoldCore.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.achievements.AchievementManager;
 import one.lindegaard.MobHunting.compatibility.EssentialsCompat;
 import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
-import one.lindegaard.Core.rewards.CustomItems;
+import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
 import one.lindegaard.MobHunting.storage.IDataCallback;
 import one.lindegaard.MobHunting.storage.UserNotFoundException;
 

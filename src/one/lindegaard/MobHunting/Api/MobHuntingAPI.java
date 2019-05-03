@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.MobHuntingManager;
-import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.BagOfGoldCore.rewards.Reward;
 
 public class MobHuntingAPI {
 

@@ -37,7 +37,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.google.common.collect.HashMultimap;
 
-import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.BagOfGoldCore.Materials.Materials;
 import one.lindegaard.MobHunting.HologramManager;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;

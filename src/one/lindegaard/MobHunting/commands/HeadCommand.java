@@ -15,11 +15,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import one.lindegaard.Core.Tools;
+import one.lindegaard.BagOfGoldCore.Tools;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.Core.mobs.MinecraftMob;
-import one.lindegaard.Core.rewards.CustomItems;
-import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
+import one.lindegaard.BagOfGoldCore.rewards.Reward;
 
 public class HeadCommand implements ICommand, Listener {
 

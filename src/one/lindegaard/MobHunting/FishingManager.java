@@ -28,16 +28,16 @@ import one.lindegaard.MobHunting.compatibility.FactionsHelperCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
 import one.lindegaard.MobHunting.events.MobHuntFishingEvent;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.Tools;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.modifier.DifficultyBonus;
 import one.lindegaard.MobHunting.modifier.FactionWarZoneBonus;
 import one.lindegaard.MobHunting.modifier.HappyHourBonus;
 import one.lindegaard.MobHunting.modifier.IModifier;
 import one.lindegaard.MobHunting.modifier.RankBonus;
 import one.lindegaard.MobHunting.modifier.WorldBonus;
-import one.lindegaard.Core.rewards.CustomItems;
-import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
+import one.lindegaard.BagOfGoldCore.rewards.Reward;
 
 public class FishingManager implements Listener {
 

@@ -17,7 +17,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.BagOfGoldCore.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
@@ -27,7 +27,7 @@ import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
 import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
 import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.storage.AchievementStore;
 import one.lindegaard.MobHunting.storage.IDataCallback;

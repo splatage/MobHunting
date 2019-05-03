@@ -23,23 +23,23 @@ import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-import one.lindegaard.Core.Server.Servers;
-import one.lindegaard.Core.mobs.MinecraftMob;
-import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.BagOfGoldCore.Server.Servers;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.rewards.Reward;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.PlayerSettings;
-import one.lindegaard.Core.skins.Skins;
-import one.lindegaard.Core.skins.Skins_1_10_R1;
-import one.lindegaard.Core.skins.Skins_1_11_R1;
-import one.lindegaard.Core.skins.Skins_1_12_R1;
-import one.lindegaard.Core.skins.Skins_1_13_R1;
-import one.lindegaard.Core.skins.Skins_1_13_R2; 
-import one.lindegaard.Core.skins.Skins_1_14_R1;
-import one.lindegaard.Core.skins.Skins_1_8_R1;
-import one.lindegaard.Core.skins.Skins_1_8_R2;
-import one.lindegaard.Core.skins.Skins_1_8_R3;
-import one.lindegaard.Core.skins.Skins_1_9_R1;
-import one.lindegaard.Core.skins.Skins_1_9_R2;
+import one.lindegaard.BagOfGoldCore.skins.Skins;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_10_R1;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_11_R1;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_12_R1;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_13_R1;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_13_R2; 
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_14_R1;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_8_R1;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_8_R2;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_8_R3;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_9_R1;
+import one.lindegaard.BagOfGoldCore.skins.Skins_1_9_R2;
 
 public class CustomItems_slettes {
 

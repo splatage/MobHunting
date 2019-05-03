@@ -14,8 +14,8 @@
 
 	<scm>
 		<connection>scm:svn:https://github.com/Rocologo/MobHunting.git</connection>
-		<developerConnection>scm:svn:https://github.com/Rocologo/MobHunting.git</developerConnection>
-		<url>http://127.0.0.1/dummy</url>
+		<developerConnection>scm:svn:https://github.com/Rocologo</developerConnection>
+		<url>https://github.com/Rocologo/MobHunting</url>
 	</scm>
 
 	<parent>
@@ -89,7 +89,7 @@
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<artifactSet>
 						<includes>
-							<include>one.lindegaard:Core:*</include>
+							<include>one.lindegaard:BagOfGoldCore:*</include>
 							<include>org.bstats:*</include>
 							<include>org.inventivetalent.spiget-update:bukkit**</include>
 						</includes>
@@ -114,8 +114,8 @@
 		<!-- Rocologo Core -->
 		<dependency>
 			<groupId>one.lindegaard</groupId>
-			<artifactId>Core</artifactId>
-			<version>${core.version}</version>
+			<artifactId>BagOfGoldCore</artifactId>
+			<version>${bagofgoldcore.version}</version>
 			<scope>compile</scope>
 		</dependency>
 

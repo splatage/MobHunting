@@ -28,7 +28,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import one.lindegaard.Core.Tools;
+import one.lindegaard.BagOfGoldCore.Tools;
 import one.lindegaard.MobHunting.compatibility.ActionAnnouncerCompat;
 import one.lindegaard.MobHunting.compatibility.ActionBarAPICompat;
 import one.lindegaard.MobHunting.compatibility.ActionbarCompat;

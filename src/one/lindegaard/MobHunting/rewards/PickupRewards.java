@@ -1,7 +1,7 @@
 package one.lindegaard.MobHunting.rewards;
 
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.BagOfGoldCore.Tools;
+import one.lindegaard.BagOfGoldCore.rewards.Reward;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibCompat;

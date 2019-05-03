@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.Sign;
 
-import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.BagOfGoldCore.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.leaderboard.WorldLeaderboard;

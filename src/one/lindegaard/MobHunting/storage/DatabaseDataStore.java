@@ -28,7 +28,7 @@ import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
 import one.lindegaard.MobHunting.mobs.MobPluginManager;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
 
 public abstract class DatabaseDataStore implements IDataStore {
 

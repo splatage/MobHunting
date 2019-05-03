@@ -1,13 +1,13 @@
 package one.lindegaard.MobHunting.commands;
 
 import one.lindegaard.BagOfGold.BagOfGold;
-import one.lindegaard.Core.Tools;
+import one.lindegaard.BagOfGoldCore.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.BossShopCompat;
 import one.lindegaard.MobHunting.compatibility.BossShopHelper;
-import one.lindegaard.Core.rewards.CustomItems;
-import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
+import one.lindegaard.BagOfGoldCore.rewards.Reward;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.BagOfGoldCore.Tools;
+import one.lindegaard.BagOfGoldCore.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 

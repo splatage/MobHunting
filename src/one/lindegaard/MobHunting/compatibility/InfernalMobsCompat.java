@@ -14,7 +14,7 @@ import org.bukkit.plugin.Plugin;
 
 import io.hotmail.com.jacob_vejvoda.infernal_mobs.infernal_mobs;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
 
 public class InfernalMobsCompat implements Listener {
 

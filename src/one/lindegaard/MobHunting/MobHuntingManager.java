@@ -4,11 +4,11 @@ import com.sk89q.worldguard.protection.flags.Flags;
 
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.BagOfGold.PlayerBalance;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.Materials.Materials;
-import one.lindegaard.Core.Server.Servers;
-import one.lindegaard.Core.mobs.MinecraftMob;
-import one.lindegaard.Core.rewards.CustomItems;
+import one.lindegaard.BagOfGoldCore.Tools;
+import one.lindegaard.BagOfGoldCore.Materials.Materials;
+import one.lindegaard.BagOfGoldCore.Server.Servers;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
 import one.lindegaard.MobHunting.compatibility.*;

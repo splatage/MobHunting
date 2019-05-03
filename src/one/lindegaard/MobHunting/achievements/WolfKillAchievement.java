@@ -14,7 +14,7 @@ import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.MobArenaCompat;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.Core.mobs.MinecraftMob;
+import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 
 public class WolfKillAchievement implements ProgressAchievement, Listener {

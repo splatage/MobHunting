@@ -21,8 +21,8 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.material.Sign;
 import org.bukkit.util.Vector;
 
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.BagOfGoldCore.Tools;
+import one.lindegaard.BagOfGoldCore.Materials.Materials;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.storage.IDataCallback;
