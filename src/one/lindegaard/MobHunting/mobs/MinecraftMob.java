@@ -696,7 +696,7 @@ public enum MinecraftMob {
 					"Hidden:" + reward.getMoney(), "Hidden:" + reward.getRewardType(),
 					reward.getMoney() == 0 ? "Hidden:" : "Hidden:" + UUID.randomUUID(),
 					"Hidden:" + reward.getSkinUUID(),
-					MobHunting.getInstance().getMessages().getString("bagofgoldcore.reward.name"))));
+					MobHunting.getInstance().getMessages().getString("mobhunting.reward.name"))));
 
 		if (reward.getMoney() == 0)
 			skullMeta.setDisplayName(
