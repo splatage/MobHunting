@@ -4,11 +4,9 @@ import com.sk89q.worldguard.protection.flags.Flags;
 
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.BagOfGold.PlayerBalance;
-import one.lindegaard.BagOfGoldCore.Tools;
-import one.lindegaard.BagOfGoldCore.Materials.Materials;
-import one.lindegaard.BagOfGoldCore.Server.Servers;
-import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
-import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
+import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
 import one.lindegaard.MobHunting.compatibility.*;
@@ -17,9 +15,12 @@ import one.lindegaard.MobHunting.events.MobHuntEnableCheckEvent;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
 import one.lindegaard.MobHunting.grinding.Area;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
+import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.modifier.*;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderData;
+import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.update.SpigetUpdater;
+import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.*;
 import org.bukkit.command.CommandException;
@@ -1427,7 +1428,7 @@ public class MobHuntingManager implements Listener {
 
 		cash *= multipliers;
 
-		cash = Tools.ceil(cash);
+		cash = Misc.ceil(cash);
 
 		// Handle Bounty Kills
 		double reward = 0;
@@ -1480,7 +1481,7 @@ public class MobHuntingManager implements Listener {
 			}
 		}
 
-		cash = Tools.round(cash);
+		cash = Misc.round(cash);
 		plugin.getMessages().debug("Reward rounded to %s", cash);
 
 		// Check if there is a reward for this kill
@@ -1609,7 +1610,7 @@ public class MobHuntingManager implements Listener {
 							plugin.getRewardManager().format(cash));
 				}
 			} else {
-				cash = Tools.round(cash / 2);
+				cash = Misc.round(cash / 2);
 				if (cash >= plugin.getConfigManager().minimumReward) {
 					if (plugin.getConfigManager().dropMoneyOnGroup) {
 						if (MyPetCompat.isKilledByMyPet(killed))

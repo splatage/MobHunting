@@ -1,13 +1,10 @@
 package one.lindegaard.MobHunting.rewards;
 
-import one.lindegaard.BagOfGoldCore.Tools;
-import one.lindegaard.BagOfGoldCore.Materials.Materials;
-import one.lindegaard.BagOfGoldCore.Server.Servers;
-import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
-import one.lindegaard.BagOfGoldCore.rewards.Reward;
+import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
-//import one.lindegaard.MobHunting.util.Misc;
+import one.lindegaard.MobHunting.util.Misc;
 
 import java.util.UUID;
 
@@ -196,7 +193,7 @@ public class BagOfGoldSign implements Listener {
 
 							if (player.getInventory().firstEmpty() == -1)
 								plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null,
-										player.getLocation(), Tools.ceil(moneyOnSign));
+										player.getLocation(), Misc.ceil(moneyOnSign));
 							else {
 								ItemStack is;
 								if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")) {
@@ -205,7 +202,7 @@ public class BagOfGoldSign implements Listener {
 													Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem)),
 											new Reward(
 													plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-													Tools.ceil(moneyOnSign), UUID.fromString(Reward.MH_REWARD_ITEM_UUID),
+													Misc.ceil(moneyOnSign), UUID.fromString(Reward.MH_REWARD_ITEM_UUID),
 													UUID.randomUUID(), null));
 								} else
 									is = new CustomItems().getCustomtexture(
@@ -213,7 +210,7 @@ public class BagOfGoldSign implements Listener {
 											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 											plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 											plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature,
-											Tools.ceil(moneyOnSign), UUID.randomUUID(),
+											Misc.ceil(moneyOnSign), UUID.randomUUID(),
 											UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID));
 								player.getInventory().addItem(is);
 								found = true;

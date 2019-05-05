@@ -1,13 +1,14 @@
 package one.lindegaard.MobHunting.bounty;
 
-import one.lindegaard.BagOfGoldCore.Tools;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.achievements.AchievementManager;
 import one.lindegaard.MobHunting.compatibility.EssentialsCompat;
 import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
-import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
+import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.storage.IDataCallback;
 import one.lindegaard.MobHunting.storage.UserNotFoundException;
+import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -496,7 +497,7 @@ public class BountyManager implements Listener {
 				if (randomPlayer != null) {
 					String worldGroup = plugin.getWorldGroupManager().getCurrentWorldGroup(randomPlayer);
 					Bounty randomBounty = new Bounty(plugin, worldGroup, randomPlayer,
-							Tools.round(
+							Misc.round(
 									plugin.getRewardManager().getRandomPrice(plugin.getConfigManager().randomBounty)),
 							"Random Bounty");
 					save(randomBounty);

@@ -26,9 +26,9 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
-import one.lindegaard.BagOfGoldCore.Tools;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
+import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
 public class GrindingManager implements Listener {
 

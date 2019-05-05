@@ -38,16 +38,14 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import org.bukkit.event.block.Action;
 
-import one.lindegaard.BagOfGoldCore.Tools;
-import one.lindegaard.BagOfGoldCore.Server.Servers;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibHelper;
-import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
-import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
-import one.lindegaard.BagOfGoldCore.rewards.Reward;
+import one.lindegaard.MobHunting.mobs.MinecraftMob;
+import one.lindegaard.MobHunting.util.Misc;
 
 public class RewardListeners implements Listener {
 
@@ -235,7 +233,7 @@ public class RewardListeners implements Listener {
 									}
 								}
 							}
-							if (Tools.round(addedMoney) == Tools.round(reward.getMoney())) {
+							if (Misc.round(addedMoney) == Misc.round(reward.getMoney())) {
 								plugin.getMessages().debug("Was able to pickup all the money");
 								item.remove();
 								if (plugin.getRewardManager().getDroppedMoney().containsKey(entity.getEntityId()))
@@ -251,7 +249,7 @@ public class RewardListeners implements Listener {
 									plugin.getMessages().debug(
 											"%s picked up a %s with a value:%s (# of rewards left=%s)(PickupRewards)",
 											player.getName(), reward.getDisplayname(),
-											plugin.getRewardManager().format(Tools.round(reward.getMoney())),
+											plugin.getRewardManager().format(Misc.round(reward.getMoney())),
 											plugin.getRewardManager().getDroppedMoney().size());
 									plugin.getMessages().playerActionBarMessageQueue(player,
 											plugin.getMessages().getString("mobhunting.moneypickup", "money",
@@ -264,7 +262,7 @@ public class RewardListeners implements Listener {
 																					.trim()
 																			: reward.getDisplayname())));
 								}
-							} else if (Tools.round(addedMoney) < Tools.round(reward.getMoney())) {
+							} else if (Misc.round(addedMoney) < Misc.round(reward.getMoney())) {
 								double rest = reward.getMoney() - addedMoney;
 								plugin.getMessages().debug("Was not able to pick up %s money (remove Item)", rest);
 								item.remove();
@@ -414,7 +412,7 @@ public class RewardListeners implements Listener {
 					plugin.getMessages().learn(player,
 							plugin.getMessages().getString("mobhunting.learn.rewards.no-helmet"));
 					event.getPlayer().getEquipment().setHelmet(new ItemStack(Material.AIR));
-					if (Tools.round(reward.getMoney()) != Tools
+					if (Misc.round(reward.getMoney()) != Misc
 							.round(plugin.getRewardManager().addBagOfGoldPlayer(player, reward.getMoney())))
 						plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null, player.getLocation(),
 								reward.getMoney());
@@ -684,8 +682,8 @@ public class RewardListeners implements Listener {
 				if (isCursor.getType() == Material.AIR && Reward.isReward(isCurrentSlot)) {
 					Reward reward = Reward.getReward(isCurrentSlot);
 					if (reward.isBagOfGoldReward() || reward.isItemReward()) {
-						double currentSlotMoney = Tools.round(reward.getMoney() / 2);
-						double cursorMoney = Tools.round(reward.getMoney() - currentSlotMoney);
+						double currentSlotMoney = Misc.round(reward.getMoney() / 2);
+						double cursorMoney = Misc.round(reward.getMoney() - currentSlotMoney);
 						if (cursorMoney >= plugin.getConfigManager().minimumReward) {
 							event.setCancelled(true);
 							reward.setMoney(currentSlotMoney);
@@ -708,7 +706,7 @@ public class RewardListeners implements Listener {
 				if (Reward.isReward(isCursor)) {
 					Reward cursor = Reward.getReward(isCursor);
 					if (cursor.isBagOfGoldReward() || cursor.isItemReward()) {
-						double saldo = Tools.floor(cursor.getMoney());
+						double saldo = Misc.floor(cursor.getMoney());
 						for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
 							ItemStack is = player.getInventory().getItem(slot);
 							if (Reward.isReward(is)) {

@@ -89,7 +89,7 @@
 					<createDependencyReducedPom>false</createDependencyReducedPom>
 					<artifactSet>
 						<includes>
-							<include>one.lindegaard:BagOfGoldCore:*</include>
+							<include>one.lindegaard:Core:*</include>
 							<include>org.bstats:*</include>
 							<include>org.inventivetalent.spiget-update:bukkit**</include>
 						</includes>
@@ -114,8 +114,8 @@
 		<!-- Rocologo Core -->
 		<dependency>
 			<groupId>one.lindegaard</groupId>
-			<artifactId>BagOfGoldCore</artifactId>
-			<version>${bagofgoldcore.version}</version>
+			<artifactId>Core</artifactId>
+			<version>${core.version}</version>
 			<scope>compile</scope>
 		</dependency>
 

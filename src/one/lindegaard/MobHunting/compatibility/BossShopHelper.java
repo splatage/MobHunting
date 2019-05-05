@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.BagOfGoldCore.rewards.CustomItems;
-import one.lindegaard.BagOfGoldCore.rewards.Reward;
+import one.lindegaard.MobHunting.rewards.CustomItems;
+import one.lindegaard.MobHunting.rewards.Reward;
 
 public class BossShopHelper {
 

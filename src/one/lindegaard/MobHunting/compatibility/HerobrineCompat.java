@@ -23,7 +23,7 @@ import net.theprogrammersworld.herobrine.nms.entity.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
-import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
+import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
 public class HerobrineCompat implements Listener {
 

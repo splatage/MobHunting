@@ -23,30 +23,29 @@ import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-import one.lindegaard.BagOfGoldCore.Server.Servers;
-import one.lindegaard.BagOfGoldCore.mobs.MinecraftMob;
-import one.lindegaard.BagOfGoldCore.rewards.Reward;
+import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.skins.Skins;
+import one.lindegaard.Core.skins.Skins_1_10_R1;
+import one.lindegaard.Core.skins.Skins_1_11_R1;
+import one.lindegaard.Core.skins.Skins_1_12_R1;
+import one.lindegaard.Core.skins.Skins_1_13_R1;
+import one.lindegaard.Core.skins.Skins_1_13_R2;
+import one.lindegaard.Core.skins.Skins_1_14_R1;
+import one.lindegaard.Core.skins.Skins_1_8_R1;
+import one.lindegaard.Core.skins.Skins_1_8_R2;
+import one.lindegaard.Core.skins.Skins_1_8_R3;
+import one.lindegaard.Core.skins.Skins_1_9_R1;
+import one.lindegaard.Core.skins.Skins_1_9_R2;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.PlayerSettings;
-import one.lindegaard.BagOfGoldCore.skins.Skins;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_10_R1;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_11_R1;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_12_R1;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_13_R1;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_13_R2; 
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_14_R1;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_8_R1;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_8_R2;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_8_R3;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_9_R1;
-import one.lindegaard.BagOfGoldCore.skins.Skins_1_9_R2;
+import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
-public class CustomItems_slettes {
+public class CustomItems {
 
 	private MobHunting plugin;
 
-	public CustomItems_slettes(MobHunting plugin) {
-		this.plugin = plugin;
+	public CustomItems() {
+		this.plugin = MobHunting.getInstance();
 	}
 
 	// How to get Playerskin
@@ -337,19 +336,19 @@ public class CustomItems_slettes {
 		switch (minecraftMob) {
 		case Skeleton:
 			skull = new ItemStack(Material.SKELETON_SKULL, amount);
-			skull = plugin.getRewardManager().setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 
 		case WitherSkeleton:
 			skull = new ItemStack(Material.WITHER_SKELETON_SKULL, amount);
-			skull = plugin.getRewardManager().setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 
 		case Zombie:
 			skull = new ItemStack(Material.ZOMBIE_HEAD, amount);
-			skull = plugin.getRewardManager().setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 
@@ -359,13 +358,13 @@ public class CustomItems_slettes {
 
 		case Creeper:
 			skull = new ItemStack(Material.CREEPER_HEAD, amount);
-			skull = plugin.getRewardManager().setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 
 		case EnderDragon:
 			skull = new ItemStack(Material.DRAGON_HEAD, amount);
-			skull = plugin.getRewardManager().setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 

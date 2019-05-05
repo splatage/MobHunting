@@ -17,11 +17,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 
-import one.lindegaard.BagOfGoldCore.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
+import one.lindegaard.MobHunting.util.Misc;
 import one.lindegaard.MobHunting.util.UUIDHelper;
 
 public class SQLiteDataStore extends DatabaseDataStore {
@@ -276,7 +276,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				}
 				column2 = "total_cash";
 				int amount = stat.getAmount();
-				double cash = Tools.round(stat.getCash());
+				double cash = Misc.round(stat.getCash());
 				int player_id = getPlayerId(stat.getPlayer());
 				String str = String.format(Locale.US,
 						"UPDATE mh_Daily SET %1$s = %1$s + %2$d, %5$s = %5$s + %6$f WHERE ID = strftime(\"%%Y%%j\",\"now\")"
