@@ -67,7 +67,7 @@ public class SpigetUpdater {
 				public void run() {
 					checkForUpdate(sender, false);
 				}
-			}.runTaskTimer(MobHunting.getInstance(), 0L, seconds * 20L);
+			}.runTaskTimer(MobHunting.getInstance(), 30000L, seconds * 20L);
 		}
 	}
 

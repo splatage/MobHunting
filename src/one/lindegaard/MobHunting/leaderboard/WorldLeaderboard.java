@@ -149,13 +149,14 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 		return true;
 	}
 
-	public void placeSigns(BlockFace face) {
+	public void placeSigns() {
 		for (Block block : getSignBlocks()) {
+
 			block.setType(Material.LEGACY_WALL_SIGN);
 			BlockState state = block.getState();
-			Sign sign = (Sign) state.getData();
-			sign.setFacingDirection(face);
-			state.setData(sign);
+			org.bukkit.block.data.type.WallSign wallSign = (org.bukkit.block.data.type.WallSign) state.getBlockData();
+			wallSign.setFacing(mFacing);
+			state.setBlockData(wallSign);
 			state.update(true,false);
 		}
 	}
@@ -194,12 +195,12 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 			
 			signBlock.setType(Material.LEGACY_WALL_SIGN);
 			BlockState state = signBlock.getState();
-			Sign wallSign = (Sign) state.getData();
-			wallSign.setFacingDirection(mFacing);
-			state.setData(wallSign);
+			org.bukkit.block.data.type.WallSign wallSign = (org.bukkit.block.data.type.WallSign) state.getBlockData();
+			wallSign.setFacing(mFacing);
+			state.setBlockData(wallSign);
 			state.update(true,false);
 
-			placeSigns(mFacing);
+			placeSigns();
 			org.bukkit.block.Sign sign = (org.bukkit.block.Sign) signBlock.getState();
 			sign.setLine(0, ChatColor.BLUE + ChatColor.BOLD.toString() + "MobHunting");
 			String statName = getStatType().translateName();

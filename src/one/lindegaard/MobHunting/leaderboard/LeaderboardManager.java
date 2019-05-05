@@ -122,7 +122,7 @@ public class LeaderboardManager implements Listener {
 
 		if (!board.isSpaceAvailable())
 			throw new IllegalArgumentException("There is not enough room for the signs.");
-		board.placeSigns(facing);
+		board.placeSigns();
 		mLeaderboards.put(location.getWorld(), board);
 		board.update();
 		saveWorld(location.getWorld());

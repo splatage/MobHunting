@@ -6,6 +6,7 @@ import java.util.Random;
 import one.lindegaard.BagOfGoldCore.Tools;
 import one.lindegaard.BagOfGoldCore.WorldGroupManager;
 import one.lindegaard.BagOfGoldCore.Server.Servers;
+import one.lindegaard.BagOfGoldCore.update.SpigetUpdaterForced;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
 import one.lindegaard.MobHunting.commands.BountyCommand;
@@ -101,15 +102,15 @@ public class MobHunting extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
-		/**
-		Plugin bagOfGoldCorePlugin = Bukkit.getPluginManager().getPlugin("BagOfGoldCore");
-		if (bagOfGoldCorePlugin == null && !BagOfGoldCompat.isSupported()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.GREEN
-					+ "BagOfGoldCore is missing. MobHunting is dependend on BagGoldCore. It Will now be downloaded. Restart your server when downloading has finished.");
-			SpigetUpdaterForced.setCurrentJarFile(this.getFile().getName());
-			SpigetUpdaterForced.ForceDownloadJar(this);
+		if (!BagOfGoldCompat.isSupported()) {
+			Plugin bagOfGoldCorePlugin = Bukkit.getPluginManager().getPlugin("BagOfGoldCore");
+			if (bagOfGoldCorePlugin == null) {
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.GREEN
+						+ "BagOfGoldCore is missing. MobHunting is dependend on BagGoldCore. It Will now be downloaded. Restart your server when downloading has finished.");
+				SpigetUpdaterForced.setCurrentJarFile(this.getFile().getName());
+				SpigetUpdaterForced.ForceDownloadJar(this);
+			}
 		}
-		**/
 
 		int config_version = ConfigManager.getConfigVersion(mFile);
 		Bukkit.getConsoleSender().sendMessage(
