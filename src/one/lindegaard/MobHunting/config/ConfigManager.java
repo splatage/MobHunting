@@ -1034,7 +1034,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "pillager.message", category = "mobs")
 	public String pillagerMessage = "You killed a §1{killed}";
 	@ConfigField(name = "pillager.money.amount", category = "mobs")
-	public String pillagerMoney = "20:40";
+	public String pillagerMoney = "5:10";
 	@ConfigField(name = "pillager.money.chance", category = "mobs")
 	public double pillagerMoneyChance = 1;
 	@ConfigField(name = "pillager.commands", category = "mobs")
@@ -1926,7 +1926,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "fox.message", category = "passive")
 	public String foxMessage = "You killed a §1{killed}";
 	@ConfigField(name = "fox.money.amount", category = "passive")
-	public String foxMoney = "0";
+	public String foxMoney = "2";
 	@ConfigField(name = "fox.money.chance", category = "passive")
 	public double foxMoneyChance = 0.05;
 	@ConfigField(name = "fox.commands", category = "passive")

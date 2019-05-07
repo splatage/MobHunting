@@ -246,6 +246,7 @@ public class RewardManager {
 	}
 
 	public double addBagOfGoldPlayer(Player player, double amount) {
+		
 		boolean found = false;
 		double moneyLeftToGive = amount;
 		double addedMoney = 0;
@@ -317,7 +318,6 @@ public class RewardManager {
 	}
 
 	public double removeBagOfGoldPlayer(Player player, double amount) {
-		MobHunting mPlugin = (MobHunting) Bukkit.getPluginManager().getPlugin("MobHunting");
 		double taken = 0;
 		double toBeTaken = Misc.floor(amount);
 		CustomItems customItems = new CustomItems();
@@ -807,8 +807,9 @@ public class RewardManager {
 					return getPrice(mob, plugin.getConfigManager().polarBearMoney);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getPrice(mob, plugin.getConfigManager().strayMoney);
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
-					return getPrice(mob, plugin.getConfigManager().huskMoney);
+				//else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() == Profession.HUSK)
+				//else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				//	return getPrice(mob, plugin.getConfigManager().huskMoney);
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
 				//	return getPrice(mob, plugin.getConfigManager().villagerMoney);
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
