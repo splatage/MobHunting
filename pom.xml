@@ -124,8 +124,7 @@
 			<groupId>one.lindegaard</groupId>
 			<artifactId>BagOfGold</artifactId>
 			<version>${bagofgold.version}</version>
-			<type>jar</type>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- Gringotts -->
