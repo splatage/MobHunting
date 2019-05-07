@@ -6,7 +6,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.PlaceholderAPICompat;
 
-public class MobHuntingPlaceholderExpasion extends PlaceholderExpansion implements Listener {
+public class MobHuntingPlaceholderExpansion extends PlaceholderExpansion implements Listener {
 	
 	 /**
      * This method should always return true unless we

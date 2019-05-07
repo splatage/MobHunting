@@ -10,7 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.placeholder.MobHuntingPlaceholderExpasion;
+import one.lindegaard.MobHunting.placeholder.MobHuntingPlaceholderExpansion;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderData;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderManager;
 
@@ -34,7 +34,7 @@ public class PlaceholderAPICompat {
 						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 								+ "Enabling compatibility with PlaceholderAPI (" + mPlugin.getDescription().getVersion()
 								+ ").");
-				new MobHuntingPlaceholderExpasion().register();
+				new MobHuntingPlaceholderExpansion().register();
 				mPlaceHolderManager = new PlaceHolderManager(MobHunting.getInstance());
 				supported = true;
 			} else {
