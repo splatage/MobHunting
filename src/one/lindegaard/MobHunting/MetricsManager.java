@@ -8,6 +8,8 @@ import java.util.concurrent.Callable;
 
 import org.bukkit.Bukkit;
 
+import one.lindegaard.Core.HttpTools;
+import one.lindegaard.Core.HttpTools.httpCallback;
 import one.lindegaard.MobHunting.compatibility.ActionAnnouncerCompat;
 import one.lindegaard.MobHunting.compatibility.ActionBarAPICompat;
 import one.lindegaard.MobHunting.compatibility.ActionbarCompat;
@@ -74,12 +76,22 @@ public class MetricsManager {
 				try {
 					// make a URL to MCStats.org
 					URL url = new URL("https://bstats.org/");
-					if (!started && HttpTools.isHomePageReachable(url)) {
-						startBStatsMetrics();
-						plugin.getMessages().debug("Metrics reporting to Https://bstats.org has started.");
-						started = true;
-					} else {
-						plugin.getMessages().debug("https://bstats.org/ seems to be down");
+					if (!started) {
+						HttpTools.isHomePageReachable(url, new httpCallback() {
+						
+						@Override
+						public void onSuccess() {
+							startBStatsMetrics();
+							plugin.getMessages().debug("Metrics reporting to Https://bstats.org has started.");
+							started = true;
+						}
+						
+						@Override
+						public void onError() {
+							started=false;
+							plugin.getMessages().debug("https://bstats.org/ seems to be down");
+						}
+					});
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -91,7 +103,7 @@ public class MetricsManager {
 
 	private void startBStatsMetrics() {
 		bStatsMetrics = new Metrics(plugin);
-
+		
 		bStatsMetrics.addCustomChart(
 				new Metrics.SimplePie("database_used_for_mobhunting", () -> plugin.getConfigManager().databaseType));
 		bStatsMetrics.addCustomChart(new Metrics.SimplePie("language", () -> plugin.getConfigManager().language));
