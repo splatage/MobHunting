@@ -1,5 +1,7 @@
 V6.5.6
 * Better handling of bStats data collection
+* Deny players in Spectator mode to pickup BagOfGold items.
+* Fixed BagOfGold signs on 1.13.x servers
 V6.5.5
 * Minecraft 1.14 support added
 * Mute and Learn commands fixed.

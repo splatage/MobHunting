@@ -177,6 +177,10 @@ public class RewardListeners implements Listener {
 			return;
 
 		Player player = event.getPlayer();
+		if (player.getGameMode() == GameMode.SPECTATOR) {
+			event.setCancelled(true);
+			return;
+		}
 
 		if (plugin.getRewardManager().canPickupMoney(player)) {
 			Iterator<Entity> entityList = ((Entity) player).getNearbyEntities(1, 1, 1).iterator();

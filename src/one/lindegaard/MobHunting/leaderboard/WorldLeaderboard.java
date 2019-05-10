@@ -24,6 +24,7 @@ import org.bukkit.util.Vector;
 
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.storage.IDataCallback;
@@ -154,7 +155,10 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 
 	public void placeSigns() {
 		for (Block block : getSignBlocks()) {
-			block.setType(Material.OAK_WALL_SIGN);
+			if (Servers.isMC114OrNewer())
+				block.setType(Material.OAK_WALL_SIGN);
+			else
+				block.setType((Material.LEGACY_WALL_SIGN));
 			BlockState state = block.getState();
 			org.bukkit.block.data.type.WallSign wallSign = (org.bukkit.block.data.type.WallSign) state.getBlockData();
 			wallSign.setFacing(mFacing);
@@ -195,7 +199,10 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 		Block signBlock = mLocation.getBlock();
 		if (isLoaded(signBlock)) {
 
-			signBlock.setType(Material.OAK_WALL_SIGN);
+			if (Servers.isMC114OrNewer())
+				signBlock.setType(Material.OAK_WALL_SIGN);
+			else
+				signBlock.setType((Material.LEGACY_WALL_SIGN));
 			BlockState state = signBlock.getState();
 			org.bukkit.block.data.type.WallSign wallSign = (org.bukkit.block.data.type.WallSign) state.getBlockData();
 			wallSign.setFacing(mFacing);
@@ -241,8 +248,11 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 
 			if (isLoaded(block)) {
 
-				if (block.getType() != Material.OAK_WALL_SIGN) {
-					signBlock.setType(Material.OAK_WALL_SIGN);
+				if (!Materials.isSign(block)){
+					if (Servers.isMC114OrNewer())
+						signBlock.setType(Material.OAK_WALL_SIGN);
+					else
+						signBlock.setType((Material.LEGACY_WALL_SIGN));
 					BlockState state = signBlock.getState();
 					org.bukkit.block.data.type.WallSign wallSign = (org.bukkit.block.data.type.WallSign) state
 							.getBlockData();

@@ -1,5 +1,6 @@
 package one.lindegaard.MobHunting.rewards;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -10,8 +11,8 @@ import one.lindegaard.MobHunting.MobHunting;
 
 public class EntityPickupItemEventListener implements Listener {
 
-	//TODO: must be moved to bagofgold
-	
+	// TODO: must be moved to bagofgold
+
 	private PickupRewards pickupRewards;
 
 	public EntityPickupItemEventListener(PickupRewards pickupRewards) {
@@ -39,8 +40,12 @@ public class EntityPickupItemEventListener implements Listener {
 			}
 			return;
 		}
-		if (((Player) entity).getInventory().firstEmpty() != -1)
+		if (((Player) entity).getGameMode() == GameMode.SPECTATOR) {
+			event.setCancelled(true);
+			return;
+		} else if (((Player) entity).getInventory().firstEmpty() != -1)
 			pickupRewards.rewardPlayer((Player) entity, event.getItem(), event::setCancelled);
+		
 	}
 
 }
