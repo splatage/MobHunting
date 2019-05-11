@@ -55,10 +55,9 @@ public class MoneyMergeEventListener implements Listener {
 					}
 				} else if (reward1.isKilledHeadReward() || reward1.isKillerHeadReward()) {
 					if (reward1.getMoney() == reward2.getMoney()) {
-						reward2.setMoney(reward1.getMoney() + reward2.getMoney());
 						ItemMeta im = is2.getItemMeta();
 						is2.setItemMeta(im);
-						is2.setAmount(is2.getAmount()+item1.getItemStack().getAmount());
+						is2.setAmount(is2.getAmount());
 						item2.setItemStack(is2);
 						String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
 								.equalsIgnoreCase("ITEM") ? plugin.getRewardManager().format(reward2.getMoney())
@@ -69,7 +68,7 @@ public class MoneyMergeEventListener implements Listener {
 						item2.setCustomNameVisible(true);
 						item2.setMetadata(Reward.MH_REWARD_DATA,
 								new FixedMetadataValue(MobHunting.getInstance(), new Reward(reward2)));
-						plugin.getMessages().debug("Heads merged - new value=%s",
+						plugin.getMessages().debug("Heads merged - value=%s - each head",
 								plugin.getRewardManager().format(reward2.getMoney()));
 					}
 				}
