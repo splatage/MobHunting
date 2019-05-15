@@ -116,7 +116,7 @@
 			<groupId>one.lindegaard</groupId>
 			<artifactId>Core</artifactId>
 			<version>${core.version}</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- BagOfGold / -->
