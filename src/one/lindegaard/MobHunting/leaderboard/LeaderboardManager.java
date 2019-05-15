@@ -63,7 +63,7 @@ public class LeaderboardManager implements Listener {
 			plugin.getConfigManager().leaderboardUpdatePeriod = 1200;
 			plugin.getConfigManager().saveConfig();
 		}
-		mUpdater = Bukkit.getScheduler().runTaskTimer(MobHunting.getInstance(), new Updater(), 120L,
+		mUpdater = Bukkit.getScheduler().runTaskTimer(plugin, new Updater(), 120L,
 				leaderboardUpdatePeriod);
 
 		loadLegacyboards();

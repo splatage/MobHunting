@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Random;
 
 import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.WorldGroupManager;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;

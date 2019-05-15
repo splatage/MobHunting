@@ -1,6 +1,5 @@
 package one.lindegaard.MobHunting.rewards;
 
-import org.bukkit.GameMode;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -40,10 +39,7 @@ public class EntityPickupItemEventListener implements Listener {
 			}
 			return;
 		}
-		if (((Player) entity).getGameMode() == GameMode.SPECTATOR) {
-			event.setCancelled(true);
-			return;
-		} else if (((Player) entity).getInventory().firstEmpty() != -1)
+		if (((Player) entity).getInventory().firstEmpty() != -1)
 			pickupRewards.rewardPlayer((Player) entity, event.getItem(), event::setCancelled);
 		
 	}

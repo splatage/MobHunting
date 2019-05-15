@@ -176,9 +176,9 @@ public class MasterMobHunterSign implements Listener {
 			for (BlockFace bf : possibleBlockface) {
 				Block rb = lamp.getRelative(bf);
 				if (isMHPoweredSign(rb)) {
-					Material signType = rb.getType();
+					//Material signType = rb.getType();
 					Sign sign = ((Sign) rb.getState());
-					MaterialData md = sign.getData();
+					//MaterialData md = sign.getData();
 					String[] copyOfSigntext = sign.getLines();
 					rb.setType(Material.LEGACY_REDSTONE_TORCH_ON);
 					//rb.setTypeIdAndData(signType.getId(), md.getData(), false);

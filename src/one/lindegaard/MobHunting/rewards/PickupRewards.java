@@ -7,6 +7,7 @@ import one.lindegaard.MobHunting.compatibility.ProtocolLibHelper;
 import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 
@@ -24,12 +25,14 @@ public class PickupRewards {
 			Reward reward = Reward.getReward(item);
 			if (reward.isBagOfGoldReward() || reward.isItemReward()) {
 				callBack.setCancelled(true);
-				if (BagOfGoldCompat.isSupported()) {
+				if (player.getGameMode() == GameMode.SPECTATOR) {
+					return;
+				} else if (BagOfGoldCompat.isSupported()) {
 					done = plugin.getRewardManager().getEconomy().depositPlayer(player, reward.getMoney()).amount;
 				} else if (reward.getMoney() != 0 && !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
-							// If not Gringotts
-									done = plugin.getRewardManager().depositPlayer(player, reward.getMoney()).amount;
-									} else {
+					// If not Gringotts
+					done = plugin.getRewardManager().depositPlayer(player, reward.getMoney()).amount;
+				} else {
 					done = plugin.getRewardManager().addBagOfGoldPlayer(player, reward.getMoney());
 				}
 			}

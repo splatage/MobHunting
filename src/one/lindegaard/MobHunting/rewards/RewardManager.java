@@ -1111,7 +1111,7 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearCommands;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayCommands;
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskCommands;
 				
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
@@ -1355,7 +1355,7 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMessage;
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk)// Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMessage;
 				
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
@@ -1591,7 +1591,7 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearMoneyChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMoneyChance;
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk)//Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMoneyChance;
 
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
@@ -1831,7 +1831,7 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearMcMMOSkillRewardChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMcMMOSkillRewardChance;
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMcMMOSkillRewardChance;
 
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
@@ -2095,7 +2095,7 @@ public class RewardManager {
 					return getMcMMOXP(mob, plugin.getConfigManager().polarBearMcMMOSkillRewardAmount);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getMcMMOXP(mob, plugin.getConfigManager().strayMcMMOSkillRewardAmount);
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk)//Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
 					return getMcMMOXP(mob, plugin.getConfigManager().huskMcMMOSkillRewardAmount);
 
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
@@ -2330,7 +2330,7 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearEnabled;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayEnabled;
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk)//Zombie && ((Zombie) mob).getVillagerProfession() ==  Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskEnabled;
 
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
@@ -2576,7 +2576,7 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearHeadDropHead;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadDropHead;
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskHeadDropHead;
 
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
@@ -2824,7 +2824,7 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearHeadDropChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadDropChance;
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk ) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskHeadDropChance;
 
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
@@ -3072,7 +3072,7 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearHeadMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadMessage;
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskHeadMessage;
 
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
@@ -3320,7 +3320,7 @@ public class RewardManager {
 					return getPrice(mob, plugin.getConfigManager().polarBearHeadPrize);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getPrice(mob, plugin.getConfigManager().strayHeadPrize);
-				else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
 					return getPrice(mob, plugin.getConfigManager().huskHeadPrize);
 
 				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)

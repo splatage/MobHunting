@@ -1,3 +1,6 @@
+V6.5.7
+* Fixed bug in Spectator mode
+* Fixed NPE when killing a Zombie
 V6.5.6
 * Better handling of bStats data collection
 * Deny players in Spectator mode to pickup BagOfGold items.
