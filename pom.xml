@@ -131,9 +131,8 @@
 		<dependency>
 			<groupId>org.gestern.gringotts</groupId>
 			<artifactId>Gringotts</artifactId>
-			<version>${gringotts.jar.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/${gringotts.jar.version}</systemPath>
+			<version>${gringotts.version}</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- WorldEdit -->

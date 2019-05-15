@@ -34,7 +34,7 @@ public class GringottsCompat {
 	public static Gringotts getGringotts() {
 		return mPlugin;
 	}
-
+	
 	public static boolean isSupported() {
 		return supported;
 	}
