@@ -177,12 +177,13 @@ public class RewardListeners implements Listener {
 			return;
 
 		Player player = event.getPlayer();
-		if (player.getGameMode() == GameMode.SPECTATOR) {
-			event.setCancelled(true);
+		
+		//Its not allowed to pickup BagOfGold in Spectator mode
+		if (player.getGameMode()==GameMode.SPECTATOR)
 			return;
-		}
-
+		
 		if (plugin.getRewardManager().canPickupMoney(player)) {
+			
 			Iterator<Entity> entityList = ((Entity) player).getNearbyEntities(1, 1, 1).iterator();
 			while (entityList.hasNext() && plugin.getRewardManager().canPickupMoney(player)) {
 				Entity entity = entityList.next();

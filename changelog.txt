@@ -1,3 +1,5 @@
+V6.6.0
+* Fixed problem where playered could not move in Spectator mode
 V6.5.8
 * Added support for Gringotts 2.11
 V6.5.7
