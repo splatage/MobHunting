@@ -165,6 +165,7 @@ mobhunting.commands.happyhour.started_title=§5Happy Hour
 mobhunting.commands.happyhour.started_subtitle=§5Get §f${multiplier}xReward§5 the next §f${minutes}§5 minutes
 mobhunting.commands.happyhour.ongoing_title=§5It's Happy Hour
 mobhunting.commands.happyhour.ongoing_subtitle=§5Get §f${multiplier}xReward§5 the next §f${minutes}§5 minutes
+mobhunting.commands.happyhour.ongoing=§5It's Happy Hour, get §f${multiplier}xReward§5 the next §f${minutes}§5 minutes when you kill mobs.
 mobhunting.commands.happyhour.ended_title=§5Happy Hour
 mobhunting.commands.happyhour.ended_subtitle=§5ended
 mobhunting.commands.happyhour.cancelled_title=§5Happy Hour

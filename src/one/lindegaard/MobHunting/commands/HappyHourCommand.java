@@ -218,18 +218,19 @@ public class HappyHourCommand implements ICommand, Listener {
 		if (player.hasPermission(getPermission())) {
 			if (happyhourevent != null && (Bukkit.getScheduler().isCurrentlyRunning(happyhourevent.getTaskId())
 					|| Bukkit.getScheduler().isQueued(happyhourevent.getTaskId()))) {
-				// plugin.getMessages().playerSendMessage(player, plugin.getMessages()
-				// .getString("mobhunting.commands.happyhour.ongoing", "minutesleft",
-				// minutesLeft));
 				Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 
 					@Override
 					public void run() {
-						plugin.getMessages().playerSendTitlesMessage(player,
-								plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
-								plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_subtitle",
-										"multiplier", multiplier, "minutes", minutesLeft),
-								20, 150, 20);
+
+						plugin.getMessages().playerSendMessage(player, plugin.getMessages()
+								.getString("mobhunting.commands.happyhour.ongoing", "multiplier", multiplier, "minutes", minutesLeft));
+
+						//plugin.getMessages().playerSendTitlesMessage(player,
+						//		plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
+						//		plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_subtitle",
+						//				"multiplier", multiplier, "minutes", minutesLeft),
+						//		20, 150, 20);
 					}
 				}, 200L);
 
