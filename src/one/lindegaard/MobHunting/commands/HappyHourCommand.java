@@ -7,17 +7,22 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 
-public class HappyHourCommand implements ICommand {
+public class HappyHourCommand implements ICommand, Listener {
 
 	private MobHunting plugin;
 
 	public HappyHourCommand(MobHunting plugin) {
 		this.plugin = plugin;
+		Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	private int minutesToRun = 0;
@@ -90,12 +95,13 @@ public class HappyHourCommand implements ICommand {
 				for (Player player : Tools.getOnlinePlayers()) {
 					plugin.getMessages().playerSendTitlesMessage(player,
 							plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
-							plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_subtitle", "multiplier",
-									multiplier, "minutes", minutesLeft),
+							plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_subtitle",
+									"multiplier", multiplier, "minutes", minutesLeft),
 							20, 100, 20);
 				}
 			} else {
-				plugin.getMessages().senderSendMessage(sender,plugin.getMessages().getString("mobhunting.commands.happyhour.not_started"));
+				plugin.getMessages().senderSendMessage(sender,
+						plugin.getMessages().getString("mobhunting.commands.happyhour.not_started"));
 			}
 			return true;
 
@@ -119,10 +125,12 @@ public class HappyHourCommand implements ICommand {
 					for (Player player : Tools.getOnlinePlayers()) {
 						plugin.getMessages().playerSendTitlesMessage(player,
 								plugin.getMessages().getString("mobhunting.commands.happyhour.cancelled_title"),
-								plugin.getMessages().getString("mobhunting.commands.happyhour.cancelled_subtitle"), 20, 100, 20);
+								plugin.getMessages().getString("mobhunting.commands.happyhour.cancelled_subtitle"), 20,
+								100, 20);
 					}
 				} else
-					plugin.getMessages().senderSendMessage(sender,plugin.getMessages().getString("mobhunting.commands.happyhour.not_now"));
+					plugin.getMessages().senderSendMessage(sender,
+							plugin.getMessages().getString("mobhunting.commands.happyhour.not_now"));
 				return true;
 			}
 
@@ -149,8 +157,8 @@ public class HappyHourCommand implements ICommand {
 			for (Player player : Tools.getOnlinePlayers()) {
 				plugin.getMessages().playerSendTitlesMessage(player,
 						plugin.getMessages().getString("mobhunting.commands.happyhour.started_title"),
-						plugin.getMessages().getString("mobhunting.commands.happyhour.started_subtitle", "multiplier", multiplier,
-								"minutes", minutesToRun),
+						plugin.getMessages().getString("mobhunting.commands.happyhour.started_subtitle", "multiplier",
+								multiplier, "minutes", minutesToRun),
 						20, 100, 20);
 			}
 
@@ -168,7 +176,8 @@ public class HappyHourCommand implements ICommand {
 				for (Player player : Tools.getOnlinePlayers()) {
 					plugin.getMessages().playerSendTitlesMessage(player,
 							plugin.getMessages().getString("mobhunting.commands.happyhour.ended_title"),
-							plugin.getMessages().getString("mobhunting.commands.happyhour.ended_subtitle"), 20, 100, 20);
+							plugin.getMessages().getString("mobhunting.commands.happyhour.ended_subtitle"), 20, 100,
+							20);
 				}
 			}, (long) (minutesToRun * 20 * 60));
 
@@ -197,6 +206,28 @@ public class HappyHourCommand implements ICommand {
 			}
 		}
 		return items;
+	}
+
+	// ***************************************************************************************************
+	// Events
+	// ***************************************************************************************************
+
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	private void onPlayerJoin(PlayerJoinEvent event) {
+		final Player player = event.getPlayer();
+		if (player.hasPermission(getPermission())) {
+			if (happyhourevent != null && (Bukkit.getScheduler().isCurrentlyRunning(happyhourevent.getTaskId())
+					|| Bukkit.getScheduler().isQueued(happyhourevent.getTaskId()))) {
+				// plugin.getMessages().playerSendMessage(player, plugin.getMessages()
+				// .getString("mobhunting.commands.happyhour.ongoing", "minutesleft",
+				// minutesLeft));
+				plugin.getMessages().playerSendTitlesMessage(player,
+						plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
+						plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_subtitle", "multiplier",
+								multiplier, "minutes", minutesLeft),
+						20, 150, 20);
+			}
+		}
 	}
 
 }
