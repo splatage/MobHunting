@@ -310,8 +310,13 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("bounties",
 				"########################################################################" + "\nBounty settings"
 						+ "\n########################################################################"
-						+ "\nHere you can chance the behavior of the Bounty Command or you can disable"
+						+ "\nHere you can set the behavior of the Bounty Command or you can disable"
 						+ "\nthe command completely.");
+
+		setCategoryComment("happyhour",
+				"########################################################################" + "\nBounty settings"
+						+ "\n########################################################################"
+						+ "\nHere you can set the behavior of the HappyHour Command");
 
 		setCategoryComment("plugins",
 				"########################################################################"
@@ -3081,6 +3086,13 @@ public class ConfigManager extends AutoConfig {
 	public String randomBounty = "50:100";
 
 	// #####################################################################################
+	// Bounty Settings
+	// #####################################################################################
+	@ConfigField(name = "delay_happyhour_annoucement", category = "happyhour", comment = "Here you can delay the HappyHour announcement announced to a "
+			+ "\njoining player, if an event is ongion.")
+	public int delayHappyHourAnnouncement = 3;
+
+	// #####################################################################################
 	// Integration
 	// #####################################################################################
 	// #####################################################################################
@@ -4969,7 +4981,7 @@ public class ConfigManager extends AutoConfig {
 			file.delete();
 		return res;
 	}
-	
+
 	public int getProgressAchievementLevel1(MinecraftMob mob) {
 		switch (mob) {
 		case Bat:
@@ -5126,150 +5138,150 @@ public class ConfigManager extends AutoConfig {
 	public double getHeadPrize(MinecraftMob mob) {
 		switch (mob) {
 		case Bat:
-			return getPrice(mob,batHeadPrize);
+			return getPrice(mob, batHeadPrize);
 		case Blacksmith:
-			return getPrice(mob,blacksmithHeadPrize);
+			return getPrice(mob, blacksmithHeadPrize);
 		case Blaze:
-			return getPrice(mob,blazeHeadPrize);
+			return getPrice(mob, blazeHeadPrize);
 		case BonusMob:
-			return getPrice(mob,bonusMobHeadPrize);
+			return getPrice(mob, bonusMobHeadPrize);
 		case Butcher:
-			return getPrice(mob,butcherHeadPrize);
+			return getPrice(mob, butcherHeadPrize);
 		// case Cartographer:
 		// return
 		// getPrice(mob,cartographerHeadPrize);
 		case CaveSpider:
-			return getPrice(mob,caveSpiderHeadPrize);
+			return getPrice(mob, caveSpiderHeadPrize);
 		case Chicken:
-			return getPrice(mob,chickenHeadPrize);
+			return getPrice(mob, chickenHeadPrize);
 		case TropicalFish:
-			return getPrice(mob,tropicalFishHeadPrize);
+			return getPrice(mob, tropicalFishHeadPrize);
 		case Cow:
-			return getPrice(mob,cowHeadPrize);
+			return getPrice(mob, cowHeadPrize);
 		case Creeper:
-			return getPrice(mob,creeperHeadPrize);
+			return getPrice(mob, creeperHeadPrize);
 		case Donkey:
-			return getPrice(mob,donkeyHeadPrize);
+			return getPrice(mob, donkeyHeadPrize);
 		case ElderGuardian:
-			return getPrice(mob,elderGuardianHeadPrize);
+			return getPrice(mob, elderGuardianHeadPrize);
 		case EnderDragon:
-			return getPrice(mob,enderDragonHeadPrize);
+			return getPrice(mob, enderDragonHeadPrize);
 		case Enderman:
-			return getPrice(mob,endermanHeadPrize);
+			return getPrice(mob, endermanHeadPrize);
 		case Endermite:
-			return getPrice(mob,endermiteHeadPrize);
+			return getPrice(mob, endermiteHeadPrize);
 		case Evoker:
-			return getPrice(mob,evokerHeadPrize);
+			return getPrice(mob, evokerHeadPrize);
 		case Farmer:
-			return getPrice(mob,farmerHeadPrize);
+			return getPrice(mob, farmerHeadPrize);
 		case Ghast:
-			return getPrice(mob,ghastHeadPrize);
+			return getPrice(mob, ghastHeadPrize);
 		case Giant:
-			return getPrice(mob,giantHeadPrize);
+			return getPrice(mob, giantHeadPrize);
 		case Guardian:
-			return getPrice(mob,guardianHeadPrize);
+			return getPrice(mob, guardianHeadPrize);
 		case Horse:
-			return getPrice(mob,horseHeadPrize);
+			return getPrice(mob, horseHeadPrize);
 		case Husk:
-			return getPrice(mob,huskHeadPrize);
+			return getPrice(mob, huskHeadPrize);
 		case Illusioner:
-			return getPrice(mob,illusionerHeadPrize);
+			return getPrice(mob, illusionerHeadPrize);
 		case IronGolem:
-			return getPrice(mob,ironGolemHeadPrize);
+			return getPrice(mob, ironGolemHeadPrize);
 		case KillerRabbit:
-			return getPrice(mob,killerRabbitHeadPrize);
+			return getPrice(mob, killerRabbitHeadPrize);
 		case Librarian:
-			return getPrice(mob,librarianHeadPrize);
+			return getPrice(mob, librarianHeadPrize);
 		case Llama:
-			return getPrice(mob,llamaHeadPrize);
+			return getPrice(mob, llamaHeadPrize);
 		case MagmaCube:
-			return getPrice(mob,magmaCubeHeadPrize);
+			return getPrice(mob, magmaCubeHeadPrize);
 		case Mule:
-			return getPrice(mob,muleHeadPrize);
+			return getPrice(mob, muleHeadPrize);
 		case MushroomCow:
-			return getPrice(mob,mushroomCowHeadPrize);
+			return getPrice(mob, mushroomCowHeadPrize);
 		case Nitwit:
-			return getPrice(mob,nitwitHeadPrize);
+			return getPrice(mob, nitwitHeadPrize);
 		case Ocelot:
-			return getPrice(mob,ocelotHeadPrize);
+			return getPrice(mob, ocelotHeadPrize);
 		case Parrot:
-			return getPrice(mob,parrotHeadPrize);
+			return getPrice(mob, parrotHeadPrize);
 		case PassiveRabbit:
-			return getPrice(mob,rabbitHeadPrize);
+			return getPrice(mob, rabbitHeadPrize);
 		case Pig:
-			return getPrice(mob,pigHeadPrize);
+			return getPrice(mob, pigHeadPrize);
 		case PolarBear:
-			return getPrice(mob,polarBearHeadPrize);
+			return getPrice(mob, polarBearHeadPrize);
 		case Priest:
-			return getPrice(mob,priestHeadPrize);
+			return getPrice(mob, priestHeadPrize);
 		case Pufferfish:
-			return getPrice(mob,pufferfishHeadPrize);
+			return getPrice(mob, pufferfishHeadPrize);
 		case PvpPlayer:
-			return getPrice(mob,pvpHeadPrize);
+			return getPrice(mob, pvpHeadPrize);
 		case Cod:
-			return getPrice(mob,codHeadPrize);
+			return getPrice(mob, codHeadPrize);
 		case Salmon:
-			return getPrice(mob,salmonHeadPrize);
+			return getPrice(mob, salmonHeadPrize);
 		case Sheep:
-			return getPrice(mob,sheepHeadPrize);
+			return getPrice(mob, sheepHeadPrize);
 		case Shulker:
-			return getPrice(mob,shulkerHeadPrize);
+			return getPrice(mob, shulkerHeadPrize);
 		case Silverfish:
-			return getPrice(mob,silverfishHeadPrize);
+			return getPrice(mob, silverfishHeadPrize);
 		case Skeleton:
-			return getPrice(mob,skeletonHeadPrize);
+			return getPrice(mob, skeletonHeadPrize);
 		case SkeletonHorse:
-			return getPrice(mob,skeletonHorseHeadPrize);
+			return getPrice(mob, skeletonHorseHeadPrize);
 		case Slime:
-			return getPrice(mob,slimeHeadPrize);
+			return getPrice(mob, slimeHeadPrize);
 		case Snowman:
-			return getPrice(mob,snowmanHeadPrize);
+			return getPrice(mob, snowmanHeadPrize);
 		case Spider:
-			return getPrice(mob,spiderHeadPrize);
+			return getPrice(mob, spiderHeadPrize);
 		case Squid:
-			return getPrice(mob,squidHeadPrize);
+			return getPrice(mob, squidHeadPrize);
 		case Stray:
-			return getPrice(mob,strayHeadPrize);
+			return getPrice(mob, strayHeadPrize);
 		case Vex:
-			return getPrice(mob,vexHeadPrize);
+			return getPrice(mob, vexHeadPrize);
 		case Villager:
-			return getPrice(mob,villagerHeadPrize);
+			return getPrice(mob, villagerHeadPrize);
 		case Vindicator:
-			return getPrice(mob,vindicatorHeadPrize);
+			return getPrice(mob, vindicatorHeadPrize);
 		case Witch:
-			return getPrice(mob,witchHeadPrize);
+			return getPrice(mob, witchHeadPrize);
 		case Wither:
-			return getPrice(mob,witherHeadPrize);
+			return getPrice(mob, witherHeadPrize);
 		case WitherSkeleton:
-			return getPrice(mob,witherSkeletonHeadPrize);
+			return getPrice(mob, witherSkeletonHeadPrize);
 		case Wolf:
-			return getPrice(mob,wolfHeadPrize);
+			return getPrice(mob, wolfHeadPrize);
 		case Zombie:
-			return getPrice(mob,zombieHeadPrize);
+			return getPrice(mob, zombieHeadPrize);
 		case ZombieHorse:
-			return getPrice(mob,zombieHorseHeadPrize);
+			return getPrice(mob, zombieHorseHeadPrize);
 		case ZombiePigman:
-			return getPrice(mob,zombiePigmanHeadPrize);
+			return getPrice(mob, zombiePigmanHeadPrize);
 		case ZombieVillager:
-			return getPrice(mob,zombieVillagerHeadPrize);
+			return getPrice(mob, zombieVillagerHeadPrize);
 		case Dolphin:
-			return getPrice(mob,dolphinHeadPrize);
+			return getPrice(mob, dolphinHeadPrize);
 		case Drowned:
-			return getPrice(mob,drownedHeadPrize);
+			return getPrice(mob, drownedHeadPrize);
 		case Phantom:
-			return getPrice(mob,phantomHeadPrize);
+			return getPrice(mob, phantomHeadPrize);
 		case Turtle:
-			return getPrice(mob,turtleHeadPrize);
+			return getPrice(mob, turtleHeadPrize);
 		case Cat:
-			return getPrice(mob,catHeadPrize);
+			return getPrice(mob, catHeadPrize);
 		case Fox:
-			return getPrice(mob,foxHeadPrize);
+			return getPrice(mob, foxHeadPrize);
 		case Panda:
-			return getPrice(mob,pandaHeadPrize);
+			return getPrice(mob, pandaHeadPrize);
 		case Pillager:
-			return getPrice(mob,pillagerHeadPrize);
+			return getPrice(mob, pillagerHeadPrize);
 		case Ravager:
-			return getPrice(mob,ravagerHeadPrize);
+			return getPrice(mob, ravagerHeadPrize);
 		}
 		return 0;
 	}
@@ -5287,7 +5299,7 @@ public class ConfigManager extends AutoConfig {
 							+ getFriendlyName(mob)
 							+ " in config.yml has a wrong format. The prize can't start with \":\"");
 			if (str.length() > 1)
-				return getPrice(mob,str.substring(1, str.length()));
+				return getPrice(mob, str.substring(1, str.length()));
 			else
 				return 0;
 		} else if (str.contains(":")) {
@@ -5319,5 +5331,5 @@ public class ConfigManager extends AutoConfig {
 			return "minecraft:give {player} skull {amount} 3 {SkullOwner:{Id:\"{playerid}\",Properties:{textures:[{Value:\"{texturevalue}\"}]}},display:{Name:\"{displayname}\",Lore:[{lore}]}}";
 		}
 	}
-	
+
 }
