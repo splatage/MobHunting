@@ -124,7 +124,7 @@
 			<groupId>one.lindegaard</groupId>
 			<artifactId>BagOfGold</artifactId>
 			<version>${bagofgold.version}</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Gringotts -->
@@ -132,7 +132,7 @@
 			<groupId>org.gestern.gringotts</groupId>
 			<artifactId>Gringotts</artifactId>
 			<version>${gringotts.version}</version>
-			<scope>compile</scope>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- WorldEdit -->
