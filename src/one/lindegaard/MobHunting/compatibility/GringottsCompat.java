@@ -2,10 +2,9 @@ package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.gestern.gringotts.Gringotts;
 
 import one.lindegaard.MobHunting.MobHunting;
-
-import org.gestern.gringotts.Gringotts;
 
 public class GringottsCompat {
 
@@ -22,9 +21,18 @@ public class GringottsCompat {
 		} else {
 			mPlugin = (Gringotts) Bukkit.getPluginManager().getPlugin(CompatPlugin.Gringotts.getName());
 
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling Compatibility with Gringotts (" + getGringotts().getDescription().getVersion() + ")");
-			supported = true;
+			if (mPlugin.getDescription().getVersion().compareTo("2.11") >= 0) {
+
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+						+ "Enabling Compatibility with Gringotts (" + getGringotts().getDescription().getVersion() + ")");
+				supported = true;
+
+			} else {
+				Bukkit.getConsoleSender()
+						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
+								+ "Your current version of Gringotts (" + mPlugin.getDescription().getVersion()
+								+ ") has no API implemented. Please update to V2.11 or newer.");
+			}
 		}
 	}
 

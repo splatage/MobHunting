@@ -129,10 +129,9 @@
 
 		<!-- Gringotts -->
 		<dependency>
-			<groupId>org.gestern.gringotts</groupId>
+			<groupId>com.github.MinecraftWars</groupId>
 			<artifactId>Gringotts</artifactId>
 			<version>${gringotts.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- WorldEdit -->
@@ -301,15 +300,6 @@
 			<groupId>com.kiwifisher.mobstacker.MobStacker</groupId>
 			<artifactId>MobStacker</artifactId>
 			<version>${MobStacker.version}</version>
-		</dependency>
-
-		<!-- Gringotts -->
-		<dependency>
-			<groupId>org.gestern.gringotts</groupId>
-			<artifactId>Gringotts</artifactId>
-			<version>${gringotts.jar.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/${gringotts.jar.version}</systemPath>
 		</dependency>
 
 		<!-- MythicMobs Old -->

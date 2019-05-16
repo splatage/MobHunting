@@ -359,14 +359,14 @@ public class RewardManager {
 		Item item = null;
 		money = Misc.ceil(money);
 		if (GringottsCompat.isSupported()) {
-			List<Denomination> denoms = Configuration.CONF.currency.denominations();
-			int unit = Configuration.CONF.currency.unit;
+			List<Denomination> denoms = Configuration.CONF.getCurrency().getDenominations();
+			int unit = Configuration.CONF.getCurrency().getUnit();
 			double rest = money;
 			for (Denomination d : denoms) {
-				ItemStack is = new ItemStack(d.key.type.getType(), 1);
-				while (rest >= (d.value / unit)) {
+				ItemStack is = new ItemStack(d.getKey().type.getType(), 1);
+				while (rest >= (d.getValue() / unit)) {
 					item = location.getWorld().dropItem(location, is);
-					rest = rest - (d.value / unit);
+					rest = rest - (d.getValue() / unit);
 				}
 			}
 		} else {
