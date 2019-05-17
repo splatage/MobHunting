@@ -314,9 +314,9 @@ public class ConfigManager extends AutoConfig {
 						+ "\nthe command completely.");
 
 		setCategoryComment("happyhour",
-				"########################################################################" + "\nBounty settings"
+				"########################################################################" + "\nHappy Hour settings"
 						+ "\n########################################################################"
-						+ "\nHere you can set the behavior of the HappyHour Command");
+						+ "\nHere you can set the behavior of the Happy Hour event.");
 
 		setCategoryComment("plugins",
 				"########################################################################"

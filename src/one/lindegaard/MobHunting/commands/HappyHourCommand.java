@@ -92,15 +92,14 @@ public class HappyHourCommand implements ICommand, Listener {
 			// status of happyhour
 			if (happyhourevent != null && (Bukkit.getScheduler().isCurrentlyRunning(happyhourevent.getTaskId())
 					|| Bukkit.getScheduler().isQueued(happyhourevent.getTaskId()))) {
-				minutesLeft = minutesToRun - ((int) (System.currentTimeMillis() - starttime) / (1000 * 60));
-				plugin.getMessages().debug("The happy hour ends in %s minutes", minutesLeft);
-
 				if (sender instanceof Player)
 					plugin.getMessages().playerSendMessage((Player) sender, plugin.getMessages().getString(
 							"mobhunting.commands.happyhour.ongoing", "multiplier", multiplier, "minutes", minutesLeft));
 				else
 					plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
 							"mobhunting.commands.happyhour.ongoing", "multiplier", multiplier, "minutes", minutesLeft));
+				plugin.getMessages().debug("The happy hour ends in %s minutes", minutesLeft);
+				minutesLeft = minutesToRun - ((int) (System.currentTimeMillis() - starttime) / (1000 * 60));
 
 				// plugin.getMessages().playerSendTitlesMessage(player,
 				// plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
@@ -179,7 +178,8 @@ public class HappyHourCommand implements ICommand, Listener {
 
 				happyhourevent = Bukkit.getScheduler().runTaskTimer(MobHunting.getInstance(), () -> {
 					minutesLeft = minutesToRun - ((int) (System.currentTimeMillis() - starttime) / (1000 * 60));
-					plugin.getMessages().debug("The happy hour ends in %s minutes", minutesLeft);
+					if (minutesLeft > 0)
+						plugin.getMessages().debug("The happy hour ends in %s minutes", minutesLeft);
 				}, 18000, 18000);
 
 				happyhoureventStop = Bukkit.getScheduler().runTaskLater(MobHunting.getInstance(), () -> {
@@ -244,9 +244,10 @@ public class HappyHourCommand implements ICommand, Listener {
 					@Override
 					public void run() {
 
-						plugin.getMessages().playerSendMessage(player,
-								plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing", "multiplier",
-										multiplier, "minutes", minutesLeft));
+						if (minutesLeft > 0)
+							plugin.getMessages().playerSendMessage(player,
+									plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing",
+											"multiplier", multiplier, "minutes", minutesLeft));
 
 						// plugin.getMessages().playerSendTitlesMessage(player,
 						// plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
