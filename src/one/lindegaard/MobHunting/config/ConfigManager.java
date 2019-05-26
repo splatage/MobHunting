@@ -3906,7 +3906,7 @@ public class ConfigManager extends AutoConfig {
 	public boolean denyHoppersToPickUpMoney = true;
 
 	@ConfigField(name = "limit_per_bag", category = "dropmoneyonground", comment = "If you only want the bags to be able to contain a "
-			+ "\ncertain amount of gold you can set the limit here. Default 10000.")
+			+ "\ncertain amount of gold you can set the limit here. Default 10000. Set limit_per_bag: 9999999999 to disable the feature.")
 	public double limitPerBag = 10000;
 
 	// #####################################################################################

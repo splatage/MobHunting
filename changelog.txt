@@ -1,5 +1,6 @@
 V6.6.1
 * Happy hour is announced when a player joins the server. The announcement delay can be adjusted in config.yml in the Happy Hour section
+* Creation of Leaderboards fixed
 V6.6.0
 * Fixed problem where playered could not move in Spectator mode
 V6.5.8
