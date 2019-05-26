@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.Sign;
 
 import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.leaderboard.WorldLeaderboard;
@@ -340,10 +341,11 @@ public class LeaderboardCommand implements ICommand, Listener {
 		}
 
 		if (state.create) {
-			//BlockFace face = ((Sign) event.getClickedBlock().getState().getData()).getFacing();
-
-			BlockFace face = ((WallSign) event.getClickedBlock().getState().getBlockData()).getFacing();
-					
+			BlockFace face;
+			if (Servers.isMC114OrNewer())
+				face = ((WallSign) event.getClickedBlock().getState().getBlockData()).getFacing();
+			else
+				face = ((Sign) event.getClickedBlock().getState().getData()).getFacing();
 			try {
 				plugin.getLeaderboardManager().createLeaderboard(event.getClickedBlock().getLocation(), face,
 						state.type, state.period, state.horizontal, state.width, state.height);
