@@ -1,5 +1,6 @@
 V6.6.2
-*
+* zh_CN.lang updated. Thanks to Fisherman_wcz.
+* Core updated
 V6.6.1
 * Happy hour is announced when a player joins the server. The announcement delay can be adjusted in config.yml in the Happy Hour section
 * Creation of Leaderboards fixed
