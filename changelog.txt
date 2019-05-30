@@ -1,3 +1,5 @@
+V6.6.3
+* KNOWN Bug - MobHunting does not give rewards when killing "InfernalMobs 5.7" mobs. I have contacted the InfernalMobs Dev to get help.
 V6.6.2
 * zh_CN.lang updated. Thanks to Fisherman_wcz.
 * Core updated

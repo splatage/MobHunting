@@ -6,8 +6,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<version>6.6.2</version>
-	<!-- <version>6.6.2-SNAPSHOT-B${build.number}</version> -->
+	<version>6.6.3</version>
+	<!-- <version>6.6.3-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -329,7 +329,7 @@
 
 		<!-- InfernalMobs -->
 		<dependency>
-			<groupId>io.hotmail.com.jacob_vejvoda.infernal_mobs.infernal_mob</groupId>
+			<groupId>io.hotmail.com.jacob_vejvoda.infernal_mobs.infernal_mobs</groupId>
 			<artifactId>InfernalMobs</artifactId>
 			<version>${InfernalMobs.version}</version>
 		</dependency>
