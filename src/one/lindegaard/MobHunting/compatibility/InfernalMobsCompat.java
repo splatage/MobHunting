@@ -64,9 +64,7 @@ public class InfernalMobsCompat implements Listener {
 
 	public static boolean isInfernalMob(Entity entity) {
 		if (isSupported())
-			// TODO: FIX THIS !!!
-			//return entity.hasMetadata(MH_INFERNALMOBS) || api.idSearch(entity.getUniqueId()) != -1;
-			return entity.hasMetadata(MH_INFERNALMOBS);
+			return entity.hasMetadata(MH_INFERNALMOBS) || api.idSearch(entity.getUniqueId()) != -1;
 		return false;
 	}
 
@@ -96,10 +94,9 @@ public class InfernalMobsCompat implements Listener {
 	private void onInfernalMobDeathEvent(EntityDeathEvent event) {
 		Entity entity = event.getEntity();
 		if (isInfernalMob(entity)) {
-			// TODO: FIX THIS !!!
-			//if (api.findMobAbilities(entity.getUniqueId()) != null)
-			//	entity.setMetadata(MH_INFERNALMOBS,
-			//			new FixedMetadataValue(MobHunting.getInstance(), api.findMobAbilities(entity.getUniqueId())));
+			if (api.findMobAbilities(entity.getUniqueId()) != null)
+				entity.setMetadata(MH_INFERNALMOBS,
+						new FixedMetadataValue(MobHunting.getInstance(), api.findMobAbilities(entity.getUniqueId())));
 		}
 	}
 
