@@ -24,11 +24,18 @@ public class McMMOHorses {
 		} else {
 			mPlugin = (HorseRPG) Bukkit.getPluginManager().getPlugin(CompatPlugin.McMMOHorses.getName());
 
-			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling compatibility with McMMOHorses ("
-							+ getMcMMOHorses().getDescription().getVersion() + ")");
-			supported = true;
+			if (mPlugin.getDescription().getVersion().compareTo("4.3.55") >= 0) {
+				Bukkit.getConsoleSender()
+				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+						+ "Enabling compatibility with McMMOHorses ("
+						+ getMcMMOHorses().getDescription().getVersion() + ")");
+				supported = true;
+			} else {
+				Bukkit.getConsoleSender()
+						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
+								+ "Your current version of McMMOHorses (" + mPlugin.getDescription().getVersion()
+								+ ") is not supported by MobHunting, please upgrade to 4.3.55 or newer.");
+			}
 		}
 	}
 
@@ -50,28 +57,28 @@ public class McMMOHorses {
 
 	public static RPGHorse getHorse(Entity entity) {
 		if (isSupported()) {
-			return HorseRPG.hSpawnedHorses.get(entity);
+			return HorseRPG.getHorse(entity);
 		} else
 			return null;
 	}
 
 	public static boolean isMcMMOHorse(Entity entity) {
 		if (isSupported()) {
-			return HorseRPG.hSpawnedHorses.containsKey(entity);
+			return HorseRPG.isRPGHorse(entity);
 		} else
 			return false;
 	}
 	
 	public static boolean isMcMMOHorseOwner(Entity entity, Player player) {
 		if (isSupported()) {
-			return HorseRPG.hSpawnedHorses.get(entity).owner.equalsIgnoreCase(player.getName());
+			return HorseRPG.getHorse(entity).owners_name.equalsIgnoreCase(player.getName());
 		} else
 			return false;
 	}
 
 	public static boolean isGodmode(Entity entity) {
 		if (isSupported()) {
-			return HorseRPG.hSpawnedHorses.get(entity).godmode;
+			return HorseRPG.getHorse(entity).godmode;
 		} else
 			return false;
 	}
@@ -85,7 +92,7 @@ public class McMMOHorses {
 	
 	public static RPGHorse getCurrentHorse(Player player) {
 		if (isSupported()) {
-			return HorseRPG.pCurrentHorse.get(player);
+			return HorseRPG.pCurrentHorse.get(player.getUniqueId());
 		} else
 			return null;
 	}

@@ -802,7 +802,7 @@ public class MobHuntingManager implements Listener {
 		// player killed a McMMOHorse
 		if (McMMOHorses.isMcMMOHorse(killed)) {
 			plugin.getMessages().debug("%s killed a McMMOHorse %s owned by %s", player.getName(),
-					McMMOHorses.getHorse(killed).name, McMMOHorses.getHorse(killed).owner);
+					McMMOHorses.getHorse(killed).name, McMMOHorses.getHorse(killed).owners_name);
 			if (!McMMOHorses.isPermanentDeath()) {
 				plugin.getMessages().debug("Killblocked: %s there is no rewards for killing RPGHorses",
 						player.getName());

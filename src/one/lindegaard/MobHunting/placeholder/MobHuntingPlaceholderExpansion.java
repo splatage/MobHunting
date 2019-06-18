@@ -52,7 +52,10 @@ public class MobHuntingPlaceholderExpansion extends PlaceholderExpansion impleme
 
 		// placeholder: %mobhunting_total_kills%
 		if (identifier.equals("total_kills")) {
+			if (PlaceholderAPICompat.getPlaceHolders().containsKey(player.getUniqueId()))
 			return String.valueOf(PlaceholderAPICompat.getPlaceHolders().get(player.getUniqueId()).getTotal_kills());
+			else
+				return "0";
 		}
 
 		// placeholder: %mobhunting_total_cash%

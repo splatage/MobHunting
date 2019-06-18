@@ -1,3 +1,5 @@
+V6.6.5
+* Update for mcMMOHorses 4.3.55. (Latest version of McMMOHorses broke the compatibility) If you use McMMOHorses you have to update to v4.3.55 or later
 V6.6.4
 * Support for InfernalMobs re-added
 V6.6.3
