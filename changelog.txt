@@ -1,5 +1,7 @@
 V6.6.5
 * Update for mcMMOHorses 4.3.55. (Latest version of McMMOHorses broke the compatibility) If you use McMMOHorses you have to update to v4.3.55 or later
+* Newest 7.0.0 Dev Build of WorldEdit broke compatibility with MobHunting (http://builds.enginehub.org/job/worldedit/12017) . You might need to update to newest snapshot of WorldEdit before you can create Leaderboards using Worldedit.
+* HappyHour fixed (/mh happyhour - showed incorrect minutes left)  
 V6.6.4
 * Support for InfernalMobs re-added
 V6.6.3

@@ -3,8 +3,8 @@ package one.lindegaard.MobHunting.compatibility;
 import org.bukkit.entity.Player;
 
 import com.sk89q.worldedit.IncompleteRegionException;
-import com.sk89q.worldedit.bukkit.selections.CuboidSelection;
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.regions.Region;
 
 import one.lindegaard.MobHunting.MobHunting;
@@ -32,7 +32,7 @@ public class WorldEditHelper {
 			throw new IllegalArgumentException(
 					MobHunting.getInstance().getMessages().getString("mobhunting.commands.select.no-select"));
 
-		if (!(sel instanceof CuboidSelection))
+		if (!(sel instanceof CuboidRegion))
 			throw new IllegalArgumentException(
 					MobHunting.getInstance().getMessages().getString("mobhunting.commands.select.select-type"));
 
@@ -56,7 +56,7 @@ public class WorldEditHelper {
 			throw new IllegalArgumentException(
 					MobHunting.getInstance().getMessages().getString("mobhunting.commands.select.no-select"));
 
-		if (!(sel instanceof CuboidSelection))
+		if (!(sel instanceof CuboidRegion))
 			throw new IllegalArgumentException(
 					MobHunting.getInstance().getMessages().getString("mobhunting.commands.select.select-type"));
 

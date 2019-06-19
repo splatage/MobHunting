@@ -90,9 +90,15 @@ public class HappyHourCommand implements ICommand, Listener {
 
 			// mh happyhour
 			// status of happyhour
-			if (happyhourevent != null && (Bukkit.getScheduler().isCurrentlyRunning(happyhourevent.getTaskId())
-					|| Bukkit.getScheduler().isQueued(happyhourevent.getTaskId())) 
-					&& (happyhoureventStop!=null && Bukkit.getScheduler().isQueued(happyhoureventStop.getTaskId()))) {
+			if (happyhourevent != null
+					&& (Bukkit.getScheduler().isCurrentlyRunning(happyhourevent.getTaskId())
+							|| Bukkit.getScheduler().isQueued(happyhourevent.getTaskId()))
+					&& (happyhoureventStop != null && Bukkit.getScheduler().isQueued(happyhoureventStop.getTaskId()))) {
+
+				minutesLeft = minutesToRun - ((int) (System.currentTimeMillis() - starttime) / (1000 * 60));
+				if (minutesLeft < 0)
+					minutesLeft = 0;
+
 				if (sender instanceof Player)
 					plugin.getMessages().playerSendMessage((Player) sender, plugin.getMessages().getString(
 							"mobhunting.commands.happyhour.ongoing", "multiplier", multiplier, "minutes", minutesLeft));
@@ -100,7 +106,6 @@ public class HappyHourCommand implements ICommand, Listener {
 					plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
 							"mobhunting.commands.happyhour.ongoing", "multiplier", multiplier, "minutes", minutesLeft));
 				plugin.getMessages().debug("The happy hour ends in %s minutes", minutesLeft);
-				minutesLeft = minutesToRun - ((int) (System.currentTimeMillis() - starttime) / (1000 * 60));
 
 				// plugin.getMessages().playerSendTitlesMessage(player,
 				// plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
