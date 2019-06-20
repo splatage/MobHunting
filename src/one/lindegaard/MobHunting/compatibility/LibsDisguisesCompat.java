@@ -4,10 +4,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import me.libraryaddict.disguise.DisguiseAPI;
-import me.libraryaddict.disguise.disguisetypes.DisguiseType;
-import me.libraryaddict.disguise.events.DisguiseEvent;
-import me.libraryaddict.disguise.events.UndisguiseEvent;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 
@@ -18,6 +14,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+
+import me.libraryaddict.disguise.DisguiseAPI;
+import me.libraryaddict.disguise.disguisetypes.DisguiseType;
+import me.libraryaddict.disguise.events.DisguiseEvent;
+import me.libraryaddict.disguise.events.UndisguiseEvent;
 
 public class LibsDisguisesCompat implements Listener {
 

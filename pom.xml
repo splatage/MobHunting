@@ -6,8 +6,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<version>6.6.5</version>
-	<!-- <version>6.6.5-SNAPSHOT-B${build.number}</version> -->
+	<!-- <version>6.6.6</version> -->
+	<version>6.6.6-SNAPSHOT-B${build.number}</version>
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -143,6 +143,14 @@
 			<version>7.0.0-SNAPSHOT;3815-5f4cc3e</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/worldedit-bukkit-7.0.0-SNAPSHOT-dist-B3950.jar</systemPath>
+		</dependency>
+
+		<!-- LibsDisguises -->
+		<dependency>
+			<groupId>me.libraryaddict.disguise.LibsDisguises</groupId>
+			<artifactId>LibsDisguises</artifactId>
+			<version>${libsdisguises.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- McMMO -->
