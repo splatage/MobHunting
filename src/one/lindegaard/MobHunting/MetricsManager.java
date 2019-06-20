@@ -75,8 +75,7 @@ public class MetricsManager {
 			public void run() {
 				try {
 					// make a URL to MCStats.org
-					URL url = new URL("https://www.zentura.dk");
-					//URL url = new URL("https://bstats.org/");
+					URL url = new URL("https://bstats.org/");
 					if (!started) {
 						plugin.getMessages().debug("check if home page can be reached");
 						HttpTools.isHomePageReachable(url, new httpCallback() {
@@ -100,10 +99,10 @@ public class MetricsManager {
 				}
 
 			}
-		}, 100, 72000);
+		}, 100L, 72000L);
 	}
 
-	private void startBStatsMetrics() {
+	public void startBStatsMetrics() {
 		bStatsMetrics = new Metrics(plugin);
 		
 		bStatsMetrics.addCustomChart(

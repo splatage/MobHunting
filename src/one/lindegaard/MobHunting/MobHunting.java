@@ -330,7 +330,8 @@ public class MobHunting extends JavaPlugin {
 
 		if (!Servers.isGlowstoneServer()) {
 			mMetricsManager = new MetricsManager(this);
-			mMetricsManager.start();
+			//mMetricsManager.start();
+			mMetricsManager.startBStatsMetrics();
 		}
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
