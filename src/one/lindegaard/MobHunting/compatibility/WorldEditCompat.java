@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class WorldEditCompat {
@@ -17,15 +18,26 @@ public class WorldEditCompat {
 					+ "Compatibility with WorldEdit is disabled in config.yml");
 		} else {
 			mPlugin = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.WorldEdit.getName());
-			if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling compatibility with WorldEdit (" + mPlugin.getDescription().getVersion() + ")");
-				supported = true;
+			if (Servers.isMC113OrNewer()) {
+				if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
+					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+							+ "Enabling compatibility with WorldEdit (" + mPlugin.getDescription().getVersion() + ")");
+					supported = true;
+				} else {
+					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
+							+ "Your current version of WorldEdit (" + mPlugin.getDescription().getVersion()
+							+ ") is not supported by MobHunting. Mobhunting 6.x does only support 7.0.0 and newer.");
+				}
 			} else {
-				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-								+ "Your current version of WorldEdit (" + mPlugin.getDescription().getVersion()
-								+ ") is not supported by MobHunting. Mobhunting does only support 7.0.0 and newer.");
+				if (mPlugin.getDescription().getVersion().compareTo("6.1.0") >= 0) {
+					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+							+ "Enabling compatibility with WorldEdit (" + mPlugin.getDescription().getVersion() + ")");
+					supported = true;
+				} else {
+					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
+							+ "Your current version of WorldEdit (" + mPlugin.getDescription().getVersion()
+							+ ") is not supported by MobHunting. Mobhunting does only support 6.1.0 and newer.");
+				}
 			}
 		}
 	}

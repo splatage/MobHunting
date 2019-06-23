@@ -95,21 +95,11 @@ public class MobHunting extends JavaPlugin {
 		// Flag
 		Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		if (wg != null)
-			WorldGuardHelper.registerFlag();
+			WorldGuardCompat.registerFlag();
 	}
 
 	@Override
 	public void onEnable() {
-
-		//if (!BagOfGoldCompat.isSupported()) {
-		//	Plugin bagOfGoldCorePlugin = Bukkit.getPluginManager().getPlugin("BagOfGoldCore");
-		//	if (bagOfGoldCorePlugin == null) {
-		//		Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.GREEN
-		//				+ "BagOfGoldCore is missing. MobHunting is dependend on BagGoldCore. It Will now be downloaded. Restart your server when downloading has finished.");
-		//		SpigetUpdaterForced.setCurrentJarFile(this.getFile().getName());
-		//		SpigetUpdaterForced.ForceDownloadJar(this);
-		//	}
-		//}
 
 		int config_version = ConfigManager.getConfigVersion(mFile);
 		Bukkit.getConsoleSender().sendMessage(
@@ -325,12 +315,20 @@ public class MobHunting extends JavaPlugin {
 		if (mConfig.enablePlayerBounties)
 			mBountyManager = new BountyManager(this);
 
+		if (Servers.isSpigotServer()) {
+			getMessages().debug("Updating advancements");
+			if (!getConfigManager().disableMobHuntingAdvancements && Servers.isMC112OrNewer()) {
+				mAdvancementManager = new AdvancementManager(this);
+				mAdvancementManager.getAdvancementsFromAchivements();
+			}
+		}
+
 		// Check for new MobHuntig updates using Spiget.org
 		mSpigetUpdater.hourlyUpdateCheck(getServer().getConsoleSender(), mConfig.updateCheck, false);
 
 		if (!Servers.isGlowstoneServer()) {
 			mMetricsManager = new MetricsManager(this);
-			//mMetricsManager.start();
+			// mMetricsManager.start();
 			mMetricsManager.startBStatsMetrics();
 		}
 
@@ -352,25 +350,9 @@ public class MobHunting extends JavaPlugin {
 			}
 		}
 
-		getMessages().debug("Updating advancements");
-		if (!getConfigManager().disableMobHuntingAdvancements && Servers.isMC112OrNewer()) {
-			mAdvancementManager = new AdvancementManager(this);
-			mAdvancementManager.getAdvancementsFromAchivements();
-
-			// gives troubles for some plugins like EmeraldTools
-			// Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-			// public void run() {
-			// getMessages().debug("Reloading advancements");
-			// Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(),
-			// "minecraft:reload");
-			// }
-			// }, 20 * 15);
-
-		}
-
-		if (!Servers.isMC113OrNewer())
+		if (!Servers.isMC112OrNewer())
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ " version +6.0.0 is only for Minecraft 1.13! You should downgrade to 5.x");
+					+ " version +6.0.0 is only for Minecraft 1.12 and has not been tested with older Minecraft versions! You should downgrade to 5.x");
 
 		// for (int i = 0; i < 5; i++)
 		// getMessages().debug("Random uuid = %s", UUID.randomUUID());

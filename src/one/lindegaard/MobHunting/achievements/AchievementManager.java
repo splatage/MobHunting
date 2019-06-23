@@ -121,6 +121,7 @@ public class AchievementManager implements Listener {
 		registerAchievement(new MasterSniper(plugin));
 		registerAchievement(new JustInTime(plugin));
 		registerAchievement(new WolfKillAchievement(plugin));
+		if (Servers.isMC113OrNewer())
 		registerAchievement(new Neptune(plugin));
 		if (SmartGiantsCompat.isSupported())
 			registerAchievement(new DavidAndGoliath(plugin));
@@ -657,7 +658,7 @@ public class AchievementManager implements Listener {
 						storage.enableAchievements = true;
 						mStorage.put(p.getUniqueId(), storage);
 
-						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC112OrNewer())
+						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC113OrNewer())
 							plugin.getAdvancementManager().updatePlayerAdvancements(player);
 
 					}

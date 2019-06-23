@@ -90,10 +90,9 @@ public class HappyHourCommand implements ICommand, Listener {
 
 			// mh happyhour
 			// status of happyhour
-			if (happyhourevent != null
-					&& (Bukkit.getScheduler().isCurrentlyRunning(happyhourevent.getTaskId())
-							|| Bukkit.getScheduler().isQueued(happyhourevent.getTaskId()))
-					&& (happyhoureventStop != null && Bukkit.getScheduler().isQueued(happyhoureventStop.getTaskId()))) {
+			if ((happyhoureventStop != null && Bukkit.getScheduler().isQueued(happyhoureventStop.getTaskId()))
+					&& (happyhourevent != null && (Bukkit.getScheduler().isCurrentlyRunning(happyhourevent.getTaskId())
+							|| Bukkit.getScheduler().isQueued(happyhourevent.getTaskId())))) {
 
 				minutesLeft = minutesToRun - ((int) (System.currentTimeMillis() - starttime) / (1000 * 60));
 				if (minutesLeft < 0)

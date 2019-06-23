@@ -17,7 +17,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.WorldGuardCompat;
-import one.lindegaard.MobHunting.compatibility.WorldGuardHelper;
+import one.lindegaard.MobHunting.compatibility.WorldGuardMobHuntingFlag;
 
 public class RegionCommand implements ICommand {
 
@@ -141,8 +141,8 @@ public class RegionCommand implements ICommand {
 					ProtectedRegion region = set.getRegions().iterator().next();
 					if ((args.length == 1)) {
 						if (args[0].equalsIgnoreCase("mobhunting"))
-							return WorldGuardHelper.removeCurrentRegionFlag(sender, ((Player) sender).getWorld(),
-									region, WorldGuardHelper.getMobHuntingFlag());
+							return WorldGuardMobHuntingFlag.removeCurrentRegionFlag(sender, ((Player) sender).getWorld(),
+									region, WorldGuardMobHuntingFlag.getMobHuntingFlag());
 						else {
 							plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
 									.getString("mobhunting.commands.region.unknownFlag", "flag", args[0]));
@@ -154,8 +154,8 @@ public class RegionCommand implements ICommand {
 						while (i.hasNext()) {
 							ProtectedRegion pr = i.next();
 							if (pr.getId().equalsIgnoreCase(args[0])) {
-								return WorldGuardHelper.removeCurrentRegionFlag(sender, ((Player) sender).getWorld(),
-										pr, WorldGuardHelper.getMobHuntingFlag());
+								return WorldGuardMobHuntingFlag.removeCurrentRegionFlag(sender, ((Player) sender).getWorld(),
+										pr, WorldGuardMobHuntingFlag.getMobHuntingFlag());
 							}
 						}
 						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
@@ -163,12 +163,12 @@ public class RegionCommand implements ICommand {
 						return true;
 					} else { // args.length>2 update flag
 						if (args[0].equalsIgnoreCase("mobhunting")) {
-							return WorldGuardHelper.setCurrentRegionFlag(sender, ((Player) sender).getWorld(), region,
-									WorldGuardHelper.getMobHuntingFlag(), args[1]);
+							return WorldGuardMobHuntingFlag.setCurrentRegionFlag(sender, ((Player) sender).getWorld(), region,
+									WorldGuardMobHuntingFlag.getMobHuntingFlag(), args[1]);
 						} else if (args[1].equalsIgnoreCase("mobhunting"))
 							if (region.getId().equalsIgnoreCase(args[0]))
-								return WorldGuardHelper.setCurrentRegionFlag(sender, ((Player) sender).getWorld(),
-										region, WorldGuardHelper.getMobHuntingFlag(), args[2]);
+								return WorldGuardMobHuntingFlag.setCurrentRegionFlag(sender, ((Player) sender).getWorld(),
+										region, WorldGuardMobHuntingFlag.getMobHuntingFlag(), args[2]);
 							else {
 								plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
 										.getString("mobhunting.commands.region.unknownRegionId", "regionid", args[0]));
@@ -189,8 +189,8 @@ public class RegionCommand implements ICommand {
 							while (i.hasNext()) {
 								ProtectedRegion pr = i.next();
 								if (pr.getId().equalsIgnoreCase(args[0])) {
-									return WorldGuardHelper.removeCurrentRegionFlag(sender,
-											((Player) sender).getWorld(), pr, WorldGuardHelper.getMobHuntingFlag());
+									return WorldGuardMobHuntingFlag.removeCurrentRegionFlag(sender,
+											((Player) sender).getWorld(), pr, WorldGuardMobHuntingFlag.getMobHuntingFlag());
 								}
 							}
 							plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
@@ -207,8 +207,8 @@ public class RegionCommand implements ICommand {
 							while (i.hasNext()) {
 								ProtectedRegion region = i.next().getValue();
 								if (region.getId().equalsIgnoreCase(args[0])) {
-									return WorldGuardHelper.setCurrentRegionFlag(sender, ((Player) sender).getWorld(),
-											region, WorldGuardHelper.getMobHuntingFlag(), args[2]);
+									return WorldGuardMobHuntingFlag.setCurrentRegionFlag(sender, ((Player) sender).getWorld(),
+											region, WorldGuardMobHuntingFlag.getMobHuntingFlag(), args[2]);
 								}
 							}
 							plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()

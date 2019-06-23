@@ -18,8 +18,8 @@ import one.lindegaard.MobHunting.commands.NpcCommand;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 import one.lindegaard.MobHunting.npc.MasterMobHunter;
+import one.lindegaard.MobHunting.npc.MasterMobHunterEvents;
 import one.lindegaard.MobHunting.npc.MasterMobHunterManager;
-import one.lindegaard.MobHunting.npc.MasterMobHunterSign;
 import one.lindegaard.MobHunting.npc.MasterMobHunterTrait;
 
 import org.bukkit.Bukkit;
@@ -278,8 +278,7 @@ public class CitizensCompat implements Listener {
 			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 		}
 
-		Bukkit.getPluginManager().registerEvents(new MasterMobHunterSign(MobHunting.getInstance()),
-				MobHunting.getInstance());
+		Bukkit.getPluginManager().registerEvents(new MasterMobHunterEvents(),MobHunting.getInstance());
 
 		MobHunting.getInstance().getCommandDispatcher().registerCommand(new NpcCommand(MobHunting.getInstance()));
 		;

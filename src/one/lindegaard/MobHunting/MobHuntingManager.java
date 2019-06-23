@@ -1,7 +1,5 @@
 package one.lindegaard.MobHunting;
 
-import com.sk89q.worldguard.protection.flags.Flags;
-
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.BagOfGold.PlayerBalance;
 import one.lindegaard.Core.Tools;
@@ -444,6 +442,9 @@ public class MobHuntingManager implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onTriodentShoot(ProjectileLaunchEvent event) {
+		if (!Servers.isMC113OrNewer())
+			return;
+		
 		if (event.getEntity() instanceof Trident) {
 			if (event.getEntity().getShooter() instanceof Drowned) {
 				// TODO: test this
@@ -476,7 +477,7 @@ public class MobHuntingManager implements Listener {
 			return;
 
 		if (WorldGuardCompat.isSupported()
-				&& !WorldGuardHelper.isAllowedByWorldGuard(damager, damaged, Flags.MOB_DAMAGE, true)) {
+				&& !WorldGuardCompat.isAllowedByWorldGuard(damager, damaged, WorldGuardMobHuntingFlag.getMobDamageFlag(), true)) {
 			return;
 		}
 
@@ -824,8 +825,8 @@ public class MobHuntingManager implements Listener {
 		// WorldGuard Compatibility
 		if (WorldGuardCompat.isSupported()) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)) {
-				if (!WorldGuardHelper.isAllowedByWorldGuard(killer, killed, Flags.MOB_DAMAGE, true)) {
-					if (WorldGuardHelper.isAllowedByWorldGuard(killer, killed, WorldGuardHelper.getMobHuntingFlag(),
+				if (!WorldGuardCompat.isAllowedByWorldGuard(killer, killed, WorldGuardMobHuntingFlag.getMobDamageFlag(), true)) {
+					if (WorldGuardCompat.isAllowedByWorldGuard(killer, killed, WorldGuardMobHuntingFlag.getMobHuntingFlag(),
 							false)) {
 						plugin.getMessages().debug(
 								"KillBlocked: %s is hiding in WG region with mob-damage=DENY, but MobHunting is allowed with flag mobhunting=allow",
@@ -840,7 +841,7 @@ public class MobHuntingManager implements Listener {
 						plugin.getMessages().debug("======================= kill ended (4)======================");
 						return;
 					}
-				} else if (!WorldGuardHelper.isAllowedByWorldGuard(killer, killed, WorldGuardHelper.getMobHuntingFlag(),
+				} else if (!WorldGuardCompat.isAllowedByWorldGuard(killer, killed, WorldGuardMobHuntingFlag.getMobHuntingFlag(),
 						true)) {
 					plugin.getMessages().debug("KillBlocked: %s is in a protected region mobhunting=DENY",
 							killer.getName());
@@ -928,7 +929,7 @@ public class MobHuntingManager implements Listener {
 		if (!isHuntEnabledInWorld(event.getEntity().getWorld())) {
 			if (WorldGuardCompat.isSupported()) {
 				if (!CitizensCompat.isNPC(killer) && !MyPetCompat.isKilledByMyPet(killed)) {
-					if (WorldGuardHelper.isAllowedByWorldGuard(killer, killed, WorldGuardHelper.getMobHuntingFlag(),
+					if (WorldGuardCompat.isAllowedByWorldGuard(killer, killed, WorldGuardMobHuntingFlag.getMobHuntingFlag(),
 							false)) {
 						plugin.getMessages().debug(
 								"KillAllowed %s: Mobhunting disabled in world '%s', but region allows mobhunting=allow",

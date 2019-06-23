@@ -19,6 +19,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -184,12 +185,13 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 				Location loc = itr.next();
 				Block sb = loc.getBlock();
 				if (isLoaded(sb)) {
-					if (MasterMobHunterSign.isMHSign(sb)) {
-						org.bukkit.block.Sign s = (org.bukkit.block.Sign) sb.getState();
-						if (MasterMobHunterSign.isMHSign(s.getLine(0))) {
-							sb.setMetadata(MasterMobHunterSign.MH_SIGN, new FixedMetadataValue(plugin, s.getLine(0)));
-							s.setMetadata(MasterMobHunterSign.MH_SIGN, new FixedMetadataValue(plugin, s.getLine(0)));
-							int id = MasterMobHunterSign.getNPCIdOnSign(sb);
+					
+					if (MasterMobHunterTools.isMHSign(sb)) {
+						Sign s = (Sign) sb.getState();
+						if (MasterMobHunterTools.isMHSign(s.getLine(0))) {
+							sb.setMetadata(MasterMobHunterTools.MH_SIGN, new FixedMetadataValue(plugin, s.getLine(0)));
+							s.setMetadata(MasterMobHunterTools.MH_SIGN, new FixedMetadataValue(plugin, s.getLine(0)));
+							int id = MasterMobHunterTools.getNPCIdOnSign(sb);
 							NPC npc = CitizensAPI.getNPCRegistry().getById(id);
 							if (npc != null) {
 								if (CitizensCompat.getMasterMobHunterManager().contains(npc.getId())) {
@@ -203,12 +205,12 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 						s.setLine(2, (Tools.trimSignText(getPeriod().translateNameFriendly())));
 						s.setLine(3, (Tools.trimSignText(getNumberOfKills() + " " + getStatType().translateName())));
 						s.update();
-						if (MasterMobHunterSign.isMHSign(sb)) {
+						if (MasterMobHunterTools.isMHSign(sb)) {
 							OfflinePlayer player = Bukkit.getPlayer(npc.getName());
 							if (player != null && player.isOnline())
 								MasterMobHunterSign.setPower(sb, MasterMobHunterSign.POWER_FROM_SIGN);
 							else
-								MasterMobHunterSign.removePower(sb);
+								MasterMobHunterTools.removePower(sb);
 						}
 					}
 				}

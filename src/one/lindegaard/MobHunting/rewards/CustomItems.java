@@ -99,7 +99,11 @@ public class CustomItems {
 	 */
 	public ItemStack getPlayerHead(UUID uuid, int amount, double money) {
 
-		ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+		ItemStack skull;
+		if (Servers.isMC113OrNewer())
+			skull = new ItemStack(Material.PLAYER_HEAD);
+		else
+			skull = new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 3);
 		skull.setAmount(amount);
 
 		OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
@@ -188,13 +192,16 @@ public class CustomItems {
 	/**
 	 * Return an ItemStack with the Players head texture.
 	 *
-	 * @param player
-	 *            uuid
+	 * @param player uuid
 	 * @param money
 	 * @return
 	 */
 	public ItemStack getPlayerHeadGameProfile(UUID uuid, int amount, double money) {
-		ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+		ItemStack skull;
+		if (Servers.isMC113OrNewer())
+			skull = new ItemStack(Material.PLAYER_HEAD);
+		else
+			skull = new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 3);
 		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 		OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
 
@@ -219,7 +226,8 @@ public class CustomItems {
 
 		skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden:" + offlinePlayer.getName(),
 				"Hidden:" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden:" + Reward.MH_REWARD_KILLER_UUID,
-				money == 0 ? "Hidden:" : "Hidden:" + UUID.randomUUID(), "Hidden:" + uuid,plugin.getMessages().getString("mobhunting.reward.name"))));
+				money == 0 ? "Hidden:" : "Hidden:" + UUID.randomUUID(), "Hidden:" + uuid,
+				plugin.getMessages().getString("mobhunting.reward.name"))));
 		ChatColor color = ChatColor.GOLD;
 		try {
 			color = ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor.toUpperCase());
@@ -247,7 +255,11 @@ public class CustomItems {
 	}
 
 	public ItemStack getPlayerHeadOwningPlayer(UUID uuid, int amount, double money) {
-		ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+		ItemStack skull;
+		if (Servers.isMC113OrNewer())
+			skull = new ItemStack(Material.PLAYER_HEAD);
+		else
+			skull = new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 3);
 		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 		String name = Bukkit.getOfflinePlayer(uuid).getName();
 		skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden:" + name,
@@ -280,7 +292,11 @@ public class CustomItems {
 	 */
 	public ItemStack getCustomtexture(UUID mPlayerUUID, String mDisplayName, String mTextureValue,
 			String mTextureSignature, double money, UUID uniqueRewardUuid, UUID skinUuid) {
-		ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+		ItemStack skull;
+		if (Servers.isMC113OrNewer())
+			skull = new ItemStack(Material.PLAYER_HEAD);
+		else
+			skull = new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 3);
 		if (mTextureValue.isEmpty())
 			return skull;
 

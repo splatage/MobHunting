@@ -11,10 +11,6 @@ import one.lindegaard.MobHunting.MobHunting;
 
 public class WorldEditHelper {
 
-	public WorldEditHelper() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public static BlockVector3 getPointA(Player player) throws IllegalArgumentException {
 		if (WorldEditCompat.isSupported())
 			throw new IllegalArgumentException("WorldEdit is not present");

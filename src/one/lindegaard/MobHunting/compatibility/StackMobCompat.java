@@ -2,13 +2,10 @@ package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
 import one.lindegaard.MobHunting.MobHunting;
-import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.api.EntityManager;
 
 public class StackMobCompat implements Listener {
 
@@ -41,35 +38,16 @@ public class StackMobCompat implements Listener {
 	// OTHER FUNCTIONS
 	// **************************************************************************
 
+	public static Plugin getPlugin() {
+		return  mPlugin;
+	}
+
 	public static boolean isSupported() {
 		return supported;
 	}
-
+	
 	private static boolean isEnabledInConfig() {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationStackMob;
-	}
-
-	public static EntityManager getEntityManager() {
-		return new EntityManager((StackMob) mPlugin);
-	}
-
-	public static boolean isStackedMob(Entity entity) {
-		if (isSupported()) {
-			return getEntityManager().isStackedEntity(entity);
-		}
-		return false;
-	}
-
-	public static int getStackSize(Entity entity) {
-		return getEntityManager().getStackedEntity(entity).getSize();
-	}
-
-	public static boolean killHoleStackOnDeath(Entity entity) {
-		return mPlugin.getConfig().getBoolean("kill-all.enabled");
-	}
-
-	public static boolean isGrindingStackedMobsAllowed() {
-		return MobHunting.getInstance().getConfigManager().isGrindingStackedMobsAllowed;
 	}
 
 }

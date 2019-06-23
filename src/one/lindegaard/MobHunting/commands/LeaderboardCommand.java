@@ -8,7 +8,6 @@ import java.util.WeakHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.type.WallSign;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -343,7 +342,7 @@ public class LeaderboardCommand implements ICommand, Listener {
 		if (state.create) {
 			BlockFace face;
 			if (Servers.isMC114OrNewer())
-				face = ((WallSign) event.getClickedBlock().getState().getBlockData()).getFacing();
+				face = ((org.bukkit.block.data.type.WallSign) event.getClickedBlock().getState().getBlockData()).getFacing();
 			else
 				face = ((Sign) event.getClickedBlock().getState().getData()).getFacing();
 			try {
