@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
@@ -59,8 +60,10 @@ public class DavidAndGoliath implements Achievement, Listener {
 
 	@Override
 	public ItemStack getSymbol() {
-		//TODO: Best head?????
-		return new ItemStack(Material.PLAYER_HEAD);
+		if (Servers.isMC113OrNewer())
+			return new ItemStack(Material.PLAYER_HEAD);
+		else
+			return new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 3);
 	}
 
 }

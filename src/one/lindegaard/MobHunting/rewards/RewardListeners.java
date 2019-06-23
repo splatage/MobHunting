@@ -177,13 +177,13 @@ public class RewardListeners implements Listener {
 			return;
 
 		Player player = event.getPlayer();
-		
-		//Its not allowed to pickup BagOfGold in Spectator mode
-		if (player.getGameMode()==GameMode.SPECTATOR)
+
+		// Its not allowed to pickup BagOfGold in Spectator mode
+		if (player.getGameMode() == GameMode.SPECTATOR)
 			return;
-		
+
 		if (plugin.getRewardManager().canPickupMoney(player)) {
-			
+
 			Iterator<Entity> entityList = ((Entity) player).getNearbyEntities(1, 1, 1).iterator();
 			while (entityList.hasNext() && plugin.getRewardManager().canPickupMoney(player)) {
 				Entity entity = entityList.next();
@@ -374,7 +374,8 @@ public class RewardListeners implements Listener {
 					} else {
 						plugin.getLogger().warning("[MobHunting] The mobtype could not be detected from displayname:"
 								+ reward.getDisplayname());
-						is = new ItemStack(Material.PLAYER_HEAD, 1);
+						is = Servers.isMC113OrNewer() ? new ItemStack(Material.PLAYER_HEAD)
+								: new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 3);
 					}
 				}
 			}

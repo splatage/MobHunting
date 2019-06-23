@@ -447,7 +447,7 @@ public enum MinecraftMob {
 				return entity instanceof org.bukkit.entity.Pillager;
 			else if (this == Ravager)
 				return entity instanceof org.bukkit.entity.Ravager;
-		
+
 		if (Servers.isMC113OrNewer())
 			if (this == Dolphin)
 				return entity instanceof org.bukkit.entity.Dolphin;
@@ -628,48 +628,54 @@ public enum MinecraftMob {
 	// TODO: HEADS ??? and is this in CustomItems???
 	public ItemStack getCustomHead(String name, int amount, double money) {
 		ItemStack skull;
+		Material head = Servers.isMC113OrNewer() ? Material.PLAYER_HEAD : Material.matchMaterial("SKULL_ITEM");
 		switch (this) {
 		case Skeleton:
-			skull = new ItemStack(Material.PLAYER_HEAD, amount, (short) 0);
+			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.SKELETON_SKULL)
+					: new ItemStack(head, amount, (short) 0);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case WitherSkeleton:
-			skull = new ItemStack(Material.PLAYER_HEAD, amount, (short) 1);
+			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.WITHER_SKELETON_SKULL)
+					: new ItemStack(head, amount, (short) 1);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case Zombie:
-			skull = new ItemStack(Material.PLAYER_HEAD, amount, (short) 2);
+			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.ZOMBIE_HEAD)
+					: new ItemStack(head, amount, (short) 2);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case PvpPlayer:
-			skull = new ItemStack(Material.PLAYER_HEAD, 1, (short) 3);
+			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(head, 1, (short) 3);
 			SkullMeta sm = (SkullMeta) skull.getItemMeta();
 			sm.setOwner(name);
 			skull.setItemMeta(sm);
 			break;
 
 		case Creeper:
-			skull = new ItemStack(Material.PLAYER_HEAD, amount, (short) 4);
+			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.CREEPER_HEAD)
+					: new ItemStack(head, amount, (short) 4);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case EnderDragon:
-			skull = new ItemStack(Material.PLAYER_HEAD, amount, (short) 5);
+			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.DRAGON_HEAD)
+					: new ItemStack(head, amount, (short) 5);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		default:
-			ItemStack is = new ItemStack(new CustomItems().getCustomtexture(
-					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), getFriendlyName(), mTextureValue, mTextureSignature,
-					money, UUID.randomUUID(), getPlayerUUID()));
+			ItemStack is = new ItemStack(
+					new CustomItems().getCustomtexture(UUID.fromString(Reward.MH_REWARD_KILLED_UUID), getFriendlyName(),
+							mTextureValue, mTextureSignature, money, UUID.randomUUID(), getPlayerUUID()));
 			is.setAmount(amount);
 			return is;
 		}
