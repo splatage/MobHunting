@@ -658,7 +658,8 @@ public class AchievementManager implements Listener {
 						storage.enableAchievements = true;
 						mStorage.put(p.getUniqueId(), storage);
 
-						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC113OrNewer())
+						//Advancements is not supported on older servers and on PaperSpigot.
+						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC113OrNewer() && !Servers.isPaperServer())
 							plugin.getAdvancementManager().updatePlayerAdvancements(player);
 
 					}
