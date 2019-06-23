@@ -58,8 +58,8 @@ public class AxeMurderer implements Achievement, Listener {
 
 	@Override
 	public ItemStack getSymbol() {
-		if (Servers.isMC113())
-		return new ItemStack(Material.WOODEN_AXE);
+		if (Servers.isMC113OrNewer())
+			return new ItemStack(Material.WOODEN_AXE);
 		else
 			return new ItemStack(Material.matchMaterial("WOOD_AXE"));
 	}
