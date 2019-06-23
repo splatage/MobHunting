@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
 
@@ -59,9 +60,10 @@ public class Electrifying implements Achievement, Listener {
 	@SuppressWarnings("deprecation")
 	@Override
 	public ItemStack getSymbol() {
-		//TODO: Best Material?
-		//ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1);
-		ItemStack skull = new ItemStack(Material.CREEPER_HEAD);
+		// TODO: Best Material?
+		// ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1);
+		ItemStack skull = Servers.isMC113OrNewer() ? new ItemStack(Material.CREEPER_HEAD)
+				: new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 4);
 		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 		skullMeta.setOwner("MHF_Creeper");
 		skull.setItemMeta(skullMeta);

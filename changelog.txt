@@ -1,4 +1,7 @@
+V6.6.8
+* Bug fixing
 V6.6.7
+* Added Support for Minecraft 1.12
 * Updated to support StackMob 4.0.1
 V6.6.6
 * Implemented bStats v1.5

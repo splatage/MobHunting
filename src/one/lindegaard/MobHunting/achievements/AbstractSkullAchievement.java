@@ -4,17 +4,19 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-public abstract class AbstractSkullAchievement implements Achievement{
+import one.lindegaard.Core.Server.Servers;
 
-    @SuppressWarnings("deprecation")
+public abstract class AbstractSkullAchievement implements Achievement {
+
+	@SuppressWarnings("deprecation")
 	@Override
-    public ItemStack getSymbol() {
-    	//TODO: best material?
-        ItemStack skull = new ItemStack(Material.CREEPER_HEAD);
-        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-        skullMeta.setOwner("MHF_Creeper");
-        skull.setItemMeta(skullMeta);
-        // TODO: make custom symbol - ItemStack is = new CustomItems(MobHunting.getInstance()).getCustomtexture(null, null, MinecraftMob.Creeper.getTexture(null), MinecraftMob.Creeper.getSignature(null),0, null, null);
-        return skull;
-    }
+	public ItemStack getSymbol() {
+		// TODO: best material?
+		ItemStack skull = Servers.isMC113OrNewer() ? new ItemStack(Material.CREEPER_HEAD)
+				: new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 4);
+		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+		skullMeta.setOwner("MHF_Creeper");
+		skull.setItemMeta(skullMeta);
+		return skull;
+	}
 }

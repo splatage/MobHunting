@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
 import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
 
@@ -57,8 +58,10 @@ public class AxeMurderer implements Achievement, Listener {
 
 	@Override
 	public ItemStack getSymbol() {
-		//TODO: Best material
+		if (Servers.isMC113())
 		return new ItemStack(Material.WOODEN_AXE);
+		else
+			return new ItemStack(Material.matchMaterial("WOOD_AXE"));
 	}
 
 }
