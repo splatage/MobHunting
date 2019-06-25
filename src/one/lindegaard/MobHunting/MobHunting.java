@@ -166,6 +166,9 @@ public class MobHunting extends JavaPlugin {
 			}
 		}
 
+		//for (int i = 0; i < 5; i++)
+		//	getMessages().debug("Random uuid = %s", java.util.UUID.randomUUID());
+
 		mWorldGroupManager = new WorldGroupManager(this);
 		mWorldGroupManager.load();
 
@@ -332,12 +335,6 @@ public class MobHunting extends JavaPlugin {
 			mMetricsManager.startBStatsMetrics();
 		}
 
-		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-			public void run() {
-				instance.getMessages().injectMissingMobNamesToLangFiles();
-			}
-		}, 20 * 5);
-
 		// Handle online players when server admin do a /reload or /mh reload
 		if (Tools.getOnlinePlayersAmount() > 0) {
 			getMessages().debug("Reloading %s player settings from the database", Tools.getOnlinePlayersAmount());
@@ -354,8 +351,11 @@ public class MobHunting extends JavaPlugin {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
 					+ " version +6.0.0 is only for Minecraft 1.12 and has not been tested with older Minecraft versions! You should downgrade to 5.x");
 
-		// for (int i = 0; i < 5; i++)
-		// getMessages().debug("Random uuid = %s", UUID.randomUUID());
+		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+			public void run() {
+				instance.getMessages().injectMissingMobNamesToLangFiles();
+			}
+		}, 20 * 5);
 
 		mInitialized = true;
 

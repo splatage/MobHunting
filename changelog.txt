@@ -1,3 +1,7 @@
+V6.7.0
+* Added all Villagers introduced in Minecraft 1.14 
+V6.6.9
+* Bug fixing
 V6.6.8
 * Bug fixing
 V6.6.7

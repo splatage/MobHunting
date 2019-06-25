@@ -135,8 +135,6 @@ public class ExtendedMob {
 		case Minecraft:
 			MinecraftMob mob = MinecraftMob.getMinecraftMobType(mobtype);
 			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
-		// return
-		// MinecraftMob.getMinecraftMobType(mobtype).getProgressAchievementLevel1(mob);
 		case MythicMobs:
 			return MythicMobsCompat.getProgressAchievementLevel1(mobtype);
 		case Citizens:

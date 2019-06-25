@@ -56,7 +56,7 @@ public class ConfigManager extends AutoConfig {
 
 		setCategoryComment("mobs",
 				"########################################################################"
-						+ "\nRewards for killing mobs."
+						+ "\nRewards for killing Hostile Mobs."
 						+ "\n########################################################################"
 						+ "\nHere is where you set the rewards for killing agressive mobs.");
 
@@ -69,6 +69,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.elder_guardian", "### Elder Guardian settings ###");
 		setCategoryComment("mobs.enderman", "### Enderman settings ###");
 		setCategoryComment("mobs.endermite", "### Endermite settings ###");
+		setCategoryComment("mobs.evoker", "### Evoker settings ###");
 		setCategoryComment("mobs.ghast", "### Ghast settings ###");
 		setCategoryComment("mobs.giant", "### Giant settings ###");
 		setCategoryComment("mobs.iron_golem", "### Iron Golem settings ###");
@@ -89,9 +90,10 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.zombie", "### Zombie settings ###");
 		setCategoryComment("mobs.zombie_pigman", "### Zombie Pigman settings ###");
 		setCategoryComment("mobs.vex", "### Vex settings ###");
+		setCategoryComment("mobs.vindicator", "### Vindicator settings ###");
 		setCategoryComment("mobs.witch", "### Witch settings ###");
 		setCategoryComment("mobs.wither_skeleton", "### Wither Skeleton settings ###");
-
+		
 		setCategoryComment("boss",
 				"########################################################################"
 						+ "\nRewards for killing bosses"
@@ -110,17 +112,32 @@ public class ConfigManager extends AutoConfig {
 						+ "\nhandles as their profession. Info anbout Profession and Caarer:"
 						+ "\nhttp://minecraft.gamepedia.com/Villager#Professions_and_careers");
 
-		setCategoryComment("villager.blacksmith", "### Blacksmith settings ###");
+		setCategoryComment("villager.armorer", "### Armorer settings ###");
 		setCategoryComment("villager.butcher", "### Butcher settings ###");
-		setCategoryComment("villager.evoker", "### Evoker settings ###");
+		setCategoryComment("villager.cartographer", "### Cartographer settings ###");
+		setCategoryComment("villager.cleric", "### Cleric settings ###");
 		setCategoryComment("villager.farmer", "### Farmer settings ###");
-		setCategoryComment("villager.illusioner", "### Illusioner settings ###");
+		setCategoryComment("villager.fisherman", "### Fisherman settings ###");
+		setCategoryComment("villager.fletcher", "### Fletcher settings ###");
+		setCategoryComment("villager.leatherworker", "### Leatherworker settings ###");
+		setCategoryComment("villager.librarian", "### Librarian settings ###");
+		setCategoryComment("villager.mason", "### Mason settings ###");
 		setCategoryComment("villager.nitwit", "### Nitwit settings ###");
-		setCategoryComment("villager.priest", "### Priest settings ###");
-		setCategoryComment("villager.villager", "### Villager settings ###");
-		setCategoryComment("villager.vindicator", "### Vindicator settings ###");
-		setCategoryComment("villager.zombie_villager", "### Zombie Villager settings ###");
+		setCategoryComment("villager.villager", "### Villager settings (No profession) ###");
+		setCategoryComment("villager.shepherd", "### Shepherd settings ###");
+		setCategoryComment("villager.toolsmith", "### Toolsmith settings ###");
+		setCategoryComment("villager.weaponsmith", "### Weaponsmith settings ###");
 
+		// This is passive monster - not a villaer
+		setCategoryComment("villager.zombie_villager", "### Zombie Villager settings - This is a passive monster, not a villager ###");
+
+		//deprecated in mc 1.14
+		setCategoryComment("villager.blacksmith", "### Blacksmith settings - deprecated in mc 1.14 ###");
+		setCategoryComment("villager.priest", "### Priest settings - deprecated in mc 1.14 ###");
+		
+		// Unused mobs are found in the source code and can be spawned using /summon, but are unavailable in normal gameplay. 
+		setCategoryComment("villager.illusioner", "### Illusioner settings ###");
+		
 		setCategoryComment("passive",
 				"########################################################################"
 						+ "\nRewards for killing passive mobs"
@@ -1505,31 +1522,32 @@ public class ConfigManager extends AutoConfig {
 	// #####################################################################################
 	// Villagers
 	// #####################################################################################
-	// =====Blacksmith============================================
-	@ConfigField(name = "blacksmith.enabled", category = "villager")
-	public boolean blacksmithEnabled = true;
-	@ConfigField(name = "blacksmith.message", category = "villager")
-	public String blacksmithMessage = "You killed a §1{killed}";
-	@ConfigField(name = "blacksmith.money.amount", category = "villager")
-	public String blacksmithMoney = "1:2";
-	@ConfigField(name = "blacksmith.money.chance", category = "villager")
-	public double blacksmithMoneyChance = 1;
-	@ConfigField(name = "blacksmith.commands", category = "villager")
-	public List<HashMap<String, String>> blacksmithCommands = new ArrayList<HashMap<String, String>>();
+
+	// =====Armorer============================================
+	@ConfigField(name = "armorer.enabled", category = "villager")
+	public boolean armorerEnabled = true;
+	@ConfigField(name = "armorer.message", category = "villager")
+	public String armorerMessage = "You killed a §1{killed}";
+	@ConfigField(name = "armorer.money.amount", category = "villager")
+	public String armorerMoney = "1:2";
+	@ConfigField(name = "armorer.money.chance", category = "villager")
+	public double armorerMoneyChance = 1;
+	@ConfigField(name = "armorer.commands", category = "villager")
+	public List<HashMap<String, String>> armorerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
 		values1.put("cmd", "give {player} Iron_ingot 1");
 		values1.put("chance", "0.10");
-		blacksmithCommands.add(values1);
+		armorerCommands.add(values1);
 	}
-	@ConfigField(name = "blacksmith.head.drophead", category = "villager")
-	public boolean blacksmithHeadDropHead = true;
-	@ConfigField(name = "blacksmith.head.value", category = "villager")
-	public String blacksmithHeadPrize = "0";
-	@ConfigField(name = "blacksmith.head.chance", category = "villager")
-	public double blacksmithHeadDropChance = 0.10;
-	@ConfigField(name = "blacksmith.head.message", category = "villager")
-	public String blacksmithHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	@ConfigField(name = "armorer.head.drophead", category = "villager")
+	public boolean armorerHeadDropHead = true;
+	@ConfigField(name = "armorer.head.value", category = "villager")
+	public String armorerHeadPrize = "0";
+	@ConfigField(name = "armorer.head.chance", category = "villager")
+	public double armorerHeadDropChance = 0.10;
+	@ConfigField(name = "armorer.head.message", category = "villager")
+	public String armorerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Butcher============================================
 	@ConfigField(name = "butcher.enabled", category = "villager")
@@ -1557,31 +1575,57 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "butcher.head.message", category = "villager")
 	public String butcherHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
-	// =====Evoker============================================
-	@ConfigField(name = "evoker.enabled", category = "villager")
-	public boolean evokerEnabled = true;
-	@ConfigField(name = "evoker.message", category = "villager")
-	public String evokerMessage = "You killed a §1{killed}";
-	@ConfigField(name = "evoker.money.amount", category = "villager")
-	public String evokerMoney = "10";
-	@ConfigField(name = "evoker.money.chance", category = "villager")
-	public double evokerMoneyChance = 0.50;
-	@ConfigField(name = "evoker.commands", category = "villager")
-	public List<HashMap<String, String>> evokerCommands = new ArrayList<HashMap<String, String>>();
+	// =====Cartographer============================================
+	@ConfigField(name = "cartographer.enabled", category = "villager")
+	public boolean cartographerEnabled = true;
+	@ConfigField(name = "cartographer.message", category = "villager")
+	public String cartographerMessage = "You killed a §1{killed}";
+	@ConfigField(name = "cartographer.money.amount", category = "villager")
+	public String cartographerMoney = "1:2";
+	@ConfigField(name = "cartographer.money.chance", category = "villager")
+	public double cartographerMoneyChance = 1;
+	@ConfigField(name = "cartographer.commands", category = "villager")
+	public List<HashMap<String, String>> cartographerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
 		values1.put("cmd", "give {player} Iron_ingot 1");
-		values1.put("chance", "0.1");
-		evokerCommands.add(values1);
+		values1.put("chance", "0.10");
+		cartographerCommands.add(values1);
 	}
-	@ConfigField(name = "evoker.head.drophead", category = "villager")
-	public boolean evokerHeadDropHead = true;
-	@ConfigField(name = "evoker.head.value", category = "villager")
-	public String evokerHeadPrize = "0";
-	@ConfigField(name = "evoker.head.chance", category = "villager")
-	public double evokerHeadDropChance = 0.50;
-	@ConfigField(name = "evoker.head.message", category = "villager")
-	public String evokerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	@ConfigField(name = "cartographer.head.drophead", category = "villager")
+	public boolean cartographerHeadDropHead = true;
+	@ConfigField(name = "cartographer.head.value", category = "villager")
+	public String cartographerHeadPrize = "0";
+	@ConfigField(name = "cartographer.head.chance", category = "villager")
+	public double cartographerHeadDropChance = 0.10;
+	@ConfigField(name = "cartographer.head.message", category = "villager")
+	public String cartographerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Cleric============================================
+	@ConfigField(name = "cleric.enabled", category = "villager")
+	public boolean clericEnabled = true;
+	@ConfigField(name = "cleric.message", category = "villager")
+	public String clericMessage = "You killed a §1{killed}";
+	@ConfigField(name = "cleric.money.amount", category = "villager")
+	public String clericMoney = "1:2";
+	@ConfigField(name = "cleric.money.chance", category = "villager")
+	public double clericMoneyChance = 1;
+	@ConfigField(name = "cleric.commands", category = "villager")
+	public List<HashMap<String, String>> clericCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.10");
+		clericCommands.add(values1);
+	}
+	@ConfigField(name = "cleric.head.drophead", category = "villager")
+	public boolean clericHeadDropHead = true;
+	@ConfigField(name = "cleric.head.value", category = "villager")
+	public String clericHeadPrize = "0";
+	@ConfigField(name = "cleric.head.chance", category = "villager")
+	public double clericHeadDropChance = 0.10;
+	@ConfigField(name = "cleric.head.message", category = "villager")
+	public String clericHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Farmer============================================
 	@ConfigField(name = "farmer.enabled", category = "villager")
@@ -1593,12 +1637,12 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "farmer.money.chance", category = "villager")
 	public double farmerMoneyChance = 1;
 	@ConfigField(name = "farmer.commands", category = "villager")
-	public List<HashMap<String, String>> farmerCommnds = new ArrayList<HashMap<String, String>>();
+	public List<HashMap<String, String>> farmerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
 		values1.put("cmd", "give {player} Iron_ingot 1");
 		values1.put("chance", "0.1");
-		farmerCommnds.add(values1);
+		farmerCommands.add(values1);
 	}
 	@ConfigField(name = "farmer.head.drophead", category = "villager")
 	public boolean farmerHeadDropHead = true;
@@ -1609,31 +1653,83 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "farmer.head.message", category = "villager")
 	public String farmerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
-	// =====Illusioner============================================
-	@ConfigField(name = "illusioner.enabled", category = "villager")
-	public boolean illusionerEnabled = true;
-	@ConfigField(name = "illusioner.message", category = "villager")
-	public String illusionerMessage = "You killed a §1{killed}";
-	@ConfigField(name = "illusioner.money.amount", category = "villager")
-	public String illusionerMoney = "30:50";
-	@ConfigField(name = "illusioner.money.chance", category = "villager")
-	public double illusionerMoneyChance = 0.10;
-	@ConfigField(name = "illusioner.commands", category = "villager")
-	public List<HashMap<String, String>> illusionerCommands = new ArrayList<HashMap<String, String>>();
+	// =====Fisherman============================================
+	@ConfigField(name = "fisherman.enabled", category = "villager")
+	public boolean fishermanEnabled = true;
+	@ConfigField(name = "fisherman.message", category = "villager")
+	public String fishermanMessage = "You killed a §1{killed}";
+	@ConfigField(name = "fisherman.money.amount", category = "villager")
+	public String fishermanMoney = "1:2";
+	@ConfigField(name = "fisherman.money.chance", category = "villager")
+	public double fishermanMoneyChance = 1;
+	@ConfigField(name = "fisherman.commands", category = "villager")
+	public List<HashMap<String, String>> fishermanCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
 		values1.put("cmd", "give {player} Iron_ingot 1");
-		values1.put("chance", "0.10");
-		illusionerCommands.add(values1);
+		values1.put("chance", "0.1");
+		fishermanCommands.add(values1);
 	}
-	@ConfigField(name = "illusioner.head.drophead", category = "villager")
-	public boolean illusionerHeadDropHead = true;
-	@ConfigField(name = "illusioner.head.value", category = "villager")
-	public String illusionerHeadPrize = "0";
-	@ConfigField(name = "illusioner.head.chance", category = "villager")
-	public double illusionerHeadDropChance = 0.10;
-	@ConfigField(name = "illusioner.head.message", category = "villager")
-	public String illusionerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	@ConfigField(name = "fisherman.head.drophead", category = "villager")
+	public boolean fishermanHeadDropHead = true;
+	@ConfigField(name = "fisherman.head.value", category = "villager")
+	public String fishermanHeadPrize = "0";
+	@ConfigField(name = "fisherman.head.chance", category = "villager")
+	public double fishermanHeadDropChance = 0.10;
+	@ConfigField(name = "fisherman.head.message", category = "villager")
+	public String fishermanHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Fletcher============================================
+	@ConfigField(name = "fletcher.enabled", category = "villager")
+	public boolean fletcherEnabled = true;
+	@ConfigField(name = "fletcher.message", category = "villager")
+	public String fletcherMessage = "You killed a §1{killed}";
+	@ConfigField(name = "fletcher.money.amount", category = "villager")
+	public String fletcherMoney = "1:2";
+	@ConfigField(name = "fletcher.money.chance", category = "villager")
+	public double fletcherMoneyChance = 1;
+	@ConfigField(name = "fletcher.commands", category = "villager")
+	public List<HashMap<String, String>> fletcherCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.1");
+		fletcherCommands.add(values1);
+	}
+	@ConfigField(name = "fletcher.head.drophead", category = "villager")
+	public boolean fletcherHeadDropHead = true;
+	@ConfigField(name = "fletcher.head.value", category = "villager")
+	public String fletcherHeadPrize = "0";
+	@ConfigField(name = "fletcher.head.chance", category = "villager")
+	public double fletcherHeadDropChance = 0.10;
+	@ConfigField(name = "fletcher.head.message", category = "villager")
+	public String fletcherHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Leatherworker============================================
+	@ConfigField(name = "leatherworker.enabled", category = "villager")
+	public boolean leatherworkerEnabled = true;
+	@ConfigField(name = "leatherworker.message", category = "villager")
+	public String leatherworkerMessage = "You killed a §1{killed}";
+	@ConfigField(name = "leatherworker.money.amount", category = "villager")
+	public String leatherworkerMoney = "1:2";
+	@ConfigField(name = "leatherworker.money.chance", category = "villager")
+	public double leatherworkerMoneyChance = 1;
+	@ConfigField(name = "leatherworker.commands", category = "villager")
+	public List<HashMap<String, String>> leatherworkerCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.1");
+		leatherworkerCommands.add(values1);
+	}
+	@ConfigField(name = "leatherworker.head.drophead", category = "villager")
+	public boolean leatherworkerHeadDropHead = true;
+	@ConfigField(name = "leatherworker.head.value", category = "villager")
+	public String leatherworkerHeadPrize = "0";
+	@ConfigField(name = "leatherworker.head.chance", category = "villager")
+	public double leatherworkerHeadDropChance = 0.10;
+	@ConfigField(name = "leatherworker.head.message", category = "villager")
+	public String leatherworkerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Librarian============================================
 	@ConfigField(name = "librarian.enabled", category = "villager")
@@ -1661,6 +1757,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "librarian.head.message", category = "villager")
 	public String librarianHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Mason============================================
+	@ConfigField(name = "mason.enabled", category = "villager")
+	public boolean masonEnabled = true;
+	@ConfigField(name = "mason.message", category = "villager")
+	public String masonMessage = "You killed a §1{killed}";
+	@ConfigField(name = "mason.money.amount", category = "villager")
+	public String masonMoney = "1:2";
+	@ConfigField(name = "mason.money.chance", category = "villager")
+	public double masonMoneyChance = 1;
+	@ConfigField(name = "mason.commands", category = "villager")
+	public List<HashMap<String, String>> masonCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.5");
+		masonCommands.add(values1);
+	}
+	@ConfigField(name = "mason.head.drophead", category = "villager")
+	public boolean masonHeadDropHead = true;
+	@ConfigField(name = "mason.head.value", category = "villager")
+	public String masonHeadPrize = "0";
+	@ConfigField(name = "mason.head.chance", category = "villager")
+	public double masonHeadDropChance = 0.50;
+	@ConfigField(name = "mason.head.message", category = "villager")
+	public String masonHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Nitwit============================================
 	@ConfigField(name = "nitwit.enabled", category = "villager")
 	public boolean nitwitEnabled = true;
@@ -1686,32 +1808,6 @@ public class ConfigManager extends AutoConfig {
 	public double nitwitHeadDropChance = 0.5;
 	@ConfigField(name = "nitwit.head.message", category = "villager")
 	public String nitwitHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
-
-	// =====Priest============================================
-	@ConfigField(name = "priest.enabled", category = "villager")
-	public boolean priestEnabled = true;
-	@ConfigField(name = "priest.message", category = "villager")
-	public String priestMessage = "You killed a §1{killed}";
-	@ConfigField(name = "priest.money.amount", category = "villager")
-	public String priestMoney = "1:2";
-	@ConfigField(name = "priest.money.chance", category = "villager")
-	public double priestMoneyChance = 1;
-	@ConfigField(name = "priest.commands", category = "villager")
-	public List<HashMap<String, String>> priestCommands = new ArrayList<HashMap<String, String>>();
-	{
-		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
-		values1.put("chance", "0.5");
-		priestCommands.add(values1);
-	}
-	@ConfigField(name = "priest.head.drophead", category = "villager")
-	public boolean priestHeadDropHead = true;
-	@ConfigField(name = "priest.head.value", category = "villager")
-	public String priestHeadPrize = "0";
-	@ConfigField(name = "priest.head.chance", category = "villager")
-	public double priestHeadDropChance = 0.50;
-	@ConfigField(name = "priest.head.message", category = "villager")
-	public String priestHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Villager============================================
 	@ConfigField(name = "villager.enabled", category = "villager")
@@ -1739,6 +1835,196 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "villager.head.message", category = "villager")
 	public String villagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Shepherd============================================
+	@ConfigField(name = "shepherd.enabled", category = "villager")
+	public boolean shepherdEnabled = true;
+	@ConfigField(name = "shepherd.message", category = "villager")
+	public String shepherdMessage = "You killed a §1{killed}";
+	@ConfigField(name = "shepherd.money.amount", category = "villager")
+	public String shepherdMoney = "1";
+	@ConfigField(name = "shepherd.money.chance", category = "villager")
+	public double shepherdMoneyChance = 1;
+	@ConfigField(name = "shepherd.commands", category = "villager")
+	public List<HashMap<String, String>> shepherdCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.3");
+		shepherdCommands.add(values1);
+	}
+	@ConfigField(name = "shepherd.head.drophead", category = "villager")
+	public boolean shepherdHeadDropHead = true;
+	@ConfigField(name = "shepherd.head.value", category = "villager")
+	public String shepherdHeadPrize = "0";
+	@ConfigField(name = "shepherd.head.chance", category = "villager")
+	public double shepherdHeadDropChance = 0.30;
+	@ConfigField(name = "shepherd.head.message", category = "villager")
+	public String shepherdHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Toolsmith============================================
+	@ConfigField(name = "toolsmith.enabled", category = "villager")
+	public boolean toolsmithEnabled = true;
+	@ConfigField(name = "toolsmith.message", category = "villager")
+	public String toolsmithMessage = "You killed a §1{killed}";
+	@ConfigField(name = "toolsmith.money.amount", category = "villager")
+	public String toolsmithMoney = "1";
+	@ConfigField(name = "toolsmith.money.chance", category = "villager")
+	public double toolsmithMoneyChance = 1;
+	@ConfigField(name = "toolsmith.commands", category = "villager")
+	public List<HashMap<String, String>> toolsmithCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.3");
+		toolsmithCommands.add(values1);
+	}
+	@ConfigField(name = "toolsmith.head.drophead", category = "villager")
+	public boolean toolsmithHeadDropHead = true;
+	@ConfigField(name = "toolsmith.head.value", category = "villager")
+	public String toolsmithHeadPrize = "0";
+	@ConfigField(name = "toolsmith.head.chance", category = "villager")
+	public double toolsmithHeadDropChance = 0.30;
+	@ConfigField(name = "toolsmith.head.message", category = "villager")
+	public String toolsmithHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Shepherd============================================
+	@ConfigField(name = "weaponsmith.enabled", category = "villager")
+	public boolean weaponsmithEnabled = true;
+	@ConfigField(name = "weaponsmith.message", category = "villager")
+	public String weaponsmithMessage = "You killed a §1{killed}";
+	@ConfigField(name = "weaponsmith.money.amount", category = "villager")
+	public String weaponsmithMoney = "1";
+	@ConfigField(name = "weaponsmith.money.chance", category = "villager")
+	public double weaponsmithMoneyChance = 1;
+	@ConfigField(name = "weaponsmith.commands", category = "villager")
+	public List<HashMap<String, String>> weaponsmithCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.3");
+		weaponsmithCommands.add(values1);
+	}
+	@ConfigField(name = "weaponsmith.head.drophead", category = "villager")
+	public boolean weaponsmithHeadDropHead = true;
+	@ConfigField(name = "weaponsmith.head.value", category = "villager")
+	public String weaponsmithHeadPrize = "0";
+	@ConfigField(name = "weaponsmith.head.chance", category = "villager")
+	public double weaponsmithHeadDropChance = 0.30;
+	@ConfigField(name = "weaponsmith.head.message", category = "villager")
+	public String weaponsmithHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+
+	// #####################################################################################
+	// Deprecated Villagers (Villages which has been removed in Minecraft 1.14)
+	// #####################################################################################
+
+	// =====Blacksmith============================================
+	@ConfigField(name = "blacksmith.enabled", category = "villager")
+	public boolean blacksmithEnabled = true;
+	@ConfigField(name = "blacksmith.message", category = "villager")
+	public String blacksmithMessage = "You killed a §1{killed}";
+	@ConfigField(name = "blacksmith.money.amount", category = "villager")
+	public String blacksmithMoney = "1:2";
+	@ConfigField(name = "blacksmith.money.chance", category = "villager")
+	public double blacksmithMoneyChance = 1;
+	@ConfigField(name = "blacksmith.commands", category = "villager")
+	public List<HashMap<String, String>> blacksmithCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.10");
+		blacksmithCommands.add(values1);
+	}
+	@ConfigField(name = "blacksmith.head.drophead", category = "villager")
+	public boolean blacksmithHeadDropHead = true;
+	@ConfigField(name = "blacksmith.head.value", category = "villager")
+	public String blacksmithHeadPrize = "0";
+	@ConfigField(name = "blacksmith.head.chance", category = "villager")
+	public double blacksmithHeadDropChance = 0.10;
+	@ConfigField(name = "blacksmith.head.message", category = "villager")
+	public String blacksmithHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Priest============================================
+	@ConfigField(name = "priest.enabled", category = "villager")
+	public boolean priestEnabled = true;
+	@ConfigField(name = "priest.message", category = "villager")
+	public String priestMessage = "You killed a §1{killed}";
+	@ConfigField(name = "priest.money.amount", category = "villager")
+	public String priestMoney = "1:2";
+	@ConfigField(name = "priest.money.chance", category = "villager")
+	public double priestMoneyChance = 1;
+	@ConfigField(name = "priest.commands", category = "villager")
+	public List<HashMap<String, String>> priestCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.5");
+		priestCommands.add(values1);
+	}
+	@ConfigField(name = "priest.head.drophead", category = "villager")
+	public boolean priestHeadDropHead = true;
+	@ConfigField(name = "priest.head.value", category = "villager")
+	public String priestHeadPrize = "0";
+	@ConfigField(name = "priest.head.chance", category = "villager")
+	public double priestHeadDropChance = 0.50;
+	@ConfigField(name = "priest.head.message", category = "villager")
+	public String priestHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+
+	
+	
+	// =====Evoker============================================
+	@ConfigField(name = "evoker.enabled", category = "villager")
+	public boolean evokerEnabled = true;
+	@ConfigField(name = "evoker.message", category = "villager")
+	public String evokerMessage = "You killed a §1{killed}";
+	@ConfigField(name = "evoker.money.amount", category = "villager")
+	public String evokerMoney = "10";
+	@ConfigField(name = "evoker.money.chance", category = "villager")
+	public double evokerMoneyChance = 0.50;
+	@ConfigField(name = "evoker.commands", category = "villager")
+	public List<HashMap<String, String>> evokerCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.1");
+		evokerCommands.add(values1);
+	}
+	@ConfigField(name = "evoker.head.drophead", category = "villager")
+	public boolean evokerHeadDropHead = true;
+	@ConfigField(name = "evoker.head.value", category = "villager")
+	public String evokerHeadPrize = "0";
+	@ConfigField(name = "evoker.head.chance", category = "villager")
+	public double evokerHeadDropChance = 0.50;
+	@ConfigField(name = "evoker.head.message", category = "villager")
+	public String evokerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Illusioner============================================
+	@ConfigField(name = "illusioner.enabled", category = "villager")
+	public boolean illusionerEnabled = true;
+	@ConfigField(name = "illusioner.message", category = "villager")
+	public String illusionerMessage = "You killed a §1{killed}";
+	@ConfigField(name = "illusioner.money.amount", category = "villager")
+	public String illusionerMoney = "30:50";
+	@ConfigField(name = "illusioner.money.chance", category = "villager")
+	public double illusionerMoneyChance = 0.10;
+	@ConfigField(name = "illusioner.commands", category = "villager")
+	public List<HashMap<String, String>> illusionerCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.10");
+		illusionerCommands.add(values1);
+	}
+	@ConfigField(name = "illusioner.head.drophead", category = "villager")
+	public boolean illusionerHeadDropHead = true;
+	@ConfigField(name = "illusioner.head.value", category = "villager")
+	public String illusionerHeadPrize = "0";
+	@ConfigField(name = "illusioner.head.chance", category = "villager")
+	public double illusionerHeadDropChance = 0.10;
+	@ConfigField(name = "illusioner.head.message", category = "villager")
+	public String illusionerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Vindicator============================================
 	@ConfigField(name = "vindicator.enabled", category = "villager")
 	public boolean vindicatorEnabled = true;
@@ -1764,32 +2050,6 @@ public class ConfigManager extends AutoConfig {
 	public double vindicatorHeadDropChance = 0.05;
 	@ConfigField(name = "vindicator.head.message", category = "villager")
 	public String vindicatorHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
-
-	// =====Zombie Villager============================================
-	@ConfigField(name = "zombie_villager.enabled", category = "villager")
-	public boolean zombieVillagerEnabled = true;
-	@ConfigField(name = "zombie_villager.message", category = "villager")
-	public String zombieVillagerMessage = "You killed a §1{killed}";
-	@ConfigField(name = "zombie_villager.money.amount", category = "villager")
-	public String zombieVillagerMoney = "1:2";
-	@ConfigField(name = "zombie_villager.money.chance", category = "villager")
-	public double zombieVillagerMoneyChance = 1;
-	@ConfigField(name = "zombie_villager.commands", category = "villager")
-	public List<HashMap<String, String>> zombieVillagerCommands = new ArrayList<HashMap<String, String>>();
-	{
-		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
-		values1.put("chance", "0.05");
-		zombieVillagerCommands.add(values1);
-	}
-	@ConfigField(name = "zombie_villager.head.drophead", category = "villager")
-	public boolean zombieVillagerHeadDropHead = true;
-	@ConfigField(name = "zombie_villager.head.value", category = "villager")
-	public String zombieVillagerHeadPrize = "0";
-	@ConfigField(name = "zombie_villager.head.chance", category = "villager")
-	public double zombieVillagerHeadDropChance = 0.05;
-	@ConfigField(name = "zombie_villager.head.message", category = "villager")
-	public String zombieVillagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// #####################################################################################
 	// Passive Mobs
@@ -2342,6 +2602,38 @@ public class ConfigManager extends AutoConfig {
 	public String zombieHorseHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// #####################################################################################
+	// Passive Mobs - Monsters
+	// #####################################################################################
+
+	// =====Zombie Villager============================================
+	@ConfigField(name = "zombie_villager.enabled", category = "passive_monsters")
+	public boolean zombieVillagerEnabled = true;
+	@ConfigField(name = "zombie_villager.message", category = "passive_monsters")
+	public String zombieVillagerMessage = "You killed a §1{killed}";
+	@ConfigField(name = "zombie_villager.money.amount", category = "passive_monsters")
+	public String zombieVillagerMoney = "1:2";
+	@ConfigField(name = "zombie_villager.money.chance", category = "passive_monsters")
+	public double zombieVillagerMoneyChance = 1;
+	@ConfigField(name = "zombie_villager.commands", category = "passive_monsters")
+	public List<HashMap<String, String>> zombieVillagerCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("chance", "0.05");
+		zombieVillagerCommands.add(values1);
+	}
+	@ConfigField(name = "zombie_villager.head.drophead", category = "passive_monsters")
+	public boolean zombieVillagerHeadDropHead = true;
+	@ConfigField(name = "zombie_villager.head.value", category = "passive_monsters")
+	public String zombieVillagerHeadPrize = "0";
+	@ConfigField(name = "zombie_villager.head.chance", category = "passive_monsters")
+	public double zombieVillagerHeadDropChance = 0.05;
+	@ConfigField(name = "zombie_villager.head.message", category = "passive_monsters")
+	public String zombieVillagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+
+	
+	// #####################################################################################
 	// Fish / Fishing
 	// #####################################################################################
 
@@ -2659,11 +2951,11 @@ public class ConfigManager extends AutoConfig {
 	// #####################################################################################
 	// Achievement Hunter Levels
 	// #####################################################################################
+	@ConfigField(name = "armorer_level1", category = "achievements.hunter.mob_level")
+	public int armorerLevel1 = 100;
+
 	@ConfigField(name = "bat_level1", category = "achievements.hunter.mob_level")
 	public int batLevel1 = 100;
-
-	@ConfigField(name = "cat_level1", category = "achievements.hunter.mob_level")
-	public int catLevel1 = 100;
 
 	@ConfigField(name = "blaze_level1", category = "achievements.hunter.mob_level")
 	public int blazeLevel1 = 80;
@@ -2676,6 +2968,10 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "butcher_level1", category = "achievements.hunter.mob_level")
 	public int butcherLevel1 = 100;
+	
+	@ConfigField(name = "cat_level1", category = "achievements.hunter.mob_level")
+	public int catLevel1 = 100;
+
 	@ConfigField(name = "cartographer_level1", category = "achievements.hunter.mob_level")
 	public int cartographerLevel1 = 100;
 
@@ -2684,6 +2980,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "chicken_level1", category = "achievements.hunter.mob_level")
 	public int chickenLevel1 = 100;
+
+	@ConfigField(name = "cleric_level1", category = "achievements.hunter.mob_level")
+	public int clericLevel1 = 100;
 
 	@ConfigField(name = "clownfish_level1", category = "achievements.hunter.mob_level")
 	public int clownfishLevel1 = 100;
@@ -2724,6 +3023,12 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "fish_level1", category = "achievements.hunter.mob_level")
 	public int fishLevel1 = 100;
 
+	@ConfigField(name = "fisherman_level1", category = "achievements.hunter.mob_level")
+	public int fishermanLevel1 = 100;
+
+	@ConfigField(name = "fletcher_level1", category = "achievements.hunter.mob_level")
+	public int fletcherLevel1 = 100;
+
 	@ConfigField(name = "fox_level1", category = "achievements.hunter.mob_level")
 	public int foxLevel1 = 100;
 
@@ -2751,6 +3056,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "killerrabbit_level1", category = "achievements.hunter.mob_level")
 	public int killerRabbitLevel1 = 100;
 
+	@ConfigField(name = "leatherworker_level1", category = "achievements.hunter.mob_level")
+	public int leatherworkerLevel1 = 100;
+
 	@ConfigField(name = "librarian_level1", category = "achievements.hunter.mob_level")
 	public int librarianLevel1 = 100;
 
@@ -2759,6 +3067,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "magma_cube_level1", category = "achievements.hunter.mob_level")
 	public int magmaCubeLevel1 = 100;
+
+	@ConfigField(name = "mason_level1", category = "achievements.hunter.mob_level")
+	public int masonLevel1 = 100;
 
 	@ConfigField(name = "mule_level1", category = "achievements.hunter.mob_level")
 	public int muleLevel1 = 100;
@@ -2814,6 +3125,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "sheep_level1", category = "achievements.hunter.mob_level")
 	public int sheepLevel1 = 100;
 
+	@ConfigField(name = "shepherd_level1", category = "achievements.hunter.mob_level")
+	public int shepherdLevel1 = 100;
+
 	@ConfigField(name = "shulker_level1", category = "achievements.hunter.mob_level")
 	public int shulkerLevel1 = 100;
 
@@ -2844,6 +3158,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "turtle_level1", category = "achievements.hunter.mob_level")
 	public int turtleLevel1 = 100;
 
+	@ConfigField(name = "toolsmith_level1", category = "achievements.hunter.mob_level")
+	public int toolsmithLevel1 = 100;
+
 	@ConfigField(name = "vex_level1", category = "achievements.hunter.mob_level")
 	public int vexLevel1 = 100;
 
@@ -2852,6 +3169,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "vindicator_level1", category = "achievements.hunter.mob_level")
 	public int vindicatorLevel1 = 100;
+
+	@ConfigField(name = "weaponsmith_level1", category = "achievements.hunter.mob_level")
+	public int weaponsmithLevel1 = 80;
 
 	@ConfigField(name = "witch_level1", category = "achievements.hunter.mob_level")
 	public int witchLevel1 = 80;
@@ -3282,6 +3602,12 @@ public class ConfigManager extends AutoConfig {
 	public double bonusMobMcMMOSkillRewardChance = 0.05;
 	// No opinion yet, I'm not quite sure what a bonus mob is
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.armorer")
+	public String armorerMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.armorer")
+	public double armorerMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.butcher")
 	public String butcherMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.butcher")
@@ -3304,6 +3630,12 @@ public class ConfigManager extends AutoConfig {
 	public String chickenMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.chicken")
 	public double chickenMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.cleric")
+	public String clericMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.cleric")
+	public double clericMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.clownfish")
@@ -3384,6 +3716,18 @@ public class ConfigManager extends AutoConfig {
 	public double fishMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.fisherman")
+	public String fishermanMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.fisherman")
+	public double fishermanMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.fletcher")
+	public String fletcherMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.fletcher")
+	public double fletcherMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.fox")
 	public String foxMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.fox")
@@ -3439,6 +3783,12 @@ public class ConfigManager extends AutoConfig {
 	public double killerRabbitMcMMOSkillRewardChance = 1.0;
 	// Hostile mob, easy (but extremely rare)
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.leatherworker")
+	public String leatherworkerMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.leatherworker")
+	public double leatherworkerMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.llama")
 	public String llamaMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.llama")
@@ -3456,6 +3806,12 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.magma_cube")
 	public double magmaCubeMcMMOSkillRewardChance = 0.04;
 	// Hostile mob, easy
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.mason")
+	public String masonMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.mason")
+	public double masonMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.mule")
 	public String muleMcMMOSkillRewardAmount = "1";
@@ -3565,6 +3921,12 @@ public class ConfigManager extends AutoConfig {
 	public double sheepMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.shepherd")
+	public String shepherdMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.shepherd")
+	public double shepherdMcMMOSkillRewardChance = 0.05;
+	// Hostile mob, normal
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.shulker")
 	public String shulkerMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.shulker")
@@ -3625,6 +3987,12 @@ public class ConfigManager extends AutoConfig {
 	public double turtleMcMMOSkillRewardChance = 0.04;
 	// Passive mob, easy
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.toolsmith")
+	public String toolsmithMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.toolsmith")
+	public double toolsmithMcMMOSkillRewardChance = 0.04;
+	// Passive mob, easy
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.vex")
 	public String vexMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.vex")
@@ -3641,6 +4009,12 @@ public class ConfigManager extends AutoConfig {
 	public String vindicatorMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.vindicator")
 	public double vindicatorMcMMOSkillRewardChance = 0.05;
+	// Hostile mob, normal
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.weaponsmith")
+	public String weaponsmithMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.weaponsmith")
+	public double weaponsmithMcMMOSkillRewardChance = 0.05;
 	// Hostile mob, normal
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.witch")
@@ -4258,7 +4632,7 @@ public class ConfigManager extends AutoConfig {
 		this.evokerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 		this.farmerMoney = mConfig0.farmerPrize;
-		this.farmerCommnds = convertCommands(mConfig0.farmerCmd, mConfig0.farmerCmdRunChance);
+		this.farmerCommands = convertCommands(mConfig0.farmerCmd, mConfig0.farmerCmdRunChance);
 		this.farmerHeadDropHead = convertDropHeadEnabled(mConfig0.farmerCmd);
 		this.farmerHeadPrize = mConfig0.farmerHeadPrize;
 		this.farmerHeadDropChance = mConfig0.farmerCmdRunChance;
@@ -5126,6 +5500,28 @@ public class ConfigManager extends AutoConfig {
 			return pillagerLevel1;
 		case Ravager:
 			return ravagerLevel1;
+		case Armorer:
+			return armorerLevel1;
+		case Cartographer:
+			return cartographerLevel1;
+		case Cleric:
+			return clericLevel1;
+		case Fisherman:
+			return fishermanLevel1;
+		case Fletcher:
+			return fletcherLevel1;
+		case Leatherworker:
+			return leatherworkerLevel1;
+		case Mason:
+			return masonLevel1;
+		case Shepherd:
+			return shepherdLevel1;
+		case Toolsmith:
+			return toolsmithLevel1;
+		case Unemployed:
+			return villagerLevel1;
+		case Weaponsmith:
+			return weaponsmithLevel1;
 		}
 		return 100;
 	}
@@ -5147,9 +5543,8 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, bonusMobHeadPrize);
 		case Butcher:
 			return getPrice(mob, butcherHeadPrize);
-		// case Cartographer:
-		// return
-		// getPrice(mob,cartographerHeadPrize);
+		case Cartographer:
+		 return getPrice(mob,cartographerHeadPrize);
 		case CaveSpider:
 			return getPrice(mob, caveSpiderHeadPrize);
 		case Chicken:
@@ -5282,6 +5677,26 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, pillagerHeadPrize);
 		case Ravager:
 			return getPrice(mob, ravagerHeadPrize);
+		case Armorer:
+			return getPrice(mob, armorerHeadPrize );
+		case Cleric:
+			return getPrice(mob, clericHeadPrize);
+		case Fisherman:
+			return getPrice(mob, fishermanHeadPrize);
+		case Fletcher:
+			return getPrice(mob, fletcherHeadPrize);
+		case Leatherworker:
+			return getPrice(mob, leatherworkerHeadPrize);
+		case Mason:
+			return getPrice(mob, masonHeadPrize);
+		case Shepherd:
+			return getPrice(mob, sheepHeadPrize);
+		case Toolsmith:
+			return getPrice(mob, toolsmithHeadPrize);
+		case Unemployed:
+			return getPrice(mob, villagerHeadPrize);
+		case Weaponsmith:
+			return getPrice(mob, weaponsmithHeadPrize);
 		}
 		return 0;
 	}

@@ -246,7 +246,7 @@ public class RewardManager {
 	}
 
 	public double addBagOfGoldPlayer(Player player, double amount) {
-		
+
 		boolean found = false;
 		double moneyLeftToGive = amount;
 		double addedMoney = 0;
@@ -297,8 +297,7 @@ public class RewardManager {
 					addedMoney = addedMoney + nextBag;
 					ItemStack is;
 					if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL"))
-						is = new CustomItems().getCustomtexture(
-								UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
+						is = new CustomItems().getCustomtexture(UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
 								plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 								plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 								plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, Misc.round(nextBag),
@@ -749,7 +748,42 @@ public class RewardManager {
 					return getPrice(mob, plugin.getConfigManager().pillagerMoney);
 				else if (mob instanceof Ravager)
 					return getPrice(mob, plugin.getConfigManager().ravagerMoney);
-				 
+				else if (mob instanceof Husk)
+					return getPrice(mob, plugin.getConfigManager().huskMoney);
+				else if (mob instanceof Stray)
+					return getPrice(mob, plugin.getConfigManager().strayMoney);
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return getPrice(mob, plugin.getConfigManager().armorerMoney);
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return getPrice(mob, plugin.getConfigManager().butcherMoney);
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return getPrice(mob, plugin.getConfigManager().cartographerMoney);
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return getPrice(mob, plugin.getConfigManager().clericMoney);
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return getPrice(mob, plugin.getConfigManager().farmerMoney);
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return getPrice(mob, plugin.getConfigManager().fishermanMoney);
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return getPrice(mob, plugin.getConfigManager().fletcherMoney);
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return getPrice(mob, plugin.getConfigManager().leatherworkerMoney);
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return getPrice(mob, plugin.getConfigManager().librarianMoney);
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return getPrice(mob, plugin.getConfigManager().masonMoney);
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return getPrice(mob, plugin.getConfigManager().nitwitMoney);
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return getPrice(mob, plugin.getConfigManager().villagerMoney);
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return getPrice(mob, plugin.getConfigManager().shepherdMoney);
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return getPrice(mob, plugin.getConfigManager().toolsmithMoney);
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return getPrice(mob, plugin.getConfigManager().weaponsmithMoney);
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getPrice(mob, plugin.getConfigManager().dolphinMoney);
@@ -806,21 +840,24 @@ public class RewardManager {
 					return getPrice(mob, plugin.getConfigManager().polarBearMoney);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getPrice(mob, plugin.getConfigManager().strayMoney);
-				//else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() == Profession.HUSK)
-				//else if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
-				//	return getPrice(mob, plugin.getConfigManager().huskMoney);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return getPrice(mob, plugin.getConfigManager().villagerMoney);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return getPrice(mob, plugin.getConfigManager().priestMoney);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return getPrice(mob, plugin.getConfigManager().butcherMoney);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return getPrice(mob, plugin.getConfigManager().blacksmithMoney);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return getPrice(mob, plugin.getConfigManager().librarianMoney);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return getPrice(mob, plugin.getConfigManager().farmerMoney);
+
+			// Handle old villagers
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
+					return getPrice(mob, plugin.getConfigManager().huskMoney);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return getPrice(mob, plugin.getConfigManager().villagerMoney);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return getPrice(mob, plugin.getConfigManager().priestMoney);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("BUTCHER"))
+					return getPrice(mob, plugin.getConfigManager().butcherMoney);
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return getPrice(mob, plugin.getConfigManager().blacksmithMoney);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("LIBRARIAN"))
+					return getPrice(mob, plugin.getConfigManager().librarianMoney);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("FARMER"))
+					return getPrice(mob, plugin.getConfigManager().farmerMoney);
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -969,7 +1006,7 @@ public class RewardManager {
 		} catch (NumberFormatException e) {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
 					+ " The prize for killing a " + mob.getName() + " has an unknown format in config.yml.");
-			//e.printStackTrace();
+			// e.printStackTrace();
 			return 0;
 		}
 	}
@@ -1054,7 +1091,42 @@ public class RewardManager {
 					return plugin.getConfigManager().pillagerCommands;
 				else if (mob instanceof Ravager)
 					return plugin.getConfigManager().ravagerCommands;
-				 
+				else if (mob instanceof Husk)
+					return plugin.getConfigManager().huskCommands;
+				else if (mob instanceof Stray)
+					return plugin.getConfigManager().strayCommands;
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return plugin.getConfigManager().armorerCommands;
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return plugin.getConfigManager().butcherCommands;
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return plugin.getConfigManager().cartographerCommands;
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return plugin.getConfigManager().clericCommands;
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return plugin.getConfigManager().farmerCommands;
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return plugin.getConfigManager().fishermanCommands;
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return plugin.getConfigManager().fletcherCommands;
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return plugin.getConfigManager().leatherworkerCommands;
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return plugin.getConfigManager().librarianCommands;
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return plugin.getConfigManager().masonCommands;
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return plugin.getConfigManager().nitwitCommands;
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return plugin.getConfigManager().villagerCommands;
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return plugin.getConfigManager().shepherdCommands;
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return plugin.getConfigManager().toolsmithCommands;
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return plugin.getConfigManager().weaponsmithCommands;
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinCommands;
@@ -1110,21 +1182,25 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearCommands;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayCommands;
-				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+
+			// Handle old villagers
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie
+						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskCommands;
-				
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return plugin.getConfigManager().villagerCommands;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return plugin.getConfigManager().priestCommands;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return plugin.getConfigManager().butcherCommands;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return plugin.getConfigManager().blacksmithCommands;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return plugin.getConfigManager().librarianCommands;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return plugin.getConfigManager().farmerCommnds;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return plugin.getConfigManager().villagerCommands;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return plugin.getConfigManager().priestCommands;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("BUTCHER"))
+					return plugin.getConfigManager().butcherCommands;
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return plugin.getConfigManager().blacksmithCommands;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("LIBRARIAN"))
+					return plugin.getConfigManager().librarianCommands;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("FARMER"))
+					return plugin.getConfigManager().farmerCommands;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -1298,7 +1374,42 @@ public class RewardManager {
 					return plugin.getConfigManager().pillagerMessage;
 				else if (mob instanceof Ravager)
 					return plugin.getConfigManager().ravagerMessage;
-				 
+				else if (mob instanceof Husk)
+					return plugin.getConfigManager().huskMessage;
+				else if (mob instanceof Stray)
+					return plugin.getConfigManager().strayMessage;
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return plugin.getConfigManager().armorerMessage;
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return plugin.getConfigManager().butcherMessage;
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return plugin.getConfigManager().cartographerMessage;
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return plugin.getConfigManager().clericMessage;
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return plugin.getConfigManager().farmerMessage;
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return plugin.getConfigManager().fishermanMessage;
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return plugin.getConfigManager().fletcherMessage;
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return plugin.getConfigManager().leatherworkerMessage;
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return plugin.getConfigManager().librarianMessage;
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return plugin.getConfigManager().masonMessage;
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return plugin.getConfigManager().nitwitMessage;
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return plugin.getConfigManager().villagerMessage;
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return plugin.getConfigManager().shepherdMessage;
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return plugin.getConfigManager().toolsmithMessage;
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return plugin.getConfigManager().weaponsmithMessage;
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMessage;
@@ -1354,21 +1465,24 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMessage;
-				else if (mob instanceof Husk)// Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
+
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie
+						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMessage;
-				
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return plugin.getConfigManager().villagerMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return plugin.getConfigManager().priestMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return plugin.getConfigManager().butcherMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return plugin.getConfigManager().blacksmithMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return plugin.getConfigManager().librarianMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return plugin.getConfigManager().farmerMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return plugin.getConfigManager().villagerMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return plugin.getConfigManager().priestMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
+					return plugin.getConfigManager().butcherMessage;
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return plugin.getConfigManager().blacksmithMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
+					return plugin.getConfigManager().librarianMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
+					return plugin.getConfigManager().farmerMessage;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -1534,7 +1648,42 @@ public class RewardManager {
 					return plugin.getConfigManager().pillagerMoneyChance;
 				else if (mob instanceof Ravager)
 					return plugin.getConfigManager().ravagerMoneyChance;
-				 
+				else if (mob instanceof Husk)
+					return plugin.getConfigManager().huskMoneyChance;
+				else if (mob instanceof Stray)
+					return plugin.getConfigManager().strayMoneyChance;
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return plugin.getConfigManager().armorerMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return plugin.getConfigManager().butcherMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return plugin.getConfigManager().cartographerMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return plugin.getConfigManager().clericMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return plugin.getConfigManager().farmerMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return plugin.getConfigManager().fishermanMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return plugin.getConfigManager().fletcherMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return plugin.getConfigManager().leatherworkerMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return plugin.getConfigManager().librarianMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return plugin.getConfigManager().masonMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return plugin.getConfigManager().nitwitMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return plugin.getConfigManager().villagerMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return plugin.getConfigManager().shepherdMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return plugin.getConfigManager().toolsmithMoneyChance;
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return plugin.getConfigManager().weaponsmithMoneyChance;
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMoneyChance;
@@ -1590,21 +1739,25 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearMoneyChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMoneyChance;
-				else if (mob instanceof Husk)//Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
-					return plugin.getConfigManager().huskMoneyChance;
 
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return plugin.getConfigManager().villagerMoneyChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return plugin.getConfigManager().priestMoneyChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return plugin.getConfigManager().butcherMoneyChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return plugin.getConfigManager().blacksmithMoneyChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return plugin.getConfigManager().librarianMoneyChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return plugin.getConfigManager().farmerMoneyChance;
+			// Handle old villagers
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie
+						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
+					return plugin.getConfigManager().huskMoneyChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return plugin.getConfigManager().villagerMoneyChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return plugin.getConfigManager().priestMoneyChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
+					return plugin.getConfigManager().butcherMoneyChance;
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return plugin.getConfigManager().blacksmithMoneyChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
+					return plugin.getConfigManager().librarianMoneyChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
+					return plugin.getConfigManager().farmerMoneyChance;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -1774,7 +1927,42 @@ public class RewardManager {
 					return plugin.getConfigManager().pillagerMcMMOSkillRewardChance;
 				else if (mob instanceof Ravager)
 					return plugin.getConfigManager().ravagerMcMMOSkillRewardChance;
-				 
+				else if (mob instanceof Husk)
+					return plugin.getConfigManager().huskMcMMOSkillRewardChance;
+				else if (mob instanceof Stray)
+					return plugin.getConfigManager().strayMcMMOSkillRewardChance;
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return plugin.getConfigManager().armorerMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return plugin.getConfigManager().butcherMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return plugin.getConfigManager().cartographerMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return plugin.getConfigManager().clericMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return plugin.getConfigManager().farmerMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return plugin.getConfigManager().fishermanMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return plugin.getConfigManager().fletcherMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return plugin.getConfigManager().leatherworkerMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return plugin.getConfigManager().librarianMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return plugin.getConfigManager().masonMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return plugin.getConfigManager().nitwitMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return plugin.getConfigManager().villagerMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return plugin.getConfigManager().shepherdMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return plugin.getConfigManager().toolsmithMcMMOSkillRewardChance;
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return plugin.getConfigManager().weaponsmithMcMMOSkillRewardChance;
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMcMMOSkillRewardChance;
@@ -1830,21 +2018,25 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearMcMMOSkillRewardChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMcMMOSkillRewardChance;
-				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
-					return plugin.getConfigManager().huskMcMMOSkillRewardChance;
 
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return plugin.getConfigManager().villagerMcMMOSkillRewardChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return plugin.getConfigManager().priestMcMMOSkillRewardChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return plugin.getConfigManager().butcherMcMMOSkillRewardChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return plugin.getConfigManager().blacksmithMcMMOSkillRewardChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return plugin.getConfigManager().librarianMcMMOSkillRewardChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return plugin.getConfigManager().farmerMcMMOSkillRewardChance;
+			// Handle old villagers
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie
+						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
+					return plugin.getConfigManager().huskMcMMOSkillRewardChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return plugin.getConfigManager().villagerMcMMOSkillRewardChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return plugin.getConfigManager().priestMcMMOSkillRewardChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
+					return plugin.getConfigManager().butcherMcMMOSkillRewardChance;
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return plugin.getConfigManager().blacksmithMcMMOSkillRewardChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
+					return plugin.getConfigManager().librarianMcMMOSkillRewardChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
+					return plugin.getConfigManager().farmerMcMMOSkillRewardChance;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -2038,7 +2230,42 @@ public class RewardManager {
 					return getMcMMOXP(mob, plugin.getConfigManager().pillagerMcMMOSkillRewardAmount);
 				else if (mob instanceof Ravager)
 					return getMcMMOXP(mob, plugin.getConfigManager().ravagerMcMMOSkillRewardAmount);
-				 
+				else if (mob instanceof Husk)
+					return getMcMMOXP(mob, plugin.getConfigManager().huskMcMMOSkillRewardAmount);
+				else if (mob instanceof Stray)
+					return getMcMMOXP(mob, plugin.getConfigManager().strayMcMMOSkillRewardAmount);
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return getMcMMOXP(mob, plugin.getConfigManager().armorerMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return getMcMMOXP(mob, plugin.getConfigManager().butcherMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return getMcMMOXP(mob, plugin.getConfigManager().cartographerMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return getMcMMOXP(mob, plugin.getConfigManager().clericMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return getMcMMOXP(mob, plugin.getConfigManager().farmerMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return getMcMMOXP(mob, plugin.getConfigManager().fishermanMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return getMcMMOXP(mob, plugin.getConfigManager().fletcherMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return getMcMMOXP(mob, plugin.getConfigManager().leatherworkerMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return getMcMMOXP(mob, plugin.getConfigManager().librarianMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return getMcMMOXP(mob, plugin.getConfigManager().masonMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return getMcMMOXP(mob, plugin.getConfigManager().nitwitMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return getMcMMOXP(mob, plugin.getConfigManager().villagerMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return getMcMMOXP(mob, plugin.getConfigManager().shepherdMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return getMcMMOXP(mob, plugin.getConfigManager().toolsmithMcMMOSkillRewardAmount);
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return getMcMMOXP(mob, plugin.getConfigManager().weaponsmithMcMMOSkillRewardAmount);
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getMcMMOXP(mob, plugin.getConfigManager().dolphinMcMMOSkillRewardAmount);
@@ -2094,21 +2321,25 @@ public class RewardManager {
 					return getMcMMOXP(mob, plugin.getConfigManager().polarBearMcMMOSkillRewardAmount);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getMcMMOXP(mob, plugin.getConfigManager().strayMcMMOSkillRewardAmount);
-				else if (mob instanceof Husk)//Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
-					return getMcMMOXP(mob, plugin.getConfigManager().huskMcMMOSkillRewardAmount);
 
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return getMcMMOXP(mob, plugin.getConfigManager().villagerMcMMOSkillRewardAmount);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return getMcMMOXP(mob, plugin.getConfigManager().priestMcMMOSkillRewardAmount);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return getMcMMOXP(mob, plugin.getConfigManager().butcherMcMMOSkillRewardAmount);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return getMcMMOXP(mob, plugin.getConfigManager().blacksmithMcMMOSkillRewardAmount);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return getMcMMOXP(mob, plugin.getConfigManager().librarianMcMMOSkillRewardAmount);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return getMcMMOXP(mob, plugin.getConfigManager().farmerMcMMOSkillRewardAmount);
+			// Handle old villagers
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie
+						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
+					return getMcMMOXP(mob, plugin.getConfigManager().huskMcMMOSkillRewardAmount);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return getMcMMOXP(mob, plugin.getConfigManager().villagerMcMMOSkillRewardAmount);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return getMcMMOXP(mob, plugin.getConfigManager().priestMcMMOSkillRewardAmount);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
+					return getMcMMOXP(mob, plugin.getConfigManager().butcherMcMMOSkillRewardAmount);
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return getMcMMOXP(mob, plugin.getConfigManager().blacksmithMcMMOSkillRewardAmount);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
+					return getMcMMOXP(mob, plugin.getConfigManager().librarianMcMMOSkillRewardAmount);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
+					return getMcMMOXP(mob, plugin.getConfigManager().farmerMcMMOSkillRewardAmount);
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -2273,7 +2504,42 @@ public class RewardManager {
 					return plugin.getConfigManager().pillagerEnabled;
 				else if (mob instanceof Ravager)
 					return plugin.getConfigManager().ravagerEnabled;
-				 
+				else if (mob instanceof Husk)
+					return plugin.getConfigManager().huskEnabled;
+				else if (mob instanceof Stray)
+					return plugin.getConfigManager().strayEnabled;
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return plugin.getConfigManager().armorerEnabled;
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return plugin.getConfigManager().butcherEnabled;
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return plugin.getConfigManager().cartographerEnabled;
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return plugin.getConfigManager().clericEnabled;
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return plugin.getConfigManager().farmerEnabled;
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return plugin.getConfigManager().fishermanEnabled;
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return plugin.getConfigManager().fletcherEnabled;
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return plugin.getConfigManager().leatherworkerEnabled;
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return plugin.getConfigManager().librarianEnabled;
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return plugin.getConfigManager().masonEnabled;
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return plugin.getConfigManager().nitwitEnabled;
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return plugin.getConfigManager().villagerEnabled;
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return plugin.getConfigManager().shepherdEnabled;
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return plugin.getConfigManager().toolsmithEnabled;
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return plugin.getConfigManager().weaponsmithEnabled;
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinEnabled;
@@ -2329,21 +2595,25 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearEnabled;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayEnabled;
-				else if (mob instanceof Husk)//Zombie && ((Zombie) mob).getVillagerProfession() ==  Profession.valueOf("HUSK"))
+
+			// Handle old villagers
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskEnabled;
 
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return plugin.getConfigManager().villagerEnabled;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return plugin.getConfigManager().priestEnabled;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return plugin.getConfigManager().butcherEnabled;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return plugin.getConfigManager().blacksmithEnabled;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return plugin.getConfigManager().librarianEnabled;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return plugin.getConfigManager().farmerEnabled;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return plugin.getConfigManager().villagerEnabled;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return plugin.getConfigManager().priestEnabled;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
+					return plugin.getConfigManager().butcherEnabled;
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return plugin.getConfigManager().blacksmithEnabled;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
+					return plugin.getConfigManager().librarianEnabled;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
+					return plugin.getConfigManager().farmerEnabled;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -2519,7 +2789,42 @@ public class RewardManager {
 					return plugin.getConfigManager().pillagerHeadDropHead;
 				else if (mob instanceof Ravager)
 					return plugin.getConfigManager().ravagerHeadDropHead;
-				 
+				else if (mob instanceof Husk)
+					return plugin.getConfigManager().huskHeadDropHead;
+				else if (mob instanceof Stray)
+					return plugin.getConfigManager().strayHeadDropHead;
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return plugin.getConfigManager().armorerHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return plugin.getConfigManager().butcherHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return plugin.getConfigManager().cartographerHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return plugin.getConfigManager().clericHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return plugin.getConfigManager().farmerHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return plugin.getConfigManager().fishermanHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return plugin.getConfigManager().fletcherHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return plugin.getConfigManager().leatherworkerHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return plugin.getConfigManager().librarianHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return plugin.getConfigManager().masonHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return plugin.getConfigManager().nitwitHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return plugin.getConfigManager().villagerHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return plugin.getConfigManager().shepherdHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return plugin.getConfigManager().toolsmithHeadDropHead;
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return plugin.getConfigManager().weaponsmithHeadDropHead;
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadDropHead;
@@ -2575,21 +2880,25 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearHeadDropHead;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadDropHead;
-				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
-					return plugin.getConfigManager().huskHeadDropHead;
 
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return plugin.getConfigManager().villagerHeadDropHead;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return plugin.getConfigManager().priestHeadDropHead;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return plugin.getConfigManager().butcherHeadDropHead;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return plugin.getConfigManager().blacksmithHeadDropHead;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return plugin.getConfigManager().librarianHeadDropHead;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return plugin.getConfigManager().farmerHeadDropHead;
+			// Handle old villagers
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie
+						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
+					return plugin.getConfigManager().huskHeadDropHead;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return plugin.getConfigManager().villagerHeadDropHead;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return plugin.getConfigManager().priestHeadDropHead;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
+					return plugin.getConfigManager().butcherHeadDropHead;
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return plugin.getConfigManager().blacksmithHeadDropHead;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
+					return plugin.getConfigManager().librarianHeadDropHead;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
+					return plugin.getConfigManager().farmerHeadDropHead;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -2767,7 +3076,42 @@ public class RewardManager {
 					return plugin.getConfigManager().pillagerHeadDropChance;
 				else if (mob instanceof Ravager)
 					return plugin.getConfigManager().ravagerHeadDropChance;
-				 
+				else if (mob instanceof Husk)
+					return plugin.getConfigManager().huskHeadDropChance;
+				else if (mob instanceof Stray)
+					return plugin.getConfigManager().strayHeadDropChance;
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return plugin.getConfigManager().armorerHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return plugin.getConfigManager().butcherHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return plugin.getConfigManager().cartographerHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return plugin.getConfigManager().clericHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return plugin.getConfigManager().farmerHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return plugin.getConfigManager().fishermanHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return plugin.getConfigManager().fletcherHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return plugin.getConfigManager().leatherworkerHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return plugin.getConfigManager().librarianHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return plugin.getConfigManager().masonHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return plugin.getConfigManager().nitwitHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return plugin.getConfigManager().villagerHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return plugin.getConfigManager().shepherdHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return plugin.getConfigManager().toolsmithHeadDropChance;
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return plugin.getConfigManager().weaponsmithHeadDropChance;
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadDropChance;
@@ -2823,21 +3167,24 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearHeadDropChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadDropChance;
-				else if (mob instanceof Husk ) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
-					return plugin.getConfigManager().huskHeadDropChance;
 
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return plugin.getConfigManager().villagerHeadDropChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return plugin.getConfigManager().priestHeadDropChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return plugin.getConfigManager().butcherHeadDropChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return plugin.getConfigManager().blacksmithHeadDropChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return plugin.getConfigManager().librarianHeadDropChance;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return plugin.getConfigManager().farmerHeadDropChance;
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie
+						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
+					return plugin.getConfigManager().huskHeadDropChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return plugin.getConfigManager().villagerHeadDropChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return plugin.getConfigManager().priestHeadDropChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
+					return plugin.getConfigManager().butcherHeadDropChance;
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return plugin.getConfigManager().blacksmithHeadDropChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
+					return plugin.getConfigManager().librarianHeadDropChance;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
+					return plugin.getConfigManager().farmerHeadDropChance;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -3015,7 +3362,42 @@ public class RewardManager {
 					return plugin.getConfigManager().pillagerHeadMessage;
 				else if (mob instanceof Ravager)
 					return plugin.getConfigManager().ravagerHeadMessage;
-				 
+				else if (mob instanceof Husk)
+					return plugin.getConfigManager().huskHeadMessage;
+				else if (mob instanceof Stray)
+					return plugin.getConfigManager().strayHeadMessage;
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return plugin.getConfigManager().armorerHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return plugin.getConfigManager().butcherHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return plugin.getConfigManager().cartographerHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return plugin.getConfigManager().clericHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return plugin.getConfigManager().farmerHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return plugin.getConfigManager().fishermanHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return plugin.getConfigManager().fletcherHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return plugin.getConfigManager().leatherworkerHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return plugin.getConfigManager().librarianHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return plugin.getConfigManager().masonHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return plugin.getConfigManager().nitwitHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return plugin.getConfigManager().villagerHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return plugin.getConfigManager().shepherdHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return plugin.getConfigManager().toolsmithHeadMessage;
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return plugin.getConfigManager().weaponsmithHeadMessage;
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadMessage;
@@ -3071,21 +3453,25 @@ public class RewardManager {
 					return plugin.getConfigManager().polarBearHeadMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadMessage;
-				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
-					return plugin.getConfigManager().huskHeadMessage;
 
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return plugin.getConfigManager().villagerHeadMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return plugin.getConfigManager().priestHeadMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return plugin.getConfigManager().butcherHeadMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return plugin.getConfigManager().blacksmithHeadMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return plugin.getConfigManager().librarianHeadMessage;
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return plugin.getConfigManager().farmerHeadMessage;
+			// Handle old villagers
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie
+						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
+					return plugin.getConfigManager().huskHeadMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return plugin.getConfigManager().villagerHeadMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return plugin.getConfigManager().priestHeadMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
+					return plugin.getConfigManager().butcherHeadMessage;
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return plugin.getConfigManager().blacksmithHeadMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
+					return plugin.getConfigManager().librarianHeadMessage;
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
+					return plugin.getConfigManager().farmerHeadMessage;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
@@ -3263,7 +3649,42 @@ public class RewardManager {
 					return getPrice(mob, plugin.getConfigManager().pillagerHeadPrize);
 				else if (mob instanceof Ravager)
 					return getPrice(mob, plugin.getConfigManager().ravagerHeadPrize);
-				 
+				else if (mob instanceof Husk)
+					return getPrice(mob, plugin.getConfigManager().huskHeadPrize);
+				else if (mob instanceof Stray)
+					return getPrice(mob, plugin.getConfigManager().strayHeadPrize);
+				else if (mob instanceof Villager)
+					if (((Villager) mob).getProfession() == Profession.ARMORER)
+						return getPrice(mob, plugin.getConfigManager().armorerHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
+						return getPrice(mob, plugin.getConfigManager().butcherHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
+						return getPrice(mob, plugin.getConfigManager().cartographerHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.CLERIC)
+						return getPrice(mob, plugin.getConfigManager().clericHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.FARMER)
+						return getPrice(mob, plugin.getConfigManager().farmerHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
+						return getPrice(mob, plugin.getConfigManager().fishermanHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
+						return getPrice(mob, plugin.getConfigManager().fletcherHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
+						return getPrice(mob, plugin.getConfigManager().leatherworkerHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
+						return getPrice(mob, plugin.getConfigManager().librarianHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.MASON)
+						return getPrice(mob, plugin.getConfigManager().masonHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.NITWIT)
+						return getPrice(mob, plugin.getConfigManager().nitwitHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.NONE)
+						return getPrice(mob, plugin.getConfigManager().villagerHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
+						return getPrice(mob, plugin.getConfigManager().shepherdHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
+						return getPrice(mob, plugin.getConfigManager().toolsmithHeadPrize);
+					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
+						return getPrice(mob, plugin.getConfigManager().weaponsmithHeadPrize);
+
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getPrice(mob, plugin.getConfigManager().dolphinHeadPrize);
@@ -3319,21 +3740,25 @@ public class RewardManager {
 					return getPrice(mob, plugin.getConfigManager().polarBearHeadPrize);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getPrice(mob, plugin.getConfigManager().strayHeadPrize);
-				else if (mob instanceof Husk) //Zombie && ((Zombie) mob).getVillagerProfession() ==  Villager.Profession.valueOf("HUSK"))
-					return getPrice(mob, plugin.getConfigManager().huskHeadPrize);
 
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NORMAL)
-				//	return getPrice(mob, plugin.getConfigManager().villagerHeadPrize);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.PRIEST)
-				//	return getPrice(mob, plugin.getConfigManager().priestHeadPrize);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-				//	return getPrice(mob, plugin.getConfigManager().butcherHeadPrize);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BLACKSMITH)
-				//	return getPrice(mob, plugin.getConfigManager().blacksmithHeadPrize);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-				//	return getPrice(mob, plugin.getConfigManager().librarianHeadPrize);
-				//else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-				//	return getPrice(mob, plugin.getConfigManager().farmerHeadPrize);
+			// Handle old villagers
+			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+				if (mob instanceof Zombie
+						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
+					return getPrice(mob, plugin.getConfigManager().huskHeadPrize);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
+					return getPrice(mob, plugin.getConfigManager().villagerHeadPrize);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
+					return getPrice(mob, plugin.getConfigManager().priestHeadPrize);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
+					return getPrice(mob, plugin.getConfigManager().butcherHeadPrize);
+				else if (mob instanceof Villager
+						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
+					return getPrice(mob, plugin.getConfigManager().blacksmithHeadPrize);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
+					return getPrice(mob, plugin.getConfigManager().librarianHeadPrize);
+				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
+					return getPrice(mob, plugin.getConfigManager().farmerHeadPrize);
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)

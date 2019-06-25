@@ -47,10 +47,6 @@ public class Messages {
 	public Messages(MobHunting plugin) {
 		this.plugin = plugin;
 		exportDefaultLanguages(plugin);
-
-		// Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-		//
-		// }, 600, 7200);
 	}
 
 	private static Map<String, String> mTranslationTable;
@@ -377,11 +373,9 @@ public class Messages {
 	/**
 	 * Gets the message and replaces specified values
 	 * 
-	 * @param key
-	 *            The message key to find
-	 * @param values
-	 *            these are key-value pairs, they should be like: {key1, value1,
-	 *            key2, value2,..., keyN,valueN}. keys must be strings
+	 * @param key    The message key to find
+	 * @param values these are key-value pairs, they should be like: {key1, value1,
+	 *               key2, value2,..., keyN,valueN}. keys must be strings
 	 */
 	public String getString(String key, Object... values) {
 		try {
@@ -429,8 +423,8 @@ public class Messages {
 	}
 
 	/**
-	 * Broadcast message to all players except Player using the ActionBar. if
-	 * the no plugins for the actionbar is available the chat will be used.
+	 * Broadcast message to all players except Player using the ActionBar. if the no
+	 * plugins for the actionbar is available the chat will be used.
 	 * 
 	 * @param message
 	 * @param except
@@ -441,8 +435,7 @@ public class Messages {
 		Iterator<Player> players = Tools.getOnlinePlayers().iterator();
 		while (players.hasNext()) {
 			Player player = players.next();
-			if (player.equals(except)
-					|| plugin.getPlayerSettingsManager().getPlayerSettings(player).isMuted())
+			if (player.equals(except) || plugin.getPlayerSettingsManager().getPlayerSettings(player).isMuted())
 				continue;
 
 			if (plugin.getConfigManager().useActionBarforBroadcasts)

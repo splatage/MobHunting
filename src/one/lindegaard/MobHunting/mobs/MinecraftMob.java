@@ -10,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Rabbit;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Villager;
 import org.bukkit.entity.Zombie;
 import org.bukkit.entity.ZombieVillager;
 import org.bukkit.inventory.ItemStack;
@@ -57,6 +58,53 @@ public enum MinecraftMob {
 	Ravager("Ravager", "Ravager", "64107d7a-6367-4648-b780-bfad506d5712", "Ravager",
 			"eyJ0aW1lc3RhbXAiOjE1NTYyODQ3MTA1MjgsInByb2ZpbGVJZCI6IjgyYzYwNmM1YzY1MjRiNzk4YjkxYTEyZDNhNjE2OTc3IiwicHJvZmlsZU5hbWUiOiJOb3ROb3RvcmlvdXNOZW1vIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8zOTFmYjY0YTA1ODYwMGY1YTU3OWNmMTEzZDBkZDZjYTFjMDZkMjg0Mzg5ZDQzZGJmZjQ1NzNiMjkxM2IzNTE0In19fQ==",
 			"p0UIaa0LpMDaW0pcaWZ8LS66AwKM6vT9TIOxqLMrjZ0lMrwbN3FteAyWLNy671gN9/urG7Ms+pJkO2pQWRl8N8JGz7xJ0THgi/6W6amuyUogXGYWiiU1hbLl4ljZArj1fG6ESlJoMoJyXmfZHDqkvKgNK1j2Q33XCgHgw1rE+K0/YuBqYpsFGEbz46Q/eq6ab+dDFrXeV1apMiJmSKWkoQD0Dm7lWLuD9jjsEfvvpIMGjLYWGArVh0Iq6qdJkrGNx831el3fut0seUrcHqyWJCCCUt0PE4+2Oa8APKmd0J/udEyjRqANTgds8MS3ZGXm24iVpHMmH1fxv8JlZCcTA4n/tzou82Z0Nuiaq4NM7qWBDzbNMtRq2OfcDbpOdIZt0/Ub0J1L4iwdoW4L+SShAr7OWM6+LmKWLPFSVmlqP8cVQjHyC1gGVyKvcKyHYetGk+4pO2+2m5tLzdytwoG8cP0MubLWxq3omijGdJm4uBHphI8YYi2Dkhtzoq2CbxsTuVD1xOjNirKQTBvbQGPIbCn4TwKGv9qfHrP2AWoHLG8zP3p1dAxXoKZv4WMJUz6DEZJLRV9epe0fd/rnAXmPZkdR4FHHTdMcg7ekzGQKkDZGeeAxBA+brKEm8LjTuPKZv4HBvNONi2xTQsXZ3yQ7LZRLJuKomD7DViTh+1GNrD4="),
+
+	// Villagers was redesigned in MC 1.14. https://minecraft.gamepedia.com/Villager
+
+	// Armorer
+	Armorer("Armorer", "Armorer", "f22d0285-f338-40d0-87b1-4d48ea013901", "Armorer", "", ""),
+
+	// Butcher
+	// Butcher was orginaly introduced in Minecraft 1.11, but redesigned in
+	// Minecraft 1.14 (also called The Villager update)
+
+	// Cartographer
+	Cartographer("Cartographer", "Cartographer", "e1c84cf2-d964-4452-8cc9-bc0c6c70ddcf", "Cartographer", "", ""),
+
+	// Cleric
+	Cleric("Cleric", "Cleric", "cd202f5a-45bf-4160-977e-2f8327894218", "Cleric", "", ""),
+
+	// Fisherman
+	Fisherman("Fisherman", "Fisherman", "50fba828-4d01-4eaf-a50c-b43c8922b1d5", "Fisherman", "", ""),
+
+	// Fletcher
+	Fletcher("Fletcher", "Fletcher", "50210b1d-2741-4467-b0ea-bb2a9955999b", "Fletcher", "", ""),
+
+	// Leatherworker
+	Leatherworker("Leatherworker", "Leatherworker", "a10e4b50-e136-4925-a8b7-bf2916028920", "Leatherworker", "", ""),
+
+	// Librarian
+	// Librarian was orginaly introduced in Minecraft 1.11, but redesigned in
+	// Minecraft 1.14 (also called The Villager update)
+
+	// Mason
+	Mason("Mason", "Mason", "b49e01f7-004c-497d-9735-4fb75e0afdc7", "Mason", "", ""),
+
+	// Nitwit
+	// Nitwit was orginaly introduced in Minecraft 1.11, but redesigned in Minecraft
+	// 1.14 (also called The Villager update)
+
+	// Villager with no profession / Unemployed (Profession.None)
+	Unemployed("UnemployedVillager", "UnemployedVillager", "95280522-5343-4e2c-8f46-e60c3f201d8f", "UnemployedVillager", "", ""),
+
+	// Shepherd
+	Shepherd("Shepherd", "Shepherd", "d366e152-e07c-4feb-8772-0a5e78d438ae", "Shepherd", "", ""),
+
+	// Toolsmith
+	Toolsmith("Toolsmith", "Toolsmith", "b23367e9-fa4f-4f16-bb83-df915ea2069b", "Toolsmith", "", ""),
+
+	// Weaponsmith
+	Weaponsmith("Weaponsmith", "Weaponsmith", "df5a48eb-5d34-490a-bcbf-3cc75980a52c", "Weaponsmith", "", ""),
 
 	// ******************************************************************
 	// Minecraft 1.13
@@ -443,10 +491,42 @@ public enum MinecraftMob {
 				return entity instanceof org.bukkit.entity.Fox;
 			else if (this == Panda)
 				return entity instanceof org.bukkit.entity.Panda;
-			else if (this == MinecraftMob.Pillager)
+			else if (this == Pillager)
 				return entity instanceof org.bukkit.entity.Pillager;
 			else if (this == Ravager)
 				return entity instanceof org.bukkit.entity.Ravager;
+			else if (this == Husk)
+				return entity instanceof org.bukkit.entity.Husk;
+			else if (this == Armorer)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.ARMORER);
+			else if (this == Butcher)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.BUTCHER);
+			else if (this == Cartographer)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.CARTOGRAPHER);
+			else if (this == Cleric)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.CLERIC);
+			else if (this == Farmer)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.FARMER);
+			else if (this == Fisherman)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.FISHERMAN);
+			else if (this == Fletcher)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.FLETCHER);
+			else if (this == Leatherworker)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.LEATHERWORKER);
+			else if (this == Librarian)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.LIBRARIAN);
+			else if (this == Mason)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.MASON);
+			else if (this == Nitwit)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.NITWIT);
+			else if (this == Unemployed)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.NONE);
+			else if (this == Shepherd)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.SHEPHERD);
+			else if (this == Toolsmith)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.TOOLSMITH);
+			else if (this == Weaponsmith)
+				return (entity instanceof Villager && ((Villager) entity).getProfession() == Profession.WEAPONSMITH);
 
 		if (Servers.isMC113OrNewer())
 			if (this == Dolphin)
@@ -510,34 +590,30 @@ public enum MinecraftMob {
 				return entity instanceof org.bukkit.entity.PolarBear;
 			else if (this == Stray)
 				return entity instanceof Skeleton && (((Skeleton) entity).getSkeletonType() == SkeletonType.STRAY);
-			else if (this == Husk)
-				return entity instanceof Zombie && ((Zombie) entity)
-						.getVillagerProfession() == org.bukkit.entity.Villager.Profession.valueOf("HUSK");
 
-		// else if (this == Villager)
-		// return entity instanceof org.bukkit.entity.Villager
-		// && (((org.bukkit.entity.Villager) entity).getProfession() ==
-		// Profession.NORMAL);
-		// else if (this == Butcher)
-		// return entity instanceof org.bukkit.entity.Villager
-		// && (((org.bukkit.entity.Villager) entity).getProfession() ==
-		// Profession.BUTCHER);
-		// else if (this == Blacksmith)
-		// return entity instanceof org.bukkit.entity.Villager
-		// && (((org.bukkit.entity.Villager) entity).getProfession() ==
-		// Profession.BLACKSMITH);
-		// else if (this == Priest)
-		// return entity instanceof org.bukkit.entity.Villager
-		// && (((org.bukkit.entity.Villager) entity).getProfession() ==
-		// Profession.PRIEST);
-		// else if (this == Farmer)
-		// return entity instanceof org.bukkit.entity.Villager
-		// && (((org.bukkit.entity.Villager) entity).getProfession() ==
-		// Profession.FARMER);
-		// else if (this == Librarian)
-		// return entity instanceof org.bukkit.entity.Villager
-		// && (((org.bukkit.entity.Villager) entity).getProfession() ==
-		// Profession.LIBRARIAN);
+		// Handle old villagers
+		if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (this == Husk)
+				return entity instanceof Zombie
+						&& ((Zombie) entity).getVillagerProfession() == Profession.valueOf("HUSK");
+			else if (this == Villager)
+				return entity instanceof org.bukkit.entity.Villager
+						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.valueOf("NORMAL"));
+			else if (this == Butcher)
+				return entity instanceof org.bukkit.entity.Villager
+						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.BUTCHER);
+			else if (this == Blacksmith)
+				return entity instanceof org.bukkit.entity.Villager
+						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.valueOf("BLACKSMITH"));
+			else if (this == Priest)
+				return entity instanceof org.bukkit.entity.Villager
+						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.valueOf("PRIEST"));
+			else if (this == Farmer)
+				return entity instanceof org.bukkit.entity.Villager
+						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.FARMER);
+			else if (this == Librarian)
+				return entity instanceof org.bukkit.entity.Villager
+						&& (((org.bukkit.entity.Villager) entity).getProfession() == Profession.LIBRARIAN);
 
 		if (Servers.isMC19OrNewer())
 			if (this == Shulker)
