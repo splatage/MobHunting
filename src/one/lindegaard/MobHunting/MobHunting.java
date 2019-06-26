@@ -348,9 +348,9 @@ public class MobHunting extends JavaPlugin {
 			}
 		}
 
-		if (!Servers.isMC112OrNewer())
+		if (!Servers.isMC110OrNewer())
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ " version +6.0.0 is only for Minecraft 1.12 and has not been tested with older Minecraft versions! You should downgrade to 5.x");
+					+ " version +6.0.0 is only for Minecraft 1.10 and newer and has not been tested with older Minecraft versions!");
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			public void run() {
