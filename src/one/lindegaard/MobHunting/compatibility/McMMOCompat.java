@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.api.ExperienceAPI;
-import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
+//import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingTreasureEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerMagicHunterEvent;
@@ -88,19 +88,21 @@ public class McMMOCompat implements Listener {
 	}
 
 	public static String getSKillTypeName(DamageInformation info) {
-		PrimarySkillType skilltype = null;
+		//SkillType skilltype = null;
 		if (Materials.isAxe(info.getWeapon()))
-			skilltype = PrimarySkillType.AXES;
+			return "AXES";
+			//skilltype = SkillType.AXES;
 		else if (Materials.isSword(info.getWeapon()))
-			skilltype = PrimarySkillType.SWORDS;
+			return "SWORDS";
+			//skilltype = SkillType.SWORDS;
 		else if (Materials.isBow(info.getWeapon()))
-			skilltype = PrimarySkillType.ARCHERY;
+			return "ARCHERY";
+			//skilltype = SkillType.ARCHERY;
 		else if (Materials.isUnarmed(info.getWeapon()))
-			skilltype = PrimarySkillType.UNARMED;
-		if (skilltype != null)
-			return skilltype.getName();
-		else
-			return "";
+			return "UNARMED";
+			//skilltype = SkillType.UNARMED;
+		//return skilltype.getName();
+		else return "";
 	}
 
 	public static void addXP2(Player player, String skillType, int XP, String xpGainReason) {
