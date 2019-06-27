@@ -1,3 +1,7 @@
+V6.7.2
+* Re-Added support for Minecraft 1.10
+V6.7.1
+* Re-Added support for Minecraft 1.11
 V6.7.0
 * Added all Villagers introduced in Minecraft 1.14. (Armorer, Butcher, Cartographer, Cleric, Fisherman, Fletcher, Leatherworker, Librarian, Mason, Nitwit, Unemployed, Shepherd, Toolsmith, Weaponsmith) Please notice that the deprecated villagers Priest, Blacksmith, Farmer is still in the config for backward compatibility with older versions.
 V6.6.9

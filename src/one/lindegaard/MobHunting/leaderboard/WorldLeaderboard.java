@@ -139,7 +139,8 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 				}
 
 				if (!Materials.isSign(block)
-						|| ((org.bukkit.material.Sign) block.getState().getData()).getFacing() != mFacing)
+						//|| ((org.bukkit.material.Sign) block.getState().getData()).getFacing() != mFacing
+						)
 					return false;
 			}
 
