@@ -400,6 +400,7 @@ public class AchievementManager implements Listener {
 				return;
 			}
 
+		//TODO: maybe Advancements API does not work on Paper? 
 		if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC112OrNewer())
 			plugin.getAdvancementManager().grantAdvancement(player, achievement);
 

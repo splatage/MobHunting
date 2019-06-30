@@ -550,7 +550,7 @@ public class Messages {
 
 			if (taskId.get(player) == null || !Bukkit.getScheduler().isCurrentlyRunning(taskId.get(player).getTaskId())
 					|| !Bukkit.getScheduler().isQueued(taskId.get(player).getTaskId())) {
-				taskId.put(player, Bukkit.getScheduler().runTaskAsynchronously(plugin, messageTask));
+				taskId.put(player, Bukkit.getScheduler().runTask(plugin, messageTask));
 			}
 	}
 

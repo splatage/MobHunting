@@ -594,7 +594,7 @@ public class ConfigManager extends AutoConfig {
 		exampleCommands.add(values1);
 
 		HashMap<String, String> values2 = new HashMap<String, String>();
-		values2.put("cmd", "give {player} Iron_ingot 1");
+		values2.put("cmd", "give {player} iron_ingot_ingot 1");
 		values2.put("chance", "0.2");
 		values2.put("message", "You got an iron ingot!");
 		values2.put("message_type", "ActionBar");
@@ -646,7 +646,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> blazeCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		blazeCommands.add(values1);
 	}
@@ -672,7 +672,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> caveSpiderCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		caveSpiderCommands.add(values1);
 	}
@@ -698,7 +698,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> creeperCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		creeperCommands.add(values1);
 	}
@@ -724,7 +724,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> dolphinCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.33");
 		dolphinCommands.add(values1);
 	}
@@ -750,7 +750,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> drownedCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.33");
 		drownedCommands.add(values1);
 	}
@@ -776,7 +776,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> elderGuardianCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.33");
 		elderGuardianCommands.add(values1);
 	}
@@ -802,7 +802,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> endermanCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.33");
 		endermanCommands.add(values1);
 	}
@@ -828,7 +828,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> endermiteCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		endermiteCommands.add(values1);
 	}
@@ -854,7 +854,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> ghastCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		ghastCommands.add(values1);
 	}
@@ -880,7 +880,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> giantCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		giantCommands.add(values1);
 	}
@@ -906,7 +906,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> ironGolemCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		ironGolemCommands.add(values1);
 	}
@@ -932,7 +932,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> guardianCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		guardianCommands.add(values1);
 	}
@@ -958,7 +958,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> huskCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.20");
 		huskCommands.add(values1);
 	}
@@ -984,7 +984,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> killerRabbitCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.25");
 		values1.put("message", "");
 		killerRabbitCommands.add(values1);
@@ -1011,7 +1011,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> magmaCubeCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		magmaCubeCommands.add(values1);
 	}
@@ -1037,7 +1037,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> phantomCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.33");
 		phantomCommands.add(values1);
 	}
@@ -1063,7 +1063,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> pillagerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.33");
 		pillagerCommands.add(values1);
 	}
@@ -1089,7 +1089,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> polarBearCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.25");
 		values1.put("message", "");
 		polarBearCommands.add(values1);
@@ -1116,7 +1116,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> ravagerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		ravagerCommands.add(values1);
 	}
@@ -1142,7 +1142,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> slimeCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		slimeCommands.add(values1);
 	}
@@ -1168,7 +1168,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> shulkerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.50");
 		values1.put("message", "");
 		shulkerCommands.add(values1);
@@ -1195,7 +1195,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> silverfishCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.20");
 		silverfishCommands.add(values1);
 	}
@@ -1221,7 +1221,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> skeletonCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		skeletonCommands.add(values1);
 	}
@@ -1247,7 +1247,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> spiderCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		spiderCommands.add(values1);
 	}
@@ -1273,7 +1273,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> strayCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.20");
 		strayCommands.add(values1);
 	}
@@ -1299,7 +1299,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> turtleCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.33");
 		turtleCommands.add(values1);
 	}
@@ -1325,7 +1325,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> zombieCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.005");
 		zombieCommands.add(values1);
 	}
@@ -1351,7 +1351,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> zombiePigmanCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		zombiePigmanCommands.add(values1);
 	}
@@ -1377,7 +1377,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> vexCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.50");
 		vexCommands.add(values1);
 	}
@@ -1403,7 +1403,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> witchCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		witchCommands.add(values1);
 	}
@@ -1429,7 +1429,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> witherSkeletonCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		witherSkeletonCommands.add(values1);
 	}
@@ -1489,7 +1489,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> enderDragonCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.5");
 		values1.put("message", "You got an Iron Ingot.");
 		enderDragonCommands.add(values1);
@@ -1536,7 +1536,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> armorerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		armorerCommands.add(values1);
 	}
@@ -1562,7 +1562,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> butcherCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		butcherCommands.add(values1);
 	}
@@ -1588,7 +1588,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> cartographerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		cartographerCommands.add(values1);
 	}
@@ -1614,7 +1614,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> clericCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		clericCommands.add(values1);
 	}
@@ -1640,7 +1640,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> farmerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		farmerCommands.add(values1);
 	}
@@ -1666,7 +1666,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> fishermanCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		fishermanCommands.add(values1);
 	}
@@ -1692,7 +1692,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> fletcherCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		fletcherCommands.add(values1);
 	}
@@ -1718,7 +1718,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> leatherworkerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		leatherworkerCommands.add(values1);
 	}
@@ -1744,7 +1744,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> librarianCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.5");
 		librarianCommands.add(values1);
 	}
@@ -1770,7 +1770,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> masonCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.5");
 		masonCommands.add(values1);
 	}
@@ -1796,7 +1796,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> nitwitCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.5");
 		nitwitCommands.add(values1);
 	}
@@ -1822,7 +1822,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> villagerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.3");
 		villagerCommands.add(values1);
 	}
@@ -1848,7 +1848,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> shepherdCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.3");
 		shepherdCommands.add(values1);
 	}
@@ -1874,7 +1874,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> toolsmithCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.3");
 		toolsmithCommands.add(values1);
 	}
@@ -1900,7 +1900,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> weaponsmithCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.3");
 		weaponsmithCommands.add(values1);
 	}
@@ -1931,7 +1931,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> blacksmithCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		blacksmithCommands.add(values1);
 	}
@@ -1957,7 +1957,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> priestCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.5");
 		priestCommands.add(values1);
 	}
@@ -1986,7 +1986,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> evokerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		evokerCommands.add(values1);
 	}
@@ -2012,7 +2012,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> illusionerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.10");
 		illusionerCommands.add(values1);
 	}
@@ -2038,7 +2038,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> vindicatorCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		vindicatorCommands.add(values1);
 	}
@@ -2067,7 +2067,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> batCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		batCommands.add(values1);
 	}
@@ -2093,7 +2093,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> catCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		catCommands.add(values1);
 	}
@@ -2119,7 +2119,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> chickenCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		chickenCommands.add(values1);
 	}
@@ -2145,7 +2145,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> cowCmdNew = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		values1.put("message", "");
 		cowCmdNew.add(values1);
@@ -2172,7 +2172,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> donkeyCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		donkeyCommands.add(values1);
 	}
@@ -2198,7 +2198,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> foxCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		foxCommands.add(values1);
 	}
@@ -2224,7 +2224,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> horseCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		horseCommands.add(values1);
 	}
@@ -2250,7 +2250,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> llamaCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		llamaCommands.add(values1);
 	}
@@ -2276,7 +2276,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> muleCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		muleCommands.add(values1);
 	}
@@ -2302,7 +2302,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> mushroomCowCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		mushroomCowCommands.add(values1);
 	}
@@ -2328,7 +2328,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> ocelotCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		ocelotCommands.add(values1);
 	}
@@ -2354,7 +2354,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> pandaCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		pandaCommands.add(values1);
 	}
@@ -2380,7 +2380,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> parrotCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		parrotCommands.add(values1);
 	}
@@ -2406,7 +2406,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> pigCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		pigCommands.add(values1);
 	}
@@ -2432,7 +2432,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> rabbitCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		rabbitCommands.add(values1);
 	}
@@ -2458,7 +2458,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> sheepCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		sheepCommands.add(values1);
 	}
@@ -2484,7 +2484,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> skeletonHorseCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		skeletonHorseCommands.add(values1);
 	}
@@ -2510,7 +2510,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> snowmanCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		snowmanCommands.add(values1);
 	}
@@ -2536,7 +2536,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> squidCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		squidCommands.add(values1);
 	}
@@ -2562,7 +2562,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> wolfCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		wolfCommands.add(values1);
 	}
@@ -2588,7 +2588,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> zombieHorseCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.25");
 		zombieHorseCommands.add(values1);
 	}
@@ -2618,7 +2618,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> zombieVillagerCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		zombieVillagerCommands.add(values1);
 	}
@@ -2653,7 +2653,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> codCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.05");
 		codCommands.add(values1);
 	}
@@ -2679,7 +2679,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> salmonCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.1");
 		salmonCommands.add(values1);
 	}
@@ -2705,7 +2705,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> tropicalFishCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.5");
 		tropicalFishCommands.add(values1);
 	}
@@ -2731,7 +2731,7 @@ public class ConfigManager extends AutoConfig {
 	public List<HashMap<String, String>> pufferfishCommands = new ArrayList<HashMap<String, String>>();
 	{
 		HashMap<String, String> values1 = new HashMap<String, String>();
-		values1.put("cmd", "give {player} Iron_ingot 1");
+		values1.put("cmd", "give {player} iron_ingot 1");
 		values1.put("chance", "0.4");
 		pufferfishCommands.add(values1);
 	}
