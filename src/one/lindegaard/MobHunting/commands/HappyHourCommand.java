@@ -257,12 +257,6 @@ public class HappyHourCommand implements ICommand, Listener {
 							plugin.getMessages().playerSendMessage(player,
 									plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing",
 											"multiplier", multiplier, "minutes", minutesLeft));
-
-						// plugin.getMessages().playerSendTitlesMessage(player,
-						// plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
-						// plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_subtitle",
-						// "multiplier", multiplier, "minutes", minutesLeft),
-						// 20, 150, 20);
 					}
 				}, plugin.getConfigManager().delayHappyHourAnnouncement * 20L);
 
