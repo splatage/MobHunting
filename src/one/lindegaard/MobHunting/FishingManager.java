@@ -24,6 +24,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 
+import one.lindegaard.Core.Messages.MessageType;
 import one.lindegaard.MobHunting.compatibility.FactionsHelperCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
 import one.lindegaard.MobHunting.events.MobHuntFishingEvent;

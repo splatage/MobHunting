@@ -139,8 +139,9 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 				}
 
 				if (!Materials.isSign(block)
-						//|| ((org.bukkit.material.Sign) block.getState().getData()).getFacing() != mFacing
-						)
+				// || ((org.bukkit.material.Sign) block.getState().getData()).getFacing() !=
+				// mFacing
+				)
 					return false;
 			}
 
@@ -159,28 +160,29 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 
 	public void setSignBlock(Block signBlock) {
 
-		if (Servers.isMC114OrNewer()) {
-			WorldLeaderBoardHelper.setWallSign1_14(signBlock,mFacing);
-		} else if (Servers.isMC113OrNewer()) {
-			signBlock.setType(Material.matchMaterial("WALL_SIGN"));
-			BlockState state = signBlock.getState();
-			org.bukkit.material.Sign wallSign = (org.bukkit.material.Sign) state.getData();
-			wallSign.setFacingDirection(mFacing);
-			state.setData(wallSign);
-			state.update(true, false);
-		} else {
+		if (signBlock.getChunk().isLoaded())
+			if (Servers.isMC114OrNewer()) {
+				WorldLeaderBoardHelper.setWallSign1_14(signBlock, mFacing);
+			} else if (Servers.isMC113OrNewer()) {
+				signBlock.setType(Material.matchMaterial("WALL_SIGN"));
+				BlockState state = signBlock.getState();
+				org.bukkit.material.Sign wallSign = (org.bukkit.material.Sign) state.getData();
+				wallSign.setFacingDirection(mFacing);
+				state.setData(wallSign);
+				state.update(true, false);
+			} else {
 
-			// signBlock.getState().setType(Material.matchMaterial("WALL_SIGN"));
-			// signBlock.getState().update(true, false);
+				// signBlock.getState().setType(Material.matchMaterial("WALL_SIGN"));
+				// signBlock.getState().update(true, false);
 
-			org.bukkit.material.Sign sign = new org.bukkit.material.Sign(Material.matchMaterial("WALL_SIGN"));
-			sign.setFacingDirection(mFacing);
-			BlockState state = signBlock.getState();
-			state.setType(Material.matchMaterial("WALL_SIGN"));
-			state.setData(sign);
-			state.update(true, false);
+				org.bukkit.material.Sign sign = new org.bukkit.material.Sign(Material.matchMaterial("WALL_SIGN"));
+				sign.setFacingDirection(mFacing);
+				BlockState state = signBlock.getState();
+				state.setType(Material.matchMaterial("WALL_SIGN"));
+				state.setData(sign);
+				state.update(true, false);
 
-		}
+			}
 	}
 
 	public void removeSigns() {

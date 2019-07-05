@@ -5,6 +5,7 @@ import java.util.Random;
 
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.WorldGroupManager;
+import one.lindegaard.Core.Messages.MessageManager;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
@@ -83,6 +84,7 @@ public class MobHunting extends JavaPlugin {
 	private CommandDispatcher mCommandDispatcher;
 	private CompatibilityManager mCompatibilityManager;
 	private SpigetUpdater mSpigetUpdater;
+	private MessageManager mMessageManager;
 
 	private boolean mInitialized = false;
 
@@ -573,6 +575,12 @@ public class MobHunting extends JavaPlugin {
 
 	public SpigetUpdater getSpigetUpdater() {
 		return mSpigetUpdater;
+	}
+	
+	public MessageManager getMessageManager() {
+		//if (BagOfGoldCompat.isSupported())
+		//	BagOfGoldCompat.
+		return mMessageManager;
 	}
 
 }

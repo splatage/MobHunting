@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
 
@@ -63,7 +64,9 @@ public class JustInTime implements Achievement, Listener {
 
 	@Override
 	public ItemStack getSymbol() {
-		//TODO: right Material?
-		return new ItemStack(Material.CLOCK);
+		if (Servers.isMC113OrNewer())
+			return new ItemStack(Material.CLOCK);
+		else
+			return new ItemStack(Material.matchMaterial("WATCH"));
 	}
 }

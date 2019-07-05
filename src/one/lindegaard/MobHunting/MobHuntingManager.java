@@ -4,6 +4,7 @@ import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.BagOfGold.PlayerBalance;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.Messages.MessageType;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
