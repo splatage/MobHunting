@@ -249,6 +249,10 @@ public class HappyHourCommand implements ICommand, Listener {
 					@Override
 					public void run() {
 
+						minutesLeft = minutesToRun - ((int) (System.currentTimeMillis() - starttime) / (1000 * 60));
+						if (minutesLeft < 0)
+							minutesLeft = 0;
+
 						if (minutesLeft > 0)
 							plugin.getMessages().playerSendMessage(player,
 									plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing",
