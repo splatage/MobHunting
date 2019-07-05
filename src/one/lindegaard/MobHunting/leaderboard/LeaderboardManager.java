@@ -292,7 +292,6 @@ public class LeaderboardManager implements Listener {
 			if (board.isInChunk(event.getChunk())) {
 				board.refresh();
 			}
-
 		}
 	}
 
