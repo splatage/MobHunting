@@ -26,11 +26,11 @@ import one.lindegaard.MobHunting.storage.DataStoreException;
 public class ExtendedMobManager {
 
 	private MobHunting plugin;
-	
+
 	private HashMap<Integer, ExtendedMob> mobs = new HashMap<Integer, ExtendedMob>();
 
 	public ExtendedMobManager(MobHunting plugin) {
-		this.plugin=plugin;
+		this.plugin = plugin;
 		updateExtendedMobs();
 	}
 
@@ -106,14 +106,14 @@ public class ExtendedMobManager {
 				if (!InfernalMobsCompat.isSupported() || !InfernalMobsCompat.isEnabledInConfig())
 					continue;
 				break;
-				
+
 			case Herobrine:
-				if (!HerobrineCompat.isSupported()|| !HerobrineCompat.isEnabledInConfig())
+				if (!HerobrineCompat.isSupported() || !HerobrineCompat.isEnabledInConfig())
 					continue;
 				break;
-				
+
 			case EliteMobs:
-				if (!EliteMobsCompat.isSupported()|| !EliteMobsCompat.isEnabledInConfig())
+				if (!EliteMobsCompat.isSupported() || !EliteMobsCompat.isEnabledInConfig())
 					continue;
 				break;
 
@@ -152,16 +152,16 @@ public class ExtendedMobManager {
 		return 0;
 	}
 
-		// This is only used to get a "random" mob_id stored when an Achievement is
+	// This is only used to get a "random" mob_id stored when an Achievement is
 	// stored in mh_Daily
 	public ExtendedMob getFirstMob() {
 		int mob_id = mobs.keySet().iterator().next();
 		return mobs.get(mob_id);
 	}
 
-	//public static String getMobName(Entity mob) {
-	//		return mob.getName();
-	//}
+	// public static String getMobName(Entity mob) {
+	// return mob.getName();
+	// }
 
 	public String getTranslatedName() {
 		return "";
@@ -180,13 +180,19 @@ public class ExtendedMobManager {
 			mobtype = String.valueOf(CitizensCompat.getNPCId(entity));
 		} else if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(entity)) {
 			mobPlugin = MobPlugin.TARDISWeepingAngels;
-			mobtype = TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(entity).name();
+			if (TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(entity) != null)
+				mobtype = TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(entity).name();
+			else
+				mobtype = "unknown";
 		} else if (CustomMobsCompat.isCustomMob(entity)) {
 			mobPlugin = MobPlugin.CustomMobs;
 			mobtype = CustomMobsCompat.getCustomMobType(entity);
 		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(entity)) {
 			mobPlugin = MobPlugin.MysteriousHalloween;
-			mobtype = MysteriousHalloweenCompat.getMysteriousHalloweenType(entity).name();
+			if (MysteriousHalloweenCompat.getMysteriousHalloweenType(entity) != null)
+				mobtype = MysteriousHalloweenCompat.getMysteriousHalloweenType(entity).name();
+			else
+				mobtype = "unknown";
 		} else if (SmartGiantsCompat.isSmartGiants(entity)) {
 			mobPlugin = MobPlugin.SmartGiants;
 			mobtype = SmartGiantsCompat.getSmartGiantsMobType(entity);
@@ -195,14 +201,14 @@ public class ExtendedMobManager {
 			MinecraftMob mob = MinecraftMob.getMinecraftMobType(entity);
 			if (mob != null)
 				mobtype = mob.name();
-			else{
-				//plugin.getMessages().debug("unhandled entity %s", entity.getType());
+			else {
+				// plugin.getMessages().debug("unhandled entity %s", entity.getType());
 				mobtype = "";
 			}
-		} else if (HerobrineCompat.isHerobrineMob(entity)){
+		} else if (HerobrineCompat.isHerobrineMob(entity)) {
 			mobPlugin = MobPlugin.Herobrine;
 			mobtype = HerobrineCompat.getHerobrineMobType(entity);
-		} else if (EliteMobsCompat.isEliteMobs(entity)){
+		} else if (EliteMobsCompat.isEliteMobs(entity)) {
 			mobPlugin = MobPlugin.EliteMobs;
 			mobtype = EliteMobsCompat.getEliteMobsType(entity).name();
 		} else {
@@ -217,7 +223,5 @@ public class ExtendedMobManager {
 		mob_id = getMobIdFromMobTypeAndPluginID(mobtype, mobPlugin);
 		return new ExtendedMob(mob_id, mobPlugin, mobtype);
 	}
-
-
 
 }
