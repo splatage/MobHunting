@@ -3,6 +3,8 @@ package one.lindegaard.MobHunting.config;
 import java.io.File;
 import java.util.HashMap;
 
+import one.lindegaard.Core.config.AutoConfig;
+import one.lindegaard.Core.config.ConfigField;
 import one.lindegaard.MobHunting.MobHunting;
 
 import org.bukkit.Bukkit;

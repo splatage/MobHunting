@@ -10,6 +10,7 @@ import org.inventivetalent.update.spiget.SpigetUpdate;
 import org.inventivetalent.update.spiget.UpdateCallback;
 import org.inventivetalent.update.spiget.comparator.VersionComparator;
 
+import one.lindegaard.Core.update.UpdateStatus;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class SpigetUpdater {

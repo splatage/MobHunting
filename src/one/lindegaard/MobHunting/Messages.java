@@ -499,7 +499,8 @@ public class Messages {
 		}
 	}
 
-	HashMap<Player, Long> lastMessage = new HashMap<Player,Long>();
+	HashMap<Player, Long> lastMessage = new HashMap<Player, Long>();
+
 	public void playerActionBarMessageQueue(Player player, String message) {
 		if (isEmpty(message))
 			return;
@@ -507,96 +508,29 @@ public class Messages {
 		final String final_message = PlaceholderAPICompat.setPlaceholders(player, message);
 
 		long last = 0L;
-		long time_between_messages=80L;
-		long delay = 1L, now=System.currentTimeMillis();
-		if(lastMessage.containsKey(player)) {
-			 last=lastMessage.get(player);
-			if (now>last+time_between_messages) {
-				delay=1L; 
-			} else if (now>last)
-				delay=time_between_messages-(now -last);
+		long time_between_messages = 80L;
+		long delay = 1L, now = System.currentTimeMillis();
+		if (lastMessage.containsKey(player)) {
+			last = lastMessage.get(player);
+			if (now > last + time_between_messages) {
+				delay = 1L;
+			} else if (now > last)
+				delay = time_between_messages - (now - last);
 			else
-				delay=(last-now)+time_between_messages;
+				delay = (last - now) + time_between_messages;
 		}
-		lastMessage.put(player, now+delay);
-		
-		debug("Send message '%s' delay=%s, last=%s, now=%s, diff=%s", final_message,delay,last,now,last-now);
-		
+		lastMessage.put(player, now + delay);
+
+		debug("Send message '%s' delay=%s, last=%s, now=%s, diff=%s", final_message, delay, last, now, last - now);
+
 		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-			
+
 			@Override
 			public void run() {
 				playerActionBarMessageNow(player, final_message);
 			}
 		}, delay);
-		
-		/**	
-			
-		
-		HashMap<Long, MessageQueue> messagesToBeDisplayed = new HashMap<Long, MessageQueue>();
-		Long maxKey = System.currentTimeMillis();
-		if (messageQueue.containsKey(player)) {
-			messagesToBeDisplayed = messageQueue.get(player);
-			Iterator<Entry<Long, MessageQueue>> itr = messageQueue.get(player).entrySet().iterator();
-			while (itr.hasNext()) {
-				Entry<Long, MessageQueue> k = itr.next();
-				if (k.getValue().getPlayer().equals(player)) {
-					maxKey = Math.max(maxKey, k.getKey());
-				}
-			}
-		}
-		final long showMessageAt = maxKey+5000L;
-		messagesToBeDisplayed.put(showMessageAt, new MessageQueue(player, message));
-		messageQueue.put(player, messagesToBeDisplayed);
 
-		Runnable messageTask = new Runnable() {
-			@Override
-			public void run() {
-
-				while (!messageQueue.get(player).isEmpty()) {
-					Long minKey = System.currentTimeMillis() + 3600000L;
-					Iterator<Entry<Long, MessageQueue>> itr = messageQueue.get(player).entrySet().iterator();
-					while (itr.hasNext()) {
-						Entry<Long, MessageQueue> k = itr.next();
-						if (k.getValue().getPlayer().equals(player)) {
-							minKey = Math.min(minKey, k.getKey());
-						}
-					}
-					if (minKey < System.currentTimeMillis()) {
-						MessageQueue msg = messageQueue.get(player).get(minKey);
-						if (msg != null) {
-							Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-								
-								@Override
-								public void run() {
-									playerActionBarMessageNow(msg.getPlayer(), msg.getMessage());
-								}
-							}, showMessageAt);
-							debug("Send message '%s'", msg.getMessage());
-							HashMap<Long, MessageQueue> msg1 = messageQueue.get(player);
-							msg1.remove(minKey);
-							messageQueue.put(player, msg1);
-
-							// wait 1.5 sec before sending next message
-							
-							  if (messageQueue.get(player).size() > 0) try { Thread.sleep(1500L); } catch
-							  (InterruptedException e) { e.printStackTrace(); }
-							 
-						}
-					}
-				}
-				Bukkit.getScheduler().cancelTask(taskId.get(player).getTaskId());
-				taskId.remove(player);
-			};
-		};
-
-		if (!taskId.containsKey(player))
-
-			if (taskId.get(player) == null || !Bukkit.getScheduler().isCurrentlyRunning(taskId.get(player).getTaskId())
-					|| !Bukkit.getScheduler().isQueued(taskId.get(player).getTaskId())) {
-				taskId.put(player, Bukkit.getScheduler().runTask(plugin, messageTask));
-			}
-		**/
 	}
 
 	/**
@@ -606,7 +540,6 @@ public class Messages {
 	 * @param message
 	 */
 	private void playerActionBarMessageNow(Player player, String message) {
-		debug("Show message '%s' now)",message);
 		if (isEmpty(message))
 			return;
 		message = PlaceholderAPICompat.setPlaceholders(player, message);

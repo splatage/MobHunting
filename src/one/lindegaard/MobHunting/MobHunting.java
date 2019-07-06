@@ -3,6 +3,7 @@ package one.lindegaard.MobHunting;
 import java.io.File;
 import java.util.Random;
 
+import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.WorldGroupManager;
 import one.lindegaard.Core.Messages.MessageManager;
@@ -169,8 +170,8 @@ public class MobHunting extends JavaPlugin {
 			}
 		}
 
-		//for (int i = 0; i < 5; i++)
-		//	getMessages().debug("Random uuid = %s", java.util.UUID.randomUUID());
+		// for (int i = 0; i < 5; i++)
+		// getMessages().debug("Random uuid = %s", java.util.UUID.randomUUID());
 
 		mWorldGroupManager = new WorldGroupManager(this);
 		mWorldGroupManager.load();
@@ -323,7 +324,8 @@ public class MobHunting extends JavaPlugin {
 
 		if (Servers.isSpigotServer()) {
 			getMessages().debug("Updating advancements");
-			if (!getConfigManager().disableMobHuntingAdvancements && Servers.isMC112OrNewer()) {
+			if (!getConfigManager().disableMobHuntingAdvancements && Servers.isSpigotServer()
+					&& Servers.isMC112OrNewer()) {
 				mAdvancementManager = new AdvancementManager(this);
 				mAdvancementManager.getAdvancementsFromAchivements();
 			}
@@ -576,11 +578,12 @@ public class MobHunting extends JavaPlugin {
 	public SpigetUpdater getSpigetUpdater() {
 		return mSpigetUpdater;
 	}
-	
+
 	public MessageManager getMessageManager() {
-		//if (BagOfGoldCompat.isSupported())
-		//	BagOfGoldCompat.
-		return mMessageManager;
+		if (BagOfGoldCompat.isSupported())
+			return BagOfGold.getAPI().getMessageManager();
+		else
+			return mMessageManager;
 	}
 
 }

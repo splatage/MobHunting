@@ -5,8 +5,8 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import one.lindegaard.Core.update.UpdateStatus;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.update.UpdateStatus;
 
 public class UpdateCommand implements ICommand {
 

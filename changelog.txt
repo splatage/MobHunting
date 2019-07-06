@@ -1,3 +1,8 @@
+V6.7.4
+* Implemented a MessageQueue system between MobHunting and BagOfGold
+* Disabled Advancements on PaperSpigot servers.
+* HappyHour now shows the correct time left, when a player joins the server.
+* Moved more shared code to one.lindegaard.Core  
 V6.7.2
 * Re-Added support for Minecraft 1.10
 V6.7.1
