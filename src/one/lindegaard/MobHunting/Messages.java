@@ -456,7 +456,7 @@ public class Messages {
 		if (MobHunting.getInstance().getConfigManager().killDebug) {
 			if (PlaceholderAPICompat.isSupported())
 				Bukkit.getServer().getConsoleSender().sendMessage(
-						PREFIX + "[Debug] " + PlaceholderAPI.setPlaceholders(null, String.format(message, args)));
+						PREFIX + " [Debug] " + PlaceholderAPI.setPlaceholders(null, String.format(message, args)));
 			else
 				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "[Debug] " + String.format(message, args));
 		}
