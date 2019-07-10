@@ -58,6 +58,8 @@ public class MasterMobHunterManager implements Listener {
 				plugin.getConfigManager().masterMobHuntercheckEvery * 20);
 
 		Bukkit.getPluginManager().registerEvents(this, plugin);
+		Bukkit.getPluginManager().registerEvents(new MasterMobHunterEvents(), plugin);
+		Bukkit.getPluginManager().registerEvents(new MasterMobHunterSign(plugin), plugin);
 	}
 
 	public HashMap<Integer, MasterMobHunter> getMasterMobHunterManager() {

@@ -1,3 +1,5 @@
+V6.7.6
+* MasterMobhunterSign is fixed again. 
 V6.7.5
 * Disable Advancements no non-spigotms servers. The AdvancementAPI does only support Spigot servers.
 V6.7.4

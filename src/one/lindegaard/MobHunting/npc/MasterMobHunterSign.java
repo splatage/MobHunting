@@ -19,6 +19,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
@@ -28,7 +29,7 @@ import org.bukkit.material.PistonExtensionMaterial;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 
-public class MasterMobHunterSign  {
+public class MasterMobHunterSign implements Listener {
 
 	private MobHunting plugin;
 
@@ -105,22 +106,22 @@ public class MasterMobHunterSign  {
 
 	public static void setMHPowerOnRedstoneWire(Block block, byte power) {
 		if (Servers.isMC113OrNewer()) {
-			//org.bukkit.block.data.type.RedstoneWire rw = (org.bukkit.block.data.type.RedstoneWire) block.getBlockData();
-			//rw.setPower(0);
-			//block.setBlockData(rw);
-		}
-		else {
+			// org.bukkit.block.data.type.RedstoneWire rw =
+			// (org.bukkit.block.data.type.RedstoneWire) block.getBlockData();
+			// rw.setPower(0);
+			// block.setBlockData(rw);
+		} else {
 
-		// BlockData bd = block.getBlockData();
-		// BlockState bs = block.getState();
-		// byte br = bs.getRawData();
-		// bs.setRawData(power);
-		// String bd_Str = bd.getAsString();
-		// block.setBlockData(bd);
-		// block.getState().setRawData(power);
-		// block.setBlockData(bd,true);
-		// block.getState().update(true,false);
-			
+			// BlockData bd = block.getBlockData();
+			// BlockState bs = block.getState();
+			// byte br = bs.getRawData();
+			// bs.setRawData(power);
+			// String bd_Str = bd.getAsString();
+			// block.setBlockData(bd);
+			// block.getState().setRawData(power);
+			// block.setBlockData(bd,true);
+			// block.getState().update(true,false);
+
 			block.setType(Material.matchMaterial("REDSTONE_WIRE"));
 			block.getState().setRawData(power);
 			block.getState().update();
@@ -128,12 +129,13 @@ public class MasterMobHunterSign  {
 	}
 
 	public static void setPowerOnRedstoneLamp(Block lamp, byte power) {
-		if (lamp.getType().equals(Material.matchMaterial("REDSTONE_LAMP_OFF")) && MasterMobHunterTools.isMHIndirectPoweredBySign(lamp)) {
+		if (lamp.getType().equals(Material.matchMaterial("REDSTONE_LAMP_OFF"))
+				&& MasterMobHunterTools.isMHIndirectPoweredBySign(lamp)) {
 			for (BlockFace bf : possibleBlockface) {
 				Block rb = lamp.getRelative(bf);
 				if (MasterMobHunterTools.isMHPoweredSign(rb)) {
 					Bukkit.getConsoleSender().sendMessage("MASTERMOBHUNTERSIGN: 2222");
-					
+
 					// Material signType = rb.getType();
 					Sign sign = (Sign) rb.getState();
 					// MaterialData md = sign.getData();
@@ -169,10 +171,9 @@ public class MasterMobHunterSign  {
 		}
 	}
 
-		// ****************************************************************************'
+	// ****************************************************************************'
 	// GETTERS
 	// ****************************************************************************'
-
 
 	// ****************************************************************************'
 	// REMOVE
@@ -223,7 +224,8 @@ public class MasterMobHunterSign  {
 
 								MasterMobHunter mmh = CitizensCompat.getMasterMobHunterManager().get(npc.getId());
 
-								if (MasterMobHunterTools.isMHSign(((org.bukkit.block.Sign) event.getClickedBlock().getState()).getLine(0))) {
+								if (MasterMobHunterTools.isMHSign(
+										((org.bukkit.block.Sign) event.getClickedBlock().getState()).getLine(0))) {
 									event.getClickedBlock().setMetadata(MH_SIGN, new FixedMetadataValue(
 											MobHunting.getInstance(),
 											((org.bukkit.block.Sign) event.getClickedBlock().getState()).getLine(0)));
@@ -276,7 +278,7 @@ public class MasterMobHunterSign  {
 	public void onBlockPlaceEvent(BlockPlaceEvent e) {
 		// BlockPlaceEvent is called before the player enter the text on the
 		// sign
-		
+
 		Block b = e.getBlock();
 		if (MasterMobHunterTools.isRedstoneWire(b)) {
 			if (MasterMobHunterTools.isMHIndirectPoweredBySign(b)) {
@@ -285,7 +287,8 @@ public class MasterMobHunterSign  {
 				b.getState().setRawData(POWER_FROM_SIGN);
 				b.getState().update(true, false);
 			}
-		} else if ((MasterMobHunterTools.isRedstoneLamp(b) || MasterMobHunterTools.isPistonBase(b)) && MasterMobHunterTools.isMHIndirectPoweredBySign(b)) {
+		} else if ((MasterMobHunterTools.isRedstoneLamp(b) || MasterMobHunterTools.isPistonBase(b))
+				&& MasterMobHunterTools.isMHIndirectPoweredBySign(b)) {
 			// power on Redstone Lamp and Piston must be set in next tick to
 			// work
 			setMHPowerLater(b);
@@ -295,7 +298,7 @@ public class MasterMobHunterSign  {
 
 	@EventHandler
 	public void onSignChangeEvent(SignChangeEvent event) {
-		
+
 		Player player = event.getPlayer();
 		Block sb = event.getBlock();
 		if (MasterMobHunterTools.isMHSign(sb) || MasterMobHunterTools.isMHSign(event.getLine(0))) {
@@ -365,5 +368,4 @@ public class MasterMobHunterSign  {
 	// TESTS
 	// ************************************************************************************
 
-	
 }
