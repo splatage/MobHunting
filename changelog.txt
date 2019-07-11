@@ -1,5 +1,6 @@
 V6.7.6
 * MasterMobhunterSign is fixed again. 
+* MasterMobHunterSigns can deliver Redstone power to Redstone Lamp, Redstone Wire and Pistons.  
 V6.7.5
 * Disable Advancements no non-spigotms servers. The AdvancementAPI does only support Spigot servers.
 V6.7.4

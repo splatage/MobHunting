@@ -18,6 +18,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -285,12 +286,16 @@ public class MasterMobHunterManager implements Listener {
 				update(npc);
 		}
 	}
-
-	// @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
-	// public void onSpawnNPC(NPCTraitEvent event) {
-	// MobHunting.getInstance().getMessages().debug("NPCTraitEvent NPC=%s, Trait=%s", event.getNPC().getId(),
-	// event.getTrait().getName());
-	// }
+	
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		Iterator<NPC> itr = CitizensAPI.getNPCRegistry().iterator();
+		while (itr.hasNext()) {
+			NPC npc = itr.next();
+			if (event.getPlayer().getName().equals(npc.getName()) && isMasterMobHunter(npc))
+				update(npc);
+		}
+	}
 
 	// **************************************************************************
 	// EVENTS

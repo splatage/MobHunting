@@ -186,12 +186,12 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 				Block sb = loc.getBlock();
 				if (isLoaded(sb)) {
 					
-					if (MasterMobHunterTools.isMHSign(sb)) {
+					if (MasterMobHunterSign.isMHSign(sb)) {
 						Sign s = (Sign) sb.getState();
-						if (MasterMobHunterTools.isMHSign(s.getLine(0))) {
-							sb.setMetadata(MasterMobHunterTools.MH_SIGN, new FixedMetadataValue(plugin, s.getLine(0)));
-							s.setMetadata(MasterMobHunterTools.MH_SIGN, new FixedMetadataValue(plugin, s.getLine(0)));
-							int id = MasterMobHunterTools.getNPCIdOnSign(sb);
+						if (MasterMobHunterSign.isMHSign(s.getLine(0))) {
+							sb.setMetadata(MasterMobHunterSign.MH_SIGN, new FixedMetadataValue(plugin, s.getLine(0)));
+							s.setMetadata(MasterMobHunterSign.MH_SIGN, new FixedMetadataValue(plugin, s.getLine(0)));
+							int id = MasterMobHunterSign.getNPCIdOnSign(sb);
 							NPC npc = CitizensAPI.getNPCRegistry().getById(id);
 							if (npc != null) {
 								if (CitizensCompat.getMasterMobHunterManager().contains(npc.getId())) {
@@ -205,12 +205,12 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 						s.setLine(2, (Tools.trimSignText(getPeriod().translateNameFriendly())));
 						s.setLine(3, (Tools.trimSignText(getNumberOfKills() + " " + getStatType().translateName())));
 						s.update();
-						if (MasterMobHunterTools.isMHSign(sb)) {
+						if (MasterMobHunterSign.isMHSign(sb)) {
 							OfflinePlayer player = Bukkit.getPlayer(npc.getName());
 							if (player != null && player.isOnline())
 								MasterMobHunterSign.setPower(sb, MasterMobHunterSign.POWER_FROM_SIGN);
 							else
-								MasterMobHunterTools.removePower(sb);
+								MasterMobHunterSign.removePower(sb);
 						}
 					}
 				}

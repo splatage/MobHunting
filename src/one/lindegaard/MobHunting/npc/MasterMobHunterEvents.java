@@ -18,19 +18,19 @@ public class MasterMobHunterEvents implements Listener{
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockRedstoneEvent(BlockRedstoneEvent e) {
 		Block b = e.getBlock();
-		if (MasterMobHunterTools.isMHPowered(b)) {
-			for (MetadataValue mdv : b.getMetadata(MasterMobHunterTools.MH_POWERED)) {
-				if (MasterMobHunterTools.isMHIndirectPoweredBySign(e.getBlock()))
+		if (MasterMobHunterSign.isMHPowered(b)) {
+			for (MetadataValue mdv : b.getMetadata(MasterMobHunterSign.MH_POWERED)) {
+				if (MasterMobHunterSign.isMHIndirectPoweredBySign(e.getBlock()))
 					e.setNewCurrent(mdv.asInt());
 				else {
-					MasterMobHunterTools.removeMHPower(b);
+					MasterMobHunterSign.removeMHPower(b);
 					e.setNewCurrent(0);
 				}
 				if (mdv.asInt() == 0) {
-					MasterMobHunterTools.removeMHPower(b);
-					for (BlockFace bf : MasterMobHunterTools.possibleBlockface) {
+					MasterMobHunterSign.removeMHPower(b);
+					for (BlockFace bf : MasterMobHunterSign.possibleBlockface) {
 						Block rb = b.getRelative(bf);
-						MasterMobHunterTools.removeMHPower(rb);
+						MasterMobHunterSign.removeMHPower(rb);
 					}
 				}
 			}
@@ -48,19 +48,18 @@ public class MasterMobHunterEvents implements Listener{
 
 		if (b == null || b.getType() == null)
 			return;
-
-		//if (b.getType().equals(Material.LEGACY_REDSTONE_LAMP_ON)) {
+		
 		if (b.getType().equals(Material.matchMaterial("REDSTONE_LAMP_ON"))) {
-			if (MasterMobHunterTools.isMHIndirectPoweredBySign(b)) {
+			if (MasterMobHunterSign.isMHIndirectPoweredBySign(b)) {
 				e.setCancelled(true);
 			}
-		} else if (MasterMobHunterTools.isPiston(b)) {
-			if (MasterMobHunterTools.isMHIndirectPoweredBySign(b))
-				if (MasterMobHunterTools.isMHPowered(b)) {
+		} else if (MasterMobHunterPiston.isPiston(b)) {
+			if (MasterMobHunterSign.isMHIndirectPoweredBySign(b))
+				if (MasterMobHunterSign.isMHPowered(b)) {
 					e.setCancelled(true);
 					MasterMobHunterSign.setMHPowerLater(b);
 				}
-			if ((b.getType().equals(Material.matchMaterial("PISTON_EXTENSION")) && c.equals(Material.REDSTONE_WIRE))) {
+			if ((b.getType().equals(Material.matchMaterial("PISTON_EXTENSION")) && c.equals(Material.matchMaterial("REDSTONE_WIRE"))) ){
 
 			}
 		}
@@ -69,11 +68,11 @@ public class MasterMobHunterEvents implements Listener{
 	@EventHandler
 	public void onBlockBreakEvent(BlockBreakEvent e) {
 		Block b = e.getBlock();
-		if (MasterMobHunterTools.isMHPowered(b)) {
-			MasterMobHunterTools.removeMHPower(b);
+		if (MasterMobHunterSign.isMHPowered(b)) {
+			MasterMobHunterSign.removeMHPower(b);
 		}
-		if (MasterMobHunterTools.isMHSign(b)) {
-			int id = MasterMobHunterTools.getNPCIdOnSign(b);
+		if (MasterMobHunterSign.isMHSign(b)) {
+			int id = MasterMobHunterSign.getNPCIdOnSign(b);
 			if (id != -1 && CitizensCompat.getMasterMobHunterManager().get(id) != null) {
 				CitizensCompat.getMasterMobHunterManager().get(id).removeLocation(e.getBlock().getLocation());
 			}
