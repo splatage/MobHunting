@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.MobHunting.MobHunting;
 
 public class MasterMobHunterRedstoneWire {
 
@@ -14,9 +15,13 @@ public class MasterMobHunterRedstoneWire {
 		if (Servers.isMC113OrNewer()) {
 			MasterMobHunterRedstoneWire1_13.setPowerOnRedstoneWire(block, power);
 		} else {
-			block.setType(Material.matchMaterial("REDSTONE_WIRE"));
+			MobHunting.getAPI().getMessages().debug("Set power on RedStone");
+			//block.setType(Material.matchMaterial("REDSTONE_WIRE"));
+			//block.setTypeIdAndData(Material.REDSTONE_WIRE.getId(), power, true);
+			//block.getState().update();
+			block.setType(Material.REDSTONE_WIRE);
 			block.getState().setRawData(power);
-			block.getState().update();
+			block.getState().update(true, false);
 		}
 	}
 
@@ -24,8 +29,10 @@ public class MasterMobHunterRedstoneWire {
 		if (Servers.isMC113OrNewer()) {
 			MasterMobHunterRedstoneWire1_13.removePowerFromRedstoneWire(block);
 		} else {
+			MobHunting.getAPI().getMessages().debug("Remove power on RedStone");
+			block.setType(Material.REDSTONE_WIRE);
 			block.getState().setRawData((byte) 0);
-			block.getState().update();
+			block.getState().update(true, false);
 		}
 	}
 
