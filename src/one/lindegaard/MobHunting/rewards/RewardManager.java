@@ -87,19 +87,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.plugin.RegisteredServiceProvider;
 import org.gestern.gringotts.Configuration;
 import org.gestern.gringotts.currency.Denomination;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
-import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
+import one.lindegaard.MobHunting.MobHuntingEconomyManager;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
@@ -122,7 +120,6 @@ public class RewardManager {
 	private File file;
 	private YamlConfiguration config = new YamlConfiguration();
 
-	private Economy mEconomy;
 	private PickupRewards pickupRewards;
 
 	private HashMap<Integer, Double> droppedMoney = new HashMap<Integer, Double>();
@@ -132,25 +129,26 @@ public class RewardManager {
 	public RewardManager(MobHunting plugin) {
 		this.plugin = plugin;
 		file = new File(plugin.getDataFolder(), "rewards.yml");
-		RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
-		if (economyProvider == null) {
-			Bukkit.getLogger().severe(plugin.getMessages().getString(plugin.getName().toLowerCase() + ".hook.econ"));
-			Bukkit.getPluginManager().disablePlugin(plugin);
-			return;
-		}
 
-		mEconomy = economyProvider.getProvider();
+		//plugin.getMessages().debug("Number of Economy Providers = %s",
+		//		Bukkit.getServicesManager().getRegistrations(Economy.class).size());
+		//if (Bukkit.getServicesManager().getRegistrations(Economy.class).size() > 1) {
+		//	for (RegisteredServiceProvider<Economy> registation : Bukkit.getServicesManager()
+		//			.getRegistrations(Economy.class)) {
+		//		plugin.getMessages().debug("Provider name=%s", registation.getProvider().getName());
+		//	}
+		//}
 
-		plugin.getMessages().debug("MobHunting is using %s as Economy Provider", mEconomy.getName());
-		plugin.getMessages().debug("Number of Economy Providers = %s",
-				Bukkit.getServicesManager().getRegistrations(Economy.class).size());
-		if (Bukkit.getServicesManager().getRegistrations(Economy.class).size() > 1) {
-			for (RegisteredServiceProvider<Economy> registation : Bukkit.getServicesManager()
-					.getRegistrations(Economy.class)) {
-				plugin.getMessages().debug("Provider name=%s", registation.getProvider().getName());
-			}
-		}
-
+		//RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
+		//if (economyProvider == null) {
+		//	Bukkit.getLogger().severe(plugin.getMessages().getString(plugin.getName().toLowerCase() + ".hook.econ"));
+		//	Bukkit.getPluginManager().disablePlugin(plugin);
+		//	return;
+		//}
+		//mEconomy = economyProvider.getProvider();
+		
+		//plugin.getMessages().debug("MobHunting is using %s as Economy Provider", mEconomy.getName());
+		
 		if (!BagOfGoldCompat.isSupported()) {
 
 			plugin.getMessages().debug("Register MobHunting Listeners");
@@ -185,8 +183,8 @@ public class RewardManager {
 
 	}
 
-	public Economy getEconomy() {
-		return mEconomy;
+	public MobHuntingEconomyManager getEconomy() {
+		return plugin.getMobHuntingEconomyManager();
 	}
 
 	public HashMap<Integer, Double> getDroppedMoney() {
@@ -201,30 +199,30 @@ public class RewardManager {
 		return placedMoney_Location;
 	}
 
-	public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double amount) {
-		EconomyResponse result = mEconomy.depositPlayer(offlinePlayer, amount);
-		if (!result.transactionSuccess() && offlinePlayer.isOnline())
-			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to add money: " + result.errorMessage);
-		return result;
+	public boolean depositPlayer(OfflinePlayer offlinePlayer, double amount) {
+		boolean succes = getEconomy().add(offlinePlayer, amount);
+		if (succes && offlinePlayer.isOnline())
+			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to add money.");
+		return succes;
 	}
 
-	public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double amount) {
-		EconomyResponse result = mEconomy.withdrawPlayer(offlinePlayer, amount);
-		if (!result.transactionSuccess() && offlinePlayer.isOnline())
-			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to remove money: " + result.errorMessage);
-		return result;
+	public boolean withdrawPlayer(OfflinePlayer offlinePlayer, double amount) {
+		boolean succes = getEconomy().subtract(offlinePlayer, amount);
+		if (succes && offlinePlayer.isOnline())
+			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to remove money.");
+		return succes;
 	}
 
 	public String format(double amount) {
 		if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency && !BagOfGoldCompat.isSupported())
 			return Tools.format(amount);
 		else
-			return getEconomy().format(amount);
+			return getEconomy().getFormattedBalance(amount);
 	}
 
 	public double getBalance(OfflinePlayer offlinePlayer) {
 		if (BagOfGoldCompat.isSupported() || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
-			return mEconomy.getBalance(offlinePlayer);
+			return getEconomy().getBalance(offlinePlayer);
 		else if (offlinePlayer.isOnline()) {
 			return getAmountInInventory((Player) offlinePlayer);
 		} else {

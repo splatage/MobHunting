@@ -38,6 +38,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import org.bukkit.event.block.Action;
 
+import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
@@ -107,7 +108,7 @@ public class RewardListeners implements Listener {
 				plugin.getRewardManager().getDroppedMoney().put(item.getEntityId(), money);
 				if (!BagOfGoldCompat.isSupported() && !plugin.getConfigManager().dropMoneyOnGroup
 						&& !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
-					plugin.getRewardManager().getEconomy().withdrawPlayer(player, money);
+					plugin.getMobHuntingEconomyManager().subtract(player, money);
 
 				plugin.getMessages().debug("%s dropped %s money. (# of rewards left=%s)", player.getName(),
 						plugin.getRewardManager().format(money), plugin.getRewardManager().getDroppedMoney().size());
@@ -204,7 +205,11 @@ public class RewardListeners implements Listener {
 							double addedMoney = 0;
 							if (reward.getMoney() != 0 && !BagOfGoldCompat.isSupported()
 									&& !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
-								addedMoney = plugin.getRewardManager().depositPlayer(player, reward.getMoney()).amount;
+								
+								boolean succes = plugin.getMobHuntingEconomyManager().add(player, reward.getMoney());
+								addedMoney=reward.getMoney();
+								//addedMoney = plugin.getRewardManager().depositPlayer(player, reward.getMoney()).amount;
+							
 							} else {
 								// Inventory is full , check if item is
 								// inventory
@@ -465,7 +470,7 @@ public class RewardListeners implements Listener {
 			if (owner != null && owner.getName() != null)
 				plugin.getMessages().playerActionBarMessageQueue(player,
 						ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + owner.getName());
-		} else if (block.getType() == Material.LEGACY_SKULL) {
+		} else if (Materials.isSkull(block.getType())) {
 			Skull skullState = (Skull) block.getState();
 			switch (skullState.getSkullType()) {
 			case PLAYER:

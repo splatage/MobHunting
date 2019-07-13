@@ -21,22 +21,26 @@ public class PickupRewards {
 
 	public void rewardPlayer(Player player, Item item, CallBack callBack) {
 		if (Reward.isReward(item)) {
-			double done = 0;
+			//double done = 0;
+			boolean succes=false;
 			Reward reward = Reward.getReward(item);
 			if (reward.isBagOfGoldReward() || reward.isItemReward()) {
 				callBack.setCancelled(true);
 				if (player.getGameMode() == GameMode.SPECTATOR) {
 					return;
 				} else if (BagOfGoldCompat.isSupported()) {
-					done = plugin.getRewardManager().getEconomy().depositPlayer(player, reward.getMoney()).amount;
+					succes = plugin.getMobHuntingEconomyManager().add(player, reward.getMoney());
+					//done = plugin.getRewardManager().getEconomy().depositPlayer(player, reward.getMoney()).amount;
 				} else if (reward.getMoney() != 0 && !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
 					// If not Gringotts
-					done = plugin.getRewardManager().depositPlayer(player, reward.getMoney()).amount;
+					succes=plugin.getMobHuntingEconomyManager().add(player, reward.getMoney());
+					//done = plugin.getRewardManager().depositPlayer(player, reward.getMoney()).amount;
 				} else {
-					done = plugin.getRewardManager().addBagOfGoldPlayer(player, reward.getMoney());
+					
+					succes = plugin.getRewardManager().addBagOfGoldPlayer(player, reward.getMoney())>0;
 				}
 			}
-			if (done > 0) {
+			if (succes) {
 				item.remove();
 				if (plugin.getRewardManager().getDroppedMoney().containsKey(item.getEntityId()))
 					plugin.getRewardManager().getDroppedMoney().remove(item.getEntityId());

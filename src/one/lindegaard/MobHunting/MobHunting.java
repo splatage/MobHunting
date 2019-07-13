@@ -67,6 +67,7 @@ public class MobHunting extends JavaPlugin {
 	private Messages mMessages;
 	private ConfigManagerOld mConfig0;
 	private ConfigManager mConfig;
+	private MobHuntingEconomyManager mMobHuntingEconomyManager;
 	private RewardManager mRewardManager;
 	private MobHuntingManager mMobHuntingManager;
 	private FishingManager mFishingManager;
@@ -99,6 +100,7 @@ public class MobHunting extends JavaPlugin {
 		Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		if (wg != null)
 			WorldGuardCompat.registerFlag();
+		
 	}
 
 	@Override
@@ -183,6 +185,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(BagOfGoldCompat.class, CompatPlugin.BagOfGold);
 		mCompatibilityManager.registerPlugin(GringottsCompat.class, CompatPlugin.Gringotts);
 
+		mMobHuntingEconomyManager = new MobHuntingEconomyManager(this);
 		mRewardManager = new RewardManager(this);
 		if (mRewardManager.getEconomy() == null)
 			return;
@@ -584,6 +587,10 @@ public class MobHunting extends JavaPlugin {
 			return BagOfGold.getAPI().getMessageManager();
 		else
 			return mMessageManager;
+	}
+	
+	public MobHuntingEconomyManager getMobHuntingEconomyManager() {
+		return mMobHuntingEconomyManager;
 	}
 
 }

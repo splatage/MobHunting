@@ -172,7 +172,8 @@ public class BountyCommand implements ICommand {
 			}
 			if (wantedPlayer != null && playerId != 0) {
 				double prize = Misc.round(Double.valueOf(args[1]));
-				if (!plugin.getRewardManager().getEconomy().has(bountyOwner, prize)) {
+				if (!plugin.getMobHuntingEconomyManager().hasMoney(bountyOwner, prize)) {
+				//if (!plugin.getRewardManager().getEconomy().has(bountyOwner, prize)) {
 					plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
 							"mobhunting.commands.bounty.no-money", "money", plugin.getRewardManager().format(prize)));
 					return true;

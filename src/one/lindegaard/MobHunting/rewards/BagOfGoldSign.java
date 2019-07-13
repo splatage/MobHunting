@@ -95,7 +95,7 @@ public class BagOfGoldSign implements Listener {
 								return;
 							}
 						}
-						plugin.getRewardManager().getEconomy().depositPlayer(player, money);
+						plugin.getRewardManager().getEconomy().add(player, money);
 						if (moneyInHand <= moneyOnSign) {
 							if (Servers.isMC19OrNewer()) {
 								event.getItem().setAmount(0);
@@ -117,7 +117,7 @@ public class BagOfGoldSign implements Listener {
 							event.getItem().setItemMeta(im);
 						}
 						plugin.getMessages().debug("%s sold his %s for %s", player.getName(), reward.getDisplayname(),
-								plugin.getRewardManager().getEconomy().format(money));
+								plugin.getMobHuntingEconomyManager().format(money));
 						plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
 								"mobhunting.bagofgoldsign.sold", "money",
 								plugin.getRewardManager().getEconomy().format(money), "rewardname",
@@ -220,7 +220,7 @@ public class BagOfGoldSign implements Listener {
 
 						// IF okay the withdraw money
 						if (found) {
-							plugin.getRewardManager().getEconomy().withdrawPlayer(player, moneyOnSign);
+							plugin.getRewardManager().getEconomy().subtract(player, moneyOnSign);
 							plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
 									"mobhunting.bagofgoldsign.bought", "money",
 									plugin.getRewardManager().getEconomy().format(moneyOnSign), "rewardname",
@@ -234,16 +234,15 @@ public class BagOfGoldSign implements Listener {
 				} else if (signType
 						.equalsIgnoreCase(plugin.getMessages().getString("mobhunting.bagofgoldsign.line2.balance"))) {
 					if (BagOfGoldCompat.isSupported() || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
-						if (plugin.getRewardManager().getEconomy().isBankOwner(player.getUniqueId().toString(), player)
-								.transactionSuccess()) {
+						if (plugin.getMobHuntingEconomyManager().isBankOwner(player.getUniqueId().toString(), player)) {
+						//if (plugin.getRewardManager().getEconomy().isBankOwner(player.getUniqueId().toString(), player).transactionSuccess()) {
 							plugin.getMessages().playerActionBarMessageQueue(player,
 									plugin.getMessages().getString("mobhunting.bagofgoldsign.balance2", "balance",
 											plugin.getRewardManager().getEconomy()
 													.format(plugin.getRewardManager().getEconomy().getBalance(player)),
 											"bankbalance",
-											plugin.getRewardManager().getEconomy()
-													.format(plugin.getRewardManager().getEconomy()
-															.bankBalance(player.getUniqueId().toString()).balance)));
+											//plugin.getRewardManager().getEconomy().format(plugin.getRewardManager().getEconomy().bankBalance(player.getUniqueId().toString()).balance)));
+											plugin.getMobHuntingEconomyManager().format(plugin.getMobHuntingEconomyManager().getBankBalance(player))));
 						} else {
 							plugin.getMessages().playerActionBarMessageQueue(player,
 									plugin.getMessages().getString("mobhunting.bagofgoldsign.balance1", "balance",
