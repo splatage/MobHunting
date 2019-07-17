@@ -359,7 +359,7 @@ public class MobHuntingManager implements Listener {
 				if (balance != 0) {
 					plugin.getMessages().debug("%s dropped %s because of his death, killed by %s", killed.getName(),
 							plugin.getEconomyManager().format(balance), killer.getName());
-					BagOfGold.getAPI().getEconomyManager().removeMoneyFromPlayerBalance(killed, balance);
+					BagOfGold.getAPI().getRewardManager().removeMoneyFromPlayerBalance(killed, balance);
 				}
 			}
 		}
