@@ -108,7 +108,7 @@ public class RewardListeners implements Listener {
 				plugin.getRewardManager().getDroppedMoney().put(item.getEntityId(), money);
 				if (!BagOfGoldCompat.isSupported() && !plugin.getConfigManager().dropMoneyOnGroup
 						&& !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
-					plugin.getMobHuntingEconomyManager().subtract(player, money);
+					plugin.getEconomyManager().withdrawPlayer(player, money);
 
 				plugin.getMessages().debug("%s dropped %s money. (# of rewards left=%s)", player.getName(),
 						plugin.getRewardManager().format(money), plugin.getRewardManager().getDroppedMoney().size());
@@ -206,7 +206,7 @@ public class RewardListeners implements Listener {
 							if (reward.getMoney() != 0 && !BagOfGoldCompat.isSupported()
 									&& !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
 								
-								boolean succes = plugin.getMobHuntingEconomyManager().add(player, reward.getMoney());
+								boolean succes = plugin.getEconomyManager().depositPlayer(player, reward.getMoney());
 								addedMoney=reward.getMoney();
 								//addedMoney = plugin.getRewardManager().depositPlayer(player, reward.getMoney()).amount;
 							

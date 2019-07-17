@@ -110,7 +110,7 @@ public class MetricsManager {
 		bStatsMetrics.addCustomChart(new Metrics.SimplePie("language", () -> plugin.getConfigManager().language));
 
 		bStatsMetrics.addCustomChart(
-				new Metrics.SimplePie("economy_plugin", () -> plugin.getMobHuntingEconomyManager().getName()));
+				new Metrics.SimplePie("economy_plugin", () -> plugin.getEconomyManager().getName()));
 
 		bStatsMetrics.addCustomChart(
 				new Metrics.AdvancedPie("protection_plugin_integrations", new Callable<Map<String, Integer>>() {

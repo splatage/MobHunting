@@ -2,6 +2,8 @@ package one.lindegaard.MobHunting;
 
 import java.math.BigDecimal;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
@@ -19,7 +21,7 @@ import net.tnemc.core.economy.ExtendedEconomyAPI;
  * @author Rocologo
  * 
  */
-public class MobHuntingEconomyManager {
+public class EconomyManager {
 
 	private MobHunting plugin = null;
 	private Economy vaultEconomy = null;
@@ -31,7 +33,7 @@ public class MobHuntingEconomyManager {
 		NONE, VAULT, RESERVE
 	}
 
-	public MobHuntingEconomyManager(MobHunting plugin) {
+	public EconomyManager(MobHunting plugin) {
 		this.plugin = plugin;
 		setupEconomy();
 	}
@@ -50,7 +52,6 @@ public class MobHuntingEconomyManager {
 	 * @return true if we found one.
 	 */
 	public boolean isActive() {
-
 		return (Type != EcoType.NONE);
 	}
 
@@ -58,7 +59,6 @@ public class MobHuntingEconomyManager {
 	 * @return The current economy providers version string
 	 */
 	public String getVersion() {
-
 		return version;
 	}
 
@@ -68,7 +68,6 @@ public class MobHuntingEconomyManager {
 	 * @param version
 	 */
 	private void setVersion(String version) {
-
 		this.version = version;
 	}
 
@@ -78,7 +77,6 @@ public class MobHuntingEconomyManager {
 	 * @return true if successful.
 	 */
 	public Boolean setupEconomy() {
-
 		Plugin economyProvider = null;
 
 		/*
@@ -93,6 +91,8 @@ public class MobHuntingEconomyManager {
 				 */
 				vaultEconomy = vaultEcoProvider.getProvider();
 				setVersion(String.format("%s %s", vaultEcoProvider.getProvider().getName(), "via Vault"));
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+						+ "MobHunting is using " + getVersion() + " as Economy Provider");
 				Type = EcoType.VAULT;
 				return true;
 			}
@@ -109,58 +109,33 @@ public class MobHuntingEconomyManager {
 			 */
 			reserveEconomy = ((Reserve) economyProvider).economy();
 			setVersion(String.format("%s %s", reserveEconomy.name(), "via Reserve"));
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+					+ "MobHunting is using " + getVersion() + " as Economy Provider");
 			Type = EcoType.RESERVE;
 			return true;
 		}
-
-		/*
-		 * No compatible Economy system found.
-		 */
 		return false;
-	}
-
-	public Object getEconomy() {
-		switch (Type) {
-
-		case RESERVE:
-			return reserveEconomy;
-
-		case VAULT:
-			return vaultEconomy;
-
-		default:
-			return "Vault or Reserve was not found";
-
-		}
 	}
 
 	public String getName() {
 		switch (Type) {
-
 		case RESERVE:
 			return reserveEconomy.name();
-
 		case VAULT:
 			return vaultEconomy.getName();
-
 		default:
 			return "Vault or Reserve was not found";
-
 		}
 	}
 
 	public String format(Double amount) {
 		switch (Type) {
-
 		case RESERVE:
 			return reserveEconomy.format(new BigDecimal(amount));
-
 		case VAULT:
 			return vaultEconomy.format(amount);
-
 		default:
 			return "Vault or Reserve was not found";
-
 		}
 	}
 
@@ -171,19 +146,14 @@ public class MobHuntingEconomyManager {
 	 * @return - The relevant player's economy account
 	 */
 	private Object getEconomyAccount(OfflinePlayer offlinePlayer) {
-
 		switch (Type) {
-
 		case RESERVE:
 			if (reserveEconomy instanceof ExtendedEconomyAPI)
 				return ((ExtendedEconomyAPI) reserveEconomy).getAccount(offlinePlayer.getUniqueId());
 			break;
-
 		default:
 			break;
-
 		}
-
 		return null;
 	}
 
@@ -194,20 +164,14 @@ public class MobHuntingEconomyManager {
 	 * @return
 	 */
 	public boolean hasEconomyAccount(OfflinePlayer offlinePlayer) {
-
 		switch (Type) {
-
 		case RESERVE:
 			return reserveEconomy.hasAccount(offlinePlayer.getUniqueId());
-
 		case VAULT:
 			return vaultEconomy.hasAccount(offlinePlayer);
-
 		default:
 			break;
-
 		}
-
 		return false;
 	}
 
@@ -215,48 +179,33 @@ public class MobHuntingEconomyManager {
 	 * Attempt to delete the economy account.
 	 */
 	public void removeAccount(OfflinePlayer offlinePlayer) {
-
 		try {
 			switch (Type) {
-
 			case RESERVE:
 				reserveEconomy.deleteAccount(offlinePlayer.getUniqueId());
 				break;
-
 			case VAULT: // Attempt to zero the account as Vault provides no delete method.
 				if (!vaultEconomy.hasAccount(offlinePlayer))
 					vaultEconomy.createPlayerAccount(offlinePlayer);
-
 				vaultEconomy.withdrawPlayer(offlinePlayer, (vaultEconomy.getBalance(offlinePlayer)));
-
 				return;
-
 			default:
 				break;
-
 			}
-
 		} catch (NoClassDefFoundError e) {
 		}
-
 		return;
 	}
 
 	public boolean hasMoney(OfflinePlayer offlinePlayer, double amount) {
-
 		switch (Type) {
-
 		case RESERVE:
 			return reserveEconomy.hasHoldings(offlinePlayer.getUniqueId(), new BigDecimal(amount));
-
 		case VAULT:
 			return vaultEconomy.has(offlinePlayer, amount);
-
 		default:
 			break;
-
 		}
-
 		return false;
 	}
 
@@ -267,26 +216,18 @@ public class MobHuntingEconomyManager {
 	 * @return double containing the total in the account
 	 */
 	public double getBalance(OfflinePlayer offlinePlayer) {
-
 		switch (Type) {
-
 		case RESERVE:
 			if (!reserveEconomy.hasAccount(offlinePlayer.getUniqueId()))
 				reserveEconomy.createAccount(offlinePlayer.getUniqueId());
-
 			return reserveEconomy.getHoldings(offlinePlayer.getUniqueId()).doubleValue();
-
 		case VAULT:
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
-
 			return vaultEconomy.getBalance(offlinePlayer);
-
 		default:
 			break;
-
 		}
-
 		return 0.0;
 	}
 
@@ -298,10 +239,8 @@ public class MobHuntingEconomyManager {
 	 * @return true if there is enough in the account
 	 */
 	public boolean hasEnough(OfflinePlayer offlinePlayer, Double amount) {
-
 		if (getBalance(offlinePlayer) >= amount)
 			return true;
-
 		return false;
 	}
 
@@ -312,26 +251,19 @@ public class MobHuntingEconomyManager {
 	 * @param amount
 	 * @return true if successful
 	 */
-	public boolean subtract(OfflinePlayer offlinePlayer, Double amount) {
-
+	public boolean withdrawPlayer(OfflinePlayer offlinePlayer, Double amount) {
 		switch (Type) {
-
 		case RESERVE:
 			if (!reserveEconomy.hasAccount(offlinePlayer.getUniqueId()))
 				reserveEconomy.createAccount(offlinePlayer.getUniqueId());
 			return reserveEconomy.removeHoldings(offlinePlayer.getUniqueId(), new BigDecimal(amount));
-
 		case VAULT:
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
-
 			return vaultEconomy.withdrawPlayer(offlinePlayer, amount).type == EconomyResponse.ResponseType.SUCCESS;
-
 		default:
 			break;
-
 		}
-
 		return false;
 	}
 
@@ -343,51 +275,36 @@ public class MobHuntingEconomyManager {
 	 * @param world
 	 * @return true if successful
 	 */
-	public boolean add(OfflinePlayer offlinePlayer, Double amount) {
-
+	public boolean depositPlayer(OfflinePlayer offlinePlayer, Double amount) {
 		switch (Type) {
-
 		case RESERVE:
 			if (!reserveEconomy.hasAccount(offlinePlayer.getUniqueId()))
 				reserveEconomy.createAccount(offlinePlayer.getUniqueId());
-
 			return reserveEconomy.addHoldings(offlinePlayer.getUniqueId(), new BigDecimal(amount));
-
 		case VAULT:
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
-
 			return vaultEconomy.depositPlayer(offlinePlayer, amount).type == EconomyResponse.ResponseType.SUCCESS;
-
 		default:
 			break;
-
 		}
-
 		return false;
 	}
 
 	public boolean setBalance(OfflinePlayer offlinePlayer, Double amount, World world) {
-
 		switch (Type) {
-
 		case RESERVE:
 			if (!reserveEconomy.hasAccount(offlinePlayer.getUniqueId()))
 				reserveEconomy.createAccount(offlinePlayer.getUniqueId());
 			return reserveEconomy.setHoldings(offlinePlayer.getUniqueId(), new BigDecimal(amount), world.getName());
-
 		case VAULT:
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
-
 			return vaultEconomy.depositPlayer(offlinePlayer,
 					(amount - vaultEconomy.getBalance(offlinePlayer))).type == EconomyResponse.ResponseType.SUCCESS;
-
 		default:
 			break;
-
 		}
-
 		return false;
 	}
 
@@ -398,94 +315,62 @@ public class MobHuntingEconomyManager {
 	 * @return string containing the formatted balance
 	 */
 	public String getFormattedBalance(double balance) {
-
 		try {
 			switch (Type) {
-
 			case RESERVE:
 				return reserveEconomy.format(new BigDecimal(balance));
-
 			case VAULT:
 				return vaultEconomy.format(balance);
-
 			default:
 				break;
-
 			}
-
 		} catch (Exception InvalidAPIFunction) {
 		}
-
 		return String.format("%.2f", balance);
-
 	}
 
 	public double getSpaceForMoney(OfflinePlayer offlinePlayer) {
-
 		switch (Type) {
-
 		case RESERVE:
 			if (!reserveEconomy.hasAccount(offlinePlayer.getUniqueId()))
 				reserveEconomy.createAccount(offlinePlayer.getUniqueId());
-
 			return reserveEconomy.getHoldings(offlinePlayer.getUniqueId()).doubleValue();
-
 		case VAULT:
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
-
 			return vaultEconomy.getBalance(offlinePlayer);
-
 		default:
 			break;
-
 		}
-
 		return 0;
 	}
 
 	public boolean isBankOwner(String account, OfflinePlayer offlinePlayer) {
-
 		switch (Type) {
-
 		case RESERVE:
 			return reserveEconomy.isAccessor(account, offlinePlayer.getUniqueId());
-
 		case VAULT:
 			return vaultEconomy.isBankOwner(account, offlinePlayer).type == EconomyResponse.ResponseType.SUCCESS;
-
 		default:
 			break;
-
 		}
-
 		return false;
 	}
 
 	public double getBankBalance(OfflinePlayer offlinePlayer) {
-
 		switch (Type) {
-
 		case RESERVE:
-			//if (!reserveEconomy.hasAccount(offlinePlayer.getUniqueId()))
-			//	reserveEconomy.createAccount(offlinePlayer.getUniqueId());
-
-			//return reserveEconomy.getHoldings(offlinePlayer.getUniqueId()).doubleValue();
-			return 0;
-
+			if (!reserveEconomy.hasAccount(offlinePlayer.getUniqueId()))
+				reserveEconomy.createAccount(offlinePlayer.getUniqueId());
+			return reserveEconomy.getHoldings(offlinePlayer.getUniqueId()).doubleValue();
 		case VAULT:
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
-
 			return vaultEconomy.bankBalance(offlinePlayer.getUniqueId().toString()).balance;
-
 		default:
 			break;
-
 		}
-
 		return 0.0;
 	}
-
 
 }

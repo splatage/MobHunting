@@ -97,7 +97,7 @@ import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.MobHuntingEconomyManager;
+import one.lindegaard.MobHunting.EconomyManager;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
@@ -129,25 +129,6 @@ public class RewardManager {
 	public RewardManager(MobHunting plugin) {
 		this.plugin = plugin;
 		file = new File(plugin.getDataFolder(), "rewards.yml");
-
-		//plugin.getMessages().debug("Number of Economy Providers = %s",
-		//		Bukkit.getServicesManager().getRegistrations(Economy.class).size());
-		//if (Bukkit.getServicesManager().getRegistrations(Economy.class).size() > 1) {
-		//	for (RegisteredServiceProvider<Economy> registation : Bukkit.getServicesManager()
-		//			.getRegistrations(Economy.class)) {
-		//		plugin.getMessages().debug("Provider name=%s", registation.getProvider().getName());
-		//	}
-		//}
-
-		//RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServicesManager().getRegistration(Economy.class);
-		//if (economyProvider == null) {
-		//	Bukkit.getLogger().severe(plugin.getMessages().getString(plugin.getName().toLowerCase() + ".hook.econ"));
-		//	Bukkit.getPluginManager().disablePlugin(plugin);
-		//	return;
-		//}
-		//mEconomy = economyProvider.getProvider();
-		
-		//plugin.getMessages().debug("MobHunting is using %s as Economy Provider", mEconomy.getName());
 		
 		if (!BagOfGoldCompat.isSupported()) {
 
@@ -183,8 +164,8 @@ public class RewardManager {
 
 	}
 
-	public MobHuntingEconomyManager getEconomy() {
-		return plugin.getMobHuntingEconomyManager();
+	public EconomyManager getEconomy() {
+		return plugin.getEconomyManager();
 	}
 
 	public HashMap<Integer, Double> getDroppedMoney() {
@@ -200,14 +181,14 @@ public class RewardManager {
 	}
 
 	public boolean depositPlayer(OfflinePlayer offlinePlayer, double amount) {
-		boolean succes = getEconomy().add(offlinePlayer, amount);
+		boolean succes = getEconomy().depositPlayer(offlinePlayer, amount);
 		if (succes && offlinePlayer.isOnline())
 			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to add money.");
 		return succes;
 	}
 
 	public boolean withdrawPlayer(OfflinePlayer offlinePlayer, double amount) {
-		boolean succes = getEconomy().subtract(offlinePlayer, amount);
+		boolean succes = getEconomy().withdrawPlayer(offlinePlayer, amount);
 		if (succes && offlinePlayer.isOnline())
 			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to remove money.");
 		return succes;

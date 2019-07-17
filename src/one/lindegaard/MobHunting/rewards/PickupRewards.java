@@ -21,7 +21,6 @@ public class PickupRewards {
 
 	public void rewardPlayer(Player player, Item item, CallBack callBack) {
 		if (Reward.isReward(item)) {
-			//double done = 0;
 			boolean succes=false;
 			Reward reward = Reward.getReward(item);
 			if (reward.isBagOfGoldReward() || reward.isItemReward()) {
@@ -29,14 +28,11 @@ public class PickupRewards {
 				if (player.getGameMode() == GameMode.SPECTATOR) {
 					return;
 				} else if (BagOfGoldCompat.isSupported()) {
-					succes = plugin.getMobHuntingEconomyManager().add(player, reward.getMoney());
-					//done = plugin.getRewardManager().getEconomy().depositPlayer(player, reward.getMoney()).amount;
+					succes = plugin.getEconomyManager().depositPlayer(player, reward.getMoney());
 				} else if (reward.getMoney() != 0 && !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
 					// If not Gringotts
-					succes=plugin.getMobHuntingEconomyManager().add(player, reward.getMoney());
-					//done = plugin.getRewardManager().depositPlayer(player, reward.getMoney()).amount;
+					succes=plugin.getEconomyManager().depositPlayer(player, reward.getMoney());
 				} else {
-					
 					succes = plugin.getRewardManager().addBagOfGoldPlayer(player, reward.getMoney())>0;
 				}
 			}
@@ -73,9 +69,7 @@ public class PickupRewards {
 	}
 
 	public interface CallBack {
-
 		void setCancelled(boolean canceled);
-
 	}
 
 }

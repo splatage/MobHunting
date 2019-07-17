@@ -59,7 +59,7 @@ public class MobHunting extends JavaPlugin {
 
 	// Constants
 	private final static String pluginName = "mobhunting";
-
+	
 	private static MobHunting instance;
 	public Random mRand = new Random();
 	private File mFile = new File(getDataFolder(), "config.yml");
@@ -67,7 +67,7 @@ public class MobHunting extends JavaPlugin {
 	private Messages mMessages;
 	private ConfigManagerOld mConfig0;
 	private ConfigManager mConfig;
-	private MobHuntingEconomyManager mMobHuntingEconomyManager;
+	private EconomyManager mEconomyManager;
 	private RewardManager mRewardManager;
 	private MobHuntingManager mMobHuntingManager;
 	private FishingManager mFishingManager;
@@ -185,7 +185,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(BagOfGoldCompat.class, CompatPlugin.BagOfGold);
 		mCompatibilityManager.registerPlugin(GringottsCompat.class, CompatPlugin.Gringotts);
 
-		mMobHuntingEconomyManager = new MobHuntingEconomyManager(this);
+		mEconomyManager = new EconomyManager(this);
 		mRewardManager = new RewardManager(this);
 		if (mRewardManager.getEconomy() == null)
 			return;
@@ -589,8 +589,8 @@ public class MobHunting extends JavaPlugin {
 			return mMessageManager;
 	}
 	
-	public MobHuntingEconomyManager getMobHuntingEconomyManager() {
-		return mMobHuntingEconomyManager;
+	public EconomyManager getEconomyManager() {
+		return mEconomyManager;
 	}
 
 }

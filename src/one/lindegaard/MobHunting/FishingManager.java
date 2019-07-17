@@ -142,7 +142,7 @@ public class FishingManager implements Listener {
 			}
 			double cash = plugin.getRewardManager().getBaseKillPrize(fish);
 
-			plugin.getMessages().debug("Basic Prize=%s for catching a %s", plugin.getRewardManager().format(cash),
+			plugin.getMessages().debug("Basic Prize=%s for catching a %s", plugin.getEconomyManager().format(cash),
 					extendedMob.getMobName());
 
 			// Apply the modifiers to Basic reward
@@ -199,13 +199,13 @@ public class FishingManager implements Listener {
 				fish.setMetadata("MH:FishCaught", new FixedMetadataValue(plugin, true));
 				
 				if (cash >= plugin.getConfigManager().minimumReward) {
-					plugin.getRewardManager().depositPlayer(player, cash);
+					plugin.getEconomyManager().depositPlayer(player, cash);
 					plugin.getMessages().debug("%s got a reward (%s)", player.getName(),
-							plugin.getRewardManager().format(cash));
+							plugin.getEconomyManager().format(cash));
 				} else if (cash <= -plugin.getConfigManager().minimumReward) {
-					plugin.getRewardManager().withdrawPlayer(player, -cash);
+					plugin.getEconomyManager().withdrawPlayer(player, -cash);
 					plugin.getMessages().debug("%s got a penalty (%s)", player.getName(),
-							plugin.getRewardManager().format(cash));
+							plugin.getEconomyManager().format(cash));
 				}
 
 				// Record Fishing Achievement is done using
@@ -238,12 +238,12 @@ public class FishingManager implements Listener {
 							plugin.getMessages().playerActionBarMessageQueue(player,
 									ChatColor.GREEN + "" + ChatColor.ITALIC
 											+ plugin.getMessages().getString("mobhunting.fishcaught.reward", "prize",
-													plugin.getRewardManager().format(cash)));
+													plugin.getEconomyManager().format(cash)));
 						} else if (cash <= -plugin.getConfigManager().minimumReward) {
 							plugin.getMessages().playerActionBarMessageQueue(player,
 									ChatColor.RED + "" + ChatColor.ITALIC
 											+ plugin.getMessages().getString("mobhunting.fishcaught.penalty", "prize",
-													plugin.getRewardManager().format(cash)));
+													plugin.getEconomyManager().format(cash)));
 						}
 
 					} else {
@@ -251,19 +251,19 @@ public class FishingManager implements Listener {
 							plugin.getMessages().debug("Message to send to ActionBar=%s", ChatColor.GREEN + ""
 									+ ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.fishcaught.reward.bonuses", "prize",
-											plugin.getRewardManager().format(cash), "bonuses", extraString.trim(),
-											"multipliers", plugin.getRewardManager().format(multipliers)));
+											plugin.getEconomyManager().format(cash), "bonuses", extraString.trim(),
+											"multipliers", plugin.getEconomyManager().format(multipliers)));
 							plugin.getMessages().playerActionBarMessageQueue(player, ChatColor.GREEN + ""
 									+ ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.fishcaught.reward.bonuses", "prize",
-											plugin.getRewardManager().format(cash), "bonuses", extraString.trim(),
-											"multipliers", plugin.getRewardManager().format(multipliers)));
+											plugin.getEconomyManager().format(cash), "bonuses", extraString.trim(),
+											"multipliers", plugin.getEconomyManager().format(multipliers)));
 						} else if (cash <= -plugin.getConfigManager().minimumReward) {
 							plugin.getMessages().playerActionBarMessageQueue(player, ChatColor.RED + ""
 									+ ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.fishcaught.penalty.bonuses", "prize",
-											plugin.getRewardManager().format(cash), "bonuses", extraString.trim(),
-											"multipliers", plugin.getRewardManager().format(multipliers)));
+											plugin.getEconomyManager().format(cash), "bonuses", extraString.trim(),
+											"multipliers", plugin.getEconomyManager().format(multipliers)));
 						} else
 							plugin.getMessages().debug("FishingBlocked %s: Reward was less than %s", player.getName(),
 									plugin.getConfigManager().minimumReward);
@@ -297,7 +297,7 @@ public class FishingManager implements Listener {
 							String worldname = player.getWorld().getName();
 							String prizeCommand = cmd.get("cmd").replaceAll("\\{player\\}", player.getName())
 									.replaceAll("\\{killer\\}", player.getName()).replaceAll("\\{world\\}", worldname)
-									.replaceAll("\\{prize\\}", plugin.getRewardManager().format(cash))
+									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{killerpos\\}", fishermanPos).replaceAll("\\{rewardname\\}",
 											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName);
 							plugin.getMessages().debug("command to be run is:" + prizeCommand);
@@ -323,7 +323,7 @@ public class FishingManager implements Listener {
 									.replaceAll("\\{killer\\}", player.getName())
 									.replaceAll("\\{killed\\}", extendedMob.getFriendlyName())
 									.replaceAll("\\{world\\}", worldname)
-									.replaceAll("\\{prize\\}", plugin.getRewardManager().format(cash))
+									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{world\\}", player.getWorld().getName())
 									.replaceAll("\\{killerpos\\}", fishermanPos).replaceAll("\\{rewardname\\}",
 											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName);
@@ -347,7 +347,7 @@ public class FishingManager implements Listener {
 										+ message.replaceAll("\\{player\\}", player.getName())
 												.replaceAll("\\{killer\\}", player.getName())
 												.replaceAll("\\{killed\\}", extendedMob.getFriendlyName())
-												.replaceAll("\\{prize\\}", plugin.getRewardManager().format(cash))
+												.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 												.replaceAll("\\{world\\}", player.getWorld().getName())
 												.replaceAll("\\{rewardname\\}",
 														plugin.getConfigManager().dropMoneyOnGroundSkullRewardName));
@@ -374,7 +374,7 @@ public class FishingManager implements Listener {
 											.replaceAll("\\{player\\}", player.getName())
 											.replaceAll("\\{killer\\}", player.getName())
 											.replaceAll("\\{killed\\}", minecraftMob.getFriendlyName())
-											.replaceAll("\\{prize\\}", plugin.getRewardManager().format(cash))
+											.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 											.replaceAll("\\{world\\}", player.getWorld().getName())
 											.replaceAll("\\{killerpos\\}", fishermanPos)
 											.replaceAll("\\{killedpos\\}", killedpos).replaceAll("\\{rewardname\\}",
@@ -403,6 +403,10 @@ public class FishingManager implements Listener {
 			break;
 		// default:
 		// break;
+		case REEL_IN:
+			break;
+		default:
+			break;
 
 		}
 

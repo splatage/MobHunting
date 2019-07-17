@@ -339,7 +339,7 @@ public class MoneyCommand implements ICommand {
 						} else {
 							// BagOfGOld is not a currency. So /mh money give 25
 							// is the same as /eco give player 25
-							plugin.getMobHuntingEconomyManager().add(offlinePlayer, amount);
+							plugin.getEconomyManager().depositPlayer(offlinePlayer, amount);
 							//plugin.getRewardManager().getEconomy().depositPlayer(offlinePlayer, amount);
 						}
 					}
@@ -410,7 +410,7 @@ public class MoneyCommand implements ICommand {
 					} else {
 						// BagOfGold is not a currency. /mh money take player 25
 						// will work as /eco take player 25
-						plugin.getMobHuntingEconomyManager().subtract(offlinePlayer, rest);
+						plugin.getEconomyManager().withdrawPlayer(offlinePlayer, rest);
 						//plugin.getRewardManager().getEconomy().withdrawPlayer(offlinePlayer, rest);
 					}
 				} else
@@ -445,7 +445,7 @@ public class MoneyCommand implements ICommand {
 											"itemname", reward.getDisplayname()));
 							return true;
 						}
-						plugin.getMobHuntingEconomyManager().add(player, reward.getMoney());
+						plugin.getEconomyManager().depositPlayer(player, reward.getMoney());
 						//plugin.getRewardManager().getEconomy().depositPlayer(player, reward.getMoney());
 						is.setType(Material.AIR);
 						is.setAmount(0);
@@ -496,7 +496,7 @@ public class MoneyCommand implements ICommand {
 						}
 					}
 					if (sold > 0) {
-						plugin.getMobHuntingEconomyManager().add(player, sold);
+						plugin.getEconomyManager().depositPlayer(player, sold);
 						//plugin.getRewardManager().getEconomy().depositPlayer(player, sold);
 						plugin.getMessages().playerActionBarMessageQueue(player,
 								plugin.getMessages().getString("mobhunting.commands.money.sell", "rewardname",
