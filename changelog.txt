@@ -1,5 +1,6 @@
 V6.7.7
-*
+* Added support for Reserve (https://www.spigotmc.org/resources/reserve.50739/)
+* Fixed problem where player could duplicate the BagOfGold item, making a fake reward. (This only happend in creative mode)
 V6.7.6
 * MasterMobhunterSign is fixed again. 
 * MasterMobHunterSigns can deliver Redstone power to Redstone Lamp, Redstone Wire and Pistons. This currently only works on MC 1.13+1.14   

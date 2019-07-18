@@ -546,19 +546,19 @@ public class RewardListeners implements Listener {
 
 		Player player = (Player) event.getWhoClicked();
 
-		if (!(Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor))) {
+		//if (!(Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor))) {
 			if (isFakeReward(isCurrentSlot)) {
-				player.sendMessage(ChatColor.RED + "[MobHunting] WARNING, this is a FAKE reward. It was removed.");
+				//player.sendMessage(ChatColor.RED + "[MobHunting] WARNING, this is a FAKE reward. It was removed.");
 				isCurrentSlot.setType(Material.AIR);
 				return;
 			}
 			if (isFakeReward(isCursor)) {
-				player.sendMessage(ChatColor.RED + "[MobHunting] WARNING, this is a FAKE reward. It was removed.");
+				//player.sendMessage(ChatColor.RED + "[MobHunting] WARNING, this is a FAKE reward. It was removed.");
 				isCursor.setType(Material.AIR);
 				return;
 			}
-			return;
-		}
+			//return;
+		//}
 
 		InventoryAction action = event.getAction();
 		SlotType slotType = event.getSlotType();

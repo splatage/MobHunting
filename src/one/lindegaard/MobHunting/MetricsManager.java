@@ -252,6 +252,7 @@ public class MetricsManager {
 			}
 
 		}));
+		bStatsMetrics.addCustomChart(new Metrics.SimplePie("economy_api", () -> plugin.getEconomyManager().getVersion()));
 	}
 
 }
