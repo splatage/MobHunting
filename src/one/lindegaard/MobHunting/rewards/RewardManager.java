@@ -176,14 +176,14 @@ public class RewardManager {
 
 	public boolean depositPlayer(OfflinePlayer offlinePlayer, double amount) {
 		boolean succes = plugin.getEconomyManager().depositPlayer(offlinePlayer, amount);
-		if (succes && offlinePlayer.isOnline())
+		if (!succes && offlinePlayer.isOnline())
 			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to add money.");
 		return succes;
 	}
 
 	public boolean withdrawPlayer(OfflinePlayer offlinePlayer, double amount) {
 		boolean succes = plugin.getEconomyManager().withdrawPlayer(offlinePlayer, amount);
-		if (succes && offlinePlayer.isOnline())
+		if (!succes && offlinePlayer.isOnline())
 			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to remove money.");
 		return succes;
 	}
