@@ -245,7 +245,7 @@ public class CustomItems {
 			skull.setAmount(amount);
 		} else {
 			skullMeta.setDisplayName(
-					offlinePlayer.getName() + " (" + plugin.getRewardManager().getEconomy().format(money) + ")");
+					offlinePlayer.getName() + " (" + plugin.getEconomyManager().format(money) + ")");
 			skull.setAmount(1);
 		}
 		skull.setItemMeta(skullMeta);
@@ -271,7 +271,7 @@ public class CustomItems {
 			skullMeta.setDisplayName(name);
 			skull.setAmount(amount);
 		} else {
-			skullMeta.setDisplayName(name + " (" + plugin.getRewardManager().getEconomy().format(money) + ")");
+			skullMeta.setDisplayName(name + " (" + plugin.getEconomyManager().format(money) + ")");
 			skull.setAmount(1);
 		}
 		skull.setItemMeta(skullMeta);

@@ -10,7 +10,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import net.milkbowl.vault.economy.Economy;
-import net.milkbowl.vault.economy.EconomyResponse;
 import net.tnemc.core.Reserve;
 import net.tnemc.core.economy.EconomyAPI;
 import net.tnemc.core.economy.ExtendedEconomyAPI;
@@ -117,6 +116,11 @@ public class EconomyManager {
 		return false;
 	}
 
+	/**
+	 * Get the name of the economy plugin
+	 * 
+	 * @return name
+	 */
 	public String getName() {
 		switch (Type) {
 		case RESERVE:
@@ -197,6 +201,14 @@ public class EconomyManager {
 		return;
 	}
 
+	/**
+	 * Check if offlinePlayer has the amount of money on his account
+	 *  
+	 * @param offlinePlayer
+	 * @param amount
+	 * 
+	 * @return true if the player has enough money on his account
+	 */
 	public boolean hasMoney(OfflinePlayer offlinePlayer, double amount) {
 		switch (Type) {
 		case RESERVE:
@@ -260,7 +272,7 @@ public class EconomyManager {
 		case VAULT:
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
-			return vaultEconomy.withdrawPlayer(offlinePlayer, amount).type == EconomyResponse.ResponseType.SUCCESS;
+			return vaultEconomy.withdrawPlayer(offlinePlayer, amount).transactionSuccess();
 		default:
 			break;
 		}
@@ -284,13 +296,22 @@ public class EconomyManager {
 		case VAULT:
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
-			return vaultEconomy.depositPlayer(offlinePlayer, amount).type == EconomyResponse.ResponseType.SUCCESS;
+			return vaultEconomy.depositPlayer(offlinePlayer, amount).transactionSuccess();
 		default:
 			break;
 		}
 		return false;
 	}
 
+	/**
+	 * Set the OfflinePlayers balance on his account to amount 
+	 * 
+	 * @param offlinePlayer
+	 * @param amount
+	 * @param world
+	 * 
+	 * @return true if the balance was set
+	 */
 	public boolean setBalance(OfflinePlayer offlinePlayer, Double amount, World world) {
 		switch (Type) {
 		case RESERVE:
@@ -301,7 +322,7 @@ public class EconomyManager {
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
 			return vaultEconomy.depositPlayer(offlinePlayer,
-					(amount - vaultEconomy.getBalance(offlinePlayer))).type == EconomyResponse.ResponseType.SUCCESS;
+					(amount - vaultEconomy.getBalance(offlinePlayer))).transactionSuccess();
 		default:
 			break;
 		}
@@ -329,6 +350,12 @@ public class EconomyManager {
 		return String.format("%.2f", balance);
 	}
 
+	/**
+	 * Get the maximum amount of money the player can carry in his inventory
+	 * 
+	 * @param offlinePlayer
+	 * @return
+	 */
 	public double getSpaceForMoney(OfflinePlayer offlinePlayer) {
 		switch (Type) {
 		case RESERVE:
@@ -345,18 +372,31 @@ public class EconomyManager {
 		return 0;
 	}
 
+	/**
+	 * Check if the if the accounts owner is offlineplayer
+	 *  
+	 * @param account
+	 * @param offlinePlayer
+	 * 
+	 * @return true if the accounts owner is the offlineplayer
+	 */
 	public boolean isBankOwner(String account, OfflinePlayer offlinePlayer) {
 		switch (Type) {
 		case RESERVE:
 			return reserveEconomy.isAccessor(account, offlinePlayer.getUniqueId());
 		case VAULT:
-			return vaultEconomy.isBankOwner(account, offlinePlayer).type == EconomyResponse.ResponseType.SUCCESS;
+			return vaultEconomy.isBankOwner(account, offlinePlayer).transactionSuccess();
 		default:
 			break;
 		}
 		return false;
 	}
 
+	/**
+	 * Get Bank Balance for OfflinePlayer
+	 * @param offlinePlayer
+	 * @return
+	 */
 	public double getBankBalance(OfflinePlayer offlinePlayer) {
 		switch (Type) {
 		case RESERVE:

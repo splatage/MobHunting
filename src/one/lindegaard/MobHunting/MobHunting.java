@@ -185,10 +185,12 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(BagOfGoldCompat.class, CompatPlugin.BagOfGold);
 		mCompatibilityManager.registerPlugin(GringottsCompat.class, CompatPlugin.Gringotts);
 
+		// Hook into Vault or Reserve 
 		mEconomyManager = new EconomyManager(this);
-		mRewardManager = new RewardManager(this);
-		if (mRewardManager.getEconomy() == null)
+		if (!mEconomyManager.isActive())
 			return;
+		
+		mRewardManager = new RewardManager(this);
 
 		mGrindingManager = new GrindingManager(this);
 
@@ -250,15 +252,17 @@ public class MobHunting extends JavaPlugin {
 
 		// Plugins used for presentation information in the BossBar, ActionBar,
 		// Title or Subtitle
-		mCompatibilityManager.registerPlugin(BossBarAPICompat.class, CompatPlugin.BossBarApi);
+		mCompatibilityManager.registerPlugin(PlaceholderAPICompat.class, CompatPlugin.PlaceholderAPI);
+		//ActionBar
 		mCompatibilityManager.registerPlugin(TitleAPICompat.class, CompatPlugin.TitleAPI);
-		mCompatibilityManager.registerPlugin(BarAPICompat.class, CompatPlugin.BarApi);
 		mCompatibilityManager.registerPlugin(TitleManagerCompat.class, CompatPlugin.TitleManager);
 		mCompatibilityManager.registerPlugin(ActionbarCompat.class, CompatPlugin.Actionbar);
 		mCompatibilityManager.registerPlugin(ActionBarAPICompat.class, CompatPlugin.ActionBarApi);
 		mCompatibilityManager.registerPlugin(ActionAnnouncerCompat.class, CompatPlugin.ActionAnnouncer);
-		mCompatibilityManager.registerPlugin(PlaceholderAPICompat.class, CompatPlugin.PlaceholderAPI);
-
+		//BossBar
+		mCompatibilityManager.registerPlugin(BossBarAPICompat.class, CompatPlugin.BossBarApi);
+		mCompatibilityManager.registerPlugin(BarAPICompat.class, CompatPlugin.BarApi);
+		
 		// Plugins where the reward is a multiplier
 		mCompatibilityManager.registerPlugin(StackMobCompat.class, CompatPlugin.StackMob);
 		mCompatibilityManager.registerPlugin(MobStackerCompat.class, CompatPlugin.MobStacker);

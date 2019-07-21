@@ -232,7 +232,6 @@ public class MetricsManager {
 				valueMap.put("CMIHolograms", CMICompat.isSupported() ? 1 : 0);
 				return valueMap;
 			}
-
 		}));
 
 		bStatsMetrics.addCustomChart(new Metrics.AdvancedPie("mobhunting_usage", new Callable<Map<String, Integer>>() {
@@ -250,9 +249,23 @@ public class MetricsManager {
 								: 0);
 				return valueMap;
 			}
-
 		}));
-		bStatsMetrics.addCustomChart(new Metrics.SimplePie("economy_api", () -> plugin.getEconomyManager().getVersion()));
+
+		bStatsMetrics.addCustomChart(new Metrics.DrilldownPie("economy_api", () -> {
+	        Map<String, Map<String, Integer>> map = new HashMap<>();
+	        String economyAPI = plugin.getEconomyManager().getVersion();
+	        Map<String, Integer> entry = new HashMap<>();
+	        entry.put(economyAPI, 1);
+	        if (plugin.getEconomyManager().getVersion().endsWith("Vault")) {
+	            map.put("Vault", entry);
+	        } else if (plugin.getEconomyManager().getVersion().endsWith("Reserve")) {
+	            map.put("Reserve", entry);
+	        } else {
+	            map.put("None", entry);
+	        } 
+	        return map;
+	    }));
+
 	}
 
 }

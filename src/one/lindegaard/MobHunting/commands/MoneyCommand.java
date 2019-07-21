@@ -262,7 +262,7 @@ public class MoneyCommand implements ICommand {
 									plugin.getMessages().getString("mobhunting.moneydrop", "rewardname",
 											ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 													+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-											"money", plugin.getRewardManager().getEconomy().format(money)));
+											"money", plugin.getEconomyManager().format(money)));
 						} else {
 							plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
 									.getString("mobhunting.commands.base.not_a_number", "number", args[2]));
@@ -340,7 +340,7 @@ public class MoneyCommand implements ICommand {
 							// BagOfGOld is not a currency. So /mh money give 25
 							// is the same as /eco give player 25
 							plugin.getEconomyManager().depositPlayer(offlinePlayer, amount);
-							//plugin.getRewardManager().getEconomy().depositPlayer(offlinePlayer, amount);
+							//plugin.getEconomyManager().depositPlayer(offlinePlayer, amount);
 						}
 					}
 				} else {
@@ -411,7 +411,7 @@ public class MoneyCommand implements ICommand {
 						// BagOfGold is not a currency. /mh money take player 25
 						// will work as /eco take player 25
 						plugin.getEconomyManager().withdrawPlayer(offlinePlayer, rest);
-						//plugin.getRewardManager().getEconomy().withdrawPlayer(offlinePlayer, rest);
+						//plugin.getEconomyManager().withdrawPlayer(offlinePlayer, rest);
 					}
 				} else
 					plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
@@ -446,7 +446,7 @@ public class MoneyCommand implements ICommand {
 							return true;
 						}
 						plugin.getEconomyManager().depositPlayer(player, reward.getMoney());
-						//plugin.getRewardManager().getEconomy().depositPlayer(player, reward.getMoney());
+						//plugin.getEconomyManager().depositPlayer(player, reward.getMoney());
 						is.setType(Material.AIR);
 						is.setAmount(0);
 						is.setItemMeta(null);
@@ -497,7 +497,7 @@ public class MoneyCommand implements ICommand {
 					}
 					if (sold > 0) {
 						plugin.getEconomyManager().depositPlayer(player, sold);
-						//plugin.getRewardManager().getEconomy().depositPlayer(player, sold);
+						//plugin.getEconomyManager().depositPlayer(player, sold);
 						plugin.getMessages().playerActionBarMessageQueue(player,
 								plugin.getMessages().getString("mobhunting.commands.money.sell", "rewardname",
 										ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
@@ -529,7 +529,7 @@ public class MoneyCommand implements ICommand {
 					return true;
 				}
 				if (args.length == 2 && args[1].matches("\\d+(\\.\\d+)?")) {
-					if (plugin.getRewardManager().getEconomy().hasMoney(player, Misc.floor(Double.valueOf(args[1])))) {
+					if (plugin.getEconomyManager().hasMoney(player, Misc.floor(Double.valueOf(args[1])))) {
 						// if (BagOfGoldCompat.isSupported()) {
 						if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
 							plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null,

@@ -95,7 +95,7 @@ public class BagOfGoldSign implements Listener {
 								return;
 							}
 						}
-						plugin.getRewardManager().getEconomy().depositPlayer(player, money);
+						plugin.getEconomyManager().depositPlayer(player, money);
 						if (moneyInHand <= moneyOnSign) {
 							if (Servers.isMC19OrNewer()) {
 								event.getItem().setAmount(0);
@@ -119,8 +119,8 @@ public class BagOfGoldSign implements Listener {
 						plugin.getMessages().debug("%s sold his %s for %s", player.getName(), reward.getDisplayname(),
 								plugin.getEconomyManager().format(money));
 						plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
-								"mobhunting.bagofgoldsign.sold", "money",
-								plugin.getRewardManager().getEconomy().format(money), "rewardname",
+								"mobhunting.bagofgoldsign.sold", "money", plugin.getEconomyManager().format(money),
+								"rewardname",
 								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 										+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
 												? plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
@@ -155,7 +155,7 @@ public class BagOfGoldSign implements Listener {
 										plugin.getMessages().getString("mobhunting.bagofgoldsign.line3.everything")));
 						return;
 					}
-					if (plugin.getRewardManager().getEconomy().getBalance(player) >= moneyOnSign) {
+					if (plugin.getEconomyManager().getBalance(player) >= moneyOnSign) {
 
 						boolean found = false;
 						for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
@@ -220,10 +220,10 @@ public class BagOfGoldSign implements Listener {
 
 						// IF okay the withdraw money
 						if (found) {
-							plugin.getRewardManager().getEconomy().withdrawPlayer(player, moneyOnSign);
+							plugin.getEconomyManager().withdrawPlayer(player, moneyOnSign);
 							plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
 									"mobhunting.bagofgoldsign.bought", "money",
-									plugin.getRewardManager().getEconomy().format(moneyOnSign), "rewardname",
+									plugin.getEconomyManager().format(moneyOnSign), "rewardname",
 									ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 											+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()));
 						}
@@ -235,19 +235,16 @@ public class BagOfGoldSign implements Listener {
 						.equalsIgnoreCase(plugin.getMessages().getString("mobhunting.bagofgoldsign.line2.balance"))) {
 					if (BagOfGoldCompat.isSupported() || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
 						if (plugin.getEconomyManager().isBankOwner(player.getUniqueId().toString(), player)) {
-						//if (plugin.getRewardManager().getEconomy().isBankOwner(player.getUniqueId().toString(), player).transactionSuccess()) {
 							plugin.getMessages().playerActionBarMessageQueue(player,
 									plugin.getMessages().getString("mobhunting.bagofgoldsign.balance2", "balance",
-											plugin.getRewardManager().getEconomy()
-													.format(plugin.getRewardManager().getEconomy().getBalance(player)),
-											"bankbalance",
-											//plugin.getRewardManager().getEconomy().format(plugin.getRewardManager().getEconomy().bankBalance(player.getUniqueId().toString()).balance)));
-											plugin.getEconomyManager().format(plugin.getEconomyManager().getBankBalance(player))));
+											plugin.getEconomyManager()
+													.format(plugin.getEconomyManager().getBalance(player)),
+											"bankbalance", plugin.getEconomyManager()
+													.format(plugin.getEconomyManager().getBankBalance(player))));
 						} else {
-							plugin.getMessages().playerActionBarMessageQueue(player,
-									plugin.getMessages().getString("mobhunting.bagofgoldsign.balance1", "balance",
-											plugin.getRewardManager().getEconomy().format(
-													plugin.getRewardManager().getEconomy().getBalance(player))));
+							plugin.getMessages().playerActionBarMessageQueue(player, plugin.getMessages().getString(
+									"mobhunting.bagofgoldsign.balance1", "balance",
+									plugin.getEconomyManager().format(plugin.getEconomyManager().getBalance(player))));
 
 						}
 					else {
@@ -262,7 +259,7 @@ public class BagOfGoldSign implements Listener {
 						}
 						plugin.getMessages().playerActionBarMessageQueue(player,
 								plugin.getMessages().getString("mobhunting.bagofgoldsign.balance1", "balance",
-										plugin.getRewardManager().getEconomy().format(amountInInventory)));
+										plugin.getEconomyManager().format(amountInInventory)));
 					}
 				}
 			} else {

@@ -97,7 +97,6 @@ import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.EconomyManager;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
@@ -113,7 +112,6 @@ import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.util.Misc;
 
-@SuppressWarnings("deprecation")
 public class RewardManager {
 
 	private MobHunting plugin;
@@ -164,10 +162,6 @@ public class RewardManager {
 
 	}
 
-	public EconomyManager getEconomy() {
-		return plugin.getEconomyManager();
-	}
-
 	public HashMap<Integer, Double> getDroppedMoney() {
 		return droppedMoney;
 	}
@@ -181,14 +175,14 @@ public class RewardManager {
 	}
 
 	public boolean depositPlayer(OfflinePlayer offlinePlayer, double amount) {
-		boolean succes = getEconomy().depositPlayer(offlinePlayer, amount);
+		boolean succes = plugin.getEconomyManager().depositPlayer(offlinePlayer, amount);
 		if (succes && offlinePlayer.isOnline())
 			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to add money.");
 		return succes;
 	}
 
 	public boolean withdrawPlayer(OfflinePlayer offlinePlayer, double amount) {
-		boolean succes = getEconomy().withdrawPlayer(offlinePlayer, amount);
+		boolean succes = plugin.getEconomyManager().withdrawPlayer(offlinePlayer, amount);
 		if (succes && offlinePlayer.isOnline())
 			((Player) offlinePlayer).sendMessage(ChatColor.RED + "Unable to remove money.");
 		return succes;
@@ -198,12 +192,12 @@ public class RewardManager {
 		if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency && !BagOfGoldCompat.isSupported())
 			return Tools.format(amount);
 		else
-			return getEconomy().getFormattedBalance(amount);
+			return plugin.getEconomyManager().getFormattedBalance(amount);
 	}
 
 	public double getBalance(OfflinePlayer offlinePlayer) {
 		if (BagOfGoldCompat.isSupported() || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
-			return getEconomy().getBalance(offlinePlayer);
+			return plugin.getEconomyManager().getBalance(offlinePlayer);
 		else if (offlinePlayer.isOnline()) {
 			return getAmountInInventory((Player) offlinePlayer);
 		} else {
