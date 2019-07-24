@@ -12,18 +12,22 @@
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
 
+	<parent>
+		<groupId>one.lindegaard</groupId>
+		<artifactId>Main</artifactId>
+		<version>0.0.7</version>
+		<relativePath>../Main/pom.xml</relativePath>
+	</parent>
+
+	<issueManagement>
+		<url>https://github.com/Rocologo/MobHunting/issues</url>
+	</issueManagement>
+
 	<scm>
 		<connection>scm:svn:https://github.com/Rocologo/MobHunting.git</connection>
 		<developerConnection>scm:svn:https://github.com/Rocologo</developerConnection>
 		<url>https://github.com/Rocologo/MobHunting</url>
 	</scm>
-
-	<parent>
-		<groupId>one.lindegaard</groupId>
-		<artifactId>Main</artifactId>
-		<version>0.0.5</version>
-		<relativePath>../Main/pom.xml</relativePath>
-	</parent>
 
 	<!-- ********************************************************************** -->
 	<!-- ******************************** Build ******************************* -->
@@ -119,7 +123,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-
 		<!-- Rocologo Core -->
 		<dependency>
 			<groupId>one.lindegaard</groupId>
@@ -144,12 +147,8 @@
 		</dependency>
 
 		<!-- WorldEdit -->
-		<!-- <dependency>
-			<groupId>com.sk89q.worldedit</groupId>
-			<artifactId>worldedit-bukkit</artifactId>
-			<version>7.0.0</version>
-			<scope>provied</scope>
-		</dependency> -->
+		<!-- <dependency> <groupId>com.sk89q.worldedit</groupId> <artifactId>worldedit-bukkit</artifactId> 
+			<version>7.0.0</version> <scope>provied</scope> </dependency> -->
 		<dependency>
 			<groupId>com.sk89q.worldedit</groupId>
 			<artifactId>worldedit-bukkit</artifactId>
@@ -216,8 +215,6 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/worldguard-legacy-6.2.2-SNAPSHOT-dist-B1713.jar</systemPath>
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>net.sacredlabyrinth.Phaed</groupId>
@@ -463,9 +460,5 @@
 		</dependency>
 
 	</dependencies>
-
-	<issueManagement>
-		<url>https://github.com/Rocologo/MobHunting/issues</url>
-	</issueManagement>
 
 </project>
