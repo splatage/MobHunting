@@ -75,16 +75,16 @@ public class FishingManager implements Listener {
 			plugin.getMessages().debug("FishingEvent: player was null");
 			return;
 		}
-		
+
 		if (!plugin.getMobHuntingManager().isHuntEnabled(player)) {
 			plugin.getMessages().debug("FishingEvent %s: Player doesnt have permission mobhunting.enable",
 					player.getName());
 			return;
 		}
-		
+
 		State state = event.getState();
 		Entity fish = event.getCaught();
-		
+
 		if (fish == null || (fish != null && !(fish instanceof Item)))
 			plugin.getMessages().debug("FishingEvent: State=%s", state);
 		else
@@ -94,7 +94,8 @@ public class FishingManager implements Listener {
 		switch (state) {
 		case CAUGHT_ENTITY:
 			// When a player has successfully caught an entity
-			plugin.getMessages().debug("FishingBlocked: %s caught a flowting item in the water, no reward", player.getName());
+			plugin.getMessages().debug("FishingBlocked: %s caught a flowting item in the water, no reward",
+					player.getName());
 			break;
 		case CAUGHT_FISH:
 			// When a player has successfully caught a fish and is reeling it
@@ -106,11 +107,19 @@ public class FishingManager implements Listener {
 				return;
 			}
 
-			if (fish == null || !(fish instanceof Item)
-					|| (((Item) fish).getItemStack().getType() != Material.SALMON
-							&& ((Item) fish).getItemStack().getType() != Material.PUFFERFISH
-							&& ((Item) fish).getItemStack().getType() != Material.COD
-							&& ((Item) fish).getItemStack().getType() != Material.TROPICAL_FISH)) {
+			if (fish == null || !(fish instanceof Item) || (
+			// Minecraft 1.13+
+			((Item) fish).getItemStack().getType() != Material.matchMaterial("SALMON")
+					&& ((Item) fish).getItemStack().getType() != Material.matchMaterial("COD")
+					&& ((Item) fish).getItemStack().getType() != Material.matchMaterial("TROPICAL_FISH")
+
+					// Minecraft 1.8+
+					&& ((Item) fish).getItemStack().getType() != Material.matchMaterial("PUFFERFISH")
+
+					// Minecraft 1.8-1.12.2
+					&& ((Item) fish).getItemStack().getType() != Material.matchMaterial("RAW_SALMON")
+					&& ((Item) fish).getItemStack().getType() != Material.matchMaterial("RAW_FISH")
+					&& ((Item) fish).getItemStack().getType() != Material.matchMaterial("CLOWNFISH"))) {
 				plugin.getMessages().debug("FishingBlocked: %s only get rewards for fish", player.getName());
 
 				return;
@@ -123,15 +132,15 @@ public class FishingManager implements Listener {
 				return;
 			}
 
-			plugin.getMessages().debug("fish id=%s",fish.getEntityId());
-			
-			if (fish.hasMetadata("MH:FishCaught")){
-				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.fishcaught.the_same_fish"));
-				plugin.getMessages().debug("FishingBlocked %s: Player caught the same fish again",
-						player.getName());
+			plugin.getMessages().debug("fish id=%s", fish.getEntityId());
+
+			if (fish.hasMetadata("MH:FishCaught")) {
+				plugin.getMessages().learn(player,
+						plugin.getMessages().getString("mobhunting.fishcaught.the_same_fish"));
+				plugin.getMessages().debug("FishingBlocked %s: Player caught the same fish again", player.getName());
 				return;
 			}
-			
+
 			// Calculate basic the reward
 			ExtendedMob extendedMob = plugin.getExtendedMobManager().getExtendedMobFromEntity(fish);
 			if (extendedMob.getMob_id() == 0) {
@@ -197,7 +206,7 @@ public class FishingManager implements Listener {
 				}
 
 				fish.setMetadata("MH:FishCaught", new FixedMetadataValue(plugin, true));
-				
+
 				if (cash >= plugin.getConfigManager().minimumReward) {
 					plugin.getEconomyManager().depositPlayer(player, cash);
 					plugin.getMessages().debug("%s got a reward (%s)", player.getName(),
@@ -359,12 +368,12 @@ public class FishingManager implements Listener {
 					double random = plugin.mRand.nextDouble();
 					if (random < plugin.getRewardManager().getHeadDropChance(fish)) {
 						MinecraftMob minecraftMob = MinecraftMob.getMinecraftMobType(fish);
-						ItemStack head = new CustomItems().getCustomHead(minecraftMob,
-								minecraftMob.getFriendlyName(), 1, plugin.getRewardManager().getHeadValue(fish),
-								minecraftMob.getPlayerUUID());
-						plugin.getRewardManager().setDisplayNameAndHiddenLores(head, new Reward(minecraftMob.getFriendlyName(),
-								plugin.getRewardManager().getHeadValue(fish),minecraftMob.getPlayerUUID(), minecraftMob.getPlayerUUID(),
-								minecraftMob.getPlayerUUID()));
+						ItemStack head = new CustomItems().getCustomHead(minecraftMob, minecraftMob.getFriendlyName(),
+								1, plugin.getRewardManager().getHeadValue(fish), minecraftMob.getPlayerUUID());
+						plugin.getRewardManager().setDisplayNameAndHiddenLores(head,
+								new Reward(minecraftMob.getFriendlyName(), plugin.getRewardManager().getHeadValue(fish),
+										minecraftMob.getPlayerUUID(), minecraftMob.getPlayerUUID(),
+										minecraftMob.getPlayerUUID()));
 						fish.getWorld().dropItem(fish.getLocation(), head);
 						plugin.getMessages().debug("%s caught a %s and a head was dropped in the water",
 								player.getName(), fish.getName());

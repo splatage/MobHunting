@@ -15,6 +15,8 @@ public class MasterMobHunterRedstoneWire {
 		if (Servers.isMC113OrNewer()) {
 			MasterMobHunterRedstoneWire1_13.setPowerOnRedstoneWire(block, power);
 		} else {
+
+			// this current doesn't work on servers older than mc 1.13.
 			MobHunting.getAPI().getMessages().debug("Set power on RedStone");
 			//block.setType(Material.matchMaterial("REDSTONE_WIRE"));
 			//block.setTypeIdAndData(Material.REDSTONE_WIRE.getId(), power, true);
@@ -29,6 +31,8 @@ public class MasterMobHunterRedstoneWire {
 		if (Servers.isMC113OrNewer()) {
 			MasterMobHunterRedstoneWire1_13.removePowerFromRedstoneWire(block);
 		} else {
+			
+			// this current doesn't work on servers older than mc 1.13.
 			MobHunting.getAPI().getMessages().debug("Remove power on RedStone");
 			block.setType(Material.REDSTONE_WIRE);
 			block.getState().setRawData((byte) 0);
