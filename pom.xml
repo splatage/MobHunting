@@ -134,6 +134,14 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>craftbukkit</artifactId>
+			<version>v1_14_R1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/../lib/craftbukkit-1.14.4-R0.1-SNAPSHOT.jar</systemPath>
+		</dependency>
+
 		<!-- Rocologo Core -->
 		<dependency>
 			<groupId>one.lindegaard</groupId>
@@ -141,7 +149,7 @@
 			<version>${core.version}</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- BagOfGold / -->
 		<dependency>
 			<groupId>one.lindegaard</groupId>
