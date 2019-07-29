@@ -6,8 +6,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<version>6.8.0</version>
-	<!-- <version>6.8.0-SNAPSHOT-B${build.number}</version> -->
+	<!-- <version>6.8.1</version> -->
+	<version>6.8.1-SNAPSHOT-B${build.number}</version>
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -134,12 +134,12 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Craftbukkit / Bukkit -->
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>v1_14_R1</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/../Main/lib/craftbukkit-1.14.4-R0.1-SNAPSHOT.jar</systemPath>
+			<version>${craftbukkit_1_14_R1.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Rocologo Core -->

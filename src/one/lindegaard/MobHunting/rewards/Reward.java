@@ -292,7 +292,7 @@ public class Reward {
 						|| lore.equals("Hidden:" + MH_REWARD_KILLED_UUID)
 						|| lore.equals("Hidden:" + MH_REWARD_KILLER_UUID)
 						|| lore.equals("Hidden:" + MH_REWARD_ITEM_UUID)) {
-					return n;
+					return n-2;
 				}
 				n++;
 			}
@@ -305,7 +305,7 @@ public class Reward {
 		for (String lore : lores) {
 			if (lore.equals("Hidden:" + MH_REWARD_BAG_OF_GOLD_UUID) || lore.equals("Hidden:" + MH_REWARD_KILLED_UUID)
 					|| lore.equals("Hidden:" + MH_REWARD_KILLER_UUID) || lore.equals("Hidden:" + MH_REWARD_ITEM_UUID)) {
-				return n;
+				return n-2;
 			}
 			n++;
 		}
