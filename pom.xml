@@ -95,20 +95,7 @@
 						<includes>
 							<include>org.bstats:*</include>
 							<include>org.inventivetalent.spiget-update:bukkit**</include>
-							<include>one.lindegaard:Core:*</include>
-							<!-- 
-							<include>one.lindegaard:Core:skins:Skins_1_10_R1</include>
-							<include>one.lindegaard:v1_13_R2:*</include>
-							<include>one.lindegaard:v1_13_R1:*</include>
-							<include>one.lindegaard:v1_12_R1:*</include>
-							<include>one.lindegaard:v1_11_R1:*</include>
-							<include>one.lindegaard:v1_10_R1:*</include>
-							<include>one.lindegaard:v1_9_R2:*</include>
-							<include>one.lindegaard:v1_9_R1:*</include>
-							<include>one.lindegaard:v1_8_R3:*</include>
-							<include>one.lindegaard:v1_8_R2:*</include>
-							<include>one.lindegaard:v1_8_R1:*</include>
-							 -->
+							<include>one.lindegaard:Core:*:*</include>
 						</includes>
 					</artifactSet>
 					<relocations>
