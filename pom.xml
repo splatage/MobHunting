@@ -34,7 +34,7 @@
 	<!-- ********************************************************************** -->
 	<build>
 		<sourceDirectory>${basedir}/src</sourceDirectory>
-		<defaultGoal>clean install</defaultGoal>
+		<defaultGoal>install</defaultGoal>
 		<resources>
 			<resource>
 				<targetPath>.</targetPath>
@@ -96,6 +96,7 @@
 							<include>org.bstats:*</include>
 							<include>org.inventivetalent.spiget-update:bukkit**</include>
 							<include>one.lindegaard:Core:*:*</include>
+							<include>one.lindegaard:Core:NMS_*</include>
 						</includes>
 					</artifactSet>
 					<relocations>
@@ -123,14 +124,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Craftbukkit / Bukkit -->
-		<dependency>
-			<groupId>org.bukkit</groupId>
-			<artifactId>craftbukkit</artifactId>
-			<version>${craftbukkit_1_14_R1.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<!-- Rocologo Core -->
 		<dependency>
 			<groupId>one.lindegaard</groupId>
@@ -138,7 +131,84 @@
 			<version>${core.version}</version>
 			<scope>compile</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_14_R1</artifactId>
+			<version>v1_14_R1</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_13_R2</artifactId>
+			<version>v1_13_R2</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_13_R1</artifactId>
+			<version>v1_13_R1</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_12_R1</artifactId>
+			<version>v1_12_R1</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		 <dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_11_R1</artifactId>
+			<version>v1_11_R1</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_10_R1</artifactId>
+			<version>v1_10_R1</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_9_R2</artifactId>
+			<version>v1_9_R2</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_9_R1</artifactId>
+			<version>v1_9_R1</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_8_R3</artifactId>
+			<version>v1_8_R3</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_8_R2</artifactId>
+			<version>v1_8_R2</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>one.lindegaard</groupId>
+			<artifactId>NMS_v1_8_R1</artifactId>
+			<version>v1_8_R1</version>
+			<type>jar</type>
+			<optional>true</optional>
+		</dependency>
+		
 		<!-- BagOfGold / -->
 		<dependency>
 			<groupId>one.lindegaard</groupId>
