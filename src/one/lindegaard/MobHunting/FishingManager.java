@@ -301,8 +301,17 @@ public class FishingManager implements Listener {
 					HashMap<String, String> cmd = itr.next();
 					String perm = cmd.getOrDefault("permission", "");
 					if (perm.isEmpty() || player.hasPermission(perm)) {
-						double random = plugin.mRand.nextDouble();
-						if (random < Double.valueOf(cmd.get("chance"))) {
+						double randomNumber = plugin.mRand.nextDouble();
+						double chance = 0;
+						try {
+							chance = Double.valueOf(cmd.get("chance"));
+						} catch (Exception e) {
+							Bukkit.getConsoleSender()
+									.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
+											+ " The chance to run a command when catching a " + fish.getName()
+											+ " must be formatted as a string ex. chance: '0.5'");
+						}
+						if (randomNumber < chance) {
 							String worldname = player.getWorld().getName();
 							String prizeCommand = cmd.get("cmd").replaceAll("\\{player\\}", player.getName())
 									.replaceAll("\\{killer\\}", player.getName()).replaceAll("\\{world\\}", worldname)
@@ -343,7 +352,7 @@ public class FishingManager implements Listener {
 						} else
 							plugin.getMessages().debug(
 									"The command did not run because random number (%s) was bigger than chance (%s)",
-									random, cmd.get("chance"));
+									randomNumber, cmd.get("chance"));
 					} else {
 						plugin.getMessages().debug("%s has not permission (%s) to run command: %s", player.getName(),
 								cmd.get("permission"), cmd.get("cmd"));

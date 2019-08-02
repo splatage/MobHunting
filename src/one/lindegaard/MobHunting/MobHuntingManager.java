@@ -1744,17 +1744,17 @@ public class MobHuntingManager implements Listener {
 				HashMap<String, String> cmd = itr.next();
 				String perm = cmd.getOrDefault("permission", "");
 				if (perm.isEmpty() || player.hasPermission(perm)) {
-					double random = plugin.mRand.nextDouble();
-					double d = 0;
+					double randomNumber = plugin.mRand.nextDouble();
+					double chance = 0;
 					try {
-						d = Double.valueOf(cmd.get("chance"));
+						chance = Double.valueOf(cmd.get("chance"));
 					} catch (Exception e) {
 						Bukkit.getConsoleSender()
 								.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-										+ "The 'chance' to run a command when killing a " + killed.getName()
-										+ " is not a number.");
+										+ "The chance to run a command when killing a " + killed.getName()
+										+ " must be formatted as a string. Ex. chnace: '0.5'");
 					}
-					if (random < d) {
+					if (randomNumber < chance) {
 						String commandCmd = cmd.getOrDefault("cmd", "");
 						if (commandCmd != null) {
 							commandCmd = commandCmd.replaceAll("\\{player\\}", player.getName())
@@ -1824,7 +1824,7 @@ public class MobHuntingManager implements Listener {
 					} else
 						plugin.getMessages().debug(
 								"The command did not run because random number (%s) was bigger than chance (%s)",
-								random, cmd.get("chance"));
+								randomNumber, cmd.get("chance"));
 				} else {
 					plugin.getMessages().debug("%s has not permission (%s) to run command: %s", player.getName(),
 							cmd.get("permission"), cmd.get("cmd"));
