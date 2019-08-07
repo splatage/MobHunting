@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.clip.actionannouncer.ActionAPI;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class ActionAnnouncerCompat {

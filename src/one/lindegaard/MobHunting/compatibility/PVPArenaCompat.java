@@ -4,6 +4,7 @@ import net.slipcor.pvparena.events.PADeathEvent;
 import net.slipcor.pvparena.events.PAExitEvent;
 import net.slipcor.pvparena.events.PAJoinEvent;
 import net.slipcor.pvparena.events.PALeaveEvent;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 import java.util.ArrayList;

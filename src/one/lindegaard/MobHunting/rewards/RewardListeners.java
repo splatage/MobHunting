@@ -3,7 +3,6 @@ package one.lindegaard.MobHunting.rewards;
 import java.util.Iterator;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -18,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -45,7 +45,6 @@ import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibHelper;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.util.Misc;
 
 public class RewardListeners implements Listener {
@@ -346,64 +345,6 @@ public class RewardListeners implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onRewardBlockBreak(BlockBreakEvent event) {
-		if (event.isCancelled())
-			return;
-
-		CustomItems customItems = new CustomItems();
-
-		Block block = event.getBlock();
-		if (Reward.hasReward(block)) {
-			Reward reward = Reward.getReward(block);
-			block.getDrops().clear();
-			block.setType(Material.AIR);
-			block.removeMetadata(Reward.MH_REWARD_DATA, plugin);
-			ItemStack is;
-			if (reward.isBagOfGoldReward()) {
-				is = customItems.getCustomtexture(reward.getRewardType(), reward.getDisplayname(),
-						plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-						plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, reward.getMoney(),
-						reward.getUniqueUUID(), reward.getSkinUUID());
-			} else {
-				MinecraftMob mob = (reward.getSkinUUID() != null)
-						? MinecraftMob.getMinecraftMobType(reward.getSkinUUID())
-						: MinecraftMob.getMinecraftMobType(reward.getDisplayname());
-				if (mob != null) {
-					is = customItems.getCustomHead(mob, reward.getDisplayname(), 1, reward.getMoney(),
-							reward.getSkinUUID());
-				} else {
-					@SuppressWarnings("deprecation")
-					OfflinePlayer player = Bukkit.getOfflinePlayer(reward.getDisplayname());
-					if (player != null) {
-						is = customItems.getPlayerHead(player.getUniqueId(), 1, reward.getMoney());
-					} else {
-						plugin.getLogger().warning("[MobHunting] The mobtype could not be detected from displayname:"
-								+ reward.getDisplayname());
-						is = Servers.isMC113OrNewer() ? new ItemStack(Material.PLAYER_HEAD)
-								: new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 3);
-					}
-				}
-			}
-			Item item = block.getWorld().dropItemNaturally(block.getLocation(), is);
-
-			String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
-					? plugin.getRewardManager().format(reward.getMoney())
-					: (reward.getMoney() == 0 ? reward.getDisplayname()
-							: reward.getDisplayname() + " (" + plugin.getRewardManager().format(reward.getMoney())
-									+ ")");
-			item.setCustomName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + displayName);
-			item.setCustomNameVisible(true);
-			item.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, new Reward(reward.getHiddenLore())));
-
-			if (plugin.getRewardManager().getLocations().containsKey(reward.getUniqueUUID()))
-				plugin.getRewardManager().getLocations().remove(reward.getUniqueUUID());
-			if (plugin.getRewardManager().getReward().containsKey(reward.getUniqueUUID()))
-				plugin.getRewardManager().getReward().remove(reward.getUniqueUUID());
-		}
-
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInventoryCloseEvent(InventoryCloseEvent event) {
 		Player player = (Player) event.getPlayer();
 		Inventory inventory = event.getInventory();
@@ -450,7 +391,7 @@ public class RewardListeners implements Listener {
 
 		Block block = event.getClickedBlock();
 
-		if (Reward.hasReward(block)) {
+		if (Reward.isReward(block)) {
 			Reward reward = Reward.getReward(block);
 			if (reward.getMoney() == 0)
 				plugin.getMessages().playerActionBarMessageQueue(player,
@@ -796,4 +737,32 @@ public class RewardListeners implements Listener {
 
 	}
 
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onBlockPhysicsEvent(BlockPhysicsEvent event) {
+		if (event.isCancelled())
+			return;
+
+		if (Reward.isReward(event.getBlock()) && !Reward.isReward(event.getSourceBlock())) {
+			Reward reward = Reward.getReward(event.getBlock());
+			plugin.getMessages().debug("RewardListener: a %s changed a %s(%s)", event.getSourceBlock(),
+					event.getBlock(), reward.getMoney());
+			plugin.getRewardManager().removeReward(event.getBlock());
+			plugin.getRewardManager().dropRewardOnGround(event.getBlock().getLocation(), reward);
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onRewardBlockBreak(BlockBreakEvent event) {
+		if (event.isCancelled())
+			return;
+
+		Block block = event.getBlock();
+		if (Reward.isReward(block)) {
+			Reward reward = Reward.getReward(block);
+			plugin.getRewardManager().removeReward(block);
+			plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
+		}
+	}
+
+	
 }

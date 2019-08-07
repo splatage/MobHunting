@@ -15,6 +15,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -337,7 +338,7 @@ public class RewardManager {
 			for (Denomination d : denoms) {
 				ItemStack is = new ItemStack(d.getKey().type.getType(), 1);
 				while (rest >= (d.getValue() / unit)) {
-					item = location.getWorld().dropItem(location, is);
+					item = location.getWorld().dropItemNaturally(location, is);
 					rest = rest - (d.getValue() / unit);
 				}
 			}
@@ -370,7 +371,7 @@ public class RewardManager {
 				is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
 			}
 
-			item = location.getWorld().dropItem(location, is);
+			item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), money);
 			item.setMetadata(Reward.MH_REWARD_DATA,
 					new FixedMetadataValue(plugin,
@@ -386,6 +387,32 @@ public class RewardManager {
 		if (item != null)
 			plugin.getMessages().debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
 					plugin.getConfigManager().dropMoneyOnGroundItemtype, droppedMoney.size());
+	}
+
+	/**
+	 * Dropes an Reward Item at the specified location  
+	 * @param location - where the Item is dropped.
+	 * @param reward - the reward to be dropped
+	 */
+	public void dropRewardOnGround(Location location, Reward reward) {
+		if (reward.isBagOfGoldReward()) {
+			dropMoneyOnGround_RewardManager(null, null, location, reward.getMoney());
+		} else if (reward.isItemReward()) {
+			ItemStack is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
+			Item item = location.getWorld().dropItemNaturally(location, is);
+			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
+		} else if (reward.isKilledHeadReward()) {
+			MinecraftMob mob = MinecraftMob.getMinecraftMobType(reward.getSkinUUID());
+			ItemStack is = new CustomItems().getCustomHead(mob, mob.getFriendlyName(), 1, reward.getMoney(), reward.getSkinUUID());
+			Item item = location.getWorld().dropItemNaturally(location, is);
+			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
+		} else if (reward.isKillerHeadReward()) {
+			ItemStack is = new CustomItems().getPlayerHead(reward.getSkinUUID(), 1, reward.getMoney());
+			Item item = location.getWorld().dropItemNaturally(location, is);
+			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
+		} else {
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD+"[BagOfGold] "+ChatColor.RED+"Unhandled reward type in RewardManager (DropRewardOnGround).");
+		}
 	}
 
 	public void saveReward(UUID uuid) {
@@ -530,7 +557,7 @@ public class RewardManager {
 			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden:" + reward.getDisplayname(),
 					"Hidden:" + reward.getMoney(), "Hidden:" + reward.getRewardType(),
 					reward.getMoney() == 0 ? "Hidden:" : "Hidden:" + UUID.randomUUID(),
-					"Hidden:" + reward.getSkinUUID(), plugin.getMessages().getString("mobhunting.reward.name"))));
+					"Hidden:" + reward.getSkinUUID(), plugin.getMessages().getString("mobhunting.reward.lore"))));
 		if (reward.getMoney() == 0)
 			skullMeta.setDisplayName(
 					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + reward.getDisplayname());
@@ -554,7 +581,7 @@ public class RewardManager {
 			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden:" + reward.getDisplayname(),
 					"Hidden:" + reward.getMoney(), "Hidden:" + reward.getRewardType(),
 					reward.getMoney() == 0 ? "Hidden:" : "Hidden:" + UUID.randomUUID(),
-					"Hidden:" + reward.getSkinUUID(), plugin.getMessages().getString("mobhunting.reward.name"))));
+					"Hidden:" + reward.getSkinUUID(), plugin.getMessages().getString("mobhunting.reward.lore"))));
 
 		if (reward.getMoney() == 0)
 			skullMeta.setDisplayName(
@@ -566,6 +593,20 @@ public class RewardManager {
 							: reward.getDisplayname() + " (" + format(reward.getMoney()) + ")"));
 		skull.setItemMeta(skullMeta);
 		return skull;
+	}
+	
+	public void removeReward(Block block) {
+		if (Reward.isReward(block)) {
+			plugin.getMessages().debug("A BagOfGold block was broken.");
+			Reward reward = Reward.getReward(block);
+			block.getDrops().clear();
+			block.setType(Material.AIR);
+			block.removeMetadata(Reward.MH_REWARD_DATA, plugin);
+			if (placedMoney_Location.containsKey(reward.getUniqueUUID()))
+				placedMoney_Location.remove(reward.getUniqueUUID());
+			if (placedMoney_Reward.containsKey(reward.getUniqueUUID()))
+				placedMoney_Reward.remove(reward.getUniqueUUID());
+		}
 	}
 
 	public boolean canPickupMoney(Player player) {

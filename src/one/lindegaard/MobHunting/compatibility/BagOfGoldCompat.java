@@ -8,6 +8,7 @@ import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.BagOfGold.PlayerSettingsManager;
 import one.lindegaard.BagOfGold.bank.BankManager;
 import one.lindegaard.BagOfGold.storage.DataStoreManager;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 
 public class BagOfGoldCompat {
 

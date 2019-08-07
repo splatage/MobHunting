@@ -19,6 +19,7 @@ import com.gmail.nossr50.events.skills.fishing.McMMOPlayerMagicHunterEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerShakeEvent;
 
 import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.DamageInformation;
 import one.lindegaard.MobHunting.MobHunting;
 

@@ -35,7 +35,7 @@ mobhunting.npc.notamastermobhuner=Id=${npcid} is not a MasterMobHuner.
 mobhunting.npc.clickednpc=§4${killer}§a is a MasterMobHunter(§4${npcid}§a) - Rank §4${rank}§a for §4${numberofkills}§a ${stattype} ${period}
 mobhunting.npc.clickednpcsign=§aThis is a MasterMobHunter sign connected to NPC §4${npcid}§a.
 mobhunting.npc.clickednpcsignpowered=§aThis is a §4powered §aMasterMobHunter sign connected to NPC §4${npcid}§a.
-mobhunting.reward.name=MobHunting Reward
+mobhunting.reward.lore=MobHunting Reward
 mobhunting.reward.bagofgold=A ${rewardname} with ${rewardvalue}
 mobhunting.reward.customtexture=Custom head - no owner
 mobhunting.reward.steve=Steve
@@ -160,6 +160,7 @@ mobhunting.commands.grinding.player-grinding=§4This location is a known grindin
 mobhunting.commands.grinding.server-wide=§4This location is a known grinding spot
 mobhunting.commands.grinding.whitelisted=§aThis area is whitelisted. Grinding allowed.
 mobhunting.commands.grinding.blacklisted=§aThis area is blacklisted. Grinding not allowed.
+mobhunting.commands.grinding.blacklisted.void=§aThis area is blacklisted at the void. Grinding not allowed.
 mobhunting.commands.happyhour.description=Create a Happy Hour event
 mobhunting.commands.happyhour.started_title=§5Happy Hour
 mobhunting.commands.happyhour.started_subtitle=§5Get §f${multiplier}xReward§5 the next §f${minutes}§5 minutes

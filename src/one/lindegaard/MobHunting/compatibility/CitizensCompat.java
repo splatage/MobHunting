@@ -13,6 +13,7 @@ import net.citizensnpcs.api.event.CitizensEnableEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.TraitInfo;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.commands.NpcCommand;
 import one.lindegaard.MobHunting.mobs.MobPlugin;

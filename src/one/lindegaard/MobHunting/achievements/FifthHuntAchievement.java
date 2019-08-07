@@ -74,7 +74,7 @@ public class FifthHuntAchievement implements ProgressAchievement {
 
 	@Override
 	public ItemStack getSymbol() {
-		return mExtendedMob.getCustomHead(mExtendedMob.getMobName(), 5, 0);
+		return mExtendedMob.getInventoryAchivementItem(mExtendedMob.getMobName(), 5, 0);
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.rewards.Reward;
@@ -654,9 +655,11 @@ public enum MinecraftMob {
 			return entity instanceof Skeleton && ((Skeleton) entity).getSkeletonType() == SkeletonType.NORMAL;
 		else if (this == BonusMob)
 			return entity.hasMetadata("MH:hasBonus");
+		else if (this==Enderman)
+			return entity instanceof org.bukkit.entity.Enderman;
 		// else
 		else
-			return entity.getType().toString().equals(mMinecraftMobType);
+			return entity.getType().toString().equalsIgnoreCase(mMinecraftMobType);
 	}
 
 	public static MinecraftMob getMinecraftMobType(Entity entity) {
@@ -685,23 +688,6 @@ public enum MinecraftMob {
 		return null;
 	}
 
-	/**
-	 * getCommandString. Only used for Minecraft 1.7
-	 * 
-	 * @return the command string which can be run in the console to give the player
-	 *         a head
-	 */
-	public String getCommandString() {
-		switch (this) {
-		case PvpPlayer:
-		case Blaze:
-		case Slime:
-			return "minecraft:give {player} skull {amount} 3 {SkullOwner:\"{playername}\",display:{Name:\"{displayname}\",Lore:[{lore}]}}";
-		default:
-			return "minecraft:give {player} skull {amount} 3 {SkullOwner:{Id:\"{playerid}\",Properties:{textures:[{Value:\"{texturevalue}\"}]}},display:{Name:\"{displayname}\",Lore:[{lore}]}}";
-		}
-	}
-
 	public String getTexture(String displayname) {
 		for (MinecraftMob mob : MinecraftMob.values()) {
 			if (mob.getDisplayName().equalsIgnoreCase(displayname)
@@ -726,46 +712,40 @@ public enum MinecraftMob {
 	// TODO: HEADS ??? and is this in CustomItems???
 	public ItemStack getCustomHead(String name, int amount, double money) {
 		ItemStack skull;
-		Material head = Servers.isMC113OrNewer() ? Material.PLAYER_HEAD : Material.matchMaterial("SKULL_ITEM");
 		switch (this) {
 		case Skeleton:
-			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.SKELETON_SKULL)
-					: new ItemStack(head, amount, (short) 0);
+			skull = CoreCustomItems.getDefaultSkeletonHead(amount);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case WitherSkeleton:
-			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.WITHER_SKELETON_SKULL)
-					: new ItemStack(head, amount, (short) 1);
+			skull = CoreCustomItems.getDefaultWitherSkeletonHead(amount);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case Zombie:
-			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.ZOMBIE_HEAD)
-					: new ItemStack(head, amount, (short) 2);
+			skull = CoreCustomItems.getDefaultZombieHead(amount);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case PvpPlayer:
-			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.PLAYER_HEAD) : new ItemStack(head, 1, (short) 3);
+			skull = CoreCustomItems.getDefaultPlayerHead(amount);
 			SkullMeta sm = (SkullMeta) skull.getItemMeta();
 			sm.setOwner(name);
 			skull.setItemMeta(sm);
 			break;
 
 		case Creeper:
-			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.CREEPER_HEAD)
-					: new ItemStack(head, amount, (short) 4);
+			skull = CoreCustomItems.getDefaultCreeperHead(amount);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case EnderDragon:
-			skull = Servers.isMC113OrNewer() ? new ItemStack(Material.DRAGON_HEAD)
-					: new ItemStack(head, amount, (short) 5);
+			skull = CoreCustomItems.getDefaultEnderDragonHead(amount);
 			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
@@ -800,7 +780,7 @@ public enum MinecraftMob {
 					"Hidden:" + reward.getMoney(), "Hidden:" + reward.getRewardType(),
 					reward.getMoney() == 0 ? "Hidden:" : "Hidden:" + UUID.randomUUID(),
 					"Hidden:" + reward.getSkinUUID(),
-					MobHunting.getInstance().getMessages().getString("mobhunting.reward.name"))));
+					MobHunting.getInstance().getMessages().getString("mobhunting.reward.lore"))));
 
 		if (reward.getMoney() == 0)
 			skullMeta.setDisplayName(

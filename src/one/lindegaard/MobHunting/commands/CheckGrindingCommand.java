@@ -73,6 +73,12 @@ public class CheckGrindingCommand implements ICommand {
 					ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.grinding.blacklisted"));
 			Area area = plugin.getGrindingManager().getGrindingArea(loc);
 			plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
+		} else if (plugin.getGrindingManager().isGrindingArea(loc.subtract(0, loc.getY()+65, 0))) {
+			plugin.getMessages().senderSendMessage(sender,
+					ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.grinding.blacklisted.void"));
+			Area area = plugin.getGrindingManager().getGrindingArea(loc);
+			plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
+
 		} else {
 			Area area = null;
 			ArrayList<Player> players = new ArrayList<Player>();

@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 import com.extrahardmode.ExtraHardMode;
 import com.extrahardmode.config.RootConfig;
 
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class ExtraHardModeCompat implements Listener {

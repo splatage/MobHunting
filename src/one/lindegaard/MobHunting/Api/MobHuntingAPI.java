@@ -52,7 +52,7 @@ public class MobHuntingAPI {
 	}
 
 	public static boolean isMobHuntingReward(Block block) {
-		return Reward.hasReward(block);
+		return Reward.isReward(block);
 	}
 
 	public static boolean isBagOfGoldReward(ItemStack itemStack) {

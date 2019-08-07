@@ -59,20 +59,20 @@ public class MythicMobsV400Compat implements Listener {
 		MobHunting.getInstance().getMessages().debug("MythicMobSpawnEvent: MythicMobType=%s", mobtype);
 
 		if (!MythicMobsCompat.getMobRewardData().containsKey(mobtype)) {
-			MobHunting.getInstance().getMessages().debug("New MythicMobType found=%s (%s)", mobtype, event.getMobType().getDisplayName());
+			MobHunting.getInstance().getMessages().debug("New MythicMobType found=%s", mobtype);
 			MythicMobsCompat.getMobRewardData().put(mobtype,
-					new ExtendedMobRewardData(MobPlugin.MythicMobs, mobtype, event.getMobType().getDisplayName(),
-							true, "10",1,"You killed a MythicMob",
-							new ArrayList<HashMap<String,String>>(), 1, 0.02));
+					new ExtendedMobRewardData(MobPlugin.MythicMobs, mobtype, mobtype, true, "10", 1,
+							"You killed a MythicMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 			MythicMobsCompat.saveMythicMobsData(mobtype);
 			MobHunting.getInstance().getStoreManager().insertMissingMythicMobs(mobtype);
+			
 			// Update mob loaded into memory
 			MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
 			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 		}
 
-		event.getEntity().setMetadata(MythicMobsCompat.MH_MYTHICMOBS, new FixedMetadataValue(mPlugin,
-				MythicMobsCompat.getMobRewardData().get(event.getMobType().getInternalName())));
+		event.getEntity().setMetadata(MythicMobsCompat.MH_MYTHICMOBS,
+				new FixedMetadataValue(mPlugin, MythicMobsCompat.getMobRewardData().get(mobtype)));
 	}
 
 	@SuppressWarnings("unused")

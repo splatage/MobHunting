@@ -6,6 +6,7 @@ import org.bukkit.plugin.Plugin;
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Holograms.HologramManager;
 
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class CMICompat {

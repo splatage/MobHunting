@@ -8,6 +8,7 @@ import org.bukkit.plugin.Plugin;
 import io.puharesource.mc.titlemanager.api.ActionbarTitleObject;
 import io.puharesource.mc.titlemanager.api.TitleObject;
 import io.puharesource.mc.titlemanager.api.v2.TitleManagerAPI;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 @SuppressWarnings("deprecation")

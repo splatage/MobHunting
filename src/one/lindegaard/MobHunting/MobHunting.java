@@ -8,6 +8,7 @@ import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.WorldGroupManager;
 import one.lindegaard.Core.Messages.MessageManager;
 import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
 import one.lindegaard.MobHunting.commands.BountyCommand;
@@ -358,10 +359,6 @@ public class MobHunting extends JavaPlugin {
 				mMobHuntingManager.setHuntEnabled(player, true);
 			}
 		}
-
-		if (!Servers.isMC110OrNewer())
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ " version +6.0.0 is only for Minecraft 1.10 and newer and has not been tested with older Minecraft versions!");
 
 		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 			public void run() {

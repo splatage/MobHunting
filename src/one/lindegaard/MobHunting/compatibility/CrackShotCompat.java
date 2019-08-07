@@ -13,6 +13,8 @@ import org.bukkit.plugin.Plugin;
 
 import com.shampaggon.crackshot.CSUtility;
 import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
+
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.DamageInformation;
 import one.lindegaard.MobHunting.MobHunting;
 

@@ -95,7 +95,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.vindicator", "### Vindicator settings ###");
 		setCategoryComment("mobs.witch", "### Witch settings ###");
 		setCategoryComment("mobs.wither_skeleton", "### Wither Skeleton settings ###");
-		
+
 		setCategoryComment("boss",
 				"########################################################################"
 						+ "\nRewards for killing bosses"
@@ -131,15 +131,17 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("villager.weaponsmith", "### Weaponsmith settings ###");
 
 		// This is passive monster - not a villaer
-		setCategoryComment("villager.zombie_villager", "### Zombie Villager settings - This is a passive monster, not a villager ###");
+		setCategoryComment("villager.zombie_villager",
+				"### Zombie Villager settings - This is a passive monster, not a villager ###");
 
-		//deprecated in mc 1.14
+		// deprecated in mc 1.14
 		setCategoryComment("villager.blacksmith", "### Blacksmith settings - deprecated in mc 1.14 ###");
 		setCategoryComment("villager.priest", "### Priest settings - deprecated in mc 1.14 ###");
-		
-		// Unused mobs are found in the source code and can be spawned using /summon, but are unavailable in normal gameplay. 
+
+		// Unused mobs are found in the source code and can be spawned using /summon,
+		// but are unavailable in normal gameplay.
 		setCategoryComment("villager.illusioner", "### Illusioner settings ###");
-		
+
 		setCategoryComment("passive",
 				"########################################################################"
 						+ "\nRewards for killing passive mobs"
@@ -243,7 +245,7 @@ public class ConfigManager extends AutoConfig {
 				"########################################################################"
 						+ "\nGrinding detection settings"
 						+ "\n########################################################################"
-						+ "\nHere you can chance the behavior of the grinding detection.");
+						+ "\nHere you can change the behavior of the grinding detection.");
 
 		setCategoryComment("grinding.area", "Area grinding detection."
 				+ "\nEnabling this prevents a player from earning too much money from using a mob grinder."
@@ -259,18 +261,28 @@ public class ConfigManager extends AutoConfig {
 				+ "\nFarm detection can be completly disabled or you can whitelist an area using the whitelist"
 				+ "\ncommand if you want the players to harvest mobs from a farm.");
 
-		setCategoryComment("grinding.nether_gold_farms", "Nether Gold Farm detection."
+		setCategoryComment("grinding.farms.nether_gold_farms", "Nether Gold Farm detection."
 				+ "\nWhen this is true, the plugin will try to detect if the players has build a Nether Gold Farm."
 				+ "\nThere is no guarantie that the plugin can detect all types of Nether Gold farms, but it has"
 				+ "\nbeen testet on this one: https://www.youtube.com/watch?v=jQWG9Q7HoUA"
 				+ "\nWhen searching for grinding the plugin measures how many mobs dies per timeframe within a range."
 				+ "\nBe careful if you chance this number there is a risk for false positives.");
 
-		setCategoryComment("grinding.otherfarms",
+		setCategoryComment("grinding.farms.endermanfarms", "Enderman Farm detection."
+				+ "\nWhen this is true, the plugin will try to detect if the players has build an enderman Farm."
+				+ "\nThere is no guarantie that the plugin can detect all types of Enderman Farms. When searching"
+				+ "\nfor grinding the plugin measures how many mobs dies in the VOID per timeframe within a range."
+				+ "\nBe careful if you chance this number there is a risk for false positives.");
+
+		setCategoryComment("grinding.farms.otherfarms",
 				"Other Farm detection."
 						+ "\nWhen this is true, the plugin will try to detect if the players has build other Farms"
 						+ "\nwhere different mobs is falling into death. The plugin is still counting mobs which"
 						+ "\ndies from falling, with in a range and a time frame.");
+
+		setCategoryComment("grinding.spawners",
+				"########################################################################" + "\nMobspawner settings"
+						+ "\n########################################################################");
 
 		setCategoryComment("multiplier",
 				"########################################################################" + "\nMultiplier Section"
@@ -1915,7 +1927,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "weaponsmith.head.message", category = "villager")
 	public String weaponsmithHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
-
 	// #####################################################################################
 	// Deprecated Villagers (Villages which has been removed in Minecraft 1.14)
 	// #####################################################################################
@@ -1972,9 +1983,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "priest.head.message", category = "villager")
 	public String priestHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
-
-	
-	
 	// =====Evoker============================================
 	@ConfigField(name = "evoker.enabled", category = "villager")
 	public boolean evokerEnabled = true;
@@ -2633,8 +2641,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "zombie_villager.head.message", category = "passive_monsters")
 	public String zombieVillagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
-
-	
 	// #####################################################################################
 	// Fish / Fishing
 	// #####################################################################################
@@ -2970,7 +2976,7 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "butcher_level1", category = "achievements.hunter.mob_level")
 	public int butcherLevel1 = 100;
-	
+
 	@ConfigField(name = "cat_level1", category = "achievements.hunter.mob_level")
 	public int catLevel1 = 100;
 
@@ -3257,6 +3263,20 @@ public class ConfigManager extends AutoConfig {
 	public boolean disableNaturalItemDropsOnNetherGoldFarms = false;
 	@ConfigField(name = "disable_natural_xp_drops", category = "grinding.farms.nether_gold_farms")
 	public boolean disableNaturalXPDropsOnNetherGoldFarms = false;
+
+	// Enderman farms
+	@ConfigField(name = "detect_enderman_farms", category = "grinding.farms.endermanfarms")
+	public boolean detectEndermanFarms = true;
+	@ConfigField(name = "seconds_to_search_for_grinding", category = "grinding.farms.endermanfarms")
+	public int secondsToSearchForGrindingOnEndermanFarms = 30;
+	@ConfigField(name = "range_to_search_for_grinding", category = "grinding.farms.endermanfarms")
+	public double rangeToSearchForGrindingOnEndermanFarms = 5;
+	@ConfigField(name = "number_of_deaths_when_searching_for_grinding", category = "grinding.farms.endermanfarms")
+	public int numberOfDeathsWhenSearchingForGringdingOnEndermanFarms = 5;
+	@ConfigField(name = "disable_natural_item_drops", category = "grinding.farms.endermanfarms")
+	public boolean disableNaturalItemDropsOnEndermanFarms = false;
+	@ConfigField(name = "disable_natural_xp_drops", category = "grinding.farms.endermanfarms")
+	public boolean disableNaturalXPDropsOnEndermanFarms = false;
 
 	// other farms
 	@ConfigField(name = "detect_other_farms", category = "grinding.farms.otherfarms")
@@ -5546,7 +5566,7 @@ public class ConfigManager extends AutoConfig {
 		case Butcher:
 			return getPrice(mob, butcherHeadPrize);
 		case Cartographer:
-		 return getPrice(mob,cartographerHeadPrize);
+			return getPrice(mob, cartographerHeadPrize);
 		case CaveSpider:
 			return getPrice(mob, caveSpiderHeadPrize);
 		case Chicken:
@@ -5680,7 +5700,7 @@ public class ConfigManager extends AutoConfig {
 		case Ravager:
 			return getPrice(mob, ravagerHeadPrize);
 		case Armorer:
-			return getPrice(mob, armorerHeadPrize );
+			return getPrice(mob, armorerHeadPrize);
 		case Cleric:
 			return getPrice(mob, clericHeadPrize);
 		case Fisherman:

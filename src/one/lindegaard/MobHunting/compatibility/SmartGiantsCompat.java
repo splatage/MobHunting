@@ -22,6 +22,7 @@ import org.bukkit.plugin.Plugin;
 
 import me.jjm_223.smartgiants.SmartGiants;
 import me.jjm_223.smartgiants.api.util.IGiantTools;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;

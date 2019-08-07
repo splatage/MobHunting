@@ -7,6 +7,7 @@ import org.bukkit.plugin.Plugin;
 
 import net.sacredlabyrinth.Phaed.PreciousStones.PreciousStones;
 import net.sacredlabyrinth.Phaed.PreciousStones.field.FieldFlag;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class PreciousStonesCompat {

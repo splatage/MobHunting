@@ -630,8 +630,13 @@ public class MobHuntingManager implements Listener {
 		}
 	}
 
+	long messageLimiter = 0;
+
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
 	private void onMobDeath(EntityDeathEvent event) {
+
+		boolean silent = System.currentTimeMillis() < messageLimiter + 60 * 1000;
+
 		LivingEntity killed = event.getEntity();
 
 		Player killer = event.getEntity().getKiller();
@@ -644,61 +649,123 @@ public class MobHuntingManager implements Listener {
 		// find player from killer or killed
 		Player player = getPlayer(killer, killed);
 
+		DamageInformation info = mDamageHistory.get(killed);
+		if (info == null) {
+			info = new DamageInformation();
+		}
+
 		// Grinding Farm detections
 		if (plugin.getConfigManager().grindingDetectionEnabled && plugin.getConfigManager().detectFarms
 				&& !plugin.getGrindingManager().isGrindingDisabledInWorld(event.getEntity().getWorld())) {
 			if (killed.getLastDamageCause() != null) {
 				if (!plugin.getGrindingManager().isWhitelisted(killed.getLocation())) {
 					if (killed.getLastDamageCause().getCause() == DamageCause.FALL) {
-						plugin.getMessages().debug("===================== Farm detection =======================");
 						plugin.getGrindingManager().registerDeath(killed);
-						if (plugin.getConfigManager().detectNetherGoldFarms
-								&& plugin.getGrindingManager().isNetherGoldXPFarm(killed)) {
-							cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnNetherGoldFarms,
-									plugin.getConfigManager().disableNaturalXPDropsOnNetherGoldFarms);
-							if (player != null) {
-								if ((plugin.getPlayerSettingsManager().containsKey(player)
-										&& plugin.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode())
-										|| player.hasPermission("mobhunting.blacklist")
-										|| player.hasPermission("mobhunting.blacklist.show"))
-									plugin.getGrindingManager().showGrindingArea(player,
-											new Area(killed.getLocation(),
+						if (plugin.getConfigManager().detectNetherGoldFarms) {
+							if (!silent)
+								plugin.getMessages()
+										.debug("=============== NetherGold XP Farm detection ===============");
+							if (plugin.getGrindingManager().isNetherGoldXPFarm(killed, silent)) {
+								cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnNetherGoldFarms,
+										plugin.getConfigManager().disableNaturalXPDropsOnNetherGoldFarms);
+								if (player != null) {
+									if ((plugin.getPlayerSettingsManager().containsKey(player) && plugin
+											.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode())
+											|| player.hasPermission("mobhunting.blacklist")
+											|| player.hasPermission("mobhunting.blacklist.show")) {
+										if (!silent) {
+											plugin.getGrindingManager().showGrindingArea(player, new Area(
+													killed.getLocation(),
 													plugin.getConfigManager().rangeToSearchForGrinding,
 													plugin.getConfigManager().numberOfDeathsWhenSearchingForGringding),
-											killed.getLocation());
-								plugin.getMessages().learn(player,
-										plugin.getMessages().getString("mobhunting.learn.grindingfarm"));
+													killed.getLocation());
+											plugin.getMessages().learn(player,
+													plugin.getMessages().getString("mobhunting.learn.grindingfarm"));
+										}
+									}
+								}
+								if (!silent)
+									plugin.getMessages()
+											.debug("=============== NetherGold XP Farm detection Ended =========");
+								return;
 							}
-							plugin.getMessages().debug("================== Farm detection Ended (1)=================");
-							return;
+							if (!silent)
+								plugin.getMessages()
+										.debug("=============== NetherGold XP Farm detection Ended =========");
+
 						}
-						if (plugin.getConfigManager().detectOtherFarms
-								&& plugin.getGrindingManager().isOtherFarm(killed)) {
-							cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnOtherFarms,
-									plugin.getConfigManager().disableNaturalXPDropsOnOtherFarms);
-							if (player != null) {
-								if ((plugin.getPlayerSettingsManager().containsKey(player)
-										&& plugin.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode())
-										|| player.hasPermission("mobhunting.blacklist.show")
-										|| player.hasPermission("mobhunting.blacklist"))
-									plugin.getGrindingManager().showGrindingArea(player,
-											new Area(killed.getLocation(),
-													plugin.getConfigManager().rangeToSearchForGrinding,
-													plugin.getConfigManager().numberOfDeathsWhenSearchingForGringding),
-											killed.getLocation());
-								plugin.getMessages().learn(player,
-										plugin.getMessages().getString("mobhunting.learn.grindingfarm"));
+						if (plugin.getConfigManager().detectOtherFarms) {
+							if (!silent)
+								plugin.getMessages().debug("=============== Generic Farm detection ===============");
+							if (plugin.getGrindingManager().isOtherFarm(killed, silent)) {
+								cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnOtherFarms,
+										plugin.getConfigManager().disableNaturalXPDropsOnOtherFarms);
+								if (player != null) {
+									if ((plugin.getPlayerSettingsManager().containsKey(player) && plugin
+											.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode())
+											|| player.hasPermission("mobhunting.blacklist.show")
+											|| player.hasPermission("mobhunting.blacklist")) {
+										if (!silent) {
+											plugin.getGrindingManager().showGrindingArea(player, new Area(
+													killed.getLocation(),
+													plugin.getConfigManager().rangeToSearchForGrindingOnOtherFarms,
+													plugin.getConfigManager().numberOfDeathsWhenSearchingForGringdingOnOtherFarms),
+													killed.getLocation());
+											plugin.getMessages().learn(player,
+													plugin.getMessages().getString("mobhunting.learn.grindingfarm"));
+										}
+									}
+								}
+								if (!silent)
+									plugin.getMessages()
+											.debug("=============== Generic Farm detection Ended =========");
+								return;
 							}
-							return;
+							if (!silent)
+								plugin.getMessages().debug("=============== Generic Farm detection Ended =========");
 						}
-						plugin.getMessages().debug("================== Farm detection Ended (2)=================");
-					} else if (killed.getLastDamageCause().getCause() == DamageCause.ENTITY_ATTACK) {
-						// plugin.getMessages().debug("A mob died in an attack:
-						// (%s,%s,%s in %s)",
-						// killed.getLocation().getX(),
-						// killed.getLocation().getY(),
-						// killed.getLocation().getZ(),
-						// killed.getWorld().getName());
+
+					} else if (killed.getLastDamageCause().getCause() == DamageCause.VOID) {
+						if (plugin.getConfigManager().detectEndermanFarms) {
+							if (!silent)
+								plugin.getMessages().debug("=============== Enderman Farm detection ===============");
+							plugin.getGrindingManager().registerDeath(killed);
+							if (plugin.getGrindingManager().isEndermanFarm(killed, silent)) {
+								cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnEndermanFarms,
+										plugin.getConfigManager().disableNaturalXPDropsOnEndermanFarms);
+								if (!silent)
+									plugin.getMessages().debug("An enderman died in the void: (%s,%s,%s in %s)",
+											killed.getLocation().getX(), killed.getLocation().getY(),
+											killed.getLocation().getZ(), killed.getWorld().getName());
+								if (player != null) {
+									if ((plugin.getPlayerSettingsManager().containsKey(player) && plugin
+											.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode())
+											|| player.hasPermission("mobhunting.blacklist.show")
+											|| player.hasPermission("mobhunting.blacklist")) {
+										if (!silent) {
+											plugin.getGrindingManager().showGrindingArea(player, new Area(
+													killed.getLocation(),
+													plugin.getConfigManager().rangeToSearchForGrindingOnEndermanFarms,
+													plugin.getConfigManager().numberOfDeathsWhenSearchingForGringdingOnEndermanFarms),
+													killed.getLocation());
+											plugin.getMessages().learn(player,
+													plugin.getMessages().getString("mobhunting.learn.grindingfarm"));
+										}
+									}
+								}
+								if (!silent) {
+									plugin.getMessages()
+											.debug("=============== Enderman Farm detection Ended =========");
+									messageLimiter = System.currentTimeMillis();
+								}
+								return;
+							}
+							if (!silent) {
+								plugin.getMessages().debug("=============== Enderman Farm detection Ended =========");
+								messageLimiter = System.currentTimeMillis();
+							}
+
+						}
 					}
 				} else {
 					// plugin.getMessages().debug("A mob died in a whitelisted
@@ -711,13 +778,8 @@ public class MobHuntingManager implements Listener {
 				// plugin.getMessages().debug("The %s (%s) died without a
 				// damageCause.",
 				// mob.getName(), mob.getMobPlugin().getName());
-				return;
+				// return;
 			}
-		}
-
-		DamageInformation info = mDamageHistory.get(killed);
-		if (info == null) {
-			info = new DamageInformation();
 		}
 
 		// Killer is not a player and not a MyPet and CrackShot not used.

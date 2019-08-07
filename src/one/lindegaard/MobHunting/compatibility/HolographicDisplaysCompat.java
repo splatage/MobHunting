@@ -5,6 +5,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class HolographicDisplaysCompat {

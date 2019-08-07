@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import com.blueskullgames.horserpg.HorseRPG;
 import com.blueskullgames.horserpg.RPGHorse;
 
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class McMMOHorses {

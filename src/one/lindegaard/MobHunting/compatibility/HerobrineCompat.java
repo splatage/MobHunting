@@ -20,6 +20,7 @@ import org.bukkit.plugin.Plugin;
 
 import net.theprogrammersworld.herobrine.Herobrine;
 import net.theprogrammersworld.herobrine.nms.entity.MobType;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
@@ -65,9 +66,11 @@ public class HerobrineCompat implements Listener {
 
 	public static boolean isHerobrineMob(Entity entity) {
 		if (isSupported()) {
-			return entity.hasMetadata(MH_HEROBRINEMOBS) || entity.hasMetadata("NPC")
-					|| entity.getEntityId() == Herobrine.herobrineEntityID
-					|| api.getEntityManager().isCustomMob(entity.getEntityId());
+			return entity.hasMetadata(MH_HEROBRINEMOBS) 
+					//|| entity.hasMetadata("NPC")
+					//|| entity.getEntityId() == Herobrine.herobrineEntityID
+					|| api.getEntityManager().isCustomMob(entity.getEntityId()
+							);
 		}
 		return false;
 	}
@@ -109,7 +112,7 @@ public class HerobrineCompat implements Listener {
 	private void onHerobrineMobSpawnEvent(EntitySpawnEvent event) {
 		if (isSupported()) {
 			Entity entity = event.getEntity();
-			if (isHerobrineMob(entity)) {
+			if (isHerobrineMob(entity) && api.getEntityManager().getMobType(entity.getEntityId()) != null) {
 				mobList.put(entity.getEntityId(), api.getEntityManager().getMobType(entity.getEntityId()).getMobType());
 				MobHunting.getInstance().getMessages().debug("A Herobrine Mob (%s) was spawned at %s,%s,%s in %s",
 						api.getEntityManager().getMobType(entity.getEntityId()).getMobType().name(),

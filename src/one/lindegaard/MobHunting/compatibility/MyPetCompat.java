@@ -17,6 +17,7 @@ import de.Keyle.MyPet.api.entity.MyPetBukkitEntity;
 import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent;
 import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent.Action;
 import de.Keyle.MyPet.api.event.MyPetPickupItemEvent;
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.rewards.Reward;
 

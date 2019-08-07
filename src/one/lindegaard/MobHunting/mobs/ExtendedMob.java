@@ -166,7 +166,7 @@ public class ExtendedMob {
 		return mobtype.equalsIgnoreCase(mob.mobtype);
 	}
 
-	public ItemStack getCustomHead(String name, int amount, int money) {
+	public ItemStack getInventoryAchivementItem(String name, int amount, int money) {
 		switch (mobPlugin) {
 		case Minecraft:
 			MinecraftMob mob = MinecraftMob.getMinecraftMobType(name);

@@ -15,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import com.comze_instancelabs.minigamesapi.events.PlayerJoinLobbyEvent;
 import com.comze_instancelabs.minigamesapi.events.PlayerLeaveArenaEvent;
 
+import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class MinigamesLibCompat implements Listener {

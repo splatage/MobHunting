@@ -74,7 +74,7 @@ public class FourthHuntAchievement implements ProgressAchievement {
 
 	@Override
 	public ItemStack getSymbol() {
-		return mExtendedMob.getCustomHead(mExtendedMob.getMobName(), 4, 0);
+		return mExtendedMob.getInventoryAchivementItem(mExtendedMob.getMobName(), 4, 0);
 	}
 
 	@Override

@@ -35,7 +35,7 @@ mobhunting.npc.notamastermobhuner=Id=${npcid} nem MasterMobHuner.
 mobhunting.npc.clickednpc=§4${killer}§a egy MasterMobHunter(§4${npcid}§a) - Rang §4${rank} §4${numberofkills}§a ${stattype} ${period}
 mobhunting.npc.clickednpcsign=§aEz egy MasterMobHunter tábla, amely az NPC-hez kapcsolódik §4${npcid}§a.
 mobhunting.npc.clickednpcsignpowered=§aEz egy §4hajtású §aMasterMobHunter tábla NPC-hez csatlakozik §4${npcid}§a.
-mobhunting.reward.name=MobHunting Nyeremény
+mobhunting.reward.lore=MobHunting Nyeremény
 mobhunting.reward.bagofgold=A ${rewardname} ${rewardvalue}-val/vel
 mobhunting.reward.customtexture=Egyedi fej - nincs tulajdonos
 mobhunting.reward.steve=Steve
@@ -160,6 +160,7 @@ mobhunting.commands.grinding.player-grinding=§4Ez a hely ismert csiszolási hel
 mobhunting.commands.grinding.server-wide=§4Ez a hely egy ismert csiszolóhely
 mobhunting.commands.grinding.whitelisted=§aEz az aréna a fehérlistán van. A csiszolás megengedett.
 mobhunting.commands.grinding.blacklisted=§aEz az aréna a feketelistára került. A csiszolás nem megengedett.
+mobhunting.commands.grinding.blacklisted.void=§aThis area is blacklisted at the void. Grinding not allowed.
 mobhunting.commands.happyhour.description=Létrehoz egy Boldog Óra eseményt
 mobhunting.commands.happyhour.started_title=§5Boldog Óra
 mobhunting.commands.happyhour.started_subtitle=§5Kap §f${multiplier}xNyeremény§5 a következő §f${minutes}§5 percben

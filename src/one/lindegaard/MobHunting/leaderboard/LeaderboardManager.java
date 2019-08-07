@@ -385,11 +385,10 @@ public class LeaderboardManager implements Listener {
 				mLeaderboards.remove(block.getWorld(), board);
 				saveWorld(board.getWorld());
 				plugin.getMessages().debug("Leaderboard removed: %s", block.getLocation().toString());
+				plugin.getMessages().playerActionBarMessageQueue(event.getPlayer(), "The leaderboard was removed.");
 				return;
 			}
 		}
-		plugin.getMessages().playerActionBarMessageQueue(event.getPlayer(), "The leaderboard was removed.");
-
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
