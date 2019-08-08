@@ -1553,7 +1553,7 @@ public class MobHuntingManager implements Listener {
 		if ((cash >= plugin.getConfigManager().minimumReward && cash != 0)
 				|| (cash <= -plugin.getConfigManager().minimumReward && cash != 0)
 				|| !plugin.getRewardManager().getKillCommands(killed).isEmpty()
-				|| (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards)
+				|| (killer != null && McMMOCompatHelper.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards)
 				|| plugin.getRewardManager().getHeadDropHead(killed)) {
 
 			// Remember: Handle MobHuntKillEvent and Record Hunt Achievement is
@@ -1778,7 +1778,7 @@ public class MobHuntingManager implements Listener {
 					player.getName(), plugin.getConfigManager().minimumReward, extraString);
 
 		// McMMO Level rewards
-		if (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards
+		if (killer != null && McMMOCompatHelper.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards
 				&& data.getDampenedKills() < 10 && !CrackShotCompat.isCrackShotUsed(killed)) {
 
 			String skilltypename = McMMOCompatHelper.getSkilltypeName(info);
@@ -1790,7 +1790,7 @@ public class MobHuntingManager implements Listener {
 
 				if (chance < plugin.getRewardManager().getMcMMOChance(killed)) {
 					int level = plugin.getRewardManager().getMcMMOLevel(killed);
-					McMMOCompat.addLevel(killer, skilltypename, level);
+					McMMOCompatHelper.addLevel(killer, skilltypename, level);
 					plugin.getMessages().debug("%s was rewarded with %s McMMO Levels for %s", killer.getName(),
 							plugin.getRewardManager().getMcMMOLevel(killed), skilltypename);
 					killer.sendMessage(plugin.getMessages().getString("mobhunting.mcmmo.skilltype_level", "mcmmo_level",

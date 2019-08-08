@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.api.ExperienceAPI;
-import com.gmail.nossr50.datatypes.skills.SkillType;
+import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingTreasureEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerMagicHunterEvent;
@@ -90,13 +90,13 @@ public class McMMOCompat implements Listener {
 
 	public static String getSKillTypeName(DamageInformation info) {
 		if (Materials.isAxe(info.getWeapon()))
-			return SkillType.AXES.getName();
+			return PrimarySkillType.AXES.getName();
 		else if (Materials.isSword(info.getWeapon()))
-			return SkillType.SWORDS.getName();
+			return PrimarySkillType.SWORDS.getName();
 		else if (Materials.isBow(info.getWeapon()))
-			return SkillType.ARCHERY.getName();
+			return PrimarySkillType.ARCHERY.getName();
 		else if (Materials.isUnarmed(info.getWeapon()))
-			return SkillType.UNARMED.getName();
+			return PrimarySkillType.UNARMED.getName();
 		else return "";
 	}
 
