@@ -35,6 +35,7 @@ import one.lindegaard.MobHunting.compatibility.IDisguiseCompat;
 import one.lindegaard.MobHunting.compatibility.InfernalMobsCompat;
 import one.lindegaard.MobHunting.compatibility.LibsDisguisesCompat;
 import one.lindegaard.MobHunting.compatibility.LorinthsRpgMobsCompat;
+import one.lindegaard.MobHunting.compatibility.McMMOClassicCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOHorses;
 import one.lindegaard.MobHunting.compatibility.MinigamesCompat;
@@ -185,6 +186,7 @@ public class MetricsManager {
 						valueMap.put("MyPet", MyPetCompat.isSupported() ? 1 : 0);
 						valueMap.put("McMMOHorses", McMMOHorses.isSupported() ? 1 : 0);
 						valueMap.put("McMMO", McMMOCompat.isSupported() ? 1 : 0);
+						valueMap.put("McMMO Classic", McMMOClassicCompat.isSupported() ? 1 : 0);
 						valueMap.put("WorldEdit", WorldEditCompat.isSupported() ? 1 : 0);
 						valueMap.put("ProtocolLib", ProtocolLibCompat.isSupported() ? 1 : 0);
 						valueMap.put("ExtraHardMode", ExtraHardModeCompat.isSupported() ? 1 : 0);
