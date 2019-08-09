@@ -133,7 +133,7 @@ public class MobHuntingManager implements Listener {
 		}
 
 		if (enabled && !player.hasPermission("mobhunting.enable")) {
-			plugin.getMessages().debug("KillBlocked %s: Player doesnt have permission mobhunting.enable",
+			plugin.getMessages().debug("KillBlocked %s: PlaMcMMO_Versionyer doesnt have permission mobhunting.enable",
 					player.getName());
 			return false;
 		}
@@ -1561,7 +1561,7 @@ public class MobHuntingManager implements Listener {
 		if ((cash >= plugin.getConfigManager().minimumReward && cash != 0)
 				|| (cash <= -plugin.getConfigManager().minimumReward && cash != 0)
 				|| !plugin.getRewardManager().getKillCommands(killed).isEmpty()
-				|| (killer != null && McMMOCompatHelper.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards)
+				|| (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards)
 				|| plugin.getRewardManager().getHeadDropHead(killed)) {
 
 			// Remember: Handle MobHuntKillEvent and Record Hunt Achievement is
@@ -1786,10 +1786,10 @@ public class MobHuntingManager implements Listener {
 					player.getName(), plugin.getConfigManager().minimumReward, extraString);
 
 		// McMMO Level rewards
-		if (killer != null && McMMOCompatHelper.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards
+		if (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards
 				&& data.getDampenedKills() < 10 && !CrackShotCompat.isCrackShotUsed(killed)) {
 
-			String skilltypename = McMMOCompatHelper.getSkilltypeName(info);
+			String skilltypename = McMMOCompat.getSkilltypeName(info);
 
 			if (skilltypename != null) {
 				double chance = plugin.mRand.nextDouble();
@@ -1798,7 +1798,7 @@ public class MobHuntingManager implements Listener {
 
 				if (chance < plugin.getRewardManager().getMcMMOChance(killed)) {
 					int level = plugin.getRewardManager().getMcMMOLevel(killed);
-					McMMOCompatHelper.addLevel(killer, skilltypename, level);
+					McMMOCompat.addLevel(killer, skilltypename, level);
 					plugin.getMessages().debug("%s was rewarded with %s McMMO Levels for %s", killer.getName(),
 							plugin.getRewardManager().getMcMMOLevel(killed), skilltypename);
 					killer.sendMessage(plugin.getMessages().getString("mobhunting.mcmmo.skilltype_level", "mcmmo_level",

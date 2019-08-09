@@ -1,27 +1,30 @@
 package one.lindegaard.MobHunting.compatibility;
 
-import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
-
+import com.gmail.nossr50.datatypes.skills.SkillType;
 import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.MobHunting.DamageInformation;
 
-public class McMMOCompatHelper {
-	
-	// McMMO 2.1.0 documentation:
-	// https://docs.google.com/document/d/1qY6hEyGCO5z1PRup_OvMBxAmumydxxoO_H-pnUrVK8M/edit#heading=h.474ghxburdpp
+public class McMMOClassicHelper {
 
-	public McMMOCompatHelper() {
+	//https://www.spigotmc.org/resources/official-mcmmo-classic.2445/
+
+	public McMMOClassicHelper() {
+		
 	}
+
+	// **************************************************************************
+	// OTHER FUNCTIONS
+	// **************************************************************************
 
 	public static String getSKillTypeName(DamageInformation info) {
 		if (Materials.isAxe(info.getWeapon()))
-			return PrimarySkillType.AXES.getName();
+			return SkillType.AXES.getName();
 		else if (Materials.isSword(info.getWeapon()))
-			return PrimarySkillType.SWORDS.getName();
+			return SkillType.SWORDS.getName();
 		else if (Materials.isBow(info.getWeapon()))
-			return PrimarySkillType.ARCHERY.getName();
+			return SkillType.ARCHERY.getName();
 		else if (Materials.isUnarmed(info.getWeapon()))
-			return PrimarySkillType.UNARMED.getName();
+			return SkillType.UNARMED.getName();
 		else
 			return "";
 	}

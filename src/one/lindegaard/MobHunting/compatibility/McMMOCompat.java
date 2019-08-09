@@ -12,13 +12,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.nossr50.api.ExperienceAPI;
-import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingTreasureEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerMagicHunterEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerShakeEvent;
 
-import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.DamageInformation;
 import one.lindegaard.MobHunting.MobHunting;
@@ -29,16 +27,20 @@ public class McMMOCompat implements Listener {
 	private static Plugin mPlugin;
 	public static final String MH_MCMMO = "MH:MCMMO";
 
-	// McMMO 2.1.0 documentation:
-	// https://docs.google.com/document/d/1qY6hEyGCO5z1PRup_OvMBxAmumydxxoO_H-pnUrVK8M/edit#heading=h.474ghxburdpp
+
+	
+	public enum McMMO_Version {
+		NOT_DETECTED, McMMO, McMMO_CLASSIC
+	};
+	
+	public static McMMO_Version mMcMMOVersion = McMMO_Version.NOT_DETECTED;
 
 	public McMMOCompat() {
 		if (!isEnabledInConfig()) {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with McMMO is disabled in config.yml");
+					+ "Compatibility with McMMO / McMMO Classic is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.mcMMO.getName());
-
 			if (mPlugin.getDescription().getVersion().compareTo("2.0") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
@@ -47,21 +49,25 @@ public class McMMOCompat implements Listener {
 						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "McMMO Level rewards is "
 								+ (MobHunting.getInstance().getConfigManager().enableMcMMOLevelRewards ? "enabled"
 										: "disabled"));
+				mMcMMOVersion = McMMO_Version.McMMO;
 				supported = true;
 			} else if (mPlugin.getDescription().getVersion().compareTo("1.5.00") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling compatibility with McMMO (" + getMcMmoAPI().getDescription().getVersion() + ")");
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "McMMO Level rewards is "
+						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+								+ "Enabling compatibility with McMMO Classic ("
+								+ getMcMmoAPI().getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender()
+						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "McMMO Classic Level rewards is "
 								+ (MobHunting.getInstance().getConfigManager().enableMcMMOLevelRewards ? "enabled"
 										: "disabled"));
+				mMcMMOVersion = McMMO_Version.McMMO_CLASSIC;
 				supported = true;
 			} else {
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 				console.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED + "Your current version of McMMO ("
 						+ mPlugin.getDescription().getVersion()
-						+ ") is not supported by MobHunting. Please update McMMO to version 1.5.00 or newer.");
+						+ ") is not supported by MobHunting. Please update McMMO / McMMO Classic to a newer version.");
 			}
 		}
 
@@ -77,6 +83,10 @@ public class McMMOCompat implements Listener {
 	public static boolean isSupported() {
 		return supported;
 	}
+	
+	public static McMMO_Version getMcMMOVersion() {
+		return mMcMMOVersion;
+	}
 
 	public static boolean isMcMMO(Entity entity) {
 		if (isSupported())
@@ -87,17 +97,16 @@ public class McMMOCompat implements Listener {
 	public static boolean isEnabledInConfig() {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationMcMMO;
 	}
-
-	public static String getSKillTypeName(DamageInformation info) {
-		if (Materials.isAxe(info.getWeapon()))
-			return PrimarySkillType.AXES.getName();
-		else if (Materials.isSword(info.getWeapon()))
-			return PrimarySkillType.SWORDS.getName();
-		else if (Materials.isBow(info.getWeapon()))
-			return PrimarySkillType.ARCHERY.getName();
-		else if (Materials.isUnarmed(info.getWeapon()))
-			return PrimarySkillType.UNARMED.getName();
-		else return "";
+	
+	public static String getSkilltypeName(DamageInformation info) {
+		switch (mMcMMOVersion) {
+		case McMMO:
+			return McMMOCompatHelper.getSKillTypeName(info);
+		case McMMO_CLASSIC: 
+			return McMMOClassicHelper.getSKillTypeName(info);
+		default:
+			return "";
+		}
 	}
 
 	public static void addXP2(Player player, String skillType, int XP, String xpGainReason) {
@@ -107,6 +116,20 @@ public class McMMOCompat implements Listener {
 	public static void addLevel(Player player, String skillType, int levels) {
 		ExperienceAPI.addLevel(player, skillType, levels);
 	}
+	
+/**
+	public static void addLevel(Player killer, String skilltypename, int level) {
+		switch (mMcMMOVersion) {
+		case McMMO:
+			McMMOCompat.addLevel(killer, skilltypename, level);
+			break;
+		case McMMO_CLASSIC: 
+			McMMOClassicHelper.addLevel(killer, skilltypename, level);
+			break;
+		default:
+			
+		}
+	}**/
 
 	// **************************************************************************
 	// EVENTS

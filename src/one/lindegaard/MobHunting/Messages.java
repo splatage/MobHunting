@@ -507,28 +507,31 @@ public class Messages {
 
 		final String final_message = PlaceholderAPICompat.setPlaceholders(player, message);
 
-		long last = 0L;
-		long time_between_messages = 80L;
-		long delay = 1L, now = System.currentTimeMillis();
-		if (lastMessage.containsKey(player)) {
-			last = lastMessage.get(player);
-			if (now > last + time_between_messages) {
-				delay = 1L;
-			} else if (now > last)
-				delay = time_between_messages - (now - last);
-			else
-				delay = (last - now) + time_between_messages;
-		}
-		lastMessage.put(player, now + delay);
-
-		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-
-			@Override
-			public void run() {
-				playerActionBarMessageNow(player, final_message);
+		if (isActionBarSupported()) {
+			long last = 0L;
+			long time_between_messages = 80L;
+			long delay = 1L, now = System.currentTimeMillis();
+			if (lastMessage.containsKey(player)) {
+				last = lastMessage.get(player);
+				if (now > last + time_between_messages) {
+					delay = 1L;
+				} else if (now > last)
+					delay = time_between_messages - (now - last);
+				else
+					delay = (last - now) + time_between_messages;
 			}
-		}, delay);
+			lastMessage.put(player, now + delay);
 
+			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+
+				@Override
+				public void run() {
+					playerActionBarMessageNow(player, final_message);
+				}
+			}, delay);
+		} else {
+			player.sendMessage(final_message);
+		}
 	}
 
 	/**
@@ -553,6 +556,11 @@ public class Messages {
 			if (!isEmpty(message))
 				player.sendMessage(message);
 		}
+	}
+
+	private boolean isActionBarSupported() {
+		return TitleManagerCompat.isSupported() || ActionbarCompat.isSupported() || ActionAnnouncerCompat.isSupported()
+				|| ActionBarAPICompat.isSupported();
 	}
 
 	public void playerSendMessage(Player player, String message) {

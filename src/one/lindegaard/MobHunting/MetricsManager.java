@@ -35,8 +35,8 @@ import one.lindegaard.MobHunting.compatibility.IDisguiseCompat;
 import one.lindegaard.MobHunting.compatibility.InfernalMobsCompat;
 import one.lindegaard.MobHunting.compatibility.LibsDisguisesCompat;
 import one.lindegaard.MobHunting.compatibility.LorinthsRpgMobsCompat;
-import one.lindegaard.MobHunting.compatibility.McMMOClassicCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
+import one.lindegaard.MobHunting.compatibility.McMMOCompat.McMMO_Version;
 import one.lindegaard.MobHunting.compatibility.McMMOHorses;
 import one.lindegaard.MobHunting.compatibility.MinigamesCompat;
 import one.lindegaard.MobHunting.compatibility.MinigamesLibCompat;
@@ -108,7 +108,8 @@ public class MetricsManager {
 		
 		bStatsMetrics.addCustomChart(
 				new Metrics.SimplePie("database_used_for_mobhunting", () -> plugin.getConfigManager().databaseType));
-		bStatsMetrics.addCustomChart(new Metrics.SimplePie("language", () -> plugin.getConfigManager().language));
+		bStatsMetrics.addCustomChart(new Metrics.SimplePie("language", () -> plugin.getConfigManager().language));	// McMMO 2.1.0 documentation:
+		// https://docs.google.com/document/d/1qY6hEyGCO5z1PRup_OvMBxAmumydxxoO_H-pnUrVK8M/edit#heading=h.474ghxburdpp
 
 		bStatsMetrics.addCustomChart(
 				new Metrics.SimplePie("economy_plugin", () -> plugin.getEconomyManager().getName()));
@@ -185,8 +186,8 @@ public class MetricsManager {
 						valueMap.put("Gringotts", GringottsCompat.isSupported() ? 1 : 0);
 						valueMap.put("MyPet", MyPetCompat.isSupported() ? 1 : 0);
 						valueMap.put("McMMOHorses", McMMOHorses.isSupported() ? 1 : 0);
-						valueMap.put("McMMO", McMMOCompat.isSupported() ? 1 : 0);
-						valueMap.put("McMMO Classic", McMMOClassicCompat.isSupported() ? 1 : 0);
+						valueMap.put("McMMO", McMMOCompat.getMcMMOVersion()==McMMO_Version.McMMO ? 1 : 0);
+						valueMap.put("McMMO Classic", McMMOCompat.getMcMMOVersion()==McMMO_Version.McMMO_CLASSIC ? 1 : 0);
 						valueMap.put("WorldEdit", WorldEditCompat.isSupported() ? 1 : 0);
 						valueMap.put("ProtocolLib", ProtocolLibCompat.isSupported() ? 1 : 0);
 						valueMap.put("ExtraHardMode", ExtraHardModeCompat.isSupported() ? 1 : 0);

@@ -60,7 +60,7 @@ public class MobHunting extends JavaPlugin {
 
 	// Constants
 	private final static String pluginName = "mobhunting";
-	
+
 	private static MobHunting instance;
 	public Random mRand = new Random();
 	private File mFile = new File(getDataFolder(), "config.yml");
@@ -101,7 +101,7 @@ public class MobHunting extends JavaPlugin {
 		Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
 		if (wg != null)
 			WorldGuardCompat.registerFlag();
-		
+
 	}
 
 	@Override
@@ -186,11 +186,11 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(BagOfGoldCompat.class, CompatPlugin.BagOfGold);
 		mCompatibilityManager.registerPlugin(GringottsCompat.class, CompatPlugin.Gringotts);
 
-		// Hook into Vault or Reserve 
+		// Hook into Vault or Reserve
 		mEconomyManager = new EconomyManager(this);
 		if (!mEconomyManager.isActive())
 			return;
-		
+
 		mRewardManager = new RewardManager(this);
 
 		mGrindingManager = new GrindingManager(this);
@@ -254,16 +254,16 @@ public class MobHunting extends JavaPlugin {
 		// Plugins used for presentation information in the BossBar, ActionBar,
 		// Title or Subtitle
 		mCompatibilityManager.registerPlugin(PlaceholderAPICompat.class, CompatPlugin.PlaceholderAPI);
-		//ActionBar
+		// ActionBar
 		mCompatibilityManager.registerPlugin(TitleAPICompat.class, CompatPlugin.TitleAPI);
 		mCompatibilityManager.registerPlugin(TitleManagerCompat.class, CompatPlugin.TitleManager);
 		mCompatibilityManager.registerPlugin(ActionbarCompat.class, CompatPlugin.Actionbar);
 		mCompatibilityManager.registerPlugin(ActionBarAPICompat.class, CompatPlugin.ActionBarApi);
 		mCompatibilityManager.registerPlugin(ActionAnnouncerCompat.class, CompatPlugin.ActionAnnouncer);
-		//BossBar
+		// BossBar
 		mCompatibilityManager.registerPlugin(BossBarAPICompat.class, CompatPlugin.BossBarApi);
 		mCompatibilityManager.registerPlugin(BarAPICompat.class, CompatPlugin.BarApi);
-		
+
 		// Plugins where the reward is a multiplier
 		mCompatibilityManager.registerPlugin(StackMobCompat.class, CompatPlugin.StackMob);
 		mCompatibilityManager.registerPlugin(MobStackerCompat.class, CompatPlugin.MobStacker);
@@ -589,7 +589,7 @@ public class MobHunting extends JavaPlugin {
 		else
 			return mMessageManager;
 	}
-	
+
 	public EconomyManager getEconomyManager() {
 		return mEconomyManager;
 	}

@@ -560,9 +560,6 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/${factionsuuid.jar.version}</systemPath>
 		</dependency>
-		<!-- Does not work??? <dependency> <groupId>com.massivecraft</groupId> 
-			<artifactId>Factions</artifactId> <version>${factionsuuid.version}</version> 
-			</dependency> -->
 
 		<!-- Towny -->
 		<dependency>
