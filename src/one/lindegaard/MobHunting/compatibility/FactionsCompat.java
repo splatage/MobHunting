@@ -59,9 +59,17 @@ public class FactionsCompat {
 		return faction.getFlag(MFlag.ID_MONSTERS);
 	}
 
-	public static boolean isInSafeZone(Player player) {
+	public static boolean isInSafeZoneAndPeaceful(Player player) {
 		Faction faction = BoardColl.get().getFactionAt(PS.valueOf(player.getLocation()));
-		return FactionColl.get().getSafezone().equals(faction);
+		if (FactionColl.get().getSafezone().equals(faction)) {
+			MobHunting.getInstance().getMessages().debug("player is in a safe zone: %s", faction.getDescription());
+			if (faction.getFlag(MFlag.ID_PEACEFUL)) {
+				MobHunting.getInstance().getMessages().debug("The safe zone is peacefull - no reward.");
+				return true;
+			}
+			return false;
+		} else
+			return false;
 	}
 
 	public static boolean isInWilderness(Player player) {
@@ -73,4 +81,21 @@ public class FactionsCompat {
 		Faction faction = BoardColl.get().getFactionAt(PS.valueOf(player.getLocation()));
 		return FactionColl.get().getWarzone().equals(faction);
 	}
+
+	public static boolean isInHomeZoneAndpeaceful(Player player) {
+		Faction faction = BoardColl.get().getFactionAt(PS.valueOf(player.getLocation()));
+		MPlayer mplayer = MPlayer.get(player);
+		Faction faction_home = mplayer.getFaction();
+		if (FactionColl.get().getSafezone().equals(faction)) {
+			if (faction_home.equals(faction))
+				MobHunting.getInstance().getMessages().debug("player is in a home zone: %s", faction.getDescription());
+			if (faction.getFlag(MFlag.ID_PEACEFUL)) {
+				MobHunting.getInstance().getMessages().debug("The home zone is peacefull - no reward.");
+				return true;
+			}
+			return false;
+		} else
+			return false;
+	}
+
 }

@@ -6,8 +6,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<version>6.8.3</version>
-	<!-- <version>6.8.3-SNAPSHOT-B${build.number}</version> -->
+	<!-- <version>6.8.4</version> -->
+	<version>6.8.4-SNAPSHOT-B${build.number}</version>
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -446,7 +446,7 @@
 		<dependency>
 			<groupId>com.github.MCE-Plugins</groupId>
 			<artifactId>MinigamesLib</artifactId>
-			<version>1.14.18-SNAPSHOT</version>
+			<version>${minigameslib.version}</version>
 			<scope>provided</scope>
 		</dependency>
 

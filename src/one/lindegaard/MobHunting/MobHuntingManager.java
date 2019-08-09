@@ -936,15 +936,23 @@ public class MobHuntingManager implements Listener {
 		// Factions Compatibility - no reward when player are in SafeZone
 		if (FactionsHelperCompat.isSupported()) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)) {
-				if (FactionsHelperCompat.isInSafeZone(player)) {
-					plugin.getMessages().debug("KillBlocked: %s is hiding in Factions SafeZone", player.getName());
+				if (FactionsHelperCompat.isInHomeZoneAndPeaceful(player)) {
+					plugin.getMessages().debug("KillBlocked: %s is hiding in his Factions Home SafeZone", player.getName());
 					plugin.getMessages().learn(player,
 							plugin.getMessages().getString("mobhunting.learn.factions-no-rewards-in-safezone"));
 					cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
 							plugin.getConfigManager().disableNatualXPDrops);
 					plugin.getMessages().debug("======================= kill ended (7)======================");
 					return;
-				}
+				} else if (FactionsHelperCompat.isInSafeZoneAndPeaceful(player)) {
+					plugin.getMessages().debug("KillBlocked: %s is hiding in Factions SafeZone", player.getName());
+					plugin.getMessages().learn(player,
+							plugin.getMessages().getString("mobhunting.learn.factions-no-rewards-in-safezone"));
+					cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
+							plugin.getConfigManager().disableNatualXPDrops);
+					plugin.getMessages().debug("======================= kill ended (7.5)======================");
+					return;
+				} 
 			}
 		}
 

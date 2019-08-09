@@ -75,13 +75,13 @@ public class FactionsHelperCompat {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationFactions;
 	}
 
-	public static boolean isInSafeZone(Player player) {
+	public static boolean isInSafeZoneAndPeaceful(Player player) {
 		if (supported) {
 			switch (factionsVersion) {
 			case FACTIONS:
-				return FactionsCompat.isInSafeZone(player);
+				return FactionsCompat.isInSafeZoneAndPeaceful(player);
 			case FACTIONS_UUID:
-				return FactionsUUIDCompat.isInSafeZone(player);
+				return FactionsUUIDCompat.isInSafeZoneAndpeaceful(player);
 			case NOT_DETECTED:
 				return false;
 			}
@@ -110,6 +110,20 @@ public class FactionsHelperCompat {
 				return FactionsCompat.isInWarZone(player);
 			case FACTIONS_UUID:
 				return FactionsUUIDCompat.isInWarZone(player);
+			case NOT_DETECTED:
+				return false;
+			}
+		}
+		return false;
+	}
+
+	public static boolean isInHomeZoneAndPeaceful(Player player) {
+		if (supported) {
+			switch (factionsVersion) {
+			case FACTIONS:
+				return FactionsCompat.isInHomeZoneAndpeaceful(player);
+			case FACTIONS_UUID:
+				return FactionsUUIDCompat.isInHomeZoneAndPeaceful(player);
 			case NOT_DETECTED:
 				return false;
 			}
