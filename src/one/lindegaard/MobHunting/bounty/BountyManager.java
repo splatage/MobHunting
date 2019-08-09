@@ -36,6 +36,7 @@ public class BountyManager implements Listener {
 	public BountyManager(MobHunting plugin) {
 		this.plugin = plugin;
 		if (plugin.getConfigManager().enableRandomBounty) {
+			plugin.getStoreManager().deleteExpiredBounties();
 			Bukkit.getPluginManager().registerEvents(this, plugin);
 			Bukkit.getScheduler().runTaskTimer(plugin, this::createRandomBounty,
 					plugin.getConfigManager().timeBetweenRandomBounties * 20 * 60,
@@ -242,7 +243,7 @@ public class BountyManager implements Listener {
 					Bounty bounty = itr.next();
 					// Check is the Bounty already is in memory
 					if (!hasOpenBounty(bounty)) {
-						if (bounty.getEndDate() > System.currentTimeMillis() && bounty.isOpen()) {
+						if (!mOpenBounties.contains(bounty) && bounty.getEndDate() > System.currentTimeMillis() && bounty.isOpen()) {
 							mOpenBounties.add(bounty);
 							n++;
 						} else {
@@ -309,8 +310,9 @@ public class BountyManager implements Listener {
 		if (b1 != null) {
 			b1.setStatus(BountyStatus.canceled);
 			b1.setPrize(0);
+			mOpenBounties.add(b1);
 			plugin.getDataStoreManager().updateBounty(b1);
-			mOpenBounties.removeIf(b -> b.equals(bounty));
+			//mOpenBounties.removeIf(b -> b.equals(bounty));
 		}
 	}
 
@@ -319,8 +321,9 @@ public class BountyManager implements Listener {
 		if (b1 != null) {
 			b1.setStatus(BountyStatus.deleted);
 			b1.setPrize(0);
+			mOpenBounties.add(b1);
 			plugin.getDataStoreManager().updateBounty(b1);
-			mOpenBounties.removeIf(b -> b.equals(bounty));
+			//mOpenBounties.removeIf(b -> b.equals(bounty));
 		}
 	}
 

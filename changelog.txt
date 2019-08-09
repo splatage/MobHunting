@@ -1,5 +1,6 @@
 V6.8.4
-*
+* Fixed support for FactionsUUID and Factions (Ticket 547 - https://github.com/Rocologo/MobHunting/issues/547)
+* Fixed exploid on player bounties (Ticket 548 - https://github.com/Rocologo/MobHunting/issues/548)
 V6.8.3
 * Fixed McMMO / McMMO Classic support. (Ticket 538 / https://github.com/Rocologo/MobHunting/issues/538 )
 V6.8.2

@@ -459,6 +459,23 @@ public abstract class DatabaseDataStore implements IDataStore {
 			throw new DataStoreException(e);
 		}
 	}
+	
+	@Override
+	public void deleteExpiredBounties() {
+		try {
+			Connection mConnection = setupConnection();
+			Statement statement = mConnection.createStatement();
+			plugin.getMessages().debug("Deleting bounties from the database");
+			int result;
+			result = statement.executeUpdate("DELETE FROM mh_Bounties where STATUS!=0;");
+			plugin.getMessages().debug("%s rows was deleted from mh_Bounties", result);
+			statement.close();
+			mConnection.commit();
+			mConnection.close();
+		} catch (SQLException | DataStoreException e) {
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD+"[MobHunting]"+ChatColor.RED+"[Error]: Could not delete expired records from bounty database.");
+		}
+	}
 
 	// ******************************************************************
 	// V2 To V3 Database migration

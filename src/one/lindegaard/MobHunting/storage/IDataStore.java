@@ -197,5 +197,11 @@ public interface IDataStore {
 
 	void insertEliteMobs();
 	void insertEliteMobs(String mob);
+
+	/**
+	 * Delete expired or cancelled bounties from database;
+	 * @throws DataStoreException
+	 */
+	void deleteExpiredBounties();
 	
 }
