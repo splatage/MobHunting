@@ -652,6 +652,8 @@ public class MobHuntingManager implements Listener {
 		DamageInformation info = mDamageHistory.get(killed);
 		if (info == null) {
 			info = new DamageInformation();
+		} else {
+
 		}
 
 		// Grinding Farm detections
@@ -820,7 +822,7 @@ public class MobHuntingManager implements Listener {
 			if (killer == null) {
 				killer = info.getCrackShotPlayer();
 				if (killer != null)
-					plugin.getMessages().debug("%s killed a %s (%s) using a %s@(%s:%s,%s,%s)", killer.getName(),
+					plugin.getMessages().debug("%s killed a %s (%s) using a %s@ (%s:%s,%s,%s)", killer.getName(),
 							mob.getMobName(), mob.getMobPlugin().getName(), info.getCrackShotWeaponUsed(),
 							killer.getWorld().getName(), (int) killer.getLocation().getBlockX(),
 							(int) killer.getLocation().getBlockY(), (int) killer.getLocation().getBlockZ());
@@ -937,7 +939,8 @@ public class MobHuntingManager implements Listener {
 		if (FactionsHelperCompat.isSupported()) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)) {
 				if (FactionsHelperCompat.isInHomeZoneAndPeaceful(player)) {
-					plugin.getMessages().debug("KillBlocked: %s is hiding in his Factions Home SafeZone", player.getName());
+					plugin.getMessages().debug("KillBlocked: %s is hiding in his Factions Home SafeZone",
+							player.getName());
 					plugin.getMessages().learn(player,
 							plugin.getMessages().getString("mobhunting.learn.factions-no-rewards-in-safezone"));
 					cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
@@ -952,7 +955,7 @@ public class MobHuntingManager implements Listener {
 							plugin.getConfigManager().disableNatualXPDrops);
 					plugin.getMessages().debug("======================= kill ended (7.5)======================");
 					return;
-				} 
+				}
 			}
 		}
 
@@ -1229,27 +1232,27 @@ public class MobHuntingManager implements Listener {
 			info = mDamageHistory.get(killed);
 			if (System.currentTimeMillis() - info.getTime() > plugin.getConfigManager().assistTimeout * 1000)
 				info = null;
-			// else
-			// else if (killer == null)
-			// killer = info.getAttacker();
 		}
-		if (info == null) {
+		if (info == null)
 			info = new DamageInformation();
-			info.setTime(System.currentTimeMillis());
-			info.setLastAttackTime(info.getTime());
-			if (killer != null) {
-				info.setAttacker(player);
-				info.setAttackerPosition(player.getLocation());
-				@SuppressWarnings("deprecation")
-				ItemStack weapon = killer.getItemInHand();
-				if (!weapon.equals(new ItemStack(Material.AIR))) {
-					info.setHasUsedWeapon(true);
-					if (CrackShotCompat.isCrackShotWeapon(weapon)) {
-						info.setCrackShotWeapon(CrackShotCompat.getCrackShotWeapon(weapon));
-						plugin.getMessages().debug("%s used a CrackShot weapon: %s", killer.getName(),
-								CrackShotCompat.getCrackShotWeapon(weapon));
-					}
-				}
+		if (info.getWeapon() == null)
+			info.setWeapon(new ItemStack(Material.AIR));
+		info.setTime(System.currentTimeMillis());
+		info.setLastAttackTime(info.getTime());
+		if (killer != null) {
+			info.setAttacker(player);
+			info.setAttackerPosition(player.getLocation());
+			@SuppressWarnings("deprecation")
+			ItemStack weapon = killer.getItemInHand();
+			if (Material.AIR != weapon.getType()) {
+				info.setHasUsedWeapon(true);
+				if (CrackShotCompat.isCrackShotWeapon(weapon)) {
+					info.setCrackShotWeapon(CrackShotCompat.getCrackShotWeapon(weapon));
+					plugin.getMessages().debug("%s used a CrackShot weapon: %s", killer.getName(),
+							CrackShotCompat.getCrackShotWeapon(weapon));
+				} else
+					plugin.getMessages().debug("%s used a weapon: %s", killer.getName(), weapon.getType());
+				info.setWeapon(weapon);
 			}
 		}
 
@@ -1270,9 +1273,6 @@ public class MobHuntingManager implements Listener {
 			plugin.getMessages().debug("MyPetAssistedKill: Pet owned by %s killed a %s", info.getAssister().getName(),
 					mob.getMobName());
 		}
-
-		if (info.getWeapon() == null)
-			info.setWeapon(new ItemStack(Material.AIR));
 
 		// Player or killed Mob is disguised
 		if (!info.isPlayerUndercover())
@@ -1374,7 +1374,6 @@ public class MobHuntingManager implements Listener {
 			plugin.getMessages().debug("Checking if player is grinding within a range of %s blocks",
 					data.getcDampnerRange());
 			if (!plugin.getGrindingManager().isWhitelisted(loc)) {
-
 				if (detectedGrindingArea != null) {
 					data.setLastKillAreaCenter(null);
 					data.setDampenedKills(data.getDampenedKills() + 1);
