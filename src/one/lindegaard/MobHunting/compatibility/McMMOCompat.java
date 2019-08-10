@@ -103,13 +103,13 @@ public class McMMOCompat implements Listener {
 		case McMMO:
 			return McMMOCompatHelper.getSKillTypeName(info);
 		case McMMO_CLASSIC: 
-			return McMMOClassicHelper.getSKillTypeName(info);
+			return McMMOClassicCompatHelper.getSKillTypeName(info);
 		default:
 			return "";
 		}
 	}
 
-	public static void addXP2(Player player, String skillType, int XP, String xpGainReason) {
+	public static void addXP_NOT_USED(Player player, String skillType, int XP, String xpGainReason) {
 		ExperienceAPI.addXP(player, skillType, XP, xpGainReason);
 	}
 
@@ -117,20 +117,6 @@ public class McMMOCompat implements Listener {
 		ExperienceAPI.addLevel(player, skillType, levels);
 	}
 	
-/**
-	public static void addLevel(Player killer, String skilltypename, int level) {
-		switch (mMcMMOVersion) {
-		case McMMO:
-			McMMOCompat.addLevel(killer, skilltypename, level);
-			break;
-		case McMMO_CLASSIC: 
-			McMMOClassicHelper.addLevel(killer, skilltypename, level);
-			break;
-		default:
-			
-		}
-	}**/
-
 	// **************************************************************************
 	// EVENTS
 	// **************************************************************************

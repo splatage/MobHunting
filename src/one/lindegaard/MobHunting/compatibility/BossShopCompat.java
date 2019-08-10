@@ -1,17 +1,27 @@
 package one.lindegaard.MobHunting.compatibility;
 
+import java.util.UUID;
+
 import org.black_ixx.bossshop.BossShop;
+import org.black_ixx.bossshop.api.BossShopAPI;
+import org.black_ixx.bossshop.core.BSBuy;
+import org.black_ixx.bossshop.core.BSShop;
+import org.black_ixx.bossshop.core.prices.BSPriceType;
+import org.black_ixx.bossshop.core.rewards.BSRewardType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.event.Listener;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
+import one.lindegaard.MobHunting.rewards.CustomItems;
+import one.lindegaard.MobHunting.rewards.Reward;
 
-public class BossShopCompat implements Listener {
+public class BossShopCompat {
 
-	private static Plugin mPlugin;
+	private Plugin mPlugin;
 	private static boolean supported = false;
 	private static BossShop bs;
 
@@ -23,11 +33,7 @@ public class BossShopCompat implements Listener {
 					+ "Compatibility with BossShop is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.BossShop.getName());
-
 			bs = (BossShop) mPlugin;
-
-			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 					+ "Enabling compatibility with BossShop (" + bs.getDescription().getVersion() + ").");
 			supported = true;
@@ -38,16 +44,45 @@ public class BossShopCompat implements Listener {
 	// OTHER
 	// **************************************************************************
 
-	public static BossShop getBossShop() {
+	public BossShop getBossShop() {
 		return bs;
+	}
+
+	public static BossShopAPI getAPI() {
+		return bs.getAPI();
 	}
 
 	public static boolean isSupported() {
 		return supported;
 	}
 
-	public static boolean isEnabledInConfig() {
+	public boolean isEnabledInConfig() {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationBossShop;
+	}
+
+	public static void openShop(MobHunting plugin, Player p) {
+		BSShop shop = bs.getAPI().getShop("mobhunting");
+		BSBuy buy = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, "item_shop", null, null, 1,
+				"OpenShop.Item_Shop");
+		BSBuy sell = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, 1, 10, "bought bag of gold", 4, null);
+
+		UUID uuid = UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID);
+
+		ItemStack is = new CustomItems().getCustomtexture(uuid,
+				plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+				plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
+				plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, 10, UUID.randomUUID(), uuid);
+
+		plugin.getMessages().debug("item_shop3");
+		getAPI().addItemToShop(is, buy, shop);
+		plugin.getMessages().debug("item_shop4");
+		getAPI().addItemToShop(is, sell, shop);
+
+		plugin.getMessages().debug("item_shop5");
+		getAPI().finishedAddingItemsToShop(shop);
+
+		plugin.getMessages().debug("item_shop6");
+		getAPI().openShop(p, "mobhunting");
 	}
 
 }

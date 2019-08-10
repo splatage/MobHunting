@@ -5,7 +5,6 @@ import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.BossShopCompat;
-import one.lindegaard.MobHunting.compatibility.BossShopHelper;
 import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.rewards.Reward;
 import one.lindegaard.MobHunting.util.Misc;
@@ -183,19 +182,19 @@ public class MoneyCommand implements ICommand {
 					.getString("mobhunting.commands.base.unknown_playername", "playername", args[0]));
 			return true;
 
-		} else if (args.length == 2 && args[0].equalsIgnoreCase("shop")) {
+		} else if (args.length == 1 && args[0].equalsIgnoreCase("shop")) {
 			// /mh money shop - to open a shop, where the player can buy or sell
 			// "Bag of gold"
 
 			// MobHunting.registerPlugin(BossShopCompat.class, "BossShop");
 
-			String shopName = args[1];
+			String shopName = "dummy"; //args[1];
 
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 				if (BossShopCompat.isSupported()) {
 					if (player.hasPermission("mobhunting.money.shop") || sender.hasPermission("mobhunting.money.*")) {
-						BossShopHelper.openShop(plugin, player, shopName);
+						BossShopCompat.openShop(plugin, player);
 						return true;
 					} else {
 						plugin.getMessages().senderSendMessage(sender,

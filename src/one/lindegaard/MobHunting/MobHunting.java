@@ -338,7 +338,7 @@ public class MobHunting extends JavaPlugin {
 				mAdvancementManager.getAdvancementsFromAchivements();
 			}
 		}
-
+		
 		// Check for new MobHuntig updates using Spiget.org
 		mSpigetUpdater.hourlyUpdateCheck(getServer().getConsoleSender(), mConfig.updateCheck, false);
 
