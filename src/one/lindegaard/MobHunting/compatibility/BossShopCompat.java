@@ -35,7 +35,7 @@ public class BossShopCompat {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.BossShop.getName());
 			bs = (BossShop) mPlugin;
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling compatibility with BossShop (" + bs.getDescription().getVersion() + ").");
+					+ "Enabling compatibility with BossShopPro (" + bs.getDescription().getVersion() + ").");
 			supported = true;
 		}
 	}
@@ -61,27 +61,33 @@ public class BossShopCompat {
 	}
 
 	public static void openShop(MobHunting plugin, Player p) {
+		
+		plugin.getMessages().debug("test1");
 		BSShop shop = bs.getAPI().getShop("mobhunting");
+		
+		plugin.getMessages().debug("test2");
 		BSBuy buy = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, "item_shop", null, null, 1,
 				"OpenShop.Item_Shop");
+		
+		plugin.getMessages().debug("test3");
 		BSBuy sell = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, 1, 10, "bought bag of gold", 4, null);
 
 		UUID uuid = UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID);
-
 		ItemStack is = new CustomItems().getCustomtexture(uuid,
 				plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 				plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 				plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, 10, UUID.randomUUID(), uuid);
 
-		plugin.getMessages().debug("item_shop3");
+		plugin.getMessages().debug("test4");
 		getAPI().addItemToShop(is, buy, shop);
-		plugin.getMessages().debug("item_shop4");
+		
+		plugin.getMessages().debug("test5");
 		getAPI().addItemToShop(is, sell, shop);
 
-		plugin.getMessages().debug("item_shop5");
+		plugin.getMessages().debug("test6");
 		getAPI().finishedAddingItemsToShop(shop);
 
-		plugin.getMessages().debug("item_shop6");
+		plugin.getMessages().debug("test7");
 		getAPI().openShop(p, "mobhunting");
 	}
 
