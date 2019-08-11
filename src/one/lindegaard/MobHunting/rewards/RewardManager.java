@@ -128,7 +128,7 @@ public class RewardManager {
 	public RewardManager(MobHunting plugin) {
 		this.plugin = plugin;
 		file = new File(plugin.getDataFolder(), "rewards.yml");
-		
+
 		if (!BagOfGoldCompat.isSupported()) {
 
 			plugin.getMessages().debug("Register MobHunting Listeners");
@@ -390,9 +390,10 @@ public class RewardManager {
 	}
 
 	/**
-	 * Dropes an Reward Item at the specified location  
+	 * Dropes an Reward Item at the specified location
+	 * 
 	 * @param location - where the Item is dropped.
-	 * @param reward - the reward to be dropped
+	 * @param reward   - the reward to be dropped
 	 */
 	public void dropRewardOnGround(Location location, Reward reward) {
 		if (reward.isBagOfGoldReward()) {
@@ -403,15 +404,19 @@ public class RewardManager {
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else if (reward.isKilledHeadReward()) {
 			MinecraftMob mob = MinecraftMob.getMinecraftMobType(reward.getSkinUUID());
-			ItemStack is = new CustomItems().getCustomHead(mob, mob.getFriendlyName(), 1, reward.getMoney(), reward.getSkinUUID());
-			Item item = location.getWorld().dropItemNaturally(location, is);
-			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
+			if (mob != null) {
+				ItemStack is = new CustomItems().getCustomHead(mob, mob.getFriendlyName(), 1, reward.getMoney(),
+						reward.getSkinUUID());
+				Item item = location.getWorld().dropItemNaturally(location, is);
+				getDroppedMoney().put(item.getEntityId(), reward.getMoney());
+			}
 		} else if (reward.isKillerHeadReward()) {
 			ItemStack is = new CustomItems().getPlayerHead(reward.getSkinUUID(), 1, reward.getMoney());
 			Item item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD+"[BagOfGold] "+ChatColor.RED+"Unhandled reward type in RewardManager (DropRewardOnGround).");
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[BagOfGold] " + ChatColor.RED
+					+ "Unhandled reward type in RewardManager (DropRewardOnGround).");
 		}
 	}
 
@@ -594,7 +599,7 @@ public class RewardManager {
 		skull.setItemMeta(skullMeta);
 		return skull;
 	}
-	
+
 	public void removeReward(Block block) {
 		if (Reward.isReward(block)) {
 			plugin.getMessages().debug("A BagOfGold block was broken.");
