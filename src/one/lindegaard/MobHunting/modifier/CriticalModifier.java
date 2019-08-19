@@ -16,13 +16,12 @@ public class CriticalModifier implements IModifier {
 
 	@Override
 	public String getName() {
-		return ChatColor.LIGHT_PURPLE + MobHunting.getInstance().getMessages().getString("bonus.critical.name"); //$NON-NLS-1$
+		return ChatColor.LIGHT_PURPLE + MobHunting.getInstance().getMessages().getString("bonus.critical.name");
 	}
 
 	private boolean isInWater(Player player) {
 		Block block = player.getLocation().getBlock();
-		//TODO: Is the the material?
-		return block.getType() == Material.WATER || block.getType() == Material.LEGACY_STATIONARY_WATER;
+		return block.getType() == Material.WATER || block.getType() == Material.matchMaterial("STATIONARY_WATER");
 	}
 
 	private boolean isOnLadder(Player player) {
