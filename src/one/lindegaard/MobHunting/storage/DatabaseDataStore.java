@@ -1073,7 +1073,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	}
 
 	@Override
-	public void insertMissingHerobrineMobs(String mob) {
+	public void insertHerobrineMob(String mob) {
 		if (HerobrineCompat.isHerobrineMob(mob) && getMobIdFromExtendedMobType(mob, MobPlugin.Herobrine) == 0)
 			try {
 				Connection mConnection = setupConnection();
@@ -1628,6 +1628,12 @@ public abstract class DatabaseDataStore implements IDataStore {
 					if (!HerobrineCompat.isSupported() || !HerobrineCompat.isEnabledInConfig())
 						continue;
 					break;
+				case EliteMobs:
+					if (!EliteMobsCompat.isSupported()||!EliteMobsCompat.isEnabledInConfig())
+						continue;
+				case Boss:
+					if (!BossCompat.isSupported()||!BossCompat.isEnabledInConfig())
+						continue;
 				case Minecraft:
 					break;
 				default:

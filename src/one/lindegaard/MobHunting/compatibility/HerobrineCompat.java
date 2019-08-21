@@ -152,7 +152,7 @@ public class HerobrineCompat implements Listener {
 					mob.read(section);
 					mob.setMobType(key);
 					mMobRewardData.put(key, mob);
-					MobHunting.getInstance().getStoreManager().insertMissingHerobrineMobs(key);
+					MobHunting.getInstance().getStoreManager().insertHerobrineMob(key);
 					n++;
 				} else {
 					MobHunting.getInstance().getMessages()
@@ -184,7 +184,7 @@ public class HerobrineCompat implements Listener {
 				int n = StatType.values().length;
 				StatType.values()[n + 1] = new StatType(mob.getMobType() + "_kill", mob.getMobName());
 				StatType.values()[n + 2] = new StatType(mob.getMobType() + "_assist", mob.getMobName());
-				MobHunting.getInstance().getStoreManager().insertMissingHerobrineMobs(key);
+				MobHunting.getInstance().getStoreManager().insertHerobrineMob(key);
 			} else {
 				MobHunting.getInstance().getMessages()
 						.debug("The mob=%s can't be found in Herobrine configuration files", key);

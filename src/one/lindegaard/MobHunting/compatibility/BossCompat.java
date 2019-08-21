@@ -33,21 +33,21 @@ public class BossCompat implements Listener {
 	private static boolean supported = false;
 	private static Plugin mPlugin;
 	private static HashMap<String, ExtendedMobRewardData> mMobRewardData = new HashMap<String, ExtendedMobRewardData>();
-	public static final String MH_BOSSMOBS = "MH:Boss";
+	public static final String MH_BOSS = "MH:Boss";
 	private static File file = new File(MobHunting.getInstance().getDataFolder(), "boss-rewards.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 
 	public BossCompat() {
 		if (!isEnabledInConfig()) {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with Herobrine is disabled in config.yml");
+					+ "Compatibility with Boss is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.Herobrine.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.BOSS.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling Compatibility with Herobrine (" + mPlugin.getDescription().getVersion() + ")");
+					+ "Enabling Compatibility with Boss (" + mPlugin.getDescription().getVersion() + ")");
 
 			supported = true;
 		}
@@ -63,15 +63,15 @@ public class BossCompat implements Listener {
 
 	public static boolean isBossMob(Entity entity) {
 		if (isSupported()) {
-			return entity.hasMetadata(MH_BOSSMOBS) || BossAPI.isBoss(entity);
+			return entity.hasMetadata(MH_BOSS) || BossAPI.isBoss(entity);
 		}
 		return false;
 	}
 
 	public static boolean isBossMob(String key) {
 		if (isSupported()) {
-			for (Boss i : BossAPI.getBosses()) {
-				if (i.getName().replace(" ", "_").equalsIgnoreCase(key))
+			for (Boss boss : BossAPI.getBosses()) {
+				if (boss.getName().replace(" ", "_").equalsIgnoreCase(key))
 					return true;
 			}
 		}
@@ -97,7 +97,7 @@ public class BossCompat implements Listener {
 	private void onBossMobDeathEvent(EntityDeathEvent event) {
 		Entity entity = event.getEntity();
 		if (isBossMob(entity)) {
-			entity.setMetadata(MH_BOSSMOBS, new FixedMetadataValue(MobHunting.getInstance(), true));
+			entity.setMetadata(MH_BOSS, new FixedMetadataValue(MobHunting.getInstance(), true));
 		}
 	}
 
@@ -111,7 +111,7 @@ public class BossCompat implements Listener {
 						event.getEntity().getLocation().getBlockY(), event.getEntity().getLocation().getBlockZ(),
 						event.getEntity().getLocation().getWorld().getName());
 				saveBossMobsData(BossAPI.getBoss(entity).getName().replace(" ", "_"));
-				event.getEntity().setMetadata(MH_BOSSMOBS, new FixedMetadataValue(mPlugin, true));
+				event.getEntity().setMetadata(MH_BOSS, new FixedMetadataValue(mPlugin, true));
 			}
 		}
 	}
@@ -143,7 +143,7 @@ public class BossCompat implements Listener {
 					mob.read(section);
 					mob.setMobType(key);
 					mMobRewardData.put(key, mob);
-					MobHunting.getInstance().getStoreManager().insertMissingHerobrineMobs(key);
+					MobHunting.getInstance().getStoreManager().insertBossMobs(key);
 					n++;
 				} else {
 					MobHunting.getInstance().getMessages().debug("The mob=%s can't be found in Boss configuration file",
@@ -160,8 +160,8 @@ public class BossCompat implements Listener {
 
 	}
 
-	public static void loadHerobrineMobsData(String key) {
-		//key = key.replace(" ", "_");
+	public static void loadBossData(String key) {
+		key = key.replace(" ", "_");
 		try {
 			if (!file.exists())
 				return;
@@ -176,7 +176,7 @@ public class BossCompat implements Listener {
 				int n = StatType.values().length;
 				StatType.values()[n + 1] = new StatType(mob.getMobType() + "_kill", mob.getMobName());
 				StatType.values()[n + 2] = new StatType(mob.getMobType() + "_assist", mob.getMobName());
-				MobHunting.getInstance().getStoreManager().insertMissingHerobrineMobs(key);
+				MobHunting.getInstance().getStoreManager().insertBossMobs(key);
 			} else {
 				MobHunting.getInstance().getMessages().debug("The mob=%s can't be found in Boss mob configuration file",
 						key);

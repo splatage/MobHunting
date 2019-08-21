@@ -193,7 +193,7 @@ public interface IDataStore {
 	void insertInfernalMobs();
 
 	void insertHerobrineMobs();
-	void insertMissingHerobrineMobs(String mob);
+	void insertHerobrineMob(String mob);
 
 	void insertEliteMobs();
 	void insertEliteMobs(String mob);
