@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.citizensnpcs.api.npc.NPC;
 import one.lindegaard.MobHunting.MobHunting;
+import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
 import one.lindegaard.MobHunting.compatibility.EliteMobsCompat;
@@ -114,6 +115,8 @@ public class ExtendedMob {
 			return HerobrineCompat.getMobRewardData().get(mobtype).getMobName();
 		case EliteMobs:
 			return EliteMobsCompat.getMobRewardData().get(mobtype).getMobName();
+		case Boss:
+			return BossCompat.getMobRewardData().get(mobtype).getMobName();
 		default:
 			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 			console.sendMessage(
@@ -153,6 +156,8 @@ public class ExtendedMob {
 			return HerobrineCompat.getProgressAchievementLevel1(mobtype);
 		case EliteMobs:
 			return EliteMobsCompat.getProgressAchievementLevel1(mobtype);
+		case Boss:
+			return BossCompat.getProgressAchievementLevel1(mobtype);
 		default:
 			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 			console.sendMessage(

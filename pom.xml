@@ -422,6 +422,13 @@
 			<artifactId>Herobrine</artifactId>
 			<version>${Herobrine.version}</version>
 		</dependency>
+		
+		<!-- Boss -->
+		<dependency>
+			<groupId>me.kangarko.boss</groupId>
+			<artifactId>BossAPI</artifactId>
+			<version>${BossAPI.version}</version>
+		</dependency>
 
 		<!-- iDisguise -->
 		<dependency>

@@ -17,6 +17,7 @@ import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.PlayerSettings;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
+import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
 import one.lindegaard.MobHunting.compatibility.EliteMobsCompat;
@@ -1119,6 +1120,45 @@ public abstract class DatabaseDataStore implements IDataStore {
 				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (9,'" + mob + "')");
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 						+ "EliteMob MobType " + mob + " was inserted to mh_Mobs");
+				statement.close();
+				mConnection.commit();
+				mConnection.close();
+			} catch (SQLException | DataStoreException e) {
+				e.printStackTrace();
+			}
+	}
+
+	@Override
+	public void insertBossMobs() {
+		int n = 0;
+		try {
+			Connection mConnection = setupConnection();
+			Statement statement = mConnection.createStatement();
+			for (String mob : BossCompat.getMobRewardData().keySet())
+				if (getMobIdFromExtendedMobType(mob, MobPlugin.Boss) == 0) {
+					statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (10,'" + mob + "')");
+					n++;
+				}
+			if (n > 0)
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n
+						+ " Boss mobs was inserted to mh_Mobs");
+			statement.close();
+			mConnection.commit();
+			mConnection.close();
+		} catch (SQLException | DataStoreException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void insertBossMobs(String mob) {
+		if (getMobIdFromExtendedMobType(mob, MobPlugin.Boss) == 0)
+			try {
+				Connection mConnection = setupConnection();
+				Statement statement = mConnection.createStatement();
+				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (10,'" + mob + "')");
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+						+ "Boss MobType " + mob + " was inserted to mh_Mobs");
 				statement.close();
 				mConnection.commit();
 				mConnection.close();

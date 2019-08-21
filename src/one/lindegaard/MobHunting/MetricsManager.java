@@ -16,6 +16,7 @@ import one.lindegaard.MobHunting.compatibility.ActionbarCompat;
 import one.lindegaard.MobHunting.compatibility.BarAPICompat;
 import one.lindegaard.MobHunting.compatibility.BattleArenaCompat;
 import one.lindegaard.MobHunting.compatibility.BossBarAPICompat;
+import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CMICompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.ConquestiaMobsCompat;
@@ -214,6 +215,7 @@ public class MetricsManager {
 				valueMap.put("InfernalMobs", InfernalMobsCompat.isSupported() ? 1 : 0);
 				valueMap.put("Herobrine", HerobrineCompat.isSupported() ? 1 : 0);
 				valueMap.put("EliteMobs", EliteMobsCompat.isSupported() ? 1 : 0);
+				valueMap.put("Boss mobs", BossCompat.isSupported() ? 1 : 0);
 				return valueMap;
 			}
 

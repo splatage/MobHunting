@@ -554,6 +554,10 @@ public class ConfigManager extends AutoConfig {
 				"########################################################################" + "\nHerobrine"
 						+ "\n########################################################################");
 
+		setCategoryComment("plugins.boss",
+				"########################################################################" + "\nBoss"
+						+ "\n########################################################################");
+
 		setCategoryComment("plugins.holograms",
 				"########################################################################" + "\nHolograms"
 						+ "\n########################################################################");
@@ -4214,6 +4218,10 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "herobrine.enable_integration_herobrine", category = "plugins", comment = "Enable/Disable integration with Herobrine."
 			+ "\nhttps://www.theprogrammersworld.net/Herobrine/")
 	public boolean enableIntegrationHerobrine = true;
+
+	@ConfigField(name = "boss.enable_integration_boss", category = "plugins", comment = "Enable/Disable integration with Boss."
+			+ "\nhttps://")
+	public boolean enableIntegrationBoss = true;
 
 	@ConfigField(name = "holograms.enable_integration_holograms", category = "plugins", comment = "Enable/Disable integration with Holograms."
 			+ "\nhttps://www.spigotmc.org/resources/holograms.4924/")

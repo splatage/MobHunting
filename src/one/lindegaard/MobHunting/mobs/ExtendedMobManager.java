@@ -12,6 +12,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 
 import one.lindegaard.MobHunting.MobHunting;
+import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
 import one.lindegaard.MobHunting.compatibility.EliteMobsCompat;
@@ -52,6 +53,8 @@ public class ExtendedMobManager {
 			plugin.getStoreManager().insertHerobrineMobs();
 		if (EliteMobsCompat.isSupported())
 			plugin.getStoreManager().insertEliteMobs();
+		if (BossCompat.isSupported())
+			plugin.getStoreManager().insertBossMobs();
 		// Not needed
 		// if (InfernalMobsCompat.isSupported())
 		// plugin.getStoreManager().insertInfernalMobs();
@@ -117,6 +120,11 @@ public class ExtendedMobManager {
 					continue;
 				break;
 
+			case Boss:
+				if (!BossCompat.isSupported() || !BossCompat.isEnabledInConfig())
+					continue;
+				break;
+				
 			case Minecraft:
 				break;
 
@@ -211,6 +219,9 @@ public class ExtendedMobManager {
 		} else if (EliteMobsCompat.isEliteMobs(entity)) {
 			mobPlugin = MobPlugin.EliteMobs;
 			mobtype = EliteMobsCompat.getEliteMobsType(entity).name();
+		} else if (BossCompat.isBossMob(entity)) {
+			mobPlugin = MobPlugin.Boss;
+			mobtype = BossCompat.getBossType(entity);
 		} else {
 			// StatType
 			mobPlugin = MobPlugin.Minecraft;

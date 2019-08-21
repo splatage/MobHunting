@@ -99,6 +99,7 @@ import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
+import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
 import one.lindegaard.MobHunting.compatibility.EliteMobsCompat;
@@ -755,6 +756,12 @@ public class RewardManager {
 			plugin.getMessages().debug("EliteMob %s has no reward data", EliteMobsCompat.getEliteMobsType(mob));
 			return 0;
 
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return getPrice(mob, BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getRewardPrize());
+			plugin.getMessages().debug("Boss mob %s has no reward data", BossCompat.getBossType(mob));
+			return 0;
+
 		} else {
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
@@ -1095,6 +1102,11 @@ public class RewardManager {
 						.getConsoleRunCommand();
 			return new ArrayList<>();
 
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getConsoleRunCommand();
+			return new ArrayList<>();
+
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfCommands;
 
@@ -1378,6 +1390,11 @@ public class RewardManager {
 						.getRewardDescription();
 			return "";
 
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getRewardDescription();
+			return "";
+
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfMessage;
 
@@ -1650,6 +1667,11 @@ public class RewardManager {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.getChance();
+			return 0;
+
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getChance();
 			return 0;
 
 		} else if (MyPetCompat.isMyPet(mob)) {
@@ -1929,6 +1951,11 @@ public class RewardManager {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.getMcMMOSkillRewardChance();
+			return 0;
+
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getMcMMOSkillRewardChance();
 			return 0;
 
 		} else if (MyPetCompat.isMyPet(mob)) {
@@ -2234,6 +2261,11 @@ public class RewardManager {
 						.getMcMMOSkillRewardAmount();
 			return 0;
 
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getMcMMOSkillRewardAmount();
+			return 0;
+
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return getMcMMOXP(mob, plugin.getConfigManager().wolfMcMMOSkillRewardAmount);
 
@@ -2506,6 +2538,11 @@ public class RewardManager {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.isMobEnabled();
+			return false;
+
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).isMobEnabled();
 			return false;
 
 		} else if (MyPetCompat.isMyPet(mob)) {
@@ -2790,6 +2827,11 @@ public class RewardManager {
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
+				return false;
+			return false;
+
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
 				return false;
 			return false;
 
@@ -3080,6 +3122,11 @@ public class RewardManager {
 			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
 			return 0;
 
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return 0;
+			return 0;
+
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfHeadDropChance;
 
@@ -3364,6 +3411,11 @@ public class RewardManager {
 				return "";
 			// return
 			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
+			return "";
+
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return "";
 			return "";
 
 		} else if (MyPetCompat.isMyPet(mob)) {
@@ -3651,6 +3703,11 @@ public class RewardManager {
 				return 0;
 			// return
 			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
+			return 0;
+
+		} else if (BossCompat.isBossMob(mob)) {
+			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
+				return 0;
 			return 0;
 
 		} else if (MyPetCompat.isMyPet(mob)) {
