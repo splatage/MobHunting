@@ -2,6 +2,7 @@ package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Holograms.HologramManager;
@@ -52,6 +53,10 @@ public class CMICompat {
 
 	public static HologramManager getHologramManager() {
 		return getCMIPlugin().getHologramManager();
+	}
+	
+	public static void setMessage(Player player, String text) {
+		getCMIPlugin().getActionBar().send(player, text);
 	}
 
 }

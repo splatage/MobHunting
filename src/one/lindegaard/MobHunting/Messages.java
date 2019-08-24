@@ -34,6 +34,7 @@ import one.lindegaard.MobHunting.compatibility.ActionBarAPICompat;
 import one.lindegaard.MobHunting.compatibility.ActionbarCompat;
 import one.lindegaard.MobHunting.compatibility.BarAPICompat;
 import one.lindegaard.MobHunting.compatibility.BossBarAPICompat;
+import one.lindegaard.MobHunting.compatibility.CMICompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.PlaceholderAPICompat;
 import one.lindegaard.MobHunting.compatibility.TitleManagerCompat;
@@ -552,6 +553,8 @@ public class Messages {
 			ActionAnnouncerCompat.setMessage(player, message);
 		} else if (ActionBarAPICompat.isSupported()) {
 			ActionBarAPICompat.setMessage(player, message);
+		} else if (CMICompat.isSupported()) {
+			CMICompat.setMessage(player, message);
 		} else {
 			if (!isEmpty(message))
 				player.sendMessage(message);
