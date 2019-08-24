@@ -425,7 +425,7 @@
 		
 		<!-- Boss -->
 		<dependency>
-			<groupId>me.kangarko.boss</groupId>
+			<groupId>org.mineacademy.boss.api</groupId>
 			<artifactId>BossAPI</artifactId>
 			<version>${BossAPI.version}</version>
 		</dependency>
