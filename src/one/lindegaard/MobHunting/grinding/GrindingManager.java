@@ -6,6 +6,7 @@ import java.util.ArrayList;
 //import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import org.bukkit.event.world.WorldUnloadEvent;
 
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
+import one.lindegaard.MobHunting.mobs.ExtendedMob;
 import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
 public class GrindingManager implements Listener {
@@ -37,7 +39,7 @@ public class GrindingManager implements Listener {
 
 	private static HashMap<UUID, LinkedList<Area>> mKnownGrindingAreas = new HashMap<>();
 	private static HashMap<UUID, LinkedList<Area>> mWhitelistedAreas = new HashMap<>();
-	private static HashMap<Integer, GrindingInformation> killed_mobs = new HashMap<>();
+	private static LinkedHashMap<Integer, GrindingInformation> killed_mobs = new LinkedHashMap<>();
 
 	public GrindingManager(MobHunting instance) {
 		this.plugin = instance;
@@ -64,6 +66,41 @@ public class GrindingManager implements Listener {
 		if (!isGrindingArea(killed.getLocation()) && !isWhitelisted(killed.getLocation())) {
 			killed_mobs.put(killed.getEntityId(), grindingInformation);
 		}
+	}
+
+	/**
+	 * Test if the same type of mobs is killed to fast. When players make a farm,
+	 * they tend to kill the mobs to fast. 
+	 * 
+	 * @param killed
+	 * @return
+	 */
+	public boolean isGrindingToFast(LivingEntity killed) {
+		long starttime = System.currentTimeMillis();
+		Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
+		int n=0;
+		long sum=0;
+		ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
+		while (itr.hasNext()) {
+			GrindingInformation gi = (GrindingInformation) itr.next();
+			ExtendedMob mob2 = plugin.getExtendedMobManager().getExtendedMobFromEntity(gi.getKilled());
+			if (!mob.equals(mob2)) 
+				continue;
+
+			if(gi.getTimeOfDeath()+(1000*60*2) < starttime) {
+				killed_mobs.remove(itr);
+				continue; 
+			}
+			
+			n++;
+			sum=sum+(gi.getTimeOfDeath()-starttime);
+			long avg_time = sum/n*1000; //sec.
+			plugin.getMessages().debug("GrindingManager: average kill time=%s", avg_time);
+			if (avg_time<20) {
+				plugin.getMessages().debug("GrindingManager: less than 20 sec - player is grinding" ); 
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -198,12 +235,11 @@ public class GrindingManager implements Listener {
 				}
 			}
 		}
-		if(!silent)
-		plugin.getMessages().debug(
-		 "Farm detection: This was not an Enderman Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)", n,
-		 numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
-		 killed.getLocation().getY()+65,
-		 killed.getLocation().getZ());
+		if (!silent)
+			plugin.getMessages().debug(
+					"Farm detection: This was not an Enderman Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
+					n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
+					killed.getLocation().getY() + 65, killed.getLocation().getZ());
 
 		// plugin.getMessages().debug("Killed: %s==%s, lastDamageCause: %s",
 		// killed.getType(),MinecraftMob.getMinecraftMobType(killed).getExtendedMobType(),
@@ -247,9 +283,9 @@ public class GrindingManager implements Listener {
 							} else {
 								Area area = new Area(killed.getLocation(), killRadius, numberOfDeaths);
 								if (!silent)
-								plugin.getMessages().debug("New Generic / Other Farm detected at (%s,%s,%s,%s)",
-										area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
-										area.getCenter().getBlockY(), area.getCenter().getBlockZ());
+									plugin.getMessages().debug("New Generic / Other Farm detected at (%s,%s,%s,%s)",
+											area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
+											area.getCenter().getBlockY(), area.getCenter().getBlockZ());
 								registerKnownGrindingSpot(area);
 								return true;
 							}
@@ -257,20 +293,20 @@ public class GrindingManager implements Listener {
 					}
 				} else {
 					if (!silent)
-					plugin.getMessages().debug("This is a known grinding area: (%s,%s,%s,%s)",
-							detectedGrindingArea.getCenter().getWorld().getName(),
-							detectedGrindingArea.getCenter().getBlockX(), detectedGrindingArea.getCenter().getBlockY(),
-							detectedGrindingArea.getCenter().getBlockZ());
+						plugin.getMessages().debug("This is a known grinding area: (%s,%s,%s,%s)",
+								detectedGrindingArea.getCenter().getWorld().getName(),
+								detectedGrindingArea.getCenter().getBlockX(),
+								detectedGrindingArea.getCenter().getBlockY(),
+								detectedGrindingArea.getCenter().getBlockZ());
 					return true;
 				}
 			}
 		}
 		if (!silent)
 			plugin.getMessages().debug(
-					 "Farm detection: This was not an genric / other Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)", n,
-					 numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
-					 killed.getLocation().getY()+65,
-					 killed.getLocation().getZ());
+					"Farm detection: This was not an genric / other Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
+					n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
+					killed.getLocation().getY() + 65, killed.getLocation().getZ());
 		return false;
 	}
 

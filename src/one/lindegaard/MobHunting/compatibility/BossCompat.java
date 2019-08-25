@@ -42,7 +42,7 @@ public class BossCompat implements Listener {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 					+ "Compatibility with Boss is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.BOSS.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.Boss.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 

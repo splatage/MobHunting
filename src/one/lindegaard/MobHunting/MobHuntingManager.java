@@ -1381,8 +1381,6 @@ public class MobHuntingManager implements Listener {
 							* plugin.getConfigManager().grindingDetectionNumberOfDeath)) {
 						if (plugin.getConfigManager().blacklistPlayerGrindingSpotsServerWorldWide)
 							plugin.getGrindingManager().registerKnownGrindingSpot(detectedGrindingArea);
-						// if (System.currentTimeMillis() - detectedGrindingArea.getTime() < 1000 * 60 *
-						// 2) {
 						cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
 								plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
 						plugin.getMessages().debug(
@@ -1395,12 +1393,16 @@ public class MobHuntingManager implements Listener {
 						plugin.getMessages().debug("1)Dampenedkilles=%s", data.getDampenedKills());
 						plugin.getMessages().debug("======================= kill ended (33)======================");
 						return;
-						// } else {
-						// plugin.getMessages().debug("KillAllowed: %s - Last kill in this area was %s
-						// seconds ago",
-						// killer.getName(),
-						// (System.currentTimeMillis() - detectedGrindingArea.getTime()) * 1000);
-						// }
+					} else if (plugin.getGrindingManager().isGrindingToFast(killed)) {
+						plugin.getMessages().debug("MobHuntingManager: player is grinding to fast!!!!!!!!!!!!!!");
+						//plugin.getMessages().learn(player,
+						//		plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
+						//plugin.getMessages().playerActionBarMessageQueue(player, ChatColor.RED
+						//		+ plugin.getMessages().getString("mobhunting.grinding.detected"));
+						//data.recordGrindingArea();
+						//cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
+						//		plugin.getConfigManager().disableNatualXPDrops);
+						
 					} else {
 						plugin.getMessages().debug("DampenedKills=%s", data.getDampenedKills());
 					}
