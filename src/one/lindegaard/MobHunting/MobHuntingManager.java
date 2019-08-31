@@ -656,7 +656,7 @@ public class MobHuntingManager implements Listener {
 
 		}
 
-		plugin.getGrindingManager().registerDeath(killed);
+		plugin.getGrindingManager().registerDeath(killer, killed);
 
 		// Grinding Farm detections
 		if (plugin.getConfigManager().grindingDetectionEnabled && plugin.getConfigManager().detectFarms
@@ -1376,19 +1376,21 @@ public class MobHuntingManager implements Listener {
 			plugin.getMessages().debug("Checking if player is grinding within a range of %s blocks",
 					data.getcDampnerRange());
 			if (!plugin.getGrindingManager().isWhitelisted(loc)) {
-				//if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
-				//	plugin.getMessages().debug("MobHuntingManager: player is grinding to fast!!!!!!!!!!!!!!");
-					// plugin.getMessages().learn(player,
-					// plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
-					// plugin.getMessages().playerActionBarMessageQueue(player, ChatColor.RED
-					// + plugin.getMessages().getString("mobhunting.grinding.detected"));
-					// data.recordGrindingArea();
-					// cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
-					// plugin.getConfigManager().disableNatualXPDrops);
-				//	plugin.getMessages().debug("======================= kill ended (32a)======================");
-				//	return;
-				//} else
-					if (detectedGrindingArea != null) {
+				// if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
+				// plugin.getMessages().debug("MobHuntingManager: player is grinding to
+				// fast!!!!!!!!!!!!!!");
+				// plugin.getMessages().learn(player,
+				// plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
+				// plugin.getMessages().playerActionBarMessageQueue(player, ChatColor.RED
+				// + plugin.getMessages().getString("mobhunting.grinding.detected"));
+				// data.recordGrindingArea();
+				// cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
+				// plugin.getConfigManager().disableNatualXPDrops);
+				// plugin.getMessages().debug("======================= kill ended
+				// (32a)======================");
+				// return;
+				// } else
+				if (detectedGrindingArea != null) {
 					data.setLastKillAreaCenter(null);
 					data.setDampenedKills(data.getDampenedKills() + 1);
 					if ((data.getDampenedKills() >= (isSlimeOrMagmaCube(killed) ? 2 : 1)
@@ -1434,7 +1436,7 @@ public class MobHuntingManager implements Listener {
 								}
 							} else {
 								data.setLastKillAreaCenter(loc.clone());
-								if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
+								if (plugin.getGrindingManager().isPlayerSpeedGrinding(killer, killed)) {
 									plugin.getMessages().debug("%s is SpeedGrinding (1). DampenedKills: %s",
 											killer.getName(), data.getcDampnerRange());
 								} else {
@@ -1446,9 +1448,9 @@ public class MobHuntingManager implements Listener {
 								}
 							}
 						} else {
-							if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
-								plugin.getMessages().debug("%s is SpeedGrinding (2). DampenedKills: %s", killer.getName(),
-										data.getcDampnerRange());
+							if (plugin.getGrindingManager().isPlayerSpeedGrinding(killer, killed)) {
+								plugin.getMessages().debug("%s is SpeedGrinding (2). DampenedKills: %s",
+										killer.getName(), data.getcDampnerRange());
 							} else {
 								data.setLastKillAreaCenter(loc.clone());
 								plugin.getMessages().debug("Kill in new world. DampenedKills reset to 0");
@@ -1456,7 +1458,7 @@ public class MobHuntingManager implements Listener {
 							}
 						}
 					} else {
-						if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
+						if (plugin.getGrindingManager().isPlayerSpeedGrinding(killer, killed)) {
 							plugin.getMessages().debug("%s is SpeedGrinding (3). DampenedKills: %s", killer.getName(),
 									data.getcDampnerRange());
 						} else {

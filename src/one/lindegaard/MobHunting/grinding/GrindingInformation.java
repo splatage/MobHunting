@@ -8,12 +8,14 @@ public class GrindingInformation {
 
 	private int entityId;
 	private Entity killed;
+	private Entity killer;
 	private long timeOfDeath;
 	private double cDampnerRange = MobHunting.getInstance().getConfigManager().grindingDetectionRange;
 
-	GrindingInformation(Entity killed) {
+	GrindingInformation(Entity killer, Entity killed) {
 		entityId = killed.getEntityId();
 		this.killed = killed;
+		this.killer = killer; 
 		timeOfDeath=System.currentTimeMillis();
 		cDampnerRange = MobHunting.getInstance().getConfigManager().grindingDetectionRange;
 	}
@@ -30,6 +32,13 @@ public class GrindingInformation {
 	 */
 	public Entity getKilled() {
 		return killed;
+	}
+
+	/**
+	 * @return the killer
+	 */
+	public Entity getKiller() {
+		return killer;
 	}
 
 	/**

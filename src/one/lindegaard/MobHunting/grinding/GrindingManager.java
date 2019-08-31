@@ -3,7 +3,6 @@ package one.lindegaard.MobHunting.grinding;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-//import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -61,8 +60,8 @@ public class GrindingManager implements Listener {
 	 * 
 	 * @param killed
 	 */
-	public void registerDeath(LivingEntity killed) {
-		GrindingInformation grindingInformation = new GrindingInformation(killed);
+	public void registerDeath(LivingEntity killer, LivingEntity killed) {
+		GrindingInformation grindingInformation = new GrindingInformation(killer, killed);
 		if (!isGrindingArea(killed.getLocation()) && !isWhitelisted(killed.getLocation())) {
 			killed_mobs.put(killed.getEntityId(), grindingInformation);
 		}
@@ -75,7 +74,7 @@ public class GrindingManager implements Listener {
 	 * @param killed
 	 * @return
 	 */
-	public boolean isPlayerSpeedGrinding(LivingEntity killed) {
+	public boolean isPlayerSpeedGrinding(LivingEntity killer, LivingEntity killed) {
 		long starttime = System.currentTimeMillis();
 		Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
 		int n = 0;
@@ -84,9 +83,11 @@ public class GrindingManager implements Listener {
 		ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
 		while (itr.hasNext()) {
 			GrindingInformation gi = itr.next().getValue();
-			ExtendedMob mob2 = plugin.getExtendedMobManager().getExtendedMobFromEntity(gi.getKilled());
+			//ExtendedMob mob2 = plugin.getExtendedMobManager().getExtendedMobFromEntity(gi.getKilled());
 			//if (!mob.equals(mob2))
 			//	continue;
+			if(!killer.equals(gi.getKiller()))
+				continue;
 
 			if (starttime > gi.getTimeOfDeath() + (1000L * plugin.getConfigManager().speedGrindingTimeFrame)) {
 				// delete after 2 min
