@@ -2,6 +2,7 @@ package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BarColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import com.Zrips.CMI.CMI;
@@ -48,15 +49,19 @@ public class CMICompat {
 	}
 
 	public static boolean isEnabledInConfig() {
-		return MobHunting.getInstance().getConfigManager().enableIntegrationHolograms;
+		return MobHunting.getInstance().getConfigManager().enableIntegrationCMI;
 	}
 
 	public static HologramManager getHologramManager() {
 		return getCMIPlugin().getHologramManager();
 	}
 	
-	public static void setMessage(Player player, String text) {
+	public static void sendActionBarMessage(Player player, String text) {
 		getCMIPlugin().getActionBar().send(player, text);
 	}
-
+	
+	public static void sendBossBarMessage(Player player, String text) {
+		getCMIPlugin().getBossBarManager().showBossBar(player, 20, 100.0, "", text, BarColor.BLUE);
+	}
+	
 }

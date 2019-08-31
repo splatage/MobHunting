@@ -70,37 +70,43 @@ public class GrindingManager implements Listener {
 
 	/**
 	 * Test if the same type of mobs is killed to fast. When players make a farm,
-	 * they tend to kill the mobs to fast. 
+	 * they tend to kill the mobs to fast.
 	 * 
 	 * @param killed
 	 * @return
 	 */
-	public boolean isGrindingToFast(LivingEntity killed) {
+	public boolean isPlayerSpeedGrinding(LivingEntity killed) {
 		long starttime = System.currentTimeMillis();
 		Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
-		int n=0;
-		long sum=0;
+		int n = 0;
+		long sum = 0;
+		long avg_time = 0;
 		ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
 		while (itr.hasNext()) {
-			GrindingInformation gi = (GrindingInformation) itr.next();
+			GrindingInformation gi = itr.next().getValue();
 			ExtendedMob mob2 = plugin.getExtendedMobManager().getExtendedMobFromEntity(gi.getKilled());
-			if (!mob.equals(mob2)) 
-				continue;
+			//if (!mob.equals(mob2))
+			//	continue;
 
-			if(gi.getTimeOfDeath()+(1000*60*2) < starttime) {
+			if (starttime > gi.getTimeOfDeath() + (1000L * plugin.getConfigManager().speedGrindingTimeFrame)) {
+				// delete after 2 min
 				killed_mobs.remove(itr);
-				continue; 
+				continue;
 			}
-			
+
 			n++;
-			sum=sum+(gi.getTimeOfDeath()-starttime);
-			long avg_time = sum/n*1000; //sec.
-			plugin.getMessages().debug("GrindingManager: average kill time=%s", avg_time);
-			if (avg_time<20) {
-				plugin.getMessages().debug("GrindingManager: less than 20 sec - player is grinding" ); 
-			}
+			sum = sum + (starttime - gi.getTimeOfDeath()) / 1000L;
+			avg_time = sum / (long) n; // sec.
+
 		}
-		return false;
+		plugin.getMessages().debug("GrindingManager: average kill time=%s", avg_time);
+		if (avg_time != 0 && (n >= plugin.getConfigManager().speedGrindingNoOfMobs
+				&& avg_time < plugin.getConfigManager().speedGrindingTimeFrame)) {
+			plugin.getMessages().debug("GrindingManager: %s %s was killed in less than %s sec - player is grinding", n,
+					mob.getMobName(), plugin.getConfigManager().speedGrindingTimeFrame);
+			return true;
+		} else
+			return false;
 	}
 
 	/**

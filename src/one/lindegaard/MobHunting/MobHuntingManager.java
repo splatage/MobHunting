@@ -656,13 +656,15 @@ public class MobHuntingManager implements Listener {
 
 		}
 
+		plugin.getGrindingManager().registerDeath(killed);
+
 		// Grinding Farm detections
 		if (plugin.getConfigManager().grindingDetectionEnabled && plugin.getConfigManager().detectFarms
 				&& !plugin.getGrindingManager().isGrindingDisabledInWorld(event.getEntity().getWorld())) {
 			if (killed.getLastDamageCause() != null) {
 				if (!plugin.getGrindingManager().isWhitelisted(killed.getLocation())) {
 					if (killed.getLastDamageCause().getCause() == DamageCause.FALL) {
-						plugin.getGrindingManager().registerDeath(killed);
+						// plugin.getGrindingManager().registerDeath(killed);
 						if (plugin.getConfigManager().detectNetherGoldFarms) {
 							if (!silent)
 								plugin.getMessages()
@@ -731,7 +733,7 @@ public class MobHuntingManager implements Listener {
 						if (plugin.getConfigManager().detectEndermanFarms) {
 							if (!silent)
 								plugin.getMessages().debug("=============== Enderman Farm detection ===============");
-							plugin.getGrindingManager().registerDeath(killed);
+							// plugin.getGrindingManager().registerDeath(killed);
 							if (plugin.getGrindingManager().isEndermanFarm(killed, silent)) {
 								cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnEndermanFarms,
 										plugin.getConfigManager().disableNaturalXPDropsOnEndermanFarms);
@@ -1374,7 +1376,19 @@ public class MobHuntingManager implements Listener {
 			plugin.getMessages().debug("Checking if player is grinding within a range of %s blocks",
 					data.getcDampnerRange());
 			if (!plugin.getGrindingManager().isWhitelisted(loc)) {
-				if (detectedGrindingArea != null) {
+				//if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
+				//	plugin.getMessages().debug("MobHuntingManager: player is grinding to fast!!!!!!!!!!!!!!");
+					// plugin.getMessages().learn(player,
+					// plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
+					// plugin.getMessages().playerActionBarMessageQueue(player, ChatColor.RED
+					// + plugin.getMessages().getString("mobhunting.grinding.detected"));
+					// data.recordGrindingArea();
+					// cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
+					// plugin.getConfigManager().disableNatualXPDrops);
+				//	plugin.getMessages().debug("======================= kill ended (32a)======================");
+				//	return;
+				//} else
+					if (detectedGrindingArea != null) {
 					data.setLastKillAreaCenter(null);
 					data.setDampenedKills(data.getDampenedKills() + 1);
 					if ((data.getDampenedKills() >= (isSlimeOrMagmaCube(killed) ? 2 : 1)
@@ -1393,16 +1407,6 @@ public class MobHuntingManager implements Listener {
 						plugin.getMessages().debug("1)Dampenedkilles=%s", data.getDampenedKills());
 						plugin.getMessages().debug("======================= kill ended (33)======================");
 						return;
-					} else if (plugin.getGrindingManager().isGrindingToFast(killed)) {
-						plugin.getMessages().debug("MobHuntingManager: player is grinding to fast!!!!!!!!!!!!!!");
-						//plugin.getMessages().learn(player,
-						//		plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
-						//plugin.getMessages().playerActionBarMessageQueue(player, ChatColor.RED
-						//		+ plugin.getMessages().getString("mobhunting.grinding.detected"));
-						//data.recordGrindingArea();
-						//cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
-						//		plugin.getConfigManager().disableNatualXPDrops);
-						
 					} else {
 						plugin.getMessages().debug("DampenedKills=%s", data.getDampenedKills());
 					}
@@ -1430,20 +1434,36 @@ public class MobHuntingManager implements Listener {
 								}
 							} else {
 								data.setLastKillAreaCenter(loc.clone());
-								plugin.getMessages().debug(
-										"Kill not within %s blocks from previous kill. DampenedKills reset to 0",
-										data.getcDampnerRange());
-								data.setDampenedKills(0);
+								if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
+									plugin.getMessages().debug("%s is SpeedGrinding (1). DampenedKills: %s",
+											killer.getName(), data.getcDampnerRange());
+								} else {
+
+									plugin.getMessages().debug(
+											"Kill not within %s blocks from previous kill. DampenedKills reset to 0",
+											data.getcDampnerRange());
+									data.setDampenedKills(0);
+								}
 							}
 						} else {
-							data.setLastKillAreaCenter(loc.clone());
-							plugin.getMessages().debug("Kill in new world. DampenedKills reset to 0");
-							data.setDampenedKills(0);
+							if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
+								plugin.getMessages().debug("%s is SpeedGrinding (2). DampenedKills: %s", killer.getName(),
+										data.getcDampnerRange());
+							} else {
+								data.setLastKillAreaCenter(loc.clone());
+								plugin.getMessages().debug("Kill in new world. DampenedKills reset to 0");
+								data.setDampenedKills(0);
+							}
 						}
 					} else {
-						data.setLastKillAreaCenter(loc.clone());
-						plugin.getMessages().debug("Last Kill Area Center was null. DampenedKills reset to 0");
-						data.setDampenedKills(0);
+						if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
+							plugin.getMessages().debug("%s is SpeedGrinding (3). DampenedKills: %s", killer.getName(),
+									data.getcDampnerRange());
+						} else {
+							data.setLastKillAreaCenter(loc.clone());
+							plugin.getMessages().debug("Last Kill Area Center was null. DampenedKills reset to 0");
+							data.setDampenedKills(0);
+						}
 					}
 				}
 
@@ -1623,7 +1643,7 @@ public class MobHuntingManager implements Listener {
 			else
 				message = message.replaceAll("\\{killed_player\\}", mob.getMobName()).replaceAll("\\{killed\\}",
 						mob.getMobName());
-			plugin.getMessages().debug("Description to be send:" + message);
+			plugin.getMessages().debug("Message to be send to player:" + message);
 			plugin.getMessages().playerSendMessageAt(player, message,
 					MessageType.valueOf(plugin.getConfigManager().defaultMessageType));
 		}

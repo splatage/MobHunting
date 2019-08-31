@@ -256,6 +256,10 @@ public class ConfigManager extends AutoConfig {
 				+ "\nIf number of kills exceeds 10, the reward will decrese with 10% until the 'number of deaths'"
 				+ "\nis reached, whereafter the reward will be zero.");
 
+		setCategoryComment("grinding.speed_grinding", "Speed grinding detection."
+				+ "\nLimit the number of mobs which can be killed with in a given timeframe"
+				);
+				
 		setCategoryComment("grinding.farms", "Detect Grinding Farms."
 				+ "\nWhen this is true, the plugin will try to detect if the players has build a Mob Grinding Farm."
 				+ "\nFarm detection can be completly disabled or you can whitelist an area using the whitelist"
@@ -554,9 +558,11 @@ public class ConfigManager extends AutoConfig {
 				"########################################################################" + "\nHerobrine"
 						+ "\n########################################################################");
 
-		setCategoryComment("plugins.boss",
-				"########################################################################" + "\nBoss"
-						+ "\n########################################################################");
+		setCategoryComment("plugins.boss", "########################################################################"
+				+ "\nBoss" + "\n########################################################################");
+
+		setCategoryComment("plugins.cmi", "########################################################################"
+				+ "\nCMI" + "\n########################################################################");
 
 		setCategoryComment("plugins.holograms",
 				"########################################################################" + "\nHolograms"
@@ -3250,6 +3256,14 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "blacklist_player_grinding_spots_as_server_worldwide_spots", category = "grinding.area")
 	public boolean blacklistPlayerGrindingSpotsServerWorldWide = false;
 
+	// Time Grinding
+	@ConfigField(name = "detect_speed_grinding", category = "grinding.speed_grinding")
+	public boolean speedGrindingDetectionEnabled = true;
+	@ConfigField(name = "time_frame", category = "grinding.speed_grinding")
+	public double speedGrindingTimeFrame = 120;
+	@ConfigField(name = "no_of_mobs", category = "grinding.speed_grinding")
+	public int speedGrindingNoOfMobs = 10;
+
 	// Farm detection
 	@ConfigField(name = "detect_farms", category = "grinding.farms")
 	public boolean detectFarms = true;
@@ -4222,6 +4236,10 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "boss.enable_integration_boss", category = "plugins", comment = "Enable/Disable integration with Boss."
 			+ "\nhttps://")
 	public boolean enableIntegrationBoss = true;
+
+	@ConfigField(name = "cmi.enable_integration_cmi", category = "plugins", comment = "Enable/Disable integration with CMI."
+			+ "\nhttps://www.spigotmc.org/resources/cmi-270-commands-insane-kits-portals-essentials-economy-mysql-sqlite-much-more.3742/")
+	public boolean enableIntegrationCMI = true;
 
 	@ConfigField(name = "holograms.enable_integration_holograms", category = "plugins", comment = "Enable/Disable integration with Holograms."
 			+ "\nhttps://www.spigotmc.org/resources/holograms.4924/")

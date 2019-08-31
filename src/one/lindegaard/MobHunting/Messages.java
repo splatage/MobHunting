@@ -494,6 +494,8 @@ public class Messages {
 			BossBarAPICompat.addBar(player, String.format(message, args));
 		} else if (BarAPICompat.isSupported()) {
 			BarAPICompat.setMessageTime(player, String.format(message, args), 5);
+		//} else if (CMICompat.isSupported()) {
+		//	CMICompat.sendBossBarMessage(player, String.format(message, args));
 		} else {
 			player.sendMessage(
 					ChatColor.AQUA + getString("mobhunting.learn.prefix") + " " + String.format(message, args));
@@ -554,7 +556,7 @@ public class Messages {
 		} else if (ActionBarAPICompat.isSupported()) {
 			ActionBarAPICompat.setMessage(player, message);
 		} else if (CMICompat.isSupported()) {
-			CMICompat.setMessage(player, message);
+			CMICompat.sendActionBarMessage(player, message);
 		} else {
 			if (!isEmpty(message))
 				player.sendMessage(message);
@@ -563,7 +565,7 @@ public class Messages {
 
 	private boolean isActionBarSupported() {
 		return TitleManagerCompat.isSupported() || ActionbarCompat.isSupported() || ActionAnnouncerCompat.isSupported()
-				|| ActionBarAPICompat.isSupported();
+				|| ActionBarAPICompat.isSupported() || CMICompat.isSupported();
 	}
 
 	public void playerSendMessage(Player player, String message) {
