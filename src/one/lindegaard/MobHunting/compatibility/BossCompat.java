@@ -2,6 +2,7 @@ package one.lindegaard.MobHunting.compatibility;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -24,6 +25,7 @@ import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
 import one.lindegaard.MobHunting.mobs.MinecraftMob;
+import one.lindegaard.MobHunting.mobs.MobPlugin;
 
 public class BossCompat implements Listener {
 
@@ -50,6 +52,8 @@ public class BossCompat implements Listener {
 					+ "Enabling Compatibility with Boss (" + mPlugin.getDescription().getVersion() + ")");
 
 			supported = true;
+			loadBossMobsData();
+			saveBossMobsData();
 		}
 	}
 
@@ -106,11 +110,27 @@ public class BossCompat implements Listener {
 		if (isSupported()) {
 			Entity entity = event.getEntity();
 			if (isBossMob(entity)) {
-				MobHunting.getInstance().getMessages().debug("A Boss Mob (%s) was spawned at %s,%s,%s in %s",
+				Boss mob = BossAPI.getBoss(entity);
+
+				MobHunting.getInstance().getMessages().debug("A Boss (%s) was spawned at %s,%s,%s in %s",
 						BossAPI.getBoss(entity).getName(), event.getEntity().getLocation().getBlockX(),
 						event.getEntity().getLocation().getBlockY(), event.getEntity().getLocation().getBlockZ(),
 						event.getEntity().getLocation().getWorld().getName());
-				saveBossMobsData(BossAPI.getBoss(entity).getName().replace(" ", "_"));
+
+				if (mMobRewardData != null && !mMobRewardData.containsKey(mob.getName())) {
+					MobHunting.getInstance().getMessages().debug("New Boss found=%s,%s", mob.getName(), mob.getName());
+					String name = mob.getName() == null ? mob.getName() : mob.getName();
+					mMobRewardData.put(mob.getName(),
+							new ExtendedMobRewardData(MobPlugin.Boss, mob.getName(), name, true, "10", 1,
+									"You killed a " + mob.getName() + " Boss.",
+									new ArrayList<HashMap<String, String>>(), 1, 0.02));
+					saveBossMobsData(mob.getName().replace(" ", "_"));
+					MobHunting.getInstance().getStoreManager().insertBossMobs(mob.getName());
+					// Update mob loaded into memory
+					MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
+					MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+				}
+
 				event.getEntity().setMetadata(MH_BOSS, new FixedMetadataValue(mPlugin, true));
 			}
 		}
