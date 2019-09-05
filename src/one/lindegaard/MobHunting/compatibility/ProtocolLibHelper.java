@@ -41,7 +41,7 @@ public class ProtocolLibHelper {
 								Iterator<String> itr = lore.iterator();
 								while (itr.hasNext()) {
 									String str = itr.next();
-									if (str.startsWith("Hidden:"))
+									if (str.startsWith("Hidden:") || str.startsWith("Hidden("))
 										itr.remove();
 								}
 								itemMeta.setLore(lore);
@@ -66,7 +66,7 @@ public class ProtocolLibHelper {
 									Iterator<String> itr = lore.iterator();
 									while (itr.hasNext()) {
 										String str = itr.next();
-										if (str.startsWith("Hidden:"))
+										if (str.startsWith("Hidden:") || str.startsWith("Hidden("))
 											itr.remove();
 									}
 									itemMeta.setLore(lore);

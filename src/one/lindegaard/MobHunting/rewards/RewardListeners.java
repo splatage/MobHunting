@@ -204,11 +204,12 @@ public class RewardListeners implements Listener {
 							double addedMoney = 0;
 							if (reward.getMoney() != 0 && !BagOfGoldCompat.isSupported()
 									&& !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
-								
+
 								boolean succes = plugin.getEconomyManager().depositPlayer(player, reward.getMoney());
-								addedMoney=reward.getMoney();
-								//addedMoney = plugin.getRewardManager().depositPlayer(player, reward.getMoney()).amount;
-							
+								addedMoney = reward.getMoney();
+								// addedMoney = plugin.getRewardManager().depositPlayer(player,
+								// reward.getMoney()).amount;
+
 							} else {
 								// Inventory is full , check if item is
 								// inventory
@@ -487,19 +488,14 @@ public class RewardListeners implements Listener {
 
 		Player player = (Player) event.getWhoClicked();
 
-		//if (!(Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor))) {
-			if (isFakeReward(isCurrentSlot)) {
-				//player.sendMessage(ChatColor.RED + "[MobHunting] WARNING, this is a FAKE reward. It was removed.");
-				isCurrentSlot.setType(Material.AIR);
-				return;
-			}
-			if (isFakeReward(isCursor)) {
-				//player.sendMessage(ChatColor.RED + "[MobHunting] WARNING, this is a FAKE reward. It was removed.");
-				isCursor.setType(Material.AIR);
-				return;
-			}
-			//return;
-		//}
+		if (isFakeReward(isCurrentSlot)) {
+			isCurrentSlot.setType(Material.AIR);
+			return;
+		}
+		if (isFakeReward(isCursor)) {
+			isCursor.setType(Material.AIR);
+			return;
+		}
 
 		InventoryAction action = event.getAction();
 		SlotType slotType = event.getSlotType();
@@ -745,15 +741,15 @@ public class RewardListeners implements Listener {
 		Block block = event.getBlock();
 		if (Reward.isReward(block)) {
 			Reward reward = Reward.getReward(block);
-			
-			if (event.getSourceBlock().getType()==Material.matchMaterial("DISPENSER")) {
+
+			if (event.getSourceBlock().getType() == Material.matchMaterial("DISPENSER")) {
 				if (!Reward.isReward(event.getSourceBlock())) {
 					plugin.getMessages().debug("RewardListeners: a %s changed a %s(%s)",
 							event.getSourceBlock().getType(), block.getType(), reward.getMoney());
 					plugin.getRewardManager().removeReward(block);
 					plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
 				}
-			} else if (event.getSourceBlock().getType()==Material.matchMaterial("PLAYER_HEAD")) {
+			} else if (event.getSourceBlock().getType() == Material.matchMaterial("PLAYER_HEAD")) {
 				return;
 			} else {
 				plugin.getMessages().debug("RewardListeners: Event Cancelled - a %s tried to change a %s(%s)",
@@ -776,5 +772,4 @@ public class RewardListeners implements Listener {
 		}
 	}
 
-	
 }
