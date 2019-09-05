@@ -4349,6 +4349,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "host", category = "database.mysql")
 	public String databaseHost = "localhost:3306";
 
+  @ConfigField(name = "useSSL", category = "database.mysql")
+  public String databaseUseSSL = "false";
+
 	@ConfigField(name = "database_version", category = "database", comment = "This is the database layout version. Mostly for internal use and you should not need"
 			+ "\nto chance this value. In case you decide to delete your database and let it recreate"
 			+ "\nor if you chance database type sqlite/mysql you should set this value to 0 again.")

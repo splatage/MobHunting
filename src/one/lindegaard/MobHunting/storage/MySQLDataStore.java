@@ -52,7 +52,8 @@ public class MySQLDataStore extends DatabaseDataStore {
 			} else {
 				dataSource.setServerName(plugin.getConfigManager().databaseHost);
 			}
-			dataSource.setDatabaseName(plugin.getConfigManager().databaseName + "?autoReconnect=true");
+			dataSource.setDatabaseName(plugin.getConfigManager().databaseName
+          + "?autoReconnect=true&useSSL="+plugin.getConfigManager().databaseUseSSL);
 			Connection c = dataSource.getConnection();
 			Statement statement = c.createStatement();
 			statement.executeUpdate("SET NAMES 'utf8'");
