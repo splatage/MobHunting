@@ -3,6 +3,8 @@ V6.8.6
 * Added support for Boss mobs
 * Added support for CMI actionbar
 * Fixed BlockPhysicsEvent on Spigot 1.12.2 servers (https://github.com/Rocologo/MobHunting/issues/561)
+* Added Secret Hash to MobHunting Rewards
+* SSL option for MySQL added in config.yml
 V6.8.5
 * Another McMMO bug fixed. Weapon were classified as UNARMED.
 * Fixed NPE error. (https://github.com/Rocologo/MobHunting/issues/551)
