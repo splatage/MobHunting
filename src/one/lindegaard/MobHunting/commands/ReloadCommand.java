@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.Messages;
 import one.lindegaard.MobHunting.MobHunting;
+import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
 import one.lindegaard.MobHunting.compatibility.MysteriousHalloweenCompat;
@@ -100,6 +101,8 @@ public class ReloadCommand implements ICommand {
 				MysteriousHalloweenCompat.loadMysteriousHalloweenMobsData();
 			if (CitizensCompat.isSupported())
 				CitizensCompat.loadCitizensData();
+			if (BossCompat.isSupported())
+				BossCompat.loadBossMobsData();
 
 			plugin.getMessages().senderSendMessage(sender,ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.reload.reload-complete"));
 

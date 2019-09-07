@@ -93,6 +93,7 @@ import org.gestern.gringotts.currency.Denomination;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
+import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.Materials.Materials;
 import one.lindegaard.Core.Server.Servers;
@@ -272,14 +273,20 @@ public class RewardManager {
 					ItemStack is;
 					if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL"))
 						is = new CustomItems().getCustomtexture(UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
-								plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+								BagOfGoldCompat.isSupported()
+										? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
+										: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 								plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 								plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, Misc.round(nextBag),
 								UUID.randomUUID(), UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID));
 					else {
 						is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
 						setDisplayNameAndHiddenLores(is,
-								new Reward(plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+								new Reward(
+										BagOfGoldCompat.isSupported()
+												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
+														.trim()
+												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 										Misc.round(nextBag), UUID.fromString(Reward.MH_REWARD_ITEM_UUID),
 										UUID.randomUUID(), null));
 					}
@@ -303,7 +310,9 @@ public class RewardManager {
 					if (saldo > toBeTaken) {
 						reward.setMoney(saldo - toBeTaken);
 						is = customItems.getCustomtexture(reward.getRewardType(),
-								plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+								BagOfGoldCompat.isSupported()
+										? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
+										: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 								plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 								plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, saldo - toBeTaken,
 								UUID.randomUUID(), reward.getSkinUUID());
@@ -355,7 +364,9 @@ public class RewardManager {
 				uuid = UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID);
 				skinuuid = uuid;
 				is = new CustomItems().getCustomtexture(uuid,
-						plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+						BagOfGoldCompat.isSupported()
+								? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
+								: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 						plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 						plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, money, UUID.randomUUID(),
 						skinuuid);
