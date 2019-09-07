@@ -1399,6 +1399,7 @@ public class MobHuntingManager implements Listener {
 							plugin.getGrindingManager().registerKnownGrindingSpot(detectedGrindingArea);
 						cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
 								plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
+						data.setKillStreak(0);
 						plugin.getMessages().debug(
 								"DampenedKills reached the limit %s, no rewards paid. Grinding Spot registered.",
 								(isSlimeOrMagmaCube(killed) ? 2 : 1)
@@ -1469,9 +1470,10 @@ public class MobHuntingManager implements Listener {
 					}
 				}
 
-				if (data.getDampenedKills() > (isSlimeOrMagmaCube(killed) ? 2 : 1)
-						* plugin.getConfigManager().grindingDetectionNumberOfDeath / 2 + 4
-						&& !plugin.getGrindingManager().isWhitelisted(loc)) {
+				if (!plugin.getGrindingManager().isWhitelisted(loc)
+						&& data.getDampenedKills() > (isSlimeOrMagmaCube(killed) ? 2 : 1)
+								* plugin.getConfigManager().grindingDetectionNumberOfDeath / 2 + 4
+						&& !plugin.getGrindingManager().isPlayerSpeedGrinding(killer, killed)) {
 					if (data.getKillstreakLevel() != 0 && data.getKillstreakMultiplier() != 1) {
 						plugin.getMessages().playerActionBarMessageQueue(player,
 								ChatColor.RED + plugin.getMessages().getString("mobhunting.killstreak.lost"));
