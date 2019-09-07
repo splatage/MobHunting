@@ -1377,20 +1377,6 @@ public class MobHuntingManager implements Listener {
 			plugin.getMessages().debug("Checking if player is grinding within a range of %s blocks",
 					data.getcDampnerRange());
 			if (!plugin.getGrindingManager().isWhitelisted(loc)) {
-				// if (plugin.getGrindingManager().isPlayerSpeedGrinding(killed)) {
-				// plugin.getMessages().debug("MobHuntingManager: player is grinding to
-				// fast!!!!!!!!!!!!!!");
-				// plugin.getMessages().learn(player,
-				// plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
-				// plugin.getMessages().playerActionBarMessageQueue(player, ChatColor.RED
-				// + plugin.getMessages().getString("mobhunting.grinding.detected"));
-				// data.recordGrindingArea();
-				// cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
-				// plugin.getConfigManager().disableNatualXPDrops);
-				// plugin.getMessages().debug("======================= kill ended
-				// (32a)======================");
-				// return;
-				// } else
 				if (detectedGrindingArea != null) {
 					data.setLastKillAreaCenter(null);
 					data.setDampenedKills(data.getDampenedKills() + 1);

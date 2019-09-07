@@ -169,7 +169,7 @@ public class ExtendedMobRewardData {
 	@SuppressWarnings("unchecked")
 	public void read(ConfigurationSection section) throws InvalidConfigurationException, IllegalStateException {
 		mobPluginName = MobPlugin.valueOf(section.get("plugin").toString());
-		mobName = section.getString("mobName");
+		mobName = section.getString("name");
 
 		if (section.get("enabled") != null) {
 			mobEnabled = section.getBoolean("enabled", true);

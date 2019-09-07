@@ -113,16 +113,17 @@ public class BossCompat implements Listener {
 				Boss mob = BossAPI.getBoss(entity);
 
 				MobHunting.getInstance().getMessages().debug("A Boss (%s) was spawned at %s,%s,%s in %s",
-						BossAPI.getBoss(entity).getName(), event.getEntity().getLocation().getBlockX(),
+						mob.getSettings().getCustomName(), event.getEntity().getLocation().getBlockX(),
 						event.getEntity().getLocation().getBlockY(), event.getEntity().getLocation().getBlockZ(),
 						event.getEntity().getLocation().getWorld().getName());
 
 				if (mMobRewardData != null && !mMobRewardData.containsKey(mob.getName())) {
-					MobHunting.getInstance().getMessages().debug("New Boss found=%s,%s", mob.getName(), mob.getName());
-					String name = mob.getName() == null ? mob.getName() : mob.getName();
+					MobHunting.getInstance().getMessages().debug("New Boss found=%s(%s)",
+							mob.getSettings().getCustomName(), mob.getName());
+
 					mMobRewardData.put(mob.getName(),
-							new ExtendedMobRewardData(MobPlugin.Boss, mob.getName(), name, true, "10", 1,
-									"You killed a " + mob.getName() + " Boss.",
+							new ExtendedMobRewardData(MobPlugin.Boss, mob.getName(), mob.getSettings().getCustomName(),
+									true, "10", 1, "You killed a " + mob.getSettings().getCustomName(),
 									new ArrayList<HashMap<String, String>>(), 1, 0.02));
 					saveBossMobsData(mob.getName().replace(" ", "_"));
 					MobHunting.getInstance().getStoreManager().insertBossMobs(mob.getName());
