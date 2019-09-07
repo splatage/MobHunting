@@ -1319,7 +1319,8 @@ public class MobHuntingManager implements Listener {
 		// if (player != null) {
 		if (cash != 0 && plugin.getConfigManager().grindingDetectionEnabled
 				&& (!plugin.getGrindingManager().isGrindingArea(player.getLocation())
-						|| plugin.getGrindingManager().isWhitelisted(player.getLocation()))) {
+						|| plugin.getGrindingManager().isWhitelisted(player.getLocation()))
+				&& !plugin.getGrindingManager().isPlayerSpeedGrinding(killer, killed)) {
 			// Killstreak
 			if (killed instanceof Slime) {
 				// Tiny Slime and MagmaCube do no damage or very little
