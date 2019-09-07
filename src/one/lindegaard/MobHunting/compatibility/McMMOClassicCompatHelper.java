@@ -26,6 +26,6 @@ public class McMMOClassicCompatHelper {
 		else if (Materials.isUnarmed(info.getWeapon()))
 			return SkillType.UNARMED.name();
 		else
-			return "";
+			return null;
 	}
 }

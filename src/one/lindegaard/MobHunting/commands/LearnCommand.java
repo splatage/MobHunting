@@ -94,10 +94,10 @@ public class LearnCommand implements ICommand {
 		ps.setLearningMode(!ps.isLearningMode());
 		plugin.getPlayerSettingsManager().setPlayerSettings(player, ps);
 		if (ps.isLearningMode())
-			player.sendMessage(
+			plugin.getMessages().playerActionBarMessageQueue(player,
 					plugin.getMessages().getString("mobhunting.commands.learn.enabled", "player", player.getName()));
 		else
-			player.sendMessage(
+			plugin.getMessages().playerActionBarMessageQueue(player,
 					plugin.getMessages().getString("mobhunting.commands.learn.disabled", "player", player.getName()));
 	}
 

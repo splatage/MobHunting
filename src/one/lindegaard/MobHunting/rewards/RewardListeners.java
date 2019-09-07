@@ -353,7 +353,7 @@ public class RewardListeners implements Listener {
 			ItemStack helmet = player.getEquipment().getHelmet();
 
 			if (isFakeReward(helmet)) {
-				player.sendMessage(
+				plugin.getMessages().playerActionBarMessageQueue(player,
 						ChatColor.RED + "[MobHunting] WARNING, you have a reward on your head. It was removed.");
 				event.getPlayer().getEquipment().setHelmet(new ItemStack(Material.AIR));
 				return;

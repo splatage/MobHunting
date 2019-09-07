@@ -1811,7 +1811,7 @@ public class MobHuntingManager implements Listener {
 				if (chance < plugin.getRewardManager().getMcMMOChance(killed)) {
 					int level = plugin.getRewardManager().getMcMMOLevel(killed);
 					McMMOCompat.addLevel(killer, skilltypename, level);
-					plugin.getMessages().debug("%s was rewarded with %s McMMO Levels for %s", killer.getName(),
+					plugin.getMessages().debug("%s was rewarded with %s McMMO Levels for skill %s", killer.getName(),
 							plugin.getRewardManager().getMcMMOLevel(killed), skilltypename);
 					killer.sendMessage(plugin.getMessages().getString("mobhunting.mcmmo.skilltype_level", "mcmmo_level",
 							level, "skilltype", skilltypename));
