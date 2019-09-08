@@ -171,6 +171,16 @@ public class BossCompat implements Listener {
 							key);
 				}
 			}
+			
+			for (Boss boss:BossAPI.getBosses()) {
+				if (!mMobRewardData.containsKey(boss.getName())) {
+					mMobRewardData.put(boss.getName(),
+							new ExtendedMobRewardData(MobPlugin.Boss, boss.getName(), boss.getSettings().getCustomName(),
+									true, "10", 1, "You killed a " + boss.getSettings().getCustomName(),
+									new ArrayList<HashMap<String, String>>(), 1, 0.02));
+				}
+			}
+			
 			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 			MobHunting.getInstance().getMessages().debug("Loaded %s Boss mobs", n);
 		} catch (IOException e) {
