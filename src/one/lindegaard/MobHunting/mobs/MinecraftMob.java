@@ -770,17 +770,7 @@ public enum MinecraftMob {
 	 */
 	public ItemStack setDisplayNameAndHiddenLores(ItemStack skull, Reward reward) {
 		ItemMeta skullMeta = skull.getItemMeta();
-		if (reward.getRewardType().equals(UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID)))
-			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden:" + reward.getDisplayname(),
-					"Hidden:" + reward.getMoney(), "Hidden:" + reward.getRewardType(),
-					reward.getMoney() == 0 ? "Hidden:" : "Hidden:" + UUID.randomUUID(),
-					"Hidden:" + reward.getSkinUUID())));
-		else
-			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden:" + reward.getDisplayname(),
-					"Hidden:" + reward.getMoney(), "Hidden:" + reward.getRewardType(),
-					reward.getMoney() == 0 ? "Hidden:" : "Hidden:" + UUID.randomUUID(),
-					"Hidden:" + reward.getSkinUUID(),
-					MobHunting.getInstance().getMessages().getString("mobhunting.reward.lore"))));
+		skullMeta.setLore(reward.getHiddenLore());
 
 		if (reward.getMoney() == 0)
 			skullMeta.setDisplayName(
