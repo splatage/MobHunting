@@ -1,3 +1,5 @@
+V6.9.0
+* Fixed BagOfGold duplication problem. (https://www.spigotmc.org/threads/bagofgold.283572/page-17#post-3556765)
 V6.8.9
 * All know Bosses from Boss is now added when the server starts / reloads.
 * Fixed situation where a MobHunting reward could lose its value by placering the item as a block
