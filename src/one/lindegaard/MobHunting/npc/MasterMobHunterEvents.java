@@ -59,9 +59,9 @@ public class MasterMobHunterEvents implements Listener{
 					e.setCancelled(true);
 					MasterMobHunterSign.setMHPowerLater(b);
 				}
-			if ((b.getType().equals(Material.matchMaterial("PISTON_EXTENSION")) && c.equals(Material.matchMaterial("REDSTONE_WIRE"))) ){
+			//if ((b.getType().equals(Material.matchMaterial("PISTON_EXTENSION")) && c.equals(Material.matchMaterial("REDSTONE_WIRE"))) ){
 
-			}
+			//}
 		}
 	}
 

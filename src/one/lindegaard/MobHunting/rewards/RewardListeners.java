@@ -564,14 +564,14 @@ public class RewardListeners implements Listener {
 				Reward reward = Reward.getReward(isCurrentSlot);
 				plugin.getMessages().debug("%s moved BagOfGold (%s) out of Inventory", player.getName(),
 						reward.getMoney());
-			} else if ((action == InventoryAction.PLACE_ALL || action == InventoryAction.PLACE_ONE
-					|| action == InventoryAction.PLACE_SOME) && Reward.isReward(isCursor)) {
+			} else if ((action == InventoryAction.PLACE_ALL) && Reward.isReward(isCursor)) {
 				Reward reward = Reward.getReward(isCursor);
 				plugin.getMessages().debug("%s moved BagOfGold (%s) into Inventory", player.getName(),
 						reward.getMoney());
 			}
 
-			else if (action == InventoryAction.SWAP_WITH_CURSOR) {
+			else if (action == InventoryAction.SWAP_WITH_CURSOR || action == InventoryAction.PLACE_ONE
+					|| action == InventoryAction.PLACE_SOME) {
 				if (Reward.isReward(isCurrentSlot) && Reward.isReward(isCursor)) {
 					event.setCancelled(true);
 					ItemMeta imCurrent = isCurrentSlot.getItemMeta();
@@ -743,8 +743,8 @@ public class RewardListeners implements Listener {
 
 			if (event.getChangedType() == Material.matchMaterial("DISPENSER")) {
 				if (!Reward.isReward(event.getSourceBlock())) {
-					plugin.getMessages().debug("RewardListeners: a %s changed a %s(%s)",
-							event.getChangedType(), block.getType(), reward.getMoney());
+					plugin.getMessages().debug("RewardListeners: a %s changed a %s(%s)", event.getChangedType(),
+							block.getType(), reward.getMoney());
 					plugin.getRewardManager().removeReward(block);
 					plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
 				}
