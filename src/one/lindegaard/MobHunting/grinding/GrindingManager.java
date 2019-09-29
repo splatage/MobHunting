@@ -210,20 +210,13 @@ public class GrindingManager implements Listener {
 								&& gi.getKilled().getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-
 									if (killed.getLocation().subtract(0, killed.getLocation().getY() + 65, 0)
 											.distance(gi.getKilled().getLocation().subtract(0,
 													gi.getKilled().getLocation().getY() + 65, 0)) < killRadius) {
 										n++;
-										// plugin.getMessages().debug("An enderman died: (%s sec.)",
-										// new Date(now - gi.getTimeOfDeath()).getSeconds());
-									} else {
-										// plugin.getMessages().debug("An endermand died far away: %s",
-										// killed.getLocation().distance(gi.getKilled().getLocation()));
-									}
+									} 
 								} else {
-									// plugin.getMessages().debug("Removing old kill. (Killed %s seconds ago).",
-									// Math.round((now - gi.getTimeOfDeath()) / 1000L));
+									// Removing old kill.
 									itr.remove();
 								}
 							} else {
@@ -234,8 +227,7 @@ public class GrindingManager implements Listener {
 								registerKnownGrindingSpot(area);
 								return true;
 							}
-						} // else plugin.getMessages().debug("not correct type or same mob:
-							// %s",gi.getKilled().getType());
+						} // This was not an Enderman:
 					}
 				} else {
 					if (!silent)
@@ -253,10 +245,6 @@ public class GrindingManager implements Listener {
 					"Farm detection: This was not an Enderman Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
 					n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
 					killed.getLocation().getY() + 65, killed.getLocation().getZ());
-
-		// plugin.getMessages().debug("Killed: %s==%s, lastDamageCause: %s",
-		// killed.getType(),MinecraftMob.getMinecraftMobType(killed).getExtendedMobType(),
-		// killed.getLastDamageCause().getCause());
 		return false;
 	}
 
@@ -279,18 +267,9 @@ public class GrindingManager implements Listener {
 									if (killed.getWorld().equals(gi.getKilled().getWorld()) && killed.getLocation()
 											.distance(gi.getKilled().getLocation()) < killRadius) {
 										n++;
-										// plugin.getMessages().debug("This was
-										// not a Nether
-										// Gold XP Farm (%s sec.)",
-										// new Date(now -
-										// gi.getTimeOfDeath()).getSeconds());
 									}
 								} else {
-									// plugin.getMessages().debug("Removing old
-									// kill.
-									// (Killed %s seconds ago).",
-									// Math.round((now - gi.getTimeOfDeath()) /
-									// 1000L));
+									// Removing old kill.
 									itr.remove();
 								}
 							} else {
