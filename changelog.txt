@@ -1,5 +1,6 @@
 V6.9.1
-*
+* Fixed bug where rewards could be destroyed by block updates.
+* Fixed minor bug in GrindingManager.isPlayerSpeedGrinding
 V6.9.0
 * Fixed BagOfGold duplication problem. (https://www.spigotmc.org/threads/bagofgold.283572/page-17#post-3556765)
 V6.8.9
