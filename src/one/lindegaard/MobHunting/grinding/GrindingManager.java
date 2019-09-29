@@ -82,10 +82,7 @@ public class GrindingManager implements Listener {
 		long avg_time = 0;
 		ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
 		while (itr.hasNext()) {
-			GrindingInformation gi = itr.next().getValue();
-			//ExtendedMob mob2 = plugin.getExtendedMobManager().getExtendedMobFromEntity(gi.getKilled());
-			//if (!mob.equals(mob2))
-			//	continue;
+			GrindingInformation gi=itr.next().getValue();
 			if (killer==null) {
 				plugin.getMessages().debug("GrindingManager: isPlayerSpeedGrinding - killer is null");
 				return false;
@@ -100,7 +97,7 @@ public class GrindingManager implements Listener {
 
 			if (starttime > gi.getTimeOfDeath() + (1000L * plugin.getConfigManager().speedGrindingTimeFrame)) {
 				// delete after x min
-				killed_mobs.remove(itr);
+				killed_mobs.remove(gi.getEntityId());
 				continue;
 			}
 
