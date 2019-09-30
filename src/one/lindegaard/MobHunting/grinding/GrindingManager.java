@@ -27,6 +27,8 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
+import com.mysql.fabric.xmlrpc.base.Array;
+
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
@@ -77,6 +79,7 @@ public class GrindingManager implements Listener {
 	public boolean isPlayerSpeedGrinding(LivingEntity killer, LivingEntity killed) {
 		long starttime = System.currentTimeMillis();
 		Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
+		List<Integer> to_be_deleted = new ArrayList<Integer>();
 		int n = 0;
 		long sum = 0;
 		long avg_time = 0;
@@ -97,7 +100,8 @@ public class GrindingManager implements Listener {
 
 			if (starttime > gi.getTimeOfDeath() + (1000L * plugin.getConfigManager().speedGrindingTimeFrame)) {
 				// delete after x min
-				killed_mobs.remove(gi.getEntityId());
+				to_be_deleted.add(gi.getEntityId());
+				//killed_mobs.remove(gi.getEntityId());
 				continue;
 			}
 
@@ -105,6 +109,9 @@ public class GrindingManager implements Listener {
 			sum = sum + (starttime - gi.getTimeOfDeath()) / 1000L;
 			avg_time = sum / (long) n; // sec.
 
+		}
+		for (int i : to_be_deleted) {
+			killed_mobs.remove(i);
 		}
 		plugin.getMessages().debug("GrindingManager: average kill time=%s", avg_time);
 		if (avg_time != 0 && (n >= plugin.getConfigManager().speedGrindingNoOfMobs
