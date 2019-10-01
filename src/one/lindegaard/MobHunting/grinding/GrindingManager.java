@@ -27,8 +27,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
@@ -87,11 +85,9 @@ public class GrindingManager implements Listener {
 		while (itr.hasNext()) {
 			GrindingInformation gi=itr.next().getValue();
 			if (killer==null) {
-				plugin.getMessages().debug("GrindingManager: isPlayerSpeedGrinding - killer is null");
 				return false;
 			}
 			if (gi==null || gi.getKiller()==null) {
-				plugin.getMessages().debug("GrindingManager: isPlayerSpeedGrinding - gi or gi.getKiller() is null");
 				continue;
 			}
 				
@@ -101,7 +97,6 @@ public class GrindingManager implements Listener {
 			if (starttime > gi.getTimeOfDeath() + (1000L * plugin.getConfigManager().speedGrindingTimeFrame)) {
 				// delete after x min
 				to_be_deleted.add(gi.getEntityId());
-				//killed_mobs.remove(gi.getEntityId());
 				continue;
 			}
 
