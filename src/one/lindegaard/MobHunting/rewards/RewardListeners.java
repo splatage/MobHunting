@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -370,7 +371,11 @@ public class RewardListeners implements Listener {
 							.round(plugin.getRewardManager().addBagOfGoldPlayer(player, reward.getMoney())))
 						plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null, player.getLocation(),
 								reward.getMoney());
+				} else { // MobHead reward
+					event.getPlayer().getEquipment().setHelmet(new ItemStack(Material.AIR));
+					player.getWorld().dropItem(player.getLocation(), helmet);
 				}
+					
 			}
 		}
 	}
@@ -518,13 +523,12 @@ public class RewardListeners implements Listener {
 			clickedInventory = inventory;
 
 		if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
-			// plugin.getMessages().debug(
-			// "action=%s, InvType=%s, slottype=%s, slotno=%s, current=%s,
-			// cursor=%s, view=%s", action,
-			// inventory.getType(), slotType, event.getSlot(),
-			// isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
-			// isCursor == null ? "null" : isCursor.getType(),
-			// event.getView().getType());
+			 
+			plugin.getMessages().debug("action=%s, InvType=%s, slottype=%s, slotno=%s, current=%s, cursor=%s, view=%s", action,
+			 inventory.getType(), slotType, event.getSlot(),
+			 isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
+			 isCursor == null ? "null" : isCursor.getType(),
+			 event.getView().getType());
 
 			if (slotType == SlotType.OUTSIDE && Reward.isReward(isCursor)) {
 				Reward reward = Reward.getReward(isCursor);

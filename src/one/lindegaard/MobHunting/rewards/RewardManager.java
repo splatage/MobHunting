@@ -246,7 +246,7 @@ public class RewardManager {
 						else
 							is = setDisplayNameAndHiddenLores(is, rewardInSlot);
 						plugin.getMessages().debug(
-								"Added %s to %s's item in slot %s, new value is %s (addBagOfGoldPlayer_EconomyManager)",
+								"Added %s to %s's item in slot %s, new value is %s",
 								format(amount), player.getName(), slot, format(rewardInSlot.getMoney()));
 						if (moneyLeftToGive <= 0) {
 							found = true;
