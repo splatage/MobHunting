@@ -71,7 +71,7 @@ public class MasterMobHunterSign implements Listener {
 			else
 				removeMHPower(b);
 		} else if (MasterMobHunterRedstoneWire.isRedstoneWire(b)) {
-			//MobHunting.getAPI().getMessages().debug("setPower: Set power on RedStone");
+			// MobHunting.getAPI().getMessages().debug("setPower: Set power on RedStone");
 			MasterMobHunterRedstoneWire.setPowerOnRedstoneWire(b, power);
 		}
 	}
@@ -197,8 +197,9 @@ public class MasterMobHunterSign implements Listener {
 				}
 			}
 
-			MobHunting.getInstance().getMessages().debug("%s hasMeta(MH_POWERED)=%s, power=%s", clickedblock.getType(),
-					clickedblock.hasMetadata(MH_POWERED), power);
+			if (supportedmats.contains(clickedblock.getType()))
+				MobHunting.getInstance().getMessages().debug("%s hasMeta(MH_POWERED)=%s, power=%s",
+						clickedblock.getType(), clickedblock.hasMetadata(MH_POWERED), power);
 
 			BlockState blockstate = clickedblock.getState();
 
@@ -269,12 +270,13 @@ public class MasterMobHunterSign implements Listener {
 		Block b = e.getBlock();
 		if (MasterMobHunterRedstoneWire.isRedstoneWire(b)) {
 			if (isMHIndirectPoweredBySign(b)) {
-				//MobHunting.getAPI().getMessages().debug("onBlockPlaceEvent: Set power on RedStone");
-				//MasterMobHunterRedstoneWire.setPowerOnRedstoneWire(b, POWER_FROM_SIGN);
+				// MobHunting.getAPI().getMessages().debug("onBlockPlaceEvent: Set power on
+				// RedStone");
+				// MasterMobHunterRedstoneWire.setPowerOnRedstoneWire(b, POWER_FROM_SIGN);
 				// power on Redstone must be set immediately to work
-				 setMHPower(b, POWER_FROM_SIGN);
-				 b.getState().setRawData(POWER_FROM_SIGN);
-				 b.getState().update(true, false);
+				setMHPower(b, POWER_FROM_SIGN);
+				b.getState().setRawData(POWER_FROM_SIGN);
+				b.getState().update(true, false);
 			}
 		} else if ((MasterMobHunterRedstoneLamp.isRedstoneLamp(b) || MasterMobHunterPiston.isPistonBase(b))
 				&& isMHIndirectPoweredBySign(b)) {

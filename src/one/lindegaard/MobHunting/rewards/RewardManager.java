@@ -535,8 +535,8 @@ public class RewardManager {
 					saveReward(UUID.fromString(key));
 					n++;
 				} else {
-					deleted++;
-					config.set(key, null);
+					//deleted++;
+					//config.set(key, null);
 				}
 			}
 		} catch (InvalidConfigurationException e) {
