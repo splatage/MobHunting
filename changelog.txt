@@ -1,3 +1,7 @@
+V6.9.5
+*
+V6.9.4
+* Fixed bug which could destroy rewards/bags on server restart
 V6.9.1
 * Fixed bug where rewards could be destroyed by block updates.
 * Fixed minor bug in GrindingManager.isPlayerSpeedGrinding

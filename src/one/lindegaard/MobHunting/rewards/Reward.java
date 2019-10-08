@@ -28,7 +28,7 @@ import one.lindegaard.MobHunting.mobs.MinecraftMob;
 public class Reward {
 
 	public final static String MH_REWARD_DATA = "MH:HiddenRewardData";
-	
+
 	// Unique random generated UUID for "Bag of gold" rewards
 	public final static String MH_REWARD_BAG_OF_GOLD_UUID = "b3f74fad-429f-4801-9e31-b8879cbae96f";
 	// Unique random generated UUID for MobHead/Playerhead rewards
@@ -46,7 +46,7 @@ public class Reward {
 
 	private String displayname = ""; // Hidden(0)
 	private double money = 0; // Hidden(1)
-	private UUID uuid = null; // Hidden(2)
+	private UUID reward_type = null; // Hidden(2)
 	private UUID uniqueId; // Hidden(3)
 	private UUID skinUUID; // Hidden(4)
 	private String encodedHash; // Hidden(5) -
@@ -54,7 +54,7 @@ public class Reward {
 	public Reward() {
 		this.displayname = "Skull";
 		this.money = 0;
-		this.uuid = UUID.randomUUID();
+		this.reward_type = UUID.fromString("7059c845-8556-4874-806c-27bb77adee96");
 		this.uniqueId = UUID.randomUUID();
 		this.encodedHash = Strings.encode(makeDecodedHash());
 	}
@@ -62,7 +62,7 @@ public class Reward {
 	public Reward(Reward reward) {
 		this.displayname = reward.getDisplayname();
 		this.money = reward.getMoney();
-		this.uuid = reward.getRewardType();
+		this.reward_type = reward.getRewardType();
 		this.skinUUID = reward.getSkinUUID();
 		this.uniqueId = reward.getUniqueUUID();
 		this.encodedHash = reward.getEncodedHash();
@@ -71,7 +71,7 @@ public class Reward {
 	public Reward(String displayName, double money, UUID uuid, UUID uniqueId, UUID skinUUID) {
 		this.displayname = displayName.startsWith("Hidden:") ? displayName.substring(7) : displayName;
 		this.money = money;
-		this.uuid = uuid;
+		this.reward_type = uuid;
 		this.uniqueId = uniqueId;
 		this.skinUUID = skinUUID;
 		this.encodedHash = Strings.encode(makeDecodedHash());
@@ -82,7 +82,7 @@ public class Reward {
 	}
 
 	private String makeDecodedHash() {
-		return String.format(Locale.ENGLISH, "%.5f", money) + uuid.toString();
+		return String.format(Locale.ENGLISH, "%.5f", money) + reward_type.toString();
 	}
 
 	public boolean checkHash() {
@@ -119,10 +119,10 @@ public class Reward {
 			// RewardType
 			else if (str.startsWith("Hidden(2):")) {
 				rewardTypeStr = str.substring(10);
-				this.uuid = UUID.fromString(rewardTypeStr);
+				this.reward_type = UUID.fromString(rewardTypeStr);
 			} else if (n == 2 && str.startsWith("Hidden:")) {
 				rewardTypeStr = str.substring(7);
-				this.uuid = UUID.fromString(rewardTypeStr);
+				this.reward_type = UUID.fromString(rewardTypeStr);
 			}
 
 			// Unique UUID
@@ -133,9 +133,9 @@ public class Reward {
 
 			// Skin UUID
 			else if (str.startsWith("Hidden(4):"))
-				this.skinUUID = money == 0 ? UUID.randomUUID() : UUID.fromString(str.substring(10));
+				this.skinUUID = UUID.fromString(str.substring(10));
 			else if (n == 4 && str.startsWith("Hidden:"))
-				this.skinUUID = money == 0 ? UUID.randomUUID() : UUID.fromString(str.substring(7));
+				this.skinUUID = UUID.fromString(str.substring(7));
 
 			// MobHunting Reward
 			else if (str.equalsIgnoreCase(MobHunting.getAPI().getMessages().getString("mobhunting.reward.lore")))
@@ -156,17 +156,17 @@ public class Reward {
 	}
 
 	public ArrayList<String> getHiddenLore() {
-		if (uuid.equals(UUID.fromString(MH_REWARD_BAG_OF_GOLD_UUID)))
+		if (reward_type.equals(UUID.fromString(MH_REWARD_BAG_OF_GOLD_UUID)))
 			return new ArrayList<String>(Arrays.asList("Hidden(0):" + displayname, // displayname
 					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), // value
-					"Hidden(2):" + uuid.toString(), // type
+					"Hidden(2):" + reward_type.toString(), // type
 					money == 0 ? "Hidden(3):" : "Hidden(3):" + uniqueId.toString(), // uniqueid
 					"Hidden(4):" + (skinUUID == null ? "" : skinUUID.toString()), // SkinUUID
 					"Hidden(5):" + encodedHash)); // Hash
 		else
 			return new ArrayList<String>(Arrays.asList("Hidden(0):" + displayname, // displayname
 					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), // value
-					"Hidden(2):" + uuid.toString(), // type
+					"Hidden(2):" + reward_type.toString(), // type
 					money == 0 ? "Hidden(3):" : "Hidden(3):" + uniqueId.toString(), // uniqueId
 					"Hidden(4):" + (skinUUID == null ? "" : skinUUID.toString()), // SkinUUID
 					"Hidden(5):" + encodedHash, MobHunting.getAPI().getMessages().getString("mobhunting.reward.lore"))); // skin
@@ -191,7 +191,7 @@ public class Reward {
 	 * @return the uuid
 	 */
 	public UUID getRewardType() {
-		return uuid;
+		return reward_type;
 	}
 
 	/**
@@ -220,7 +220,7 @@ public class Reward {
 	 * @param uuid the uuid to set
 	 */
 	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
+		this.reward_type = uuid;
 		updateEncodedHash();
 	}
 
@@ -264,14 +264,14 @@ public class Reward {
 	}
 
 	public String toString() {
-		return "{Description=" + displayname + ", money=" + String.format(Locale.ENGLISH, "%.5f", money) + ", UUID="
-				+ uuid + ", UniqueID=" + uniqueId + ", Skin=" + skinUUID + "}";
+		return "{Description=" + displayname + ", money=" + String.format(Locale.ENGLISH, "%.5f", money) + ", Type="
+				+ reward_type + ", UniqueID=" + uniqueId + ", Skin=" + skinUUID + "}";
 	}
 
 	public void save(ConfigurationSection section) {
 		section.set("description", displayname);
 		section.set("money", String.format(Locale.ENGLISH, "%.5f", money));
-		section.set("uuid", uuid.toString());
+		section.set("uuid", reward_type.toString());
 		section.set("uniqueid", uniqueId.toString());
 		section.set("skinuuid", skinUUID == null ? "" : skinUUID.toString());
 		section.set("hash", encodedHash == null ? "" : Strings.decode(encodedHash));
@@ -280,18 +280,18 @@ public class Reward {
 	public void read(ConfigurationSection section) throws InvalidConfigurationException {
 		displayname = section.getString("description");
 		money = Double.valueOf(section.getString("money").replace(",", "."));
-		uuid = UUID.fromString(section.getString("uuid"));
+		reward_type = UUID.fromString(section.getString("uuid"));
 		uniqueId = UUID.fromString(section.getString("uniqueid"));
 		String str = section.getString("skinuuid", "");
 		if (str.equalsIgnoreCase("")) {
-			if (uuid.equals(UUID.fromString(MH_REWARD_BAG_OF_GOLD_UUID)))
+			if (reward_type.equals(UUID.fromString(MH_REWARD_BAG_OF_GOLD_UUID)))
 				this.skinUUID = UUID.fromString(MH_REWARD_BAG_OF_GOLD_UUID);
-			else if (uuid.equals(UUID.fromString(MH_REWARD_KILLER_UUID))) {
+			else if (reward_type.equals(UUID.fromString(MH_REWARD_KILLER_UUID))) {
 				@SuppressWarnings("deprecation")
 				OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(displayname);
 				if (offlinePlayer != null)
 					skinUUID = offlinePlayer.getUniqueId();
-			} else if (uuid.equals(UUID.fromString(MH_REWARD_KILLED_UUID))) {
+			} else if (reward_type.equals(UUID.fromString(MH_REWARD_KILLED_UUID))) {
 				MinecraftMob mob = MinecraftMob.getMinecraftMobType(displayname);
 				if (mob != null) {
 					skinUUID = mob.getPlayerUUID();
@@ -305,19 +305,19 @@ public class Reward {
 	}
 
 	public boolean isBagOfGoldReward() {
-		return uuid.toString().equalsIgnoreCase(MH_REWARD_BAG_OF_GOLD_UUID);
+		return reward_type.toString().equalsIgnoreCase(MH_REWARD_BAG_OF_GOLD_UUID);
 	}
 
 	public boolean isKilledHeadReward() {
-		return uuid.toString().equalsIgnoreCase(MH_REWARD_KILLED_UUID);
+		return reward_type.toString().equalsIgnoreCase(MH_REWARD_KILLED_UUID);
 	}
 
 	public boolean isKillerHeadReward() {
-		return uuid.toString().equalsIgnoreCase(MH_REWARD_KILLER_UUID);
+		return reward_type.toString().equalsIgnoreCase(MH_REWARD_KILLER_UUID);
 	}
 
 	public boolean isItemReward() {
-		return uuid.toString().equalsIgnoreCase(MH_REWARD_ITEM_UUID);
+		return reward_type.toString().equalsIgnoreCase(MH_REWARD_ITEM_UUID);
 	}
 
 	public static boolean isReward(Item item) {

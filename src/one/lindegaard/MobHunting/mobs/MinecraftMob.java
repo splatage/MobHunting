@@ -474,10 +474,6 @@ public enum MinecraftMob {
 		mTextureSignature = signature;
 	}
 
-	public String getName() {
-		return name();
-	}
-
 	public String getDisplayName() {
 		return mDisplayName;
 	}
@@ -655,7 +651,7 @@ public enum MinecraftMob {
 			return entity instanceof Skeleton && ((Skeleton) entity).getSkeletonType() == SkeletonType.NORMAL;
 		else if (this == BonusMob)
 			return entity.hasMetadata("MH:hasBonus");
-		else if (this==Enderman)
+		else if (this == Enderman)
 			return entity instanceof org.bukkit.entity.Enderman;
 		// else
 		else
@@ -681,7 +677,8 @@ public enum MinecraftMob {
 	public static MinecraftMob getMinecraftMobType(String name) {
 		String name1 = name.replace(" ", "_");
 		for (MinecraftMob type : values())
-			if (type.getFriendlyName().replace(" ", "_").equalsIgnoreCase(name1)
+			if (type.getExtendedMobType().equalsIgnoreCase(name1)
+					|| type.getFriendlyName().replace(" ", "_").equalsIgnoreCase(name1)
 					|| type.getDisplayName().replace(" ", "_").equalsIgnoreCase(name1)
 					|| type.name().equalsIgnoreCase(name1))
 				return type;

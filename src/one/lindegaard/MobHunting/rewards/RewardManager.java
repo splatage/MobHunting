@@ -593,8 +593,8 @@ public class RewardManager {
 
 	public void removeReward(Block block) {
 		if (Reward.isReward(block)) {
-			plugin.getMessages().debug("A BagOfGold block was broken.");
 			Reward reward = Reward.getReward(block);
+			plugin.getMessages().debug("A %s reward block was broken.",reward.getDisplayname());
 			block.getDrops().clear();
 			block.setType(Material.AIR);
 			block.removeMetadata(Reward.MH_REWARD_DATA, plugin);

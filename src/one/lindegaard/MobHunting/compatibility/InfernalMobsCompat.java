@@ -82,7 +82,7 @@ public class InfernalMobsCompat implements Listener {
 	// **************************************************************************
 	public static void loadInfernalMobsData() {
 		for (MinecraftMob mob : MinecraftMob.values()) {
-			String key = mob.getName();
+			String key = mob.getExtendedMobType();
 			mMobRewardData.put(key, 1.0);
 		}
 		MobHunting.getInstance().getMessages().debug("Loaded %s InfernalMobs", mMobRewardData.size());
