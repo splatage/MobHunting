@@ -802,8 +802,8 @@ public class RewardListeners implements Listener {
 		Block block = event.getBlock();
 		if (Reward.isReward(block)) {
 			Reward reward = Reward.getReward(block);
-			plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
 			plugin.getRewardManager().removeReward(block);
+			plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
 		}
 	}
 
