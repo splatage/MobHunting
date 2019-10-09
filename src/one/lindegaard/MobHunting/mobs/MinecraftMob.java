@@ -1,7 +1,5 @@
 package one.lindegaard.MobHunting.mobs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 import org.bukkit.ChatColor;

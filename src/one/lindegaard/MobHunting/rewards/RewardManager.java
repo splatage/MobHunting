@@ -612,7 +612,7 @@ public class RewardManager {
 			ItemStack is = player.getInventory().getItem(slot);
 			if (Reward.isReward(is)) {
 				Reward rewardInSlot = Reward.getReward(is);
-				if ((rewardInSlot.isBagOfGoldReward() || rewardInSlot.isItemReward())) {
+				if (rewardInSlot.isMoney()) {
 					if (rewardInSlot.getMoney() < plugin.getConfigManager().limitPerBag)
 						return true;
 				}

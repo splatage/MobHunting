@@ -23,7 +23,7 @@ public class PickupRewards {
 		if (Reward.isReward(item)) {
 			boolean succes=false;
 			Reward reward = Reward.getReward(item);
-			if (reward.isBagOfGoldReward() || reward.isItemReward()) {
+			if (reward.isMoney()) {
 				callBack.setCancelled(true);
 				if (player.getGameMode() == GameMode.SPECTATOR) {
 					return;
@@ -35,6 +35,9 @@ public class PickupRewards {
 				} else {
 					succes = plugin.getRewardManager().addBagOfGoldPlayer(player, reward.getMoney())>0;
 				}
+			} else if (reward.isKilledHeadReward()||reward.isKillerHeadReward()) {
+				plugin.getMessages().debug("Merge MobHunting heads on pickup is still not implemented");
+				//plugin.getMessages().debug("%s collected %s to the cursor", player.getName(), saldo);
 			}
 			if (succes) {
 				item.remove();
