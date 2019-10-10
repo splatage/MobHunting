@@ -556,10 +556,19 @@ public class RewardListeners implements Listener {
 				return;
 			}
 
-			List<InventoryType> allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.BARREL,
-					InventoryType.CHEST, InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST,
-					InventoryType.HOPPER, InventoryType.SHULKER_BOX, InventoryType.CRAFTING);
-
+			List<InventoryType> allowedInventories;
+			if (Servers.isMC114OrNewer())
+				allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.BARREL, InventoryType.ANVIL,
+						InventoryType.CHEST, InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST,
+						InventoryType.HOPPER, InventoryType.SHULKER_BOX, InventoryType.CRAFTING);
+			else if (Servers.isMC19OrNewer())
+				allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.ANVIL, InventoryType.CHEST,
+						InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST, InventoryType.HOPPER,
+						InventoryType.SHULKER_BOX, InventoryType.CRAFTING);
+			else // MC 1.8
+				allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.ANVIL, InventoryType.CHEST,
+						InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST, InventoryType.HOPPER,
+						InventoryType.CRAFTING);
 			List<SlotType> allowedSlots = Arrays.asList(SlotType.CONTAINER, SlotType.QUICKBAR, SlotType.OUTSIDE);
 
 			if (allowedSlots.contains(slotType)) {
