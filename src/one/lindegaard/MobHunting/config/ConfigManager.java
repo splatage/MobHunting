@@ -151,6 +151,7 @@ public class ConfigManager extends AutoConfig {
 						+ "\nIf you make the number negative, the reward will be a fine for killing a passive animal.");
 
 		setCategoryComment("passive.bat", "### Bat settings ###");
+		setCategoryComment("passive.bee", "### Bee settings ###");
 		setCategoryComment("passive.cat", "### Cat settings ###");
 		setCategoryComment("passive.chicken", "### Chicken settings ###");
 		setCategoryComment("passive.cow", "### Cow settings ###");
