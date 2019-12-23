@@ -4418,6 +4418,9 @@ public class ConfigManager extends AutoConfig {
 			+ "\nand the reload the plugin.")
 	public boolean disableMobHuntingAdvancements = false;
 
+	@ConfigField(name = "disable_redstone_powered_signs", category = "general", comment = "It seems that redstone powered signs can cause lag on many servers.")
+	public boolean disableRedstonePoweredSigns = true;
+
 	@ConfigField(name = "use_actionbar_for_broadcasts", category = "general", comment = "Broadcast messages will be send in the ActionBar if MobHunting finds a supported ActionBar plugin.")
 	public boolean useActionBarforBroadcasts = true;
 

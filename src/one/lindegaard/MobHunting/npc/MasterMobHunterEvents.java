@@ -11,12 +11,17 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.metadata.MetadataValue;
 
+import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 
 public class MasterMobHunterEvents implements Listener{
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockRedstoneEvent(BlockRedstoneEvent e) {
+		
+		if (MobHunting.getAPI().getConfigManager().disableRedstonePoweredSigns)
+			return;
+		
 		Block b = e.getBlock();
 		if (MasterMobHunterSign.isMHPowered(b)) {
 			for (MetadataValue mdv : b.getMetadata(MasterMobHunterSign.MH_POWERED)) {
@@ -39,12 +44,16 @@ public class MasterMobHunterEvents implements Listener{
 
 	@EventHandler
 	public void onBlockPhysicsEvent(final BlockPhysicsEvent e) {
+		
+		if (MobHunting.getAPI().getConfigManager().disableRedstonePoweredSigns)
+			return;
 
 		// This is the block which is going to be changed
 		Block b = e.getBlock();
+		
 		// getChangedType() the type of block that changed, causing this
 		// event
-		Material c = e.getChangedType();
+		//Material c = e.getChangedType();
 
 		if (b == null || b.getType() == null)
 			return;
@@ -67,6 +76,10 @@ public class MasterMobHunterEvents implements Listener{
 
 	@EventHandler
 	public void onBlockBreakEvent(BlockBreakEvent e) {
+		
+		if (MobHunting.getAPI().getConfigManager().disableRedstonePoweredSigns)
+			return;
+		
 		Block b = e.getBlock();
 		if (MasterMobHunterSign.isMHPowered(b)) {
 			MasterMobHunterSign.removeMHPower(b);
