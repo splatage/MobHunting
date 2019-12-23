@@ -350,6 +350,7 @@ mobhunting.reward.mypet_pickup=§a${petname}§a podniosl ${money} ${rewardname}
 mobhunting.reward.steve=Steve
 mobs.Armorer.name=§9Platnerz
 mobs.Bat.name=§9Nietoperz
+mobs.Bee.name=§9Pszczoła
 mobs.Blacksmith.name=§9Kowal
 mobs.Blaze.name=§9Blaze
 mobs.BonusMob.name=§9Bonus Mob

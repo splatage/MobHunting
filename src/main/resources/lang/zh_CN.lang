@@ -349,6 +349,7 @@ mobhunting.reward.mypet_pickup=§a${petname}§a picked up ${money} ${rewardname}
 mobhunting.reward.lore=MobHunting 奖励
 mobhunting.reward.steve=史蒂夫
 mobs.Bat.name=§9蝙蝠
+mobs.Bee.name=§9蜜蜂
 mobs.Blacksmith.name=§9铁匠
 mobs.Blaze.name=§9烈焰人
 mobs.BonusMob.name=§9奖金怪物

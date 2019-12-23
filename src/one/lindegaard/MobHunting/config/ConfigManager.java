@@ -257,9 +257,8 @@ public class ConfigManager extends AutoConfig {
 				+ "\nis reached, whereafter the reward will be zero.");
 
 		setCategoryComment("grinding.speed_grinding", "Speed grinding detection."
-				+ "\nLimit the number of mobs which can be killed with in a given timeframe"
-				);
-				
+				+ "\nLimit the number of mobs which can be killed with in a given timeframe");
+
 		setCategoryComment("grinding.farms", "Detect Grinding Farms."
 				+ "\nWhen this is true, the plugin will try to detect if the players has build a Mob Grinding Farm."
 				+ "\nFarm detection can be completly disabled or you can whitelist an area using the whitelist"
@@ -2100,6 +2099,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "bat.head.message", category = "passive")
 	public String batHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Bee============================================
+	@ConfigField(name = "bee.enabled", category = "passive")
+	public boolean beeEnabled = true;
+	@ConfigField(name = "bee.message", category = "passive")
+	public String beeMessage = "You killed a §1{killed}";
+	@ConfigField(name = "bee.money.amount", category = "passive")
+	public String beeMoney = "0";
+	@ConfigField(name = "bee.money.chance", category = "passive")
+	public double beeMoneyChance = 0.05;
+	@ConfigField(name = "bee.commands", category = "passive")
+	public List<HashMap<String, String>> beeCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.05");
+		beeCommands.add(values1);
+	}
+	@ConfigField(name = "bee.head.drophead", category = "passive")
+	public boolean beeHeadDropHead = true;
+	@ConfigField(name = "bee.head.value", category = "passive")
+	public String beeHeadPrize = "0";
+	@ConfigField(name = "bee.head.chance", category = "passive")
+	public double beeHeadDropChance = 0.05;
+	@ConfigField(name = "bee.head.message", category = "passive")
+	public String beeHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Cat============================================
 	@ConfigField(name = "cat.enabled", category = "passive")
 	public boolean catEnabled = true;
@@ -3619,6 +3644,11 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.bat")
 	public double batMcMMOSkillRewardChance = 0.025;
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.bee")
+	public String beeMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.bee")
+	public double beeMcMMOSkillRewardChance = 0.025;
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.cat")
 	public String catMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.cat")
@@ -4349,8 +4379,8 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "host", category = "database.mysql")
 	public String databaseHost = "localhost:3306";
 
-  @ConfigField(name = "useSSL", category = "database.mysql")
-  public String databaseUseSSL = "false";
+	@ConfigField(name = "useSSL", category = "database.mysql")
+	public String databaseUseSSL = "false";
 
 	@ConfigField(name = "database_version", category = "database", comment = "This is the database layout version. Mostly for internal use and you should not need"
 			+ "\nto chance this value. In case you decide to delete your database and let it recreate"

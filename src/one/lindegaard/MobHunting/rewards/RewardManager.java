@@ -19,6 +19,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Bat;
+import org.bukkit.entity.Bee;
 import org.bukkit.entity.Blaze;
 import org.bukkit.entity.Cat;
 import org.bukkit.entity.CaveSpider;
@@ -753,6 +754,10 @@ public class RewardManager {
 			return 0;
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return getPrice(mob, plugin.getConfigManager().beeMoney);
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getPrice(mob, plugin.getConfigManager().catMoney);
@@ -1101,6 +1106,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCommands;
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return plugin.getConfigManager().beeCommands;
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catCommands;
@@ -1389,6 +1398,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMessage;
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return plugin.getConfigManager().beeMessage;
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMessage;
@@ -1668,6 +1681,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCmdRunChance;
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return plugin.getConfigManager().beeMoneyChance;
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMoneyChance;
@@ -1952,6 +1969,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMcMMOSkillRewardChance;
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return plugin.getConfigManager().beeMcMMOSkillRewardChance;
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMcMMOSkillRewardChance;
@@ -2260,6 +2281,10 @@ public class RewardManager {
 			return getMcMMOXP(mob, plugin.getConfigManager().wolfMcMMOSkillRewardAmount);
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return getMcMMOXP(mob, plugin.getConfigManager().beeMcMMOSkillRewardAmount);
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getMcMMOXP(mob, plugin.getConfigManager().catMcMMOSkillRewardAmount);
@@ -2539,6 +2564,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfEnabled;
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return plugin.getConfigManager().beeEnabled;
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catEnabled;
@@ -2829,6 +2858,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropHead;
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return plugin.getConfigManager().beeHeadDropHead;
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadDropHead;
@@ -3121,6 +3154,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropChance;
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return plugin.getConfigManager().beeHeadDropChance;
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadDropChance;
@@ -3412,6 +3449,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadMessage;
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return plugin.getConfigManager().beeHeadMessage;
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadMessage;
@@ -3704,6 +3745,10 @@ public class RewardManager {
 			return getPrice(mob, plugin.getConfigManager().wolfHeadPrize);
 
 		} else {
+			if (Servers.isMC115OrNewer())
+				if (mob instanceof Bee)
+					return getPrice(mob, plugin.getConfigManager().beeHeadPrize);
+			
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getPrice(mob, plugin.getConfigManager().catHeadPrize);
