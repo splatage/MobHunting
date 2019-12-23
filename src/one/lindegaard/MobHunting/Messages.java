@@ -53,7 +53,7 @@ public class Messages {
 	private static Map<String, String> mTranslationTable;
 	private static String[] mValidEncodings = new String[] { "UTF-16", "UTF-16BE", "UTF-16LE", "UTF-8", "ISO646-US" };
 	private static final String PREFIX = ChatColor.GOLD + "[MobHunting]" + ChatColor.RESET;
-	private static String[] sources = new String[] { "en_US.lang", "hu_HU.lang", "zh_CN.lang", "ru_RU.lang" };
+	private static String[] sources = new String[] { "en_US.lang", "hu_HU.lang", "zh_CN.lang", "ru_RU.lang", "pl_PL.lang" };
 
 	public void exportDefaultLanguages(MobHunting plugin) {
 		File folder = new File(plugin.getDataFolder(), "lang");
