@@ -242,7 +242,8 @@ public class RewardListeners implements Listener {
 											addedMoney = reward.getMoney();
 											break;
 										} else if ((reward.isKilledHeadReward() || reward.isKillerHeadReward())
-												&& reward.getRewardType() == reward.getRewardType()
+												&& reward.getRewardType() == rewardInSlot.getRewardType()
+														&& reward.getSkinUUID().equals(rewardInSlot.getSkinUUID())
 												&& Misc.round(reward.getMoney()) == Misc
 														.round(rewardInSlot.getMoney())) {
 											ItemStack isPickup = item.getItemStack();
