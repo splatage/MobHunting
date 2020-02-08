@@ -80,6 +80,8 @@ public class CitizensCompat implements Listener {
 					ConfigurationSection section = config.getConfigurationSection(key);
 					ExtendedMobRewardData rewardData = new ExtendedMobRewardData();
 					rewardData.read(section);
+					if (mMobRewardData.get(key) == null || mMobRewardData.get(key).getMobName().equals(""))
+						rewardData.setMobName("Unknown");
 					mMobRewardData.put(key, rewardData);
 					MobHunting.getInstance().getStoreManager().insertCitizensMobs(key);
 					n++;
@@ -176,7 +178,10 @@ public class CitizensCompat implements Listener {
 	}
 
 	public static String getNPCName(Entity entity) {
-		return CitizensAPI.getNPCRegistry().getNPC(entity).getName();
+		String name = CitizensAPI.getNPCRegistry().getNPC(entity).getFullName();
+		if (name.equals(""))
+			name = String.valueOf(CitizensAPI.getNPCRegistry().getNPC(entity).getId());
+		return name;
 	}
 
 	public static NPC getNPC(Entity entity) {
@@ -242,7 +247,7 @@ public class CitizensCompat implements Listener {
 		supported = true;
 
 		loadCitizensData();
-		saveCitizensData();
+		
 
 		mMasterMobHunterManager = new MasterMobHunterManager(MobHunting.getInstance());
 
@@ -282,7 +287,8 @@ public class CitizensCompat implements Listener {
 		Bukkit.getPluginManager().registerEvents(new MasterMobHunterEvents(),MobHunting.getInstance());
 
 		MobHunting.getInstance().getCommandDispatcher().registerCommand(new NpcCommand(MobHunting.getInstance()));
-		;
+		
+		saveCitizensData();
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

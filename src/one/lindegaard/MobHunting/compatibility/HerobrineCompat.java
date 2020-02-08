@@ -159,7 +159,6 @@ public class HerobrineCompat implements Listener {
 							.debug("The mob=%s can't be found in Herobrine configuration files", key);
 				}
 			}
-			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 			MobHunting.getInstance().getMessages().debug("Loaded %s HerobrineMobs", n);
 		} catch (IOException e) {
 			e.printStackTrace();

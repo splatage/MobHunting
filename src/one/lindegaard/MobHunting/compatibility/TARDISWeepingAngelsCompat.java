@@ -116,7 +116,6 @@ public class TARDISWeepingAngelsCompat implements Listener {
 					saveTARDISWeepingAngelsMobsData(mMobRewardData.get(monster.name()).getMobType());
 					MobHunting.getInstance().getStoreManager().insertTARDISWeepingAngelsMobs(monster.name);
 				}
-				MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 				return;
 			}
 
@@ -129,7 +128,6 @@ public class TARDISWeepingAngelsCompat implements Listener {
 				mMobRewardData.put(key, mob);
 				MobHunting.getInstance().getStoreManager().insertTARDISWeepingAngelsMobs(key);
 			}
-			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 			MobHunting.getInstance().getMessages().debug("Loaded %s TARDISWeepingAngels-Mobs", mMobRewardData.size());
 		} catch (IOException e) {
 			e.printStackTrace();

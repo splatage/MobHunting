@@ -55,6 +55,7 @@ public class ExtendedMobManager {
 			plugin.getStoreManager().insertEliteMobs();
 		if (BossCompat.isSupported())
 			plugin.getStoreManager().insertBossMobs();
+		
 		// Not needed
 		// if (InfernalMobsCompat.isSupported())
 		// plugin.getStoreManager().insertInfernalMobs();
@@ -140,6 +141,9 @@ public class ExtendedMobManager {
 			}
 		}
 		plugin.getMessages().debug("%s mobs was loaded into memory. Total mobs=%s", n, mobs.size());
+		
+		MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+
 	}
 
 	public ExtendedMob getExtendedMobFromMobID(int i) {

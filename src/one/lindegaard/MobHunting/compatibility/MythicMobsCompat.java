@@ -102,6 +102,20 @@ public class MythicMobsCompat {
 		return false;
 	}
 
+	public static String getMythicMobName(String mob) {
+		switch (mmVersion) {
+		case MYTHICMOBS_V251:
+			return MythicMobsV251Compat.getMythicMobV251(mob).getInternalName();
+		case MYTHICMOBS_V400:
+			return MythicMobsV400Compat.getMythicMobV400(mob).getInternalName();
+		case NOT_DETECTED:
+			break;
+		default:
+			break;
+		}
+		return "Unknown";
+	}
+
 	public static boolean isMythicMob(Entity killed) {
 		if (isSupported())
 			return killed.hasMetadata(MH_MYTHICMOBS);
@@ -128,6 +142,7 @@ public class MythicMobsCompat {
 		try {
 			if (!file.exists())
 				return;
+			
 			MobHunting.getInstance().getMessages().debug("Loading extra MobRewards for MythicMobs mobs.");
 
 			config.load(file);
@@ -146,7 +161,6 @@ public class MythicMobsCompat {
 							.debug("The mob=%s can't be found in MythicMobs configuration files", key);
 				}
 			}
-			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 			MobHunting.getInstance().getMessages().debug("Loaded %s MythicMobs", n);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -200,8 +214,11 @@ public class MythicMobsCompat {
 					MobHunting.getInstance().getMessages().debug("Saving Mobhunting extra MythicMobs data.");
 					config.save(file);
 				}
+			} else {
+				MobHunting.getInstance().getMessages().debug("No Mythicmobs");
 			}
 		} catch (IOException e) {
+			MobHunting.getInstance().getMessages().debug("Could not save extra MythicMobs data.");
 			e.printStackTrace();
 		}
 	}

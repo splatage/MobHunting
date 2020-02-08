@@ -136,7 +136,6 @@ public class SmartGiantsCompat implements Listener {
 				mMobRewardData.put(key, mob);
 				MobHunting.getInstance().getStoreManager().insertSmartGiants(key);
 			}
-			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 			MobHunting.getInstance().getMessages().debug("Loaded %s SmartGiants", mMobRewardData.size());
 		} catch (IOException | InvalidConfigurationException e) {
 			e.printStackTrace();

@@ -132,7 +132,6 @@ public class MysteriousHalloweenCompat implements Listener {
 				mMobRewardData.put(key, mob);
 				MobHunting.getInstance().getStoreManager().insertMysteriousHalloweenMobs(key);
 			}
-			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 			MobHunting.getInstance().getMessages().debug("Loaded %s MysteriousHalloween-Mobs", mMobRewardData.size());
 		} catch (IOException e) {
 			e.printStackTrace();

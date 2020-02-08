@@ -181,7 +181,6 @@ public class BossCompat implements Listener {
 				}
 			}
 			
-			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 			MobHunting.getInstance().getMessages().debug("Loaded %s Boss mobs", n);
 		} catch (IOException e) {
 			e.printStackTrace();

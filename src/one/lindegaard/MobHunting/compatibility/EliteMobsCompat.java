@@ -194,7 +194,7 @@ public class EliteMobsCompat implements Listener {
 					saveEliteMobsData(monster.name());
 					MobHunting.getInstance().getStoreManager().insertEliteMobs(monster.name());
 				}
-				MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+				//MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 				return;
 			}
 
@@ -207,7 +207,6 @@ public class EliteMobsCompat implements Listener {
 				mMobRewardData.put(key, mob);
 				MobHunting.getInstance().getStoreManager().insertEliteMobs(key);
 			}
-			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 			MobHunting.getInstance().getMessages().debug("Loaded %s EliteMobs", mMobRewardData.size());
 		} catch (IOException e) {
 			e.printStackTrace();

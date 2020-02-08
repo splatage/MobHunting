@@ -281,7 +281,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(SmartGiantsCompat.class, CompatPlugin.SmartGiants);
 		mCompatibilityManager.registerPlugin(InfernalMobsCompat.class, CompatPlugin.InfernalMobs);
 		mCompatibilityManager.registerPlugin(HerobrineCompat.class, CompatPlugin.Herobrine);
-
+		
 		mCompatibilityManager.registerPlugin(ExtraHardModeCompat.class, CompatPlugin.ExtraHardMode);
 		mCompatibilityManager.registerPlugin(CrackShotCompat.class, CompatPlugin.CrackShot);
 

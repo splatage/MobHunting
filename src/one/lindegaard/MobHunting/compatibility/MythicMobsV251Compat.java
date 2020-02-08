@@ -68,8 +68,8 @@ public class MythicMobsV251Compat implements Listener {
 			MythicMobsCompat.saveMythicMobsData(mobtype);
 			MobHunting.getInstance().getStoreManager().insertMissingMythicMobs(mobtype);
 			// Update mob loaded into memory
-			MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
 			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+			MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
 		}
 
 		event.getLivingEntity().setMetadata(MythicMobsCompat.MH_MYTHICMOBS, new FixedMetadataValue(mPlugin,

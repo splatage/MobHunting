@@ -46,7 +46,6 @@ public class InfernalMobsCompat implements Listener {
 			loadInfernalMobsData();
 
 			MobHunting.getInstance().getStoreManager().insertInfernalMobs();
-			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 
 			supported = true;
 		}

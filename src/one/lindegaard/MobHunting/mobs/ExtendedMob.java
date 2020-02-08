@@ -90,33 +90,51 @@ public class ExtendedMob {
 		switch (mobPlugin) {
 		case Minecraft:
 			return mobtype;
-		case MythicMobs:
-			String name = MythicMobsCompat.getMobRewardData().get(mobtype).getMobName();
-			if (name == null || name.equals(""))
-				name = MythicMobsCompat.getMobRewardData().get(mobtype).getMobType();
-			return name;
 		case Citizens:
 			NPC npc = CitizensCompat.getCitizensPlugin().getNPCRegistry().getById(Integer.valueOf(mobtype));
 			if (npc != null)
-				return npc.getName();
+				return npc.getFullName();
 			else
-				return "";
+				return "Unknown";
+		case MythicMobs:
+			if (MythicMobsCompat.getMobRewardData().containsKey(mobtype))
+				return MythicMobsCompat.getMobRewardData().get(mobtype).getMobName();
+			else
+				return MythicMobsCompat.getMythicMobName(mobtype);
 		case TARDISWeepingAngels:
-			return TARDISWeepingAngelsCompat.getMobRewardData().get(mobtype).getMobName();
+			if (TARDISWeepingAngelsCompat.getMobRewardData().containsKey(mobtype))
+				return TARDISWeepingAngelsCompat.getMobRewardData().get(mobtype).getMobName();
+			else
+				return mobtype;
 		case CustomMobs:
-			return CustomMobsCompat.getMobRewardData().get(mobtype).getMobName();
+			if (CustomMobsCompat.getMobRewardData().containsKey(mobtype))
+				return CustomMobsCompat.getMobRewardData().get(mobtype).getMobName();
+			else
+				return mobtype;
 		case MysteriousHalloween:
-			return MysteriousHalloweenCompat.getMobRewardData().get(mobtype).getMobName();
+			if (MysteriousHalloweenCompat.getMobRewardData().containsKey(mobtype))
+				return MysteriousHalloweenCompat.getMobRewardData().get(mobtype).getMobName();
+			else
+				return mobtype;
 		case SmartGiants:
 			return "SmartGiant";
 		case InfernalMobs:
 			return "Infernal " + mobtype;
 		case Herobrine:
-			return HerobrineCompat.getMobRewardData().get(mobtype).getMobName();
+			if (HerobrineCompat.getMobRewardData().containsKey(mobtype))
+				return HerobrineCompat.getMobRewardData().get(mobtype).getMobName();
+			else
+				return mobtype;
 		case EliteMobs:
-			return EliteMobsCompat.getMobRewardData().get(mobtype).getMobName();
+			if (EliteMobsCompat.getMobRewardData().containsKey(mobtype))
+				return EliteMobsCompat.getMobRewardData().get(mobtype).getMobName();
+			else
+				return mobtype;
 		case Boss:
-			return BossCompat.getMobRewardData().get(mobtype).getMobName();
+			if (BossCompat.getMobRewardData().containsKey(mobtype))
+				return BossCompat.getMobRewardData().get(mobtype).getMobName();
+			else
+				return mobtype;
 		default:
 			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 			console.sendMessage(
@@ -181,5 +199,4 @@ public class ExtendedMob {
 		}
 	}
 
-	
 }
