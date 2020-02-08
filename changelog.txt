@@ -1,3 +1,5 @@
+V7.0.0
+* Minecraft 1.15.2 release
 V6.9.9
 * Redstone Powered MasterMobhunter signs is now disabled by default (the power is disabled). 
 * Fixed ticket 583 (https://github.com/Rocologo/MobHunting/issues/583)
