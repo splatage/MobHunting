@@ -1344,6 +1344,7 @@ public class MobHuntingManager implements Listener {
 			}
 			// plugin.getMessages().debug("%s - Killstreak ended",
 			// player.getName());
+			plugin.getMessages().debug("MobhuntingManager resetKillStreak");
 			data.resetKillStreak(player);
 		}
 
