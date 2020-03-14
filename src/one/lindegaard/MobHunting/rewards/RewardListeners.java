@@ -242,7 +242,7 @@ public class RewardListeners implements Listener {
 											addedMoney = reward.getMoney();
 											break;
 										} else if ((reward.isKilledHeadReward() || reward.isKillerHeadReward())
-												&& reward.getRewardType() == rewardInSlot.getRewardType()
+												&& reward.getRewardType().equals(rewardInSlot.getRewardType())
 												&& reward.getSkinUUID().equals(rewardInSlot.getSkinUUID())
 												&& Misc.round(reward.getMoney()) == Misc
 														.round(rewardInSlot.getMoney())) {
@@ -790,8 +790,8 @@ public class RewardListeners implements Listener {
 									isCursor.setType(Material.AIR);
 									plugin.getMessages().debug("%s merged two rewards(3)", player.getName());
 								} else {
-									isCursor.setAmount(64);
-									isCurrentSlot.setAmount(isCursor.getAmount() + isCurrentSlot.getAmount() - 64);
+									isCursor.setAmount(isCursor.getAmount() + isCurrentSlot.getAmount() - 64);
+									isCurrentSlot.setAmount(64);
 									plugin.getMessages().debug("%s merged two rewards(4)", player.getName());
 								}
 							}
