@@ -106,11 +106,6 @@ public class HappyHourCommand implements ICommand, Listener {
 							"mobhunting.commands.happyhour.ongoing", "multiplier", multiplier, "minutes", minutesLeft));
 				plugin.getMessages().debug("The happy hour ends in %s minutes", minutesLeft);
 
-				// plugin.getMessages().playerSendTitlesMessage(player,
-				// plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_title"),
-				// plugin.getMessages().getString("mobhunting.commands.happyhour.ongoing_subtitle",
-				// "multiplier", multiplier, "minutes", minutesLeft),
-				// 20, 100, 20);
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
 						plugin.getMessages().getString("mobhunting.commands.happyhour.not_started"));
@@ -154,13 +149,14 @@ public class HappyHourCommand implements ICommand, Listener {
 
 		} else if (args[0].matches("\\d+(\\d+)?") && args[1].matches("\\d+(\\.\\d+)?")) {
 
-			// /mh happyhour <minutes> <multiplier>
-			minutesToRun = Integer.valueOf(args[0]);
-			minutesLeft = minutesToRun;
-			multiplier = Double.valueOf(args[1]);
-			starttime = System.currentTimeMillis();
-
 			if (sender.hasPermission("mobhunting.happyhour.admin")) {
+
+				// /mh happyhour <minutes> <multiplier>
+				minutesToRun = Integer.valueOf(args[0]);
+				minutesLeft = minutesToRun;
+				multiplier = Double.valueOf(args[1]);
+				starttime = System.currentTimeMillis();
+
 				if (minutesToRun <= 0 || multiplier <= 0)
 					return false;
 
