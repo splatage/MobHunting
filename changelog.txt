@@ -1,5 +1,7 @@
 V7.0.1
 * Updated to BOSS 3.6.7
+* Fixed bug where you could copy heads and bags
+* added a mobhunting.happyhour.admin permission for players who can start a happyhour, players with mobhunting.happyhour is only able to see the time left. 
 V7.0.0
 * Minecraft 1.15.2 release
 V6.9.9
