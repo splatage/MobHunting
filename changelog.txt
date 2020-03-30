@@ -1,6 +1,8 @@
+V7.0.2
+* Fixed bug where players you open inventory, hold a reward in the hand and quit, causing the money to be added twice to the playerbalance.
 V7.0.1
 * Updated to BOSS 3.6.7
-* Fixed bug where you could copy heads and bags
+* Fixed bug where you could copy heads and bags (Ticket 583 - https://github.com/Rocologo/MobHunting/issues/583 & Tcket 615 - https://github.com/Rocologo/MobHunting/issues/615)
 * added a mobhunting.happyhour.admin permission for players who can start a happyhour, players with mobhunting.happyhour is only able to see the time left. 
 V7.0.0
 * Minecraft 1.15.2 release

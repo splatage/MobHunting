@@ -32,6 +32,7 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -863,4 +864,13 @@ public class RewardListeners implements Listener {
 		}
 	}
 
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		Player player = (Player) event.getPlayer();
+		if (player.getOpenInventory()!=null) {
+			if (player.getOpenInventory().getCursor()==null) return;
+			if (!Reward.isReward(player.getOpenInventory().getCursor())) return;
+			player.getOpenInventory().setCursor(null);
+		}
+	}
 }
