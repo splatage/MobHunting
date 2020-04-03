@@ -77,6 +77,11 @@ public class ProtocolLibHelper {
 					}
 					event.setPacket(packet);
 				}
+				
+				else if (event.getPacketType() == PacketType.Play.Client.CHAT) {
+					
+					
+				}
 			}
 		});
 	}

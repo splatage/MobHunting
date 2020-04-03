@@ -1,3 +1,7 @@
+V7.0.3
+* Spectator mode duplication bug. Ticket 83 (https://github.com/Rocologo/BagOfGold/issues/83)
+* Fixed /mh money errors
+* Updated to bStats 1.7
 V7.0.2
 * Fixed bug where players you open inventory, hold a reward in the hand and quit, causing the money to be added twice to the playerbalance.
 V7.0.1

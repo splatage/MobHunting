@@ -105,7 +105,8 @@ public class MetricsManager {
 	}
 
 	public void startBStatsMetrics() {
-		bStatsMetrics = new Metrics(plugin);
+		// https://bstats.org/what-is-my-plugin-id
+		bStatsMetrics = new Metrics(plugin,173);
 		
 		bStatsMetrics.addCustomChart(
 				new Metrics.SimplePie("database_used_for_mobhunting", () -> plugin.getConfigManager().databaseType));

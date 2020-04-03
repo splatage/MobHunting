@@ -26,7 +26,7 @@ import one.lindegaard.MobHunting.mobs.MinecraftMob;
 public class Reward {
 
 	public final static String MH_REWARD_DATA = "MH:HiddenRewardData";
-	
+
 	// Unique random generated UUID for "Bag of gold" rewards
 	public final static String MH_REWARD_BAG_OF_GOLD_UUID = "b3f74fad-429f-4801-9e31-b8879cbae96f";
 	// Unique random generated UUID for MobHead/Playerhead rewards
@@ -129,9 +129,9 @@ public class Reward {
 			else if (n == 3 && str.startsWith("Hidden:"))
 				this.uniqueId = money == 0 ? UUID.randomUUID() : UUID.fromString(str.substring(7));
 
-				// Skin UUID
-				else if (str.startsWith("Hidden(4):"))
-					this.skinUUID = UUID.fromString(str.substring(10));
+			// Skin UUID
+			else if (str.startsWith("Hidden(4):"))
+				this.skinUUID = str.length() > 10 ? UUID.fromString(str.substring(10)) : null;
 			else if (n == 4 && str.startsWith("Hidden:"))
 				this.skinUUID = UUID.fromString(str.substring(7));
 
@@ -301,9 +301,9 @@ public class Reward {
 			skinUUID = UUID.fromString(section.getString("skinuuid"));
 		encodedHash = Strings.encode(section.getString("hash", makeDecodedHash()));
 	}
-	
+
 	public boolean isMoney() {
-		return isBagOfGoldReward()||isItemReward();
+		return isBagOfGoldReward() || isItemReward();
 	}
 
 	public boolean isBagOfGoldReward() {
@@ -371,12 +371,13 @@ public class Reward {
 
 	public static boolean isReward(Block block) {
 		return block.hasMetadata(MH_REWARD_DATA);
-		/**if (Servers.isMC113OrNewer())
-			return (block.getType() == Material.PLAYER_HEAD || block.getType() == Material.PLAYER_WALL_HEAD)
-					&& block.hasMetadata(MH_REWARD_DATA);
-		else
-			return (block.getType() == Material.matchMaterial("SKULL_ITEM")
-					|| block.getType() == Material.matchMaterial("SKULL")) && block.hasMetadata(MH_REWARD_DATA);**/
+		/**
+		 * if (Servers.isMC113OrNewer()) return (block.getType() == Material.PLAYER_HEAD
+		 * || block.getType() == Material.PLAYER_WALL_HEAD) &&
+		 * block.hasMetadata(MH_REWARD_DATA); else return (block.getType() ==
+		 * Material.matchMaterial("SKULL_ITEM") || block.getType() ==
+		 * Material.matchMaterial("SKULL")) && block.hasMetadata(MH_REWARD_DATA);
+		 **/
 	}
 
 	public static Reward getReward(Block block) {
