@@ -1,5 +1,6 @@
 V7.0.4
 * Optimized code when detecting rewards/bagofgold.
+* Fixed NPE bug in WeepingAngels Compatibility.
 V7.0.3
 * Spectator mode duplication bug. Ticket 83 (https://github.com/Rocologo/BagOfGold/issues/83)
 * Fixed /mh money errors

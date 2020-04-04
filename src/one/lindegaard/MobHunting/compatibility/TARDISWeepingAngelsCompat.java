@@ -77,8 +77,7 @@ public class TARDISWeepingAngelsCompat implements Listener {
 	/**
 	 * Returns whether an entity is a TARDISWeepingAngels entity.
 	 *
-	 * @param entity
-	 *            the entity to check
+	 * @param entity the entity to check
 	 * @return true if the entity is a TARDISWeepingAngels entity
 	 */
 	public static boolean isWeepingAngelMonster(Entity entity) {
@@ -90,8 +89,7 @@ public class TARDISWeepingAngelsCompat implements Listener {
 	/**
 	 * Returns the Monster type for a TARDISWeepingAngels entity.
 	 *
-	 * @param entity
-	 *            the entity to get the Monster type for
+	 * @param entity the entity to get the Monster type for
 	 * @return the Monster type or null if it is not TARDISWeepingAngels entity
 	 */
 	public static Monster getWeepingAngelMonsterType(Entity entity) {
@@ -110,9 +108,9 @@ public class TARDISWeepingAngelsCompat implements Listener {
 			if (!file.exists()) {
 				for (Monster monster : Monster.getValues()) {
 					mMobRewardData.put(monster.name(),
-							new ExtendedMobRewardData(MobPlugin.TARDISWeepingAngels, monster.name(), monster.getName(), true,
-									"40:60", 1, "You killed a TRADIS Mob", new ArrayList<HashMap<String, String>>(), 1,
-									0.02));
+							new ExtendedMobRewardData(MobPlugin.TARDISWeepingAngels, monster.name(), monster.getName(),
+									true, "40:60", 1, "You killed a TRADIS Mob",
+									new ArrayList<HashMap<String, String>>(), 1, 0.02));
 					saveTARDISWeepingAngelsMobsData(mMobRewardData.get(monster.name()).getMobType());
 					MobHunting.getInstance().getStoreManager().insertTARDISWeepingAngelsMobs(monster.name);
 				}
@@ -205,21 +203,24 @@ public class TARDISWeepingAngelsCompat implements Listener {
 		Entity entity = event.getEntity();
 		Monster monster = getWeepingAngelMonsterType(entity);
 		
-		if (monster!=null && mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
-			MobHunting.getInstance().getMessages().debug("New TARDIS mob found=%s (%s)", monster.name(),
-					monster.getName());
-			mMobRewardData.put(monster.name(),
-					new ExtendedMobRewardData(MobPlugin.TARDISWeepingAngels, monster.name(), monster.getName(), true, "40:60", 1,
-							"You killed a TARDIS Mob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
-			saveTARDISWeepingAngelsMobsData(monster.name());
-			MobHunting.getInstance().getStoreManager().insertTARDISWeepingAngelsMobs(monster.name);
-			// Update mob loaded into memory
-			MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
-			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+		if (monster != null) {
+			if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
+				MobHunting.getInstance().getMessages().debug("New TARDIS mob found=%s (%s)", monster.name(),
+						monster.getName());
+				mMobRewardData.put(monster.name(),
+						new ExtendedMobRewardData(MobPlugin.TARDISWeepingAngels, monster.name(), monster.getName(),
+								true, "40:60", 1, "You killed a TARDIS Mob", new ArrayList<HashMap<String, String>>(),
+								1, 0.02));
+				saveTARDISWeepingAngelsMobsData(monster.name());
+				MobHunting.getInstance().getStoreManager().insertTARDISWeepingAngelsMobs(monster.name);
+				// Update mob loaded into memory
+				MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
+				MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+			} 
+			
+			event.getEntity().setMetadata(MH_TARDISWEEPINGANGELS,
+					new FixedMetadataValue(mPlugin, mMobRewardData.get(monster.name())));
 		}
-
-		event.getEntity().setMetadata(MH_TARDISWEEPINGANGELS,
-				new FixedMetadataValue(mPlugin, mMobRewardData.get(monster.name())));
 	}
 
 	public static int getProgressAchievementLevel1(String mobtype) {
