@@ -204,8 +204,8 @@ public class TARDISWeepingAngelsCompat implements Listener {
 
 		Entity entity = event.getEntity();
 		Monster monster = getWeepingAngelMonsterType(entity);
-
-		if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
+		
+		if (monster!=null && mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
 			MobHunting.getInstance().getMessages().debug("New TARDIS mob found=%s (%s)", monster.name(),
 					monster.getName());
 			mMobRewardData.put(monster.name(),
