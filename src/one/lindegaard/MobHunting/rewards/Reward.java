@@ -3,7 +3,6 @@ package one.lindegaard.MobHunting.rewards;
 import java.util.ArrayList;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -18,7 +17,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
-import org.jetbrains.annotations.Nullable;
 
 import one.lindegaard.Core.Strings;
 import one.lindegaard.MobHunting.MobHunting;
@@ -337,46 +335,14 @@ public class Reward {
 	}
 
 	public static boolean isReward(ItemStack itemStack) {
-		//if (getFirstRewardLores(itemStack) >= 0)
-		//	return true;
-		//else
-		//	return false;
 		if (itemStack != null && itemStack.hasItemMeta() && itemStack.getItemMeta().hasLore() && itemStack.getItemMeta().getLore().size()>2) {
 			String lore = itemStack.getItemMeta().getLore().get(2);
 			return lore.equals("Hidden(2):" + MH_REWARD_BAG_OF_GOLD_UUID)
 					|| lore.equals("Hidden(2):" + MH_REWARD_KILLED_UUID)
 					|| lore.equals("Hidden(2):" + MH_REWARD_KILLER_UUID)
 					|| lore.equals("Hidden(2):" + MH_REWARD_ITEM_UUID);
-					//|| lore.equals("Hidden:" + MH_REWARD_BAG_OF_GOLD_UUID)
-					//|| lore.equals("Hidden:" + MH_REWARD_KILLED_UUID)
-					//|| lore.equals("Hidden:" + MH_REWARD_KILLER_UUID)
-					//| lore.equals("Hidden:" + MH_REWARD_ITEM_UUID);
 		} else 
 			return false;
-	}
-
-	private static int getFirstRewardLores(ItemStack itemStack) {
-		if (itemStack != null && itemStack.hasItemMeta() && itemStack.getItemMeta().hasLore()) {
-			int n = 0;
-			Iterator<String> itr = itemStack.getItemMeta().getLore().iterator();
-			while (itr.hasNext()) {
-				String lore = itr.next();
-				// BagOfGold.getAPI().getMessages().debug("Reward: n=%s - %s", n, lore);
-				if (lore.equals("Hidden(2):" + MH_REWARD_BAG_OF_GOLD_UUID)
-						|| lore.equals("Hidden(2):" + MH_REWARD_KILLED_UUID)
-						|| lore.equals("Hidden(2):" + MH_REWARD_KILLER_UUID)
-						|| lore.equals("Hidden(2):" + MH_REWARD_ITEM_UUID)
-						//|| lore.equals("Hidden:" + MH_REWARD_BAG_OF_GOLD_UUID)
-						//|| lore.equals("Hidden:" + MH_REWARD_KILLED_UUID)
-						//|| lore.equals("Hidden:" + MH_REWARD_KILLER_UUID)
-						//|| lore.equals("Hidden:" + MH_REWARD_ITEM_UUID)
-						) {
-					return n - 2;
-				}
-				n++;
-			}
-		}
-		return -1;
 	}
 
 	public static Reward getReward(ItemStack itemStack) {
@@ -385,13 +351,6 @@ public class Reward {
 
 	public static boolean isReward(Block block) {
 		return block.hasMetadata(MH_REWARD_DATA);
-		/**
-		 * if (Servers.isMC113OrNewer()) return (block.getType() == Material.PLAYER_HEAD
-		 * || block.getType() == Material.PLAYER_WALL_HEAD) &&
-		 * block.hasMetadata(MH_REWARD_DATA); else return (block.getType() ==
-		 * Material.matchMaterial("SKULL_ITEM") || block.getType() ==
-		 * Material.matchMaterial("SKULL")) && block.hasMetadata(MH_REWARD_DATA);
-		 **/
 	}
 
 	public static Reward getReward(Block block) {
