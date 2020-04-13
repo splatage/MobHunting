@@ -92,8 +92,8 @@ public class PlayerSettingsManager implements Listener {
 	}
 
 	/**
-	 * Write PlayerSettings to Database when Player Quit and remove
-	 * PlayerSettings from memory
+	 * Write PlayerSettings to Database when Player Quit and remove PlayerSettings
+	 * from memory
 	 * 
 	 * @param event
 	 */
@@ -122,7 +122,7 @@ public class PlayerSettingsManager implements Listener {
 
 				if (ps.getTexture() == null || ps.getTexture().equals("")) {
 					plugin.getMessages().debug("Store %s skin in MobHunting Skin Cache", player.getName());
-					new CustomItems().getPlayerHead(player.getUniqueId(), 1, 0);
+					new CustomItems().getPlayerHead(player.getUniqueId(), player.getName(), 1, 0);
 				}
 			}
 

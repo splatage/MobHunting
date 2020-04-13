@@ -43,7 +43,7 @@ public class MoneyMergeEventListener implements Listener {
 						item2.setItemStack(is2);
 						String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
 								.equalsIgnoreCase("ITEM") ? plugin.getRewardManager().format(reward2.getMoney())
-										: reward2.getDisplayname() + " ("
+										: reward2.getDisplayName() + " ("
 												+ plugin.getRewardManager().format(reward2.getMoney()) + ")";
 						item2.setCustomName(
 								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + displayName);
@@ -61,7 +61,7 @@ public class MoneyMergeEventListener implements Listener {
 						item2.setItemStack(is2);
 						String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
 								.equalsIgnoreCase("ITEM") ? plugin.getRewardManager().format(reward2.getMoney())
-										: reward2.getDisplayname() + " ("
+										: reward2.getDisplayName() + " ("
 												+ plugin.getRewardManager().format(reward2.getMoney()) + ")";
 						item2.setCustomName(
 								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + displayName);

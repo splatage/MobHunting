@@ -145,13 +145,13 @@ public class MyPetCompat implements Listener {
 			MobHunting.getInstance().getMessages().playerActionBarMessageQueue(player,
 					MobHunting.getInstance().getMessages().getString("mobhunting.reward.mypet_pickup", "rewardname",
 							ChatColor.valueOf(MobHunting.getInstance().getConfigManager().dropMoneyOnGroundTextColor)
-									+ reward.getDisplayname(),
+									+ reward.getDisplayName(),
 							"petname", pet.getPetName(), "money",
 							MobHunting.getInstance().getEconomyManager().format(reward.getMoney())));
 			MobHunting.getInstance().getMessages().debug("%s owned by %s picked up %s %s.", pet.getPetName(),
 					player.getName(),
 					MobHunting.getInstance().getEconomyManager().format(reward.getMoney()),
-					reward.getDisplayname());
+					reward.getDisplayName());
 			if (reward.isBagOfGoldReward() || reward.isItemReward()) {
 				if (!BagOfGoldCompat.isSupported() && !MobHunting.getAPI().getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
 					event.setCancelled(true);

@@ -246,9 +246,8 @@ public class RewardManager {
 							player.getInventory().clear(slot);
 						else
 							is = setDisplayNameAndHiddenLores(is, rewardInSlot);
-						plugin.getMessages().debug(
-								"Added %s to %s's item in slot %s, new value is %s",
-								format(amount), player.getName(), slot, format(rewardInSlot.getMoney()));
+						plugin.getMessages().debug("Added %s to %s's item in slot %s, new value is %s", format(amount),
+								player.getName(), slot, format(rewardInSlot.getMoney()));
 						if (moneyLeftToGive <= 0) {
 							found = true;
 							break;
@@ -273,13 +272,16 @@ public class RewardManager {
 					addedMoney = addedMoney + nextBag;
 					ItemStack is;
 					if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL"))
-						is = new CustomItems().getCustomtexture(UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
-								BagOfGoldCompat.isSupported()
-										? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
-										: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-								plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-								plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, Misc.round(nextBag),
-								UUID.randomUUID(), UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID));
+						is = new CustomItems()
+								.getCustomtexture(
+										BagOfGoldCompat.isSupported()
+												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
+														.trim()
+												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+										Misc.round(nextBag), UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
+										UUID.randomUUID(), UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
+										plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
+										plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 					else {
 						is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
 						setDisplayNameAndHiddenLores(is,
@@ -310,13 +312,16 @@ public class RewardManager {
 					double saldo = Misc.floor(reward.getMoney());
 					if (saldo > toBeTaken) {
 						reward.setMoney(saldo - toBeTaken);
-						is = customItems.getCustomtexture(reward.getRewardType(),
-								BagOfGoldCompat.isSupported()
-										? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
-										: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-								plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-								plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, saldo - toBeTaken,
-								UUID.randomUUID(), reward.getSkinUUID());
+						is = customItems
+								.getCustomtexture(
+										BagOfGoldCompat.isSupported()
+												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
+														.trim()
+												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+										saldo - toBeTaken, reward.getRewardType(), UUID.randomUUID(),
+										reward.getSkinUUID(),
+										plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
+										plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 						player.getInventory().setItem(slot, is);
 						taken = taken + toBeTaken;
 						toBeTaken = 0;
@@ -364,18 +369,18 @@ public class RewardManager {
 			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL")) {
 				uuid = UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID);
 				skinuuid = uuid;
-				is = new CustomItems().getCustomtexture(uuid,
+				is = new CustomItems().getCustomtexture(
 						BagOfGoldCompat.isSupported()
 								? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
 								: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+						money, uuid, UUID.randomUUID(), skinuuid,
 						plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-						plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, money, UUID.randomUUID(),
-						skinuuid);
+						plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 
 			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("KILLER")) {
 				uuid = UUID.fromString(Reward.MH_REWARD_KILLER_UUID);
 				skinuuid = player.getUniqueId();
-				is = new CustomItems().getPlayerHead(player.getUniqueId(), 1, money);
+				is = new CustomItems().getPlayerHead(player.getUniqueId(), player.getName(), 1, money);
 
 			} else { // ITEM
 				uuid = UUID.fromString(Reward.MH_REWARD_ITEM_UUID);
@@ -389,11 +394,11 @@ public class RewardManager {
 					new FixedMetadataValue(plugin,
 							new Reward(
 									plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM") ? ""
-											: Reward.getReward(is).getDisplayname(),
+											: Reward.getReward(is).getDisplayName(),
 									money, uuid, UUID.randomUUID(), skinuuid)));
 			item.setCustomName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 					+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM") ? format(money)
-							: Reward.getReward(is).getDisplayname() + " (" + format(money) + ")"));
+							: Reward.getReward(is).getDisplayName() + " (" + format(money) + ")"));
 			item.setCustomNameVisible(true);
 		}
 		if (item != null)
@@ -416,18 +421,20 @@ public class RewardManager {
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else if (reward.isKilledHeadReward()) {
 			MinecraftMob mob = MinecraftMob.getMinecraftMobType(reward.getSkinUUID());
+			MobHunting.getAPI().getMessages().debug("mob=%s", mob);
 			if (mob != null) {
-				ItemStack is = new CustomItems().getCustomHead(mob, mob.getFriendlyName(), 1, reward.getMoney(),
+				ItemStack is = new CustomItems().getCustomHead(mob, reward.getDisplayName(), 1, reward.getMoney(),
 						reward.getSkinUUID());
 				Item item = location.getWorld().dropItemNaturally(location, is);
 				getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 			}
 		} else if (reward.isKillerHeadReward()) {
-			ItemStack is = new CustomItems().getPlayerHead(reward.getSkinUUID(), 1, reward.getMoney());
+			ItemStack is = new CustomItems().getPlayerHead(reward.getSkinUUID(), reward.getDisplayName(), 1,
+					reward.getMoney());
 			Item item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[BagOfGold] " + ChatColor.RED
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
 					+ "Unhandled reward type in RewardManager (DropRewardOnGround).");
 		}
 	}
@@ -536,8 +543,8 @@ public class RewardManager {
 					saveReward(UUID.fromString(key));
 					n++;
 				} else {
-					//deleted++;
-					//config.set(key, null);
+					// deleted++;
+					// config.set(key, null);
 				}
 			}
 		} catch (InvalidConfigurationException e) {
@@ -567,12 +574,12 @@ public class RewardManager {
 		skullMeta.setLore(reward.getHiddenLore());
 		if (reward.getMoney() == 0)
 			skullMeta.setDisplayName(
-					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + reward.getDisplayname());
+					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + reward.getDisplayName());
 		else
 			skullMeta.setDisplayName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 					+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
 							? format(reward.getMoney())
-							: reward.getDisplayname() + " (" + format(reward.getMoney()) + ")"));
+							: reward.getDisplayName() + " (" + format(reward.getMoney()) + ")"));
 		skull.setItemMeta(skullMeta);
 		return skull;
 	}
@@ -582,12 +589,12 @@ public class RewardManager {
 		skullMeta.setLore(reward.getHiddenLore());
 		if (reward.getMoney() == 0)
 			skullMeta.setDisplayName(
-					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + reward.getDisplayname());
+					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + reward.getDisplayName());
 		else
 			skullMeta.setDisplayName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 					+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
 							? format(reward.getMoney())
-							: reward.getDisplayname() + " (" + format(reward.getMoney()) + ")"));
+							: reward.getDisplayName() + " (" + format(reward.getMoney()) + ")"));
 		skull.setItemMeta(skullMeta);
 		return skull;
 	}
@@ -595,7 +602,8 @@ public class RewardManager {
 	public void removeReward(Block block) {
 		if (Reward.isReward(block)) {
 			Reward reward = Reward.getReward(block);
-			plugin.getMessages().debug("A %s reward block was broken.",reward.getDisplayname());
+			plugin.getMessages().debug("A %s reward block was removed (value=%s).", reward.getDisplayName(),
+					reward.getMoney());
 			block.getDrops().clear();
 			block.setType(Material.AIR);
 			block.removeMetadata(Reward.MH_REWARD_DATA, plugin);
@@ -757,7 +765,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getPrice(mob, plugin.getConfigManager().beeMoney);
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getPrice(mob, plugin.getConfigManager().catMoney);
@@ -1109,7 +1117,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeCommands;
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catCommands;
@@ -1401,7 +1409,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMessage;
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMessage;
@@ -1684,7 +1692,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMoneyChance;
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMoneyChance;
@@ -1972,7 +1980,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMcMMOSkillRewardChance;
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMcMMOSkillRewardChance;
@@ -2284,7 +2292,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getMcMMOXP(mob, plugin.getConfigManager().beeMcMMOSkillRewardAmount);
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getMcMMOXP(mob, plugin.getConfigManager().catMcMMOSkillRewardAmount);
@@ -2567,7 +2575,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeEnabled;
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catEnabled;
@@ -2861,7 +2869,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadDropHead;
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadDropHead;
@@ -3157,7 +3165,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadDropChance;
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadDropChance;
@@ -3452,7 +3460,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadMessage;
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadMessage;
@@ -3748,7 +3756,7 @@ public class RewardManager {
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getPrice(mob, plugin.getConfigManager().beeHeadPrize);
-			
+
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getPrice(mob, plugin.getConfigManager().catHeadPrize);

@@ -149,9 +149,12 @@ public class HeadCommand implements ICommand, Listener {
 				// Use GameProfile
 				ItemStack head;
 				if (mob == MinecraftMob.PvpPlayer)
-					head = customItems.getPlayerHead(offlinePlayer.getUniqueId(), amount, plugin.getConfigManager().getHeadPrize(mob));
+					head = customItems.getPlayerHead(offlinePlayer.getUniqueId(), displayName, amount,
+							plugin.getConfigManager().getHeadPrize(mob));
 				else
-					head = customItems.getCustomHead(mob, displayName, amount, plugin.getConfigManager().getHeadPrize(mob), mob.getPlayerUUID());
+					head = customItems.getCustomHead(mob, displayName, amount,
+							plugin.getConfigManager().getHeadPrize(mob), mob.getPlayerUUID());
+
 				((Player) toPlayer).getWorld().dropItem(((Player) toPlayer).getLocation(), head);
 
 				if (toPlayer.isOnline() && !silent)
@@ -180,8 +183,8 @@ public class HeadCommand implements ICommand, Listener {
 						reward.setDisplayname(displayName);
 						displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
 								? plugin.getRewardManager().format(reward.getMoney())
-								: (reward.getMoney() == 0 ? reward.getDisplayname()
-										: reward.getDisplayname() + " ("
+								: (reward.getMoney() == 0 ? reward.getDisplayName()
+										: reward.getDisplayName() + " ("
 												+ plugin.getRewardManager().format(reward.getMoney()) + ")");
 						ItemMeta im = itemInHand.getItemMeta();
 						im.setDisplayName(
@@ -224,8 +227,8 @@ public class HeadCommand implements ICommand, Listener {
 						String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
 								.equalsIgnoreCase("ITEM")
 										? plugin.getRewardManager().format(reward.getMoney())
-										: (reward.getMoney() == 0 ? reward.getDisplayname()
-												: reward.getDisplayname() + " ("
+										: (reward.getMoney() == 0 ? reward.getDisplayName()
+												: reward.getDisplayName() + " ("
 														+ plugin.getRewardManager().format(reward.getMoney()) + ")");
 						ItemMeta im = itemInHand.getItemMeta();
 						im.setDisplayName(
@@ -260,7 +263,7 @@ public class HeadCommand implements ICommand, Listener {
 
 				if (mob != null) {
 					double money = plugin.getConfigManager().getHeadPrize(mob);
-					//double money = 0;
+					// double money = 0;
 					if (args.length == 2) {
 						Player player = (Player) sender;
 						Location location = Tools.getTargetBlock(player, 20).getLocation();

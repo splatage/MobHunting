@@ -61,26 +61,26 @@ public class BossShopCompat {
 	}
 
 	public static void openShop(MobHunting plugin, Player p) {
-		
+
 		plugin.getMessages().debug("test1");
 		BSShop shop = bs.getAPI().getShop("mobhunting");
-		
+
 		plugin.getMessages().debug("test2");
 		BSBuy buy = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, "item_shop", null, null, 1,
 				"OpenShop.Item_Shop");
-		
+
 		plugin.getMessages().debug("test3");
 		BSBuy sell = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, 1, 10, "bought bag of gold", 4, null);
 
 		UUID uuid = UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID);
-		ItemStack is = new CustomItems().getCustomtexture(uuid,
-				plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+		ItemStack is = new CustomItems().getCustomtexture(
+				plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(), 10, uuid, UUID.randomUUID(), uuid,
 				plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-				plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature, 10, UUID.randomUUID(), uuid);
+				plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 
 		plugin.getMessages().debug("test4");
 		getAPI().addItemToShop(is, buy, shop);
-		
+
 		plugin.getMessages().debug("test5");
 		getAPI().addItemToShop(is, sell, shop);
 

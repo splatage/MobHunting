@@ -66,7 +66,7 @@ public class BagOfGoldSign implements Listener {
 						if (BagOfGoldCompat.isSupported() && reward.isBagOfGoldReward()) {
 							plugin.getMessages().playerSendMessage(player,
 									plugin.getMessages().getString("mobhunting.money.you_cant_sell_and_buy_bagofgold",
-											"itemname", reward.getDisplayname()));
+											"itemname", reward.getDisplayName()));
 							return;
 						}
 
@@ -74,7 +74,7 @@ public class BagOfGoldSign implements Listener {
 						moneyInHand = reward.getMoney() * numberOfHeads;
 						if (moneyInHand == 0) {
 							plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
-									"mobhunting.bagofgoldsign.item_has_no_value", "itemname", reward.getDisplayname()));
+									"mobhunting.bagofgoldsign.item_has_no_value", "itemname", reward.getDisplayName()));
 							return;
 						}
 
@@ -110,13 +110,13 @@ public class BagOfGoldSign implements Listener {
 							im.setLore(reward.getHiddenLore());
 							String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
 									.equalsIgnoreCase("ITEM") ? plugin.getRewardManager().format(reward.getMoney())
-											: reward.getDisplayname() + " ("
+											: reward.getDisplayName() + " ("
 													+ plugin.getRewardManager().format(reward.getMoney()) + ")";
 							im.setDisplayName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 									+ displayName);
 							event.getItem().setItemMeta(im);
 						}
-						plugin.getMessages().debug("%s sold his %s for %s", player.getName(), reward.getDisplayname(),
+						plugin.getMessages().debug("%s sold his %s for %s", player.getName(), reward.getDisplayName(),
 								plugin.getEconomyManager().format(money));
 						plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
 								"mobhunting.bagofgoldsign.sold", "money", plugin.getEconomyManager().format(money),
@@ -124,7 +124,7 @@ public class BagOfGoldSign implements Listener {
 								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 										+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
 												? plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
-												: reward.getDisplayname())));
+												: reward.getDisplayName())));
 					} else {
 						plugin.getMessages().debug("Player does not hold a bag of gold in his hand");
 						plugin.getMessages().playerSendMessage(player,
@@ -171,7 +171,7 @@ public class BagOfGoldSign implements Listener {
 									String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
 											.equalsIgnoreCase("ITEM")
 													? plugin.getRewardManager().format(newReward.getMoney())
-													: newReward.getDisplayname() + " ("
+													: newReward.getDisplayName() + " ("
 															+ plugin.getRewardManager().format(newReward.getMoney())
 															+ ")";
 									im.setDisplayName(
@@ -206,12 +206,11 @@ public class BagOfGoldSign implements Listener {
 													UUID.randomUUID(), null));
 								} else
 									is = new CustomItems().getCustomtexture(
-											UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
 											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+											Misc.ceil(moneyOnSign), UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
+											UUID.randomUUID(), UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
 											plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-											plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature,
-											Misc.ceil(moneyOnSign), UUID.randomUUID(),
-											UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID));
+											plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 								player.getInventory().addItem(is);
 								found = true;
 							}

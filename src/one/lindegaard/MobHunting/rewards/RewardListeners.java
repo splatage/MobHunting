@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -93,10 +94,10 @@ public class RewardListeners implements Listener {
 			double money = reward.getMoney();
 			if (money == 0) {
 				item.setCustomName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-						+ reward.getDisplayname());
+						+ reward.getDisplayName());
 				plugin.getRewardManager().getDroppedMoney().put(item.getEntityId(), money);
 				plugin.getMessages().debug("%s dropped a %s (# of rewards left=%s)", player.getName(),
-						reward.getDisplayname() != null ? reward.getDisplayname()
+						reward.getDisplayName() != null ? reward.getDisplayName()
 								: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 						plugin.getRewardManager().getDroppedMoney().size());
 			} else {
@@ -105,7 +106,7 @@ public class RewardListeners implements Listener {
 							+ plugin.getRewardManager().format(money));
 				else
 					item.setCustomName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-							+ reward.getDisplayname() + " (" + plugin.getRewardManager().format(money) + ")");
+							+ reward.getDisplayName() + " (" + plugin.getRewardManager().format(money) + ")");
 
 				plugin.getRewardManager().getDroppedMoney().put(item.getEntityId(), money);
 				if (!BagOfGoldCompat.isSupported() && !plugin.getConfigManager().dropMoneyOnGroup
@@ -120,7 +121,7 @@ public class RewardListeners implements Listener {
 								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 										+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
 												? plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
-												: reward.getDisplayname())));
+												: reward.getDisplayName())));
 			}
 			item.setCustomNameVisible(true);
 		}
@@ -227,7 +228,7 @@ public class RewardListeners implements Listener {
 											String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
 													.equalsIgnoreCase("ITEM")
 															? plugin.getRewardManager().format(rewardInSlot.getMoney())
-															: rewardInSlot.getDisplayname() + " (" + plugin
+															: rewardInSlot.getDisplayName() + " (" + plugin
 																	.getRewardManager().format(rewardInSlot.getMoney())
 																	+ ")";
 											im.setDisplayName(ChatColor
@@ -278,12 +279,12 @@ public class RewardListeners implements Listener {
 
 								if (reward.getMoney() == 0) {
 									plugin.getMessages().debug("%s picked up a %s (# of rewards left=%s)",
-											player.getName(), reward.getDisplayname(),
+											player.getName(), reward.getDisplayName(),
 											plugin.getRewardManager().getDroppedMoney().size());
 								} else {
 									plugin.getMessages().debug(
 											"%s picked up a %s with a value:%s (# of rewards left=%s)(PickupRewards)",
-											player.getName(), reward.getDisplayname(),
+											player.getName(), reward.getDisplayName(),
 											plugin.getRewardManager().format(Misc.round(reward.getMoney())),
 											plugin.getRewardManager().getDroppedMoney().size());
 									plugin.getMessages().playerActionBarMessageQueue(player,
@@ -295,7 +296,7 @@ public class RewardListeners implements Listener {
 																	.equalsIgnoreCase("ITEM")
 																			? plugin.getConfigManager().dropMoneyOnGroundSkullRewardName
 																					.trim()
-																			: reward.getDisplayname())));
+																			: reward.getDisplayName())));
 								}
 							} else if (Misc.round(addedMoney) < Misc.round(reward.getMoney())) {
 								double rest = reward.getMoney() - addedMoney;
@@ -354,18 +355,25 @@ public class RewardListeners implements Listener {
 
 		if (Reward.isReward(is)) {
 			Reward reward = Reward.getReward(is);
-			if (event.getPlayer().getGameMode() != GameMode.SURVIVAL) {
+			if (reward.checkHash()) {
+				if (event.getPlayer().getGameMode() != GameMode.SURVIVAL) {
+					reward.setMoney(0);
+					plugin.getMessages().learn(event.getPlayer(),
+							plugin.getMessages().getString("mobhunting.learn.no-duplication"));
+				}
+				reward.setUniqueId(UUID.randomUUID());
+				plugin.getMessages().debug("%s placed a reward block: %s", player.getName(),
+						ChatColor.stripColor(reward.toString()));
+				block.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, reward));
+				plugin.getRewardManager().getReward().put(reward.getUniqueUUID(), reward);
+				plugin.getRewardManager().getLocations().put(reward.getUniqueUUID(), block.getLocation());
+				plugin.getRewardManager().saveReward(reward.getUniqueUUID());
+			} else {
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED + "[Warning] "
+						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(6)");
 				reward.setMoney(0);
-				plugin.getMessages().learn(event.getPlayer(),
-						plugin.getMessages().getString("mobhunting.learn.no-duplication"));
+				plugin.getRewardManager().setDisplayNameAndHiddenLores(is, reward);
 			}
-			reward.setUniqueId(UUID.randomUUID());
-			plugin.getMessages().debug("%s placed a reward block: %s", player.getName(),
-					ChatColor.stripColor(reward.toString()));
-			block.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, reward));
-			plugin.getRewardManager().getReward().put(reward.getUniqueUUID(), reward);
-			plugin.getRewardManager().getLocations().put(reward.getUniqueUUID(), block.getLocation());
-			plugin.getRewardManager().saveReward(reward.getUniqueUUID());
 		}
 	}
 
@@ -425,13 +433,13 @@ public class RewardListeners implements Listener {
 			if (reward.getMoney() == 0)
 				plugin.getMessages().playerActionBarMessageQueue(player,
 						ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-								+ reward.getDisplayname());
+								+ reward.getDisplayName());
 			else
 				plugin.getMessages().playerActionBarMessageQueue(player,
 						ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 								+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
 										? plugin.getRewardManager().format(reward.getMoney())
-										: reward.getDisplayname() + " ("
+										: reward.getDisplayName() + " ("
 												+ plugin.getRewardManager().format(reward.getMoney()) + ")"));
 		} else if (Servers.isMC113OrNewer()
 				&& (block.getType() == Material.PLAYER_HEAD || block.getType() == Material.PLAYER_WALL_HEAD)) {
@@ -583,7 +591,7 @@ public class RewardListeners implements Listener {
 							Reward reward = Reward.isReward(isCurrentSlot) ? Reward.getReward(isCurrentSlot)
 									: Reward.getReward(isCursor);
 							plugin.getMessages().learn(player, plugin.getMessages().getString(
-									"mobhunting.learn.rewards.no-clone", "rewardname", reward.getDisplayname()));
+									"mobhunting.learn.rewards.no-clone", "rewardname", reward.getDisplayName()));
 							plugin.getMessages().debug("RewardListerner: %s its not allowed to clone BagOfGold",
 									player.getName());
 							event.setCancelled(true);
@@ -702,19 +710,19 @@ public class RewardListeners implements Listener {
 						if (Reward.isReward(isCurrentSlot)) {
 							Reward reward = Reward.getReward(isCurrentSlot);
 							plugin.getMessages().debug("%s moved %s (%s) out of Inventory", player.getName(),
-									reward.getDisplayname(), reward.getMoney());
+									reward.getDisplayName(), reward.getMoney());
 						}
 						break;
 					case PLACE_ALL:
 						if (Reward.isReward(isCursor)) {
 							Reward reward = Reward.getReward(isCursor);
 							plugin.getMessages().debug("%s moved %s (%s) into Inventory", player.getName(),
-									reward.getDisplayname(), reward.getMoney());
+									reward.getDisplayName(), reward.getMoney());
 						}
 						if (Reward.isReward(isCurrentSlot) && isCursor.getType() == Material.AIR) {
 							Reward reward = Reward.getReward(isCurrentSlot);
 							plugin.getMessages().debug("(2) %s moved %s (%s) out of Inventory", player.getName(),
-									reward.getDisplayname(), reward.getMoney());
+									reward.getDisplayName(), reward.getMoney());
 						}
 						break;
 					case PLACE_ONE:
@@ -736,7 +744,7 @@ public class RewardListeners implements Listener {
 											+ (plugin.getConfigManager().dropMoneyOnGroundItemtype
 													.equalsIgnoreCase("ITEM")
 															? plugin.getRewardManager().format(reward2.getMoney())
-															: reward2.getDisplayname() + " (" + plugin
+															: reward2.getDisplayName() + " (" + plugin
 																	.getRewardManager().format(reward2.getMoney())
 																	+ ")"));
 									isCursor.setItemMeta(imCursor);
@@ -756,7 +764,7 @@ public class RewardListeners implements Listener {
 													.equalsIgnoreCase("ITEM")
 															? plugin.getRewardManager()
 																	.format(plugin.getConfigManager().limitPerBag)
-															: reward2.getDisplayname() + " ("
+															: reward2.getDisplayName() + " ("
 																	+ plugin.getRewardManager().format(
 																			plugin.getConfigManager().limitPerBag)
 																	+ ")"));
@@ -770,7 +778,7 @@ public class RewardListeners implements Listener {
 													.equalsIgnoreCase("ITEM")
 															? plugin.getRewardManager()
 																	.format(plugin.getConfigManager().limitPerBag)
-															: reward1.getDisplayname() + " (" + plugin
+															: reward1.getDisplayName() + " (" + plugin
 																	.getRewardManager().format(reward1.getMoney())
 																	+ ")"));
 									isCurrentSlot.setItemMeta(imCurrent);
@@ -858,7 +866,6 @@ public class RewardListeners implements Listener {
 		Block block = event.getBlock();
 		if (Reward.isReward(block)) {
 			Reward reward = Reward.getReward(block);
-			plugin.getMessages().debug("RewardListeners: value %s", reward.getMoney());
 			plugin.getRewardManager().removeReward(block);
 			plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
 		}
@@ -867,9 +874,11 @@ public class RewardListeners implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = (Player) event.getPlayer();
-		if (player.getOpenInventory()!=null) {
-			if (player.getOpenInventory().getCursor()==null) return;
-			if (!Reward.isReward(player.getOpenInventory().getCursor())) return;
+		if (player.getOpenInventory() != null) {
+			if (player.getOpenInventory().getCursor() == null)
+				return;
+			if (!Reward.isReward(player.getOpenInventory().getCursor()))
+				return;
 			player.getOpenInventory().setCursor(null);
 		}
 	}

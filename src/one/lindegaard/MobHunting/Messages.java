@@ -53,7 +53,8 @@ public class Messages {
 	private static Map<String, String> mTranslationTable;
 	private static String[] mValidEncodings = new String[] { "UTF-16", "UTF-16BE", "UTF-16LE", "UTF-8", "ISO646-US" };
 	private static final String PREFIX = ChatColor.GOLD + "[MobHunting]" + ChatColor.RESET;
-	private static String[] sources = new String[] { "en_US.lang", "hu_HU.lang", "zh_CN.lang", "ru_RU.lang", "pl_PL.lang" };
+	private static String[] sources = new String[] { "en_US.lang", "hu_HU.lang", "zh_CN.lang", "ru_RU.lang",
+			"pl_PL.lang" };
 
 	public void exportDefaultLanguages(MobHunting plugin) {
 		File folder = new File(plugin.getDataFolder(), "lang");
@@ -255,22 +256,27 @@ public class Messages {
 
 	private static Map<String, String> loadLang(InputStream stream, String encoding) throws IOException {
 		Map<String, String> map = new HashMap<String, String>();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(stream, encoding));
+		try {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(stream, encoding));
 
-		while (reader.ready()) {
-			String line = reader.readLine();
-			if (line == null)
-				continue;
-			int index = line.indexOf('=');
-			if (index == -1)
-				continue;
+			while (reader.ready()) {
+				String line = reader.readLine();
+				if (line == null)
+					continue;
+				int index = line.indexOf('=');
+				if (index == -1)
+					continue;
 
-			String key = line.substring(0, index).trim();
-			String value = line.substring(index + 1).trim();
+				String key = line.substring(0, index).trim();
+				String value = line.substring(index + 1).trim();
 
-			map.put(key, value);
+				map.put(key, value);
+			}
+			reader.close();
+		} catch (Exception e) {
+			Bukkit.getServer().getConsoleSender()
+					.sendMessage(PREFIX + " Error reading the language file. Please check the format.");
 		}
-		reader.close();
 
 		return map;
 	}
@@ -494,8 +500,8 @@ public class Messages {
 			BossBarAPICompat.addBar(player, String.format(message, args));
 		} else if (BarAPICompat.isSupported()) {
 			BarAPICompat.setMessageTime(player, String.format(message, args), 5);
-		//} else if (CMICompat.isSupported()) {
-		//	CMICompat.sendBossBarMessage(player, String.format(message, args));
+			// } else if (CMICompat.isSupported()) {
+			// CMICompat.sendBossBarMessage(player, String.format(message, args));
 		} else {
 			player.sendMessage(
 					ChatColor.AQUA + getString("mobhunting.learn.prefix") + " " + String.format(message, args));

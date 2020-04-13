@@ -49,34 +49,35 @@ public class CustomItems {
 	 * @param money
 	 * @return
 	 */
-	public ItemStack getPlayerHead(UUID uuid, int amount, double money) {
+	public ItemStack getPlayerHead(UUID uuid, String name, int amount, double money) {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(amount);
+		skull.setAmount(amount);
 		OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
 		PlayerSettings ps = plugin.getPlayerSettingsManager().getPlayerSettings(offlinePlayer);
-		String[] skinCache = new String[2];
-
 		if (ps.getTexture() == null || ps.getSignature() == null || ps.getTexture().isEmpty()
 				|| ps.getSignature().isEmpty()) {
+			plugin.getMessages().debug("No skin found i database");
+			String[] onlineSkin = new String[2];
 			if (offlinePlayer.isOnline()) {
 				Player player = (Player) offlinePlayer;
 				Skins sk = CoreCustomItems.getSkinsClass();
 				if (sk != null) {
 					plugin.getMessages().debug("Trying to fecth skin from Online Player Profile");
-					skinCache = sk.getSkin(player);
+					onlineSkin = sk.getSkin(player);
 				} else {
 					plugin.getMessages().debug("Trying to fecth skin from Minecraft Servers");
-					skinCache = getSkinFromUUID(uuid);
+					onlineSkin = getSkinFromUUID(uuid);
 				}
 			}
 
-			if ((skinCache == null || skinCache[0] == null || skinCache[0].isEmpty() || skinCache[1] == null
-					|| skinCache[1].isEmpty()) && Servers.isMC112OrNewer())
-				return getPlayerHeadOwningPlayer(uuid, amount, money);
+			if ((onlineSkin == null || onlineSkin[0] == null || onlineSkin[0].isEmpty() || onlineSkin[1] == null
+					|| onlineSkin[1].isEmpty()) && Servers.isMC112OrNewer())
+				return getPlayerHeadOwningPlayer(uuid, name, amount, money);
 
-			if (skinCache != null && skinCache[0] != null && !skinCache[0].isEmpty() && skinCache[1] != null
-					&& !skinCache[1].isEmpty()) {
-				ps.setTexture(skinCache[0]);
-				ps.setSignature(skinCache[1]);
+			if (onlineSkin != null && onlineSkin[0] != null && !onlineSkin[0].isEmpty() && onlineSkin[1] != null
+					&& !onlineSkin[1].isEmpty()) {
+				ps.setTexture(onlineSkin[0]);
+				ps.setSignature(onlineSkin[1]);
 				plugin.getPlayerSettingsManager().setPlayerSettings(offlinePlayer, ps);
 			} else {
 				plugin.getMessages().debug("Empty skin");
@@ -87,23 +88,24 @@ public class CustomItems {
 				Player player = (Player) offlinePlayer;
 				Skins sk = CoreCustomItems.getSkinsClass();
 				if (sk != null) {
-					String[] skinOnline = sk.getSkin(player);
-					if (skinOnline != null && !skinOnline.equals(skinCache)) {
-						plugin.getMessages().debug("%s has changed skin, updating MobHunting Skin cache",
-								player.getName());
-						ps.setTexture(skinOnline[0]);
-						ps.setSignature(skinOnline[1]);
+					String[] skin = sk.getSkin(player);
+					if (skin != null && !skin[0].equals(ps.getTexture())) {
+						plugin.getMessages().debug(
+								"%s has changed skin, updating database with new skin. (%s,%s)",
+								player.getName(), ps.getTexture(), skin[0]);
+						ps.setTexture(skin[0]);
+						ps.setSignature(skin[1]);
 						plugin.getPlayerSettingsManager().setPlayerSettings(offlinePlayer, ps);
 					}
 				}
-			}
-			skinCache[0] = ps.getTexture();
-			skinCache[1] = ps.getSignature();
-			plugin.getMessages().debug("%s using skin from MobHunting Skin Cache", offlinePlayer.getName());
+			} else
+				plugin.getMessages().debug("%s using skin from database", offlinePlayer.getName());
 		}
 
-		skull = new ItemStack(getCustomtexture(UUID.fromString(Reward.MH_REWARD_KILLED_UUID), offlinePlayer.getName(),
-				skinCache[0], skinCache[1], money, UUID.randomUUID(), uuid));
+		skull = new ItemStack(
+				getCustomtexture(offlinePlayer.getName(), money, UUID.fromString(Reward.MH_REWARD_KILLED_UUID),
+						UUID.randomUUID(), uuid, ps.getTexture(), ps.getSignature()));
+
 		skull.setAmount(amount);
 		return skull;
 	}
@@ -133,18 +135,20 @@ public class CustomItems {
 		}
 	}
 
-	public ItemStack getPlayerHeadOwningPlayer(UUID uuid, int amount, double money) {
+	public ItemStack getPlayerHeadOwningPlayer(UUID uuid, String name,  int amount, double money) {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(amount);
 		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-		String name = Bukkit.getOfflinePlayer(uuid).getName();
 		skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + name,
 				"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money),
-				"Hidden(2):" + Reward.MH_REWARD_KILLER_UUID,
+				"Hidden(2):" + Reward.MH_REWARD_KILLED_UUID,
 				money == 0 ? "Hidden(3):" : "Hidden(3):" + UUID.randomUUID(), "Hidden(4):" + uuid,
 				"Hidden(5):"
-						+ Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + Reward.MH_REWARD_KILLER_UUID),
+						+ Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + Reward.MH_REWARD_KILLED_UUID),
 				plugin.getMessages().getString("mobhunting.reward.lore"))));
-		skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
+		if (Bukkit.getOfflinePlayer(uuid) != null)
+			skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
+		else
+			skullMeta.setOwner(name);
 		if (money == 0) {
 			skullMeta.setDisplayName(name);
 			skull.setAmount(amount);
@@ -153,7 +157,7 @@ public class CustomItems {
 			skull.setAmount(1);
 		}
 		skull.setItemMeta(skullMeta);
-		plugin.getMessages().debug("CustomItems: set the skin using OwningPlayer (%s,%s)", name, uuid.toString());
+		plugin.getMessages().debug("CustomItems: set the skin using OwningPlayer/Owner (%s,%s)", name, uuid.toString());
 		return skull;
 	}
 
@@ -168,15 +172,15 @@ public class CustomItems {
 	 * @param money
 	 * @return ItemStack with custom texture.
 	 */
-	public ItemStack getCustomtexture(UUID mPlayerUUID, String mDisplayName, String mTextureValue,
-			String mTextureSignature, double money, UUID uniqueRewardUuid, UUID skinUuid) {
+	public ItemStack getCustomtexture(String mDisplayName, double money, UUID mRewardType, UUID uniqueRewardUuid,
+			UUID skinUuid, String mTextureValue, String mTextureSignature) {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(1);
-		if (mTextureValue.isEmpty())
+		if (mTextureSignature.isEmpty() || mTextureValue.isEmpty())
 			return skull;
 
 		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 
-		GameProfile profile = new GameProfile(mPlayerUUID, mDisplayName);
+		GameProfile profile = new GameProfile(skinUuid, mDisplayName);
 		if (mTextureSignature.isEmpty())
 			profile.getProperties().put("textures", new Property("textures", mTextureValue));
 		else
@@ -197,16 +201,16 @@ public class CustomItems {
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		if (mPlayerUUID.equals(UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID)))
+		if (mRewardType.equals(UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID)))
 			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + mDisplayName,
-					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mPlayerUUID,
+					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mRewardType,
 					money == 0 ? "Hidden(3):" : "Hidden(3):" + uniqueRewardUuid, "Hidden(4):" + skinUuid,
-					"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mPlayerUUID))));
+					"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mRewardType))));
 		else
 			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + mDisplayName,
-					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mPlayerUUID,
+					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mRewardType,
 					money == 0 ? "Hidden(3):" : "Hidden(3):" + uniqueRewardUuid, "Hidden(4):" + skinUuid,
-					"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mPlayerUUID),
+					"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mRewardType),
 					plugin.getMessages().getString("mobhunting.reward.lore"))));
 		ChatColor color = ChatColor.GOLD;
 		try {
@@ -246,7 +250,7 @@ public class CustomItems {
 			break;
 
 		case PvpPlayer:
-			skull = getPlayerHead(skinUUID, amount, money);
+			skull = getPlayerHead(skinUUID, name, amount, money);
 			break;
 
 		case Creeper:
@@ -262,9 +266,9 @@ public class CustomItems {
 			break;
 
 		default:
-			ItemStack is = new ItemStack(getCustomtexture(UUID.fromString(Reward.MH_REWARD_KILLED_UUID),
-					minecraftMob.getFriendlyName(), minecraftMob.getTextureValue(), minecraftMob.getTextureSignature(),
-					money, UUID.fromString(Reward.MH_REWARD_KILLED_UUID), skinUUID));
+			ItemStack is = new ItemStack(getCustomtexture(name, money,
+					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID,
+					minecraftMob.getTextureValue(), minecraftMob.getTextureSignature()));
 			is.setAmount(amount);
 			return is;
 		}
