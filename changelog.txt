@@ -1,3 +1,5 @@
+V7.0.5
+* Fixed ticket 607 (Fixed errors when using SimplePets)
 V7.0.4
 * Optimized code when detecting rewards/bagofgold.
 * Fixed NPE bug in WeepingAngels Compatibility.
