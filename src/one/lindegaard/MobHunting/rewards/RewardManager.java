@@ -71,11 +71,13 @@ import org.bukkit.entity.Snowman;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Stray;
+import org.bukkit.entity.TraderLlama;
 import org.bukkit.entity.TropicalFish;
 import org.bukkit.entity.Turtle;
 import org.bukkit.entity.Vex;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Vindicator;
+import org.bukkit.entity.WanderingTrader;
 import org.bukkit.entity.Witch;
 import org.bukkit.entity.Wither;
 import org.bukkit.entity.Wolf;
@@ -781,6 +783,10 @@ public class RewardManager {
 					return getPrice(mob, plugin.getConfigManager().huskMoney);
 				else if (mob instanceof Stray)
 					return getPrice(mob, plugin.getConfigManager().strayMoney);
+				else if (mob instanceof TraderLlama)
+					return getPrice(mob, plugin.getConfigManager().traderLlamaMoney);
+				else if (mob instanceof WanderingTrader)
+					return getPrice(mob, plugin.getConfigManager().wanderingTraderMoney);
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return getPrice(mob, plugin.getConfigManager().armorerMoney);
@@ -1133,6 +1139,10 @@ public class RewardManager {
 					return plugin.getConfigManager().huskCommands;
 				else if (mob instanceof Stray)
 					return plugin.getConfigManager().strayCommands;
+				else if (mob instanceof TraderLlama)
+					return plugin.getConfigManager().traderllamaCommands;
+				else if (mob instanceof WanderingTrader)
+					return plugin.getConfigManager().wanderingTraderCommands;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return plugin.getConfigManager().armorerCommands;
@@ -1425,6 +1435,10 @@ public class RewardManager {
 					return plugin.getConfigManager().huskMessage;
 				else if (mob instanceof Stray)
 					return plugin.getConfigManager().strayMessage;
+				else if (mob instanceof TraderLlama)
+					return plugin.getConfigManager().traderLlamaMessage;
+				else if (mob instanceof WanderingTrader)
+					return plugin.getConfigManager().wanderingTraderMessage;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return plugin.getConfigManager().armorerMessage;
@@ -1708,6 +1722,10 @@ public class RewardManager {
 					return plugin.getConfigManager().huskMoneyChance;
 				else if (mob instanceof Stray)
 					return plugin.getConfigManager().strayMoneyChance;
+				else if (mob instanceof TraderLlama)
+					return plugin.getConfigManager().traderLlamaCmdRunChance;
+				else if (mob instanceof WanderingTrader)
+					return plugin.getConfigManager().wanderingTraderCmdRunChance;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return plugin.getConfigManager().armorerMoneyChance;
@@ -1996,6 +2014,10 @@ public class RewardManager {
 					return plugin.getConfigManager().huskMcMMOSkillRewardChance;
 				else if (mob instanceof Stray)
 					return plugin.getConfigManager().strayMcMMOSkillRewardChance;
+				else if (mob instanceof TraderLlama)
+					return plugin.getConfigManager().traderLlamaMcMMOSkillRewardChance;
+				else if (mob instanceof WanderingTrader)
+					return plugin.getConfigManager().wanderingTraderMcMMOSkillRewardChance;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return plugin.getConfigManager().armorerMcMMOSkillRewardChance;
@@ -2308,6 +2330,10 @@ public class RewardManager {
 					return getMcMMOXP(mob, plugin.getConfigManager().huskMcMMOSkillRewardAmount);
 				else if (mob instanceof Stray)
 					return getMcMMOXP(mob, plugin.getConfigManager().strayMcMMOSkillRewardAmount);
+				else if (mob instanceof TraderLlama)
+					return getMcMMOXP(mob, plugin.getConfigManager().traderLlamaMcMMOSkillRewardAmount);
+				else if (mob instanceof WanderingTrader)
+					return getMcMMOXP(mob, plugin.getConfigManager().wanderingTraderMcMMOSkillRewardAmount);
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return getMcMMOXP(mob, plugin.getConfigManager().armorerMcMMOSkillRewardAmount);
@@ -2591,6 +2617,10 @@ public class RewardManager {
 					return plugin.getConfigManager().huskEnabled;
 				else if (mob instanceof Stray)
 					return plugin.getConfigManager().strayEnabled;
+				else if (mob instanceof TraderLlama)
+					return plugin.getConfigManager().traderLlamaEnabled;
+				else if (mob instanceof WanderingTrader)
+					return plugin.getConfigManager().wanderingTraderEnabled;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return plugin.getConfigManager().armorerEnabled;
@@ -2885,6 +2915,10 @@ public class RewardManager {
 					return plugin.getConfigManager().huskHeadDropHead;
 				else if (mob instanceof Stray)
 					return plugin.getConfigManager().strayHeadDropHead;
+				else if (mob instanceof TraderLlama)
+					return plugin.getConfigManager().traderLlamaHeadDropHead;
+				else if (mob instanceof WanderingTrader)
+					return plugin.getConfigManager().wanderingTraderHeadDropHead;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return plugin.getConfigManager().armorerHeadDropHead;
@@ -3181,6 +3215,10 @@ public class RewardManager {
 					return plugin.getConfigManager().huskHeadDropChance;
 				else if (mob instanceof Stray)
 					return plugin.getConfigManager().strayHeadDropChance;
+				else if (mob instanceof TraderLlama)
+					return plugin.getConfigManager().traderLlamaHeadDropChance;
+				else if (mob instanceof WanderingTrader)
+					return plugin.getConfigManager().wanderingTraderHeadDropChance;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return plugin.getConfigManager().armorerHeadDropChance;
@@ -3476,6 +3514,10 @@ public class RewardManager {
 					return plugin.getConfigManager().huskHeadMessage;
 				else if (mob instanceof Stray)
 					return plugin.getConfigManager().strayHeadMessage;
+				else if (mob instanceof TraderLlama)
+					return plugin.getConfigManager().traderLlamaHeadMessage;
+				else if (mob instanceof WanderingTrader)
+					return plugin.getConfigManager().wanderingTraderHeadMessage;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return plugin.getConfigManager().armorerHeadMessage;
@@ -3772,6 +3814,10 @@ public class RewardManager {
 					return getPrice(mob, plugin.getConfigManager().huskHeadPrize);
 				else if (mob instanceof Stray)
 					return getPrice(mob, plugin.getConfigManager().strayHeadPrize);
+				else if (mob instanceof TraderLlama)
+					return getPrice(mob, plugin.getConfigManager().traderLlamaHeadPrize);
+				else if (mob instanceof WanderingTrader)
+					return getPrice(mob, plugin.getConfigManager().wanderingTraderHeadPrize);
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
 						return getPrice(mob, plugin.getConfigManager().armorerHeadPrize);

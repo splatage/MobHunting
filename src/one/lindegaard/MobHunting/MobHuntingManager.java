@@ -1175,6 +1175,8 @@ public class MobHuntingManager implements Listener {
 				}
 				plugin.getMessages().debug("======================= kill ended (26)======================");
 				return;
+			} else {
+				plugin.getMessages().debug("A mob from a spawner or an egg was killed in a whitelisted area");
 			}
 		}
 

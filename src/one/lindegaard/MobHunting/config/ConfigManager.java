@@ -128,6 +128,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("villager.villager", "### Villager settings (No profession) ###");
 		setCategoryComment("villager.shepherd", "### Shepherd settings ###");
 		setCategoryComment("villager.toolsmith", "### Toolsmith settings ###");
+		setCategoryComment("villager.wanderingtrader", "### Wandering Trader settings ###");
 		setCategoryComment("villager.weaponsmith", "### Weaponsmith settings ###");
 
 		// This is passive monster - not a villaer
@@ -171,6 +172,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("passive.skeleton_horse", "### Skeleton Horse settings ###");
 		setCategoryComment("passive.snowman", "### Snowman settings ###");
 		setCategoryComment("passive.squid", "### Squid settings ###");
+		setCategoryComment("passive.traderllama", "### Trader Llama settings ###");
 		setCategoryComment("passive.turtle", "### Turtle settings ###");
 		setCategoryComment("passive.wolf", "### Wolf settings ###");
 		setCategoryComment("passive.zombie_horse", "### Zombie Horse settings ###");
@@ -2595,6 +2597,58 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "squid.head.message", category = "passive")
 	public String squidHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Trader Llama============================================
+	@ConfigField(name = "traderllama.enabled", category = "passive")
+	public boolean traderLlamaEnabled = true;
+	@ConfigField(name = "traderllama.message", category = "passive")
+	public String traderLlamaMessage = "You killed a §1{killed}";
+	@ConfigField(name = "traderllama.money.amount", category = "passive")
+	public String traderLlamaMoney = "-10";
+	@ConfigField(name = "traderllama.money.chance", category = "passive")
+	public double traderLlamaCmdRunChance = 1;
+	@ConfigField(name = "traderllama.commands", category = "passive")
+	public List<HashMap<String, String>> traderllamaCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} chest 1");
+		values1.put("chance", "0.05");
+		traderllamaCommands.add(values1);
+	}
+	@ConfigField(name = "traderllama.head.drophead", category = "passive")
+	public boolean traderLlamaHeadDropHead = true;
+	@ConfigField(name = "traderllama.head.value", category = "passive")
+	public String traderLlamaHeadPrize = "0";
+	@ConfigField(name = "traderllama.head.chance", category = "passive")
+	public double traderLlamaHeadDropChance = 0.05;
+	@ConfigField(name = "traderllama.head.message", category = "passive")
+	public String traderLlamaHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Wandering Trader============================================
+	@ConfigField(name = "wanderingtrader.enabled", category = "villager")
+	public boolean wanderingTraderEnabled = true;
+	@ConfigField(name = "wanderingtrader.message", category = "villager")
+	public String wanderingTraderMessage = "You killed a §1{killed}";
+	@ConfigField(name = "wanderingtrader.money.amount", category = "villager")
+	public String wanderingTraderMoney = "-5";
+	@ConfigField(name = "wanderingtrader.money.chance", category = "villager")
+	public double wanderingTraderCmdRunChance = 1;
+	@ConfigField(name = "wanderingtrader.commands", category = "villager")
+	public List<HashMap<String, String>> wanderingTraderCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} torch 1");
+		values1.put("chance", "0.05");
+		wanderingTraderCommands.add(values1);
+	}
+	@ConfigField(name = "wanderingtrader.head.drophead", category = "villager")
+	public boolean wanderingTraderHeadDropHead = true;
+	@ConfigField(name = "wanderingtrader.head.value", category = "villager")
+	public String wanderingTraderHeadPrize = "0";
+	@ConfigField(name = "wanderingtrader.head.chance", category = "villager")
+	public double wanderingTraderHeadDropChance = 0.05;
+	@ConfigField(name = "wanderingtrader.head.message", category = "villager")
+	public String wanderingTraderHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Wolf============================================
 	@ConfigField(name = "wolf.enabled", category = "passive")
 	public boolean wolfEnabled = true;
@@ -3196,6 +3250,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "squid_level1", category = "achievements.hunter.mob_level")
 	public int squidLevel1 = 100;
 
+	@ConfigField(name = "traderllama_level1", category = "achievements.hunter.mob_level")
+	public int traderllamaLevel1 = 100;
+
 	@ConfigField(name = "stray_level1", category = "achievements.hunter.mob_level")
 	public int strayLevel1 = 100;
 
@@ -3213,6 +3270,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "vindicator_level1", category = "achievements.hunter.mob_level")
 	public int vindicatorLevel1 = 100;
+
+	@ConfigField(name = "wandering_trader_level1", category = "achievements.hunter.mob_level")
+	public int wanderingTraderLevel1 = 80;
 
 	@ConfigField(name = "weaponsmith_level1", category = "achievements.hunter.mob_level")
 	public int weaponsmithLevel1 = 80;
@@ -4064,6 +4124,12 @@ public class ConfigManager extends AutoConfig {
 	public double toolsmithMcMMOSkillRewardChance = 0.04;
 	// Passive mob, easy
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.traderllama")
+	public String traderLlamaMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.traderllama")
+	public double traderLlamaMcMMOSkillRewardChance = 0.04;
+	// Passive mob, easy
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.vex")
 	public String vexMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.vex")
@@ -4080,6 +4146,12 @@ public class ConfigManager extends AutoConfig {
 	public String vindicatorMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.vindicator")
 	public double vindicatorMcMMOSkillRewardChance = 0.05;
+	// Hostile mob, normal
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.wanderingtrader")
+	public String wanderingTraderMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.wanderingtrader")
+	public double wanderingTraderMcMMOSkillRewardChance = 0.05;
 	// Hostile mob, normal
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.weaponsmith")
@@ -5545,12 +5617,16 @@ public class ConfigManager extends AutoConfig {
 			return squidLevel1;
 		case Stray:
 			return strayLevel1;
+		case TraderLlama:
+			return traderllamaLevel1;
 		case Vex:
 			return vexLevel1;
 		case Villager:
 			return villagerLevel1;
 		case Vindicator:
 			return vindicatorLevel1;
+		case WanderingTrader:
+			return wanderingTraderLevel1;
 		case Witch:
 			return witchLevel1;
 		case Wither:
@@ -5722,12 +5798,16 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, squidHeadPrize);
 		case Stray:
 			return getPrice(mob, strayHeadPrize);
+		case TraderLlama:
+			return getPrice(mob,traderLlamaHeadPrize);
 		case Vex:
 			return getPrice(mob, vexHeadPrize);
 		case Villager:
 			return getPrice(mob, villagerHeadPrize);
 		case Vindicator:
 			return getPrice(mob, vindicatorHeadPrize);
+		case WanderingTrader:
+			return getPrice(mob, wanderingTraderHeadPrize);
 		case Witch:
 			return getPrice(mob, witchHeadPrize);
 		case Wither:
