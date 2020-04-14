@@ -143,7 +143,7 @@ public class GrindingManager implements Listener {
 								&& gi.getKilled().getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-									if (killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
+									if (killed.getWorld().equals(gi.getKilled().getWorld()) && killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
 										n++;
 										// plugin.getMessages().debug("This was
 										// not a Nether
