@@ -220,8 +220,8 @@ public class BountyManager implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
 	public void onInventoryClick(InventoryClickEvent event) {
-		if (ChatColor.stripColor(event.getView().getTitle()).startsWith("MostWanted:")
-				|| ChatColor.stripColor(event.getView().getTitle()).startsWith("Wanted:")) {
+		if (!event.getView().getTitle().isEmpty() && (ChatColor.stripColor(event.getView().getTitle()).startsWith("MostWanted:")
+				|| ChatColor.stripColor(event.getView().getTitle()).startsWith("Wanted:"))) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMap.remove(event.getWhoClicked());

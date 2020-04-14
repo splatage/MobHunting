@@ -21,6 +21,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -39,7 +40,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
-
+import org.jetbrains.annotations.NotNull;
 import org.bukkit.event.block.Action;
 
 import one.lindegaard.Core.Materials.Materials;
@@ -848,6 +849,7 @@ public class RewardListeners implements Listener {
 					plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
 				}
 			} else if (event.getSourceBlock().getType() == Material.matchMaterial("PLAYER_HEAD")) {
+				// plugin.getMessages().debug("PLAYER_HEAD changed PLAYER_HEAD");
 				return;
 			} else {
 				// plugin.getMessages().debug("RewardListeners: Event Cancelled - a %s tried to
@@ -856,6 +858,22 @@ public class RewardListeners implements Listener {
 				event.setCancelled(true);
 			}
 		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onBlockPistonExtendEvent(BlockPistonExtendEvent event) { 
+		if (event.isCancelled())
+			return;
+		@NotNull
+		List<Block> changedBlocks = event.getBlocks();
+		if (!changedBlocks.isEmpty())
+			for (Block b : changedBlocks) {
+				if (Reward.isReward(b)) {
+					plugin.getMessages().debug("Is not possible to move a Reward with a Piston");
+					event.setCancelled(true);
+					return;
+				}
+			}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

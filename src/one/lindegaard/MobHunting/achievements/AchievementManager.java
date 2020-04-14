@@ -122,7 +122,7 @@ public class AchievementManager implements Listener {
 		registerAchievement(new JustInTime(plugin));
 		registerAchievement(new WolfKillAchievement(plugin));
 		if (Servers.isMC113OrNewer())
-		registerAchievement(new Neptune(plugin));
+			registerAchievement(new Neptune(plugin));
 		if (SmartGiantsCompat.isSupported())
 			registerAchievement(new DavidAndGoliath(plugin));
 
@@ -400,8 +400,9 @@ public class AchievementManager implements Listener {
 				return;
 			}
 
-		//TODO: maybe Advancements API does not work on Paper? 
-		if (Servers.isSpigotServer() && !plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC112OrNewer())
+		// TODO: maybe Advancements API does not work on Paper?
+		if (Servers.isSpigotServer() && !plugin.getConfigManager().disableMobHuntingAdvancements
+				&& Servers.isMC112OrNewer())
 			plugin.getAdvancementManager().grantAdvancement(player, achievement);
 
 		PlayerStorage storage = mStorage.get(player.getUniqueId());
@@ -430,11 +431,9 @@ public class AchievementManager implements Listener {
 		if (plugin.getConfigManager().broadcastAchievement
 				&& (!(achievement instanceof TheHuntBegins) || plugin.getConfigManager().broadcastFirstAchievement))
 			plugin.getMessages()
-					.broadcast(
-							ChatColor.GOLD + plugin.getMessages().getString("mobhunting.achievement.awarded.broadcast",
-									"player", player.getName(), "name",
-									"" + ChatColor.WHITE + ChatColor.ITALIC + achievement.getName()),
-							player);
+					.broadcast(ChatColor.GOLD + plugin.getMessages().getString(
+							"mobhunting.achievement.awarded.broadcast", "player", player.getName(), "name",
+							"" + ChatColor.WHITE + ChatColor.ITALIC + achievement.getName()), player);
 
 		// Run console commands as a reward
 		String playername = player.getName();
@@ -659,8 +658,9 @@ public class AchievementManager implements Listener {
 						storage.enableAchievements = true;
 						mStorage.put(p.getUniqueId(), storage);
 
-						//Advancements is not supported on older servers and on PaperSpigot.
-						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC113OrNewer() && !Servers.isPaperServer())
+						// Advancements is not supported on older servers and on PaperSpigot.
+						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC113OrNewer()
+								&& !Servers.isPaperServer())
 							plugin.getAdvancementManager().updatePlayerAdvancements(player);
 
 					}
@@ -955,7 +955,7 @@ public class AchievementManager implements Listener {
 		if (event.getInventory() == null)
 			return;
 
-		if (ChatColor.stripColor(event.getView().getTitle()).startsWith("Completed:")) {
+		if (!event.getView().getTitle().isEmpty() && ChatColor.stripColor(event.getView().getTitle()).startsWith("Completed:")) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMapCompleted.remove(event.getWhoClicked());
@@ -975,7 +975,8 @@ public class AchievementManager implements Listener {
 		if (event.getInventory() == null)
 			return;
 
-		if (ChatColor.stripColor(event.getView().getTitle()).startsWith("Ongoing:")) {
+		if (!event.getView().getTitle().isEmpty()
+				&& ChatColor.stripColor(event.getView().getTitle()).startsWith("Ongoing:")) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMapOngoing.remove(event.getWhoClicked());
@@ -994,7 +995,7 @@ public class AchievementManager implements Listener {
 		if (event.getInventory() == null)
 			return;
 
-		if (ChatColor.stripColor(event.getView().getTitle()).startsWith("Not started:")) {
+		if (!event.getView().getTitle().isEmpty() && ChatColor.stripColor(event.getView().getTitle()).startsWith("Not started:")) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMapNotStarted.remove(event.getWhoClicked());
