@@ -2,7 +2,8 @@ V7.0.5
 * Trader Llama and Wandering Trader added to config.yml
 * Fixed ticket 607 (Fixed errors when using SimplePets) (https://github.com/Rocologo/MobHunting/issues/607)
 * Pistons cant push to BagOfGold items and MobHunting rewards and destroy the item this way
-* Fixed ticker 622 (https://github.com/Rocologo/MobHunting/issues/622)
+* Fixed ticket 622 (https://github.com/Rocologo/MobHunting/issues/622)
+* Fixed ticket 627 (https://github.com/Rocologo/MobHunting/issues/627)
 V7.0.4
 * Optimized code when detecting rewards/bagofgold.
 * Fixed NPE bug in WeepingAngels Compatibility.
