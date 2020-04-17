@@ -89,9 +89,8 @@ public class CustomItems {
 				Skins sk = CoreCustomItems.getSkinsClass();
 				if (sk != null) {
 					String[] skin = sk.getSkin(player);
-					if (skin != null && !skin[0].equals(ps.getTexture())) {
-						plugin.getMessages().debug(
-								"%s has changed skin, updating database with new skin. (%s,%s)",
+					if (skin != null && skin[0] != null && !skin[0].equals(ps.getTexture())) {
+						plugin.getMessages().debug("%s has changed skin, updating database with new skin. (%s,%s)",
 								player.getName(), ps.getTexture(), skin[0]);
 						ps.setTexture(skin[0]);
 						ps.setSignature(skin[1]);
@@ -135,7 +134,7 @@ public class CustomItems {
 		}
 	}
 
-	public ItemStack getPlayerHeadOwningPlayer(UUID uuid, String name,  int amount, double money) {
+	public ItemStack getPlayerHeadOwningPlayer(UUID uuid, String name, int amount, double money) {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(amount);
 		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 		skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + name,
@@ -266,9 +265,8 @@ public class CustomItems {
 			break;
 
 		default:
-			ItemStack is = new ItemStack(getCustomtexture(name, money,
-					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID,
-					minecraftMob.getTextureValue(), minecraftMob.getTextureSignature()));
+			ItemStack is = new ItemStack(getCustomtexture(name, money, UUID.fromString(Reward.MH_REWARD_KILLED_UUID),
+					UUID.randomUUID(), skinUUID, minecraftMob.getTextureValue(), minecraftMob.getTextureSignature()));
 			is.setAmount(amount);
 			return is;
 		}
