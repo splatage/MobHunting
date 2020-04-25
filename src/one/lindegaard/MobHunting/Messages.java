@@ -500,8 +500,8 @@ public class Messages {
 			BossBarAPICompat.addBar(player, String.format(message, args));
 		} else if (BarAPICompat.isSupported()) {
 			BarAPICompat.setMessageTime(player, String.format(message, args), 5);
-			// } else if (CMICompat.isSupported()) {
-			// CMICompat.sendBossBarMessage(player, String.format(message, args));
+		} else if (CMICompat.isSupported()) {
+			CMICompat.sendBossBarMessage(player, String.format(message, args));
 		} else {
 			player.sendMessage(
 					ChatColor.AQUA + getString("mobhunting.learn.prefix") + " " + String.format(message, args));

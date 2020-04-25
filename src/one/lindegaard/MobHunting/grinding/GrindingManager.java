@@ -60,7 +60,7 @@ public class GrindingManager implements Listener {
 	 * 
 	 * @param killed
 	 */
-	public void registerDeath(LivingEntity killer, LivingEntity killed) {
+	public void registerDeath(UUID killer, LivingEntity killed) {
 		GrindingInformation grindingInformation = new GrindingInformation(killer, killed);
 		if (!isGrindingArea(killed.getLocation()) && !isWhitelisted(killed.getLocation())) {
 			killed_mobs.put(killed.getEntityId(), grindingInformation);

@@ -1,5 +1,7 @@
 package one.lindegaard.MobHunting.grinding;
 
+import java.util.UUID;
+
 import org.bukkit.entity.Entity;
 
 import one.lindegaard.MobHunting.MobHunting;
@@ -8,11 +10,11 @@ public class GrindingInformation {
 
 	private int entityId;
 	private Entity killed;
-	private Entity killer;
+	private UUID killer; //This is always a Player
 	private long timeOfDeath;
 	private double cDampnerRange = MobHunting.getInstance().getConfigManager().grindingDetectionRange;
 
-	GrindingInformation(Entity killer, Entity killed) {
+	GrindingInformation(UUID killer, Entity killed) {
 		entityId = killed.getEntityId();
 		this.killed = killed;
 		this.killer = killer; 
@@ -37,7 +39,7 @@ public class GrindingInformation {
 	/**
 	 * @return the killer
 	 */
-	public Entity getKiller() {
+	public UUID getKiller() {
 		return killer;
 	}
 

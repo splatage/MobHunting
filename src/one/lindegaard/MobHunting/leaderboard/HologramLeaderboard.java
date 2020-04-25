@@ -181,7 +181,7 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 				if (hologram.getName().equalsIgnoreCase(plugin.getLeaderboardManager().getHologramManager().getHolograms()
 						.get(mHologramName).getHologramName())) {
 					//hologram.clearLines();
-					if (hologram.getLines().length == 0)
+					if (hologram.getLines().size() == 0)
 						CMIHologramsHelper.addTextLine(hologram, 
 								mFormat_title.replace("[StatType]", mType[mTypeIndex].longTranslateName())
 										.replace("[Period]", mPeriod[mPeriodIndex].translateNameFriendly()));

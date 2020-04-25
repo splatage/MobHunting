@@ -656,7 +656,7 @@ public class MobHuntingManager implements Listener {
 
 		}
 
-		plugin.getGrindingManager().registerDeath(killer, killed);
+		plugin.getGrindingManager().registerDeath(killer.getUniqueId(), killed);
 
 		// Grinding Farm detections
 		if (plugin.getConfigManager().grindingDetectionEnabled && plugin.getConfigManager().detectFarms
@@ -872,7 +872,7 @@ public class MobHuntingManager implements Listener {
 			plugin.getMessages().debug("%s killed a McMMOHorse %s owned by %s", player.getName(),
 					McMMOHorses.getHorse(killed).name, McMMOHorses.getHorse(killed).owners_name);
 			if (!McMMOHorses.isPermanentDeath()) {
-				plugin.getMessages().debug("Killblocked: %s there is no rewards for killing RPGHorses",
+				plugin.getMessages().debug("KiLivingEntityllblocked: %s there is no rewards for killing RPGHorses",
 						player.getName());
 				plugin.getMessages().learn(killer,
 						plugin.getMessages().getString("mobhunting.learn.mcmmohorses-not-permanent-death"));
