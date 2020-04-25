@@ -656,7 +656,7 @@ public class MobHuntingManager implements Listener {
 
 		}
 
-		plugin.getGrindingManager().registerDeath(killer.getUniqueId(), killed);
+		plugin.getGrindingManager().registerDeath(killer != null ? killer.getUniqueId() : null, killed);
 
 		// Grinding Farm detections
 		if (plugin.getConfigManager().grindingDetectionEnabled && plugin.getConfigManager().detectFarms
