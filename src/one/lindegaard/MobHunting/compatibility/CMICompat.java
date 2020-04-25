@@ -57,11 +57,11 @@ public class CMICompat {
 	}
 	
 	public static void sendActionBarMessage(Player player, String text) {
-		getCMIPlugin().getActionBar().send(player, text);
+		getCMIPlugin().getActionBarManager().send(player, text);
 	}
 	
-	public static void sendBossBarMessage(Player player, String text) {
-		getCMIPlugin().getBossBarManager().showBossBar(player, 20, 100.0, "", text, BarColor.BLUE);
+	public static void sendBossBarMessageXXX(Player player, String text) {
+		//getCMIPlugin().getBossBarManager().showBossBar(player, 20, 100.0, "", text, BarColor.BLUE);
 	}
 	
 }

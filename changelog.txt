@@ -1,3 +1,5 @@
+V7.0.6
+* Updated CMI integration to CMI 8.6.23.3 (https://www.spigotmc.org/resources/cmi-270-commands-insane-kits-portals-essentials-economy-mysql-sqlite-much-more.3742/updates)
 V7.0.5
 * Trader Llama and Wandering Trader added to config.yml
 * Fixed ticket 607 (Fixed errors when using SimplePets) (https://github.com/Rocologo/MobHunting/issues/607)
