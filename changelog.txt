@@ -1,3 +1,7 @@
+V7.0.8
+* Loading rewards in a seperate task to make the server load faster
+V7.0.7
+* Fixed bug introduced in 7.0.6
 V7.0.6
 * Updated CMI integration to CMI 8.6.23.3 (https://www.spigotmc.org/resources/cmi-270-commands-insane-kits-portals-essentials-economy-mysql-sqlite-much-more.3742/updates)
 * Speed grinding counter can't be reset by logging out and in.   

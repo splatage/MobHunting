@@ -147,8 +147,14 @@ public class RewardManager {
 			else
 				Bukkit.getPluginManager().registerEvents(new PlayerPickupItemEventListener(pickupRewards), plugin);
 
-			loadAllStoredRewardsFromBagOfGold();
-			loadAllStoredRewards();
+			Bukkit.getScheduler().runTask(plugin, new Runnable() {
+
+				@Override
+				public void run() {
+					loadAllStoredRewardsFromBagOfGold();
+					loadAllStoredRewards();
+				}
+			});
 		}
 
 		if (BagOfGoldCompat.isSupported() || plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
