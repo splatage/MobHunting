@@ -13,10 +13,10 @@ import org.bukkit.metadata.MetadataValue;
 
 import one.lindegaard.MobHunting.grinding.Area;
 
-public class HuntData{
+public class HuntData {
 
 	private static final String HUNTDATA = "MH:HuntData";
-	
+
 	private int killStreak;
 	private int dampenedKills;
 	private double cDampnerRange;
@@ -57,11 +57,12 @@ public class HuntData{
 		modifiers = data.getModifiers();
 	}
 
-	public Area getPlayerSpecificGrindingArea(Location location) {
+	public Area getPlayerGrindingArea(Location location) {
 		for (Area area : lastGridingAreas) {
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
 				if (area.getCenter().distance(location) < area.getRange()) {
-					MobHunting.getInstance().getMessages().debug("Found a blacklisted player specific grinding Area: (%s,%s,%s,%s)",
+					MobHunting.getInstance().getMessages().debug(
+							"Found a blacklisted player specific grinding Area: (%s,%s,%s,%s)",
 							area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
 							area.getCenter().getBlockY(), area.getCenter().getBlockZ());
 					return area;
@@ -84,7 +85,7 @@ public class HuntData{
 		}
 	}
 
-	public void recordGrindingArea() {
+	public void recordPlayerGrindingArea() {
 		for (Area area : lastGridingAreas) {
 			if (lastKillAreaCenter.getWorld().equals(area.getCenter().getWorld())) {
 				double dist = lastKillAreaCenter.distance(area.getCenter());
@@ -116,8 +117,7 @@ public class HuntData{
 	}
 
 	/**
-	 * @param lastKillAreaCenter
-	 *            the lastKillAreaCenter to set
+	 * @param lastKillAreaCenter the lastKillAreaCenter to set
 	 */
 	public void setLastKillAreaCenter(Location lastKillAreaCenter) {
 		this.lastKillAreaCenter = lastKillAreaCenter;
@@ -142,8 +142,7 @@ public class HuntData{
 	}
 
 	/**
-	 * Gets a HashMap containing the names and modifiers/multipliers for this
-	 * kill.
+	 * Gets a HashMap containing the names and modifiers/multipliers for this kill.
 	 * 
 	 * @return
 	 */
@@ -242,11 +241,14 @@ public class HuntData{
 	 *         multiplier is 0
 	 */
 	public double getDampnerMultiplier() {
-		if (dampenedKills < 10)
+		if (dampenedKills < MobHunting.getInstance().getConfigManager().grindingDetectionNumberOfDeath / 2)
 			return 1.0;
-		else if (dampenedKills < 20)
-			return (1 - ((dampenedKills - 10) / 10.0));
-		else
+		else if (dampenedKills < MobHunting.getInstance().getConfigManager().grindingDetectionNumberOfDeath) {
+			double mul = 1.0 - (((double) dampenedKills
+					- (double) MobHunting.getInstance().getConfigManager().grindingDetectionNumberOfDeath / 2.0)
+					/ ((double) MobHunting.getInstance().getConfigManager().grindingDetectionNumberOfDeath / 2.0));
+			return mul;
+		} else
 			return 0;
 	}
 
@@ -267,7 +269,7 @@ public class HuntData{
 		int lastKillstreakLevel = getKillstreakLevel();
 		killStreak++;
 		putHuntDataToPlayer(player);
-		
+
 		// Killstreak can be disabled by setting the multiplier to 1
 		double multiplier = getKillstreakMultiplier();
 		if (multiplier != 1) {
@@ -276,27 +278,27 @@ public class HuntData{
 				switch (getKillstreakLevel()) {
 				case 1:
 					plugin.getMessages().playerBossbarMessage(player,
-							ChatColor.BLUE + plugin.getMessages().getString("mobhunting.killstreak.level.1") + " " + ChatColor.GRAY
-									+ plugin.getMessages().getString("mobhunting.killstreak.activated", "multiplier",
-											String.format("%.1f", multiplier)));
+							ChatColor.BLUE + plugin.getMessages().getString("mobhunting.killstreak.level.1") + " "
+									+ ChatColor.GRAY + plugin.getMessages().getString("mobhunting.killstreak.activated",
+											"multiplier", String.format("%.1f", multiplier)));
 					break;
 				case 2:
 					plugin.getMessages().playerBossbarMessage(player,
-							ChatColor.BLUE + plugin.getMessages().getString("mobhunting.killstreak.level.2") + " " + ChatColor.GRAY
-									+ plugin.getMessages().getString("mobhunting.killstreak.activated", "multiplier",
-											String.format("%.1f", multiplier)));
+							ChatColor.BLUE + plugin.getMessages().getString("mobhunting.killstreak.level.2") + " "
+									+ ChatColor.GRAY + plugin.getMessages().getString("mobhunting.killstreak.activated",
+											"multiplier", String.format("%.1f", multiplier)));
 					break;
 				case 3:
 					plugin.getMessages().playerBossbarMessage(player,
-							ChatColor.BLUE + plugin.getMessages().getString("mobhunting.killstreak.level.3") + " " + ChatColor.GRAY
-									+ plugin.getMessages().getString("mobhunting.killstreak.activated", "multiplier",
-											String.format("%.1f", multiplier)));
+							ChatColor.BLUE + plugin.getMessages().getString("mobhunting.killstreak.level.3") + " "
+									+ ChatColor.GRAY + plugin.getMessages().getString("mobhunting.killstreak.activated",
+											"multiplier", String.format("%.1f", multiplier)));
 					break;
 				default:
 					plugin.getMessages().playerBossbarMessage(player,
-							ChatColor.BLUE + plugin.getMessages().getString("mobhunting.killstreak.level.4") + " " + ChatColor.GRAY
-									+ plugin.getMessages().getString("mobhunting.killstreak.activated", "multiplier",
-											String.format("%.1f", multiplier)));
+							ChatColor.BLUE + plugin.getMessages().getString("mobhunting.killstreak.level.4") + " "
+									+ ChatColor.GRAY + plugin.getMessages().getString("mobhunting.killstreak.activated",
+											"multiplier", String.format("%.1f", multiplier)));
 					break;
 				}
 

@@ -36,7 +36,7 @@ public class GrindingManager implements Listener {
 
 	private MobHunting plugin;
 
-	private static HashMap<UUID, LinkedList<Area>> mKnownGrindingAreas = new HashMap<>();
+	private static HashMap<UUID, LinkedList<Area>> mBlacklistedAreas = new HashMap<>();
 	private static HashMap<UUID, LinkedList<Area>> mWhitelistedAreas = new HashMap<>();
 	private static LinkedHashMap<Integer, GrindingInformation> killed_mobs = new LinkedHashMap<>();
 
@@ -87,11 +87,11 @@ public class GrindingManager implements Listener {
 			if (killer==null) {
 				return false;
 			}
-			if (gi==null || gi.getKiller()==null) {
+			if (gi==null || gi.getKillerUUID()==null) {
 				continue;
 			}
 				
-			if(!killer.equals(gi.getKiller()))
+			if(!killer.getUniqueId().equals(gi.getKillerUUID()))
 				continue;
 
 			if (starttime > gi.getTimeOfDeath() + (1000L * plugin.getConfigManager().speedGrindingTimeFrame)) {
@@ -108,10 +108,10 @@ public class GrindingManager implements Listener {
 		for (int i : to_be_deleted) {
 			killed_mobs.remove(i);
 		}
-		plugin.getMessages().debug("GrindingManager: average kill time=%s", avg_time);
+		plugin.getMessages().debug("GrindingManager: Average time between kills is %s", avg_time);
 		if (avg_time != 0 && (n >= plugin.getConfigManager().speedGrindingNoOfMobs
 				&& avg_time < plugin.getConfigManager().speedGrindingTimeFrame)) {
-			plugin.getMessages().debug("GrindingManager: %s %s was killed in less than %s sec - player is grinding", n,
+			plugin.getMessages().debug("SpeedGrinding detected: %s %s was killed in less than %s sec", n,
 					mob.getMobName(), plugin.getConfigManager().speedGrindingTimeFrame);
 			return true;
 		} else
@@ -329,8 +329,8 @@ public class GrindingManager implements Listener {
 	// Blacklist
 	// ****************************************************************
 	public LinkedList<Area> getKnownGrindingSpots(Location loc) {
-		if (mKnownGrindingAreas.containsKey(loc.getWorld().getUID()))
-			return mKnownGrindingAreas.get(loc.getWorld().getUID());
+		if (mBlacklistedAreas.containsKey(loc.getWorld().getUID()))
+			return mBlacklistedAreas.get(loc.getWorld().getUID());
 		else
 			return new LinkedList<Area>();
 	}
@@ -338,14 +338,14 @@ public class GrindingManager implements Listener {
 	public void addKnownGrindingSpot(Area area) {
 		LinkedList<Area> list = getKnownGrindingSpots(area.getCenter());
 		list.add(area);
-		mKnownGrindingAreas.put(area.getCenter().getWorld().getUID(), list);
+		mBlacklistedAreas.put(area.getCenter().getWorld().getUID(), list);
 	}
 
 	private boolean saveBlacklist() {
 		YamlConfiguration blacklist = new YamlConfiguration();
 		File file = new File(MobHunting.getInstance().getDataFolder(), "blacklist.yml");
 
-		for (Entry<UUID, LinkedList<Area>> entry : mKnownGrindingAreas.entrySet()) {
+		for (Entry<UUID, LinkedList<Area>> entry : mBlacklistedAreas.entrySet()) {
 			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 			for (Area area : entry.getValue()) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
@@ -382,7 +382,7 @@ public class GrindingManager implements Listener {
 			return false;
 		}
 
-		mKnownGrindingAreas.clear();
+		mBlacklistedAreas.clear();
 
 		for (String worldId : blacklist.getKeys(false)) {
 			List<Map<String, Object>> list = (List<Map<String, Object>>) blacklist.getList(worldId);
@@ -397,7 +397,7 @@ public class GrindingManager implements Listener {
 						(long) map.getOrDefault("Time", System.currentTimeMillis()));
 				areas.add(area);
 			}
-			mKnownGrindingAreas.put(UUID.fromString(worldId), areas);
+			mBlacklistedAreas.put(UUID.fromString(worldId), areas);
 		}
 
 		return true;
@@ -472,10 +472,10 @@ public class GrindingManager implements Listener {
 	}
 
 	public void blacklistArea(Area newArea) {
-		LinkedList<Area> areas = mKnownGrindingAreas.get(newArea.getCenter().getWorld().getUID());
+		LinkedList<Area> areas = mBlacklistedAreas.get(newArea.getCenter().getWorld().getUID());
 		if (areas == null) {
 			areas = new LinkedList<Area>();
-			mKnownGrindingAreas.put(newArea.getCenter().getWorld().getUID(), areas);
+			mBlacklistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
 		}
 
 		for (Area area : areas) {
@@ -497,12 +497,12 @@ public class GrindingManager implements Listener {
 			}
 		}
 		areas.add(newArea);
-		mKnownGrindingAreas.put(newArea.getCenter().getWorld().getUID(), areas);
+		mBlacklistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
 		saveBlacklist();
 	}
 
 	public void unBlacklistArea(Location location) {
-		LinkedList<Area> areas = mKnownGrindingAreas.get(location.getWorld().getUID());
+		LinkedList<Area> areas = mBlacklistedAreas.get(location.getWorld().getUID());
 
 		if (areas == null)
 			return;
@@ -519,9 +519,9 @@ public class GrindingManager implements Listener {
 			}
 		}
 		if (areas.isEmpty())
-			mKnownGrindingAreas.remove(location.getWorld().getUID());
+			mBlacklistedAreas.remove(location.getWorld().getUID());
 		else
-			mKnownGrindingAreas.put(location.getWorld().getUID(), areas);
+			mBlacklistedAreas.put(location.getWorld().getUID(), areas);
 		saveBlacklist();
 	}
 
@@ -702,8 +702,8 @@ public class GrindingManager implements Listener {
 			for (int n = 0; n < 10; n++) {
 				if (player != null & player.isOnline()) {
 					player.spawnParticle(Particle.CLOUD, killedLocation.getBlockX() + 0.5,
-							killedLocation.getBlockY() + 0.2 + 0.2 * n, killedLocation.getBlockZ() + 0.5, 1, 0, 0, 0,
-							0.01);
+							killedLocation.getBlockY() + 0.2 + 0.2 * n, killedLocation.getBlockZ() + 0.5, 1);
+							//, 0, 0, 0,0.01);
 				}
 			}
 		}
@@ -714,7 +714,7 @@ public class GrindingManager implements Listener {
 			for (int n = 0; n < 10; n++) {
 				player.spawnParticle(Particle.FLAME, grindingArea.getCenter().getBlockX() + 0.5,
 						grindingArea.getCenter().getBlockY() + 0.2 + 0.1 * n,
-						grindingArea.getCenter().getBlockZ() + 0.5, 1, 0, 0, 0, 0.01);
+						grindingArea.getCenter().getBlockZ() + 0.5, 1);//, 0, 0, 0, 0.01);
 			}
 
 			// Circle around the grinding area
@@ -724,7 +724,7 @@ public class GrindingManager implements Listener {
 								+ Math.cos(n) * plugin.getConfigManager().grindingDetectionRange,
 						grindingArea.getCenter().getBlockY() + 0.2, grindingArea.getCenter().getBlockZ() + 0.5
 								+ Math.sin(n) * plugin.getConfigManager().grindingDetectionRange,
-						1, 0, 0, 0, 0.01);
+						1);//, 0, 0, 0, 0.01);
 			}
 		}
 

@@ -39,7 +39,7 @@ public class GrindingInformation {
 	/**
 	 * @return the killer
 	 */
-	public UUID getKiller() {
+	public UUID getKillerUUID() {
 		return killer;
 	}
 
