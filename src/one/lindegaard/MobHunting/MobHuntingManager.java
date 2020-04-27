@@ -1480,21 +1480,25 @@ public class MobHuntingManager implements Listener {
 				data.setLastKillAreaCenter(loc.clone());
 
 				// Check if player is speed grinding
-				if (plugin.getGrindingManager().isPlayerSpeedGrinding(killer, killed)) {
-					plugin.getMessages().debug("%s is Speed Grinding, no rewards is paid", player.getName());
-					if (data.getKillstreakLevel() != 0 && data.getKillstreakMultiplier() != 1) {
-						plugin.getMessages().playerActionBarMessageQueue(player,
-								ChatColor.RED + plugin.getMessages().getString("mobhunting.killstreak.lost"));
-					}
-					plugin.getMessages().debug("KillStreak reset to 0");
-					data.setKillStreak(0);
-					cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
-							plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
-					plugin.getMessages().debug("======================= kill ended (34)======================");
-					return;
+				if (plugin.getConfigManager().speedGrindingDetectionEnabled) {
+					if (plugin.getGrindingManager().isPlayerSpeedGrinding(killer, killed)) {
+						plugin.getMessages().debug("%s is Speed Grinding, no rewards is paid", player.getName());
+						if (data.getKillstreakLevel() != 0 && data.getKillstreakMultiplier() != 1) {
+							plugin.getMessages().playerActionBarMessageQueue(player,
+									ChatColor.RED + plugin.getMessages().getString("mobhunting.killstreak.lost"));
+						}
+						plugin.getMessages().debug("KillStreak reset to 0");
+						data.setKillStreak(0);
+						cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
+								plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
+						plugin.getMessages().debug("======================= kill ended (34)======================");
+						return;
 
+					} else {
+						plugin.getMessages().debug("%s is not Speed Grinding", player.getName());
+					}
 				} else {
-					plugin.getMessages().debug("%s is not Speed Grinding", player.getName());
+					plugin.getMessages().debug("Speed Grinding is disabled in config.yml");
 				}
 
 				data.putHuntDataToPlayer(player);

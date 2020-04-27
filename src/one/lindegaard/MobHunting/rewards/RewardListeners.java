@@ -183,6 +183,9 @@ public class RewardListeners implements Listener {
 
 		Player player = event.getPlayer();
 
+		if (player.getInventory().firstEmpty() != -1)
+			return;
+
 		// Its not allowed to pickup BagOfGold in Spectator mode
 		if (player.getGameMode() == GameMode.SPECTATOR)
 			return;
@@ -861,7 +864,7 @@ public class RewardListeners implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onBlockPistonExtendEvent(BlockPistonExtendEvent event) { 
+	public void onBlockPistonExtendEvent(BlockPistonExtendEvent event) {
 		if (event.isCancelled())
 			return;
 		@NotNull

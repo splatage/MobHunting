@@ -83,15 +83,15 @@ public class GrindingManager implements Listener {
 		long avg_time = 0;
 		ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
 		while (itr.hasNext()) {
-			GrindingInformation gi=itr.next().getValue();
-			if (killer==null) {
+			GrindingInformation gi = itr.next().getValue();
+			if (killer == null) {
 				return false;
 			}
-			if (gi==null || gi.getKillerUUID()==null) {
+			if (gi == null || gi.getKillerUUID() == null) {
 				continue;
 			}
-				
-			if(!killer.getUniqueId().equals(gi.getKillerUUID()))
+
+			if (!killer.getUniqueId().equals(gi.getKillerUUID()))
 				continue;
 
 			if (starttime > gi.getTimeOfDeath() + (1000L * plugin.getConfigManager().speedGrindingTimeFrame)) {
@@ -143,7 +143,8 @@ public class GrindingManager implements Listener {
 								&& gi.getKilled().getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-									if (killed.getWorld().equals(gi.getKilled().getWorld()) && killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
+									if (killed.getWorld().equals(gi.getKilled().getWorld()) && killed.getLocation()
+											.distance(gi.getKilled().getLocation()) < killRadius) {
 										n++;
 										// plugin.getMessages().debug("This was
 										// not a Nether
@@ -192,7 +193,7 @@ public class GrindingManager implements Listener {
 	 * 
 	 * @param killed
 	 * @param silent
-	 * @return true if the location is detected as a EndermanFarm, or if the area is
+	 * @return true if the locatnewAreaion is detected as a EndermanFarm, or if the area is
 	 *         detected as a Grinding Area
 	 */
 	public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
@@ -216,7 +217,7 @@ public class GrindingManager implements Listener {
 											.distance(gi.getKilled().getLocation().subtract(0,
 													gi.getKilled().getLocation().getY() + 65, 0)) < killRadius) {
 										n++;
-									} 
+									}
 								} else {
 									// Removing old kill.
 									itr.remove();
@@ -701,9 +702,9 @@ public class GrindingManager implements Listener {
 		if (killedLocation != null) {
 			for (int n = 0; n < 10; n++) {
 				if (player != null & player.isOnline()) {
-					player.spawnParticle(Particle.CLOUD, killedLocation.getBlockX() + 0.5,
-							killedLocation.getBlockY() + 0.2 + 0.2 * n, killedLocation.getBlockZ() + 0.5, 1);
-							//, 0, 0, 0,0.01);
+					player.spawnParticle(Particle.CLOUD, killedLocation.getX() + 0.5,
+							killedLocation.getY() + 0.2 + 0.2 * n, killedLocation.getZ() + 0.5, 1);
+					// , 0, 0, 0,0.01);
 				}
 			}
 		}
@@ -712,19 +713,33 @@ public class GrindingManager implements Listener {
 		if (grindingArea != null) {
 			// Show center of grinding area
 			for (int n = 0; n < 10; n++) {
-				player.spawnParticle(Particle.FLAME, grindingArea.getCenter().getBlockX() + 0.5,
-						grindingArea.getCenter().getBlockY() + 0.2 + 0.1 * n,
-						grindingArea.getCenter().getBlockZ() + 0.5, 1);//, 0, 0, 0, 0.01);
+				player.spawnParticle(Particle.FLAME, grindingArea.getCenter().getX() + 0.5,
+						killedLocation.getY() + 0.2 + 0.1 * n,
+						grindingArea.getCenter().getZ() + 0.5, 1);// , 0, 0, 0, 0.01);
 			}
 
 			// Circle around the grinding area
 			for (int n = 0; n < 360; n = n + (int) (45 / plugin.getConfigManager().grindingDetectionRange)) {
+				
+				plugin.getMessages().debug("n=%s (x,y,z)=(%s,%s,%s)", n,
+						
+						(double) grindingArea.getCenter().getX() + 0.5
+								+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange,
+								
+						killedLocation.getY() + 0.2, 
+						
+						(double) grindingArea.getCenter().getZ() + 0.5
+								+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange);
+				
 				player.spawnParticle(Particle.FLAME,
-						grindingArea.getCenter().getBlockX() + 0.5
-								+ Math.cos(n) * plugin.getConfigManager().grindingDetectionRange,
-						grindingArea.getCenter().getBlockY() + 0.2, grindingArea.getCenter().getBlockZ() + 0.5
-								+ Math.sin(n) * plugin.getConfigManager().grindingDetectionRange,
-						1);//, 0, 0, 0, 0.01);
+						(double) grindingArea.getCenter().getX() + 0.5
+								+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange,
+						
+								killedLocation.getY() + 0.2, 
+						
+								(double) grindingArea.getCenter().getZ() + 0.5
+								+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange,
+						1);// , 0, 0, 0, 0.01);
 			}
 		}
 
