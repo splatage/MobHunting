@@ -108,8 +108,9 @@ public class GrindingManager implements Listener {
 		for (int i : to_be_deleted) {
 			killed_mobs.remove(i);
 		}
-		plugin.getMessages().debug("%s has killed %s %s in %s seconds. Average is %s and limit is %s", killer.getName(),
-				n, mob.getMobName(), sum, avg_time,
+		plugin.getMessages().debug(
+				"%s has killed %s %s in %s seconds. Average is %s and limit for %s killed mobs is %s ",
+				killer.getName(), n, mob.getMobName(), sum, avg_time, plugin.getConfigManager().speedGrindingNoOfMobs,
 				plugin.getConfigManager().speedGrindingTimeFrame / plugin.getConfigManager().speedGrindingNoOfMobs);
 		if (avg_time != 0 && n >= plugin.getConfigManager().speedGrindingNoOfMobs
 				&& avg_time < plugin.getConfigManager().speedGrindingTimeFrame
