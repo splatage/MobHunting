@@ -79,8 +79,9 @@ public class GrindingManager implements Listener {
 		Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
 		List<Integer> to_be_deleted = new ArrayList<Integer>();
 		int n = 0;
-		long sum = 0;
+		long timeframe = 0;
 		long avg_time = 0;
+		long oldestKill = starttime;
 		ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
 		while (itr.hasNext()) {
 			GrindingInformation gi = itr.next().getValue();
@@ -101,17 +102,18 @@ public class GrindingManager implements Listener {
 			}
 
 			n++; // No of killed mobs
-			sum = sum + (starttime - gi.getTimeOfDeath()) / 1000L;
-			avg_time = sum / (long) n; // sec.
-
+			oldestKill = Math.min(oldestKill, gi.getTimeOfDeath());
 		}
+		timeframe = (starttime - oldestKill) / 1000L;
+		avg_time = timeframe / (long) n; // sec.
 		for (int i : to_be_deleted) {
 			killed_mobs.remove(i);
 		}
 		plugin.getMessages().debug(
-				"%s has killed %s %s in %s seconds. Average is %s and limit for %s killed mobs is %s ",
-				killer.getName(), n, mob.getMobName(), sum, avg_time, plugin.getConfigManager().speedGrindingNoOfMobs,
-				plugin.getConfigManager().speedGrindingTimeFrame / plugin.getConfigManager().speedGrindingNoOfMobs);
+				"%s has killed %s %s in %s seconds. Avg.kill time %s must greater than %s when %s mobs is killed.",
+				killer.getName(), n, mob.getMobName(), timeframe, avg_time,
+				plugin.getConfigManager().speedGrindingTimeFrame / plugin.getConfigManager().speedGrindingNoOfMobs,
+				plugin.getConfigManager().speedGrindingNoOfMobs);
 		if (avg_time != 0 && n >= plugin.getConfigManager().speedGrindingNoOfMobs
 				&& avg_time < plugin.getConfigManager().speedGrindingTimeFrame
 						/ plugin.getConfigManager().speedGrindingNoOfMobs) {
