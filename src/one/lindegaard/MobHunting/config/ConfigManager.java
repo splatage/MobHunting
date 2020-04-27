@@ -3328,6 +3328,11 @@ public class ConfigManager extends AutoConfig {
 			+ "\nkillings of stacked to be detected as gring, you must set grinding_stacked_mobs_allowed to false.")
 	public boolean isGrindingStackedMobsAllowed = true;
 
+	@ConfigField(name = "disable_natural_item_drops_on_player_grinding", category = "grinding", comment = "Disable natural drops here")
+	public boolean disableNaturalItemDropsOnPlayerGrinding = false;
+	@ConfigField(name = "disable_natural_xp_drops_on_player_grinding", category = "grinding")
+	public boolean disableNaturalXPDropsOnPlayerGrinding = false;
+
 	// Area grinding
 	@ConfigField(name = "detect_grinding_areas", category = "grinding.area")
 	public boolean areaDetectionEnabled = true;
@@ -3335,10 +3340,6 @@ public class ConfigManager extends AutoConfig {
 	public int grindingDetectionRange = 15;
 	@ConfigField(name = "grinding_detection_number_of_death", category = "grinding.area")
 	public int grindingDetectionNumberOfDeath = 20;
-	@ConfigField(name = "disable_natural_item_drops_on_player_grinding", category = "grinding.area")
-	public boolean disableNaturalItemDropsOnPlayerGrinding = false;
-	@ConfigField(name = "disable_natural_xp_drops_on_player_grinding", category = "grinding.area")
-	public boolean disableNaturalXPDropsOnPlayerGrinding = false;
 	@ConfigField(name = "blacklist_player_grinding_spots_as_server_worldwide_spots", category = "grinding.area")
 	public boolean blacklistPlayerGrindingSpotsServerWorldWide = false;
 
@@ -5799,7 +5800,7 @@ public class ConfigManager extends AutoConfig {
 		case Stray:
 			return getPrice(mob, strayHeadPrize);
 		case TraderLlama:
-			return getPrice(mob,traderLlamaHeadPrize);
+			return getPrice(mob, traderLlamaHeadPrize);
 		case Vex:
 			return getPrice(mob, vexHeadPrize);
 		case Villager:
