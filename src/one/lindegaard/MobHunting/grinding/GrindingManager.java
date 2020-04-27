@@ -100,7 +100,7 @@ public class GrindingManager implements Listener {
 				continue;
 			}
 
-			n++;
+			n++; // No of killed mobs
 			sum = sum + (starttime - gi.getTimeOfDeath()) / 1000L;
 			avg_time = sum / (long) n; // sec.
 
@@ -108,11 +108,12 @@ public class GrindingManager implements Listener {
 		for (int i : to_be_deleted) {
 			killed_mobs.remove(i);
 		}
-		plugin.getMessages().debug("GrindingManager: Average time between kills is %s", avg_time);
-		if (avg_time != 0 && (n >= plugin.getConfigManager().speedGrindingNoOfMobs
-				&& avg_time < plugin.getConfigManager().speedGrindingTimeFrame)) {
-			plugin.getMessages().debug("SpeedGrinding detected: %s %s was killed in less than %s sec", n,
-					mob.getMobName(), plugin.getConfigManager().speedGrindingTimeFrame);
+		plugin.getMessages().debug("%s has killed %s %s in %s seconds. Average is %s and limit is %s", killer.getName(),
+				n, mob.getMobName(), sum, avg_time,
+				plugin.getConfigManager().speedGrindingTimeFrame / plugin.getConfigManager().speedGrindingNoOfMobs);
+		if (avg_time != 0 && n >= plugin.getConfigManager().speedGrindingNoOfMobs
+				&& avg_time < plugin.getConfigManager().speedGrindingTimeFrame
+						/ plugin.getConfigManager().speedGrindingNoOfMobs) {
 			return true;
 		} else
 			return false;
@@ -193,8 +194,8 @@ public class GrindingManager implements Listener {
 	 * 
 	 * @param killed
 	 * @param silent
-	 * @return true if the locatnewAreaion is detected as a EndermanFarm, or if the area is
-	 *         detected as a Grinding Area
+	 * @return true if the locatnewAreaion is detected as a EndermanFarm, or if the
+	 *         area is detected as a Grinding Area
 	 */
 	public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
 		int n = 0;
@@ -714,30 +715,30 @@ public class GrindingManager implements Listener {
 			// Show center of grinding area
 			for (int n = 0; n < 10; n++) {
 				player.spawnParticle(Particle.FLAME, grindingArea.getCenter().getX() + 0.5,
-						killedLocation.getY() + 0.2 + 0.1 * n,
-						grindingArea.getCenter().getZ() + 0.5, 1);// , 0, 0, 0, 0.01);
+						killedLocation.getY() + 0.2 + 0.1 * n, grindingArea.getCenter().getZ() + 0.5, 1);// , 0, 0, 0,
+																											// 0.01);
 			}
 
 			// Circle around the grinding area
 			for (int n = 0; n < 360; n = n + (int) (45 / plugin.getConfigManager().grindingDetectionRange)) {
-				
+
 				plugin.getMessages().debug("n=%s (x,y,z)=(%s,%s,%s)", n,
-						
+
 						(double) grindingArea.getCenter().getX() + 0.5
 								+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange,
-								
-						killedLocation.getY() + 0.2, 
-						
+
+						killedLocation.getY() + 0.2,
+
 						(double) grindingArea.getCenter().getZ() + 0.5
 								+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange);
-				
+
 				player.spawnParticle(Particle.FLAME,
 						(double) grindingArea.getCenter().getX() + 0.5
 								+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange,
-						
-								killedLocation.getY() + 0.2, 
-						
-								(double) grindingArea.getCenter().getZ() + 0.5
+
+						killedLocation.getY() + 0.2,
+
+						(double) grindingArea.getCenter().getZ() + 0.5
 								+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange,
 						1);// , 0, 0, 0, 0.01);
 			}
