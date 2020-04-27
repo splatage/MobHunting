@@ -1462,7 +1462,7 @@ public class MobHuntingManager implements Listener {
 					} else if (data.getDampenedKills() >= maxKills / 2) {
 						plugin.getMessages().debug(
 								"Warning: %s is killing too many mobs. Player is above half of the limit: %s ",
-								maxKills);
+								player.getName(), maxKills);
 						plugin.getMessages().learn(player,
 								plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
 						plugin.getMessages().playerActionBarMessageQueue(player,
