@@ -1,4 +1,6 @@
 V7.0.8
+* Area grinding detection is fixed and debug information made clearer
+* Speed grinding detection is fixed and debug information made clearer
 * Loading rewards in a separate task to make the server load faster
 V7.0.7
 * Fixed bug introduced in 7.0.6
