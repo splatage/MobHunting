@@ -166,7 +166,7 @@ public class MobHuntingManager implements Listener {
 			mHuntingModifiers.add(new FactionWarZoneBonus());
 		mHuntingModifiers.add(new FlyingPenalty());
 		mHuntingModifiers.add(new FriendleFireBonus());
-		if (plugin.getConfigManager().grindingDetectionEnabled)
+		if (plugin.getConfigManager().areaDetectionEnabled && plugin.getConfigManager().grindingDetectionEnabled)
 			mHuntingModifiers.add(new GrindingPenalty());
 		mHuntingModifiers.add(new HappyHourBonus());
 		mHuntingModifiers.add(new MountedBonus());
