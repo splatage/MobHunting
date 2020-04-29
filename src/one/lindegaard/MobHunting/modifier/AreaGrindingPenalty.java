@@ -9,7 +9,7 @@ import one.lindegaard.MobHunting.DamageInformation;
 import one.lindegaard.MobHunting.HuntData;
 import one.lindegaard.MobHunting.MobHunting;
 
-public class GrindingPenalty implements IModifier {
+public class AreaGrindingPenalty implements IModifier {
 
 	@Override
 	public String getName() {

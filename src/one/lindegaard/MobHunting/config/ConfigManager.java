@@ -3335,7 +3335,7 @@ public class ConfigManager extends AutoConfig {
 
 	// Area grinding
 	@ConfigField(name = "detect_grinding_areas", category = "grinding.area")
-	public boolean areaDetectionEnabled = true;
+	public boolean areaGrindingDetectionEnabled = true;
 	@ConfigField(name = "grinding_detection_range", category = "grinding.area")
 	public int grindingDetectionRange = 15;
 	@ConfigField(name = "grinding_detection_number_of_death", category = "grinding.area")
@@ -5341,7 +5341,7 @@ public class ConfigManager extends AutoConfig {
 
 		this.grindingDetectionEnabled = mConfig0.grindingDetectionEnabled;
 
-		this.areaDetectionEnabled = true;
+		this.areaGrindingDetectionEnabled = true;
 		this.grindingDetectionRange = mConfig0.grindingDetectionRange;
 		this.grindingDetectionNumberOfDeath = mConfig0.grindingDetectionNumberOfDeath;
 		this.disableNaturalItemDropsOnPlayerGrinding = mConfig0.disableNaturalItemDropsOnPlayerGrinding;

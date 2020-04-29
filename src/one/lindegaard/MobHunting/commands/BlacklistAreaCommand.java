@@ -79,7 +79,6 @@ public class BlacklistAreaCommand implements ICommand {
 				plugin.getGrindingManager().blacklistArea(area);
 				plugin.getMessages().senderSendMessage(sender,
 						ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.blacklistarea.done"));
-				// if (ProtocolLibCompat.isSupported())
 				plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
 			} else
 				return false;

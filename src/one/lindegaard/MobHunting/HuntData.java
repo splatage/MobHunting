@@ -60,11 +60,9 @@ public class HuntData {
 	public Area getPlayerGrindingArea(Location location) {
 		for (Area area : lastGridingAreas) {
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
-				if (area.getCenter().distance(location) < area.getRange()) {
-					MobHunting.getInstance().getMessages().debug(
-							"Found a blacklisted player specific grinding Area: (%s,%s,%s,%s)",
-							area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
-							area.getCenter().getBlockY(), area.getCenter().getBlockZ());
+				if (area.getCenter().distance(location) < area.getRange()
+						|| area.getCenter().subtract(0, area.getCenter().getY() + 65, 0)
+								.distance(location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange()) {
 					return area;
 				}
 			}

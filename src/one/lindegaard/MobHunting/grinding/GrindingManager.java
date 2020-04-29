@@ -436,8 +436,6 @@ public class GrindingManager implements Listener {
 		for (Area area : areas) {
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
 				if (area.getCenter().distance(location) < area.getRange()) {
-					plugin.getMessages().debug("Found a blacklisted grinding area = %s, range=%s", area.getCenter(),
-							area.getRange());
 					return area;
 				}
 			}
@@ -452,8 +450,8 @@ public class GrindingManager implements Listener {
 			for (Area area : areas) {
 				if (area.getCenter().getWorld().equals(location.getWorld())) {
 					if (area.getCenter().distance(location) < area.getRange()
-							|| area.getCenter().subtract(0, area.getCenter().getY() + 65, 0)
-									.distance(location.subtract(0, location.getY() + 65, 0)) < area.getRange()) {
+							|| area.getCenter().subtract(0, area.getCenter().getY() + 65, 0).distance(
+									location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange()) {
 						return true;
 					}
 				}
@@ -470,8 +468,9 @@ public class GrindingManager implements Listener {
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
 				if (area.getCenter().distance(location) < area.getRange()
 						|| area.getCenter().subtract(0, area.getCenter().getY() + 65, 0)
-								.distance(location.subtract(0, location.getY() + 65, 0)) < area.getRange())
+								.distance(location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange()) {
 					it.remove();
+				}
 			}
 		}
 	}
@@ -519,7 +518,7 @@ public class GrindingManager implements Listener {
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
 				if (area.getCenter().distance(location) < area.getRange()
 						|| area.getCenter().subtract(0, area.getCenter().getY() + 65, 0)
-								.distance(location.subtract(0, location.getY() + 65, 0)) < area.getRange())
+								.distance(location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange())
 					it.remove();
 			}
 		}
@@ -625,8 +624,6 @@ public class GrindingManager implements Listener {
 		for (Area area : areas) {
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
 				if (area.getCenter().distance(location) < area.getRange()) {
-					plugin.getMessages().debug("Found a whitelisted area = %s, range=%s", area.getCenter(),
-							area.getRange());
 					return area;
 				}
 			}
@@ -706,8 +703,8 @@ public class GrindingManager implements Listener {
 		if (killedLocation != null) {
 			for (int n = 0; n < 10; n++) {
 				if (player != null & player.isOnline()) {
-					player.spawnParticle(Particle.CLOUD, killedLocation.getX() + 0.5,
-							killedLocation.getY() + 0.2 + 0.2 * n, killedLocation.getZ() + 0.5, 1);
+					player.spawnParticle(Particle.CLOUD, killedLocation.getBlockX() + 0.5,
+							killedLocation.getBlockY() + 0.2 + 0.2 * n, killedLocation.getBlockZ() + 0.5, 5);
 					// , 0, 0, 0,0.01);
 				}
 			}
@@ -717,33 +714,23 @@ public class GrindingManager implements Listener {
 		if (grindingArea != null) {
 			// Show center of grinding area
 			for (int n = 0; n < 10; n++) {
-				player.spawnParticle(Particle.FLAME, grindingArea.getCenter().getX() + 0.5,
-						killedLocation.getY() + 0.2 + 0.1 * n, grindingArea.getCenter().getZ() + 0.5, 1);// , 0, 0, 0,
-																											// 0.01);
+				player.spawnParticle(Particle.FLAME, grindingArea.getCenter().getBlockX() + 0.5,
+						grindingArea.getCenter().getBlockY() + 0.2 + 0.1 * n,
+						grindingArea.getCenter().getBlockZ() + 0.5, 5);// , 0, 0, 0,
+				// 0.01);
 			}
 
 			// Circle around the grinding area
 			for (int n = 0; n < 360; n = n + (int) (45 / plugin.getConfigManager().grindingDetectionRange)) {
-
-				plugin.getMessages().debug("n=%s (x,y,z)=(%s,%s,%s)", n,
-
-						(double) grindingArea.getCenter().getX() + 0.5
-								+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange,
-
-						killedLocation.getY() + 0.2,
-
-						(double) grindingArea.getCenter().getZ() + 0.5
-								+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange);
-
 				player.spawnParticle(Particle.FLAME,
-						(double) grindingArea.getCenter().getX() + 0.5
+						(double) grindingArea.getCenter().getBlockX() + 0.5
 								+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange,
 
-						killedLocation.getY() + 0.2,
+						grindingArea.getCenter().getBlockY() + 0.2,
 
-						(double) grindingArea.getCenter().getZ() + 0.5
+						(double) grindingArea.getCenter().getBlockZ() + 0.5
 								+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange,
-						1);// , 0, 0, 0, 0.01);
+						5);// , 0, 0, 0, 0.01);
 			}
 		}
 

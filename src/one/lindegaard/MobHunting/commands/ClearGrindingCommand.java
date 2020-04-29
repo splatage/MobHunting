@@ -62,12 +62,12 @@ private MobHunting plugin;
 
 		Location loc = ((Player) sender).getLocation();
 		plugin.getGrindingManager().clearGrindingArea(loc);
-		plugin.getGrindingManager().clearGrindingArea(loc.subtract(0, loc.getY()+65, 0)); //Void
+		plugin.getGrindingManager().clearGrindingArea(loc.clone().subtract(0, loc.getY()+65, 0)); //Void
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			HuntData data = new HuntData(player);
 			data.clearGrindingArea(loc);
-			data.clearGrindingArea(loc.subtract(0, loc.getY()+65, 0)); //Void
+			data.clearGrindingArea(loc.clone().subtract(0, loc.getY()+65, 0)); //Void
 		}
 
 		plugin.getMessages().senderSendMessage(sender,ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.cleargrinding.done"));

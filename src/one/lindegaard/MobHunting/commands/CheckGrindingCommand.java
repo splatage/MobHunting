@@ -62,22 +62,24 @@ public class CheckGrindingCommand implements ICommand {
 			return false;
 
 		Location loc = ((Player) sender).getLocation();
+		plugin.getMessages().debug("Player=%s, Loc=(%s,%s,%s)", ((Player) sender).getName(), loc.getBlockX(),
+				loc.getBlockY(), loc.getBlockZ());
 
 		if (plugin.getGrindingManager().isWhitelisted(loc)) {
 			plugin.getMessages().senderSendMessage(sender,
 					ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.grinding.whitelisted"));
 			Area area = plugin.getGrindingManager().getWhitelistArea(loc);
-			plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
+			plugin.getGrindingManager().showGrindingArea((Player) sender, area, null);
 		} else if (plugin.getGrindingManager().isGrindingArea(loc)) {
 			plugin.getMessages().senderSendMessage(sender,
 					ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.grinding.blacklisted"));
 			Area area = plugin.getGrindingManager().getGrindingArea(loc);
-			plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
-		} else if (plugin.getGrindingManager().isGrindingArea(loc.subtract(0, loc.getY()+65, 0))) {
+			plugin.getGrindingManager().showGrindingArea((Player) sender, area, null);
+		} else if (plugin.getGrindingManager().isGrindingArea(loc.clone().subtract(0, loc.getY() + 65, 0))) {
 			plugin.getMessages().senderSendMessage(sender,
 					ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.grinding.blacklisted.void"));
 			Area area = plugin.getGrindingManager().getGrindingArea(loc);
-			plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
+			plugin.getGrindingManager().showGrindingArea((Player) sender, area, null);
 
 		} else {
 			Area area = null;
@@ -104,7 +106,7 @@ public class CheckGrindingCommand implements ICommand {
 
 				plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
 						.getString("mobhunting.commands.grinding.player-grinding", "players", playerList));
-				plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
+				plugin.getGrindingManager().showGrindingArea((Player) sender, area, null);
 			}
 		}
 
