@@ -396,6 +396,13 @@ public class RewardManager {
 				is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
 			}
 
+			Reward reward = new Reward(
+					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
+							+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName,
+					money, uuid, UUID.randomUUID(), skinuuid);
+			setDisplayNameAndHiddenLores(is, reward);
+
+			
 			item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), money);
 			item.setMetadata(Reward.MH_REWARD_DATA,
