@@ -217,8 +217,8 @@ public class GrindingManager implements Listener {
 								&& gi.getKilled().getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-									if (killed.getLocation().subtract(0, killed.getLocation().getY() + 65, 0)
-											.distance(gi.getKilled().getLocation().subtract(0,
+									if (killed.getLocation().clone().subtract(0, killed.getLocation().getY() + 65, 0)
+											.distance(gi.getKilled().getLocation().clone().subtract(0,
 													gi.getKilled().getLocation().getY() + 65, 0)) < killRadius) {
 										n++;
 									}
@@ -251,7 +251,7 @@ public class GrindingManager implements Listener {
 			plugin.getMessages().debug(
 					"Farm detection: This was not an Enderman Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
 					n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
-					killed.getLocation().getY() + 65, killed.getLocation().getZ());
+					killed.getLocation().getY(), killed.getLocation().getZ());
 		return false;
 	}
 
@@ -305,7 +305,7 @@ public class GrindingManager implements Listener {
 			plugin.getMessages().debug(
 					"Farm detection: This was not an genric / other Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
 					n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
-					killed.getLocation().getY() + 65, killed.getLocation().getZ());
+					killed.getLocation().getY(), killed.getLocation().getZ());
 		return false;
 	}
 
@@ -450,7 +450,7 @@ public class GrindingManager implements Listener {
 			for (Area area : areas) {
 				if (area.getCenter().getWorld().equals(location.getWorld())) {
 					if (area.getCenter().distance(location) < area.getRange()
-							|| area.getCenter().subtract(0, area.getCenter().getY() + 65, 0).distance(
+							|| area.getCenter().clone().subtract(0, area.getCenter().getY() + 65, 0).distance(
 									location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange()) {
 						return true;
 					}
@@ -467,7 +467,7 @@ public class GrindingManager implements Listener {
 
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
 				if (area.getCenter().distance(location) < area.getRange()
-						|| area.getCenter().subtract(0, area.getCenter().getY() + 65, 0)
+						|| area.getCenter().clone().subtract(0, area.getCenter().getY() + 65, 0)
 								.distance(location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange()) {
 					it.remove();
 				}
@@ -517,7 +517,7 @@ public class GrindingManager implements Listener {
 
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
 				if (area.getCenter().distance(location) < area.getRange()
-						|| area.getCenter().subtract(0, area.getCenter().getY() + 65, 0)
+						|| area.getCenter().clone().subtract(0, area.getCenter().getY() + 65, 0)
 								.distance(location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange())
 					it.remove();
 			}

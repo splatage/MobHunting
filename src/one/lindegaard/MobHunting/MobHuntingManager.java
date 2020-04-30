@@ -1373,7 +1373,7 @@ public class MobHuntingManager implements Listener {
 				} else {
 
 					data.setDampenedKills(data.getDampenedKills() + 1);
-					
+
 					// Check if the location is Blacklisted as a Grinding Area by Admin
 					Area grindingArea = plugin.getGrindingManager().getGrindingArea(loc);
 					if (plugin.getGrindingManager().isGrindingArea(loc)) {
@@ -1412,8 +1412,8 @@ public class MobHuntingManager implements Listener {
 							* plugin.getConfigManager().grindingDetectionNumberOfDeath;
 
 					// The mob was killed far from last kill area center
-					if (loc.distance(data.getLastKillAreaCenter()) > data.getcDampnerRange()
-							|| !loc.getWorld().equals(data.getLastKillAreaCenter().getWorld())) {
+					if (!loc.getWorld().equals(data.getLastKillAreaCenter().getWorld())
+							|| loc.distance(data.getLastKillAreaCenter()) > data.getcDampnerRange()) {
 
 						plugin.getMessages().debug(
 								"Kill not within %s blocks from previous kill. Dampened Kills reset to 0",
@@ -1474,7 +1474,7 @@ public class MobHuntingManager implements Listener {
 									plugin.getConfigManager().grindingDetectionNumberOfDeath);
 						}
 					}
-					
+
 					data.setLastKillAreaCenter(loc.clone());
 					data.putHuntDataToPlayer(player);
 				}
