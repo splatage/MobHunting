@@ -232,19 +232,19 @@ public class CustomItems {
 		switch (minecraftMob) {
 		case Skeleton:
 			skull = CoreCustomItems.getDefaultSkeletonHead(amount);
-			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 
 		case WitherSkeleton:
 			skull = CoreCustomItems.getDefaultWitherSkeletonHead(amount);
-			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 
 		case Zombie:
 			skull = CoreCustomItems.getDefaultZombieHead(amount);
-			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 
@@ -254,13 +254,13 @@ public class CustomItems {
 
 		case Creeper:
 			skull = CoreCustomItems.getDefaultCreeperHead(amount);
-			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 
 		case EnderDragon:
 			skull = CoreCustomItems.getDefaultEnderDragonHead(amount);
-			skull = minecraftMob.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
 			break;
 

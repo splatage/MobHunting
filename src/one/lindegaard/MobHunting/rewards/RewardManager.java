@@ -253,7 +253,7 @@ public class RewardManager {
 						if (rewardInSlot.getMoney() == 0)
 							player.getInventory().clear(slot);
 						else
-							is = setDisplayNameAndHiddenLores(is, rewardInSlot);
+							is = Reward.setDisplayNameAndHiddenLores(is, rewardInSlot);
 						plugin.getMessages().debug("Added %s to %s's item in slot %s, new value is %s", format(amount),
 								player.getName(), slot, format(rewardInSlot.getMoney()));
 						if (moneyLeftToGive <= 0) {
@@ -292,7 +292,7 @@ public class RewardManager {
 										plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 					else {
 						is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
-						setDisplayNameAndHiddenLores(is,
+						is=Reward.setDisplayNameAndHiddenLores(is,
 								new Reward(
 										BagOfGoldCompat.isSupported()
 												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
@@ -400,7 +400,7 @@ public class RewardManager {
 					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 							+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName,
 					money, uuid, UUID.randomUUID(), skinuuid);
-			setDisplayNameAndHiddenLores(is, reward);
+			is=Reward.setDisplayNameAndHiddenLores(is, reward);
 
 			
 			item = location.getWorld().dropItemNaturally(location, is);
@@ -582,21 +582,6 @@ public class RewardManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public ItemStack setDisplayNameAndHiddenLores(ItemStack skull, Reward reward) {
-		ItemMeta skullMeta = skull.getItemMeta();
-		skullMeta.setLore(reward.getHiddenLore());
-		if (reward.getMoney() == 0)
-			skullMeta.setDisplayName(
-					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + reward.getDisplayName());
-		else
-			skullMeta.setDisplayName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-					+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
-							? format(reward.getMoney())
-							: reward.getDisplayName() + " (" + format(reward.getMoney()) + ")"));
-		skull.setItemMeta(skullMeta);
-		return skull;
 	}
 
 	public ItemStack setReward(ItemStack skull, Reward reward) {

@@ -379,7 +379,7 @@ public class FishingManager implements Listener {
 						MinecraftMob minecraftMob = MinecraftMob.getMinecraftMobType(fish);
 						ItemStack head = new CustomItems().getCustomHead(minecraftMob, minecraftMob.getFriendlyName(),
 								1, plugin.getRewardManager().getHeadValue(fish), minecraftMob.getPlayerUUID());
-						plugin.getRewardManager().setDisplayNameAndHiddenLores(head,
+						head=Reward.setDisplayNameAndHiddenLores(head,
 								new Reward(minecraftMob.getFriendlyName(), plugin.getRewardManager().getHeadValue(fish),
 										minecraftMob.getPlayerUUID(), minecraftMob.getPlayerUUID(),
 										minecraftMob.getPlayerUUID()));

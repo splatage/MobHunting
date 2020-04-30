@@ -368,16 +368,15 @@ public class RewardListeners implements Listener {
 				reward.setUniqueId(UUID.randomUUID());
 				plugin.getMessages().debug("%s placed a reward block: %s", player.getName(),
 						ChatColor.stripColor(reward.toString()));
-				block.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, reward));
-				plugin.getRewardManager().getReward().put(reward.getUniqueUUID(), reward);
-				plugin.getRewardManager().getLocations().put(reward.getUniqueUUID(), block.getLocation());
-				plugin.getRewardManager().saveReward(reward.getUniqueUUID());
 			} else {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED + "[Warning] "
 						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(6)");
 				reward.setMoney(0);
-				plugin.getRewardManager().setDisplayNameAndHiddenLores(is, reward);
 			}
+			block.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, reward));
+			plugin.getRewardManager().getReward().put(reward.getUniqueUUID(), reward);
+			plugin.getRewardManager().getLocations().put(reward.getUniqueUUID(), block.getLocation());
+			plugin.getRewardManager().saveReward(reward.getUniqueUUID());
 		}
 	}
 
@@ -618,7 +617,7 @@ public class RewardListeners implements Listener {
 												player.getInventory().clear(slot);
 											else {
 												reward.setMoney(plugin.getConfigManager().limitPerBag);
-												is = plugin.getRewardManager().setDisplayNameAndHiddenLores(is.clone(),
+												is = Reward.setDisplayNameAndHiddenLores(is.clone(),
 														reward);
 												is.setAmount(1);
 												// event.setCurrentItem(is);
@@ -630,7 +629,7 @@ public class RewardListeners implements Listener {
 									}
 								}
 								cursor.setMoney(saldo);
-								isCursor = plugin.getRewardManager().setDisplayNameAndHiddenLores(isCursor.clone(),
+								isCursor = Reward.setDisplayNameAndHiddenLores(isCursor.clone(),
 										cursor);
 								event.setCursor(isCursor);
 								plugin.getMessages().debug("%s collected %s to the cursor", player.getName(), saldo);
@@ -691,12 +690,10 @@ public class RewardListeners implements Listener {
 								if (cursorMoney >= plugin.getConfigManager().minimumReward) {
 									event.setCancelled(true);
 									reward.setMoney(currentSlotMoney);
-									isCurrentSlot = plugin.getRewardManager()
-											.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
+									isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
 									event.setCurrentItem(isCurrentSlot);
 									reward.setMoney(cursorMoney);
-									isCursor = plugin.getRewardManager()
-											.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
+									isCursor = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
 									event.setCursor(isCursor);
 									plugin.getMessages().debug("%s halfed a reward in two (%s,%s)", player.getName(),
 											plugin.getRewardManager().format(currentSlotMoney),

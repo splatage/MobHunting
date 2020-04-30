@@ -16,9 +16,11 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.MetadataValue;
 
 import one.lindegaard.Core.Strings;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
@@ -363,6 +365,27 @@ public class Reward {
 
 	public static Reward getReward(Entity entity) {
 		return (Reward) entity.getMetadata(MH_REWARD_DATA).get(0).value();
+	}
+
+	/**
+	 * setDisplayNameAndHiddenLores: add the Display name and the (hidden) Lores.
+	 * The lores identifies the reward and contain secret information.
+	 * 
+	 * @param skull  - The base itemStack without the information.
+	 * @param reward - The reward information is added to the ItemStack
+	 * @return the updated ItemStack.
+	 */
+	public static ItemStack setDisplayNameAndHiddenLores(ItemStack skull, Reward reward) {
+		ItemMeta skullMeta = skull.getItemMeta();
+		skullMeta.setLore(reward.getHiddenLore());
+
+		if (reward.getMoney() == 0)
+			skullMeta.setDisplayName(reward.getDisplayName());
+		else
+			skullMeta.setDisplayName(reward.isItemReward() ? Tools.format(reward.getMoney())
+					: reward.getDisplayName() + " (" + Tools.format(reward.getMoney()) + ")");
+		skull.setItemMeta(skullMeta);
+		return skull;
 	}
 
 }

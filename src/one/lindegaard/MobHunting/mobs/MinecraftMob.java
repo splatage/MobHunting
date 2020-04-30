@@ -742,19 +742,19 @@ public enum MinecraftMob {
 		switch (this) {
 		case Skeleton:
 			skull = CoreCustomItems.getDefaultSkeletonHead(amount);
-			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case WitherSkeleton:
 			skull = CoreCustomItems.getDefaultWitherSkeletonHead(amount);
-			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case Zombie:
 			skull = CoreCustomItems.getDefaultZombieHead(amount);
-			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
@@ -767,13 +767,13 @@ public enum MinecraftMob {
 
 		case Creeper:
 			skull = CoreCustomItems.getDefaultCreeperHead(amount);
-			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
 		case EnderDragon:
 			skull = CoreCustomItems.getDefaultEnderDragonHead(amount);
-			skull = setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
+			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(getFriendlyName(), money,
 					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), getPlayerUUID()));
 			break;
 
@@ -795,7 +795,7 @@ public enum MinecraftMob {
 	 * @param reward - The reward information is added to the ItemStack
 	 * @return the updated ItemStack.
 	 */
-	public ItemStack setDisplayNameAndHiddenLores(ItemStack skull, Reward reward) {
+	/**public ItemStack setDisplayNameAndHiddenLores(ItemStack skull, Reward reward) {
 		ItemMeta skullMeta = skull.getItemMeta();
 		skullMeta.setLore(reward.getHiddenLore());
 
@@ -811,6 +811,6 @@ public enum MinecraftMob {
 							: reward.getDisplayName() + " (" + Tools.format(reward.getMoney()) + ")"));
 		skull.setItemMeta(skullMeta);
 		return skull;
-	}
+	}**/
 
 }

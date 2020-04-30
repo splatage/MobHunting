@@ -307,13 +307,13 @@ public class HeadCommand implements ICommand, Listener {
 						if (mob == MinecraftMob.PvpPlayer) {
 							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[1]));
 							ItemStack head = customItems.getCustomHead(mob, args[1], 1, money, player.getUniqueId());
-							plugin.getRewardManager().setDisplayNameAndHiddenLores(head, new Reward(args[1], money,
+							head = Reward.setDisplayNameAndHiddenLores(head, new Reward(args[1], money,
 									player.getUniqueId(), player.getUniqueId(), player.getUniqueId()));
 							world.dropItem(location, head);
 						} else {
 							ItemStack head = customItems.getCustomHead(mob, mob.getFriendlyName(), 1, money,
 									mob.getPlayerUUID());
-							plugin.getRewardManager().setDisplayNameAndHiddenLores(head,
+							head = Reward.setDisplayNameAndHiddenLores(head,
 									new Reward(mob.getFriendlyName(), money, mob.getPlayerUUID(), UUID.randomUUID(),
 											mob.getPlayerUUID()));
 							world.dropItem(location, head);

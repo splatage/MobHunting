@@ -197,7 +197,7 @@ public class BagOfGoldSign implements Listener {
 							else {
 								ItemStack is;
 								if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")) {
-									is = plugin.getRewardManager().setDisplayNameAndHiddenLores(
+									is = Reward.setDisplayNameAndHiddenLores(
 											new ItemStack(
 													Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem)),
 											new Reward(
