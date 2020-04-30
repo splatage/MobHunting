@@ -1,7 +1,11 @@
 V7.0.8
 * Area grinding detection is fixed and debug information made clearer
 * Speed grinding detection is fixed and debug information made clearer
+* Fixed blacklist, Whitelist, check for grinding area and clear grinding area
 * Loading rewards in a separate task to make the server load faster
+* Updated to Lorinths RPG Mobs 1.6.8 (https://www.spigotmc.org/resources/lorinthsrpgmobs.53568/)
+* Optimized the Rewards code
+* Fixed duplicate problem when picking up BagOfGold
 V7.0.7
 * Fixed bug introduced in 7.0.6
 V7.0.6

@@ -6,8 +6,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<!-- <version>7.0.8</version> -->
-	<version>7.0.8-SNAPSHOT-B${build.number}</version>
+	<version>7.0.8</version>
+	<!-- <version>7.0.8-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -137,7 +137,7 @@
 			<type>jar</type>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<!-- BagOfGold / -->
 		<dependency>
 			<groupId>one.lindegaard</groupId>
@@ -285,8 +285,7 @@
 
 		<!-- WorldEdit -->
 		<!-- <dependency> <groupId>com.sk89q.worldedit</groupId> <artifactId>worldedit-bukkit</artifactId> 
-			<version>${worldedit.version}</version> <scope>provied</scope> </dependency>
-			 -->
+			<version>${worldedit.version}</version> <scope>provied</scope> </dependency> -->
 		<dependency>
 			<groupId>com.sk89q.worldedit</groupId>
 			<artifactId>worldedit-bukkit</artifactId>
@@ -424,7 +423,7 @@
 			<artifactId>Herobrine</artifactId>
 			<version>${Herobrine.version}</version>
 		</dependency>
-		
+
 		<!-- Boss -->
 		<dependency>
 			<groupId>org.mineacademy.boss.api</groupId>
