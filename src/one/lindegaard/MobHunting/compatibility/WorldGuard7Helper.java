@@ -1,5 +1,6 @@
 package one.lindegaard.MobHunting.compatibility;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
@@ -12,6 +13,8 @@ import com.sk89q.worldguard.protection.flags.StateFlag.State;
 import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
+
+import one.lindegaard.BagOfGold.BagOfGold;
 
 public class WorldGuard7Helper {
 
@@ -50,7 +53,13 @@ public static boolean isAllowedByWorldGuard2(Entity damager, Entity damaged, Sta
 			// register MobHuting flag with the WorlsGuard Flag registry
 
 			// wg7.x
-			WorldGuard.getInstance().getFlagRegistry().register(WorldGuardMobHuntingFlag.getMobHuntingFlag());
+			
+			try {
+				WorldGuard.getInstance().getFlagRegistry().register(WorldGuardMobHuntingFlag.getMobHuntingFlag());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				Bukkit.getConsoleSender().sendMessage("[MobHunting] Could not register MobHunting flag in WorldGuard 7.");
+			}
 
 			// wg6.x
 			// ((WorldGuardPlugin)
