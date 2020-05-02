@@ -1,3 +1,5 @@
+V7.0.9
+*
 V7.0.8
 * Area grinding detection is fixed and debug information made clearer
 * Speed grinding detection is fixed and debug information made clearer

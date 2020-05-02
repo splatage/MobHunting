@@ -1866,10 +1866,16 @@ public class MobHuntingManager implements Listener {
 						Bukkit.getConsoleSender()
 								.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
 										+ "The chance to run a command when killing a " + killed.getName()
-										+ " must be formatted as a string. Ex. chnace: '0.5'");
+										+ " must be formatted as a string. Ex. chance: '0.5'");
 					}
 					if (randomNumber < chance) {
-						String commandCmd = cmd.getOrDefault("cmd", "");
+						String commandCmd = "";
+						try {
+							commandCmd = cmd.getOrDefault("cmd", "");
+						} catch (Exception e1) {
+							plugin.getMessages().debug("ERROR in config.yml. Could not read cmd for %s. 'cmd' must be a String or ''",
+									mob.getMobName());
+						}
 						if (commandCmd != null) {
 							commandCmd = commandCmd.replaceAll("\\{player\\}", player.getName())
 									.replaceAll("\\{killer\\}", player.getName())

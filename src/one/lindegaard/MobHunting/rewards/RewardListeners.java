@@ -28,6 +28,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
@@ -116,15 +117,14 @@ public class RewardListeners implements Listener {
 
 				plugin.getMessages().debug("%s dropped %s money. (# of rewards left=%s)", player.getName(),
 						plugin.getRewardManager().format(money), plugin.getRewardManager().getDroppedMoney().size());
-				plugin.getMessages().playerActionBarMessageQueue(player,
-						plugin.getMessages().getString("mobhunting.moneydrop", "money",
-								plugin.getRewardManager().format(money), "rewardname",
-								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-										+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
-												? plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
-												: reward.getDisplayName())));
+				plugin.getMessages().playerActionBarMessageQueue(player, plugin.getMessages().getString(
+						"mobhunting.moneydrop", "money", plugin.getRewardManager().format(money), "rewardname",
+						ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + (reward.isItemReward()
+								? plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
+								: reward.getDisplayName())));
 			}
 			item.setCustomNameVisible(true);
+			item.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, reward));
 		}
 	}
 
@@ -229,19 +229,18 @@ public class RewardListeners implements Listener {
 											rewardInSlot.setMoney(rewardInSlot.getMoney() + reward.getMoney());
 											ItemMeta im = is.getItemMeta();
 											im.setLore(rewardInSlot.getHiddenLore());
-											String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
-													.equalsIgnoreCase("ITEM")
-															? plugin.getRewardManager().format(rewardInSlot.getMoney())
-															: rewardInSlot.getDisplayName() + " (" + plugin
-																	.getRewardManager().format(rewardInSlot.getMoney())
-																	+ ")";
+											String displayName = rewardInSlot.isItemReward()
+													? plugin.getRewardManager().format(rewardInSlot.getMoney())
+													: rewardInSlot.getDisplayName() + " ("
+															+ plugin.getRewardManager().format(rewardInSlot.getMoney())
+															+ ")";
 											im.setDisplayName(ChatColor
 													.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 													+ displayName);
 											is.setItemMeta(im);
 											is.setAmount(1);
 											plugin.getMessages().debug(
-													"Added %s to %s's item in slot %s, new value is %s (addBagOfGoldPlayer_RewardManager)",
+													"Added %s to %s's item in slot %s, new value is %s",
 													plugin.getRewardManager().format(reward.getMoney()),
 													player.getName(), slot,
 													plugin.getRewardManager().format(rewardInSlot.getMoney()));
@@ -265,7 +264,7 @@ public class RewardListeners implements Listener {
 														player.getName());
 											}
 											plugin.getMessages().debug(
-													"Added %s to %s's item in slot %s, new value is %s (RewardListerner)",
+													"Added %s to %s's item in slot %s, new value is %s",
 													plugin.getRewardManager().format(reward.getMoney()),
 													player.getName(), slot,
 													plugin.getRewardManager().format(rewardInSlot.getMoney()));
@@ -287,7 +286,7 @@ public class RewardListeners implements Listener {
 											plugin.getRewardManager().getDroppedMoney().size());
 								} else {
 									plugin.getMessages().debug(
-											"%s picked up a %s with a value:%s (# of rewards left=%s)(PickupRewards)",
+											"%s picked up a %s with a value:%s (# of rewards left=%s)",
 											player.getName(), reward.getDisplayName(),
 											plugin.getRewardManager().format(Misc.round(reward.getMoney())),
 											plugin.getRewardManager().getDroppedMoney().size());
@@ -296,11 +295,10 @@ public class RewardListeners implements Listener {
 													plugin.getRewardManager().format(reward.getMoney()), "rewardname",
 													ChatColor.valueOf(
 															plugin.getConfigManager().dropMoneyOnGroundTextColor)
-															+ (plugin.getConfigManager().dropMoneyOnGroundItemtype
-																	.equalsIgnoreCase("ITEM")
-																			? plugin.getConfigManager().dropMoneyOnGroundSkullRewardName
-																					.trim()
-																			: reward.getDisplayName())));
+															+ (reward.isItemReward() ? plugin
+																	.getConfigManager().dropMoneyOnGroundSkullRewardName
+																			.trim()
+																	: reward.getDisplayName())));
 								}
 							} else if (Misc.round(addedMoney) < Misc.round(reward.getMoney())) {
 								double rest = reward.getMoney() - addedMoney;
@@ -617,8 +615,7 @@ public class RewardListeners implements Listener {
 												player.getInventory().clear(slot);
 											else {
 												reward.setMoney(plugin.getConfigManager().limitPerBag);
-												is = Reward.setDisplayNameAndHiddenLores(is.clone(),
-														reward);
+												is = Reward.setDisplayNameAndHiddenLores(is.clone(), reward);
 												is.setAmount(1);
 												// event.setCurrentItem(is);
 												player.getInventory().clear(slot);
@@ -629,8 +626,7 @@ public class RewardListeners implements Listener {
 									}
 								}
 								cursor.setMoney(saldo);
-								isCursor = Reward.setDisplayNameAndHiddenLores(isCursor.clone(),
-										cursor);
+								isCursor = Reward.setDisplayNameAndHiddenLores(isCursor.clone(), cursor);
 								event.setCursor(isCursor);
 								plugin.getMessages().debug("%s collected %s to the cursor", player.getName(), saldo);
 							} else if (cursor.isKilledHeadReward() || cursor.isKillerHeadReward()) {
@@ -900,4 +896,19 @@ public class RewardListeners implements Listener {
 			player.getOpenInventory().setCursor(null);
 		}
 	}
+	
+	
+	/**
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onInventoryCreativeEvent(InventoryCreativeEvent event) {
+		Player player = (Player) event.getWhoClicked();
+		if (event.getSlotType()==SlotType.ARMOR) {
+			if (Reward.isReward(event.getCursor())) {
+				event.setCancelled(true);
+				plugin.getMessages().debug("%s tried to place a BagOfGold in ARMOR slot",player.getName());
+				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.rewards.no-helmet"));
+			}
+		}
+	}**/
+
 }

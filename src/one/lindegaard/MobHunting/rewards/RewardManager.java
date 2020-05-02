@@ -135,8 +135,6 @@ public class RewardManager {
 
 		if (!BagOfGoldCompat.isSupported()) {
 
-			plugin.getMessages().debug("Register MobHunting Listeners");
-
 			pickupRewards = new PickupRewards(plugin);
 
 			Bukkit.getPluginManager().registerEvents(new RewardListeners(plugin), plugin);
@@ -147,14 +145,8 @@ public class RewardManager {
 			else
 				Bukkit.getPluginManager().registerEvents(new PlayerPickupItemEventListener(pickupRewards), plugin);
 
-			Bukkit.getScheduler().runTask(plugin, new Runnable() {
-
-				@Override
-				public void run() {
-					loadAllStoredRewardsFromBagOfGold();
-					loadAllStoredRewards();
-				}
-			});
+			loadAllStoredRewardsFromBagOfGold();
+			loadAllStoredRewards();
 		}
 
 		if (BagOfGoldCompat.isSupported() || plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
@@ -292,14 +284,17 @@ public class RewardManager {
 										plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 					else {
 						is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
-						is=Reward.setDisplayNameAndHiddenLores(is,
-								new Reward(
-										BagOfGoldCompat.isSupported()
-												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
-														.trim()
-												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-										Misc.round(nextBag), UUID.fromString(Reward.MH_REWARD_ITEM_UUID),
-										UUID.randomUUID(), null));
+						is = Reward
+								.setDisplayNameAndHiddenLores(is,
+										new Reward(
+												BagOfGoldCompat.isSupported()
+														? BagOfGold.getAPI()
+																.getConfigManager().dropMoneyOnGroundSkullRewardName
+																		.trim()
+														: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName
+																.trim(),
+												Misc.round(nextBag), UUID.fromString(Reward.MH_REWARD_ITEM_UUID),
+												UUID.randomUUID(), null));
 					}
 					player.getInventory().addItem(is);
 				}
@@ -400,20 +395,12 @@ public class RewardManager {
 					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
 							+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName,
 					money, uuid, UUID.randomUUID(), skinuuid);
-			is=Reward.setDisplayNameAndHiddenLores(is, reward);
-
-			
+			is = Reward.setDisplayNameAndHiddenLores(is, reward);
 			item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), money);
-			item.setMetadata(Reward.MH_REWARD_DATA,
-					new FixedMetadataValue(plugin,
-							new Reward(
-									plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM") ? ""
-											: Reward.getReward(is).getDisplayName(),
-									money, uuid, UUID.randomUUID(), skinuuid)));
-			item.setCustomName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-					+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM") ? format(money)
-							: Reward.getReward(is).getDisplayName() + " (" + format(money) + ")"));
+			item.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, new Reward(reward)));
+			item.setCustomName(reward.isItemReward() ? format(money)
+					: Reward.getReward(is).getDisplayName() + " (" + format(money) + ")");
 			item.setCustomNameVisible(true);
 		}
 		if (item != null)
@@ -436,7 +423,6 @@ public class RewardManager {
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else if (reward.isKilledHeadReward()) {
 			MinecraftMob mob = MinecraftMob.getMinecraftMobType(reward.getSkinUUID());
-			MobHunting.getAPI().getMessages().debug("mob=%s", mob);
 			if (mob != null) {
 				ItemStack is = new CustomItems().getCustomHead(mob, reward.getDisplayName(), 1, reward.getMoney(),
 						reward.getSkinUUID());
@@ -447,6 +433,7 @@ public class RewardManager {
 			ItemStack is = new CustomItems().getPlayerHead(reward.getSkinUUID(), reward.getDisplayName(), 1,
 					reward.getMoney());
 			Item item = location.getWorld().dropItemNaturally(location, is);
+			item.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, new Reward(reward)));
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
