@@ -68,7 +68,7 @@ public class Reward {
 	}
 
 	public Reward(String displayName, double money, UUID rewardType, UUID uniqueId, UUID skinUUID) {
-		this.displayname = displayName.startsWith("Hidden:") ? displayName.substring(7) : displayName;
+		this.displayname = displayName;
 		this.money = money;
 		this.rewardType = rewardType;
 		this.uniqueId = uniqueId;
@@ -103,38 +103,26 @@ public class Reward {
 			// DisplayName
 			if (str.startsWith("Hidden(0):"))
 				this.displayname = str.substring(10);
-			else if (n == 0 && str.startsWith("Hidden:"))
-				this.displayname = str.substring(7);
 
 			// Money
 			else if (str.startsWith("Hidden(1):")) {
 				moneyStr = str.substring(10);
-				this.money = Double.valueOf(moneyStr);
-			} else if (n == 1 && str.startsWith("Hidden:")) {
-				moneyStr = str.substring(7);
 				this.money = Double.valueOf(moneyStr);
 			}
 
 			// RewardType
 			else if (str.startsWith("Hidden(2):")) {
 				rewardTypeStr = str.substring(10);
-				this.rewardType = UUID.fromString(rewardTypeStr);
-			} else if (n == 2 && str.startsWith("Hidden:")) {
-				rewardTypeStr = str.substring(7);
-				this.rewardType = UUID.fromString(rewardTypeStr);
+				this.rewardType = UUID.fromString(str.substring(10));
 			}
 
 			// Unique UUID
 			else if (str.startsWith("Hidden(3):"))
 				this.uniqueId = money == 0 ? UUID.randomUUID() : UUID.fromString(str.substring(10));
-			else if (n == 3 && str.startsWith("Hidden:"))
-				this.uniqueId = money == 0 ? UUID.randomUUID() : UUID.fromString(str.substring(7));
 
 			// Skin UUID
 			else if (str.startsWith("Hidden(4):"))
 				this.skinUUID = str.length() > 10 ? UUID.fromString(str.substring(10)) : null;
-			else if (n == 4 && str.startsWith("Hidden:"))
-				this.skinUUID = UUID.fromString(str.substring(7));
 
 			// MobHunting Reward
 			else if (str.equalsIgnoreCase(MobHunting.getAPI().getMessages().getString("mobhunting.reward.lore")))
@@ -147,7 +135,7 @@ public class Reward {
 				if (!encodedHash.equalsIgnoreCase(compareHash)) {
 					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
 							+ "[Warning] A player has tried to change the value of a BagOfGold Item. Value set to 0!");
-					money=0;
+					money = 0;
 					updateEncodedHash();
 				}
 			}
@@ -204,7 +192,7 @@ public class Reward {
 	 * @param displayName the displayName to set
 	 */
 	public void setDisplayname(String displayName) {
-		this.displayname = displayName.startsWith("Hidden:") ? displayName.substring(7) : displayName;
+		this.displayname = displayName;
 	}
 
 	/**
@@ -337,13 +325,14 @@ public class Reward {
 	}
 
 	public static boolean isReward(ItemStack itemStack) {
-		if (itemStack != null && itemStack.hasItemMeta() && itemStack.getItemMeta().hasLore() && itemStack.getItemMeta().getLore().size()>2) {
+		if (itemStack != null && itemStack.hasItemMeta() && itemStack.getItemMeta().hasLore()
+				&& itemStack.getItemMeta().getLore().size() > 2) {
 			String lore = itemStack.getItemMeta().getLore().get(2);
 			return lore.equals("Hidden(2):" + MH_REWARD_BAG_OF_GOLD_UUID)
 					|| lore.equals("Hidden(2):" + MH_REWARD_KILLED_UUID)
 					|| lore.equals("Hidden(2):" + MH_REWARD_KILLER_UUID)
 					|| lore.equals("Hidden(2):" + MH_REWARD_ITEM_UUID);
-		} else 
+		} else
 			return false;
 	}
 

@@ -34,7 +34,6 @@ import one.lindegaard.MobHunting.commands.UpdateCommand;
 import one.lindegaard.MobHunting.commands.VersionCommand;
 import one.lindegaard.MobHunting.commands.WhitelistAreaCommand;
 import one.lindegaard.MobHunting.compatibility.*;
-import one.lindegaard.MobHunting.config.ConfigManagerOld;
 import one.lindegaard.MobHunting.config.ConfigManager;
 import one.lindegaard.MobHunting.grinding.GrindingManager;
 import one.lindegaard.MobHunting.leaderboard.LeaderboardManager;
@@ -64,9 +63,10 @@ public class MobHunting extends JavaPlugin {
 	private static MobHunting instance;
 	public Random mRand = new Random();
 	private File mFile = new File(getDataFolder(), "config.yml");
+	private File mFileShared = new File(getDataFolder().getParent() + "/BagOfGold", "shared_config.yml");
 
 	private Messages mMessages;
-	private ConfigManagerOld mConfig0;
+	// private ConfigManagerOld mConfig0;
 	private ConfigManager mConfig;
 	private EconomyManager mEconomyManager;
 	private RewardManager mRewardManager;
@@ -111,18 +111,7 @@ public class MobHunting extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage(
 				ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Your config version is " + config_version);
 		switch (config_version) {
-		case 0:
-			mConfig0 = new ConfigManagerOld(this, mFile);
-			if (mConfig0.loadConfig()) {
-				mConfig = new ConfigManager(this, mFile);
-				if (mConfig.convertConfig(mConfig0)) {
-					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Converting config.yml to new version 1 format");
-					if (mConfig.backup)
-						mConfig.backupConfig(mFile);
-				}
-			}
-			break;
+		case 0: // 0 was the old version number before MobHunting V5.0.0
 		case -2:
 			Bukkit.getConsoleSender().sendMessage(
 					ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Defect config.yml file. Deleted.");
@@ -146,6 +135,18 @@ public class MobHunting extends JavaPlugin {
 			break;
 		}
 		mConfig.saveConfig();
+
+		getMessages().debug("BagOfGold/MobHunting shared config file is ../BagOfGold/%s", mFileShared.getName());
+		int Shared_config_version = ConfigManager.getConfigVersion(mFile);
+		switch (Shared_config_version) {
+		case -1:
+			// create new shared config file
+			// if bagofgold config exists then import shared settings
+			// else if mobhunting config exists then import shared settings
+			break;
+		default:
+			// create new shared config file
+		}
 
 		if (isbStatsEnabled())
 			getMessages().debug("bStat is enabled");
@@ -172,9 +173,6 @@ public class MobHunting extends JavaPlugin {
 				}
 			}
 		}
-
-		// for (int i = 0; i < 5; i++)
-		// getMessages().debug("Random uuid = %s", java.util.UUID.randomUUID());
 
 		mWorldGroupManager = new WorldGroupManager(this);
 		mWorldGroupManager.load();
@@ -237,7 +235,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(MyPetCompat.class, CompatPlugin.MyPet);
 		mCompatibilityManager.registerPlugin(McMMOHorses.class, CompatPlugin.McMMOHorses);
 		mCompatibilityManager.registerPlugin(BossShopCompat.class, CompatPlugin.BossShop);
-		
+
 		// Minigame plugins
 		mCompatibilityManager.registerPlugin(MinigamesCompat.class, CompatPlugin.Minigames);
 		mCompatibilityManager.registerPlugin(MinigamesLibCompat.class, CompatPlugin.MinigamesLib);
@@ -281,7 +279,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(SmartGiantsCompat.class, CompatPlugin.SmartGiants);
 		mCompatibilityManager.registerPlugin(InfernalMobsCompat.class, CompatPlugin.InfernalMobs);
 		mCompatibilityManager.registerPlugin(HerobrineCompat.class, CompatPlugin.Herobrine);
-		
+
 		mCompatibilityManager.registerPlugin(ExtraHardModeCompat.class, CompatPlugin.ExtraHardMode);
 		mCompatibilityManager.registerPlugin(CrackShotCompat.class, CompatPlugin.CrackShot);
 
@@ -339,7 +337,7 @@ public class MobHunting extends JavaPlugin {
 				mAdvancementManager.getAdvancementsFromAchivements();
 			}
 		}
-		
+
 		// Check for new MobHuntig updates using Spiget.org
 		mSpigetUpdater.hourlyUpdateCheck(getServer().getConsoleSender(), mConfig.updateCheck, false);
 

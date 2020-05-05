@@ -19,6 +19,10 @@
 		<relativePath>../Main/pom.xml</relativePath>
 	</parent>
 
+	<properties>
+		<mobhunting-core.version>0.2.1-SNAPSHOT</mobhunting-core.version>
+	</properties>
+
 	<issueManagement>
 		<url>https://github.com/Rocologo/MobHunting/issues</url>
 	</issueManagement>
@@ -127,7 +131,7 @@
 		<dependency>
 			<groupId>one.lindegaard</groupId>
 			<artifactId>Core</artifactId>
-			<version>${core.version}</version>
+			<version>${mobhunting-core.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
