@@ -374,7 +374,6 @@ public class RewardListeners implements Listener {
 			block.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, reward));
 			plugin.getRewardManager().getReward().put(reward.getUniqueUUID(), reward);
 			plugin.getRewardManager().getLocations().put(reward.getUniqueUUID(), block.getLocation());
-			plugin.getRewardManager().saveReward(reward.getUniqueUUID());
 		}
 	}
 

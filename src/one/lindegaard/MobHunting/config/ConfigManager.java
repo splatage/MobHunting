@@ -4417,7 +4417,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "drop_money_on_ground_text_color", category = "dropmoneyonground", comment = "Here you can set of the color of the number above the dropped item. \nUse color names like WHITE, RED, BLUE, GOLD")
 	public String dropMoneyOnGroundTextColor = "GOLD";
 
-	@ConfigField(name = "drop_money_on_ground_skull_reward_name", category = "dropmoneyonground", comment = "This is the name of the reward")
+	@ConfigField(name = "drop_money_on_ground_skull_reward_name", category = "dropmoneyonground", comment = "This is the name of the reward. Warning do not use a name which is used as an Item Name \nin other plugins like f.ex SlimeFun. This would cause problems and \nitems disapear without a warning.")
 	public String dropMoneyOnGroundSkullRewardName = "Bag of gold";
 
 	@ConfigField(name = "drop_money_on_ground_skull_reward_name_plural", category = "dropmoneyonground", comment = "This is the name of the reward in plural")

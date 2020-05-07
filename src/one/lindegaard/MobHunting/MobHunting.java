@@ -365,6 +365,8 @@ public class MobHunting extends JavaPlugin {
 			}
 		}, 20 * 5);
 
+		mRewardManager.loadAllStoredRewards();
+		
 		mInitialized = true;
 
 	}
@@ -376,6 +378,8 @@ public class MobHunting extends JavaPlugin {
 		if (!mInitialized)
 			return;
 
+		getMessages().debug("Saving all Reward Blocks to disk");
+		mRewardManager.saveAllRewards();
 		getMessages().debug("Shutdown LeaderBoardManager");
 		mLeaderboardManager.shutdown();
 		getMessages().debug("Shutdown AreaManager");
