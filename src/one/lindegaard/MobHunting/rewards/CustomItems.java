@@ -23,8 +23,8 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
 import one.lindegaard.Core.Strings;
-import one.lindegaard.Core.Server.Servers;
-import one.lindegaard.Core.Shared.Skins;
+import one.lindegaard.Core.server.Servers;
+import one.lindegaard.Core.shared.Skins;
 import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.PlayerSettings;

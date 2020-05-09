@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Random;
 
 import one.lindegaard.BagOfGold.BagOfGold;
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.WorldGroupManager;
 import one.lindegaard.Core.Messages.MessageManager;
@@ -89,6 +90,8 @@ public class MobHunting extends JavaPlugin {
 	private SpigetUpdater mSpigetUpdater;
 	private MessageManager mMessageManager;
 
+	private static Core mCore;
+	
 	private boolean mInitialized = false;
 
 	@Override
@@ -135,6 +138,8 @@ public class MobHunting extends JavaPlugin {
 			break;
 		}
 		mConfig.saveConfig();
+		
+		mCore = new Core(this);
 
 		getMessages().debug("BagOfGold/MobHunting shared config file is ../BagOfGold/%s", mFileShared.getName());
 		int Shared_config_version = ConfigManager.getConfigVersion(mFile);
@@ -595,6 +600,10 @@ public class MobHunting extends JavaPlugin {
 
 	public EconomyManager getEconomyManager() {
 		return mEconomyManager;
+	}
+
+	public static Core getCore() {
+		return mCore;
 	}
 
 }
