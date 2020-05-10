@@ -10,8 +10,8 @@ import java.util.List;
 
 import one.lindegaard.Core.config.AutoConfig;
 import one.lindegaard.Core.config.ConfigField;
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
@@ -4627,7 +4627,7 @@ public class ConfigManager extends AutoConfig {
 		return res;
 	}
 
-	public int getProgressAchievementLevel1(MinecraftMob mob) {
+	public int getProgressAchievementLevel1(MobType mob) {
 		switch (mob) {
 		case Bat:
 			return batLevel1;
@@ -4810,7 +4810,7 @@ public class ConfigManager extends AutoConfig {
 	 * 
 	 * @return value
 	 */
-	public double getHeadPrize(MinecraftMob mob) {
+	public double getHeadPrize(MobType mob) {
 		switch (mob) {
 		case Bat:
 			return getPrice(mob, batHeadPrize);
@@ -4988,17 +4988,17 @@ public class ConfigManager extends AutoConfig {
 		return 0;
 	}
 
-	private double getPrice(MinecraftMob mob, String str) {
+	private double getPrice(MobType mob, String str) {
 		if (str == null || str.equals("") || str.isEmpty()) {
 			Bukkit.getServer().getConsoleSender()
 					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
-							+ getFriendlyName(mob)
+							+ mob.getFriendlyName()
 							+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
 			return 0;
 		} else if (str.startsWith(":")) {
 			Bukkit.getServer().getConsoleSender()
 					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
-							+ getFriendlyName(mob)
+							+ mob.getFriendlyName()
 							+ " in config.yml has a wrong format. The prize can't start with \":\"");
 			if (str.length() > 1)
 				return getPrice(mob, str.substring(1, str.length()));
@@ -5013,7 +5013,7 @@ public class ConfigManager extends AutoConfig {
 			return Double.valueOf(str);
 	}
 
-	public String getFriendlyName(MinecraftMob mob) {
+	public String getFriendlyName(MobType mob) {
 		return MobHunting.getInstance().getMessages().getString("mobs." + mob.name() + ".name");
 	}
 
@@ -5023,7 +5023,7 @@ public class ConfigManager extends AutoConfig {
 	 * @return the command string which can be run in the console to give the player
 	 *         a head
 	 */
-	public String getCommandString(MinecraftMob mob) {
+	public String getCommandString(MobType mob) {
 		switch (mob) {
 		case PvpPlayer:
 		case Blaze:

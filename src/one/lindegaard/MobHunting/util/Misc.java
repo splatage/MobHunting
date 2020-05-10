@@ -5,7 +5,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.leaderboard.WorldLeaderBoardHelper;
 

@@ -21,10 +21,10 @@ import org.bukkit.plugin.Plugin;
 
 import org.mineacademy.boss.api.*;
 import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 
 public class BossCompat implements Listener {
@@ -96,7 +96,7 @@ public class BossCompat implements Listener {
 
 	// **************************************************************************
 	// EVENTS
-	// **************************************************************************
+	// *************************************************MinecraftMob*************************
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	private void onBossMobDeathEvent(EntityDeathEvent event) {
 		Entity entity = event.getEntity();
@@ -138,7 +138,7 @@ public class BossCompat implements Listener {
 	}
 
 	public static int getProgressAchievementLevel1(String mobtype) {
-		MinecraftMob mob = MinecraftMob.valueOf(mobtype);
+		MobType mob = MobType.valueOf(mobtype);
 		if (mob != null)
 			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
 		else

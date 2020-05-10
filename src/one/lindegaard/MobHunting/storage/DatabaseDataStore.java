@@ -13,6 +13,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.PlayerSettings;
 import one.lindegaard.MobHunting.bounty.Bounty;
@@ -29,7 +30,6 @@ import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
 import one.lindegaard.MobHunting.mobs.MobPluginManager;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
 public abstract class DatabaseDataStore implements IDataStore {
 
@@ -529,7 +529,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			while (rs.next()) {
 				int achievements = rs.getInt("ACHIEVEMENT_COUNT");
 				Statement statement2 = connection.createStatement();
-				for (MinecraftMob mob : MinecraftMob.values()) {
+				for (MobType mob : MobType.values()) {
 					String id = rs.getString("ID");
 					int mob_id = mobs.get(mob.name());
 					int player_id = rs.getInt("PLAYER_ID");
@@ -564,7 +564,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			while (rs.next()) {
 				int achievements = rs.getInt("ACHIEVEMENT_COUNT");
 				Statement statement2 = connection.createStatement();
-				for (MinecraftMob mob : MinecraftMob.values()) {
+				for (MobType mob : MobType.values()) {
 					String id = rs.getString("ID");
 					int mob_id = mobs.get(mob.name());
 					int player_id = rs.getInt("PLAYER_ID");
@@ -599,7 +599,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			while (rs.next()) {
 				int achievements = rs.getInt("ACHIEVEMENT_COUNT");
 				Statement statement2 = connection.createStatement();
-				for (MinecraftMob mob : MinecraftMob.values()) {
+				for (MobType mob : MobType.values()) {
 					String id = rs.getString("ID");
 					int mob_id = mobs.get(mob.name());
 					int player_id = rs.getInt("PLAYER_ID");
@@ -634,7 +634,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			while (rs.next()) {
 				int achievements = rs.getInt("ACHIEVEMENT_COUNT");
 				Statement statement2 = connection.createStatement();
-				for (MinecraftMob mob : MinecraftMob.values()) {
+				for (MobType mob : MobType.values()) {
 					String id = rs.getString("ID");
 					int mob_id = mobs.get(mob.name());
 					int player_id = rs.getInt("PLAYER_ID");
@@ -669,7 +669,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			while (rs.next()) {
 				int achievements = rs.getInt("ACHIEVEMENT_COUNT");
 				Statement statement2 = connection.createStatement();
-				for (MinecraftMob mob : MinecraftMob.values()) {
+				for (MobType mob : MobType.values()) {
 					int mob_id = mobs.get(mob.name());
 					int player_id = rs.getInt("PLAYER_ID");
 					try {
@@ -773,7 +773,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			connection = setupConnection();
 			int n = 0;
 			Statement statement = connection.createStatement();
-			for (MinecraftMob mob : MinecraftMob.values())
+			for (MobType mob : MobType.values())
 				if (getMobIdFromExtendedMobType(mob.name(), MobPlugin.Minecraft) == 0) {
 					statement
 							.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES ( 0,'" + mob.name() + "')");
@@ -1033,7 +1033,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			connection = setupConnection();
 			int n = 0;
 			Statement statement = connection.createStatement();
-			for (MinecraftMob mob : MinecraftMob.values())
+			for (MobType mob : MobType.values())
 				if (getMobIdFromExtendedMobType(mob.name(), MobPlugin.InfernalMobs) == 0) {
 					statement
 							.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES ( 7,'" + mob.name() + "')");

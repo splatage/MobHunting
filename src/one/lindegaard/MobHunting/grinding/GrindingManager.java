@@ -28,9 +28,9 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
 import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
 public class GrindingManager implements Listener {
 
@@ -136,7 +136,7 @@ public class GrindingManager implements Listener {
 		final long seconds = plugin.getConfigManager().secondsToSearchForGrinding;
 		final double killRadius = plugin.getConfigManager().rangeToSearchForGrinding;
 		final int numberOfDeaths = plugin.getConfigManager().numberOfDeathsWhenSearchingForGringding;
-		if (MinecraftMob.getMinecraftMobType(killed) == MinecraftMob.ZombiePigman) {
+		if (MobType.getMinecraftMobType(killed) == MobType.ZombiePigman) {
 			if (killed.getLastDamageCause().getCause() == DamageCause.FALL) {
 				Area detectedGrindingArea = getGrindingArea(killed.getLocation());
 				if (detectedGrindingArea == null) {
@@ -206,7 +206,7 @@ public class GrindingManager implements Listener {
 		final long seconds = plugin.getConfigManager().secondsToSearchForGrindingOnEndermanFarms;
 		final double killRadius = plugin.getConfigManager().rangeToSearchForGrindingOnEndermanFarms;
 		final int numberOfDeaths = plugin.getConfigManager().numberOfDeathsWhenSearchingForGringdingOnEndermanFarms;
-		if (MinecraftMob.getMinecraftMobType(killed) == MinecraftMob.Enderman) {
+		if (MobType.getMinecraftMobType(killed) == MobType.Enderman) {
 			if (killed.getLastDamageCause().getCause() == DamageCause.VOID) {
 				Area detectedGrindingArea = getGrindingArea(killed.getLocation());
 				if (detectedGrindingArea == null) {
@@ -261,7 +261,7 @@ public class GrindingManager implements Listener {
 		final long seconds = plugin.getConfigManager().secondsToSearchForGrindingOnOtherFarms;
 		final double killRadius = plugin.getConfigManager().rangeToSearchForGrindingOnOtherFarms;
 		final int numberOfDeaths = plugin.getConfigManager().numberOfDeathsWhenSearchingForGringdingOnOtherFarms;
-		if (MinecraftMob.getMinecraftMobType(killed) == MinecraftMob.ZombiePigman) {
+		if (MobType.getMinecraftMobType(killed) == MobType.ZombiePigman) {
 			if (killed.getLastDamageCause().getCause() == DamageCause.FALL) {
 				Area detectedGrindingArea = getGrindingArea(killed.getLocation());
 				if (detectedGrindingArea == null) {

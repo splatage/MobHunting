@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.server.Servers;
 
 public abstract class AbstractSkullAchievement implements Achievement {
 

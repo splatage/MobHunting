@@ -15,9 +15,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.rewards.CustomItems;
-import one.lindegaard.MobHunting.rewards.Reward;
 
 public class BossShopCompat {
 
@@ -72,9 +73,9 @@ public class BossShopCompat {
 		plugin.getMessages().debug("test3");
 		BSBuy sell = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, 1, 10, "bought bag of gold", 4, null);
 
-		UUID uuid = UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID);
 		ItemStack is = new CustomItems().getCustomtexture(
-				plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(), 10, uuid, UUID.randomUUID(), uuid,
+				plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(), 10, RewardType.BAGOFGOLD,
+				UUID.fromString(RewardType.BAGOFGOLD.getUUID()),
 				plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 				plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 

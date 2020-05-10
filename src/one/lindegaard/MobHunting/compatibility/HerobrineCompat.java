@@ -24,7 +24,6 @@ import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
 public class HerobrineCompat implements Listener {
 
@@ -126,9 +125,9 @@ public class HerobrineCompat implements Listener {
 	}
 
 	public static int getProgressAchievementLevel1(String mobtype) {
-		MinecraftMob mob = MinecraftMob.valueOf(mobtype);
+		MobType mob = MobType.valueOf(mobtype);
 		if (mob != null)
-			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
+			return 100;//MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
 		else
 			return 100;
 	}

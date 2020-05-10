@@ -17,7 +17,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
@@ -27,7 +28,6 @@ import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
 import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
 import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.storage.AchievementStore;
 import one.lindegaard.MobHunting.storage.IDataCallback;
@@ -126,7 +126,7 @@ public class AchievementManager implements Listener {
 		if (SmartGiantsCompat.isSupported())
 			registerAchievement(new DavidAndGoliath(plugin));
 
-		for (MinecraftMob type : MinecraftMob.values()) {
+		for (MobType type : MobType.values()) {
 			ExtendedMob extendedMob = new ExtendedMob(MobPlugin.Minecraft, type.name());
 			registerAchievement(new BasicHuntAchievement(plugin, extendedMob));
 			registerAchievement(new SecondHuntAchievement(plugin, extendedMob));
@@ -216,7 +216,7 @@ public class AchievementManager implements Listener {
 		}
 
 		if (InfernalMobsCompat.isSupported()) {
-			for (MinecraftMob type : MinecraftMob.values()) {
+			for (MobType type : MobType.values()) {
 				ExtendedMob extendedMob = new ExtendedMob(MobPlugin.InfernalMobs, type.name());
 				registerAchievement(new BasicHuntAchievement(plugin, extendedMob));
 				registerAchievement(new SecondHuntAchievement(plugin, extendedMob));

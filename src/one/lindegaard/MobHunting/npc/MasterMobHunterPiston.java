@@ -6,7 +6,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.material.PistonBaseMaterial;
 import org.bukkit.material.PistonExtensionMaterial;
 
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.server.Servers;
 
 public class MasterMobHunterPiston {
 

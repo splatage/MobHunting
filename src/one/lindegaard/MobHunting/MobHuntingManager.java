@@ -3,9 +3,10 @@ package one.lindegaard.MobHunting;
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.BagOfGold.PlayerBalance;
 import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.Materials.Materials;
-import one.lindegaard.Core.Messages.MessageType;
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.materials.Materials;
+import one.lindegaard.Core.messages.MessageType;
+import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.server.Servers;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
 import one.lindegaard.MobHunting.compatibility.*;
@@ -14,7 +15,6 @@ import one.lindegaard.MobHunting.events.MobHuntEnableCheckEvent;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
 import one.lindegaard.MobHunting.grinding.Area;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.modifier.*;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderData;
 import one.lindegaard.MobHunting.rewards.CustomItems;
@@ -1873,7 +1873,8 @@ public class MobHuntingManager implements Listener {
 						try {
 							commandCmd = cmd.getOrDefault("cmd", "");
 						} catch (Exception e1) {
-							plugin.getMessages().debug("ERROR in config.yml. Could not read cmd for %s. 'cmd' must be a String or ''",
+							plugin.getMessages().debug(
+									"ERROR in config.yml. Could not read cmd for %s. 'cmd' must be a String or ''",
 									mob.getMobName());
 						}
 						if (commandCmd != null) {
@@ -1974,8 +1975,8 @@ public class MobHuntingManager implements Listener {
 		if (plugin.getRewardManager().getHeadDropHead(killed)) {
 			double random = plugin.mRand.nextDouble();
 			if (random < plugin.getRewardManager().getHeadDropChance(killed)) {
-				MinecraftMob minecraftMob = MinecraftMob.getMinecraftMobType(killed);
-				if (minecraftMob == MinecraftMob.PvpPlayer) {
+				MobType minecraftMob = MobType.getMinecraftMobType(killed);
+				if (minecraftMob == MobType.PvpPlayer) {
 					ItemStack head = new CustomItems().getPlayerHead(killed.getUniqueId(), killed.getName(), 1,
 							plugin.getRewardManager().getHeadValue(killed));
 					player.getWorld().dropItem(killed.getLocation(), head);

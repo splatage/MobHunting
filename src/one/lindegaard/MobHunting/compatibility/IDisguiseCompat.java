@@ -7,7 +7,7 @@ import java.util.Set;
 import de.robingrether.idisguise.api.*;
 import de.robingrether.idisguise.disguise.*;
 import de.robingrether.idisguise.disguise.DisguiseType;
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.server.Servers;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 

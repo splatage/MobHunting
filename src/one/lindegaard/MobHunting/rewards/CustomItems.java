@@ -22,13 +22,16 @@ import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Strings;
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.server.Servers;
 import one.lindegaard.Core.shared.Skins;
 import one.lindegaard.Core.rewards.CoreCustomItems;
+import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.PlayerSettings;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
 public class CustomItems {
 
@@ -101,9 +104,8 @@ public class CustomItems {
 				plugin.getMessages().debug("%s using skin from database", offlinePlayer.getName());
 		}
 
-		skull = new ItemStack(
-				getCustomtexture(offlinePlayer.getName(), money, UUID.fromString(Reward.MH_REWARD_KILLED_UUID),
-						UUID.randomUUID(), uuid, ps.getTexture(), ps.getSignature()));
+		skull = new ItemStack(getCustomtexture(offlinePlayer.getName(), money, RewardType.KILLER, uuid, ps.getTexture(),
+				ps.getSignature()));
 
 		skull.setAmount(amount);
 		return skull;
@@ -138,12 +140,10 @@ public class CustomItems {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(amount);
 		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
 		skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + name,
-				"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money),
-				"Hidden(2):" + Reward.MH_REWARD_KILLED_UUID,
+				"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + RewardType.KILLED,
 				money == 0 ? "Hidden(3):" : "Hidden(3):" + UUID.randomUUID(), "Hidden(4):" + uuid,
-				"Hidden(5):"
-						+ Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + Reward.MH_REWARD_KILLED_UUID),
-				plugin.getMessages().getString("mobhunting.reward.lore"))));
+				"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + RewardType.KILLED),
+				Core.getMessages().getString("core.reward.lore"))));
 		if (Bukkit.getOfflinePlayer(uuid) != null)
 			skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
 		else
@@ -171,8 +171,8 @@ public class CustomItems {
 	 * @param money
 	 * @return ItemStack with custom texture.
 	 */
-	public ItemStack getCustomtexture(String mDisplayName, double money, UUID mRewardType, UUID uniqueRewardUuid,
-			UUID skinUuid, String mTextureValue, String mTextureSignature) {
+	public ItemStack getCustomtexture(String mDisplayName, double money, RewardType mRewardType, UUID skinUuid,
+			String mTextureValue, String mTextureSignature) {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(1);
 		if (mTextureSignature.isEmpty() || mTextureValue.isEmpty())
 			return skull;
@@ -200,17 +200,17 @@ public class CustomItems {
 		} catch (IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		if (mRewardType.equals(UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID)))
+		if (mRewardType == RewardType.BAGOFGOLD)
 			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + mDisplayName,
-					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mRewardType,
-					money == 0 ? "Hidden(3):" : "Hidden(3):" + uniqueRewardUuid, "Hidden(4):" + skinUuid,
-					"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mRewardType))));
+					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mRewardType.getType(),
+					"Hidden(4):" + skinUuid, "Hidden(5):"
+							+ Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mRewardType.getType()))));
 		else
 			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + mDisplayName,
-					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mRewardType,
-					money == 0 ? "Hidden(3):" : "Hidden(3):" + uniqueRewardUuid, "Hidden(4):" + skinUuid,
-					"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mRewardType),
-					plugin.getMessages().getString("mobhunting.reward.lore"))));
+					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mRewardType.getType(),
+					"Hidden(4):" + skinUuid,
+					"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mRewardType.getType()),
+					Core.getMessages().getString("core.reward.lore"))));
 		ChatColor color = ChatColor.GOLD;
 		try {
 			color = ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor.toUpperCase());
@@ -227,25 +227,25 @@ public class CustomItems {
 		return skull;
 	}
 
-	public ItemStack getCustomHead(MinecraftMob minecraftMob, String name, int amount, double money, UUID skinUUID) {
+	public ItemStack getCustomHead(MobType minecraftMob, String name, int amount, double money, UUID skinUUID) {
 		ItemStack skull;
 		switch (minecraftMob) {
 		case Skeleton:
 			skull = CoreCustomItems.getDefaultSkeletonHead(amount);
-			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
-					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
+			skull = Reward.setDisplayNameAndHiddenLores(skull,
+					new Reward(minecraftMob.getFriendlyName(), money, RewardType.KILLED, skinUUID));
 			break;
 
 		case WitherSkeleton:
 			skull = CoreCustomItems.getDefaultWitherSkeletonHead(amount);
-			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
-					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
+			skull = Reward.setDisplayNameAndHiddenLores(skull,
+					new Reward(minecraftMob.getFriendlyName(), money, RewardType.KILLED, skinUUID));
 			break;
 
 		case Zombie:
 			skull = CoreCustomItems.getDefaultZombieHead(amount);
-			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
-					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
+			skull = Reward.setDisplayNameAndHiddenLores(skull,
+					new Reward(minecraftMob.getFriendlyName(), money, RewardType.KILLED, skinUUID));
 			break;
 
 		case PvpPlayer:
@@ -254,19 +254,19 @@ public class CustomItems {
 
 		case Creeper:
 			skull = CoreCustomItems.getDefaultCreeperHead(amount);
-			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
-					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
+			skull = Reward.setDisplayNameAndHiddenLores(skull,
+					new Reward(minecraftMob.getFriendlyName(), money, RewardType.KILLED, skinUUID));
 			break;
 
 		case EnderDragon:
 			skull = CoreCustomItems.getDefaultEnderDragonHead(amount);
-			skull = Reward.setDisplayNameAndHiddenLores(skull, new Reward(minecraftMob.getFriendlyName(), money,
-					UUID.fromString(Reward.MH_REWARD_KILLED_UUID), UUID.randomUUID(), skinUUID));
+			skull = Reward.setDisplayNameAndHiddenLores(skull,
+					new Reward(minecraftMob.getFriendlyName(), money, RewardType.KILLED, skinUUID));
 			break;
 
 		default:
-			ItemStack is = new ItemStack(getCustomtexture(name, money, UUID.fromString(Reward.MH_REWARD_KILLED_UUID),
-					UUID.randomUUID(), skinUUID, minecraftMob.getTextureValue(), minecraftMob.getTextureSignature()));
+			ItemStack is = new ItemStack(getCustomtexture(name, money, RewardType.KILLED, skinUUID,
+					minecraftMob.getTextureValue(), minecraftMob.getTextureSignature()));
 			is.setAmount(amount);
 			return is;
 		}

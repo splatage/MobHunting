@@ -16,10 +16,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.rewards.CustomItems;
-import one.lindegaard.MobHunting.rewards.Reward;
 
 public class HeadCommand implements ICommand, Listener {
 
@@ -109,11 +110,11 @@ public class HeadCommand implements ICommand, Listener {
 				}
 
 				// get MobType / PlayerName
-				MinecraftMob mob = MinecraftMob.getMinecraftMobType(args[2]);
+				MobType mob = MobType.getMinecraftMobType(args[2]);
 				if (mob == null) {
 					offlinePlayer = Bukkit.getOfflinePlayer(args[2]);
 					if (offlinePlayer != null) {
-						mob = MinecraftMob.PvpPlayer;
+						mob = MobType.PvpPlayer;
 					} else {
 						plugin.getMessages().senderSendMessage(sender, plugin.getMessages()
 								.getString("mobhunting.commands.head.unknown_name", "playername", args[2]));
@@ -124,7 +125,7 @@ public class HeadCommand implements ICommand, Listener {
 				// if (args.length >= 4) {
 				// displayName = args[3].replace("_", " ");
 				// } else {
-				if (mob != MinecraftMob.PvpPlayer)
+				if (mob != MobType.PvpPlayer)
 					displayName = mob.getFriendlyName().replace("_", " ");
 				else
 					displayName = offlinePlayer.getName();
@@ -148,7 +149,7 @@ public class HeadCommand implements ICommand, Listener {
 
 				// Use GameProfile
 				ItemStack head;
-				if (mob == MinecraftMob.PvpPlayer)
+				if (mob == MobType.PvpPlayer)
 					head = customItems.getPlayerHead(offlinePlayer.getUniqueId(), displayName, amount,
 							plugin.getConfigManager().getHeadPrize(mob));
 				else
@@ -256,10 +257,10 @@ public class HeadCommand implements ICommand, Listener {
 			if (sender.hasPermission("mobhunting.head.drop")) {
 
 				// /mh head drop
-				MinecraftMob mob = MinecraftMob.getMinecraftMobType(args[1]);
+				MobType mob = MobType.getMinecraftMobType(args[1]);
 
 				if (mob == null && Bukkit.getServer().getOfflinePlayer(args[1]).getName().equalsIgnoreCase(args[1]))
-					mob = MinecraftMob.PvpPlayer;
+					mob = MobType.PvpPlayer;
 
 				if (mob != null) {
 					double money = plugin.getConfigManager().getHeadPrize(mob);
@@ -267,7 +268,7 @@ public class HeadCommand implements ICommand, Listener {
 					if (args.length == 2) {
 						Player player = (Player) sender;
 						Location location = Tools.getTargetBlock(player, 20).getLocation();
-						if (mob == MinecraftMob.PvpPlayer) {
+						if (mob == MobType.PvpPlayer) {
 							OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
 							player.getWorld().dropItem(location,
 									customItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
@@ -280,7 +281,7 @@ public class HeadCommand implements ICommand, Listener {
 							OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
 							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[2]));
 							Location location = Tools.getTargetBlock(player, 3).getLocation();
-							if (mob == MinecraftMob.PvpPlayer)
+							if (mob == MobType.PvpPlayer)
 								player.getWorld().dropItem(location,
 										customItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
 							else
@@ -304,17 +305,17 @@ public class HeadCommand implements ICommand, Listener {
 						} else
 							return false;
 						Location location = new Location(world, xpos, ypos, zpos);
-						if (mob == MinecraftMob.PvpPlayer) {
+						if (mob == MobType.PvpPlayer) {
 							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[1]));
 							ItemStack head = customItems.getCustomHead(mob, args[1], 1, money, player.getUniqueId());
 							head = Reward.setDisplayNameAndHiddenLores(head, new Reward(args[1], money,
-									player.getUniqueId(), player.getUniqueId(), player.getUniqueId()));
+									RewardType.KILLER, player.getUniqueId()));
 							world.dropItem(location, head);
 						} else {
 							ItemStack head = customItems.getCustomHead(mob, mob.getFriendlyName(), 1, money,
 									mob.getPlayerUUID());
 							head = Reward.setDisplayNameAndHiddenLores(head,
-									new Reward(mob.getFriendlyName(), money, mob.getPlayerUUID(), UUID.randomUUID(),
+									new Reward(mob.getFriendlyName(), money, RewardType.KILLED, 
 											mob.getPlayerUUID()));
 							world.dropItem(location, head);
 						}
@@ -331,7 +332,7 @@ public class HeadCommand implements ICommand, Listener {
 			}
 			return true;
 		}
-		// show help
+		// show helpMinecraftMob
 		return false;
 	}
 
@@ -349,12 +350,12 @@ public class HeadCommand implements ICommand, Listener {
 			for (Player player : Bukkit.getOnlinePlayers())
 				items.add(ChatColor.stripColor(player.getName()));
 		} else if ((args.length == 3 && args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("spawn"))) {
-			for (MinecraftMob mob : MinecraftMob.values())
+			for (MobType mob : MobType.values())
 				items.add(ChatColor.stripColor(mob.getFriendlyName().replace(" ", "_")));
 			for (Player player : Bukkit.getOnlinePlayers())
 				items.add(ChatColor.stripColor(player.getName()));
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("drop")) {
-			for (MinecraftMob mob : MinecraftMob.values())
+			for (MobType mob : MobType.values())
 				items.add(ChatColor.stripColor(mob.getFriendlyName().replace(" ", "_")));
 			for (Player player : Bukkit.getOnlinePlayers())
 				items.add(ChatColor.stripColor(player.getName()));

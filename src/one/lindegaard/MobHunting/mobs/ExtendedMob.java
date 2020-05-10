@@ -8,6 +8,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
 import net.citizensnpcs.api.npc.NPC;
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
@@ -19,6 +20,7 @@ import one.lindegaard.MobHunting.compatibility.MysteriousHalloweenCompat;
 import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
 import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
 import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
+import one.lindegaard.MobHunting.rewards.CustomItems;
 
 public class ExtendedMob {
 
@@ -154,7 +156,7 @@ public class ExtendedMob {
 	public int getProgressAchievementLevel1() {
 		switch (mobPlugin) {
 		case Minecraft:
-			MinecraftMob mob = MinecraftMob.getMinecraftMobType(mobtype);
+			MobType mob = MobType.getMinecraftMobType(mobtype);
 			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
 		case MythicMobs:
 			return MythicMobsCompat.getProgressAchievementLevel1(mobtype);
@@ -192,8 +194,9 @@ public class ExtendedMob {
 	public ItemStack getInventoryAchivementItem(String name, int amount, int money) {
 		switch (mobPlugin) {
 		case Minecraft:
-			MinecraftMob mob = MinecraftMob.getMinecraftMobType(name);
-			return mob.getCustomHead(name, amount, money);
+			MobType mob = MobType.getMinecraftMobType(name);
+			
+			return new CustomItems().getCustomHead(mob,name, amount, money, mob.getPlayerUUID());
 		default:
 			return new ItemStack(Material.IRON_INGOT, amount);
 		}

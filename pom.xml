@@ -21,7 +21,7 @@
 
 	<properties>
 		<mobhunting-core.version>0.2.5-SNAPSHOT</mobhunting-core.version>
-		<bagofgold.version>3.0.0-SNAPSHOT</bagofgold.version>
+		<bagofgold.version>3.0.0-SNAPSHOT-B414</bagofgold.version>
 	</properties>
 
 	<issueManagement>
@@ -242,7 +242,7 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<!-- PlacholdeAPI -->
+		<!-- PlaceholderAPI -->
 		<dependency>
 			<groupId>me.clip</groupId>
 			<artifactId>placeholderapi</artifactId>

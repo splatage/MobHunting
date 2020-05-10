@@ -24,12 +24,14 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 
-import one.lindegaard.Core.Messages.MessageType;
+import one.lindegaard.Core.messages.MessageType;
+import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.compatibility.FactionsHelperCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
 import one.lindegaard.MobHunting.events.MobHuntFishingEvent;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.modifier.DifficultyBonus;
 import one.lindegaard.MobHunting.modifier.FactionWarZoneBonus;
 import one.lindegaard.MobHunting.modifier.HappyHourBonus;
@@ -37,7 +39,6 @@ import one.lindegaard.MobHunting.modifier.IModifier;
 import one.lindegaard.MobHunting.modifier.RankBonus;
 import one.lindegaard.MobHunting.modifier.WorldBonus;
 import one.lindegaard.MobHunting.rewards.CustomItems;
-import one.lindegaard.MobHunting.rewards.Reward;
 import one.lindegaard.MobHunting.util.Misc;
 
 public class FishingManager implements Listener {
@@ -376,13 +377,12 @@ public class FishingManager implements Listener {
 				if (plugin.getRewardManager().getHeadDropHead(fish)) {
 					double random = plugin.mRand.nextDouble();
 					if (random < plugin.getRewardManager().getHeadDropChance(fish)) {
-						MinecraftMob minecraftMob = MinecraftMob.getMinecraftMobType(fish);
+						MobType minecraftMob = MobType.getMinecraftMobType(fish);
 						ItemStack head = new CustomItems().getCustomHead(minecraftMob, minecraftMob.getFriendlyName(),
 								1, plugin.getRewardManager().getHeadValue(fish), minecraftMob.getPlayerUUID());
-						head=Reward.setDisplayNameAndHiddenLores(head,
+						head = Reward.setDisplayNameAndHiddenLores(head,
 								new Reward(minecraftMob.getFriendlyName(), plugin.getRewardManager().getHeadValue(fish),
-										minecraftMob.getPlayerUUID(), minecraftMob.getPlayerUUID(),
-										minecraftMob.getPlayerUUID()));
+										RewardType.KILLED, minecraftMob.getPlayerUUID()));
 						fish.getWorld().dropItem(fish.getLocation(), head);
 						plugin.getMessages().debug("%s caught a %s and a head was dropped in the water",
 								player.getName(), fish.getName());

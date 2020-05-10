@@ -3,13 +3,13 @@ package one.lindegaard.MobHunting;
 import java.io.File;
 import java.util.Random;
 
-import one.lindegaard.BagOfGold.BagOfGold;
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.server.Servers;
 import one.lindegaard.Core.WorldGroupManager;
-import one.lindegaard.Core.Messages.MessageManager;
-import one.lindegaard.Core.Server.Servers;
 import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.Core.messages.MessageManager;
+import one.lindegaard.BagOfGold.BagOfGold;
+import one.lindegaard.Core.*;
+
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
 import one.lindegaard.MobHunting.commands.BountyCommand;

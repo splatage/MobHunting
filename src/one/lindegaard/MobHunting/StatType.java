@@ -8,8 +8,8 @@ import java.util.Map.Entry;
 import org.bukkit.ChatColor;
 
 import one.lindegaard.MobHunting.mobs.MobPlugin;
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
 public class StatType {
 	public static final StatType AchievementCount = new StatType("achievement_count", "stats.achievement_count");
@@ -43,21 +43,21 @@ public class StatType {
 
 		// Adding Vanilla Minecraft mobTypes
 		offset = offset + count;// MobPlugin.values().length * 3;
-		for (int i = 0; i < MinecraftMob.values().length; ++i) {
-			mValues[offset + i] = new StatType(MinecraftMob.values()[i] + "_kill", "stats.name-format", "mob",
-					"mobs." + MinecraftMob.values()[i].name() + ".name", "stattype", "stats.kills");
-			mValues[offset + i + MinecraftMob.values().length] = new StatType(MinecraftMob.values()[i] + "_assist",
-					"stats.name-format", "mob", "mobs." + MinecraftMob.values()[i].name() + ".name", "stattype",
+		for (int i = 0; i < MobType.values().length; ++i) {
+			mValues[offset + i] = new StatType(MobType.values()[i] + "_kill", "stats.name-format", "mob",
+					"mobs." + MobType.values()[i].name() + ".name", "stattype", "stats.kills");
+			mValues[offset + i + MobType.values().length] = new StatType(MobType.values()[i] + "_assist",
+					"stats.name-format", "mob", "mobs." + MobType.values()[i].name() + ".name", "stattype",
 					"stats.assists");
-			mValues[offset + i + 2 * MinecraftMob.values().length] = new StatType(MinecraftMob.values()[i] + "_cash",
-					"stats.name-format", "mob", "mobs." + MinecraftMob.values()[i].name() + ".name", "stattype",
+			mValues[offset + i + 2 * MobType.values().length] = new StatType(MobType.values()[i] + "_cash",
+					"stats.name-format", "mob", "mobs." + MobType.values()[i].name() + ".name", "stattype",
 					"stats.cashs");
 		}
 
 		// adding other mobtypes from other plugins
 		Iterator<Entry<Integer, ExtendedMob>> itr = MobHunting.getInstance().getExtendedMobManager().getAllMobs()
 				.entrySet().iterator();
-		offset = offset + MinecraftMob.values().length * 3;
+		offset = offset + MobType.values().length * 3;
 
 		while (itr.hasNext()) {
 			ExtendedMob mob = (ExtendedMob) itr.next().getValue();

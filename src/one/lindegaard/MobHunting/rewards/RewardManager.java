@@ -98,8 +98,12 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.Materials.Materials;
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.materials.Materials;
+import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.Core.rewards.RewardBlock;
+import one.lindegaard.Core.rewards.RewardType;
+import one.lindegaard.Core.server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.BossCompat;
@@ -114,7 +118,6 @@ import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
 import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
 import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.util.Misc;
 
 public class RewardManager {
@@ -126,8 +129,7 @@ public class RewardManager {
 	private PickupRewards pickupRewards;
 
 	private HashMap<Integer, Double> droppedMoney = new HashMap<Integer, Double>();
-	private HashMap<UUID, Reward> placedMoney_Reward = new HashMap<UUID, Reward>();
-	private HashMap<UUID, Location> placedMoney_Location = new HashMap<UUID, Location>();
+	private HashMap<Integer, RewardBlock> rewardBlocks = new HashMap<Integer, RewardBlock>();
 
 	public RewardManager(MobHunting plugin) {
 		this.plugin = plugin;
@@ -168,12 +170,19 @@ public class RewardManager {
 		return droppedMoney;
 	}
 
-	public HashMap<UUID, Reward> getReward() {
-		return placedMoney_Reward;
+	public HashMap<Integer, RewardBlock> getRewardBlocks() {
+		return rewardBlocks;
 	}
 
-	public HashMap<UUID, Location> getLocations() {
-		return placedMoney_Location;
+	public RewardBlock getRewardBlock(int n) {
+		return rewardBlocks.get(n);
+	}
+
+	public int getNextID() {
+		int max = 0;
+		for (int n : rewardBlocks.keySet())
+			max = Math.max(max, n);
+		return max + 1;
 	}
 
 	public boolean depositPlayer(OfflinePlayer offlinePlayer, double amount) {
@@ -277,23 +286,19 @@ public class RewardManager {
 												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
 														.trim()
 												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-										Misc.round(nextBag), UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
-										UUID.randomUUID(), UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
+										Misc.round(nextBag), RewardType.BAGOFGOLD,
+										UUID.fromString(RewardType.BAGOFGOLD.getUUID()),
 										plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 										plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 					else {
 						is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
-						is = Reward
-								.setDisplayNameAndHiddenLores(is,
-										new Reward(
-												BagOfGoldCompat.isSupported()
-														? BagOfGold.getAPI()
-																.getConfigManager().dropMoneyOnGroundSkullRewardName
-																		.trim()
-														: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName
-																.trim(),
-												Misc.round(nextBag), UUID.fromString(Reward.MH_REWARD_ITEM_UUID),
-												UUID.randomUUID(), null));
+						is = Reward.setDisplayNameAndHiddenLores(is,
+								new Reward(
+										BagOfGoldCompat.isSupported()
+												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
+														.trim()
+												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+										Misc.round(nextBag), RewardType.ITEM, null));
 					}
 					player.getInventory().addItem(is);
 				}
@@ -320,8 +325,7 @@ public class RewardManager {
 												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
 														.trim()
 												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-										saldo - toBeTaken, reward.getRewardType(), UUID.randomUUID(),
-										reward.getSkinUUID(),
+										saldo - toBeTaken, reward.getRewardType(), reward.getSkinUUID(),
 										plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 										plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 						player.getInventory().setItem(slot, is);
@@ -361,43 +365,41 @@ public class RewardManager {
 			}
 		} else {
 			ItemStack is;
-			UUID uuid = null, skinuuid = null;
+			UUID skinuuid = null;
+			RewardType rewardType;
 			if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("KILLED")) {
-				MinecraftMob mob = MinecraftMob.getMinecraftMobType(killedEntity);
-				uuid = UUID.fromString(Reward.MH_REWARD_KILLED_UUID);
+				MobType mob = MobType.getMinecraftMobType(killedEntity);
+				rewardType = RewardType.KILLED;
 				skinuuid = mob.getPlayerUUID();
 				is = new CustomItems().getCustomHead(mob, mob.getFriendlyName(), 1, money, skinuuid);
 
 			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL")) {
-				uuid = UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID);
-				skinuuid = uuid;
+				rewardType = RewardType.BAGOFGOLD;
+				skinuuid = UUID.fromString(RewardType.BAGOFGOLD.getUUID());
 				is = new CustomItems().getCustomtexture(
 						BagOfGoldCompat.isSupported()
 								? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
 								: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-						money, uuid, UUID.randomUUID(), skinuuid,
-						plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
+						money, rewardType, skinuuid, plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 						plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 
 			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("KILLER")) {
-				uuid = UUID.fromString(Reward.MH_REWARD_KILLER_UUID);
+				rewardType = RewardType.KILLER;
 				skinuuid = player.getUniqueId();
 				is = new CustomItems().getPlayerHead(player.getUniqueId(), player.getName(), 1, money);
 
 			} else { // ITEM
-				uuid = UUID.fromString(Reward.MH_REWARD_ITEM_UUID);
+				rewardType = RewardType.ITEM;
 				skinuuid = null;
 				is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
 			}
 
-			Reward reward = new Reward(
-					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-							+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName,
-					money, uuid, UUID.randomUUID(), skinuuid);
+			Reward reward = new Reward(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
+					+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName, money, rewardType, skinuuid);
 			is = Reward.setDisplayNameAndHiddenLores(is, reward);
 			item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), money);
-			item.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, new Reward(reward)));
+			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			item.setCustomName(reward.isItemReward() ? format(money)
 					: Reward.getReward(is).getDisplayName() + " (" + format(money) + ")");
 			item.setCustomNameVisible(true);
@@ -421,7 +423,7 @@ public class RewardManager {
 			Item item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else if (reward.isKilledHeadReward()) {
-			MinecraftMob mob = MinecraftMob.getMinecraftMobType(reward.getSkinUUID());
+			MobType mob = MobType.getMinecraftMobType(reward.getSkinUUID());
 			if (mob != null) {
 				ItemStack is = new CustomItems().getCustomHead(mob, reward.getDisplayName(), 1, reward.getMoney(),
 						reward.getSkinUUID());
@@ -432,7 +434,7 @@ public class RewardManager {
 			ItemStack is = new CustomItems().getPlayerHead(reward.getSkinUUID(), reward.getDisplayName(), 1,
 					reward.getMoney());
 			Item item = location.getWorld().dropItemNaturally(location, is);
-			item.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, new Reward(reward)));
+			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
@@ -442,18 +444,36 @@ public class RewardManager {
 
 	public void saveAllRewards() {
 		try {
-			config.options().header("This is the rewards placed as blocks. Do not edit this file manually!");
-			for (UUID uuid : placedMoney_Location.keySet())
-				if (placedMoney_Reward.containsKey(uuid)) {
-					Location location = placedMoney_Location.get(uuid);
-					if (location != null && Materials.isSkull(location.getBlock().getType())) {
-						Reward reward = placedMoney_Reward.get(uuid);
-						ConfigurationSection section = config.createSection(uuid.toString());
-						section.set("location", location);
-						reward.save(section);
-						config.save(file);
-					}
+			config.options().header(
+					"This is the rewards placed as blocks. Do not edit this file manually! If you remove a section the reward will loose its value on next server restart.");
+			for (Integer id : rewardBlocks.keySet()) {
+				Location location = rewardBlocks.get(id).getLocation();
+				if (location != null && Materials.isSkull(location.getBlock().getType())) {
+					Reward reward = rewardBlocks.get(id).getReward();
+					ConfigurationSection section = config.createSection(id.toString());
+					section.set("location", location.clone());
+					reward.save(section);
+					config.save(file);
 				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void saveReward(Integer id) {
+		try {
+			config.options().header("This is the rewards placed as blocks. Do not edit this file manually!");
+			if (rewardBlocks.containsKey(id)) {
+				Location location = rewardBlocks.get(id).getLocation();
+				if (location != null && Materials.isSkull(location.getBlock().getType())) {
+					Reward reward = rewardBlocks.get(id).getReward();
+					ConfigurationSection section = config.createSection(id.toString());
+					section.set("location", rewardBlocks.get(id).getLocation());
+					reward.save(section);
+					config.save(file);
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -481,13 +501,16 @@ public class RewardManager {
 				Reward reward = new Reward();
 				reward.read(section);
 				Location location = (Location) section.get("location");
-				if (location != null && Materials.isSkull(location.getBlock().getType())) {
-					location.getBlock().setMetadata(Reward.MH_REWARD_DATA,
-							new FixedMetadataValue(MobHunting.getInstance(), new Reward(reward)));
-					placedMoney_Reward.put(UUID.fromString(key), reward);
-					placedMoney_Location.put(UUID.fromString(key), location);
-					n++;
-				} else {
+				for (RewardBlock rb : rewardBlocks.values()) {
+					if (rb.equals(new RewardBlock(location, reward)))
+						continue;
+				}
+				n++;
+				reward.setUniqueID(n);
+				location.getBlock().setMetadata(Reward.MH_REWARD_DATA_NEW,
+						new FixedMetadataValue(plugin, new Reward(reward)));
+				rewardBlocks.put(n, new RewardBlock(location, reward));
+				if (Tools.isUUID(key)) {
 					deleted++;
 					config.set(key, null);
 				}
@@ -540,16 +563,18 @@ public class RewardManager {
 				Reward reward = new Reward();
 				reward.read(section);
 				Location location = (Location) section.get("location");
+				for (RewardBlock rb : rewardBlocks.values()) {
+					if (rb.equals(new RewardBlock(location, reward)))
+						continue;
+				}
 				if (location != null && Materials.isSkull(location.getBlock().getType())) {
-					location.getBlock().setMetadata(Reward.MH_REWARD_DATA,
-							new FixedMetadataValue(plugin, new Reward(reward)));
-					placedMoney_Reward.put(UUID.fromString(key), reward);
-					placedMoney_Location.put(UUID.fromString(key), location);
-					// saveReward(UUID.fromString(key));
 					n++;
+					reward.setUniqueID(n);
+					location.getBlock().setMetadata(Reward.MH_REWARD_DATA_NEW,
+							new FixedMetadataValue(plugin, new Reward(reward)));
+					rewardBlocks.put(n, new RewardBlock(location, reward));
 				} else {
-					// deleted++;
-					// config.set(key, null);
+					// BagOfGold should not delete keys in the MobHunting file.
 				}
 			}
 		} catch (InvalidConfigurationException e) {
@@ -596,11 +621,9 @@ public class RewardManager {
 					reward.getMoney());
 			block.getDrops().clear();
 			block.setType(Material.AIR);
-			block.removeMetadata(Reward.MH_REWARD_DATA, plugin);
-			if (placedMoney_Location.containsKey(reward.getUniqueUUID()))
-				placedMoney_Location.remove(reward.getUniqueUUID());
-			if (placedMoney_Reward.containsKey(reward.getUniqueUUID()))
-				placedMoney_Reward.remove(reward.getUniqueUUID());
+			block.removeMetadata(Reward.MH_REWARD_DATA_NEW, plugin);
+			if (rewardBlocks.containsKey(reward.getUniqueID()))
+				rewardBlocks.remove(reward.getUniqueID());
 		}
 	}
 

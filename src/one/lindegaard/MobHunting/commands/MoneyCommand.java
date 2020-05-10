@@ -2,11 +2,12 @@ package one.lindegaard.MobHunting.commands;
 
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.BossShopCompat;
 import one.lindegaard.MobHunting.rewards.CustomItems;
-import one.lindegaard.MobHunting.rewards.Reward;
 import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
@@ -485,7 +486,7 @@ public class MoneyCommand implements ICommand {
 									reward.setMoney(saldo - toBeSold);
 									is = customItems.getCustomtexture(
 											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-											saldo - toBeSold, reward.getRewardType(), UUID.randomUUID(),
+											saldo - toBeSold, reward.getRewardType(),
 											reward.getSkinUUID(),
 											plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 											plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
@@ -550,8 +551,8 @@ public class MoneyCommand implements ICommand {
 							ItemStack is = customItems.getCustomtexture(
 									plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 									Misc.floor(Double.valueOf(args[1])),
-									UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID), UUID.randomUUID(),
-									UUID.fromString(Reward.MH_REWARD_BAG_OF_GOLD_UUID),
+									RewardType.BAGOFGOLD,
+									UUID.fromString(RewardType.BAGOFGOLD.getUUID()),
 									plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
 									plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
 							player.getInventory().addItem(is);

@@ -14,8 +14,8 @@ import org.bukkit.plugin.Plugin;
 
 import io.hotmail.com.jacob_vejvoda.infernal_mobs.infernal_mobs;
 import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 
 public class InfernalMobsCompat implements Listener {
 
@@ -80,7 +80,7 @@ public class InfernalMobsCompat implements Listener {
 	// LOAD & SAVE
 	// **************************************************************************
 	public static void loadInfernalMobsData() {
-		for (MinecraftMob mob : MinecraftMob.values()) {
+		for (MobType mob : MobType.values()) {
 			String key = mob.getExtendedMobType();
 			mMobRewardData.put(key, 1.0);
 		}
@@ -101,7 +101,7 @@ public class InfernalMobsCompat implements Listener {
 	}
 
 	public static int getProgressAchievementLevel1(String mobtype) {
-		MinecraftMob mob = MinecraftMob.valueOf(mobtype);
+		MobType mob = MobType.valueOf(mobtype);
 		if (mob != null)
 			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
 		else

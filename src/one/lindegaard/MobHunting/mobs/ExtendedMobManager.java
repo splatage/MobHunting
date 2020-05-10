@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
@@ -210,7 +211,7 @@ public class ExtendedMobManager {
 			mobtype = SmartGiantsCompat.getSmartGiantsMobType(entity);
 		} else if (InfernalMobsCompat.isInfernalMob(entity)) {
 			mobPlugin = MobPlugin.InfernalMobs;
-			MinecraftMob mob = MinecraftMob.getMinecraftMobType(entity);
+			MobType mob = MobType.getMinecraftMobType(entity);
 			if (mob != null)
 				mobtype = mob.name();
 			else {
@@ -229,7 +230,7 @@ public class ExtendedMobManager {
 		} else {
 			// StatType
 			mobPlugin = MobPlugin.Minecraft;
-			MinecraftMob mob = MinecraftMob.getMinecraftMobType(entity);
+			MobType mob = MobType.getMinecraftMobType(entity);
 			if (mob != null)
 				mobtype = mob.name();
 			else

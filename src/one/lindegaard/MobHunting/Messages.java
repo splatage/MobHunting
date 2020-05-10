@@ -28,7 +28,7 @@ import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.Messages.MessageType;
+import one.lindegaard.Core.messages.MessageType;
 import one.lindegaard.MobHunting.compatibility.ActionAnnouncerCompat;
 import one.lindegaard.MobHunting.compatibility.ActionBarAPICompat;
 import one.lindegaard.MobHunting.compatibility.ActionbarCompat;

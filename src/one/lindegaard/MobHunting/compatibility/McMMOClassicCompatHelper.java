@@ -1,7 +1,7 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import com.gmail.nossr50.datatypes.skills.SkillType;
-import one.lindegaard.Core.Materials.Materials;
+import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.MobHunting.DamageInformation;
 
 public class McMMOClassicCompatHelper {

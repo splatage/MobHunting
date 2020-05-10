@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
+import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.PlayerSettings;
 import one.lindegaard.MobHunting.StatType;
@@ -18,7 +19,6 @@ import one.lindegaard.MobHunting.achievements.ProgressAchievement;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
-import one.lindegaard.MobHunting.mobs.MinecraftMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.storage.asynch.AchievementRetrieverTask;
 import one.lindegaard.MobHunting.storage.asynch.IDataStoreTask;
@@ -73,7 +73,7 @@ public class DataStoreManager {
 
 			if (bonusMob)
 				mWaiting.add(new StatStore(StatType.fromMobType(
-						new ExtendedMob(MinecraftMob.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), true), mob,
+						new ExtendedMob(MobType.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), true), mob,
 						player, 1, cash));
 		}
 	}
@@ -85,7 +85,7 @@ public class DataStoreManager {
 
 			if (bonusMob)
 				mWaiting.add(new StatStore(StatType.fromMobType(
-						new ExtendedMob(MinecraftMob.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), false), mob,
+						new ExtendedMob(MobType.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), false), mob,
 						player, 1, cash));
 		}
 	}
@@ -96,7 +96,7 @@ public class DataStoreManager {
 
 			if (bonusMob)
 				mWaiting.add(new StatStore(StatType.fromMobType(
-						new ExtendedMob(MinecraftMob.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), true), mob,
+						new ExtendedMob(MobType.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), true), mob,
 						player, 0, cash));
 		}
 	}

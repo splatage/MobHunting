@@ -44,8 +44,10 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.NotNull;
 import org.bukkit.event.block.Action;
 
-import one.lindegaard.Core.Materials.Materials;
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.materials.Materials;
+import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.Core.rewards.RewardBlock;
+import one.lindegaard.Core.server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
@@ -124,7 +126,7 @@ public class RewardListeners implements Listener {
 								: reward.getDisplayName())));
 			}
 			item.setCustomNameVisible(true);
-			item.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, reward));
+			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, reward));
 		}
 	}
 
@@ -158,7 +160,7 @@ public class RewardListeners implements Listener {
 			return;
 
 		Item item = event.getItem();
-		if (!item.hasMetadata(Reward.MH_REWARD_DATA))
+		if (!item.hasMetadata(Reward.MH_REWARD_DATA_NEW))
 			return;
 
 		if (plugin.getConfigManager().denyHoppersToPickUpMoney
@@ -363,7 +365,8 @@ public class RewardListeners implements Listener {
 					plugin.getMessages().learn(event.getPlayer(),
 							plugin.getMessages().getString("mobhunting.learn.no-duplication"));
 				}
-				reward.setUniqueId(UUID.randomUUID());
+				int id=plugin.getRewardManager().getNextID();
+				reward.setUniqueID(id);
 				plugin.getMessages().debug("%s placed a reward block: %s", player.getName(),
 						ChatColor.stripColor(reward.toString()));
 			} else {
@@ -371,9 +374,8 @@ public class RewardListeners implements Listener {
 						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(6)");
 				reward.setMoney(0);
 			}
-			block.setMetadata(Reward.MH_REWARD_DATA, new FixedMetadataValue(plugin, reward));
-			plugin.getRewardManager().getReward().put(reward.getUniqueUUID(), reward);
-			plugin.getRewardManager().getLocations().put(reward.getUniqueUUID(), block.getLocation());
+			block.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, reward));
+			plugin.getRewardManager().getRewardBlocks().put(reward.getUniqueID(), new RewardBlock (block.getLocation(),reward));
 		}
 	}
 

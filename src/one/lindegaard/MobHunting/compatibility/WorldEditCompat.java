@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import one.lindegaard.Core.Server.Servers;
+import one.lindegaard.Core.server.Servers;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
