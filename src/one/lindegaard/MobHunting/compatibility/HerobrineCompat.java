@@ -125,9 +125,9 @@ public class HerobrineCompat implements Listener {
 	}
 
 	public static int getProgressAchievementLevel1(String mobtype) {
-		MobType mob = MobType.valueOf(mobtype);
+		one.lindegaard.Core.mobs.MobType mob = one.lindegaard.Core.mobs.MobType.valueOf(mobtype);
 		if (mob != null)
-			return 100;//MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
+			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
 		else
 			return 100;
 	}

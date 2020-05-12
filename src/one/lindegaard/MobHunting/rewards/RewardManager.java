@@ -368,9 +368,9 @@ public class RewardManager {
 			UUID skinuuid = null;
 			RewardType rewardType;
 			if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("KILLED")) {
-				MobType mob = MobType.getMinecraftMobType(killedEntity);
+				MobType mob = MobType.getMobType(killedEntity);
 				rewardType = RewardType.KILLED;
-				skinuuid = mob.getPlayerUUID();
+				skinuuid = mob.getSkinUUID();
 				is = new CustomItems().getCustomHead(mob, mob.getFriendlyName(), 1, money, skinuuid);
 
 			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL")) {
@@ -423,7 +423,7 @@ public class RewardManager {
 			Item item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else if (reward.isKilledHeadReward()) {
-			MobType mob = MobType.getMinecraftMobType(reward.getSkinUUID());
+			MobType mob = MobType.getMobType(reward.getSkinUUID());
 			if (mob != null) {
 				ItemStack is = new CustomItems().getCustomHead(mob, reward.getDisplayName(), 1, reward.getMoney(),
 						reward.getSkinUUID());

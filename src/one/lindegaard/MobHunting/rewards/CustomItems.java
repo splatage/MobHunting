@@ -139,11 +139,11 @@ public class CustomItems {
 	public ItemStack getPlayerHeadOwningPlayer(UUID uuid, String name, int amount, double money) {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(amount);
 		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-		skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + name,
-				"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + RewardType.KILLED,
-				money == 0 ? "Hidden(3):" : "Hidden(3):" + UUID.randomUUID(), "Hidden(4):" + uuid,
-				"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + RewardType.KILLED),
-				Core.getMessages().getString("core.reward.lore"))));
+		skullMeta.setLore(new ArrayList<String>(
+				Arrays.asList("Hidden(0):" + name, "Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money),
+						"Hidden(2):" + RewardType.KILLED, "Hidden(4):" + uuid,
+						"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + RewardType.KILLED),
+						Core.getMessages().getString("core.reward.lore"))));
 		if (Bukkit.getOfflinePlayer(uuid) != null)
 			skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
 		else

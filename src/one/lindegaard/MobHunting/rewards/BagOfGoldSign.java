@@ -107,7 +107,7 @@ public class BagOfGoldSign implements Listener {
 								event.getPlayer().setItemInHand(new ItemStack(Material.AIR));
 							}
 						} else {
-							reward.setMoney(moneyInHand - moneyOnSign);
+							reward.setMoney((moneyInHand - moneyOnSign)/numberOfHeads);
 							ItemMeta im = event.getItem().getItemMeta();
 							im.setLore(reward.getHiddenLore());
 							String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype

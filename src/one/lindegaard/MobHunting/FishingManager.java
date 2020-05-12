@@ -377,12 +377,12 @@ public class FishingManager implements Listener {
 				if (plugin.getRewardManager().getHeadDropHead(fish)) {
 					double random = plugin.mRand.nextDouble();
 					if (random < plugin.getRewardManager().getHeadDropChance(fish)) {
-						MobType minecraftMob = MobType.getMinecraftMobType(fish);
+						MobType minecraftMob = MobType.getMobType(fish);
 						ItemStack head = new CustomItems().getCustomHead(minecraftMob, minecraftMob.getFriendlyName(),
-								1, plugin.getRewardManager().getHeadValue(fish), minecraftMob.getPlayerUUID());
+								1, plugin.getRewardManager().getHeadValue(fish), minecraftMob.getSkinUUID());
 						head = Reward.setDisplayNameAndHiddenLores(head,
 								new Reward(minecraftMob.getFriendlyName(), plugin.getRewardManager().getHeadValue(fish),
-										RewardType.KILLED, minecraftMob.getPlayerUUID()));
+										RewardType.KILLED, minecraftMob.getSkinUUID()));
 						fish.getWorld().dropItem(fish.getLocation(), head);
 						plugin.getMessages().debug("%s caught a %s and a head was dropped in the water",
 								player.getName(), fish.getName());

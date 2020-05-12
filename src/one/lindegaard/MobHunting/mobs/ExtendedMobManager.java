@@ -211,7 +211,7 @@ public class ExtendedMobManager {
 			mobtype = SmartGiantsCompat.getSmartGiantsMobType(entity);
 		} else if (InfernalMobsCompat.isInfernalMob(entity)) {
 			mobPlugin = MobPlugin.InfernalMobs;
-			MobType mob = MobType.getMinecraftMobType(entity);
+			MobType mob = MobType.getMobType(entity);
 			if (mob != null)
 				mobtype = mob.name();
 			else {
@@ -230,7 +230,7 @@ public class ExtendedMobManager {
 		} else {
 			// StatType
 			mobPlugin = MobPlugin.Minecraft;
-			MobType mob = MobType.getMinecraftMobType(entity);
+			MobType mob = MobType.getMobType(entity);
 			if (mob != null)
 				mobtype = mob.name();
 			else

@@ -110,7 +110,7 @@ public class HeadCommand implements ICommand, Listener {
 				}
 
 				// get MobType / PlayerName
-				MobType mob = MobType.getMinecraftMobType(args[2]);
+				MobType mob = MobType.getMobType(args[2]);
 				if (mob == null) {
 					offlinePlayer = Bukkit.getOfflinePlayer(args[2]);
 					if (offlinePlayer != null) {
@@ -154,7 +154,7 @@ public class HeadCommand implements ICommand, Listener {
 							plugin.getConfigManager().getHeadPrize(mob));
 				else
 					head = customItems.getCustomHead(mob, displayName, amount,
-							plugin.getConfigManager().getHeadPrize(mob), mob.getPlayerUUID());
+							plugin.getConfigManager().getHeadPrize(mob), mob.getSkinUUID());
 
 				((Player) toPlayer).getWorld().dropItem(((Player) toPlayer).getLocation(), head);
 
@@ -257,7 +257,7 @@ public class HeadCommand implements ICommand, Listener {
 			if (sender.hasPermission("mobhunting.head.drop")) {
 
 				// /mh head drop
-				MobType mob = MobType.getMinecraftMobType(args[1]);
+				MobType mob = MobType.getMobType(args[1]);
 
 				if (mob == null && Bukkit.getServer().getOfflinePlayer(args[1]).getName().equalsIgnoreCase(args[1]))
 					mob = MobType.PvpPlayer;
@@ -274,7 +274,7 @@ public class HeadCommand implements ICommand, Listener {
 									customItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
 						} else
 							player.getWorld().dropItem(location, customItems.getCustomHead(mob, mob.getFriendlyName(),
-									1, money, mob.getPlayerUUID()));
+									1, money, mob.getSkinUUID()));
 
 					} else if (args.length == 3) {
 						if (Bukkit.getServer().getOfflinePlayer(args[2]).isOnline()) {
@@ -313,10 +313,10 @@ public class HeadCommand implements ICommand, Listener {
 							world.dropItem(location, head);
 						} else {
 							ItemStack head = customItems.getCustomHead(mob, mob.getFriendlyName(), 1, money,
-									mob.getPlayerUUID());
+									mob.getSkinUUID());
 							head = Reward.setDisplayNameAndHiddenLores(head,
 									new Reward(mob.getFriendlyName(), money, RewardType.KILLED, 
-											mob.getPlayerUUID()));
+											mob.getSkinUUID()));
 							world.dropItem(location, head);
 						}
 					}

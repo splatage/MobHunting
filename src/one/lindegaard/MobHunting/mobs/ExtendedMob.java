@@ -156,7 +156,7 @@ public class ExtendedMob {
 	public int getProgressAchievementLevel1() {
 		switch (mobPlugin) {
 		case Minecraft:
-			MobType mob = MobType.getMinecraftMobType(mobtype);
+			MobType mob = MobType.getMobType(mobtype);
 			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
 		case MythicMobs:
 			return MythicMobsCompat.getProgressAchievementLevel1(mobtype);
@@ -194,9 +194,9 @@ public class ExtendedMob {
 	public ItemStack getInventoryAchivementItem(String name, int amount, int money) {
 		switch (mobPlugin) {
 		case Minecraft:
-			MobType mob = MobType.getMinecraftMobType(name);
+			MobType mob = MobType.getMobType(name);
 			
-			return new CustomItems().getCustomHead(mob,name, amount, money, mob.getPlayerUUID());
+			return new CustomItems().getCustomHead(mob,name, amount, money, mob.getSkinUUID());
 		default:
 			return new ItemStack(Material.IRON_INGOT, amount);
 		}

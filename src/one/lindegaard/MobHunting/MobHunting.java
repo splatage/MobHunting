@@ -91,7 +91,7 @@ public class MobHunting extends JavaPlugin {
 	private MessageManager mMessageManager;
 
 	private static Core mCore;
-	
+
 	private boolean mInitialized = false;
 
 	@Override
@@ -138,8 +138,9 @@ public class MobHunting extends JavaPlugin {
 			break;
 		}
 		mConfig.saveConfig();
-		
-		mCore = new Core(this);
+
+		if (!BagOfGoldCompat.isSupported())
+			mCore = new Core(this);
 
 		getMessages().debug("BagOfGold/MobHunting shared config file is ../BagOfGold/%s", mFileShared.getName());
 		int Shared_config_version = ConfigManager.getConfigVersion(mFile);
@@ -371,7 +372,7 @@ public class MobHunting extends JavaPlugin {
 		}, 20 * 5);
 
 		mRewardManager.loadAllStoredRewards();
-		
+
 		mInitialized = true;
 
 	}
@@ -603,7 +604,10 @@ public class MobHunting extends JavaPlugin {
 	}
 
 	public static Core getCore() {
-		return mCore;
+		if (BagOfGoldCompat.isSupported())
+			return BagOfGold.getAPI().getCore();
+		else
+			return mCore;
 	}
 
 }

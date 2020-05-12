@@ -1975,14 +1975,14 @@ public class MobHuntingManager implements Listener {
 		if (plugin.getRewardManager().getHeadDropHead(killed)) {
 			double random = plugin.mRand.nextDouble();
 			if (random < plugin.getRewardManager().getHeadDropChance(killed)) {
-				MobType minecraftMob = MobType.getMinecraftMobType(killed);
+				MobType minecraftMob = MobType.getMobType(killed);
 				if (minecraftMob == MobType.PvpPlayer) {
 					ItemStack head = new CustomItems().getPlayerHead(killed.getUniqueId(), killed.getName(), 1,
 							plugin.getRewardManager().getHeadValue(killed));
 					player.getWorld().dropItem(killed.getLocation(), head);
 				} else {
 					ItemStack head = new CustomItems().getCustomHead(minecraftMob, mob.getFriendlyName(), 1,
-							plugin.getRewardManager().getHeadValue(killed), minecraftMob.getPlayerUUID());
+							plugin.getRewardManager().getHeadValue(killed), minecraftMob.getSkinUUID());
 					player.getWorld().dropItem(killed.getLocation(), head);
 				}
 				plugin.getMessages().debug("%s killed a %s and a head was dropped (random: %s<%s config)",
