@@ -898,18 +898,4 @@ public class RewardListeners implements Listener {
 		}
 	}
 	
-	
-	/**
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onInventoryCreativeEvent(InventoryCreativeEvent event) {
-		Player player = (Player) event.getWhoClicked();
-		if (event.getSlotType()==SlotType.ARMOR) {
-			if (Reward.isReward(event.getCursor())) {
-				event.setCancelled(true);
-				plugin.getMessages().debug("%s tried to place a BagOfGold in ARMOR slot",player.getName());
-				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.rewards.no-helmet"));
-			}
-		}
-	}**/
-
 }

@@ -65,7 +65,7 @@ public class BlacklistAreaCommand implements ICommand {
 				plugin.getMessages().senderSendMessage(sender, ChatColor.GREEN
 						+ plugin.getMessages().getString("mobhunting.commands.blacklistarea.isblacklisted"));
 				Area area = plugin.getGrindingManager().getGrindingArea(loc);
-				plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
+				plugin.getGrindingManager().showGrindingArea((Player) sender, area, null);
 			} else
 				plugin.getMessages().senderSendMessage(sender, ChatColor.RED
 						+ plugin.getMessages().getString("mobhunting.commands.blacklistarea.notblacklisted"));
@@ -79,7 +79,7 @@ public class BlacklistAreaCommand implements ICommand {
 				plugin.getGrindingManager().blacklistArea(area);
 				plugin.getMessages().senderSendMessage(sender,
 						ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.blacklistarea.done"));
-				plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
+				plugin.getGrindingManager().showGrindingArea((Player) sender, area, null);
 			} else
 				return false;
 		} else

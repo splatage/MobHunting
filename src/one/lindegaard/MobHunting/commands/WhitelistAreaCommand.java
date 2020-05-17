@@ -65,8 +65,7 @@ public class WhitelistAreaCommand implements ICommand {
 				plugin.getMessages().senderSendMessage(sender, ChatColor.GREEN
 						+ plugin.getMessages().getString("mobhunting.commands.whitelistarea.iswhitelisted"));
 				Area area = plugin.getGrindingManager().getWhitelistArea(loc);
-				//if (ProtocolLibCompat.isSupported())
-					plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
+				plugin.getGrindingManager().showGrindingArea((Player) sender, area, null);
 			} else
 				plugin.getMessages().senderSendMessage(sender, ChatColor.RED
 						+ plugin.getMessages().getString("mobhunting.commands.whitelistarea.notwhitelisted"));
@@ -80,8 +79,7 @@ public class WhitelistAreaCommand implements ICommand {
 				plugin.getGrindingManager().whitelistArea(area);
 				plugin.getMessages().senderSendMessage(sender,
 						ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.whitelistarea.done"));
-				//if (ProtocolLibCompat.isSupported())
-					plugin.getGrindingManager().showGrindingArea((Player) sender, area, loc);
+				plugin.getGrindingManager().showGrindingArea((Player) sender, area, null);
 			} else
 				return false;
 		} else

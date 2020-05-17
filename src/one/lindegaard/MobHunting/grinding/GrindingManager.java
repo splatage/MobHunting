@@ -143,12 +143,15 @@ public class GrindingManager implements Listener {
 					Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
 					while (itr.hasNext()) {
 						GrindingInformation gi = itr.next().getValue();
+
+						if (!killed.getWorld().equals(gi.getKilled().getWorld()))
+							continue;
+
 						if (killed.getType() == EntityType.PIG_ZOMBIE && gi.getKilled().getType() == killed.getType()
 								&& gi.getKilled().getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-									if (killed.getWorld().equals(gi.getKilled().getWorld()) && killed.getLocation()
-											.distance(gi.getKilled().getLocation()) < killRadius) {
+									if (killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
 										n++;
 										// plugin.getMessages().debug("This was
 										// not a Nether
@@ -213,13 +216,21 @@ public class GrindingManager implements Listener {
 					Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
 					while (itr.hasNext()) {
 						GrindingInformation gi = itr.next().getValue();
+
+						if (!killed.getWorld().equals(gi.getKilled().getWorld()))
+							continue;
+
 						if (killed.getType() == EntityType.ENDERMAN && gi.getKilled().getType() == killed.getType()
 								&& gi.getKilled().getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-									if (killed.getLocation().clone().subtract(0, killed.getLocation().getY() + 65, 0)
-											.distance(gi.getKilled().getLocation().clone().subtract(0,
-													gi.getKilled().getLocation().getY() + 65, 0)) < killRadius) {
+									// if (killed.getLocation().clone().subtract(0, killed.getLocation().getY() +
+									// 65, 0)
+									// .distance(gi.getKilled().getLocation().clone().subtract(0,
+									// gi.getKilled().getLocation().getY() + 65, 0)) < killRadius) {
+									// n++;
+									// }
+									if (killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
 										n++;
 									}
 								} else {
@@ -268,11 +279,14 @@ public class GrindingManager implements Listener {
 					Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
 					while (itr.hasNext()) {
 						GrindingInformation gi = itr.next().getValue();
+
+						if (!killed.getWorld().equals(gi.getKilled().getWorld()))
+							continue;
+
 						if (gi.getKilled().getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-									if (killed.getWorld().equals(gi.getKilled().getWorld()) && killed.getLocation()
-											.distance(gi.getKilled().getLocation()) < killRadius) {
+									if (killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
 										n++;
 									}
 								} else {
@@ -449,9 +463,7 @@ public class GrindingManager implements Listener {
 			LinkedList<Area> areas = getKnownGrindingSpots(location);
 			for (Area area : areas) {
 				if (area.getCenter().getWorld().equals(location.getWorld())) {
-					if (area.getCenter().distance(location) < area.getRange()
-							|| area.getCenter().clone().subtract(0, area.getCenter().getY() + 65, 0).distance(
-									location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange()) {
+					if (area.getCenter().distance(location) < area.getRange()) {
 						return true;
 					}
 				}
@@ -466,9 +478,7 @@ public class GrindingManager implements Listener {
 			Area area = it.next();
 
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
-				if (area.getCenter().distance(location) < area.getRange()
-						|| area.getCenter().clone().subtract(0, area.getCenter().getY() + 65, 0)
-								.distance(location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange()) {
+				if (area.getCenter().distance(location) < area.getRange()) {
 					it.remove();
 				}
 			}
@@ -516,10 +526,9 @@ public class GrindingManager implements Listener {
 			Area area = it.next();
 
 			if (area.getCenter().getWorld().equals(location.getWorld())) {
-				if (area.getCenter().distance(location) < area.getRange()
-						|| area.getCenter().clone().subtract(0, area.getCenter().getY() + 65, 0)
-								.distance(location.clone().subtract(0, location.getY() + 65, 0)) < area.getRange())
+				if (area.getCenter().distance(location) < area.getRange()) {
 					it.remove();
+				}
 			}
 		}
 		if (areas.isEmpty())
@@ -701,11 +710,13 @@ public class GrindingManager implements Listener {
 	public void showGrindingArea(Player player, Area grindingArea, Location killedLocation) {
 
 		if (killedLocation != null) {
-			for (int n = 0; n < 10; n++) {
+			for (int n = 0; n < 5; n++) {
 				if (player != null & player.isOnline()) {
-					player.spawnParticle(Particle.CLOUD, killedLocation.getBlockX() + 0.5,
-							killedLocation.getBlockY() + 0.2 + 0.2 * n, killedLocation.getBlockZ() + 0.5, 5);
-					// , 0, 0, 0,0.01);
+					double y = killedLocation.clone().getBlockY() + 0.2 + 0.4 * n;
+					player.spawnParticle(Particle.SMOKE_NORMAL, killedLocation.getX(), y, killedLocation.getZ(), 5);
+					double y2 = grindingArea.getCenter().clone().getBlockY() + 0.2 + n * 0.4;
+					player.spawnParticle(Particle.HEART, grindingArea.getCenter().getX(), y2,
+							grindingArea.getCenter().getZ(), 1);
 				}
 			}
 		}
@@ -713,24 +724,20 @@ public class GrindingManager implements Listener {
 		// Grinding Area
 		if (grindingArea != null) {
 			// Show center of grinding area
-			for (int n = 0; n < 10; n++) {
-				player.spawnParticle(Particle.FLAME, grindingArea.getCenter().getBlockX() + 0.5,
-						grindingArea.getCenter().getBlockY() + 0.2 + 0.1 * n,
-						grindingArea.getCenter().getBlockZ() + 0.5, 5);// , 0, 0, 0,
-				// 0.01);
+			for (int n = 0; n < 5; n++) {
+				double y = grindingArea.getCenter().clone().getBlockY() + 0.2 + 0.4 * n;
+				player.spawnParticle(Particle.HEART, grindingArea.getCenter().getX(), y,
+						grindingArea.getCenter().getZ(), 1);
 			}
 
 			// Circle around the grinding area
 			for (int n = 0; n < 360; n = n + (int) (45 / plugin.getConfigManager().grindingDetectionRange)) {
-				player.spawnParticle(Particle.FLAME,
-						(double) grindingArea.getCenter().getBlockX() + 0.5
-								+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange,
-
-						grindingArea.getCenter().getBlockY() + 0.2,
-
-						(double) grindingArea.getCenter().getBlockZ() + 0.5
-								+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange,
-						5);// , 0, 0, 0, 0.01);
+				double x = grindingArea.getCenter().clone().getBlockX() + 0.5
+						+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange;
+				double y = grindingArea.getCenter().clone().getBlockY() + 0.2;
+				double z = grindingArea.getCenter().clone().getBlockZ() + 0.5
+						+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange;
+				player.spawnParticle(Particle.HEART, x, y, z, 1);
 			}
 		}
 

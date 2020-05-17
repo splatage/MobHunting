@@ -100,6 +100,7 @@ import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.Core.rewards.RewardBlock;
 import one.lindegaard.Core.rewards.RewardType;
@@ -280,7 +281,7 @@ public class RewardManager {
 					addedMoney = addedMoney + nextBag;
 					ItemStack is;
 					if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL"))
-						is = new CustomItems()
+						is = new CoreCustomItems()
 								.getCustomtexture(
 										BagOfGoldCompat.isSupported()
 												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
@@ -310,7 +311,7 @@ public class RewardManager {
 	public double removeBagOfGoldPlayer(Player player, double amount) {
 		double taken = 0;
 		double toBeTaken = Misc.floor(amount);
-		CustomItems customItems = new CustomItems();
+		CoreCustomItems customItems = new CoreCustomItems();
 		for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
 			ItemStack is = player.getInventory().getItem(slot);
 			if (Reward.isReward(is)) {
@@ -376,7 +377,7 @@ public class RewardManager {
 			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL")) {
 				rewardType = RewardType.BAGOFGOLD;
 				skinuuid = UUID.fromString(RewardType.BAGOFGOLD.getUUID());
-				is = new CustomItems().getCustomtexture(
+				is = new CoreCustomItems().getCustomtexture(
 						BagOfGoldCompat.isSupported()
 								? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
 								: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),

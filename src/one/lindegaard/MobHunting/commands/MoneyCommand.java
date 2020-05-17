@@ -2,12 +2,12 @@ package one.lindegaard.MobHunting.commands;
 
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.BossShopCompat;
-import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
@@ -114,8 +114,6 @@ public class MoneyCommand implements ICommand {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
-
-		CustomItems customItems = new CustomItems();
 
 		if (args.length == 1) {
 			// /mh money help
@@ -484,7 +482,7 @@ public class MoneyCommand implements ICommand {
 								double saldo = Misc.floor(reward.getMoney());
 								if (saldo > toBeSold) {
 									reward.setMoney(saldo - toBeSold);
-									is = customItems.getCustomtexture(
+									is = new CoreCustomItems().getCustomtexture(
 											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 											saldo - toBeSold, reward.getRewardType(),
 											reward.getSkinUUID(),
@@ -548,7 +546,7 @@ public class MoneyCommand implements ICommand {
 							plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null,
 									player.getLocation(), Misc.floor(Double.valueOf(args[1])));
 						else {
-							ItemStack is = customItems.getCustomtexture(
+							ItemStack is = new CoreCustomItems().getCustomtexture(
 									plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 									Misc.floor(Double.valueOf(args[1])),
 									RewardType.BAGOFGOLD,

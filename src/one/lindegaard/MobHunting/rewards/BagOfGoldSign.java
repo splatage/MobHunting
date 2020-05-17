@@ -1,6 +1,7 @@
 package one.lindegaard.MobHunting.rewards;
 
 import one.lindegaard.Core.materials.Materials;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.Core.server.Servers;
@@ -206,7 +207,7 @@ public class BagOfGoldSign implements Listener {
 													plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 													Misc.ceil(moneyOnSign), RewardType.ITEM, null));
 								} else
-									is = new CustomItems().getCustomtexture(
+									is = new CoreCustomItems().getCustomtexture(
 											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
 											Misc.ceil(moneyOnSign), RewardType.BAGOFGOLD, UUID.fromString(RewardType.BAGOFGOLD.getUUID()),
 											plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,

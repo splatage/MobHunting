@@ -104,7 +104,7 @@ public class CustomItems {
 				plugin.getMessages().debug("%s using skin from database", offlinePlayer.getName());
 		}
 
-		skull = new ItemStack(getCustomtexture(offlinePlayer.getName(), money, RewardType.KILLER, uuid, ps.getTexture(),
+		skull = new ItemStack(new CoreCustomItems().getCustomtexture(offlinePlayer.getName(), money, RewardType.KILLER, uuid, ps.getTexture(),
 				ps.getSignature()));
 
 		skull.setAmount(amount);
@@ -171,7 +171,7 @@ public class CustomItems {
 	 * @param money
 	 * @return ItemStack with custom texture.
 	 */
-	public ItemStack getCustomtexture(String mDisplayName, double money, RewardType mRewardType, UUID skinUuid,
+	/**public ItemStack getCustomtexture(String mDisplayName, double money, RewardType mRewardType, UUID skinUuid,
 			String mTextureValue, String mTextureSignature) {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(1);
 		if (mTextureSignature.isEmpty() || mTextureValue.isEmpty())
@@ -225,7 +225,7 @@ public class CustomItems {
 
 		skull.setItemMeta(skullMeta);
 		return skull;
-	}
+	}**/
 
 	public ItemStack getCustomHead(MobType minecraftMob, String name, int amount, double money, UUID skinUUID) {
 		ItemStack skull;
@@ -265,7 +265,7 @@ public class CustomItems {
 			break;
 
 		default:
-			ItemStack is = new ItemStack(getCustomtexture(name, money, RewardType.KILLED, skinUUID,
+			ItemStack is = new ItemStack(new CoreCustomItems().getCustomtexture(name, money, RewardType.KILLED, skinUUID,
 					minecraftMob.getTextureValue(), minecraftMob.getTextureSignature()));
 			is.setAmount(amount);
 			return is;
