@@ -7,9 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import one.lindegaard.Core.Core;
+import one.lindegaard.Core.PlayerSettings;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.PlayerSettings;
-import one.lindegaard.MobHunting.storage.DataStoreManager;
 
 public class MuteCommand implements ICommand {
 
@@ -71,8 +71,7 @@ public class MuteCommand implements ICommand {
 			togglePlayerMuteMode((Player) sender);
 			return true;
 		} else if (args.length == 1) {
-			DataStoreManager ds = plugin.getDataStoreManager();
-			Player player = (Player) ds.getPlayerByName(args[0]);
+			Player player = (Player) Core.getDataStoreManager().getPlayerByName(args[0]);
 			if (player != null) {
 				if (sender.hasPermission("mobhunting.mute.other") || sender instanceof ConsoleCommandSender) {
 					togglePlayerMuteMode(player);
@@ -90,9 +89,9 @@ public class MuteCommand implements ICommand {
 	}
 
 	private void togglePlayerMuteMode(Player player) {
-		PlayerSettings ps = plugin.getPlayerSettingsManager().getPlayerSettings(player);
+		PlayerSettings ps = Core.getPlayerSettingsManager().getPlayerSettings(player);
 		ps.setMuteMode(!ps.isMuted());
-		plugin.getPlayerSettingsManager().setPlayerSettings(player, ps);
+		Core.getPlayerSettingsManager().setPlayerSettings(player, ps);
 		if (ps.isMuted())
 			plugin.getMessages().playerActionBarMessageQueue(player,
 					plugin.getMessages().getString("mobhunting.commands.mute.muted", "player", player.getName()));

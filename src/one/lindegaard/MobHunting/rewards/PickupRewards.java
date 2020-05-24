@@ -1,5 +1,6 @@
 package one.lindegaard.MobHunting.rewards;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
@@ -49,22 +50,22 @@ public class PickupRewards {
 
 				if (reward.getMoney() == 0) {
 					plugin.getMessages().debug("%s picked up a %s (# of rewards left=%s)", player.getName(),
-							plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM") ? "ITEM"
+							Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM") ? "ITEM"
 									: reward.getDisplayName(),
 							plugin.getRewardManager().getDroppedMoney().size());
 				} else {
 					plugin.getMessages().debug(
 							"%s picked up a %s with a value:%s (# of rewards left=%s)(PickupRewards)", player.getName(),
-							plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM") ? "ITEM"
+							Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM") ? "ITEM"
 									: reward.getDisplayName(),
 							plugin.getRewardManager().format(Misc.round(reward.getMoney())),
 							plugin.getRewardManager().getDroppedMoney().size());
 					plugin.getMessages().playerActionBarMessageQueue(player,
 							plugin.getMessages().getString("mobhunting.moneypickup", "money",
 									plugin.getRewardManager().format(reward.getMoney()), "rewardname",
-									ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
+									ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
 											+ (reward.getDisplayName().isEmpty()
-													? plugin.getConfigManager().dropMoneyOnGroundSkullRewardName
+													? Core.getConfigManager().bagOfGoldName
 													: reward.getDisplayName())));
 
 				}

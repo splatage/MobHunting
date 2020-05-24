@@ -27,6 +27,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.messages.MessageType;
 import one.lindegaard.MobHunting.compatibility.ActionAnnouncerCompat;
@@ -442,7 +443,7 @@ public class Messages {
 		Iterator<Player> players = Tools.getOnlinePlayers().iterator();
 		while (players.hasNext()) {
 			Player player = players.next();
-			if (player.equals(except) || plugin.getPlayerSettingsManager().getPlayerSettings(player).isMuted())
+			if (player.equals(except) || Core.getPlayerSettingsManager().getPlayerSettings(player).isMuted())
 				continue;
 
 			if (plugin.getConfigManager().useActionBarforBroadcasts)
@@ -478,7 +479,7 @@ public class Messages {
 	 */
 	public void learn(Player player, String text, Object... args) {
 		if (player != null && !CitizensCompat.isNPC(player)
-				&& plugin.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode() && !isEmpty(text))
+				&& Core.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode() && !isEmpty(text))
 			playerBossbarMessage(player, text, args);
 	}
 

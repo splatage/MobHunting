@@ -17,6 +17,7 @@ import de.Keyle.MyPet.api.entity.MyPetBukkitEntity;
 import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent;
 import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent.Action;
 import de.Keyle.MyPet.api.event.MyPetPickupItemEvent;
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.MobHunting.MobHunting;
@@ -144,7 +145,7 @@ public class MyPetCompat implements Listener {
 			Reward reward = Reward.getReward(item);
 			MobHunting.getInstance().getMessages().playerActionBarMessageQueue(player,
 					MobHunting.getInstance().getMessages().getString("mobhunting.reward.mypet_pickup", "rewardname",
-							ChatColor.valueOf(MobHunting.getInstance().getConfigManager().dropMoneyOnGroundTextColor)
+							ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
 									+ reward.getDisplayName(),
 							"petname", pet.getPetName(), "money",
 							MobHunting.getInstance().getEconomyManager().format(reward.getMoney())));

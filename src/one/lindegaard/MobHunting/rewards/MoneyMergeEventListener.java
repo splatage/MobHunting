@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.MobHunting.MobHunting;
 
@@ -42,12 +43,12 @@ public class MoneyMergeEventListener implements Listener {
 						is2.setItemMeta(im);
 						is2.setAmount(1);
 						item2.setItemStack(is2);
-						String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
+						String displayName = Core.getConfigManager().rewardItemtype
 								.equalsIgnoreCase("ITEM") ? plugin.getRewardManager().format(reward2.getMoney())
 										: reward2.getDisplayName() + " ("
 												+ plugin.getRewardManager().format(reward2.getMoney()) + ")";
 						item2.setCustomName(
-								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + displayName);
+								ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + displayName);
 						item2.setCustomNameVisible(true);
 						item2.setMetadata(Reward.MH_REWARD_DATA_NEW,
 								new FixedMetadataValue(MobHunting.getInstance(), new Reward(reward2)));
@@ -60,12 +61,12 @@ public class MoneyMergeEventListener implements Listener {
 						is2.setItemMeta(im);
 						is2.setAmount(is2.getAmount());
 						item2.setItemStack(is2);
-						String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
+						String displayName = Core.getConfigManager().rewardItemtype
 								.equalsIgnoreCase("ITEM") ? plugin.getRewardManager().format(reward2.getMoney())
 										: reward2.getDisplayName() + " ("
 												+ plugin.getRewardManager().format(reward2.getMoney()) + ")";
 						item2.setCustomName(
-								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + displayName);
+								ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + displayName);
 						item2.setCustomNameVisible(true);
 						item2.setMetadata(Reward.MH_REWARD_DATA_NEW,
 								new FixedMetadataValue(MobHunting.getInstance(), new Reward(reward2)));

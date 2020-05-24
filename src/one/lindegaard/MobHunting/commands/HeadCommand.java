@@ -15,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.rewards.Reward;
@@ -182,14 +183,14 @@ public class HeadCommand implements ICommand, Listener {
 								displayName = displayName + args[i];
 						}
 						reward.setDisplayname(displayName);
-						displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
+						displayName = Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM")
 								? plugin.getRewardManager().format(reward.getMoney())
 								: (reward.getMoney() == 0 ? reward.getDisplayName()
 										: reward.getDisplayName() + " ("
 												+ plugin.getRewardManager().format(reward.getMoney()) + ")");
 						ItemMeta im = itemInHand.getItemMeta();
 						im.setDisplayName(
-								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + displayName);
+								ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + displayName);
 						im.setLore(reward.getHiddenLore());
 						itemInHand.setItemMeta(im);
 					} else {
@@ -225,7 +226,7 @@ public class HeadCommand implements ICommand, Listener {
 							return false;
 						}
 						reward.setMoney(money);
-						String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
+						String displayName = Core.getConfigManager().rewardItemtype
 								.equalsIgnoreCase("ITEM")
 										? plugin.getRewardManager().format(reward.getMoney())
 										: (reward.getMoney() == 0 ? reward.getDisplayName()
@@ -233,7 +234,7 @@ public class HeadCommand implements ICommand, Listener {
 														+ plugin.getRewardManager().format(reward.getMoney()) + ")");
 						ItemMeta im = itemInHand.getItemMeta();
 						im.setDisplayName(
-								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + displayName);
+								ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + displayName);
 						im.setLore(reward.getHiddenLore());
 						itemInHand.setItemMeta(im);
 					} else {

@@ -18,6 +18,9 @@ import org.bukkit.command.ConsoleCommandSender;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
+import one.lindegaard.Core.Core;
+import one.lindegaard.Core.storage.DataStoreException;
+import one.lindegaard.Core.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.bounty.Bounty;
@@ -84,24 +87,21 @@ public class MySQLDataStore extends DatabaseDataStore {
 		case SAVE_ACHIEVEMENTS:
 			mSaveAchievement = connection.prepareStatement("REPLACE INTO mh_Achievements VALUES(?,?,?,?);");
 			break;
-		case GET_PLAYER_SETTINGS:
-			mGetPlayerData = connection.prepareStatement("SELECT * FROM mh_Players WHERE UUID=?;");
-			break;
-		case UPDATE_PLAYER_SETTINGS:
-			mUpdatePlayerSettings = connection.prepareStatement(
-					"UPDATE mh_Players SET LEARNING_MODE=?,MUTE_MODE=?,TEXTURE=?,SIGNATURE=? WHERE UUID=?;");
-			break;
-		case INSERT_PLAYER_SETTINGS:
-			mInsertPlayerData = connection
-					.prepareStatement("INSERT INTO mh_Players (UUID,NAME,LEARNING_MODE,MUTE_MODE,TEXTURE,SIGNATURE) "
-							+ "VALUES(?,?,?,?,?,?);");
-			break;
-		case GET_PLAYER_UUID:
-			mGetPlayerUUID = connection.prepareStatement("SELECT UUID FROM mh_Players WHERE NAME=?;");
-			break;
-		case UPDATE_PLAYER_NAME:
-			mUpdatePlayerName = connection.prepareStatement("UPDATE mh_Players SET NAME=? WHERE UUID=?;");
-			break;
+		//case GET_PLAYER_SETTINGS:
+		//	mGetPlayerData = connection.prepareStatement("SELECT * FROM mh_Players WHERE UUID=?;");
+		//	break;
+		//case UPDATE_PLAYER_SETTINGS:
+		//	mUpdatePlayerSettings = connection.prepareStatement(
+		//			"UPDATE mh_Players SET LEARNING_MODE=?,MUTE_MODE=?,TEXTURE=?,SIGNATURE=? WHERE UUID=?;");
+		//	break;
+		//case INSERT_PLAYER_SETTINGS:
+		//	mInsertPlayerData = connection
+		//			.prepareStatement("INSERT INTO mh_Players (UUID,NAME,LEARNING_MODE,MUTE_MODE,TEXTURE,SIGNATURE) "
+		//					+ "VALUES(?,?,?,?,?,?);");
+		//	break;
+		//case GET_PLAYER_UUID:
+		//	mGetPlayerUUID = connection.prepareStatement("SELECT UUID FROM mh_Players WHERE NAME=?;");
+		//	break;
 		case GET_BOUNTIES:
 			mGetBounties = connection.prepareStatement(
 					"SELECT * FROM mh_Bounties where STATUS=0 AND (BOUNTYOWNER_ID=? OR WANTEDPLAYER_ID=? OR NOT NPC_ID=0);");
@@ -111,9 +111,6 @@ public class MySQLDataStore extends DatabaseDataStore {
 					+ "(MOBTYPE, BOUNTYOWNER_ID, WANTEDPLAYER_ID, NPC_ID, MOB_ID, WORLDGROUP, "
 					+ "CREATED_DATE, END_DATE, PRIZE, MESSAGE, STATUS) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?)"
 					+ " ON DUPLICATE KEY UPDATE CREATED_DATE=?, END_DATE=?, PRIZE=?, MESSAGE=?, STATUS=?");		
-			break;
-		case GET_PLAYER_BY_PLAYER_ID:
-			mGetPlayerByPlayerId = connection.prepareStatement("SELECT UUID FROM mh_Players WHERE PLAYER_ID=?;");
 			break;
 		case DELETE_BOUNTY:
 			mDeleteBounty = connection.prepareStatement(
@@ -276,7 +273,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				String column2 = "total_cash";
 				int amount = stat.getAmount();
 				double cash = Misc.round(stat.getCash());
-				int player_id = getPlayerId(stat.getPlayer());
+				int player_id = Core.getDataStoreManager().getPlayerId(stat.getPlayer());
 				statement.executeUpdate(String.format(Locale.US,
 						"INSERT INTO mh_Daily(ID, MOB_ID, PLAYER_ID, %1$s, %5$s)"
 								+ " VALUES(DATE_FORMAT(NOW(), '%%Y%%j'),%2$d,%3$d,%4$d,%6$f)"
@@ -290,6 +287,9 @@ public class MySQLDataStore extends DatabaseDataStore {
 		} catch (SQLException e) {
 			rollback(mConnection);
 			throw new DataStoreException(e);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -303,8 +303,8 @@ public class MySQLDataStore extends DatabaseDataStore {
 				for (Bounty bounty : bountyDataSet) {
 					if (bounty.getBountyOwner() == null)
 						plugin.getMessages().debug("RandomBounty to be inserted: %s", bounty.toString());
-					int bountyOwnerId = getPlayerId(bounty.getBountyOwner());
-					int wantedPlayerId = getPlayerId(bounty.getWantedPlayer());
+					int bountyOwnerId = Core.getDataStoreManager().getPlayerId(bounty.getBountyOwner());
+					int wantedPlayerId = Core.getDataStoreManager().getPlayerId(bounty.getWantedPlayer());
 					mInsertBounty.setString(1, bounty.getMobtype());
 					mInsertBounty.setInt(2, bountyOwnerId);
 					mInsertBounty.setInt(3, wantedPlayerId);
@@ -331,7 +331,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				mInsertBounty.close();
 				mConnection.commit();
 				mConnection.close();
-			} catch (SQLException e) {
+			} catch (SQLException | UserNotFoundException e) {
 				rollback(mConnection);
 				mConnection.close();
 				throw new DataStoreException(e);

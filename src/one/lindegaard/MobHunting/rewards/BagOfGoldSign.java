@@ -1,5 +1,6 @@
 package one.lindegaard.MobHunting.rewards;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.rewards.Reward;
@@ -111,11 +112,11 @@ public class BagOfGoldSign implements Listener {
 							reward.setMoney((moneyInHand - moneyOnSign)/numberOfHeads);
 							ItemMeta im = event.getItem().getItemMeta();
 							im.setLore(reward.getHiddenLore());
-							String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
+							String displayName = Core.getConfigManager().rewardItemtype
 									.equalsIgnoreCase("ITEM") ? plugin.getRewardManager().format(reward.getMoney())
 											: reward.getDisplayName() + " ("
 													+ plugin.getRewardManager().format(reward.getMoney()) + ")";
-							im.setDisplayName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
+							im.setDisplayName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
 									+ displayName);
 							event.getItem().setItemMeta(im);
 						}
@@ -124,17 +125,17 @@ public class BagOfGoldSign implements Listener {
 						plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
 								"mobhunting.bagofgoldsign.sold", "money", plugin.getEconomyManager().format(money),
 								"rewardname",
-								ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-										+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
-												? plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
+								ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+										+ (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM")
+												? Core.getConfigManager().bagOfGoldName.trim()
 												: reward.getDisplayName())));
 					} else {
 						plugin.getMessages().debug("Player does not hold a bag of gold in his hand");
 						plugin.getMessages().playerSendMessage(player,
 								plugin.getMessages().getString("mobhunting.bagofgoldsign.hold_reward_in_hand",
 										"rewardname",
-										ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-												+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()));
+										ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+												+ Core.getConfigManager().bagOfGoldName.trim()));
 					}
 
 					// BUY BagOfGold Sign
@@ -144,8 +145,8 @@ public class BagOfGoldSign implements Listener {
 						plugin.getMessages().playerSendMessage(player,
 								plugin.getMessages().getString("mobhunting.money.you_cant_sell_and_buy_bagofgold",
 										"itemname",
-										ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-												+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()));
+										ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+												+ Core.getConfigManager().bagOfGoldName.trim()));
 						return;
 					}
 					try {
@@ -171,14 +172,14 @@ public class BagOfGoldSign implements Listener {
 									Reward newReward = Reward.getReward(is);
 									newReward.setMoney(newReward.getMoney() + moneyOnSign);
 									im.setLore(newReward.getHiddenLore());
-									String displayName = plugin.getConfigManager().dropMoneyOnGroundItemtype
+									String displayName = Core.getConfigManager().rewardItemtype
 											.equalsIgnoreCase("ITEM")
 													? plugin.getRewardManager().format(newReward.getMoney())
 													: newReward.getDisplayName() + " ("
 															+ plugin.getRewardManager().format(newReward.getMoney())
 															+ ")";
 									im.setDisplayName(
-											ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
+											ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
 													+ displayName);
 									is.setItemMeta(im);
 									is.setAmount(1);
@@ -199,19 +200,19 @@ public class BagOfGoldSign implements Listener {
 										player.getLocation(), Misc.ceil(moneyOnSign));
 							else {
 								ItemStack is;
-								if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")) {
+								if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM")) {
 									is = Reward.setDisplayNameAndHiddenLores(
 											new ItemStack(
-													Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem)),
+													Material.valueOf(Core.getConfigManager().rewardItem)),
 											new Reward(
-													plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
+													Core.getConfigManager().bagOfGoldName.trim(),
 													Misc.ceil(moneyOnSign), RewardType.ITEM, null));
 								} else
-									is = new CoreCustomItems().getCustomtexture(
-											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-											Misc.ceil(moneyOnSign), RewardType.BAGOFGOLD, UUID.fromString(RewardType.BAGOFGOLD.getUUID()),
-											plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-											plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
+									is = new CoreCustomItems().getCustomtexture(new Reward(
+											Core.getConfigManager().bagOfGoldName.trim(),
+											Misc.ceil(moneyOnSign), RewardType.BAGOFGOLD, UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
+											Core.getConfigManager().skullTextureValue,
+											Core.getConfigManager().skullTextureSignature);
 								player.getInventory().addItem(is);
 								found = true;
 							}
@@ -224,8 +225,8 @@ public class BagOfGoldSign implements Listener {
 							plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
 									"mobhunting.bagofgoldsign.bought", "money",
 									plugin.getEconomyManager().format(moneyOnSign), "rewardname",
-									ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-											+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()));
+									ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+											+ Core.getConfigManager().bagOfGoldName.trim()));
 						}
 					} else {
 						plugin.getMessages().playerSendMessage(player,
@@ -326,7 +327,7 @@ public class BagOfGoldSign implements Listener {
 				}
 
 				event.setLine(0, plugin.getMessages().getString("mobhunting.bagofgoldsign.line1", "rewardname",
-						plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim()));
+						Core.getConfigManager().bagOfGoldName.trim()));
 				event.setLine(3, plugin.getMessages().getString("mobhunting.bagofgoldsign.line4.ok"));
 
 			} else {
@@ -364,7 +365,7 @@ public class BagOfGoldSign implements Listener {
 		if (Materials.isSign(block))
 			return ChatColor.stripColor(((Sign) block.getState()).getLine(0)).equalsIgnoreCase(
 					ChatColor.stripColor(plugin.getMessages().getString("mobhunting.bagofgoldsign.line1", "rewardname",
-							plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim())))
+							Core.getConfigManager().bagOfGoldName.trim())))
 					|| ChatColor.stripColor(((Sign) block.getState()).getLine(0)).equalsIgnoreCase("[bagofgold]");
 		return false;
 	}
@@ -372,7 +373,7 @@ public class BagOfGoldSign implements Listener {
 	public boolean isBagOfGoldSign(String line) {
 		return ChatColor.stripColor(line)
 				.equalsIgnoreCase(ChatColor.stripColor(plugin.getMessages().getString("mobhunting.bagofgoldsign.line1",
-						"rewardname", plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim())))
+						"rewardname", Core.getConfigManager().bagOfGoldName.trim())))
 				|| ChatColor.stripColor(line).equalsIgnoreCase("[bagofgold]");
 	}
 

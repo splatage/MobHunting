@@ -2,7 +2,9 @@ package one.lindegaard.MobHunting;
 
 import org.bukkit.OfflinePlayer;
 
-public class PlayerSettings {
+import one.lindegaard.Core.PlayerSettings;
+
+public class PlayerSettings_old {
 	private OfflinePlayer player;
 	private int playerId;
 	private boolean learning_mode = false;
@@ -10,19 +12,19 @@ public class PlayerSettings {
 	private String texture="";
 	private String signature="";
 
-	public PlayerSettings(OfflinePlayer player) {
+	public PlayerSettings_old(OfflinePlayer player) {
 		this.player = player;
 		this.setLearningMode(MobHunting.getInstance().getConfigManager().learningMode);
 		this.setMuteMode(false);
 	}
 
-	public PlayerSettings(OfflinePlayer player, boolean learning_mode, boolean mute) {
+	public PlayerSettings_old(OfflinePlayer player, boolean learning_mode, boolean mute) {
 		this.player = player;
 		this.setLearningMode(learning_mode);
 		this.setMuteMode(mute);
 	}
 	
-	public PlayerSettings(OfflinePlayer player, boolean learning_mode, boolean mute, String texture, String signature) {
+	public PlayerSettings_old(OfflinePlayer player, boolean learning_mode, boolean mute, String texture, String signature) {
 		this.player = player;
 		this.setLearningMode(learning_mode);
 		this.setMuteMode(mute);
@@ -30,7 +32,7 @@ public class PlayerSettings {
 		this.setSignature(signature);
 	}
 	
-	public PlayerSettings(OfflinePlayer player, PlayerSettings ps) {
+	public PlayerSettings_old(OfflinePlayer player, PlayerSettings ps) {
 		this.player = ps.getPlayer();
 		this.setLearningMode(ps.isLearningMode());
 		this.setMuteMode(ps.isMuted());

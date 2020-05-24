@@ -5,7 +5,6 @@ import org.bukkit.ChatColor;
 
 import net.citizensnpcs.api.CitizensAPI;
 import one.lindegaard.BagOfGold.BagOfGold;
-import one.lindegaard.BagOfGold.PlayerSettingsManager;
 import one.lindegaard.BagOfGold.bank.BankManager;
 import one.lindegaard.BagOfGold.storage.DataStoreManager;
 import one.lindegaard.Core.compatibility.CompatPlugin;
@@ -52,10 +51,6 @@ public class BagOfGoldCompat {
 
 	public String getBagOfGoldFormat() {
 		return BagOfGold.getInstance().getConfigManager().numberFormat;
-	}
-
-	public PlayerSettingsManager getPlayerSettingsManager() {
-		return BagOfGold.getInstance().getPlayerSettingsManager();
 	}
 
 	public DataStoreManager getDataStoreManager() {

@@ -11,8 +11,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
 import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.PlayerSettings;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.achievements.Achievement;
 import one.lindegaard.MobHunting.achievements.ProgressAchievement;
@@ -21,12 +21,11 @@ import one.lindegaard.MobHunting.bounty.BountyStatus;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.storage.asynch.AchievementRetrieverTask;
-import one.lindegaard.MobHunting.storage.asynch.IDataStoreTask;
-import one.lindegaard.MobHunting.storage.asynch.PlayerSettingsRetrieverTask;
 import one.lindegaard.MobHunting.storage.asynch.StatRetrieverTask;
 import one.lindegaard.MobHunting.storage.asynch.StoreTask;
 import one.lindegaard.MobHunting.storage.asynch.AchievementRetrieverTask.Mode;
 import one.lindegaard.MobHunting.storage.asynch.BountyRetrieverTask;
+import one.lindegaard.MobHunting.storage.asynch.IDataStoreTask;
 
 public class DataStoreManager {
 
@@ -146,70 +145,6 @@ public class DataStoreManager {
 		mTaskThread.addTask(new BountyRetrieverTask(plugin, mode, player, mWaiting), callback);
 	}
 
-	// *****************************************************************************
-	// PlayerSettings
-	// *****************************************************************************
-	public void requestPlayerSettings(OfflinePlayer player, IDataCallback<PlayerSettings> callback) {
-		mTaskThread.addTask(new PlayerSettingsRetrieverTask(player, mWaiting), callback);
-	}
-
-	/**
-	 * Update the playerSettings in the Database
-	 * 
-	 * @param offlinePlayer
-	 * @param learning_mode
-	 * @param muted
-	 */
-	public void updatePlayerSettings(OfflinePlayer offlinePlayer, boolean learning_mode, boolean muted) {
-		synchronized (mWaiting) {
-			mWaiting.add(new PlayerSettings(offlinePlayer, learning_mode, muted));
-		}
-	}
-
-	/**
-	 * Update the playerSettings in the Database
-	 * 
-	 * @param offlinePlayer
-	 * @param playerSetting
-	 */
-	public void updatePlayerSettings(OfflinePlayer offlinePlayer, PlayerSettings ps) {
-		synchronized (mWaiting) {
-			mWaiting.add(new PlayerSettings(offlinePlayer, ps));
-		}
-	}
-
-	/**
-	 * Gets an offline player using the last known name. WARNING: This does a
-	 * database lookup directly. This will block waiting for a reply
-	 */
-	public OfflinePlayer getPlayerByName(String name) {
-		try {
-			return mStore.getPlayerByName(name);
-		} catch (UserNotFoundException e) {
-			return null;
-		} catch (DataStoreException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
-	 * Get the playerId from the database
-	 * 
-	 * @param offlinePlayer
-	 * @return
-	 * @throws UserNotFoundException
-	 */
-	public int getPlayerId(OfflinePlayer offlinePlayer) throws UserNotFoundException {
-		try {
-			return mStore.getPlayerId(offlinePlayer);
-		} catch (DataStoreException e) {
-			if (plugin.getConfigManager().killDebug)
-				e.printStackTrace();
-		}
-		throw new UserNotFoundException(
-				"[MobHunting] User " + offlinePlayer.getName() + " is not present in MobHunting database");
-	}
 
 	// *****************************************************************************
 	// Common

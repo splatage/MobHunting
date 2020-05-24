@@ -6,10 +6,10 @@ import java.util.Set;
 
 import org.bukkit.OfflinePlayer;
 
+import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
-import one.lindegaard.MobHunting.storage.DataStoreException;
 import one.lindegaard.MobHunting.storage.IDataStore;
 
 public class BountyRetrieverTask implements IDataStoreTask<Set<Bounty>> {

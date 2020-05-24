@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.MobHunting.StatType;
-import one.lindegaard.MobHunting.storage.DataStoreException;
 import one.lindegaard.MobHunting.storage.IDataStore;
 import one.lindegaard.MobHunting.storage.StatStore;
 import one.lindegaard.MobHunting.storage.TimePeriod;

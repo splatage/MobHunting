@@ -4377,72 +4377,52 @@ public class ConfigManager extends AutoConfig {
 			+ "\noverruled by the settings in BagOfGold config.yml !!!")
 	public boolean dropMoneyOnGroup = true;
 
-	@ConfigField(name = "drop_money_on_ground_itemtype", category = "dropmoneyonground", comment = "Here you can set the type of the ITEM to be dropped."
-			+ "\nYou can choose between \"ITEM\",\"KILLED\",\"SKULL\",\"KILLER\". The default is ITEM."
-			+ "\nThe value will be showed above the item." + "\nITEM: The reward is dropped as a normal Minecraft item."
-			+ "\nKILLED: The reward is dropped as the head of the mob/player you killed."
-			+ "\nSKULL: The reward is dropped as a SKULL with a custom texture. You can generate custom texture value"
-			+ "\nand custom texture signature at http://mineskin.org"
-			+ "\nKILLER: The reward is dropped as the killers head."
-			+ "\n\nOBS: If the Gringotts plugin is installed and support not disabled, the droped item will be the Gringotts chosen item."
-			+ "\nExamples:" + "\n\nBag of gold: (https://mineskin.org/6875)"
-			+ "\n\ndrop_money_on_ground_skull_reward_name: 'Bag of gold'"
-			+ "\ndrop_money_on_ground_skull_texture_value: 'eyJ0aW1lc3RhbXAiOjE0ODU5MTIwNjk3OTgsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM5NmNlMTNmZjYxNTVmZGYzMjM1ZDhkMjIxNzRjNWRlNGJmNTUxMmYxYWRlZGExYWZhM2ZjMjgxODBmM2Y3In19fQ=='"
-			+ "\ndrop_money_on_ground_skull_texture_signature: 'm8u2ChI43ySVica7pcY0CsCuMCGgAdN7c9f/ZOxDZsPzJY8eiDrwxLIh6oPY1rvE1ja/rmftPSmdnbeHYrzLQ18QBzehFp8ZVegPsd9iNHc4FuD7nr1is2FD8M8AWAZOViiwlUKnfd8avb3SKfvFmhmVhQtE+atJYQrXhJwiqR4S+KTccA6pjIESM3AWlbCOmykg31ey7MQWB4YgtRp8NyFD3HNTLZ8alcEXBuG3t58wYBEME1UaOFah45tHuV1FW+iGBHHFWLu1UsAbg0Uw87Pp+KSTUGrhdwSc/55czILulI8IUnUfxmkaThRjd7g6VpH/w+9jLvm+7tOwfMQZlXp9104t9XMVnTAchzQr6mB3U6drCsGnuZycQzEgretQsUh3hweN7Jzz5knl6qc1n3Sn8t1yOvaIQLWG1f3l6irPdl28bwEd4Z7VDrGqYgXsd2GsOK/gCQ7rChNqbJ2p+jCja3F3ZohfmTYOU8W7DJ8Ne+xaofSuPnWODnZN9x+Y+3RE3nzH9tzP+NBMsV3YQXpvUD7Pepg7ScO+k9Fj3/F+KfBje0k6xfl+75s7kR3pNWQI5EVrO6iuky6dMuFPUBfNfq33fZV6Tqr/7o24aKpfA4WwJf91G9mC18z8NCgFR6iK4cPGmkTMvNtxUQ3MoB0LCOkRcbP0i7qxHupt8xE='"
-			+ "\n\nBag of gold (alternative): (https://mineskin.org/3384)"
-			+ "\n\ndrop_money_on_ground_skull_reward_name: 'Bag of gold'"
-			+ "\ndrop_money_on_ground_skull_texture_value: 'eyJ0aW1lc3RhbXAiOjE0NzQzMzI0MzY1MDYsInByb2ZpbGVJZCI6IjNlMjZiMDk3MWFjZDRjNmQ5MzVjNmFkYjE1YjYyMDNhIiwicHJvZmlsZU5hbWUiOiJOYWhlbGUiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzg2NzczZDc0Y2Y1MDhmZDc3Yzc4MmZmZDI5ZGYyZmU0N2ZiNzE0YjViMGQ3ZGU2N2Q1Mjg2OTMxZTJmMWRmMiJ9fX0='"
-			+ "\ndrop_money_on_ground_skull_texture_signature: 'JdvJksowuxYQ0eqf56J+Dmczg7zvlw2DbIc58Q33kRt65uMUNn2iRCQsbNpztC1cAAgyYMOyFDiOUZQeIK03CSRoPLDtWp2u501YoGKqhjgrE0V0UDh3JetWKz4Ob0KmATtY+4R2vSoMjHFEFppM0Oq+8ZER12FAiVEMAzeseFN3Z9fWAMc/V10LoquGBpq6ExTfSCEEMDEGZopF1T8ZBKL0vf4DVendfz4v3yl7bRBzISZEAnF+ECTa9z36r8HRqS8+s0eO/AWYQcRaKIu9H+wSK5F/1v+rgifeSlMAnt1Na8m1b5tMfNuq6pXxWCq4nUGgYVTOLUinqs9ZcFz3Z6Mtx5YtymKk2M0mzxmTm9+AeOL4s3K/UrJYQlcmLBJSv4hd6EigJXoashzWNCHKmFDYCdEhh4FArq4G9vRZtoudcTeMsvi0VmXIgER8U5iSfoTtzXcGbf/GT0ECtgfeA40f5oCqyE4nXreudMmvlDCBr/KHbILQWeeH/jhtYqQ6OwJb3Ji2Bs9F5fQmICSqk7X4yKzexf8rdDhOG1z+/TCot7K8unPVuQx46sXPeP7t2hCiHOXMAnOMt8vuL3gQUURIEM6fMryjmlKsgvk8Jo0gawavRCIZQtA6vT0JRRnSAchzEOA7QP1iiVV3LnwX9Yqw7oMJ/+REV1hWesuzDOc='"
-			+ "\n\nChest: (https://mineskin.org/3136)" + "\n\ndrop_money_on_ground_skull_reward_name: 'Treasure chest'"
-			+ "\ndrop_money_on_ground_skull_texture_value: 'eyJ0aW1lc3RhbXAiOjE0NzI4Mzk3Nzk2ODMsInByb2ZpbGVJZCI6ImIwZDRiMjhiYzFkNzQ4ODlhZjBlODY2MWNlZTk2YWFiIiwicHJvZmlsZU5hbWUiOiJJbnZlbnRpdmVHYW1lcyIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTY5NDcxMjQ1YmNhN2M0ZmUwNjQ0MGQ5YjRiOWY3NDIxN2VkNzM0M2FhZDU5YTc5MThiMWExZDYxZDhiYTZkYSJ9fX0='"
-			+ "\ndrop_money_on_ground_skull_texture_signature: 'lVA2QIbvybpzhcXof5yWz/7nkHdhG/3MGO+1DyD1txdRCALV6BRwsDUBwIUg06MkLUpBkjmiOvFcCRgal/jDE/xkkJPyk2tb/w4NtQ5PiPiAe0oInVnuiSIVFIE4tnsCdvX0joll3uKwVu6XY3t1KEsqJATcPhA5hslVn1iOp/IfMziIfuCzzob04rScpwcw0mLNtbtbMVAl6LYR9gXVuOkAfXujuYq4lbI/iW0yuLxSAzr8i9QWBP2ftup4qQHwocQRTdUE6/G5G9LwJWXhhnqKWjgjfvL0y2FRFJkgN1cvuq7DvUDBVsePnRIHwU5YvBPMjcZe/KE8VPTSodsN84/+++5p95Puxe1DXMX822xR71IQsxM7eax7Ffrr/Tzxw2rSDh9ivGGlRAB85OHwp/ouUgWNSrT8inNMYImque9EuZku9p3OFet8iZsFhkMXANeNtTVL7LKV7/L/0YWwoeyBnw5QQqvGyWKw3dac5eDkRNCyCtdDIntM5vsd8FxnIFj36zxLWgmrJmOM9hg5PBM4gcDxxryBcug8jSe+W9XDU39OOJotXajj8dgSL8yUn+d7l4Qvat/vJbAE8lonMl7P0P9QBPzmcIUvlRMuHSpRZQYkoCbwc2Filahd/5INtm7I4Y28XYzzupdwLk3cavKfOloL5YrWNqaZr/+9Tbk='"
-			+ "\n\nBirthday present: (https://mineskin.org/4743)"
-			+ "\n\ndrop_money_on_ground_skull_reward_name: 'Birthday present'"
-			+ "\ndrop_money_on_ground_skull_texture_value: 'eyJ0aW1lc3RhbXAiOjE0Nzk5MzEzNDMxMjgsInByb2ZpbGVJZCI6IjNlMjZiMDk3MWFjZDRjNmQ5MzVjNmFkYjE1YjYyMDNhIiwicHJvZmlsZU5hbWUiOiJOYWhlbGUiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2NmNDRkZjIzMjBiNzYzMTI0N2FhZGY1OWMwZWNlOTdhNGJiNTdkZjI4YzFjZWU3OTM0ZjZhZTI4YWY4OTg5In19fQ=='"
-			+ "\ndrop_money_on_ground_skull_texture_signature: 'k1xQ6E1NuxG1ZN7nlQqRJltYrJn44XHVhNA9pSEu2Pt2mkuixMxhIDj2Tg6o+JWlTyGfXtPVWLxygeGymmeSGaVcmDTaCALg7PL11ZfSzSWSxaIufNbj1EcSi264jg5FrAa/2/DnFsgu16wjlWiIGtjCzgx2QabY8YofoPKw6Y6Y5FHZJVXpT8Rsxs8ok6ZHtfm/ZyyTgvRSzh2mKmVyQIYJ1ZKxuqWhDQfbtBpu3dlEzMAEJo85Dvb7uIFYa7WFitjFJue/c9qpqAnazWFLrx33nYpjjeYhcfAvsaNQW3JVFEkyxzEgzOHbdsbiZcqTCwO+49whu175xOqT7XhouEubDT7A3H1jiSvQvkUZJv/GzUF4qFYHSfxhr6OWoBrRGwWmPdcrYx7fUWKo43CAqa5inaiTV4gU70BWrx5i3LhIJxpnspAyTXs8tZBxeoh8IizWD7uXkYYqh3j9cwuHoxfwZuMpOx9CPTC6R/YwJ1YK5OgJBY1+QhNw+NOilWT3jTok82elFvOLm3a5yLyVs+/UPmLD7rZsFm7/DD3VnRcpgjKRiyy2j9vYsYLyNE2BVLVJxBVk2yyy9u7L4VR6PO+8v2dh9DQl7vM2ORCxKPl2lt6woHWM2+eT1PXr16LtMtAOGYT8mlKFhp8Ou2+9fu4AqWkX7n3swU6XLiK5cJs='"
-			+ "\n\nChoose between \"ITEM\",\"KILLED\",\"SKULL\",\"KILLER\"")
-	public String dropMoneyOnGroundItemtype = "SKULL";
-
-	@ConfigField(name = "drop_money_use_item_as_currency", category = "dropmoneyonground", comment = "Use the reward as a currency (bag of gold) which can be sold, bought, stored in a"
-			+ "\nprotected chest or a protected area (a Bank?). Check the command /mh money sell."
-			+ "\nSet this to FALSE if you want the BafOfGold to be picked up as money, if true the BagOfGold"
-			+ "\nwill be picked up as an item. OBS: If you want to use the bags as an Economy "
-			+ "\nreplacing Essentials/CraftConomy/... and more, then you have to install the"
-			+ "\nBagOfGold plugin as well. (https://dev.bukkit.org/projects/bagofgold)")
+	@ConfigField(name = "drop_money_use_item_as_currency", category = "dropmoneyonground", comment = "If you dont want to use BagOfGold (https://dev.bukkit.org/projects/bagofgold) "
+			+ "\nas you economy plugin, but still want to bags to be dropped on the ground, "
+			+ "\nyou can set this to true and then the player will be able to pick up the bags "
+			+ "\nand use MobHunting signs to sell the Bags and get the money this way.")
 	public boolean dropMoneyOnGroundUseItemAsCurrency = true;
 
-	@ConfigField(name = "drop_money_command_alias", category = "dropmoneyonground", comment = "Here you can chance the command /mh money ... to /mh <alias> ..."
-			+ "\nExample: gold,bag,silver,coin,???? ")
-	public String dropMoneyOnGroundMoneyCommandAlias = "money";
+	// #####################################################################################
+	// Deprecated
+	// #####################################################################################
+	@ConfigField(name = "drop_money_on_ground_itemtype", category = "dropmoneyonground", comment = "This settings is deprecated. Please use the settings in the BagOfGoldCore "
+			+ "\nfolder. The setting is only keept so it can be copied to the BagOfGoldCore folder. ")
+	public String dropMoneyOnGroundItemtypeOld = "SKULL";
 
-	@ConfigField(name = "drop_money_on_ground_item", category = "dropmoneyonground", comment = "Here you can set which item should be used when you have "
-			+ "\nchosen drop_money_on_ground_itemtype: ITEM. " + "\nUse Minecraft Item names like: "
-			+ "\nGOLD_NUGGET, DIAMOND, GOLD_INGOT, EMERALD, GOLDEN_APPLE ")
-	public String dropMoneyOnGroundItem = "GOLD_INGOT";
+	@ConfigField(name = "drop_money_command_alias", category = "dropmoneyonground", comment = "This settings is deprecated. Please use the settings in the BagOfGoldCore "
+			+ "\nfolder. The setting is only keept so it can be copied to the BagOfGoldCore folder. ")
+	public String dropMoneyOnGroundMoneyCommandAliasOld = "money";
 
-	@ConfigField(name = "drop_money_on_ground_text_color", category = "dropmoneyonground", comment = "Here you can set of the color of the number above the dropped item. \nUse color names like WHITE, RED, BLUE, GOLD")
-	public String dropMoneyOnGroundTextColor = "GOLD";
+	@ConfigField(name = "drop_money_on_ground_item", category = "dropmoneyonground", comment = "This settings is deprecated. Please use the settings in the BagOfGoldCore "
+			+ "\nfolder. The setting is only keept so it can be copied to the BagOfGoldCore folder.")
+	public String dropMoneyOnGroundItemOld = "GOLD_INGOT";
 
-	@ConfigField(name = "drop_money_on_ground_skull_reward_name", category = "dropmoneyonground", comment = "This is the name of the reward. Warning do not use a name which is used as an Item Name \nin other plugins like f.ex SlimeFun. This would cause problems and \nitems disapear without a warning.")
-	public String dropMoneyOnGroundSkullRewardName = "Bag of gold";
+	@ConfigField(name = "drop_money_on_ground_text_color", category = "dropmoneyonground", comment = "This settings is deprecated. Please use the new Reward Format settings in BagOfGOldCore.")
+	public String dropMoneyOnGroundTextColorOld = "GOLD";
 
-	@ConfigField(name = "drop_money_on_ground_skull_reward_name_plural", category = "dropmoneyonground", comment = "This is the name of the reward in plural")
-	public String dropMoneyOnGroundSkullRewardNamePlural = "Bag of gold";
+	@ConfigField(name = "drop_money_on_ground_skull_reward_name", category = "dropmoneyonground", comment = "This settings is deprecated. Please use the settings in the BagOfGoldCore."
+			+ "\nfolder. The setting is only keept so it can be copied to the BagOfGoldCore folder.")
+	public String dropMoneyOnGroundSkullRewardNameOld = "Bag of gold";
 
-	@ConfigField(name = "drop_money_on_ground_skull_texture_value", category = "dropmoneyonground", comment = "This is the Custom Texture Value generated at http://mineskin.org")
-	public String dropMoneyOnGroundSkullTextureValue = "eyJ0aW1lc3RhbXAiOjE0ODU5MTIwNjk3OTgsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM5NmNlMTNmZjYxNTVmZGYzMjM1ZDhkMjIxNzRjNWRlNGJmNTUxMmYxYWRlZGExYWZhM2ZjMjgxODBmM2Y3In19fQ==";
+	@ConfigField(name = "drop_money_on_ground_skull_reward_name_plural", category = "dropmoneyonground", comment = "This is deprecated.")
+	public String dropMoneyOnGroundSkullRewardNamePluralOld = "Bag of gold";
 
-	@ConfigField(name = "drop_money_on_ground_skull_texture_signature", category = "dropmoneyonground", comment = "This is the Custom Texture Signature generated at http://mineskin.org")
-	public String dropMoneyOnGroundSkullTextureSignature = "m8u2ChI43ySVica7pcY0CsCuMCGgAdN7c9f/ZOxDZsPzJY8eiDrwxLIh6oPY1rvE1ja/rmftPSmdnbeHYrzLQ18QBzehFp8ZVegPsd9iNHc4FuD7nr1is2FD8M8AWAZOViiwlUKnfd8avb3SKfvFmhmVhQtE+atJYQrXhJwiqR4S+KTccA6pjIESM3AWlbCOmykg31ey7MQWB4YgtRp8NyFD3HNTLZ8alcEXBuG3t58wYBEME1UaOFah45tHuV1FW+iGBHHFWLu1UsAbg0Uw87Pp+KSTUGrhdwSc/55czILulI8IUnUfxmkaThRjd7g6VpH/w+9jLvm+7tOwfMQZlXp9104t9XMVnTAchzQr6mB3U6drCsGnuZycQzEgretQsUh3hweN7Jzz5knl6qc1n3Sn8t1yOvaIQLWG1f3l6irPdl28bwEd4Z7VDrGqYgXsd2GsOK/gCQ7rChNqbJ2p+jCja3F3ZohfmTYOU8W7DJ8Ne+xaofSuPnWODnZN9x+Y+3RE3nzH9tzP+NBMsV3YQXpvUD7Pepg7ScO+k9Fj3/F+KfBje0k6xfl+75s7kR3pNWQI5EVrO6iuky6dMuFPUBfNfq33fZV6Tqr/7o24aKpfA4WwJf91G9mC18z8NCgFR6iK4cPGmkTMvNtxUQ3MoB0LCOkRcbP0i7qxHupt8xE=";
+	@ConfigField(name = "drop_money_on_ground_skull_texture_value", category = "dropmoneyonground", comment = "This settings is deprecated. Please use the settings in the BagOfGoldCore "
+			+ "\nfolder. The setting is only keept so it can be copied to the BagOfGoldCore folder.")
+	public String dropMoneyOnGroundSkullTextureValueOld = "eyJ0aW1lc3RhbXAiOjE0ODU5MTIwNjk3OTgsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM5NmNlMTNmZjYxNTVmZGYzMjM1ZDhkMjIxNzRjNWRlNGJmNTUxMmYxYWRlZGExYWZhM2ZjMjgxODBmM2Y3In19fQ==";
 
-	@ConfigField(name = "deny_hoppers_to_pickup_money_on_ground", category = "dropmoneyonground", comment = "Dark room mobspawners usually collect items in a HOPPER. This is allowed by default."
-			+ "\nIf you want to deny HOPPERS to collect MobHunting Money rewards "
-			+ "\nset \"deny_hoppers_to_pickup_money_on_ground\"=false")
-	public boolean denyHoppersToPickUpMoney = true;
+	@ConfigField(name = "drop_money_on_ground_skull_texture_signature", category = "dropmoneyonground", comment = "This settings is deprecated. Please use the settings in the BagOfGoldCore "
+			+ "\nfolder. The setting is only keept so it can be copied to the BagOfGoldCore folder.")
+	public String dropMoneyOnGroundSkullTextureSignatureOld = "m8u2ChI43ySVica7pcY0CsCuMCGgAdN7c9f/ZOxDZsPzJY8eiDrwxLIh6oPY1rvE1ja/rmftPSmdnbeHYrzLQ18QBzehFp8ZVegPsd9iNHc4FuD7nr1is2FD8M8AWAZOViiwlUKnfd8avb3SKfvFmhmVhQtE+atJYQrXhJwiqR4S+KTccA6pjIESM3AWlbCOmykg31ey7MQWB4YgtRp8NyFD3HNTLZ8alcEXBuG3t58wYBEME1UaOFah45tHuV1FW+iGBHHFWLu1UsAbg0Uw87Pp+KSTUGrhdwSc/55czILulI8IUnUfxmkaThRjd7g6VpH/w+9jLvm+7tOwfMQZlXp9104t9XMVnTAchzQr6mB3U6drCsGnuZycQzEgretQsUh3hweN7Jzz5knl6qc1n3Sn8t1yOvaIQLWG1f3l6irPdl28bwEd4Z7VDrGqYgXsd2GsOK/gCQ7rChNqbJ2p+jCja3F3ZohfmTYOU8W7DJ8Ne+xaofSuPnWODnZN9x+Y+3RE3nzH9tzP+NBMsV3YQXpvUD7Pepg7ScO+k9Fj3/F+KfBje0k6xfl+75s7kR3pNWQI5EVrO6iuky6dMuFPUBfNfq33fZV6Tqr/7o24aKpfA4WwJf91G9mC18z8NCgFR6iK4cPGmkTMvNtxUQ3MoB0LCOkRcbP0i7qxHupt8xE=";
 
-	@ConfigField(name = "limit_per_bag", category = "dropmoneyonground", comment = "If you only want the bags to be able to contain a "
-			+ "\ncertain amount of gold you can set the limit here. Default 10000. Set limit_per_bag: 9999999999 to disable the feature.")
-	public double limitPerBag = 10000;
+	@ConfigField(name = "deny_hoppers_to_pickup_money_on_ground", category = "dropmoneyonground", comment = "This settings is deprecated. Please use the settings in the BagOfGoldCore "
+			+ "\nfolder. The setting is only keept so it can be copied to the BagOfGoldCore folder.")
+	public boolean denyHoppersToPickUpMoneyOld = true;
+
+	@ConfigField(name = "limit_per_bag", category = "dropmoneyonground", comment = "This settings is deprecated. Please use the settings in the BagOfGoldCore "
+			+ "\nfolder. The setting is only keept so it can be copied to the BagOfGoldCore folder.")
+	public double limitPerBagOld = 10000;
 
 	// #####################################################################################
 	// Database
@@ -4529,13 +4509,8 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "backup", category = "general", comment = "Backup config on each server start / reload")
 	public boolean backup = true;
 
-	@ConfigField(name = "reward_rounding", category = "general", comment = "Rounding of rewards when you uses a range or %. (ex creeperPrize=10:30) the reward."
-			+ "\nAll numbers except 0 can be used. "
-			+ "\nSet rounding_reward=1 if you want integers. IE. 10,11,12,13,14..."
-			+ "\nSet rounding_reward=0.01 if you want 2 decimals 10.00, 10.01, 10.02... integers."
-			+ "\nSet rounding_reward=5 if you want multipla of 5 IE. 10,15,20,25..."
-			+ "\nSet rounding_reward=2 if you want multipla of 2 IE. 10,12,14,16...")
-	public double rewardRounding = 0.01;
+	@ConfigField(name = "reward_rounding", category = "general", comment = "This setting is deprecated. Please use the settings in the BagOfGoldCore folder.")
+	public double rewardRoundingOld = 0.01;
 
 	@ConfigField(name = "minimum_reward", category = "general", comment = "This is the minimum reward which will which will be paid to the player 0.01 will be fine"
 			+ "\nin most installation, but Gringott users who want very low rewards (like 0.001  for killing"

@@ -2,6 +2,7 @@ package one.lindegaard.MobHunting;
 
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.BagOfGold.PlayerBalance;
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.Core.messages.MessageType;
@@ -339,8 +340,8 @@ public class MobHuntingManager implements Listener {
 				if (playerKilledByMobPenalty != 0) {
 					plugin.getEconomyManager().withdrawPlayer(killed, playerKilledByMobPenalty);
 					boolean killed_muted = false;
-					if (plugin.getPlayerSettingsManager().containsKey(killed))
-						killed_muted = plugin.getPlayerSettingsManager().getPlayerSettings(killed).isMuted();
+					if (Core.getPlayerSettingsManager().containsKey(killed))
+						killed_muted = Core.getPlayerSettingsManager().getPlayerSettings(killed).isMuted();
 					if (!killed_muted) {
 						plugin.getMessages().playerActionBarMessageQueue(killed,
 								ChatColor.RED + "" + ChatColor.ITALIC
@@ -674,7 +675,7 @@ public class MobHuntingManager implements Listener {
 								cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnNetherGoldFarms,
 										plugin.getConfigManager().disableNaturalXPDropsOnNetherGoldFarms);
 								if (player != null) {
-									if ((plugin.getPlayerSettingsManager().containsKey(player) && plugin
+									if ((Core.getPlayerSettingsManager().containsKey(player) && Core
 											.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode())
 											|| player.hasPermission("mobhunting.blacklist")
 											|| player.hasPermission("mobhunting.blacklist.show")) {
@@ -706,7 +707,7 @@ public class MobHuntingManager implements Listener {
 								cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnOtherFarms,
 										plugin.getConfigManager().disableNaturalXPDropsOnOtherFarms);
 								if (player != null) {
-									if ((plugin.getPlayerSettingsManager().containsKey(player) && plugin
+									if ((Core.getPlayerSettingsManager().containsKey(player) && Core
 											.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode())
 											|| player.hasPermission("mobhunting.blacklist.show")
 											|| player.hasPermission("mobhunting.blacklist")) {
@@ -743,7 +744,7 @@ public class MobHuntingManager implements Listener {
 											killed.getLocation().getX(), killed.getLocation().getY(),
 											killed.getLocation().getZ(), killed.getWorld().getName());
 								if (player != null) {
-									if ((plugin.getPlayerSettingsManager().containsKey(player) && plugin
+									if ((Core.getPlayerSettingsManager().containsKey(player) && Core
 											.getPlayerSettingsManager().getPlayerSettings(player).isLearningMode())
 											|| player.hasPermission("mobhunting.blacklist.show")
 											|| player.hasPermission("mobhunting.blacklist")) {
@@ -1041,10 +1042,10 @@ public class MobHuntingManager implements Listener {
 		// Handle Muted mode
 		boolean killer_muted = false;
 		boolean killed_muted = false;
-		if (player instanceof Player && plugin.getPlayerSettingsManager().containsKey((Player) player))
-			killer_muted = plugin.getPlayerSettingsManager().getPlayerSettings(player).isMuted();
-		if (killed instanceof Player && plugin.getPlayerSettingsManager().containsKey((Player) killed))
-			killed_muted = plugin.getPlayerSettingsManager().getPlayerSettings((Player) killed).isMuted();
+		if (player instanceof Player && Core.getPlayerSettingsManager().containsKey((Player) player))
+			killer_muted = Core.getPlayerSettingsManager().getPlayerSettings(player).isMuted();
+		if (killed instanceof Player && Core.getPlayerSettingsManager().containsKey((Player) killed))
+			killed_muted = Core.getPlayerSettingsManager().getPlayerSettings((Player) killed).isMuted();
 
 		// Player died while playing a Minigame: MobArena,
 		// PVPArena,playerGrindingArea.getCenter().getBlock
@@ -1659,7 +1660,7 @@ public class MobHuntingManager implements Listener {
 					.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 					.replaceAll("\\{world\\}", worldname).replaceAll("\\{killerpos\\}", killerpos)
 					.replaceAll("\\{killedpos\\}", killedpos)
-					.replaceAll("\\{rewardname\\}", plugin.getConfigManager().dropMoneyOnGroundSkullRewardName);
+					.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim());
 			if (killed instanceof Player)
 				message = message.replaceAll("\\{killed_player\\}", killed.getName()).replaceAll("\\{killed\\}",
 						killed.getName());
@@ -1886,7 +1887,7 @@ public class MobHuntingManager implements Listener {
 									.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{killerpos\\}", killerpos).replaceAll("\\{killedpos\\}", killedpos)
 									.replaceAll("\\{rewardname\\}",
-											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName);
+											Core.getConfigManager().bagOfGoldName.trim());
 							if (killed instanceof Player)
 								commandCmd = commandCmd.replaceAll("\\{killed_player\\}", killed.getName())
 										.replaceAll("\\{killed\\}", killed.getName());
@@ -1939,7 +1940,7 @@ public class MobHuntingManager implements Listener {
 											.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 											.replaceAll("\\{killerpos\\}", killerpos)
 											.replaceAll("\\{killedpos\\}", killedpos).replaceAll("\\{rewardname\\}",
-													plugin.getConfigManager().dropMoneyOnGroundSkullRewardName),
+													Core.getConfigManager().bagOfGoldName.trim()),
 									messageType);
 						}
 					} else
@@ -1999,7 +2000,7 @@ public class MobHuntingManager implements Listener {
 									.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{world\\}", worldname).replaceAll("\\{killerpos\\}", killerpos)
 									.replaceAll("\\{killedpos\\}", killedpos).replaceAll("\\{rewardname\\}",
-											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName),
+											Core.getConfigManager().bagOfGoldName.trim()),
 							message_type);
 				}
 			} else {

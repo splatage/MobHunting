@@ -24,6 +24,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.messages.MessageType;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.rewards.Reward;
@@ -236,8 +237,8 @@ public class FishingManager implements Listener {
 
 				// Handle Muted mode
 				boolean fisherman_muted = false;
-				if (plugin.getPlayerSettingsManager().containsKey(player))
-					fisherman_muted = plugin.getPlayerSettingsManager().getPlayerSettings(player).isMuted();
+				if (Core.getPlayerSettingsManager().containsKey(player))
+					fisherman_muted = Core.getPlayerSettingsManager().getPlayerSettings(player).isMuted();
 
 				// Tell the player that he got the reward/penalty,
 				// unless
@@ -317,8 +318,8 @@ public class FishingManager implements Listener {
 							String prizeCommand = cmd.get("cmd").replaceAll("\\{player\\}", player.getName())
 									.replaceAll("\\{killer\\}", player.getName()).replaceAll("\\{world\\}", worldname)
 									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
-									.replaceAll("\\{killerpos\\}", fishermanPos).replaceAll("\\{rewardname\\}",
-											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName);
+									.replaceAll("\\{killerpos\\}", fishermanPos)
+									.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim());
 							plugin.getMessages().debug("command to be run is:" + prizeCommand);
 							if (!plugin.getRewardManager().getKillCommands(fish).isEmpty()) {
 								String str = prizeCommand;
@@ -344,8 +345,8 @@ public class FishingManager implements Listener {
 									.replaceAll("\\{world\\}", worldname)
 									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{world\\}", player.getWorld().getName())
-									.replaceAll("\\{killerpos\\}", fishermanPos).replaceAll("\\{rewardname\\}",
-											plugin.getConfigManager().dropMoneyOnGroundSkullRewardName);
+									.replaceAll("\\{killerpos\\}", fishermanPos)
+									.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim());
 							if (!message.isEmpty()) {
 								plugin.getMessages().playerSendMessageAt(player, message, messageType);
 							}
@@ -361,15 +362,13 @@ public class FishingManager implements Listener {
 
 					String message = plugin.getRewardManager().getKillMessage(fish);
 					if (!message.isEmpty() && !fisherman_muted) {
-						plugin.getMessages().playerSendMessage(player,
-								ChatColor.GREEN + "" + ChatColor.ITALIC
-										+ message.replaceAll("\\{player\\}", player.getName())
-												.replaceAll("\\{killer\\}", player.getName())
-												.replaceAll("\\{killed\\}", extendedMob.getFriendlyName())
-												.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
-												.replaceAll("\\{world\\}", player.getWorld().getName())
-												.replaceAll("\\{rewardname\\}",
-														plugin.getConfigManager().dropMoneyOnGroundSkullRewardName));
+						plugin.getMessages().playerSendMessage(player, ChatColor.GREEN + "" + ChatColor.ITALIC
+								+ message.replaceAll("\\{player\\}", player.getName())
+										.replaceAll("\\{killer\\}", player.getName())
+										.replaceAll("\\{killed\\}", extendedMob.getFriendlyName())
+										.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
+										.replaceAll("\\{world\\}", player.getWorld().getName())
+										.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim()));
 					}
 				}
 
@@ -396,7 +395,7 @@ public class FishingManager implements Listener {
 											.replaceAll("\\{world\\}", player.getWorld().getName())
 											.replaceAll("\\{killerpos\\}", fishermanPos)
 											.replaceAll("\\{killedpos\\}", killedpos).replaceAll("\\{rewardname\\}",
-													plugin.getConfigManager().dropMoneyOnGroundSkullRewardName));
+													Core.getConfigManager().bagOfGoldName.trim()));
 					} else {
 						plugin.getMessages().debug("Did not drop a head: random(%s)>chance(%s)", random,
 								plugin.getRewardManager().getHeadDropChance(fish));

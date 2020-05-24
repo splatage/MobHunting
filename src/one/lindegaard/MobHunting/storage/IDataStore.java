@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.bukkit.OfflinePlayer;
 
-import one.lindegaard.MobHunting.PlayerSettings;
+import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
@@ -70,7 +70,7 @@ public interface IDataStore {
 	 * @return
 	 * @throws DataStoreException
 	 */
-	OfflinePlayer getPlayerByName(String name) throws DataStoreException;
+	//OfflinePlayer getPlayerByName(String name) throws DataStoreException;
 
 	/**
 	 * Get the players Settings from the Database
@@ -80,7 +80,7 @@ public interface IDataStore {
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
-	PlayerSettings loadPlayerSettings(OfflinePlayer player) throws DataStoreException, SQLException;
+	//PlayerSettings loadPlayerSettings(OfflinePlayer player) throws DataStoreException, SQLException;
 
 	/**
 	 * Update the players Settings in the Database
@@ -88,7 +88,7 @@ public interface IDataStore {
 	 * @param playerDataSet
 	 * @throws DataStoreException
 	 */
-	void savePlayerSettings(Set<PlayerSettings> ps) throws DataStoreException;
+	//void savePlayerSettings(Set<PlayerSettings> ps) throws DataStoreException;
 
 	/**
 	 * Insert all PlayerData for one player into the Database
@@ -96,7 +96,7 @@ public interface IDataStore {
 	 * @param ps
 	 * @throws DataStoreException
 	 */
-	void insertPlayerSettings(PlayerSettings ps) throws DataStoreException;
+	//void insertPlayerSettings(PlayerSettings ps) throws DataStoreException;
 
 	/**
 	 * Load all bounties for the given player directly from the Sql Database
@@ -151,17 +151,6 @@ public interface IDataStore {
 	 * @throws DataStoreException
 	 */
 	void databaseConvertToUtf8(String database_name) throws DataStoreException;
-
-	OfflinePlayer getPlayerByPlayerId(int playerId) throws DataStoreException;
-
-	/**
-	 * Get the player ID directly from the database
-	 * @param player
-	 * @return
-	 * @throws DataStoreException
-	 * @throws UserNotFoundException
-	 */
-	int getPlayerId(OfflinePlayer player) throws DataStoreException;
 
 	
 	Set<ExtendedMob> loadMobs() throws DataStoreException;

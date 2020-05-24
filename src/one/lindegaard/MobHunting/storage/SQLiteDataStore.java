@@ -17,6 +17,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 
+import one.lindegaard.Core.Core;
+import one.lindegaard.Core.storage.DataStoreException;
+import one.lindegaard.Core.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.bounty.Bounty;
@@ -57,9 +60,6 @@ public class SQLiteDataStore extends DatabaseDataStore {
 	protected void openPreparedStatements(Connection connection, PreparedConnectionType preparedConnectionType)
 			throws SQLException {
 		switch (preparedConnectionType) {
-		case GET_PLAYER_SETTINGS:
-			mGetPlayerData = connection.prepareStatement("SELECT * FROM mh_Players WHERE UUID=?;");
-			break;
 		case SAVE_ACHIEVEMENTS:
 			mSaveAchievement = connection.prepareStatement("INSERT OR REPLACE INTO mh_Achievements VALUES(?,?,?,?);");
 			break;
@@ -71,21 +71,6 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			mLoadAchievements = connection
 					.prepareStatement("SELECT ACHIEVEMENT, DATE, PROGRESS FROM mh_Achievements WHERE PLAYER_ID = ?;");
 			break;
-		case GET_PLAYER_UUID:
-			mGetPlayerUUID = connection.prepareStatement("SELECT UUID FROM mh_Players WHERE NAME=?;");
-			break;
-		case UPDATE_PLAYER_NAME:
-			mUpdatePlayerName = connection.prepareStatement("UPDATE mh_Players SET NAME=? WHERE UUID=?;");
-			break;
-		case INSERT_PLAYER_SETTINGS:
-			mInsertPlayerData = connection.prepareStatement(
-					"INSERT INTO mh_Players (UUID,NAME,PLAYER_ID,LEARNING_MODE,MUTE_MODE,TEXTURE,SIGNATURE) "
-							+ "VALUES(?,?,(SELECT IFNULL(MAX(PLAYER_ID),0)+1 FROM mh_Players),?,?,?,?);");
-			break;
-		case UPDATE_PLAYER_SETTINGS:
-			mUpdatePlayerSettings = connection.prepareStatement(
-					"UPDATE mh_Players SET LEARNING_MODE=?,MUTE_MODE=?,TEXTURE=?,SIGNATURE=? WHERE UUID=?;");
-			break;
 		case GET_BOUNTIES:
 			mGetBounties = connection.prepareStatement(
 					"SELECT * FROM mh_Bounties where STATUS=0 AND (BOUNTYOWNER_ID=? OR WANTEDPLAYER_ID=? OR NOT NPC_ID=0);");
@@ -94,9 +79,6 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			mInsertBounty = connection.prepareStatement("INSERT OR REPLACE INTO mh_Bounties "
 					+ "(MOBTYPE, BOUNTYOWNER_ID, WANTEDPLAYER_ID, NPC_ID, MOB_ID, WORLDGROUP, "
 					+ "CREATED_DATE, END_DATE, PRIZE, MESSAGE, STATUS) " + " VALUES (?,?,?,?,?,?,?,?,?,?,?);");
-			break;
-		case GET_PLAYER_BY_PLAYER_ID:
-			mGetPlayerByPlayerId = connection.prepareStatement("SELECT UUID FROM mh_Players WHERE PLAYER_ID=?;");
 			break;
 		case DELETE_BOUNTY:
 			mDeleteBounty = connection.prepareStatement(
@@ -253,7 +235,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				if (!st.getType().getDBColumn().substring(0, st.getType().getDBColumn().lastIndexOf("_"))
 						.equalsIgnoreCase("achievement"))
 					mob_id = st.getMob().getMob_id();
-				mSavePlayerStats.setInt(2, getPlayerId(st.getPlayer()));
+				mSavePlayerStats.setInt(2, Core.getDataStoreManager().getPlayerId(st.getPlayer()));
 				mSavePlayerStats.setInt(1, mob_id);
 				mSavePlayerStats.addBatch();
 			}
@@ -277,7 +259,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				column2 = "total_cash";
 				int amount = stat.getAmount();
 				double cash = Misc.round(stat.getCash());
-				int player_id = getPlayerId(stat.getPlayer());
+				int player_id = Core.getDataStoreManager().getPlayerId(stat.getPlayer());
 				String str = String.format(Locale.US,
 						"UPDATE mh_Daily SET %1$s = %1$s + %2$d, %5$s = %5$s + %6$f WHERE ID = strftime(\"%%Y%%j\",\"now\")"
 								+ " AND MOB_ID=%3$d AND PLAYER_ID = %4$d;",
@@ -290,7 +272,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			mConnection.commit();
 			mConnection.close();
 			plugin.getMessages().debug("Saved.");
-		} catch (SQLException e) {
+		} catch (SQLException | UserNotFoundException e) {
 			rollback(mConnection);
 			throw new DataStoreException(e);
 		}
@@ -306,8 +288,8 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				for (Bounty bounty : bountyDataSet) {
 					if (bounty.getBountyOwner() == null)
 						plugin.getMessages().debug("RandomBounty to be inserted: %s", bounty.toString());
-					int bountyOwnerId = getPlayerId(bounty.getBountyOwner());
-					int wantedPlayerId = getPlayerId(bounty.getWantedPlayer());
+					int bountyOwnerId = Core.getDataStoreManager().getPlayerId(bounty.getBountyOwner());
+					int wantedPlayerId = Core.getDataStoreManager().getPlayerId(bounty.getWantedPlayer());
 					mInsertBounty.setString(1, bounty.getMobtype());
 					mInsertBounty.setInt(2, bountyOwnerId);
 					mInsertBounty.setInt(3, wantedPlayerId);
@@ -327,7 +309,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 
 				mConnection.commit();
 				mConnection.close();
-			} catch (SQLException e) {
+			} catch (SQLException | UserNotFoundException e) {
 				rollback(mConnection);
 				mConnection.close();
 				throw new DataStoreException(e);

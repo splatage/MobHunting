@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.Messages;
 import one.lindegaard.MobHunting.MobHunting;
@@ -81,7 +82,7 @@ public class ReloadCommand implements ICommand {
 				plugin.getMessages().debug("Reloading %s online playerSettings from the database", n);
 				// reload player settings
 				for (Player player : Tools.getOnlinePlayers())
-					plugin.getPlayerSettingsManager().load(player);
+					Core.getPlayerSettingsManager().load(player);
 				// reload bounties
 				if (plugin.getConfigManager().enablePlayerBounties)
 					for (Player player : Tools.getOnlinePlayers())

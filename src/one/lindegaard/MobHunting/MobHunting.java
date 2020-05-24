@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Random;
 
 import one.lindegaard.Core.server.Servers;
+import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.Core.WorldGroupManager;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.Core.messages.MessageManager;
@@ -40,7 +41,6 @@ import one.lindegaard.MobHunting.grinding.GrindingManager;
 import one.lindegaard.MobHunting.leaderboard.LeaderboardManager;
 import one.lindegaard.MobHunting.mobs.ExtendedMobManager;
 import one.lindegaard.MobHunting.rewards.RewardManager;
-import one.lindegaard.MobHunting.storage.DataStoreException;
 import one.lindegaard.MobHunting.storage.DataStoreManager;
 import one.lindegaard.MobHunting.storage.IDataStore;
 import one.lindegaard.MobHunting.storage.MySQLDataStore;
@@ -79,7 +79,6 @@ public class MobHunting extends JavaPlugin {
 	private BountyManager mBountyManager;
 	private ParticleManager mParticleManager = new ParticleManager();
 	private MetricsManager mMetricsManager;
-	private PlayerSettingsManager mPlayerSettingsManager;
 	private WorldGroupManager mWorldGroupManager;
 	private ExtendedMobManager mExtendedMobManager;
 	private IDataStore mStore;
@@ -222,7 +221,7 @@ public class MobHunting extends JavaPlugin {
 
 		mStoreManager = new DataStoreManager(this, mStore);
 
-		mPlayerSettingsManager = new PlayerSettingsManager(this);
+		//mPlayerSettingsManager = new PlayerSettingsManager(this);
 
 		// Protection plugins
 		mCompatibilityManager.registerPlugin(WorldEditCompat.class, CompatPlugin.WorldEdit);
@@ -357,7 +356,7 @@ public class MobHunting extends JavaPlugin {
 		if (Tools.getOnlinePlayersAmount() > 0) {
 			getMessages().debug("Reloading %s player settings from the database", Tools.getOnlinePlayersAmount());
 			for (Player player : Tools.getOnlinePlayers()) {
-				mPlayerSettingsManager.load(player);
+				Core.getPlayerSettingsManager().load(player);
 				mAchievementManager.load(player);
 				if (mConfig.enablePlayerBounties)
 					mBountyManager.load(player);
@@ -524,15 +523,6 @@ public class MobHunting extends JavaPlugin {
 	 */
 	public WorldGroupManager getWorldGroupManager() {
 		return mWorldGroupManager;
-	}
-
-	/**
-	 * Get the PlayerSettingsManager
-	 * 
-	 * @return
-	 */
-	public PlayerSettingsManager getPlayerSettingsManager() {
-		return mPlayerSettingsManager;
 	}
 
 	/**

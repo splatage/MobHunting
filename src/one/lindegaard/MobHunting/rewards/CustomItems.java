@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -23,6 +24,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
 import one.lindegaard.Core.Core;
+import one.lindegaard.Core.PlayerSettings;
 import one.lindegaard.Core.Strings;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.server.Servers;
@@ -31,7 +33,6 @@ import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.PlayerSettings;
 
 public class CustomItems {
 
@@ -56,7 +57,7 @@ public class CustomItems {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(amount);
 		skull.setAmount(amount);
 		OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
-		PlayerSettings ps = plugin.getPlayerSettingsManager().getPlayerSettings(offlinePlayer);
+		PlayerSettings ps = Core.getPlayerSettingsManager().getPlayerSettings(offlinePlayer);
 		if (ps.getTexture() == null || ps.getSignature() == null || ps.getTexture().isEmpty()
 				|| ps.getSignature().isEmpty()) {
 			plugin.getMessages().debug("No skin found i database");
@@ -81,7 +82,7 @@ public class CustomItems {
 					&& !onlineSkin[1].isEmpty()) {
 				ps.setTexture(onlineSkin[0]);
 				ps.setSignature(onlineSkin[1]);
-				plugin.getPlayerSettingsManager().setPlayerSettings(offlinePlayer, ps);
+				Core.getPlayerSettingsManager().setPlayerSettings(offlinePlayer, ps);
 			} else {
 				plugin.getMessages().debug("Empty skin");
 				return skull;
@@ -97,14 +98,15 @@ public class CustomItems {
 								player.getName(), ps.getTexture(), skin[0]);
 						ps.setTexture(skin[0]);
 						ps.setSignature(skin[1]);
-						plugin.getPlayerSettingsManager().setPlayerSettings(offlinePlayer, ps);
+						Core.getPlayerSettingsManager().setPlayerSettings(offlinePlayer, ps);
 					}
 				}
 			} else
 				plugin.getMessages().debug("%s using skin from database", offlinePlayer.getName());
 		}
 
-		skull = new ItemStack(new CoreCustomItems().getCustomtexture(offlinePlayer.getName(), money, RewardType.KILLER, uuid, ps.getTexture(),
+		skull = new ItemStack(new CoreCustomItems().getCustomtexture(
+				new Reward(offlinePlayer.getName(), money, RewardType.KILLER, uuid), ps.getTexture(),
 				ps.getSignature()));
 
 		skull.setAmount(amount);
@@ -160,75 +162,8 @@ public class CustomItems {
 		return skull;
 	}
 
-	/**
-	 * Return an ItemStack with a custom texture. If Mojang changes the way they
-	 * calculate Signatures this method will stop working.
-	 *
-	 * @param mPlayerUUID
-	 * @param mDisplayName
-	 * @param mTextureValue
-	 * @param mTextureSignature
-	 * @param money
-	 * @return ItemStack with custom texture.
-	 */
-	/**public ItemStack getCustomtexture(String mDisplayName, double money, RewardType mRewardType, UUID skinUuid,
-			String mTextureValue, String mTextureSignature) {
-		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(1);
-		if (mTextureSignature.isEmpty() || mTextureValue.isEmpty())
-			return skull;
-
-		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-
-		GameProfile profile = new GameProfile(skinUuid, mDisplayName);
-		if (mTextureSignature.isEmpty())
-			profile.getProperties().put("textures", new Property("textures", mTextureValue));
-		else
-			profile.getProperties().put("textures", new Property("textures", mTextureValue, mTextureSignature));
-		Field profileField = null;
-
-		try {
-			profileField = skullMeta.getClass().getDeclaredField("profile");
-		} catch (NoSuchFieldException | SecurityException e) {
-			e.printStackTrace();
-			return skull;
-		}
-
-		profileField.setAccessible(true);
-
-		try {
-			profileField.set(skullMeta, profile);
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		if (mRewardType == RewardType.BAGOFGOLD)
-			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + mDisplayName,
-					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mRewardType.getType(),
-					"Hidden(4):" + skinUuid, "Hidden(5):"
-							+ Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mRewardType.getType()))));
-		else
-			skullMeta.setLore(new ArrayList<String>(Arrays.asList("Hidden(0):" + mDisplayName,
-					"Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money), "Hidden(2):" + mRewardType.getType(),
-					"Hidden(4):" + skinUuid,
-					"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + mRewardType.getType()),
-					Core.getMessages().getString("core.reward.lore"))));
-		ChatColor color = ChatColor.GOLD;
-		try {
-			color = ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor.toUpperCase());
-		} catch (Exception e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[BagOfGold] " + ChatColor.RED
-					+ "drop-money-on-ground-text-color in your config.yml cant be read.");
-		}
-		if (money == 0)
-			skullMeta.setDisplayName(color + mDisplayName);
-		else
-			skullMeta.setDisplayName(color + mDisplayName + " (" + plugin.getRewardManager().format(money) + ")");
-
-		skull.setItemMeta(skullMeta);
-		return skull;
-	}**/
-
 	public ItemStack getCustomHead(MobType minecraftMob, String name, int amount, double money, UUID skinUUID) {
-		ItemStack skull;
+		ItemStack skull = new ItemStack(Material.matchMaterial("PLAYER_HEAD"));
 		switch (minecraftMob) {
 		case Skeleton:
 			skull = CoreCustomItems.getDefaultSkeletonHead(amount);
@@ -265,8 +200,9 @@ public class CustomItems {
 			break;
 
 		default:
-			ItemStack is = new ItemStack(new CoreCustomItems().getCustomtexture(name, money, RewardType.KILLED, skinUUID,
-					minecraftMob.getTextureValue(), minecraftMob.getTextureSignature()));
+			ItemStack is = new ItemStack(
+					new CoreCustomItems().getCustomtexture(new Reward(name, money, RewardType.KILLED, skinUUID),
+							minecraftMob.getTextureValue(), minecraftMob.getTextureSignature()));
 			is.setAmount(amount);
 			return is;
 		}

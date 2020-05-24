@@ -5,30 +5,30 @@ import java.util.HashSet;
 
 import org.bukkit.OfflinePlayer;
 
+import one.lindegaard.Core.Core;
+import one.lindegaard.Core.PlayerSettings;
+import one.lindegaard.Core.storage.async.IDataStoreTask;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.PlayerSettings;
-import one.lindegaard.MobHunting.storage.DataStoreException;
 import one.lindegaard.MobHunting.storage.IDataStore;
-import one.lindegaard.MobHunting.storage.UserNotFoundException;
 
-public class PlayerSettingsRetrieverTask implements IDataStoreTask<PlayerSettings> {
+public abstract class PlayerSettingsRetrieverTask_old implements IDataStoreTask<PlayerSettings> {
 
 	private OfflinePlayer mPlayer;
 	private HashSet<Object> mWaiting;
 
-	public PlayerSettingsRetrieverTask(OfflinePlayer player, HashSet<Object> waiting) {
+	public PlayerSettingsRetrieverTask_old(OfflinePlayer player, HashSet<Object> waiting) {
 		mPlayer = player;
 		mWaiting = waiting;
 	}
 
-	public PlayerSettings run(IDataStore store) throws DataStoreException {
+	/**public PlayerSettings run(IDataStore store) throws DataStoreException {
 		synchronized (mWaiting) {
 			try {
-				return store.loadPlayerSettings(mPlayer);
+				return null;//store.loadPlayerSettings(mPlayer);
 			} catch (UserNotFoundException e) {
 				MobHunting.getInstance().getMessages().debug("Saving new PlayerSettings for %s to database.", mPlayer.getName());
 				PlayerSettings ps = new PlayerSettings(mPlayer,
-						MobHunting.getInstance().getConfigManager().learningMode, false);
+						null, Core.getConfigManager().learningMode, false, null, null, 0, 0);
 				try {
 					store.insertPlayerSettings(ps);
 				} catch (DataStoreException e1) {
@@ -43,7 +43,7 @@ public class PlayerSettingsRetrieverTask implements IDataStoreTask<PlayerSetting
 				return null;
 			}
 		}
-	}
+	}**/
 
 	@Override
 	public boolean readOnly() {

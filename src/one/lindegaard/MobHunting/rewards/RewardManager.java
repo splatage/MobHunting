@@ -96,7 +96,7 @@ import org.gestern.gringotts.currency.Denomination;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
-import one.lindegaard.BagOfGold.BagOfGold;
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.Core.mobs.MobType;
@@ -240,15 +240,15 @@ public class RewardManager {
 			if (Reward.isReward(is)) {
 				Reward rewardInSlot = Reward.getReward(is);
 				if ((rewardInSlot.isBagOfGoldReward() || rewardInSlot.isItemReward())) {
-					if (rewardInSlot.getMoney() < plugin.getConfigManager().limitPerBag) {
-						double space = plugin.getConfigManager().limitPerBag - rewardInSlot.getMoney();
+					if (rewardInSlot.getMoney() < Core.getConfigManager().limitPerBag) {
+						double space = Core.getConfigManager().limitPerBag - rewardInSlot.getMoney();
 						if (space > moneyLeftToGive) {
 							rewardInSlot.setMoney(rewardInSlot.getMoney() + moneyLeftToGive);
 							addedMoney = addedMoney + moneyLeftToGive;
 							moneyLeftToGive = 0;
 						} else {
 							addedMoney = addedMoney + space;
-							rewardInSlot.setMoney(plugin.getConfigManager().limitPerBag);
+							rewardInSlot.setMoney(Core.getConfigManager().limitPerBag);
 							moneyLeftToGive = moneyLeftToGive - space;
 						}
 						if (rewardInSlot.getMoney() == 0)
@@ -268,8 +268,8 @@ public class RewardManager {
 		if (!found) {
 			while (Misc.round(moneyLeftToGive) > 0 && canPickupMoney(player)) {
 				double nextBag = 0;
-				if (moneyLeftToGive > plugin.getConfigManager().limitPerBag) {
-					nextBag = plugin.getConfigManager().limitPerBag;
+				if (moneyLeftToGive > Core.getConfigManager().limitPerBag) {
+					nextBag = Core.getConfigManager().limitPerBag;
 					moneyLeftToGive = moneyLeftToGive - nextBag;
 				} else {
 					nextBag = moneyLeftToGive;
@@ -280,26 +280,17 @@ public class RewardManager {
 				else {
 					addedMoney = addedMoney + nextBag;
 					ItemStack is;
-					if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL"))
-						is = new CoreCustomItems()
-								.getCustomtexture(
-										BagOfGoldCompat.isSupported()
-												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
-														.trim()
-												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-										Misc.round(nextBag), RewardType.BAGOFGOLD,
-										UUID.fromString(RewardType.BAGOFGOLD.getUUID()),
-										plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-										plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
+					if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("SKULL"))
+						is = new CoreCustomItems().getCustomtexture(
+								new Reward(Core.getConfigManager().bagOfGoldName.trim(), Misc.round(nextBag),
+										RewardType.BAGOFGOLD, UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
+								Core.getConfigManager().skullTextureValue,
+								Core.getConfigManager().skullTextureSignature);
 					else {
-						is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
+						is = new ItemStack(Material.valueOf(Core.getConfigManager().rewardItem), 1);
 						is = Reward.setDisplayNameAndHiddenLores(is,
-								new Reward(
-										BagOfGoldCompat.isSupported()
-												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
-														.trim()
-												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-										Misc.round(nextBag), RewardType.ITEM, null));
+								new Reward(Core.getConfigManager().bagOfGoldName.trim(), Misc.round(nextBag),
+										RewardType.ITEM, null));
 					}
 					player.getInventory().addItem(is);
 				}
@@ -322,13 +313,10 @@ public class RewardManager {
 						reward.setMoney(saldo - toBeTaken);
 						is = customItems
 								.getCustomtexture(
-										BagOfGoldCompat.isSupported()
-												? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName
-														.trim()
-												: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-										saldo - toBeTaken, reward.getRewardType(), reward.getSkinUUID(),
-										plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-										plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
+										new Reward(Core.getConfigManager().bagOfGoldName.trim(),
+												saldo - toBeTaken, reward.getRewardType(), reward.getSkinUUID()),
+										Core.getConfigManager().skullTextureValue,
+										Core.getConfigManager().skullTextureSignature);
 						player.getInventory().setItem(slot, is);
 						taken = taken + toBeTaken;
 						toBeTaken = 0;
@@ -368,23 +356,21 @@ public class RewardManager {
 			ItemStack is;
 			UUID skinuuid = null;
 			RewardType rewardType;
-			if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("KILLED")) {
+			if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("KILLED")) {
 				MobType mob = MobType.getMobType(killedEntity);
 				rewardType = RewardType.KILLED;
 				skinuuid = mob.getSkinUUID();
 				is = new CustomItems().getCustomHead(mob, mob.getFriendlyName(), 1, money, skinuuid);
 
-			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("SKULL")) {
+			} else if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("SKULL")) {
 				rewardType = RewardType.BAGOFGOLD;
 				skinuuid = UUID.fromString(RewardType.BAGOFGOLD.getUUID());
 				is = new CoreCustomItems().getCustomtexture(
-						BagOfGoldCompat.isSupported()
-								? BagOfGold.getAPI().getConfigManager().dropMoneyOnGroundSkullRewardName.trim()
-								: plugin.getConfigManager().dropMoneyOnGroundSkullRewardName.trim(),
-						money, rewardType, skinuuid, plugin.getConfigManager().dropMoneyOnGroundSkullTextureValue,
-						plugin.getConfigManager().dropMoneyOnGroundSkullTextureSignature);
+						new Reward(Core.getConfigManager().bagOfGoldName.trim(), money, rewardType, skinuuid),
+						Core.getConfigManager().skullTextureValue,
+						Core.getConfigManager().skullTextureSignature);
 
-			} else if (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("KILLER")) {
+			} else if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("KILLER")) {
 				rewardType = RewardType.KILLER;
 				skinuuid = player.getUniqueId();
 				is = new CustomItems().getPlayerHead(player.getUniqueId(), player.getName(), 1, money);
@@ -392,11 +378,11 @@ public class RewardManager {
 			} else { // ITEM
 				rewardType = RewardType.ITEM;
 				skinuuid = null;
-				is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
+				is = new ItemStack(Material.valueOf(Core.getConfigManager().rewardItem), 1);
 			}
 
-			Reward reward = new Reward(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-					+ plugin.getConfigManager().dropMoneyOnGroundSkullRewardName, money, rewardType, skinuuid);
+			Reward reward = new Reward(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+					+ Core.getConfigManager().bagOfGoldName, money, rewardType, skinuuid);
 			is = Reward.setDisplayNameAndHiddenLores(is, reward);
 			item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), money);
@@ -407,7 +393,7 @@ public class RewardManager {
 		}
 		if (item != null)
 			plugin.getMessages().debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
-					plugin.getConfigManager().dropMoneyOnGroundItemtype, droppedMoney.size());
+					Core.getConfigManager().rewardItemtype, droppedMoney.size());
 	}
 
 	/**
@@ -420,7 +406,7 @@ public class RewardManager {
 		if (reward.isBagOfGoldReward()) {
 			dropMoneyOnGround_RewardManager(null, null, location, reward.getMoney());
 		} else if (reward.isItemReward()) {
-			ItemStack is = new ItemStack(Material.valueOf(plugin.getConfigManager().dropMoneyOnGroundItem), 1);
+			ItemStack is = new ItemStack(Material.valueOf(Core.getConfigManager().rewardItem), 1);
 			Item item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else if (reward.isKilledHeadReward()) {
@@ -605,10 +591,10 @@ public class RewardManager {
 		skullMeta.setLore(reward.getHiddenLore());
 		if (reward.getMoney() == 0)
 			skullMeta.setDisplayName(
-					ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor) + reward.getDisplayName());
+					ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + reward.getDisplayName());
 		else
-			skullMeta.setDisplayName(ChatColor.valueOf(plugin.getConfigManager().dropMoneyOnGroundTextColor)
-					+ (plugin.getConfigManager().dropMoneyOnGroundItemtype.equalsIgnoreCase("ITEM")
+			skullMeta.setDisplayName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+					+ (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM")
 							? format(reward.getMoney())
 							: reward.getDisplayName() + " (" + format(reward.getMoney()) + ")"));
 		skull.setItemMeta(skullMeta);
@@ -636,7 +622,7 @@ public class RewardManager {
 			if (Reward.isReward(is)) {
 				Reward rewardInSlot = Reward.getReward(is);
 				if (rewardInSlot.isMoney()) {
-					if (rewardInSlot.getMoney() < plugin.getConfigManager().limitPerBag)
+					if (rewardInSlot.getMoney() < Core.getConfigManager().limitPerBag)
 						return true;
 				}
 			}
