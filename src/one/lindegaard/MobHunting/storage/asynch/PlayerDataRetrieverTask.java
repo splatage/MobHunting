@@ -1,6 +1,5 @@
 package one.lindegaard.MobHunting.storage.asynch;
 
-import java.sql.SQLException;
 import java.util.HashSet;
 
 import org.bukkit.OfflinePlayer;
@@ -28,7 +27,7 @@ public abstract class PlayerDataRetrieverTask implements IDataStoreTask<PlayerSe
 				return store.loadPlayerSettings(mPlayer);
 			} catch (UserNotFoundException e) {
 				MobHunting.getInstance().getMessages().debug("Saving new PlayerSettings for %s to database.", mPlayer.getName());
-				PlayerSettings ps = new PlayerSettings(mPlayer,
+				PlayerSettings ps = new PlayerSettings(mPlayer,0,
 						null, Core.getConfigManager().learningMode, false, null, null, 0, 0);
 				try {
 					store.insertPlayerSettings(ps);
@@ -40,10 +39,6 @@ public abstract class PlayerDataRetrieverTask implements IDataStoreTask<PlayerSe
 				e.printStackTrace();
 				return null;
 			}
-			//} catch (SQLException e) {
-			//	e.printStackTrace();
-			//	return null;
-			//}
 		}
 	}
 

@@ -87,29 +87,6 @@ public class MySQLDataStore extends DatabaseDataStore {
 		case SAVE_ACHIEVEMENTS:
 			mSaveAchievement = connection.prepareStatement("REPLACE INTO mh_Achievements VALUES(?,?,?,?);");
 			break;
-		// case GET_PLAYER_BY_PLAYER_ID:
-		// mGetPlayerByPlayerId = connection.prepareStatement("SELECT UUID FROM
-		// mh_Players WHERE PLAYER_ID=?;");
-		// break;
-		// case UPDATE_PLAYER_NAME:
-		// mUpdatePlayerName = connection.prepareStatement("UPDATE mh_Players SET NAME=?
-		// WHERE UUID=?;");
-		// break;
-		// case UPDATE_PLAYER_SETTINGS:
-		// mUpdatePlayerSettings = connection.prepareStatement(
-		// "UPDATE mh_Players SET LEARNING_MODE=?,MUTE_MODE=?,TEXTURE=?,SIGNATURE=?
-		// WHERE UUID=?;");
-		// break;
-		// case INSERT_PLAYER_SETTINGS:
-		// mInsertPlayerData = connection
-		// .prepareStatement("INSERT INTO mh_Players
-		// (UUID,NAME,LEARNING_MODE,MUTE_MODE,TEXTURE,SIGNATURE) "
-		// + "VALUES(?,?,?,?,?,?);");
-		// break;
-		// case GET_PLAYER_UUID:
-		// mGetPlayerUUID = connection.prepareStatement("SELECT UUID FROM mh_Players
-		// WHERE NAME=?;");
-		// break;
 		case GET_BOUNTIES:
 			mGetBounties = connection.prepareStatement(
 					"SELECT * FROM mh_Bounties where STATUS=0 AND (BOUNTYOWNER_ID=? OR WANTEDPLAYER_ID=? OR NOT NPC_ID=0);");

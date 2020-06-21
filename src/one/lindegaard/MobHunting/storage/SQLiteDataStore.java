@@ -94,15 +94,6 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			mUpdateMobs = connection
 					.prepareStatement("UPDATE mh_Mobs (PLUGIN_ID,MOBTYPE) VALUES (?,?) WHERE MOB_ID=?;");
 			break;
-		// case UPDATE_PLAYER_NAME:
-		// mUpdatePlayerName = connection.prepareStatement("UPDATE mh_Players SET NAME=?
-		// WHERE UUID=?;");
-		// break;
-		// case GET_PLAYER_BY_PLAYER_ID:
-		// mGetPlayerByPlayerId = connection.prepareStatement("SELECT UUID FROM
-		// mh_Players WHERE PLAYER_ID=?;");
-		// break;
-
 		case GET_OLD_PLAYER_ID:
 			mGetOldPlayerID = connection.prepareStatement("SELECT PLAYER_ID FROM mh_Players WHERE UUID=?;");
 			break;

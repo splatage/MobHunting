@@ -1,12 +1,9 @@
 package one.lindegaard.MobHunting.storage;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -53,7 +50,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	/**
 	 * Args: player uuid
 	 */
-	protected PreparedStatement mGetPlayerData;
+	protected PreparedStatement mGetOldPlayerData;
 
 	/**
 	 * Args: player name
@@ -63,7 +60,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	/**
 	 * Args: player name, player uuid
 	 */
-	//protected PreparedStatement mUpdatePlayerName;
+	// protected PreparedStatement mUpdatePlayerName;
 
 	/**
 	 * Args: player uuid
@@ -93,7 +90,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	/**
 	 * Args: player player_id
 	 */
-	//protected PreparedStatement mGetPlayerByPlayerId;
+	// protected PreparedStatement mGetPlayerByPlayerId;
 
 	/**
 	 * Establish initial connection to Database
@@ -161,8 +158,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 
 	public enum PreparedConnectionType {
 		LOAD_ARCHIEVEMENTS, SAVE_ACHIEVEMENTS, GET_BOUNTIES, INSERT_BOUNTY, DELETE_BOUNTY, LOAD_MOBS, INSERT_MOBS,
-		UPDATE_MOBS, SAVE_PLAYER_STATS, //UPDATE_PLAYER_NAME, GET_PLAYER_BY_PLAYER_ID, GET_PLAYER_DATA, UPDATE_PLAYER_DATA, INSERT_PLAYER_DATA,
-		GET_OLD_PLAYER_ID,
+		UPDATE_MOBS, SAVE_PLAYER_STATS, GET_OLD_PLAYER_ID,
 	};
 
 	/**
@@ -265,7 +261,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 								+ plugin.getConfigManager().databaseVersion + " detected. Migrating to V3");
 				migrateDatabaseLayoutFromV2toV3(mConnection);
 				migrate_mh_PlayersFromV2ToV3(mConnection);
-				createRandomBountyPlayer(mConnection);
+				Core.getStoreManager().createRandomBountyPlayer(mConnection);
 				setupTriggerV3(mConnection);
 				plugin.getConfigManager().databaseVersion = 3;
 				plugin.getConfigManager().saveConfig();
@@ -275,7 +271,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				// DATABASE IS UPTODATE or NOT created => create new database
 				setupV3Tables(mConnection);
 				migrate_mh_PlayersFromV2ToV3(mConnection);
-				createRandomBountyPlayer(mConnection);
+				Core.getStoreManager().createRandomBountyPlayer(mConnection);
 				setupTriggerV3(mConnection);
 				migrateDatabaseLayoutFromV3ToV4(mConnection);
 				plugin.getConfigManager().databaseVersion = 4;
@@ -285,6 +281,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV4Tables(mConnection);
 				migrateDatabaseLayoutFromV3ToV4(mConnection);
+				Core.getStoreManager().createRandomBountyPlayer(mConnection);
 				setupTriggerV4andV5(mConnection);
 				plugin.getConfigManager().databaseVersion = 5;
 				plugin.getConfigManager().saveConfig();
@@ -294,6 +291,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				setupV5Tables(mConnection);
 				setupTriggerV4andV5(mConnection);
 				migrateDatabaseLayoutFromV5ToV6(mConnection);
+				Core.getStoreManager().createRandomBountyPlayer(mConnection);
 				plugin.getConfigManager().databaseVersion = 6;
 				plugin.getConfigManager().saveConfig();
 			case 6:
@@ -301,6 +299,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV6Tables(mConnection);
 				migrateDatabaseLayoutFromV6ToV7(mConnection);
+				Core.getStoreManager().createRandomBountyPlayer(mConnection);
 				setupTriggerV4andV5(mConnection);
 				plugin.getConfigManager().databaseVersion = 7;
 				plugin.getConfigManager().saveConfig();
@@ -400,74 +399,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			throw new DataStoreException(e);
 		}
 	}
-	
-	
-	
-	/**
-	 * updatePlayerName - update the players name in the Database
-	 * 
-	 * @param offlinePlayer : OfflinePlayer
-	 * @throws SQLException
-	 * @throws DataStoreException
-	 */
-	/**protected void updatePlayerName(OfflinePlayer offlinePlayer) throws DataStoreException {
-		Connection mConnection;
-		try {
-			mConnection = setupConnection();
-			try {
-				openPreparedStatements(mConnection, PreparedConnectionType.UPDATE_PLAYER_NAME);
-				mUpdatePlayerName.setString(1, offlinePlayer.getName());
-				mUpdatePlayerName.setString(2, offlinePlayer.getUniqueId().toString());
-				mUpdatePlayerName.executeUpdate();
-				mUpdatePlayerName.close();
-				mConnection.commit();
-				mConnection.close();
-			} catch (SQLException e) {
-				mConnection.close();
-				throw new DataStoreException(e);
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
 
-	}**/
-
-	
-	//********************************************************************************************************
-	// MH_PLAYER
-	//********************************************************************************************************
-	
-	/**
-	 * getPlayerByPlayerId - get the player
-	 * 
-	 * @param name : String
-	 * @return player
-	 */
-	/**@Override
-	public OfflinePlayer getPlayerByPlayerId(int playerId) throws DataStoreException {
-		if (playerId == 0)
-			return null; // Used for Random Bounty
-		try {
-			Connection mConnection = setupConnection();
-			openPreparedStatements(mConnection, PreparedConnectionType.GET_PLAYER_BY_PLAYER_ID);
-			mGetPlayerByPlayerId.setInt(1, playerId);
-			ResultSet set = mGetPlayerByPlayerId.executeQuery();
-
-			if (set.next()) {
-				UUID uid = UUID.fromString(set.getString(1));
-				set.close();
-				mGetPlayerByPlayerId.close();
-				mConnection.close();
-				return Bukkit.getOfflinePlayer(uid);
-			}
-			mGetPlayerByPlayerId.close();
-			mConnection.close();
-			throw new UserNotFoundException("[MobHunting] PlayerId " + playerId + " is not present in database");
-		} catch (SQLException e) {
-			throw new DataStoreException(e);
-		}
-	}**/
-	
 	/**
 	 * getPlayerID. get the player ID and check if the player has change name
 	 * 
@@ -481,42 +413,30 @@ public abstract class DatabaseDataStore implements IDataStore {
 		if (offlinePlayer == null)
 			return 0;
 		int playerId = 0;
-		Bukkit.getConsoleSender().sendMessage("[BagOfGoldCore][DEBUG] player="+offlinePlayer.toString());
 		PlayerSettings ps = Core.getPlayerSettingsManager().getPlayerSettings(offlinePlayer);
 		if (ps != null)
 			playerId = ps.getPlayerId();
 		if (playerId == 0) {
 			Connection mConnection;
 			try {
-				//ArrayList<OfflinePlayer> changedNames = new ArrayList<OfflinePlayer>();
-
 				mConnection = setupConnection();
 				openPreparedStatements(mConnection, PreparedConnectionType.GET_OLD_PLAYER_ID);
-				mGetPlayerData.setString(1, offlinePlayer.getUniqueId().toString());
-				ResultSet result = mGetPlayerData.executeQuery();
+				MobHunting.getAPI().getMessages().debug("DatabaseDataStore(1): name=%s, id=%s, uuid=%s",
+						offlinePlayer.getName(), playerId, offlinePlayer.getUniqueId());
+				mGetOldPlayerData.setString(1, offlinePlayer.getUniqueId().toString());
+				ResultSet result = mGetOldPlayerData.executeQuery();
 				if (result.next()) {
-					String name = result.getString(2);
-					UUID uuid = UUID.fromString(result.getString(1));
-					//if (name != null && uuid != null)
-					//	if (offlinePlayer.getUniqueId().equals(uuid) && !offlinePlayer.getName().equals(name)) {
-					//		Core.getMessages().debug("Name change detected(2): " + name + " -> "
-					//				+ offlinePlayer.getName() + " UUID=" + offlinePlayer.getUniqueId().toString());
-					//		changedNames.add(offlinePlayer);
-					//	}
-					playerId = result.getInt(3);
+					playerId = result.getInt("PLAYER_ID");
 					result.close();
 
 				}
 				result.close();
-				mGetPlayerData.close();
+				mGetOldPlayerData.close();
 				mConnection.close();
 
-				//Iterator<OfflinePlayer> itr = changedNames.iterator();
-				//while (itr.hasNext()) {
-				//	OfflinePlayer p = itr.next();
-				//	Core.getMessages().debug("Updating playername in database and in memory (%s)", p.getName());
-				//	Core.getDataStoreManager().updatePlayerName(p.getPlayer());
-				//}
+				if (ps.getPlayerId() != 0)
+					Core.getPlayerSettingsManager().setPlayerSettings(offlinePlayer, ps);
+
 			} catch (SQLException e) {
 				throw new DataStoreException(e);
 			}
@@ -524,10 +444,10 @@ public abstract class DatabaseDataStore implements IDataStore {
 		return playerId;
 	}
 
-	//********************************************************************************************************
+	// ********************************************************************************************************
 	// Achievements
-	//********************************************************************************************************
-	
+	// ********************************************************************************************************
+
 	@Override
 	public void resetAchievements() throws DataStoreException {
 		try {
@@ -1305,7 +1225,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 		try {
 			Connection mConnection = setupConnection();
 			int playerId = Core.getDataStoreManager().getPlayerId(offlinePlayer);
-			if (playerId==0)
+			if (playerId == 0)
 				playerId = plugin.getDataStoreManager().getOldPlayerId(offlinePlayer);
 			openPreparedStatements(mConnection, PreparedConnectionType.GET_BOUNTIES);
 			mGetBounties.setInt(1, playerId);
@@ -1341,137 +1261,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 		}
 	};
 
-	/**
-	 * create a RandomBountyPlayer if not exist in mh_Players
-	 * 
-	 * @param connection
-	 */
-	private void createRandomBountyPlayer(Connection connection) {
-		// added because BOUNTYOWNER_ID is null for Random bounties.
-		try {
-			Statement create = connection.createStatement();
-			ResultSet rs = create.executeQuery("SELECT PLAYER_ID from mh_Players WHERE NAME='RandomBounty' LIMIT 0");
-			if (!rs.next()) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Adding RandomBounty Player to MobHunting Database.");
-				create.executeUpdate(
-						"insert into mh_Players (UUID,NAME,PLAYER_ID,LEARNING_MODE,MUTE_MODE) values (null,'RandomBounty',0,0,0)");
-				create.executeUpdate("update mh_Players set Player_id=0 where name='RandomBounty'");
-			}
-			rs.close();
-			create.close();
-		} catch (SQLException e) {
-			// e.printStackTrace();
-		}
-	}
-
-	// ******************************************************************
-		// Player Settings
-		// ******************************************************************
-
-		/**
-		 * getPlayerSettings
-		 * 
-		 * @param offlinePlayer
-		 *            :OfflinePlayer
-		 * @return PlayerData
-		 * @throws DataStoreException
-		 * @throws SQLException
-		 * 
-		 */
-		/**@Override
-		public PlayerSettings loadPlayerSettings(OfflinePlayer offlinePlayer) throws DataStoreException, SQLException {
-			Connection mConnection = setupConnection();
-			openPreparedStatements(mConnection, PreparedConnectionType.GET_PLAYER_DATA);
-			mGetPlayerData.setString(1, offlinePlayer.getUniqueId().toString());
-			ResultSet result = mGetPlayerData.executeQuery();
-			if (result.next()) {
-				PlayerSettings ps = new PlayerSettings(offlinePlayer, result.getString("LAST_WORLDGRP"), result.getBoolean("LEARNING_MODE"),
-						result.getBoolean("MUTE_MODE"), result.getString("TEXTURE"), result.getString("SIGNATURE"), 0, 0);
-				int id = result.getInt("PLAYER_ID");
-				if (id != 0)
-					ps.setPlayerId(id);
-				result.close();
-				plugin.getMessages().debug("Reading from Database: %s", ps.toString());
-				mGetPlayerData.close();
-				mConnection.close();
-				return ps;
-			}
-			mGetPlayerData.close();
-			mConnection.close();
-			throw new UserNotFoundException("User " + offlinePlayer.toString() + " is not present in database");
-		}**/
-
-		/**
-		 * insertPlayerSettings to database
-		 */
-		/**@Override
-		public void insertPlayerSettings(PlayerSettings playerSettings) throws DataStoreException {
-			Connection mConnection;
-			try {
-				mConnection = setupConnection();
-				try {
-					openPreparedStatements(mConnection, PreparedConnectionType.INSERT_PLAYER_DATA);
-					mInsertPlayerData.setString(1, playerSettings.getPlayer().getUniqueId().toString());
-					mInsertPlayerData.setString(2, playerSettings.getPlayer().getName());
-					mInsertPlayerData.setInt(3, playerSettings.isLearningMode() ? 1 : 0);
-					mInsertPlayerData.setInt(4, playerSettings.isMuted() ? 1 : 0);
-					mInsertPlayerData.setString(5, playerSettings.getTexture());
-					mInsertPlayerData.setString(6, playerSettings.getSignature());
-					mInsertPlayerData.addBatch();
-					mInsertPlayerData.executeBatch();
-					mInsertPlayerData.close();
-					mConnection.commit();
-					mConnection.close();
-				} catch (SQLException e) {
-					rollback(mConnection);
-					mConnection.close();
-					throw new DataStoreException(e);
-				}
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-
-		}**/
-
-		/**@Override
-		public void savePlayerSettings(Set<PlayerSettings> playerDataSet) throws DataStoreException {
-			Connection mConnection;
-			try {
-				mConnection = setupConnection();
-				try {
-					openPreparedStatements(mConnection, PreparedConnectionType.UPDATE_PLAYER_DATA);
-					for (PlayerSettings playerData : playerDataSet) {
-						mUpdatePlayerSettings.setInt(1, playerData.isLearningMode() ? 1 : 0);
-						mUpdatePlayerSettings.setInt(2, playerData.isMuted() ? 1 : 0);
-						mUpdatePlayerSettings.setString(3, playerData.getTexture());
-						mUpdatePlayerSettings.setString(4, playerData.getSignature());
-						mUpdatePlayerSettings.setString(5, playerData.getPlayer().getUniqueId().toString());
-						mUpdatePlayerSettings.addBatch();
-					}
-					mUpdatePlayerSettings.executeBatch();
-					mUpdatePlayerSettings.close();
-					mConnection.commit();
-					mConnection.close();
-
-					plugin.getMessages().debug("PlayerSettings saved.");
-
-					for (PlayerSettings playerData : playerDataSet) {
-						if (plugin.getPlayerManager().containsKey(playerData.getPlayer())
-								&& !playerData.getPlayer().isOnline())
-							plugin.getPlayerManager().removePlayerData((Player) playerData.getPlayer());
-					}
-
-				} catch (SQLException e) {
-					rollback(mConnection);
-					mConnection.close();
-					throw new DataStoreException(e);
-				}
-			} catch (SQLException e1) {
-				throw new DataStoreException(e1);
-			}
-		}**/
-
 	// ******************************************************************
 	// ACHIEVEMENTS
 	// ******************************************************************
@@ -1499,7 +1288,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			Connection mConnection = setupConnection();
 			openPreparedStatements(mConnection, PreparedConnectionType.LOAD_ARCHIEVEMENTS);
 			int playerId = Core.getDataStoreManager().getPlayerId(player);
-			if (playerId==0)
+			if (playerId == 0)
 				playerId = plugin.getDataStoreManager().getOldPlayerId(player);
 			if (playerId != 0) {
 				mLoadAchievements.setInt(1, playerId);
@@ -1528,8 +1317,8 @@ public abstract class DatabaseDataStore implements IDataStore {
 			try {
 				openPreparedStatements(mConnection, PreparedConnectionType.SAVE_ACHIEVEMENTS);
 				for (AchievementStore achievement : achievements) {
-					int playerId=Core.getDataStoreManager().getPlayerId(achievement.player);
-					if (playerId==0)
+					int playerId = Core.getDataStoreManager().getPlayerId(achievement.player);
+					if (playerId == 0)
 						playerId = plugin.getDataStoreManager().getOldPlayerId(achievement.player);
 					mSaveAchievement.setInt(1, playerId);
 					mSaveAchievement.setString(2, achievement.id);
@@ -1570,7 +1359,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	 * Args: player id, achievement, date, progress
 	 */
 	protected PreparedStatement mUpdateMobs;
-	
+
 	/**
 	 * Args: UUID
 	 */

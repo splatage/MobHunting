@@ -174,38 +174,6 @@ public class DataStoreManager {
 	}
 
 	// *****************************************************************************
-	// PlayerSettings
-	// *****************************************************************************
-	//public void requestPlayerData(OfflinePlayer player, IDataCallback<PlayerSettings> iDataCallback) {
-	//	mTaskThread.addTask(new PlayerDataRetrieverTask(player, mWaiting), iDataCallback);
-	//}
-
-	/**
-	 * Update the playerSettings in the Database
-	 * 
-	 * @param offlinePlayer
-	 * @param learning_mode
-	 * @param muted
-	 */
-	//public void updatePlayerSettings(OfflinePlayer offlinePlayer, boolean learning_mode, boolean muted) {
-	//	synchronized (mWaiting) {
-	//		mWaiting.add(new PlayerSettings(offlinePlayer, learning_mode, muted));
-	//	}
-	//}
-
-	/**
-	 * Update the playerSettings in the Database
-	 * 
-	 * @param offlinePlayer
-	 * @param playerSetting
-	 */
-	//public void updatePlayerSettings(OfflinePlayer offlinePlayer, PlayerSettings ps) {
-	//	synchronized (mWaiting) {
-	//		mWaiting.add(new PlayerSettings(offlinePlayer, ps));
-	//	}
-	//}
-
-	// *****************************************************************************
 	// Common
 	// *****************************************************************************
 	/**
