@@ -94,14 +94,17 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			mUpdateMobs = connection
 					.prepareStatement("UPDATE mh_Mobs (PLUGIN_ID,MOBTYPE) VALUES (?,?) WHERE MOB_ID=?;");
 			break;
-		//case UPDATE_PLAYER_NAME:
-		//	mUpdatePlayerName = connection.prepareStatement("UPDATE mh_Players SET NAME=? WHERE UUID=?;");
-		//	break;
-		//case GET_PLAYER_BY_PLAYER_ID:
-		//	mGetPlayerByPlayerId = connection.prepareStatement("SELECT UUID FROM mh_Players WHERE PLAYER_ID=?;");
-		//	break;
+		// case UPDATE_PLAYER_NAME:
+		// mUpdatePlayerName = connection.prepareStatement("UPDATE mh_Players SET NAME=?
+		// WHERE UUID=?;");
+		// break;
+		// case GET_PLAYER_BY_PLAYER_ID:
+		// mGetPlayerByPlayerId = connection.prepareStatement("SELECT UUID FROM
+		// mh_Players WHERE PLAYER_ID=?;");
+		// break;
 
-		default:
+		case GET_OLD_PLAYER_ID:
+			mGetOldPlayerID = connection.prepareStatement("SELECT PLAYER_ID FROM mh_Players WHERE UUID=?;");
 			break;
 		}
 	}
@@ -241,8 +244,11 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				int mob_id = 0;
 				if (!st.getType().getDBColumn().substring(0, st.getType().getDBColumn().lastIndexOf("_"))
 						.equalsIgnoreCase("achievement"))
-					mob_id = st.getMob().getMob_id();
-				mSavePlayerStats.setInt(2, Core.getDataStoreManager().getPlayerId(st.getPlayer()));
+					mob_id = st.getMob().getMob_id();				
+				int player_id = Core.getDataStoreManager().getPlayerId(st.getPlayer());
+				if (player_id==0)
+						player_id = plugin.getDataStoreManager().getOldPlayerId(st.getPlayer());
+				mSavePlayerStats.setInt(2, player_id);
 				mSavePlayerStats.setInt(1, mob_id);
 				mSavePlayerStats.addBatch();
 			}
@@ -267,6 +273,8 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				int amount = stat.getAmount();
 				double cash = Misc.round(stat.getCash());
 				int player_id = Core.getDataStoreManager().getPlayerId(stat.getPlayer());
+				if (player_id==0)
+					player_id = plugin.getDataStoreManager().getOldPlayerId(stat.getPlayer());
 				String str = String.format(Locale.US,
 						"UPDATE mh_Daily SET %1$s = %1$s + %2$d, %5$s = %5$s + %6$f WHERE ID = strftime(\"%%Y%%j\",\"now\")"
 								+ " AND MOB_ID=%3$d AND PLAYER_ID = %4$d;",
@@ -296,7 +304,11 @@ public class SQLiteDataStore extends DatabaseDataStore {
 					if (bounty.getBountyOwner() == null)
 						plugin.getMessages().debug("RandomBounty to be inserted: %s", bounty.toString());
 					int bountyOwnerId = Core.getDataStoreManager().getPlayerId(bounty.getBountyOwner());
+					if (bountyOwnerId==0)
+						bountyOwnerId = plugin.getDataStoreManager().getOldPlayerId(bounty.getBountyOwner());
 					int wantedPlayerId = Core.getDataStoreManager().getPlayerId(bounty.getWantedPlayer());
+					if (wantedPlayerId==0)
+						wantedPlayerId = plugin.getDataStoreManager().getOldPlayerId(bounty.getWantedPlayer());
 					mInsertBounty.setString(1, bounty.getMobtype());
 					mInsertBounty.setInt(2, bountyOwnerId);
 					mInsertBounty.setInt(3, wantedPlayerId);

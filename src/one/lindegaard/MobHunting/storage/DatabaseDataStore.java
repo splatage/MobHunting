@@ -1,13 +1,18 @@
 package one.lindegaard.MobHunting.storage;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import one.lindegaard.Core.Core;
+import one.lindegaard.Core.PlayerSettings;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.Core.storage.UserNotFoundException;
@@ -157,6 +162,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	public enum PreparedConnectionType {
 		LOAD_ARCHIEVEMENTS, SAVE_ACHIEVEMENTS, GET_BOUNTIES, INSERT_BOUNTY, DELETE_BOUNTY, LOAD_MOBS, INSERT_MOBS,
 		UPDATE_MOBS, SAVE_PLAYER_STATS, //UPDATE_PLAYER_NAME, GET_PLAYER_BY_PLAYER_ID, GET_PLAYER_DATA, UPDATE_PLAYER_DATA, INSERT_PLAYER_DATA,
+		GET_OLD_PLAYER_ID,
 	};
 
 	/**
@@ -470,8 +476,8 @@ public abstract class DatabaseDataStore implements IDataStore {
 	 * @throws SQLException
 	 * @throws DataStoreException
 	 */
-	/**@Override
-	public int getPlayerId(OfflinePlayer offlinePlayer) throws DataStoreException {
+	@Override
+	public int getOldPlayerId(OfflinePlayer offlinePlayer) throws DataStoreException {
 		if (offlinePlayer == null)
 			return 0;
 		int playerId = 0;
@@ -482,21 +488,21 @@ public abstract class DatabaseDataStore implements IDataStore {
 		if (playerId == 0) {
 			Connection mConnection;
 			try {
-				ArrayList<OfflinePlayer> changedNames = new ArrayList<OfflinePlayer>();
+				//ArrayList<OfflinePlayer> changedNames = new ArrayList<OfflinePlayer>();
 
 				mConnection = setupConnection();
-				openPreparedStatements(mConnection, PreparedConnectionType.GET_PLAYER_DATA);
+				openPreparedStatements(mConnection, PreparedConnectionType.GET_OLD_PLAYER_ID);
 				mGetPlayerData.setString(1, offlinePlayer.getUniqueId().toString());
 				ResultSet result = mGetPlayerData.executeQuery();
 				if (result.next()) {
 					String name = result.getString(2);
 					UUID uuid = UUID.fromString(result.getString(1));
-					if (name != null && uuid != null)
-						if (offlinePlayer.getUniqueId().equals(uuid) && !offlinePlayer.getName().equals(name)) {
-							Core.getMessages().debug("Name change detected(2): " + name + " -> "
-									+ offlinePlayer.getName() + " UUID=" + offlinePlayer.getUniqueId().toString());
-							changedNames.add(offlinePlayer);
-						}
+					//if (name != null && uuid != null)
+					//	if (offlinePlayer.getUniqueId().equals(uuid) && !offlinePlayer.getName().equals(name)) {
+					//		Core.getMessages().debug("Name change detected(2): " + name + " -> "
+					//				+ offlinePlayer.getName() + " UUID=" + offlinePlayer.getUniqueId().toString());
+					//		changedNames.add(offlinePlayer);
+					//	}
 					playerId = result.getInt(3);
 					result.close();
 
@@ -505,18 +511,18 @@ public abstract class DatabaseDataStore implements IDataStore {
 				mGetPlayerData.close();
 				mConnection.close();
 
-				Iterator<OfflinePlayer> itr = changedNames.iterator();
-				while (itr.hasNext()) {
-					OfflinePlayer p = itr.next();
-					Core.getMessages().debug("Updating playername in database and in memory (%s)", p.getName());
-					updatePlayerName(p.getPlayer());
-				}
+				//Iterator<OfflinePlayer> itr = changedNames.iterator();
+				//while (itr.hasNext()) {
+				//	OfflinePlayer p = itr.next();
+				//	Core.getMessages().debug("Updating playername in database and in memory (%s)", p.getName());
+				//	Core.getDataStoreManager().updatePlayerName(p.getPlayer());
+				//}
 			} catch (SQLException e) {
 				throw new DataStoreException(e);
 			}
 		}
 		return playerId;
-	}**/
+	}
 
 	//********************************************************************************************************
 	// Achievements
@@ -1299,6 +1305,8 @@ public abstract class DatabaseDataStore implements IDataStore {
 		try {
 			Connection mConnection = setupConnection();
 			int playerId = Core.getDataStoreManager().getPlayerId(offlinePlayer);
+			if (playerId==0)
+				playerId = plugin.getDataStoreManager().getOldPlayerId(offlinePlayer);
 			openPreparedStatements(mConnection, PreparedConnectionType.GET_BOUNTIES);
 			mGetBounties.setInt(1, playerId);
 			mGetBounties.setInt(2, playerId);
@@ -1491,6 +1499,8 @@ public abstract class DatabaseDataStore implements IDataStore {
 			Connection mConnection = setupConnection();
 			openPreparedStatements(mConnection, PreparedConnectionType.LOAD_ARCHIEVEMENTS);
 			int playerId = Core.getDataStoreManager().getPlayerId(player);
+			if (playerId==0)
+				playerId = plugin.getDataStoreManager().getOldPlayerId(player);
 			if (playerId != 0) {
 				mLoadAchievements.setInt(1, playerId);
 				ResultSet set = mLoadAchievements.executeQuery();
@@ -1518,7 +1528,10 @@ public abstract class DatabaseDataStore implements IDataStore {
 			try {
 				openPreparedStatements(mConnection, PreparedConnectionType.SAVE_ACHIEVEMENTS);
 				for (AchievementStore achievement : achievements) {
-					mSaveAchievement.setInt(1, Core.getDataStoreManager().getPlayerId(achievement.player));
+					int playerId=Core.getDataStoreManager().getPlayerId(achievement.player);
+					if (playerId==0)
+						playerId = plugin.getDataStoreManager().getOldPlayerId(achievement.player);
+					mSaveAchievement.setInt(1, playerId);
 					mSaveAchievement.setString(2, achievement.id);
 					mSaveAchievement.setDate(3, new Date(System.currentTimeMillis()));
 					mSaveAchievement.setInt(4, achievement.progress);
@@ -1557,6 +1570,11 @@ public abstract class DatabaseDataStore implements IDataStore {
 	 * Args: player id, achievement, date, progress
 	 */
 	protected PreparedStatement mUpdateMobs;
+	
+	/**
+	 * Args: UUID
+	 */
+	protected PreparedStatement mGetOldPlayerID;
 
 	/**
 	 * loadMobs - load all mobs from database into memory

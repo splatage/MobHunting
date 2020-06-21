@@ -136,7 +136,7 @@ public interface IDataStore {
 	 * @throws DataStoreException
 	 * @throws UserNotFoundException
 	 */
-	//int getPlayerId(OfflinePlayer player) throws DataStoreException;
+	int getOldPlayerId(OfflinePlayer player) throws DataStoreException;
 	
 	/**
 	 * Delete all achievements data from the database

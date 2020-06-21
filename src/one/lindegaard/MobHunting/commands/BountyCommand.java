@@ -165,6 +165,8 @@ public class BountyCommand implements ICommand {
 			int playerId;
 			try {
 				playerId = Core.getDataStoreManager().getPlayerId(wantedPlayer);
+				if (playerId==0)
+					playerId = plugin.getDataStoreManager().getOldPlayerId(wantedPlayer);
 			} catch (one.lindegaard.Core.storage.UserNotFoundException e) {
 				plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
 						"mobhunting.commands.bounty.unknown-player", "wantedplayer", wantedPlayer.getName()));
