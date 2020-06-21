@@ -19,6 +19,7 @@ import java.util.WeakHashMap;
 
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.server.Servers;
+import one.lindegaard.Core.storage.IDataCallback;
 import one.lindegaard.Core.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
@@ -31,7 +32,6 @@ import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.storage.AchievementStore;
-import one.lindegaard.MobHunting.storage.IDataCallback;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;

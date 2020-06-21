@@ -4,19 +4,31 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.PlayerSettings;
+import one.lindegaard.Core.storage.DataStoreException;
+import one.lindegaard.Core.storage.IDataCallback;
+import one.lindegaard.MobHunting.rewards.CustomItems;
 
-public class PlayerSettingsManager_old implements Listener {
+public class PlayerManager implements Listener {
 
-	private HashMap<UUID, PlayerSettings> mPlayerSettings = new HashMap<UUID, PlayerSettings>();
+	private HashMap<UUID, PlayerSettings> mPlayerData = new HashMap<UUID, PlayerSettings>();
 
 	private MobHunting plugin;
 
 	/**
 	 * Constructor for the PlayerSettingsmanager
 	 */
-	PlayerSettingsManager_old(MobHunting plugin) {
+	PlayerManager(MobHunting plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
@@ -27,48 +39,48 @@ public class PlayerSettingsManager_old implements Listener {
 	 * @param offlinePlayer
 	 * @return PlayerSettings
 	 */
-	/**public PlayerSettings getPlayerSettings(OfflinePlayer offlinePlayer) {
-		if (mPlayerSettings.containsKey(offlinePlayer.getUniqueId()))
-			return mPlayerSettings.get(offlinePlayer.getUniqueId());
+	public PlayerSettings getPlayerData(OfflinePlayer offlinePlayer) {
+		if (mPlayerData.containsKey(offlinePlayer.getUniqueId()))
+			return mPlayerData.get(offlinePlayer.getUniqueId());
 		else {
+			PlayerSettings ps;
 			try {
-				PlayerSettings ps = Core.getStoreManager().loadPlayerSettings(offlinePlayer);
-				return ps;
-			} catch (DataStoreException | SQLException e) {
-				plugin.getMessages().debug("%s is not in the database. (Has played before=%s)", offlinePlayer.getName(),
-						offlinePlayer.hasPlayedBefore());
+				ps = Core.getStoreManager().loadPlayerSettings(offlinePlayer);
+			} catch (DataStoreException e) {
 				return new PlayerSettings(offlinePlayer);
 			}
+			return ps;
 		}
 
-	}**/
+	}
 
 	/**
 	 * Store playerSettings in memory
 	 * 
 	 * @param playerSettings
 	 */
-	/**public void setPlayerSettings(OfflinePlayer player, PlayerSettings playerSettings) {
-		mPlayerSettings.put(player.getUniqueId(), playerSettings);
-		plugin.getDataStoreManager().updatePlayerSettings(player, playerSettings);
-	}**/
+	public void setPlayerData(OfflinePlayer player, PlayerSettings playerSettings) {
+		mPlayerData.put(player.getUniqueId(), playerSettings);
+		Core.getDataStoreManager().updatePlayerSettings(player, playerSettings);
+		//plugin.getDataStoreManager().updatePlayerSettings(player, playerSettings);
+	}
 
 	/**
 	 * Remove PlayerSettings from Memory
 	 * 
 	 * @param player
 	 */
-	/**public void removePlayerSettings(OfflinePlayer player) {
+	public void removePlayerData(OfflinePlayer player) {
 		plugin.getMessages().debug("Removing %s from player settings cache", player.getName());
-		mPlayerSettings.remove(player.getUniqueId());
-	}**/
+		mPlayerData.remove(player.getUniqueId());
+	}
 
 	/**
 	 * Read PlayerSettings From database into Memory when player joins
 	 * 
 	 * @param event
 	 */
-	/**@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		if (containsKey(player))
@@ -76,9 +88,10 @@ public class PlayerSettingsManager_old implements Listener {
 					plugin.getRewardManager().format(plugin.getRewardManager().getBalance(player)),
 					player.getGameMode());
 		else {
+			Core.getPlayerSettingsManager().load(player);
 			load(player);
 		}
-	}**/
+	}
 
 	/**
 	 * Write PlayerSettings to Database when Player Quit and remove PlayerSettings
@@ -86,23 +99,23 @@ public class PlayerSettingsManager_old implements Listener {
 	 * 
 	 * @param event
 	 */
-	/**@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPlayerQuit(PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
-		plugin.getDataStoreManager().updatePlayerSettings(player, getPlayerSettings(player));
-	}**/
+		Core.getDataStoreManager().updatePlayerSettings(player, getPlayerData(player));
+	}
 
 	/**
 	 * Load PlayerSettings asynchronously from Database
 	 * 
 	 * @param player
 	 */
-	/**public void load(final OfflinePlayer player) {
-		plugin.getDataStoreManager().requestPlayerSettings(player, new IDataCallback<PlayerSettings>() {
+	public void load(final OfflinePlayer player) {
+		Core.getDataStoreManager().requestPlayerSettings(player, new IDataCallback<PlayerSettings>() {
 
 			@Override
 			public void onCompleted(PlayerSettings ps) {
-				mPlayerSettings.put(player.getUniqueId(), ps);
+				mPlayerData.put(player.getUniqueId(), ps);
 
 				if (ps.isMuted())
 					plugin.getMessages().debug("%s isMuted()", player.getName());
@@ -119,10 +132,10 @@ public class PlayerSettingsManager_old implements Listener {
 			public void onError(Throwable error) {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting][ERROR] " + player.getName()
 						+ " is new, creating user in database.");
-				mPlayerSettings.put(player.getUniqueId(), new PlayerSettings(player));
+				mPlayerData.put(player.getUniqueId(), new PlayerSettings(player));
 			}
 		});
-	}**/
+	}
 
 	/**
 	 * Test if PlayerSettings contains data for Player
@@ -130,8 +143,8 @@ public class PlayerSettingsManager_old implements Listener {
 	 * @param player
 	 * @return true if player exists in PlayerSettings in Memory
 	 */
-	/**public boolean containsKey(final OfflinePlayer player) {
-		return mPlayerSettings.containsKey(player.getUniqueId());
-	}**/
+	public boolean containsKey(final OfflinePlayer player) {
+		return mPlayerData.containsKey(player.getUniqueId());
+	}
 
 }

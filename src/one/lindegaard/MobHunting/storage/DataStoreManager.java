@@ -12,6 +12,7 @@ import org.bukkit.OfflinePlayer;
 
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.storage.DataStoreException;
+import one.lindegaard.Core.storage.IDataCallback;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.achievements.Achievement;
@@ -21,11 +22,11 @@ import one.lindegaard.MobHunting.bounty.BountyStatus;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.storage.asynch.AchievementRetrieverTask;
-import one.lindegaard.MobHunting.storage.asynch.StatRetrieverTask;
-import one.lindegaard.MobHunting.storage.asynch.StoreTask;
 import one.lindegaard.MobHunting.storage.asynch.AchievementRetrieverTask.Mode;
 import one.lindegaard.MobHunting.storage.asynch.BountyRetrieverTask;
 import one.lindegaard.MobHunting.storage.asynch.IDataStoreTask;
+import one.lindegaard.MobHunting.storage.asynch.StatRetrieverTask;
+import one.lindegaard.MobHunting.storage.asynch.StoreTask;
 
 public class DataStoreManager {
 
@@ -51,8 +52,8 @@ public class DataStoreManager {
 		int savePeriod = plugin.getConfigManager().savePeriod;
 		if (savePeriod < 1200) {
 			savePeriod = 1200;
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD
-					+ "[MobHunting]"+ChatColor.RED+"[Warning] save-period in your config.yml is too low. Please raise it to 1200 or higher");
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
+					+ "[Warning] save-period in your config.yml is too low. Please raise it to 1200 or higher");
 		}
 		mStoreThread = new StoreThread(savePeriod);
 	}
@@ -64,6 +65,28 @@ public class DataStoreManager {
 	}
 
 	// **************************************************************************************
+	// Player_DATA
+	// **************************************************************************************
+
+	/**
+	 * Get the playerId from the database
+	 * 
+	 * @param offlinePlayer
+	 * @return
+	 * @throws UserNotFoundException
+	 */
+	/**public int getPlayerId(OfflinePlayer offlinePlayer) throws UserNotFoundException {
+		try {
+			return mStore.getPlayerId(offlinePlayer);
+		} catch (DataStoreException e) {
+			if (Core.getConfigManager().debug)
+				e.printStackTrace();
+		}
+		throw new UserNotFoundException(
+				"[MobHunting] User " + offlinePlayer.getName() + " is not present in MobHunting database");
+	}**/
+
+	// **************************************************************************************
 	// PlayerStats
 	// **************************************************************************************
 	public void recordKill(OfflinePlayer player, ExtendedMob mob, boolean bonusMob, double cash) {
@@ -71,9 +94,10 @@ public class DataStoreManager {
 			mWaiting.add(new StatStore(StatType.fromMobType(mob, true), mob, player, 1, cash));
 
 			if (bonusMob)
-				mWaiting.add(new StatStore(StatType.fromMobType(
-						new ExtendedMob(MobType.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), true), mob,
-						player, 1, cash));
+				mWaiting.add(new StatStore(
+						StatType.fromMobType(
+								new ExtendedMob(MobType.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), true),
+						mob, player, 1, cash));
 		}
 	}
 
@@ -83,9 +107,10 @@ public class DataStoreManager {
 			mWaiting.add(new StatStore(StatType.fromMobType(mob, false), mob, player, 1, cash));
 
 			if (bonusMob)
-				mWaiting.add(new StatStore(StatType.fromMobType(
-						new ExtendedMob(MobType.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), false), mob,
-						player, 1, cash));
+				mWaiting.add(new StatStore(
+						StatType.fromMobType(
+								new ExtendedMob(MobType.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), false),
+						mob, player, 1, cash));
 		}
 	}
 
@@ -94,9 +119,10 @@ public class DataStoreManager {
 			mWaiting.add(new StatStore(StatType.fromMobType(mob, true), mob, player, 0, cash));
 
 			if (bonusMob)
-				mWaiting.add(new StatStore(StatType.fromMobType(
-						new ExtendedMob(MobType.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), true), mob,
-						player, 0, cash));
+				mWaiting.add(new StatStore(
+						StatType.fromMobType(
+								new ExtendedMob(MobType.BonusMob.ordinal(), MobPlugin.Minecraft, "BonusMob"), true),
+						mob, player, 0, cash));
 		}
 	}
 
@@ -145,6 +171,37 @@ public class DataStoreManager {
 		mTaskThread.addTask(new BountyRetrieverTask(plugin, mode, player, mWaiting), callback);
 	}
 
+	// *****************************************************************************
+	// PlayerSettings
+	// *****************************************************************************
+	//public void requestPlayerData(OfflinePlayer player, IDataCallback<PlayerSettings> iDataCallback) {
+	//	mTaskThread.addTask(new PlayerDataRetrieverTask(player, mWaiting), iDataCallback);
+	//}
+
+	/**
+	 * Update the playerSettings in the Database
+	 * 
+	 * @param offlinePlayer
+	 * @param learning_mode
+	 * @param muted
+	 */
+	//public void updatePlayerSettings(OfflinePlayer offlinePlayer, boolean learning_mode, boolean muted) {
+	//	synchronized (mWaiting) {
+	//		mWaiting.add(new PlayerSettings(offlinePlayer, learning_mode, muted));
+	//	}
+	//}
+
+	/**
+	 * Update the playerSettings in the Database
+	 * 
+	 * @param offlinePlayer
+	 * @param playerSetting
+	 */
+	//public void updatePlayerSettings(OfflinePlayer offlinePlayer, PlayerSettings ps) {
+	//	synchronized (mWaiting) {
+	//		mWaiting.add(new PlayerSettings(offlinePlayer, ps));
+	//	}
+	//}
 
 	// *****************************************************************************
 	// Common
@@ -171,7 +228,7 @@ public class DataStoreManager {
 			while (mTaskThread.getState() != Thread.State.WAITING && mTaskThread.getState() != Thread.State.TERMINATED
 					&& n < 40) {
 				Thread.sleep(500);
-				plugin.getMessages().debug("Waiting %s",n);
+				plugin.getMessages().debug("Waiting %s", n);
 				n++;
 			}
 			plugin.getMessages().debug("mTaskThread.state=%s", mTaskThread.getState());
@@ -180,14 +237,14 @@ public class DataStoreManager {
 				mTaskThread.interrupt();
 			}
 			plugin.getMessages().debug("mStoreThread.state=%s", mStoreThread.getState());
-			//plugin.getMessages().debug("Interupting mStoreThread");
-			//mStoreThread.interrupt();
+			// plugin.getMessages().debug("Interupting mStoreThread");
+			// mStoreThread.interrupt();
 			plugin.getMessages().debug("mTaskThread.state=%s", mTaskThread.getState());
 			if (mTaskThread.getState() != Thread.State.WAITING) {
 				mTaskThread.waitForEmptyQueue();
 			} else {
-				//plugin.getMessages().debug("Interupting mTaskThread");
-				//mTaskThread.interrupt();
+				// plugin.getMessages().debug("Interupting mTaskThread");
+				// mTaskThread.interrupt();
 			}
 
 		} catch (InterruptedException e) {
@@ -299,7 +356,8 @@ public class DataStoreManager {
 				return;
 
 			synchronized (mSignal) {
-				plugin.getMessages().debug("waitForEmptyQueue: Waiting for %s+%s tasks to finish before closing connections.",
+				plugin.getMessages().debug(
+						"waitForEmptyQueue: Waiting for %s+%s tasks to finish before closing connections.",
 						mQueue.size(), mWaiting.size());
 				while (!mQueue.isEmpty())
 					mSignal.wait();

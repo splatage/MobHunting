@@ -19,6 +19,7 @@ import com.sainttx.holograms.api.Hologram;
 import com.sainttx.holograms.api.line.HologramLine;
 import com.sainttx.holograms.api.line.TextualHologramLine;
 
+import one.lindegaard.Core.storage.IDataCallback;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.compatibility.CMICompat;
@@ -28,7 +29,6 @@ import one.lindegaard.MobHunting.compatibility.HologramsHelper;
 import one.lindegaard.MobHunting.compatibility.HolographicDisplaysCompat;
 import one.lindegaard.MobHunting.compatibility.HolographicDisplaysHelper;
 import one.lindegaard.MobHunting.compatibility.PlaceholderAPICompat;
-import one.lindegaard.MobHunting.storage.IDataCallback;
 import one.lindegaard.MobHunting.storage.StatStore;
 import one.lindegaard.MobHunting.storage.TimePeriod;
 

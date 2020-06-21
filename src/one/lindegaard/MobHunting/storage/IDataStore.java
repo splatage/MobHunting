@@ -122,6 +122,23 @@ public interface IDataStore {
 	void databaseFixLeaderboard() throws DataStoreException;
 	
 	/**
+	 * Get the OfflinePlayer from the internal playerId
+	 * @param playerId
+	 * @return
+	 * @throws DataStoreException
+	 */
+	//OfflinePlayer getPlayerByPlayerId(int playerId) throws DataStoreException;
+	
+	/**
+	 * Get the player ID directly from the database
+	 * @param player
+	 * @return
+	 * @throws DataStoreException
+	 * @throws UserNotFoundException
+	 */
+	//int getPlayerId(OfflinePlayer player) throws DataStoreException;
+	
+	/**
 	 * Delete all achievements data from the database
 	 * 
 	 * @throws SQLException
@@ -195,5 +212,5 @@ public interface IDataStore {
 	 * @throws DataStoreException
 	 */
 	void deleteExpiredBounties();
-	
+
 }

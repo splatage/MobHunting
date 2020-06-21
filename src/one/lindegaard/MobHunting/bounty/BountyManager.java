@@ -6,7 +6,7 @@ import one.lindegaard.MobHunting.achievements.AchievementManager;
 import one.lindegaard.MobHunting.compatibility.EssentialsCompat;
 import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
 import one.lindegaard.MobHunting.rewards.CustomItems;
-import one.lindegaard.MobHunting.storage.IDataCallback;
+import one.lindegaard.Core.storage.IDataCallback;
 import one.lindegaard.Core.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.util.Misc;
 
