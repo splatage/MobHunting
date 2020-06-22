@@ -477,6 +477,8 @@ public class BountyManager implements Listener {
 	// RANDOM BOUNTY
 	// ***********************************************************
 
+	public final static String RANDOM_PLAYER_UUID = "bb3be6f2-b457-11ea-b3de-0242ac130004";
+	
 	public void createRandomBounty() {
 		boolean createBounty = plugin.mRand.nextDouble() <= plugin.getConfigManager().chanceToCreateBounty;
 		if (createBounty) {
@@ -503,7 +505,8 @@ public class BountyManager implements Listener {
 				}
 				if (randomPlayer != null) {
 					String worldGroup = plugin.getWorldGroupManager().getCurrentWorldGroup(randomPlayer);
-					Bounty randomBounty = new Bounty(plugin, worldGroup, randomPlayer,
+					Bounty randomBounty = new Bounty(plugin, worldGroup,
+							Bukkit.getOfflinePlayer(UUID.fromString(RANDOM_PLAYER_UUID)), randomPlayer,
 							Misc.round(
 									plugin.getRewardManager().getRandomPrice(plugin.getConfigManager().randomBounty)),
 							"Random Bounty");

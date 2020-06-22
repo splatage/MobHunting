@@ -1716,6 +1716,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 					}
 				}
 			}
+			Core.getDataStoreManager().flush();
 			statement.close();
 			mConnection.commit();
 		} catch (SQLException e) {

@@ -27,7 +27,7 @@ public class Bounty {
 	}
 
 	/**
-	 * Contructor for Bounty
+	 * Constructor for Bounty
 	 * 
 	 * @param bountyOwner
 	 *            - the bounty owner
@@ -44,20 +44,6 @@ public class Bounty {
 		this.bountyOwner = bountyOwner;
 		this.mobtype = "Player";
 		this.wantedPlayer = wantedPlayer;
-		this.createdDate = System.currentTimeMillis();
-		this.endDate = this.createdDate + Long.valueOf(plugin.getConfigManager().bountyDaysToLive) * 86400000L;
-		this.prize = prize;
-		this.message = message;
-		this.status = BountyStatus.open;
-	}
-
-	public Bounty(MobHunting plugin, String worldGroup, OfflinePlayer randomPlayer, double prize, String message) {
-		this.plugin=plugin;
-		// Random Bounty on a Player
-		this.worldGroup = worldGroup;
-		this.bountyOwner = null;
-		this.mobtype = "Random";
-		this.wantedPlayer = randomPlayer;
 		this.createdDate = System.currentTimeMillis();
 		this.endDate = this.createdDate + Long.valueOf(plugin.getConfigManager().bountyDaysToLive) * 86400000L;
 		this.prize = prize;
@@ -96,7 +82,6 @@ public class Bounty {
 	public Bounty(MobHunting plugin, Bounty bounty) {
 		this.plugin=plugin;
 		bountyOwnerId = bounty.getBountyOwnerId();
-		// bountyId = bounty.getBountyId();
 		bountyOwner = bounty.getBountyOwner();
 		mobtype = bounty.getMobtype();
 		wantedPlayerId = bounty.getWantedPlayerId();

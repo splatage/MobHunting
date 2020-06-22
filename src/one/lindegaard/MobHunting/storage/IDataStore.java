@@ -1,5 +1,6 @@
 package one.lindegaard.MobHunting.storage;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
@@ -173,4 +174,10 @@ public interface IDataStore {
 	 */
 	void deleteExpiredBounties();
 
+	/**
+	 * create a RandomBountyPlayer if not exist in mh_PlayerSettings
+	 * 
+	 * @param connection
+	 */
+	void createRandomBountyPlayer(Connection mConnection);
 }
