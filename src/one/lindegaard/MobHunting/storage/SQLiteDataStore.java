@@ -267,7 +267,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 						"UPDATE mh_Daily SET %1$s = %1$s + %2$d, %5$s = %5$s + %6$f WHERE ID = strftime(\"%%Y%%j\",\"now\")"
 								+ " AND MOB_ID=%3$d AND PLAYER_ID = %4$d;",
 						column, amount, mob_id, player_id, column2, cash);
-				// plugin.getMessages().debug("Save Str=%s", str);
+				//plugin.getMessages().debug("Save Str=%s", str);
 				statement.addBatch(str);
 			}
 			statement.executeBatch();

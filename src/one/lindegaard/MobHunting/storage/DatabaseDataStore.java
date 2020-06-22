@@ -43,24 +43,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 	protected PreparedStatement mSavePlayerStats;
 
 	/**
-	 * Args: player name
+	 * Args: UUID
 	 */
-	protected PreparedStatement mGetPlayerUUID;
-
-	/**
-	 * Args: player name, player uuid
-	 */
-	// protected PreparedStatement mUpdatePlayerName;
-
-	/**
-	 * Args: player uuid
-	 */
-	protected PreparedStatement mUpdatePlayerSettings;
-
-	/**
-	 * Args: player uuid
-	 */
-	protected PreparedStatement mInsertPlayerData;
+	protected PreparedStatement mGetOldPlayerData;
 
 	/**
 	 * Args: Player OfflinePLayer
@@ -76,11 +61,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 	 * Args: Bounty ID
 	 */
 	protected PreparedStatement mDeleteBounty;
-
-	/**
-	 * Args: player player_id
-	 */
-	// protected PreparedStatement mGetPlayerByPlayerId;
 
 	/**
 	 * Establish initial connection to Database
@@ -309,6 +289,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV6Tables(mConnection);
+				setupTriggerV4andV5(mConnection);
 				migrateDatabaseLayoutFromV7ToV8(mConnection);
 				createRandomBountyPlayer(mConnection);
 				setupTriggerV4andV5(mConnection);
@@ -316,6 +297,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				plugin.getConfigManager().saveConfig();
 			case 8:
 				setupV8Tables(mConnection);
+				setupTriggerV4andV5(mConnection);
 				createRandomBountyPlayer(mConnection);
 				plugin.getConfigManager().databaseVersion = 8;
 				plugin.getConfigManager().saveConfig();
@@ -1321,11 +1303,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 	 * Args: player id, achievement, date, progress
 	 */
 	protected PreparedStatement mUpdateMobs;
-
-	/**
-	 * Args: UUID
-	 */
-	protected PreparedStatement mGetOldPlayerData;
 
 	/**
 	 * loadMobs - load all mobs from database into memory
