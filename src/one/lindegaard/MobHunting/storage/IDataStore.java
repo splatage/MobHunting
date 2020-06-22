@@ -28,8 +28,7 @@ public interface IDataStore {
 	void shutdown() throws DataStoreException;
 
 	/**
-	 * loadPlayerStats - Loading <count> records of Player Stats from the
-	 * Database
+	 * loadPlayerStats - Loading <count> records of Player Stats from the Database
 	 * 
 	 * @param type
 	 * @param period
@@ -65,41 +64,8 @@ public interface IDataStore {
 	void saveAchievements(Set<AchievementStore> achievements) throws DataStoreException;
 
 	/**
-	 * Get the player by his name from the Database. ings @param name
-	 * 
-	 * @return
-	 * @throws DataStoreException
-	 */
-	//OfflinePlayer getPlayerByName(String name) throws DataStoreException;
-
-	/**
-	 * Get the players Settings from the Database
-	 * 
-	 * @param player
-	 * @return
-	 * @throws DataStoreException
-	 * @throws SQLException
-	 */
-	//PlayerSettings loadPlayerSettings(OfflinePlayer player) throws DataStoreException, SQLException;
-
-	/**
-	 * Update the players Settings in the Database
-	 * 
-	 * @param playerDataSet
-	 * @throws DataStoreException
-	 */
-	//void savePlayerSettings(Set<PlayerSettings> ps) throws DataStoreException;
-
-	/**
-	 * Insert all PlayerData for one player into the Database
-	 * 
-	 * @param ps
-	 * @throws DataStoreException
-	 */
-	//void insertPlayerSettings(PlayerSettings ps) throws DataStoreException;
-
-	/**
 	 * Load all bounties for the given player directly from the Sql Database
+	 * 
 	 * @param mPlayer
 	 * @return Set<Bounty>
 	 * @throws DataStoreException
@@ -108,6 +74,7 @@ public interface IDataStore {
 
 	/**
 	 * Save the Bounty Sets direktly to the Database
+	 * 
 	 * @param bountyDataSet
 	 * @throws DataStoreException
 	 */
@@ -117,59 +84,42 @@ public interface IDataStore {
 	 * Fixes error in the database
 	 * 
 	 * @throws SQLException
-	 * @throws DataStoreException 
+	 * @throws DataStoreException
 	 */
 	void databaseFixLeaderboard() throws DataStoreException;
-	
-	/**
-	 * Get the OfflinePlayer from the internal playerId
-	 * @param playerId
-	 * @return
-	 * @throws DataStoreException
-	 */
-	//OfflinePlayer getPlayerByPlayerId(int playerId) throws DataStoreException;
-	
-	/**
-	 * Get the player ID directly from the database
-	 * @param player
-	 * @return
-	 * @throws DataStoreException
-	 * @throws UserNotFoundException
-	 */
-	int getOldPlayerId(OfflinePlayer player) throws DataStoreException;
-	
+
 	/**
 	 * Delete all achievements data from the database
 	 * 
 	 * @throws SQLException
-	 * @throws DataStoreException 
+	 * @throws DataStoreException
 	 */
 	void resetAchievements() throws DataStoreException;
-	
+
 	/**
 	 * Delete all statistics data from the database
 	 * 
 	 * @throws SQLException
-	 * @throws DataStoreException 
+	 * @throws DataStoreException
 	 */
 	void resetStatistics() throws DataStoreException;
-	
+
 	/**
 	 * Delete all bounties from the database
 	 * 
 	 * @throws SQLException
-	 * @throws DataStoreException 
+	 * @throws DataStoreException
 	 */
 	void resetBounties() throws DataStoreException;
-	
+
 	/**
 	 * Convert all tables to use UTF-8 character set.
+	 * 
 	 * @param database_name
 	 * @throws DataStoreException
 	 */
 	void databaseConvertToUtf8(String database_name) throws DataStoreException;
 
-	
 	Set<ExtendedMob> loadMobs() throws DataStoreException;
 
 	void insertMobs(Set<ExtendedMob> mobs) throws DataStoreException;
@@ -177,38 +127,48 @@ public interface IDataStore {
 	void updateMobs(Set<ExtendedMob> mobs) throws DataStoreException;
 
 	void insertMissingVanillaMobs();
-	
+
 	void insertMissingMythicMobs();
+
 	void insertMissingMythicMobs(String mob);
 
 	void insertMissingCitizensMobs();
+
 	void insertCitizensMobs(String mob);
 
 	void insertTARDISWeepingAngelsMobs();
+
 	void insertTARDISWeepingAngelsMobs(String mob);
 
 	void insertMysteriousHalloweenMobs();
+
 	void insertMysteriousHalloweenMobs(String mob);
-	
+
 	void insertSmartGiants();
+
 	void insertSmartGiants(String mob);
 
 	void insertCustomMobs();
+
 	void insertCustomMobs(String mob);
-	
+
 	void insertInfernalMobs();
 
 	void insertHerobrineMobs();
+
 	void insertHerobrineMob(String mob);
 
 	void insertEliteMobs();
+
 	void insertEliteMobs(String mob);
 
 	void insertBossMobs();
+
 	void insertBossMobs(String mob);
 
 	/**
 	 * Delete expired or cancelled bounties from database;
+	 * 
 	 * @throws DataStoreException
 	 */
 	void deleteExpiredBounties();

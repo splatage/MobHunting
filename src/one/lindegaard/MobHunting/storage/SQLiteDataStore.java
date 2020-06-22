@@ -18,6 +18,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 
 import one.lindegaard.Core.Core;
+import one.lindegaard.Core.PlayerSettings;
 import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.Core.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
@@ -94,8 +95,8 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			mUpdateMobs = connection
 					.prepareStatement("UPDATE mh_Mobs (PLUGIN_ID,MOBTYPE) VALUES (?,?) WHERE MOB_ID=?;");
 			break;
-		case GET_OLD_PLAYER_ID:
-			mGetOldPlayerID = connection.prepareStatement("SELECT PLAYER_ID FROM mh_Players WHERE UUID=?;");
+		case GET_OLD_PLAYERDATA:
+			mGetOldPlayerData = connection.prepareStatement("SELECT * FROM mh_Players WHERE UUID=?;");
 			break;
 		}
 	}
@@ -235,10 +236,8 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				int mob_id = 0;
 				if (!st.getType().getDBColumn().substring(0, st.getType().getDBColumn().lastIndexOf("_"))
 						.equalsIgnoreCase("achievement"))
-					mob_id = st.getMob().getMob_id();				
+					mob_id = st.getMob().getMob_id();
 				int player_id = Core.getDataStoreManager().getPlayerId(st.getPlayer());
-				if (player_id==0)
-						player_id = plugin.getDataStoreManager().getOldPlayerId(st.getPlayer());
 				mSavePlayerStats.setInt(2, player_id);
 				mSavePlayerStats.setInt(1, mob_id);
 				mSavePlayerStats.addBatch();
@@ -264,8 +263,6 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				int amount = stat.getAmount();
 				double cash = Misc.round(stat.getCash());
 				int player_id = Core.getDataStoreManager().getPlayerId(stat.getPlayer());
-				if (player_id==0)
-					player_id = plugin.getDataStoreManager().getOldPlayerId(stat.getPlayer());
 				String str = String.format(Locale.US,
 						"UPDATE mh_Daily SET %1$s = %1$s + %2$d, %5$s = %5$s + %6$f WHERE ID = strftime(\"%%Y%%j\",\"now\")"
 								+ " AND MOB_ID=%3$d AND PLAYER_ID = %4$d;",
@@ -295,11 +292,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 					if (bounty.getBountyOwner() == null)
 						plugin.getMessages().debug("RandomBounty to be inserted: %s", bounty.toString());
 					int bountyOwnerId = Core.getDataStoreManager().getPlayerId(bounty.getBountyOwner());
-					if (bountyOwnerId==0)
-						bountyOwnerId = plugin.getDataStoreManager().getOldPlayerId(bounty.getBountyOwner());
 					int wantedPlayerId = Core.getDataStoreManager().getPlayerId(bounty.getWantedPlayer());
-					if (wantedPlayerId==0)
-						wantedPlayerId = plugin.getDataStoreManager().getOldPlayerId(bounty.getWantedPlayer());
 					mInsertBounty.setString(1, bounty.getMobtype());
 					mInsertBounty.setInt(2, bountyOwnerId);
 					mInsertBounty.setInt(3, wantedPlayerId);
@@ -1576,6 +1569,102 @@ public class SQLiteDataStore extends DatabaseDataStore {
 
 	}
 
+	// *******************************************************************************
+	// V8 DATABASE SETUP / MIGRATION
+	// *******************************************************************************
+	@Override
+	protected void setupV8Tables(Connection connection) throws SQLException {
+		Statement create = connection.createStatement();
+
+		// Create new empty tables if they do not exist
+		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Mobs "//
+				+ "(MOB_ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT 0,"//
+				+ " PLUGIN_ID INTEGER NOT NULL," + " MOBTYPE TEXT)");
+
+		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Daily"//
+				+ "(ID CHAR(7) NOT NULL,"//
+				+ " MOB_ID INTEGER NOT NULL," //
+				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0," //
+				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
+				+ " TOTAL_ASSIST INTEGER DEFAULT 0," //
+				+ " TOTAL_CASH REAL DEFAULT 0," //
+				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
+				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+
+		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Weekly"//
+				+ "(ID CHAR(6) NOT NULL,"//
+				+ " MOB_ID INTEGER NOT NULL,"//
+				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0,"//
+				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
+				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
+				+ " TOTAL_CASH REAL DEFAULT 0," //
+				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
+				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+
+		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Monthly"//
+				+ "(ID CHAR(6) NOT NULL,"//
+				+ " MOB_ID INTEGER NOT NULL,"//
+				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0,"//
+				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
+				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
+				+ " TOTAL_CASH REAL DEFAULT 0," //
+				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
+				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+
+		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Yearly"//
+				+ "(ID CHAR(4) NOT NULL,"//
+				+ " MOB_ID INTEGER NOT NULL,"//
+				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0,"//
+				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
+				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
+				+ " TOTAL_CASH REAL DEFAULT 0," //
+				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
+				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+
+		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_AllTime"//
+				+ " (MOB_ID INTEGER NOT NULL,"//
+				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0,"//
+				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
+				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
+				+ " TOTAL_CASH REAL DEFAULT 0," //
+				+ " PRIMARY KEY(MOB_ID, PLAYER_ID),"
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
+				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+
+		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Achievements "//
+				+ "(PLAYER_ID INTEGER NOT NULL,"//
+				+ " ACHIEVEMENT TEXT NOT NULL,"//
+				+ " DATE INTEGER NOT NULL,"//
+				+ " PROGRESS INTEGER NOT NULL," + " PRIMARY KEY(PLAYER_ID, ACHIEVEMENT), "
+				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID))");
+
+		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Bounties ("
+				+ "BOUNTYOWNER_ID INTEGER REFERENCES mh_Players(PLAYER_ID) NOT NULL, " + "MOBTYPE TEXT, "
+				+ "WANTEDPLAYER_ID INTEGER REFERENCES mh_Players(PLAYER_ID), " + "NPC_ID INTEGER, " + "MOB_ID TEXT, "
+				+ "WORLDGROUP TEXT NOT NULL, " + "CREATED_DATE INTEGER NOT NULL, " + "END_DATE INTEGER NOT NULL, "
+				+ "PRIZE FLOAT NOT NULL, " + "MESSAGE TEXT, " + "STATUS INTEGER NOT NULL DEFAULT 0, "
+				+ "PRIMARY KEY(WORLDGROUP, WANTEDPLAYER_ID, BOUNTYOWNER_ID), "
+				+ "FOREIGN KEY(BOUNTYOWNER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE, "
+				+ "FOREIGN KEY(WANTEDPLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE" + ")");
+
+		// Setup Database triggers
+		create.executeUpdate("DROP TRIGGER IF EXISTS `mh_DailyInsert`");
+		create.executeUpdate("DROP TRIGGER IF EXISTS `mh_DailyUpdate`");
+
+		create.close();
+		connection.commit();
+
+	}
+
 	protected void migrateDatabaseLayoutFromV5ToV6(Connection mConnection) throws DataStoreException {
 		Statement statement;
 		try {
@@ -1603,6 +1692,35 @@ public class SQLiteDataStore extends DatabaseDataStore {
 
 	protected void migrateDatabaseLayoutFromV6ToV7(Connection mConnection) throws DataStoreException {
 		// There is noting to do if the plugin uses Sqlite
+	}
+
+	protected void migrateDatabaseLayoutFromV7ToV8(Connection mConnection) throws DataStoreException {
+		Statement statement;
+		try {
+			statement = mConnection.createStatement();
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.GREEN
+					+ "Copying players from MobHunting til BagOfGoldCore");
+			ResultSet result = statement.executeQuery("select * from mh_Players");
+			while (result.next()) {
+				String uuid = result.getString("UUID");
+				if (uuid != null) {
+					OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(uuid));
+					if (offlinePlayer.hasPlayedBefore()) {
+						PlayerSettings ps = Core.getPlayerSettingsManager().getPlayerSettings(offlinePlayer);
+						ps.setPlayerId(result.getInt("PLAYER_ID"));
+						ps.setLearningMode(result.getBoolean("LEARNING_MODE"));
+						ps.setMuteMode(result.getBoolean("MUTE_MODE"));
+						ps.setTexture(result.getString("TEXTURE"));
+						ps.setSignature(result.getString("SIGNATURE"));
+						Core.getPlayerSettingsManager().setPlayerSettings(offlinePlayer, ps);
+					}
+				}
+			}
+			statement.close();
+			mConnection.commit();
+		} catch (SQLException e) {
+			throw new DataStoreException(e);
+		}
 	}
 
 }

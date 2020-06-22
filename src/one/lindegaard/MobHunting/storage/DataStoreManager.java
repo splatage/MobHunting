@@ -10,11 +10,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
-import one.lindegaard.Core.Core;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.Core.storage.IDataCallback;
-import one.lindegaard.Core.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.achievements.Achievement;
@@ -64,28 +62,6 @@ public class DataStoreManager {
 		return mTaskThread.getState() != Thread.State.WAITING && mTaskThread.getState() != Thread.State.TERMINATED
 				&& mStoreThread.getState() != Thread.State.WAITING
 				&& mStoreThread.getState() != Thread.State.TERMINATED;
-	}
-
-	// **************************************************************************************
-	// Player_DATA
-	// **************************************************************************************
-
-	/**
-	 * Get the oldPlayerId from the database
-	 * 
-	 * @param offlinePlayer
-	 * @return
-	 * @throws UserNotFoundException
-	 */
-	public int getOldPlayerId(OfflinePlayer offlinePlayer) throws UserNotFoundException {
-		try {
-			return mStore.getOldPlayerId(offlinePlayer);
-		} catch (DataStoreException e) {
-			if (Core.getConfigManager().debug)
-				e.printStackTrace();
-		}
-		throw new UserNotFoundException(
-				"[MobHunting] User " + offlinePlayer.getName() + " is not present in MobHunting database");
 	}
 
 	// **************************************************************************************
