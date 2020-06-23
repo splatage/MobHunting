@@ -242,8 +242,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 								+ plugin.getConfigManager().databaseVersion + " detected. Migrating to V3");
 				migrateDatabaseLayoutFromV2toV3(mConnection);
 				migrate_mh_PlayersFromV2ToV3(mConnection);
-				Core.getDataStoreManager().createRandomBountyPlayer();
-				setupTriggerV3(mConnection);
 				plugin.getConfigManager().databaseVersion = 3;
 				plugin.getConfigManager().saveConfig();
 			case 3:
@@ -252,8 +250,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 				// DATABASE IS UPTODATE or NOT created => create new database
 				setupV3Tables(mConnection);
 				migrate_mh_PlayersFromV2ToV3(mConnection);
-				Core.getDataStoreManager().createRandomBountyPlayer();
-				setupTriggerV3(mConnection);
 				migrateDatabaseLayoutFromV3ToV4(mConnection);
 				plugin.getConfigManager().databaseVersion = 4;
 				plugin.getConfigManager().saveConfig();
@@ -262,17 +258,13 @@ public abstract class DatabaseDataStore implements IDataStore {
 						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV4Tables(mConnection);
 				migrateDatabaseLayoutFromV3ToV4(mConnection);
-				Core.getDataStoreManager().createRandomBountyPlayer();
-				setupTriggerV4andV5(mConnection);
 				plugin.getConfigManager().databaseVersion = 5;
 				plugin.getConfigManager().saveConfig();
 			case 5:
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV5Tables(mConnection);
-				setupTriggerV4andV5(mConnection);
 				migrateDatabaseLayoutFromV5ToV6(mConnection);
-				Core.getStoreManager().createRandomBountyPlayer();
 				plugin.getConfigManager().databaseVersion = 6;
 				plugin.getConfigManager().saveConfig();
 			case 6:
@@ -280,8 +272,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV6Tables(mConnection);
 				migrateDatabaseLayoutFromV6ToV7(mConnection);
-				Core.getDataStoreManager().createRandomBountyPlayer();
-				setupTriggerV4andV5(mConnection);
 				plugin.getConfigManager().databaseVersion = 7;
 				plugin.getConfigManager().saveConfig();
 			case 7:
@@ -290,8 +280,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 				setupV6Tables(mConnection);
 				setupTriggerV4andV5(mConnection);
 				migrateDatabaseLayoutFromV7ToV8(mConnection);
-				Core.getDataStoreManager().createRandomBountyPlayer();
-				setupTriggerV4andV5(mConnection);
 				plugin.getConfigManager().databaseVersion = 8;
 				plugin.getConfigManager().saveConfig();
 			case 8:
