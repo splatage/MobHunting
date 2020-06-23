@@ -174,10 +174,4 @@ public interface IDataStore {
 	 */
 	void deleteExpiredBounties();
 
-	/**
-	 * create a RandomBountyPlayer if not exist in mh_PlayerSettings
-	 * 
-	 * @param connection
-	 */
-	void createRandomBountyPlayer(Connection mConnection);
 }

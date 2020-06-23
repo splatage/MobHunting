@@ -101,7 +101,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	 * Setup / Create database version 6 tables for MobHunting
 	 */
 	protected abstract void setupV6Tables(Connection connection) throws SQLException;
-	
+
 	/**
 	 * Setup / Create database version 7 tables for MobHunting
 	 */
@@ -127,7 +127,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	 * @throws DataStoreException
 	 */
 	protected abstract void migrateDatabaseLayoutFromV7ToV8(Connection connection) throws DataStoreException;
-	
+
 	/**
 	 * Open a connection to the Database and prepare a statement for executing.
 	 * 
@@ -243,7 +243,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 								+ plugin.getConfigManager().databaseVersion + " detected. Migrating to V3");
 				migrateDatabaseLayoutFromV2toV3(mConnection);
 				migrate_mh_PlayersFromV2ToV3(mConnection);
-				createRandomBountyPlayer(mConnection);
+				Core.getDataStoreManager().createRandomBountyPlayer();
 				setupTriggerV3(mConnection);
 				plugin.getConfigManager().databaseVersion = 3;
 				plugin.getConfigManager().saveConfig();
@@ -253,7 +253,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				// DATABASE IS UPTODATE or NOT created => create new database
 				setupV3Tables(mConnection);
 				migrate_mh_PlayersFromV2ToV3(mConnection);
-				createRandomBountyPlayer(mConnection);
+				Core.getDataStoreManager().createRandomBountyPlayer();
 				setupTriggerV3(mConnection);
 				migrateDatabaseLayoutFromV3ToV4(mConnection);
 				plugin.getConfigManager().databaseVersion = 4;
@@ -263,7 +263,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV4Tables(mConnection);
 				migrateDatabaseLayoutFromV3ToV4(mConnection);
-				createRandomBountyPlayer(mConnection);
+				Core.getDataStoreManager().createRandomBountyPlayer();
 				setupTriggerV4andV5(mConnection);
 				plugin.getConfigManager().databaseVersion = 5;
 				plugin.getConfigManager().saveConfig();
@@ -273,7 +273,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				setupV5Tables(mConnection);
 				setupTriggerV4andV5(mConnection);
 				migrateDatabaseLayoutFromV5ToV6(mConnection);
-				createRandomBountyPlayer(mConnection);
+				Core.getStoreManager().createRandomBountyPlayer();
 				plugin.getConfigManager().databaseVersion = 6;
 				plugin.getConfigManager().saveConfig();
 			case 6:
@@ -281,7 +281,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV6Tables(mConnection);
 				migrateDatabaseLayoutFromV6ToV7(mConnection);
-				createRandomBountyPlayer(mConnection);
+				Core.getDataStoreManager().createRandomBountyPlayer();
 				setupTriggerV4andV5(mConnection);
 				plugin.getConfigManager().databaseVersion = 7;
 				plugin.getConfigManager().saveConfig();
@@ -291,14 +291,14 @@ public abstract class DatabaseDataStore implements IDataStore {
 				setupV6Tables(mConnection);
 				setupTriggerV4andV5(mConnection);
 				migrateDatabaseLayoutFromV7ToV8(mConnection);
-				createRandomBountyPlayer(mConnection);
+				Core.getDataStoreManager().createRandomBountyPlayer();
 				setupTriggerV4andV5(mConnection);
 				plugin.getConfigManager().databaseVersion = 8;
 				plugin.getConfigManager().saveConfig();
 			case 8:
 				setupV8Tables(mConnection);
 				setupTriggerV4andV5(mConnection);
-				createRandomBountyPlayer(mConnection);
+				Core.getDataStoreManager().createRandomBountyPlayer();
 				plugin.getConfigManager().databaseVersion = 8;
 				plugin.getConfigManager().saveConfig();
 			}
@@ -1554,32 +1554,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 
 		statement.close();
 		connection.commit();
-	}
-	
-	/**
-	 * create a RandomBountyPlayer if not exist in mh_PlayerSettings
-	 * 
-	 * @param connection
-	 */
-	public void createRandomBountyPlayer(Connection connection) {
-		// added because BOUNTYOWNER_ID is null for Random bounties.
-		try {
-			Statement create = connection.createStatement();
-			ResultSet rs = create
-					.executeQuery("SELECT PLAYER_ID from mh_PlayerSettings WHERE NAME='RandomBounty' LIMIT 0");
-			if (!rs.next()) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[BagOfGoldCore] " + ChatColor.RESET
-						+ "Adding RandomBounty Player to BagOfGoldCore Database.(2)");
-				create.executeUpdate(
-						"insert into mh_PlayerSettings (UUID,PLAYER_ID,NAME,LAST_WORLDGRP,LEARNING_MODE,MUTE_MODE) values ('"
-								+ BountyManager.RANDOM_PLAYER_UUID + "',0,'RandomBounty','default',0,0)");
-				create.executeUpdate("update mh_PlayerSettings set Player_id=0 where name='RandomBounty'");
-			}
-			rs.close();
-			create.close();
-		} catch (SQLException e) {
-			// e.printStackTrace();
-		}
 	}
 
 }

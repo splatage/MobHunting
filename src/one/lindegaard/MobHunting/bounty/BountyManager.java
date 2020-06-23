@@ -1,11 +1,13 @@
 package one.lindegaard.MobHunting.bounty;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.achievements.AchievementManager;
 import one.lindegaard.MobHunting.compatibility.EssentialsCompat;
 import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
 import one.lindegaard.MobHunting.rewards.CustomItems;
+import one.lindegaard.Core.storage.DataStoreManager;
 import one.lindegaard.Core.storage.IDataCallback;
 import one.lindegaard.Core.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.util.Misc;
@@ -477,7 +479,7 @@ public class BountyManager implements Listener {
 	// RANDOM BOUNTY
 	// ***********************************************************
 
-	public final static String RANDOM_PLAYER_UUID = "bb3be6f2-b457-11ea-b3de-0242ac130004";
+
 	
 	public void createRandomBounty() {
 		boolean createBounty = plugin.mRand.nextDouble() <= plugin.getConfigManager().chanceToCreateBounty;
@@ -505,8 +507,9 @@ public class BountyManager implements Listener {
 				}
 				if (randomPlayer != null) {
 					String worldGroup = plugin.getWorldGroupManager().getCurrentWorldGroup(randomPlayer);
+					Core.getDataStoreManager();
 					Bounty randomBounty = new Bounty(plugin, worldGroup,
-							Bukkit.getOfflinePlayer(UUID.fromString(RANDOM_PLAYER_UUID)), randomPlayer,
+							Bukkit.getOfflinePlayer(UUID.fromString(DataStoreManager.RANDOM_PLAYER_UUID)), randomPlayer,
 							Misc.round(
 									plugin.getRewardManager().getRandomPrice(plugin.getConfigManager().randomBounty)),
 							"Random Bounty");
