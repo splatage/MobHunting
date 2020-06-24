@@ -20,8 +20,8 @@
 	</parent>
 
 	<properties>
-		<mobhunting-core.version>0.3.4-SNAPSHOT</mobhunting-core.version>
-		<bagofgold.version>3.0.0-SNAPSHOT-B434</bagofgold.version>
+		<mobhunting-core.version>0.3.5-SNAPSHOT</mobhunting-core.version>
+		<bagofgold.version>3.0.0-SNAPSHOT-B435</bagofgold.version>
 	</properties>
 
 	<issueManagement>

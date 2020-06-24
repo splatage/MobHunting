@@ -222,8 +222,8 @@ public class MobHunting extends JavaPlugin {
 
 		mStoreManager = new DataStoreManager(this, mStore);
 
-		//mPlayerSettingsManager = new PlayerSettingsManager(this);
-		mPlayerManager=new PlayerManager(this);
+		// mPlayerSettingsManager = new PlayerSettingsManager(this);
+		mPlayerManager = new PlayerManager(this);
 
 		// Protection plugins
 		mCompatibilityManager.registerPlugin(WorldEditCompat.class, CompatPlugin.WorldEdit);
@@ -544,7 +544,7 @@ public class MobHunting extends JavaPlugin {
 	public ParticleManager getParticleManager() {
 		return mParticleManager;
 	}
-	
+
 	public PlayerManager getPlayerManager() {
 		return mPlayerManager;
 	}

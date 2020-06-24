@@ -29,11 +29,12 @@ public abstract class PlayerDataRetrieverTask implements IDataStoreTask<PlayerSe
 				MobHunting.getInstance().getMessages().debug("Saving new PlayerSettings for %s to database.", mPlayer.getName());
 				PlayerSettings ps = new PlayerSettings(mPlayer,0,
 						null, Core.getConfigManager().learningMode, false, null, null, 0, 0);
-				try {
-					store.insertPlayerSettings(ps);
-				} catch (DataStoreException e1) {
-					e1.printStackTrace();
-				}
+				Core.getPlayerSettingsManager().setPlayerSettings(mPlayer, ps);
+				//try {
+				//	store.insertPlayerSettings(ps);
+				//} catch (DataStoreException e1) {
+				//	e1.printStackTrace();
+				//}
 				return ps;
 			} catch (DataStoreException e) {
 				e.printStackTrace();
