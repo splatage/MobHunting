@@ -61,7 +61,7 @@ public class PlayerManager implements Listener {
 	 */
 	public void setPlayerData(OfflinePlayer player, PlayerSettings playerSettings) {
 		mPlayerData.put(player.getUniqueId(), playerSettings);
-		Core.getDataStoreManager().updatePlayerSettings(player, playerSettings);
+		Core.getDataStoreManager().insertPlayerSettings(playerSettings);
 		//plugin.getDataStoreManager().updatePlayerSettings(player, playerSettings);
 	}
 
@@ -102,7 +102,7 @@ public class PlayerManager implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPlayerQuit(PlayerQuitEvent event) {
 		final Player player = event.getPlayer();
-		Core.getDataStoreManager().updatePlayerSettings(player, getPlayerData(player));
+		Core.getDataStoreManager().insertPlayerSettings(getPlayerData(player));
 	}
 
 	/**

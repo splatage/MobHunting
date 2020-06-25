@@ -1887,7 +1887,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 						ps.setMuteMode(result.getBoolean("MUTE_MODE"));
 						ps.setTexture(result.getString("TEXTURE"));
 						ps.setSignature(result.getString("SIGNATURE"));
-						Core.getPlayerSettingsManager().setPlayerSettings(offlinePlayer, ps);
+						Core.getPlayerSettingsManager().setPlayerSettings(ps);
 					}
 				}
 			}

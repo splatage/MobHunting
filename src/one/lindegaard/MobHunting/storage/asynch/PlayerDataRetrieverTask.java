@@ -27,14 +27,9 @@ public abstract class PlayerDataRetrieverTask implements IDataStoreTask<PlayerSe
 				return store.loadPlayerSettings(mPlayer);
 			} catch (UserNotFoundException e) {
 				MobHunting.getInstance().getMessages().debug("Saving new PlayerSettings for %s to database.", mPlayer.getName());
-				PlayerSettings ps = new PlayerSettings(mPlayer,0,
-						null, Core.getConfigManager().learningMode, false, null, null, 0, 0);
-				Core.getPlayerSettingsManager().setPlayerSettings(mPlayer, ps);
-				//try {
-				//	store.insertPlayerSettings(ps);
-				//} catch (DataStoreException e1) {
-				//	e1.printStackTrace();
-				//}
+				PlayerSettings ps = new PlayerSettings(mPlayer,
+						"default", Core.getConfigManager().learningMode, false, null, null, 0, 0);
+				Core.getDataStoreManager().insertPlayerSettings(ps);
 				return ps;
 			} catch (DataStoreException e) {
 				e.printStackTrace();
