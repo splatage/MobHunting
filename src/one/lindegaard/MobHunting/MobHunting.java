@@ -340,8 +340,8 @@ public class MobHunting extends JavaPlugin {
 			getMessages().debug("Updating advancements");
 			if (!getConfigManager().disableMobHuntingAdvancements && Servers.isSpigotServer()
 					&& Servers.isMC112OrNewer()) {
-				mAdvancementManager = new AdvancementManager(this);
-				mAdvancementManager.getAdvancementsFromAchivements();
+				//mAdvancementManager = new AdvancementManager(this);
+				//mAdvancementManager.getAdvancementsFromAchivements();
 			}
 		}
 
