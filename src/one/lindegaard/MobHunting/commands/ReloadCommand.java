@@ -75,7 +75,7 @@ public class ReloadCommand implements ICommand {
 		}
 
 		plugin.setMessages(new Messages(plugin));
-		
+
 		if (plugin.getConfigManager().loadConfig()) {
 			int n = Tools.getOnlinePlayersAmount();
 			if (n > 0) {
@@ -105,10 +105,12 @@ public class ReloadCommand implements ICommand {
 			if (BossCompat.isSupported())
 				BossCompat.loadBossMobsData();
 
-			plugin.getMessages().senderSendMessage(sender,ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.reload.reload-complete"));
+			plugin.getMessages().senderSendMessage(sender,
+					ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.reload.reload-complete"));
 
 		} else
-			plugin.getMessages().senderSendMessage(sender,ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.reload.reload-error"));
+			plugin.getMessages().senderSendMessage(sender,
+					ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.reload.reload-error"));
 
 		return true;
 	}

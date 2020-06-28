@@ -955,7 +955,8 @@ public class AchievementManager implements Listener {
 		if (event.getInventory() == null)
 			return;
 
-		if (!event.getView().getTitle().isEmpty() && ChatColor.stripColor(event.getView().getTitle()).startsWith("Completed:")) {
+		if (!event.getView().getTitle().isEmpty()
+				&& ChatColor.stripColor(event.getView().getTitle()).startsWith("Completed:")) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMapCompleted.remove(event.getWhoClicked());
@@ -995,7 +996,8 @@ public class AchievementManager implements Listener {
 		if (event.getInventory() == null)
 			return;
 
-		if (!event.getView().getTitle().isEmpty() && ChatColor.stripColor(event.getView().getTitle()).startsWith("Not started:")) {
+		if (!event.getView().getTitle().isEmpty()
+				&& ChatColor.stripColor(event.getView().getTitle()).startsWith("Not started:")) {
 			event.setCancelled(true);
 			event.getWhoClicked().closeInventory();
 			inventoryMapNotStarted.remove(event.getWhoClicked());

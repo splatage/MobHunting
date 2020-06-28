@@ -61,6 +61,8 @@ public class MobHunting extends JavaPlugin {
 	// Constants
 	private final static String pluginName = "mobhunting";
 
+	public final static boolean disableAdvancements = true;
+
 	private static MobHunting instance;
 	public Random mRand = new Random();
 	private File mFile = new File(getDataFolder(), "config.yml");
@@ -327,8 +329,9 @@ public class MobHunting extends JavaPlugin {
 			getMessages().debug("Updating advancements");
 			if (!getConfigManager().disableMobHuntingAdvancements && Servers.isSpigotServer()
 					&& Servers.isMC112OrNewer()) {
-				//mAdvancementManager = new AdvancementManager(this);
-				//mAdvancementManager.getAdvancementsFromAchivements();
+				mAdvancementManager = new AdvancementManager(this);
+				if (!disableAdvancements)
+					mAdvancementManager.getAdvancementsFromAchivements();
 			}
 		}
 
@@ -346,7 +349,7 @@ public class MobHunting extends JavaPlugin {
 			getMessages().debug("Reloading %s player settings from the database", Tools.getOnlinePlayersAmount());
 			for (Player player : Tools.getOnlinePlayers()) {
 				Core.getPlayerSettingsManager().load(player);
-				mAchievementManager.load(player);
+					mAchievementManager.load(player);
 				if (mConfig.enablePlayerBounties)
 					mBountyManager.load(player);
 				mMobHuntingManager.setHuntEnabled(player, true);
