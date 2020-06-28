@@ -91,7 +91,6 @@ import org.bukkit.entity.ZombieVillager;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.entity.Villager.Profession;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.gestern.gringotts.Configuration;
@@ -390,8 +389,6 @@ public class RewardManager {
 			item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), money);
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
-			//item.setCustomName(reward.isItemReward() ? format(money)
-			//		: Reward.getReward(is).getDisplayName() + " (" + format(money) + ")");
 			item.setCustomName(is.getItemMeta().getDisplayName());
 			item.setCustomNameVisible(true);
 		}

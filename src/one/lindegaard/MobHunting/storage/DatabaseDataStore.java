@@ -1166,14 +1166,19 @@ public abstract class DatabaseDataStore implements IDataStore {
 			mGetBounties.setInt(2, playerId);
 
 			ResultSet set = mGetBounties.executeQuery();
-
 			while (set.next()) {
 				Bounty b = new Bounty(plugin);
 				b.setBountyOwnerId(set.getInt(1));
-				b.setBountyOwner(Core.getDataStoreManager().getPlayerByPlayerId(set.getInt(1)));
+				OfflinePlayer owner = Core.getDataStoreManager().getPlayerByPlayerId(set.getInt(1));
+				if (owner == null)
+					continue;
+				b.setBountyOwner(owner);
 				b.setMobtype(set.getString(2));
 				b.setWantedPlayerId(set.getInt(3));
-				b.setWantedPlayer(Core.getDataStoreManager().getPlayerByPlayerId(set.getInt(3)));
+				OfflinePlayer wanted = Core.getDataStoreManager().getPlayerByPlayerId(set.getInt(3));
+				if (wanted == null)
+					continue;
+				b.setWantedPlayer(wanted);
 				b.setNpcId(set.getInt(4));
 				b.setMobId(set.getString(5));
 				b.setWorldGroup(set.getString(6));

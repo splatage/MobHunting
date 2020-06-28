@@ -62,7 +62,6 @@ public class PlayerManager implements Listener {
 	public void setPlayerData(OfflinePlayer player, PlayerSettings playerSettings) {
 		mPlayerData.put(player.getUniqueId(), playerSettings);
 		Core.getDataStoreManager().insertPlayerSettings(playerSettings);
-		//plugin.getDataStoreManager().updatePlayerSettings(player, playerSettings);
 	}
 
 	/**
