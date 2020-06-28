@@ -68,7 +68,6 @@ public class MobHunting extends JavaPlugin {
 	private File mFile = new File(getDataFolder(), "config.yml");
 
 	private Messages mMessages;
-	// private ConfigManagerOld mConfig0;
 	private ConfigManager mConfig;
 	private EconomyManager mEconomyManager;
 	private RewardManager mRewardManager;
@@ -89,7 +88,6 @@ public class MobHunting extends JavaPlugin {
 	private CompatibilityManager mCompatibilityManager;
 	private SpigetUpdater mSpigetUpdater;
 	private MessageManager mMessageManager;
-	private PlayerManager mPlayerManager;
 
 	private static Core mCore;
 
@@ -210,9 +208,6 @@ public class MobHunting extends JavaPlugin {
 		mSpigetUpdater.setCurrentJarFile(this.getFile().getName());
 
 		mStoreManager = new DataStoreManager(this, mStore);
-
-		// mPlayerSettingsManager = new PlayerSettingsManager(this);
-		mPlayerManager = new PlayerManager(this);
 
 		// Protection plugins
 		mCompatibilityManager.registerPlugin(WorldEditCompat.class, CompatPlugin.WorldEdit);
@@ -340,7 +335,6 @@ public class MobHunting extends JavaPlugin {
 
 		if (!Servers.isGlowstoneServer()) {
 			mMetricsManager = new MetricsManager(this);
-			// mMetricsManager.start();
 			mMetricsManager.startBStatsMetrics();
 		}
 
@@ -533,10 +527,6 @@ public class MobHunting extends JavaPlugin {
 	 */
 	public ParticleManager getParticleManager() {
 		return mParticleManager;
-	}
-
-	public PlayerManager getPlayerManager() {
-		return mPlayerManager;
 	}
 
 	/**

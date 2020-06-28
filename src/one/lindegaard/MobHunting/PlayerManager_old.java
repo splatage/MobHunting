@@ -19,7 +19,7 @@ import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.Core.storage.IDataCallback;
 import one.lindegaard.MobHunting.rewards.CustomItems;
 
-public class PlayerManager implements Listener {
+public class PlayerManager_old implements Listener {
 
 	private HashMap<UUID, PlayerSettings> mPlayerData = new HashMap<UUID, PlayerSettings>();
 
@@ -28,7 +28,7 @@ public class PlayerManager implements Listener {
 	/**
 	 * Constructor for the PlayerSettingsmanager
 	 */
-	PlayerManager(MobHunting plugin) {
+	PlayerManager_old(MobHunting plugin) {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}

@@ -11,12 +11,12 @@ import one.lindegaard.Core.storage.IDataStore;
 import one.lindegaard.Core.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
 
-public abstract class PlayerDataRetrieverTask implements IDataStoreTask<PlayerSettings> {
+public abstract class PlayerDataRetrieverTask_old implements IDataStoreTask<PlayerSettings> {
 
 	private OfflinePlayer mPlayer;
 	private HashSet<Object> mWaiting;
 
-	public PlayerDataRetrieverTask(OfflinePlayer player, HashSet<Object> waiting) {
+	public PlayerDataRetrieverTask_old(OfflinePlayer player, HashSet<Object> waiting) {
 		mPlayer = player;
 		mWaiting = waiting;
 	}
