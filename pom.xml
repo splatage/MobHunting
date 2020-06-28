@@ -20,8 +20,8 @@
 	</parent>
 
 	<properties>
-		<mobhunting-core.version>0.3.6-SNAPSHOT</mobhunting-core.version>
-		<bagofgold.version>3.0.0-SNAPSHOT-B437</bagofgold.version>
+		<mobhunting-core.version>0.3.7-SNAPSHOT</mobhunting-core.version>
+		<bagofgold.version>3.0.0-SNAPSHOT-B438</bagofgold.version>
 	</properties>
 
 	<issueManagement>
@@ -124,7 +124,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>${spigotmc_1_15_R1.version}</version>
+			<version>${spigotmc_1_16_R1.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
