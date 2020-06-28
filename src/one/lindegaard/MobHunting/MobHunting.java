@@ -64,7 +64,6 @@ public class MobHunting extends JavaPlugin {
 	private static MobHunting instance;
 	public Random mRand = new Random();
 	private File mFile = new File(getDataFolder(), "config.yml");
-	private File mFileShared = new File(getDataFolder().getParent() + "/BagOfGold", "shared_config.yml");
 
 	private Messages mMessages;
 	// private ConfigManagerOld mConfig0;
@@ -141,18 +140,6 @@ public class MobHunting extends JavaPlugin {
 
 		if (!BagOfGoldCompat.isSupported())
 			mCore = new Core(this);
-
-		getMessages().debug("BagOfGold/MobHunting shared config file is ../BagOfGold/%s", mFileShared.getName());
-		int Shared_config_version = ConfigManager.getConfigVersion(mFile);
-		switch (Shared_config_version) {
-		case -1:
-			// create new shared config file
-			// if bagofgold config exists then import shared settings
-			// else if mobhunting config exists then import shared settings
-			break;
-		default:
-			// create new shared config file
-		}
 
 		if (isbStatsEnabled())
 			getMessages().debug("bStat is enabled");
