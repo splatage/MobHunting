@@ -182,17 +182,7 @@ public class HeadCommand implements ICommand, Listener {
 							else
 								displayName = displayName + args[i];
 						}
-						reward.setDisplayname(displayName);
-						displayName = Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM")
-								? plugin.getRewardManager().format(reward.getMoney())
-								: (reward.getMoney() == 0 ? reward.getDisplayName()
-										: reward.getDisplayName() + " ("
-												+ plugin.getRewardManager().format(reward.getMoney()) + ")");
-						ItemMeta im = itemInHand.getItemMeta();
-						im.setDisplayName(
-								ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + displayName);
-						im.setLore(reward.getHiddenLore());
-						itemInHand.setItemMeta(im);
+						itemInHand = Reward.setDisplayNameAndHiddenLores(itemInHand, reward);
 					} else {
 						plugin.getMessages().senderSendMessage(sender,
 								plugin.getMessages().getString("mobhunting.commands.head.headmustbeinhand"));
@@ -226,17 +216,7 @@ public class HeadCommand implements ICommand, Listener {
 							return false;
 						}
 						reward.setMoney(money);
-						String displayName = Core.getConfigManager().rewardItemtype
-								.equalsIgnoreCase("ITEM")
-										? plugin.getRewardManager().format(reward.getMoney())
-										: (reward.getMoney() == 0 ? reward.getDisplayName()
-												: reward.getDisplayName() + " ("
-														+ plugin.getRewardManager().format(reward.getMoney()) + ")");
-						ItemMeta im = itemInHand.getItemMeta();
-						im.setDisplayName(
-								ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + displayName);
-						im.setLore(reward.getHiddenLore());
-						itemInHand.setItemMeta(im);
+						itemInHand = Reward.setDisplayNameAndHiddenLores(itemInHand.clone(), reward);
 					} else {
 						plugin.getMessages().senderSendMessage(sender,
 								plugin.getMessages().getString("mobhunting.commands.head.headmustbeinhand"));

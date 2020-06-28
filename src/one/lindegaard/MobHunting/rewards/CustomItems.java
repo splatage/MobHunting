@@ -2,7 +2,6 @@ package one.lindegaard.MobHunting.rewards;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,14 +13,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 
 import one.lindegaard.Core.Core;
 import one.lindegaard.Core.PlayerSettings;
@@ -141,24 +137,14 @@ public class CustomItems {
 	public ItemStack getPlayerHeadOwningPlayer(UUID uuid, String name, int amount, double money) {
 		ItemStack skull = CoreCustomItems.getDefaultPlayerHead(amount);
 		SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
-		skullMeta.setLore(new ArrayList<String>(
-				Arrays.asList("Hidden(0):" + name, "Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money),
-						"Hidden(2):" + RewardType.KILLED, "Hidden(4):" + uuid,
-						"Hidden(5):" + Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + RewardType.KILLED),
-						Core.getMessages().getString("core.reward.lore"))));
-		if (Bukkit.getOfflinePlayer(uuid) != null)
-			skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
-		else
-			skullMeta.setOwner(name);
-		if (money == 0) {
-			skullMeta.setDisplayName(name);
-			skull.setAmount(amount);
-		} else {
-			skullMeta.setDisplayName(name + " (" + plugin.getEconomyManager().format(money) + ")");
-			skull.setAmount(1);
-		}
 		skull.setItemMeta(skullMeta);
-		plugin.getMessages().debug("CustomItems: set the skin using OwningPlayer/Owner (%s,%s)", name, uuid.toString());
+		skull = Reward.setDisplayNameAndHiddenLores(skull, name, money, new ArrayList<String>(Arrays.asList(
+				"Hidden(0):" + name, "Hidden(1):" + String.format(Locale.ENGLISH, "%.5f", money),
+				"Hidden(2):" + RewardType.KILLED.getType(), "Hidden(4):" + uuid,
+				"Hidden(5):"
+						+ Strings.encode(String.format(Locale.ENGLISH, "%.5f", money) + RewardType.KILLED.getType()),
+				Core.getMessages().getString("core.reward.lore"))));
+		plugin.getMessages().debug("CustomItems: set the skin using OwningPlayer/Owner (%s)", name);
 		return skull;
 	}
 

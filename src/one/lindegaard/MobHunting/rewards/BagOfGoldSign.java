@@ -27,7 +27,6 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class BagOfGoldSign implements Listener {
 
@@ -110,15 +109,8 @@ public class BagOfGoldSign implements Listener {
 							}
 						} else {
 							reward.setMoney((moneyInHand - moneyOnSign)/numberOfHeads);
-							ItemMeta im = event.getItem().getItemMeta();
-							im.setLore(reward.getHiddenLore());
-							String displayName = Core.getConfigManager().rewardItemtype
-									.equalsIgnoreCase("ITEM") ? plugin.getRewardManager().format(reward.getMoney())
-											: reward.getDisplayName() + " ("
-													+ plugin.getRewardManager().format(reward.getMoney()) + ")";
-							im.setDisplayName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-									+ displayName);
-							event.getItem().setItemMeta(im);
+							ItemStack is = Reward.setDisplayNameAndHiddenLores(event.getItem().clone(), reward);
+							event.getItem().setItemMeta(is.getItemMeta());
 						}
 						plugin.getMessages().debug("%s sold his %s for %s", player.getName(), reward.getDisplayName(),
 								plugin.getEconomyManager().format(money));
@@ -165,28 +157,15 @@ public class BagOfGoldSign implements Listener {
 						for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
 							ItemStack is = player.getInventory().getItem(slot);
 							if (Reward.isReward(is)) {
-								Reward hrd = Reward.getReward(is);
-								if ((hrd.isBagOfGoldReward() || hrd.isItemReward())
-										&& hrd.getRewardType().equals(hrd.getRewardType())) {
-									ItemMeta im = is.getItemMeta();
-									Reward newReward = Reward.getReward(is);
-									newReward.setMoney(newReward.getMoney() + moneyOnSign);
-									im.setLore(newReward.getHiddenLore());
-									String displayName = Core.getConfigManager().rewardItemtype
-											.equalsIgnoreCase("ITEM")
-													? plugin.getRewardManager().format(newReward.getMoney())
-													: newReward.getDisplayName() + " ("
-															+ plugin.getRewardManager().format(newReward.getMoney())
-															+ ")";
-									im.setDisplayName(
-											ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-													+ displayName);
-									is.setItemMeta(im);
-									is.setAmount(1);
+								Reward reward = Reward.getReward(is);
+								if ((reward.isBagOfGoldReward() || reward.isItemReward())
+										&& reward.getRewardType().equals(reward.getRewardType())) {
+									reward.setMoney(reward.getMoney() + moneyOnSign);
+									is=Reward.setDisplayNameAndHiddenLores(is, reward);
 									event.setCancelled(true);
 									plugin.getMessages().debug("Added %s to item in slot %s, new value is %s",
-											plugin.getRewardManager().format(hrd.getMoney()), slot,
-											plugin.getRewardManager().format(newReward.getMoney()));
+											moneyOnSign, slot,
+											plugin.getRewardManager().format(reward.getMoney()));
 									found = true;
 									break;
 								}

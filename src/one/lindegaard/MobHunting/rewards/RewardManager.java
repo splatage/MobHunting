@@ -390,9 +390,9 @@ public class RewardManager {
 			item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), money);
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
-			item.setCustomName(reward.isItemReward() ? format(money)
-					: Reward.getReward(is).getDisplayName() + " (" + format(money) + ")");
-			item.setCustomNameVisible(true);
+			//item.setCustomName(reward.isItemReward() ? format(money)
+			//		: Reward.getReward(is).getDisplayName() + " (" + format(money) + ")");
+			//item.setCustomNameVisible(true);
 		}
 		if (item != null)
 			plugin.getMessages().debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
@@ -587,20 +587,6 @@ public class RewardManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public ItemStack setReward(ItemStack skull, Reward reward) {
-		ItemMeta skullMeta = skull.getItemMeta();
-		skullMeta.setLore(reward.getHiddenLore());
-		if (reward.getMoney() == 0)
-			skullMeta.setDisplayName(
-					ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + reward.getDisplayName());
-		else
-			skullMeta.setDisplayName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-					+ (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM") ? format(reward.getMoney())
-							: reward.getDisplayName() + " (" + format(reward.getMoney()) + ")"));
-		skull.setItemMeta(skullMeta);
-		return skull;
 	}
 
 	public void removeReward(Block block) {

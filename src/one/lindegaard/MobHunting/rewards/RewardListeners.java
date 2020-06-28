@@ -95,21 +95,28 @@ public class RewardListeners implements Listener {
 			Reward reward = Reward.getReward(item);
 			double money = reward.getMoney();
 			if (money == 0) {
-				item.setCustomName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-						+ reward.getDisplayName());
+				//item.setCustomName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+				//		+ reward.getDisplayName());
+				ItemStack is= item.getItemStack();
+				is = Reward.setDisplayNameAndHiddenLores(is.clone(), reward);
+				item.setItemStack(is);
 				plugin.getRewardManager().getDroppedMoney().put(item.getEntityId(), money);
 				plugin.getMessages().debug("%s dropped a %s (# of rewards left=%s)", player.getName(),
 						reward.getDisplayName() != null ? reward.getDisplayName()
 								: Core.getConfigManager().bagOfGoldName.trim(),
 						plugin.getRewardManager().getDroppedMoney().size());
 			} else {
-				if (reward.isItemReward())
-					item.setCustomName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-							+ plugin.getRewardManager().format(money));
-				else
-					item.setCustomName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-							+ reward.getDisplayName() + " (" + plugin.getRewardManager().format(money) + ")");
+				//if (reward.isItemReward())
+				//	item.setCustomName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+				//			+ plugin.getRewardManager().format(money));
+				//else
+				//	item.setCustomName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+				//			+ reward.getDisplayName() + " (" + plugin.getRewardManager().format(money) + ")");
 
+				ItemStack is= item.getItemStack();
+				is = Reward.setDisplayNameAndHiddenLores(is.clone(), reward);
+				item.setItemStack(is);
+				
 				plugin.getRewardManager().getDroppedMoney().put(item.getEntityId(), money);
 				if (!BagOfGoldCompat.isSupported() && !plugin.getConfigManager().dropMoneyOnGroup
 						&& !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
@@ -124,7 +131,7 @@ public class RewardListeners implements Listener {
 										+ (reward.isItemReward() ? Core.getConfigManager().bagOfGoldName.trim()
 												: reward.getDisplayName())));
 			}
-			item.setCustomNameVisible(true);
+			//item.setCustomNameVisible(true);
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, reward));
 		}
 	}
@@ -228,17 +235,7 @@ public class RewardListeners implements Listener {
 										Reward rewardInSlot = Reward.getReward(is);
 										if ((rewardInSlot.isMoney())) {
 											rewardInSlot.setMoney(rewardInSlot.getMoney() + reward.getMoney());
-											ItemMeta im = is.getItemMeta();
-											im.setLore(rewardInSlot.getHiddenLore());
-											String displayName = rewardInSlot.isItemReward()
-													? plugin.getRewardManager().format(rewardInSlot.getMoney())
-													: rewardInSlot.getDisplayName() + " ("
-															+ plugin.getRewardManager().format(rewardInSlot.getMoney())
-															+ ")";
-											im.setDisplayName(ChatColor.valueOf(
-													Core.getConfigManager().rewardTextColor) + displayName);
-											is.setItemMeta(im);
-											is.setAmount(1);
+											is=Reward.setDisplayNameAndHiddenLores(is, rewardInSlot);
 											plugin.getMessages().debug(
 													"Added %s to %s's item in slot %s, new value is %s",
 													plugin.getRewardManager().format(reward.getMoney()),
@@ -734,16 +731,7 @@ public class RewardListeners implements Listener {
 								event.setCancelled(true);
 								if (reward1.getMoney() + reward2.getMoney() <= Core.getConfigManager().limitPerBag) {
 									reward2.setMoney(reward1.getMoney() + reward2.getMoney());
-									imCursor.setLore(reward2.getHiddenLore());
-									imCursor.setDisplayName(ChatColor
-											.valueOf(Core.getConfigManager().rewardTextColor)
-											+ (Core.getConfigManager().rewardItemtype
-													.equalsIgnoreCase("ITEM")
-															? plugin.getRewardManager().format(reward2.getMoney())
-															: reward2.getDisplayName() + " (" + plugin
-																	.getRewardManager().format(reward2.getMoney())
-																	+ ")"));
-									isCursor.setItemMeta(imCursor);
+									isCursor = Reward.setDisplayNameAndHiddenLores(isCursor, reward2);
 									isCurrentSlot.setAmount(0);
 									isCurrentSlot.setType(Material.AIR);
 									event.setCurrentItem(isCursor);
@@ -753,34 +741,9 @@ public class RewardListeners implements Listener {
 									double rest = reward1.getMoney() + reward2.getMoney()
 											- Core.getConfigManager().limitPerBag;
 									reward2.setMoney(Core.getConfigManager().limitPerBag);
-									imCursor.setLore(reward2.getHiddenLore());
-									imCursor.setDisplayName(
-											ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-													+ (Core.getConfigManager().rewardItemtype
-															.equalsIgnoreCase("ITEM")
-																	? plugin.getRewardManager()
-																			.format(Core.getConfigManager().limitPerBag)
-																	: reward2.getDisplayName() + " ("
-																			+ plugin.getRewardManager().format(
-																					Core.getConfigManager().limitPerBag)
-																			+ ")"));
-									isCursor.setItemMeta(imCursor);
-
+									isCursor=Reward.setDisplayNameAndHiddenLores(isCursor.clone(), reward2);
 									reward1.setMoney(rest);
-									imCurrent.setLore(reward1.getHiddenLore());
-									imCurrent
-											.setDisplayName(
-													ChatColor
-															.valueOf(Core.getConfigManager().rewardTextColor)
-															+ (Core.getConfigManager().rewardItemtype
-																	.equalsIgnoreCase("ITEM")
-																			? plugin.getRewardManager().format(
-																					Core.getConfigManager().limitPerBag)
-																			: reward1.getDisplayName()
-																					+ " (" + plugin.getRewardManager()
-																							.format(reward1.getMoney())
-																					+ ")"));
-									isCurrentSlot.setItemMeta(imCurrent);
+									isCurrentSlot=Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward1);
 									event.setCurrentItem(isCursor);
 									event.setCursor(isCurrentSlot);
 									plugin.getMessages().debug("%s merged two rewards(2)", player.getName());
