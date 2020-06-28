@@ -392,7 +392,8 @@ public class RewardManager {
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			//item.setCustomName(reward.isItemReward() ? format(money)
 			//		: Reward.getReward(is).getDisplayName() + " (" + format(money) + ")");
-			//item.setCustomNameVisible(true);
+			item.setCustomName(is.getItemMeta().getDisplayName());
+			item.setCustomNameVisible(true);
 		}
 		if (item != null)
 			plugin.getMessages().debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
