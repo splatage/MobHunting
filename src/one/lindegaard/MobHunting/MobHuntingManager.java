@@ -1164,7 +1164,9 @@ public class MobHuntingManager implements Listener {
 		}
 
 		// Mob Spawner / Egg / Egg Dispenser detection
-		if (plugin.getConfigManager().grindingDetectionEnabled && event.getEntity().hasMetadata(SPAWNER_BLOCKED)) {
+		if (plugin.getConfigManager().grindingDetectionEnabled
+				&& !plugin.getGrindingManager().isGrindingDisabledInWorld(event.getEntity().getWorld())
+				&& event.getEntity().hasMetadata(SPAWNER_BLOCKED)) {
 			if (!plugin.getGrindingManager().isWhitelisted(event.getEntity().getLocation())) {
 				if (killed != null) {
 					plugin.getMessages().debug(
@@ -1323,6 +1325,7 @@ public class MobHuntingManager implements Listener {
 		HuntData data = new HuntData(player);
 		// if (player != null) {
 		if (cash != 0 && plugin.getConfigManager().grindingDetectionEnabled
+				&& !plugin.getGrindingManager().isGrindingDisabledInWorld(player.getWorld())
 				&& plugin.getConfigManager().areaGrindingDetectionEnabled
 				&& (!plugin.getGrindingManager().isGrindingArea(player.getLocation())
 						|| plugin.getGrindingManager().isWhitelisted(player.getLocation()))
@@ -1365,148 +1368,158 @@ public class MobHuntingManager implements Listener {
 		if (plugin.getConfigManager().grindingDetectionEnabled
 				&& !(cash == 0 && plugin.getRewardManager().getKillCommands(killed).isEmpty())) {
 
-			// Area Grinding detection
-			if (plugin.getConfigManager().areaGrindingDetectionEnabled) {
-				// Check if Area is whitelisted
-				if (plugin.getGrindingManager().isWhitelisted(loc)) {
-					plugin.getMessages().debug("This Area is whitelisted. Area grinding not detected.");
+			// Disable grinding detection i specific worlds
+			if (!plugin.getGrindingManager().isGrindingDisabledInWorld(player.getWorld())) {
 
-				} else {
-
-					data.setDampenedKills(data.getDampenedKills() + 1);
-
-					// Check if the location is Blacklisted as a Grinding Area by Admin
-					Area grindingArea = plugin.getGrindingManager().getGrindingArea(loc);
-					if (plugin.getGrindingManager().isGrindingArea(loc)) {
-						plugin.getGrindingManager().showGrindingArea(killer, grindingArea, killed.getLocation());
-						data.resetKillStreak(player);
-						plugin.getMessages().debug(
-								"Blacklisted grinding area detected Center=(%s,%s,%s). No rewards is paid.",
-								grindingArea.getCenter().getBlock(), grindingArea.getCenter().getBlockX(),
-								grindingArea.getCenter().getBlockZ());
-						plugin.getMessages().learn(player,
-								plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
-						cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
-								plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
-						plugin.getMessages().debug("======================= kill ended (31)=====================");
-						return;
-					}
-
-					// Check the is a player specific grinding area
-					Area playerGrindingArea = data.getPlayerGrindingArea(loc);
-					if (playerGrindingArea != null) {
-						plugin.getGrindingManager().showGrindingArea(killer, playerGrindingArea, killed.getLocation());
-						data.resetKillStreak(player);
-						plugin.getMessages().debug(
-								"%s has been registered for grinding in this area. Center=(%s,%s,%s)", player.getName(),
-								playerGrindingArea.getCenter().getBlockX(), playerGrindingArea.getCenter().getBlockY(),
-								playerGrindingArea.getCenter().getBlockZ());
-						plugin.getMessages().learn(player,
-								plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
-						cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
-								plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
-						plugin.getMessages().debug("======================= kill ended (32)=====================");
-						return;
-					}
-
-					int maxKills = (isSlimeOrMagmaCube(killed) ? 2 : 1)
-							* plugin.getConfigManager().grindingDetectionNumberOfDeath;
-
-					// The mob was killed far from last kill area center
-					if (!loc.getWorld().equals(data.getLastKillAreaCenter().getWorld())
-							|| loc.distance(data.getLastKillAreaCenter()) > data.getcDampnerRange()) {
-
-						plugin.getMessages().debug(
-								"Kill not within %s blocks from previous kill. Dampened Kills reset to 0",
-								data.getcDampnerRange());
-						data.setDampenedKills(0);
-						data.setLastKillAreaCenter(loc.clone());
-
-						// Grinding stacked mobs
-					} else if (MobStackerCompat.isSupported() && MobStackerCompat.isStackedMob(killed)
-							&& !MobStackerCompat.isGrindingStackedMobsAllowed()) {
-						plugin.getMessages().debug(
-								"This was a stacked Mob. It's not allowed to grind stacked mobs (Disabled in config.yml)");
+				// Area Grinding detection
+				if (plugin.getConfigManager().areaGrindingDetectionEnabled) {
+					// Check if Area is whitelisted
+					if (plugin.getGrindingManager().isWhitelisted(loc)) {
+						plugin.getMessages().debug("This Area is whitelisted. Area grinding not detected.");
 
 					} else {
 
-						plugin.getMessages().debug(
-								"Checking kills in this area. DampenedKills=%s. Penalty begins at %s. Max is %s",
-								data.getDampenedKills(), maxKills / 2, maxKills);
+						data.setDampenedKills(data.getDampenedKills() + 1);
 
-						// Player has reached the limit
-						if (data.getDampenedKills() >= maxKills) {
-
-							data.setLastKillAreaCenter(loc.clone());
-							data.recordPlayerGrindingArea();
+						// Check if the location is Blacklisted as a Grinding Area by Admin
+						Area grindingArea = plugin.getGrindingManager().getGrindingArea(loc);
+						if (plugin.getGrindingManager().isGrindingArea(loc)) {
+							plugin.getGrindingManager().showGrindingArea(killer, grindingArea, killed.getLocation());
 							data.resetKillStreak(player);
-
-							playerGrindingArea = data.getPlayerGrindingArea(loc.clone());
-
-							if (plugin.getConfigManager().blacklistPlayerGrindingSpotsServerWorldWide)
-								plugin.getGrindingManager().registerKnownGrindingSpot(playerGrindingArea);
-
 							plugin.getMessages().debug(
-									"Area Grinding detected Center=(%s,%s,%s,%s). %s has reached the limit:%s of allowed kills in this area",
-									data.getLastKillAreaCenter().getWorld().getName(),
-									data.getLastKillAreaCenter().getBlockX(), data.getLastKillAreaCenter().getBlockY(),
-									data.getLastKillAreaCenter().getBlockZ(), player.getName(), maxKills);
+									"Blacklisted grinding area detected Center=(%s,%s,%s). No rewards is paid.",
+									grindingArea.getCenter().getBlock(), grindingArea.getCenter().getBlockX(),
+									grindingArea.getCenter().getBlockZ());
 							plugin.getMessages().learn(player,
 									plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
-							plugin.getMessages().playerActionBarMessageQueue(player,
-									ChatColor.RED + plugin.getMessages().getString("mobhunting.grinding.detected"));
-							plugin.getGrindingManager().showGrindingArea(player, playerGrindingArea, loc);
-							cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
-									plugin.getConfigManager().disableNatualXPDrops);
-
-							// Check if player is above ½ of the limit
-						} else if (data.getDampenedKills() >= maxKills / 2) {
-							plugin.getMessages().debug(
-									"Warning: %s is killing too many mobs. Player is above half of the limit: %s ",
-									player.getName(), maxKills);
-							plugin.getMessages().learn(player,
-									plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
-							plugin.getMessages().playerActionBarMessageQueue(player,
-									ChatColor.RED + plugin.getMessages().getString("mobhunting.grinding.detected"));
-
-							// Player is below ½ of the limit
-						} else {
-							plugin.getMessages().debug("DampenedKills are below half of limit: %s",
-									plugin.getConfigManager().grindingDetectionNumberOfDeath);
+							cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
+									plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
+							plugin.getMessages().debug("======================= kill ended (31)=====================");
+							return;
 						}
+
+						// Check the is a player specific grinding area
+						Area playerGrindingArea = data.getPlayerGrindingArea(loc);
+						if (playerGrindingArea != null) {
+							plugin.getGrindingManager().showGrindingArea(killer, playerGrindingArea,
+									killed.getLocation());
+							data.resetKillStreak(player);
+							plugin.getMessages().debug(
+									"%s has been registered for grinding in this area. Center=(%s,%s,%s)",
+									player.getName(), playerGrindingArea.getCenter().getBlockX(),
+									playerGrindingArea.getCenter().getBlockY(),
+									playerGrindingArea.getCenter().getBlockZ());
+							plugin.getMessages().learn(player,
+									plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
+							cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
+									plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
+							plugin.getMessages().debug("======================= kill ended (32)=====================");
+							return;
+						}
+
+						int maxKills = (isSlimeOrMagmaCube(killed) ? 2 : 1)
+								* plugin.getConfigManager().grindingDetectionNumberOfDeath;
+
+						// The mob was killed far from last kill area center
+						if (!loc.getWorld().equals(data.getLastKillAreaCenter().getWorld())
+								|| loc.distance(data.getLastKillAreaCenter()) > data.getcDampnerRange()) {
+
+							plugin.getMessages().debug(
+									"Kill not within %s blocks from previous kill. Dampened Kills reset to 0",
+									data.getcDampnerRange());
+							data.setDampenedKills(0);
+							data.setLastKillAreaCenter(loc.clone());
+
+							// Grinding stacked mobs
+						} else if (MobStackerCompat.isSupported() && MobStackerCompat.isStackedMob(killed)
+								&& !MobStackerCompat.isGrindingStackedMobsAllowed()) {
+							plugin.getMessages().debug(
+									"This was a stacked Mob. It's not allowed to grind stacked mobs (Disabled in config.yml)");
+
+						} else {
+
+							plugin.getMessages().debug(
+									"Checking kills in this area. DampenedKills=%s. Penalty begins at %s. Max is %s",
+									data.getDampenedKills(), maxKills / 2, maxKills);
+
+							// Player has reached the limit
+							if (data.getDampenedKills() >= maxKills) {
+
+								data.setLastKillAreaCenter(loc.clone());
+								data.recordPlayerGrindingArea();
+								data.resetKillStreak(player);
+
+								playerGrindingArea = data.getPlayerGrindingArea(loc.clone());
+
+								if (plugin.getConfigManager().blacklistPlayerGrindingSpotsServerWorldWide)
+									plugin.getGrindingManager().registerKnownGrindingSpot(playerGrindingArea);
+
+								plugin.getMessages().debug(
+										"Area Grinding detected Center=(%s,%s,%s,%s). %s has reached the limit:%s of allowed kills in this area",
+										data.getLastKillAreaCenter().getWorld().getName(),
+										data.getLastKillAreaCenter().getBlockX(),
+										data.getLastKillAreaCenter().getBlockY(),
+										data.getLastKillAreaCenter().getBlockZ(), player.getName(), maxKills);
+								plugin.getMessages().learn(player,
+										plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
+								plugin.getMessages().playerActionBarMessageQueue(player,
+										ChatColor.RED + plugin.getMessages().getString("mobhunting.grinding.detected"));
+								plugin.getGrindingManager().showGrindingArea(player, playerGrindingArea, loc);
+								cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
+										plugin.getConfigManager().disableNatualXPDrops);
+
+								// Check if player is above ½ of the limit
+							} else if (data.getDampenedKills() >= maxKills / 2) {
+								plugin.getMessages().debug(
+										"Warning: %s is killing too many mobs. Player is above half of the limit: %s ",
+										player.getName(), maxKills);
+								plugin.getMessages().learn(player,
+										plugin.getMessages().getString("mobhunting.learn.grindingnotallowed"));
+								plugin.getMessages().playerActionBarMessageQueue(player,
+										ChatColor.RED + plugin.getMessages().getString("mobhunting.grinding.detected"));
+
+								// Player is below ½ of the limit
+							} else {
+								plugin.getMessages().debug("DampenedKills are below half of limit: %s",
+										plugin.getConfigManager().grindingDetectionNumberOfDeath);
+							}
+						}
+
+						data.setLastKillAreaCenter(loc.clone());
+						data.putHuntDataToPlayer(player);
 					}
-
-					data.setLastKillAreaCenter(loc.clone());
-					data.putHuntDataToPlayer(player);
-				}
-			} else {
-				plugin.getMessages().debug("Area Grinding detection is disabled in config.yml (detect_grinding_areas)");
-			}
-
-			// Check if player is speed grinding
-			if (plugin.getConfigManager().speedGrindingDetectionEnabled) {
-				if (plugin.getGrindingManager().isPlayerSpeedGrinding(killer, killed)) {
-					plugin.getMessages().debug("%s is Speed Grinding. No rewards paid", player.getName());
-					if (data.getKillstreakLevel() != 0 && data.getKillstreakMultiplier() != 1) {
-						plugin.getMessages().playerActionBarMessageQueue(player,
-								ChatColor.RED + plugin.getMessages().getString("mobhunting.killstreak.lost"));
-					}
-					plugin.getMessages().debug("KillStreak reset to 0");
-					data.setKillStreak(0);
-					cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
-							plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
-					plugin.getMessages().debug("======================= kill ended (34)======================");
-					return;
-
 				} else {
-					plugin.getMessages().debug("%s is not Speed Grinding", player.getName());
+					plugin.getMessages()
+							.debug("Area Grinding detection is disabled in config.yml (detect_grinding_areas).");
+				}
+				if (plugin.getConfigManager().speedGrindingDetectionEnabled) {
+					if (plugin.getGrindingManager().isPlayerSpeedGrinding(killer, killed)) {
+						plugin.getMessages().debug("%s is Speed Grinding. No rewards paid", player.getName());
+						if (data.getKillstreakLevel() != 0 && data.getKillstreakMultiplier() != 1) {
+							plugin.getMessages().playerActionBarMessageQueue(player,
+									ChatColor.RED + plugin.getMessages().getString("mobhunting.killstreak.lost"));
+						}
+						plugin.getMessages().debug("KillStreak reset to 0");
+						data.setKillStreak(0);
+						cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnPlayerGrinding,
+								plugin.getConfigManager().disableNaturalXPDropsOnPlayerGrinding);
+						plugin.getMessages().debug("======================= kill ended (34)======================");
+						return;
+
+					} else {
+						plugin.getMessages().debug("%s is not Speed Grinding.", player.getName());
+					}
+				} else {
+					plugin.getMessages().debug("Speed Grinding is disabled in config.yml (detect_speed_grinding).");
 				}
 			} else {
-				plugin.getMessages().debug("Speed Grinding is disabled in config.yml (detect_speed_grinding)");
+				plugin.getMessages().debug(
+						"Grinding detection in world:%s is disabled in config.yml (disable_grinding_detection_in_worlds).",
+						player.getWorld().getName());
 			}
-
 		} else {
-			plugin.getMessages().debug("Grinding detection is disabled in config.yml (enable_grinding_detection)");
+			plugin.getMessages().debug(
+					"Grinding detection is disabled in config.yml (enable_grinding_detection) or there is no reward for this Mob.");
 		}
 
 		// Apply the modifiers to Basic reward
@@ -1886,8 +1899,7 @@ public class MobHuntingManager implements Listener {
 									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{killerpos\\}", killerpos).replaceAll("\\{killedpos\\}", killedpos)
-									.replaceAll("\\{rewardname\\}",
-											Core.getConfigManager().bagOfGoldName.trim());
+									.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim());
 							if (killed instanceof Player)
 								commandCmd = commandCmd.replaceAll("\\{killed_player\\}", killed.getName())
 										.replaceAll("\\{killed\\}", killed.getName());
@@ -1999,8 +2011,8 @@ public class MobHuntingManager implements Listener {
 									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{world\\}", worldname).replaceAll("\\{killerpos\\}", killerpos)
-									.replaceAll("\\{killedpos\\}", killedpos).replaceAll("\\{rewardname\\}",
-											Core.getConfigManager().bagOfGoldName.trim()),
+									.replaceAll("\\{killedpos\\}", killedpos)
+									.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim()),
 							message_type);
 				}
 			} else {
