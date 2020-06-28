@@ -76,10 +76,12 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.giant", "### Giant settings ###");
 		setCategoryComment("mobs.iron_golem", "### Iron Golem settings ###");
 		setCategoryComment("mobs.guardian", "### Guardian settings ###");
+		setCategoryComment("mobs.hoglin", "### Hoglin settings ###");
 		setCategoryComment("mobs.husk", "### Husk settings ###");
 		setCategoryComment("mobs.killer_rabbit", "### Killer Rabbit settings ###");
 		setCategoryComment("mobs.magma_cube", "### Magma Cube settings ###");
 		setCategoryComment("mobs.phantom", "### Phantom settings ###");
+		setCategoryComment("mobs.piglin", "### Piglin settings ###");
 		setCategoryComment("mobs.pillager", "### Pillager settings ###");
 		setCategoryComment("mobs.polar_bear", "### Polar Bear settings ###");
 		setCategoryComment("mobs.ravager", "### Ravager settings ###");
@@ -88,7 +90,9 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.silverfish", "### Silverfish settings ###");
 		setCategoryComment("mobs.skeleton", "### Skeleton settings ###");
 		setCategoryComment("mobs.spider", "### Spider settings ###");
+		setCategoryComment("mobs.strider", "### Strider settings ###");
 		setCategoryComment("mobs.stray", "### Stray settings ###");
+		setCategoryComment("mobs.zoglin", "### Zoglin settings ###");
 		setCategoryComment("mobs.zombie", "### Zombie settings ###");
 		setCategoryComment("mobs.zombie_pigman", "### Zombie Pigman settings ###");
 		setCategoryComment("mobs.vex", "### Vex settings ###");
@@ -596,7 +600,7 @@ public class ConfigManager extends AutoConfig {
 	}
 
 	// #####################################################################################
-	// Mobs
+	// Hostile Mobs
 	// #####################################################################################
 	@ConfigField(name = "enabled", category = "example.mobname", comment = "Enable MobHunting rewards for this mob (true or false)")
 	public boolean exampleEnabled = true;
@@ -975,6 +979,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "guardian.head.message", category = "mobs")
 	public String guardianHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Hoglin============================================
+	@ConfigField(name = "hoglin.enabled", category = "mobs")
+	public boolean hoglinEnabled = true;
+	@ConfigField(name = "hoglin.message", category = "mobs")
+	public String hoglinMessage = "You killed a §1{killed}";
+	@ConfigField(name = "hoglin.money.amount", category = "mobs")
+	public String hoglinMoney = "9:13";
+	@ConfigField(name = "hoglin.money.chance", category = "mobs")
+	public double hoglinMoneyChance = 1;
+	@ConfigField(name = "hoglin.commands", category = "mobs")
+	public List<HashMap<String, String>> hoglinCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.20");
+		hoglinCommands.add(values1);
+	}
+	@ConfigField(name = "hoglin.head.drophead", category = "mobs")
+	public boolean hoglinHeadDropHead = true;
+	@ConfigField(name = "hoglin.head.value", category = "mobs")
+	public String hoglinHeadPrize = "0";
+	@ConfigField(name = "hoglin.head.chance", category = "mobs")
+	public double hoglinHeadDropChance = 0.20;
+	@ConfigField(name = "hoglin.head.message", category = "mobs")
+	public String hoglinHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Husk============================================
 	@ConfigField(name = "husk.enabled", category = "mobs")
 	public boolean huskEnabled = true;
@@ -1079,6 +1109,32 @@ public class ConfigManager extends AutoConfig {
 	public double phantomHeadDropChance = 0.33;
 	@ConfigField(name = "phantom.head.message", category = "mobs")
 	public String phantomHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Piglin============================================
+	@ConfigField(name = "piglin.enabled", category = "mobs")
+	public boolean piglinEnabled = true;
+	@ConfigField(name = "piglin.message", category = "mobs")
+	public String piglinMessage = "You killed a §1{killed}";
+	@ConfigField(name = "piglin.money.amount", category = "mobs")
+	public String piglinMoney = "5:10";
+	@ConfigField(name = "piglin.money.chance", category = "mobs")
+	public double piglinMoneyChance = 1;
+	@ConfigField(name = "piglin.commands", category = "mobs")
+	public List<HashMap<String, String>> piglinCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.1");
+		piglinCommands.add(values1);
+	}
+	@ConfigField(name = "piglin.head.drophead", category = "mobs")
+	public boolean piglinHeadDropHead = true;
+	@ConfigField(name = "piglin.head.value", category = "mobs")
+	public String piglinHeadPrize = "0";
+	@ConfigField(name = "piglin.head.chance", category = "mobs")
+	public double piglinHeadDropChance = 0.33;
+	@ConfigField(name = "piglin.head.message", category = "mobs")
+	public String piglinHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Pillager============================================
 	@ConfigField(name = "pillager.enabled", category = "mobs")
@@ -1316,6 +1372,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "stray.head.message", category = "mobs")
 	public String strayHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Strider============================================
+	@ConfigField(name = "strider.enabled", category = "mobs")
+	public boolean striderEnabled = true;
+	@ConfigField(name = "strider.message", category = "mobs")
+	public String striderMessage = "You killed a §1{killed}";
+	@ConfigField(name = "strider.money.amount", category = "mobs")
+	public String striderMoney = "15:35";
+	@ConfigField(name = "strider.money.chance", category = "mobs")
+	public double striderMoneyChance = 1;
+	@ConfigField(name = "strider.commands", category = "mobs")
+	public List<HashMap<String, String>> striderCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.20");
+		striderCommands.add(values1);
+	}
+	@ConfigField(name = "strider.head.drophead", category = "mobs")
+	public boolean striderHeadDropHead = true;
+	@ConfigField(name = "strider.head.value", category = "mobs")
+	public String striderHeadPrize = "0";
+	@ConfigField(name = "strider.head.chance", category = "mobs")
+	public double striderHeadDropChance = 0.20;
+	@ConfigField(name = "strider.head.message", category = "mobs")
+	public String striderHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Turtle============================================
 	@ConfigField(name = "turtle.enabled", category = "mobs")
 	public boolean turtleEnabled = true;
@@ -1341,6 +1423,32 @@ public class ConfigManager extends AutoConfig {
 	public double turtleHeadDropChance = 0.33;
 	@ConfigField(name = "turtle.head.message", category = "mobs")
 	public String turtleHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Zoglin============================================
+	@ConfigField(name = "zoglin.enabled", category = "mobs")
+	public boolean zoglinEnabled = true;
+	@ConfigField(name = "zoglin.message", category = "mobs")
+	public String zoglinMessage = "You killed a §1{killed}";
+	@ConfigField(name = "zoglin.money.amount", category = "mobs")
+	public String zoglinMoney = "7:11";
+	@ConfigField(name = "zoglin.money.chance", category = "mobs")
+	public double zoglinMoneyChance = 1;
+	@ConfigField(name = "zoglin.commands", category = "mobs")
+	public List<HashMap<String, String>> zoglinCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.005");
+		zoglinCommands.add(values1);
+	}
+	@ConfigField(name = "zoglin.head.drophead", category = "mobs")
+	public boolean zoglinHeadDropHead = true;
+	@ConfigField(name = "zoglin.head.value", category = "mobs")
+	public String zoglinHeadPrize = "0";
+	@ConfigField(name = "zoglin.head.chance", category = "mobs")
+	public double zoglinHeadDropChance = 0.005;
+	@ConfigField(name = "zoglin.head.message", category = "mobs")
+	public String zoglinHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Zombie============================================
 	@ConfigField(name = "zombie.enabled", category = "mobs")
@@ -3151,6 +3259,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "horse_level1", category = "achievements.hunter.mob_level")
 	public int horseLevel1 = 100;
 
+	@ConfigField(name = "hoglin_level1", category = "achievements.hunter.mob_level")
+	public int hoglinLevel1 = 100;
+
 	@ConfigField(name = "husk_level1", category = "achievements.hunter.mob_level")
 	public int huskLevel1 = 100;
 
@@ -3201,6 +3312,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "pillager_level1", category = "achievements.hunter.mob_level")
 	public int pillagerLevel1 = 100;
+
+	@ConfigField(name = "piglin_level1", category = "achievements.hunter.mob_level")
+	public int piglinLevel1 = 100;
 
 	@ConfigField(name = "pig_level1", category = "achievements.hunter.mob_level")
 	public int pigLevel1 = 100;
@@ -3259,6 +3373,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "squid_level1", category = "achievements.hunter.mob_level")
 	public int squidLevel1 = 100;
 
+	@ConfigField(name = "strider_level1", category = "achievements.hunter.mob_level")
+	public int striderLevel1 = 100;
+
 	@ConfigField(name = "traderllama_level1", category = "achievements.hunter.mob_level")
 	public int traderllamaLevel1 = 100;
 
@@ -3297,6 +3414,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "wolf_level1", category = "achievements.hunter.mob_level")
 	public int wolfLevel1 = 100;
+
+	@ConfigField(name = "zoglin_level1", category = "achievements.hunter.mob_level")
+	public int zoglinLevel1 = 100;
 
 	@ConfigField(name = "zombie_level1", category = "achievements.hunter.mob_level")
 	public int zombieLevel1 = 100;
@@ -3894,6 +4014,12 @@ public class ConfigManager extends AutoConfig {
 	public double guardianMcMMOSkillRewardChance = 0.05;
 	// Hostile mob, normal (because of the terrain and beam attack)
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.hoglin")
+	public String hoglinMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.hoglin")
+	public double hoglinMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.horse")
 	public String horseMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.horse")
@@ -3995,6 +4121,12 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.phantom")
 	public double phantomMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.piglin")
+	public String piglinMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.piglin")
+	public double piglinMcMMOSkillRewardChance = 0.050;
+	// Hostile mob, low risc
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.pig")
 	public String pigMcMMOSkillRewardAmount = "1";
@@ -4122,6 +4254,12 @@ public class ConfigManager extends AutoConfig {
 	public double strayMcMMOSkillRewardChance = 0.04;
 	// Hostile mob, easy
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.strider")
+	public String striderMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.strider")
+	public double striderMcMMOSkillRewardChance = 0.025;
+	// Hostile mob, normal
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.turtle")
 	public String turtleMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.turtle")
@@ -4193,6 +4331,12 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.wolf")
 	public double wolfMcMMOSkillRewardChance = 0.04;
 	// Hostile mob (kind of, needs to be hit first), easy
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.zoglin")
+	public String zoglinMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.zoglin")
+	public double zoglinMcMMOSkillRewardChance = 0.025;
+	// Hostile mob, normal
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.zombie")
 	public String zombieMcMMOSkillRewardAmount = "1";
@@ -4780,8 +4924,14 @@ public class ConfigManager extends AutoConfig {
 			return weaponsmithLevel1;
 		case Bee:
 			return beeLevel1;
-		default:
-			break;
+		case Hoglin:
+			return hoglinLevel1;
+		case Piglin:
+			return piglinLevel1;
+		case Strider:
+			return striderLevel1;
+		case Zoglin:
+			return zoglinLevel1;
 		}
 		return 100;
 	}
@@ -4963,8 +5113,14 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, weaponsmithHeadPrize);
 		case Bee:
 			return getPrice(mob, beeHeadPrize);
-		default:
-			break;
+		case Hoglin:
+			return getPrice(mob, hoglinHeadPrize);
+		case Piglin:
+			return getPrice(mob, piglinHeadPrize);
+		case Strider:
+			return getPrice(mob, striderHeadPrize);
+		case Zoglin:
+			return getPrice(mob, zoglinHeadPrize);
 		}
 		return 0;
 	}

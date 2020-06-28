@@ -172,10 +172,6 @@ public class ExtendedMobManager {
 		return mobs.get(mob_id);
 	}
 
-	// public static String getMobName(Entity mob) {
-	// return mob.getName();
-	// }
-
 	public String getTranslatedName() {
 		return "";
 	};

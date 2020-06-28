@@ -39,6 +39,7 @@ import org.bukkit.entity.Fox;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Giant;
 import org.bukkit.entity.Guardian;
+import org.bukkit.entity.Hoglin;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Husk;
 import org.bukkit.entity.Illusioner;
@@ -54,6 +55,7 @@ import org.bukkit.entity.Parrot;
 import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Piglin;
 import org.bukkit.entity.Pillager;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.PolarBear;
@@ -71,6 +73,7 @@ import org.bukkit.entity.Snowman;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Squid;
 import org.bukkit.entity.Stray;
+import org.bukkit.entity.Strider;
 import org.bukkit.entity.TraderLlama;
 import org.bukkit.entity.TropicalFish;
 import org.bukkit.entity.Turtle;
@@ -81,6 +84,7 @@ import org.bukkit.entity.WanderingTrader;
 import org.bukkit.entity.Witch;
 import org.bukkit.entity.Wither;
 import org.bukkit.entity.Wolf;
+import org.bukkit.entity.Zoglin;
 import org.bukkit.entity.Zombie;
 import org.bukkit.entity.ZombieHorse;
 import org.bukkit.entity.ZombieVillager;
@@ -311,12 +315,11 @@ public class RewardManager {
 					double saldo = Misc.floor(reward.getMoney());
 					if (saldo > toBeTaken) {
 						reward.setMoney(saldo - toBeTaken);
-						is = customItems
-								.getCustomtexture(
-										new Reward(Core.getConfigManager().bagOfGoldName.trim(),
-												saldo - toBeTaken, reward.getRewardType(), reward.getSkinUUID()),
-										Core.getConfigManager().skullTextureValue,
-										Core.getConfigManager().skullTextureSignature);
+						is = customItems.getCustomtexture(
+								new Reward(Core.getConfigManager().bagOfGoldName.trim(), saldo - toBeTaken,
+										reward.getRewardType(), reward.getSkinUUID()),
+								Core.getConfigManager().skullTextureValue,
+								Core.getConfigManager().skullTextureSignature);
 						player.getInventory().setItem(slot, is);
 						taken = taken + toBeTaken;
 						toBeTaken = 0;
@@ -367,8 +370,7 @@ public class RewardManager {
 				skinuuid = UUID.fromString(RewardType.BAGOFGOLD.getUUID());
 				is = new CoreCustomItems().getCustomtexture(
 						new Reward(Core.getConfigManager().bagOfGoldName.trim(), money, rewardType, skinuuid),
-						Core.getConfigManager().skullTextureValue,
-						Core.getConfigManager().skullTextureSignature);
+						Core.getConfigManager().skullTextureValue, Core.getConfigManager().skullTextureSignature);
 
 			} else if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("KILLER")) {
 				rewardType = RewardType.KILLER;
@@ -381,8 +383,9 @@ public class RewardManager {
 				is = new ItemStack(Material.valueOf(Core.getConfigManager().rewardItem), 1);
 			}
 
-			Reward reward = new Reward(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-					+ Core.getConfigManager().bagOfGoldName, money, rewardType, skinuuid);
+			Reward reward = new Reward(
+					ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + Core.getConfigManager().bagOfGoldName,
+					money, rewardType, skinuuid);
 			is = Reward.setDisplayNameAndHiddenLores(is, reward);
 			item = location.getWorld().dropItemNaturally(location, is);
 			getDroppedMoney().put(item.getEntityId(), money);
@@ -594,8 +597,7 @@ public class RewardManager {
 					ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + reward.getDisplayName());
 		else
 			skullMeta.setDisplayName(ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-					+ (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM")
-							? format(reward.getMoney())
+					+ (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM") ? format(reward.getMoney())
 							: reward.getDisplayName() + " (" + format(reward.getMoney()) + ")"));
 		skull.setItemMeta(skullMeta);
 		return skull;
@@ -762,6 +764,16 @@ public class RewardManager {
 			return 0;
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return getPrice(mob, plugin.getConfigManager().hoglinMoney);
+				else if (mob instanceof Piglin)
+					return getPrice(mob, plugin.getConfigManager().piglinMoney);
+				else if (mob instanceof Strider)
+					return getPrice(mob, plugin.getConfigManager().striderMoney);
+				else if (mob instanceof Zoglin)
+					return getPrice(mob, plugin.getConfigManager().zoglinMoney);
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getPrice(mob, plugin.getConfigManager().beeMoney);
@@ -1118,6 +1130,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCommands;
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return plugin.getConfigManager().hoglinCommands;
+				else if (mob instanceof Piglin)
+					return plugin.getConfigManager().piglinCommands;
+				else if (mob instanceof Strider)
+					return plugin.getConfigManager().striderCommands;
+				else if (mob instanceof Zoglin)
+					return plugin.getConfigManager().zoglinCommands;
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeCommands;
@@ -1414,6 +1436,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMessage;
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return plugin.getConfigManager().hoglinMessage;
+				else if (mob instanceof Piglin)
+					return plugin.getConfigManager().piglinMessage;
+				else if (mob instanceof Strider)
+					return plugin.getConfigManager().striderMessage;
+				else if (mob instanceof Zoglin)
+					return plugin.getConfigManager().zoglinMessage;
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMessage;
@@ -1701,6 +1733,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCmdRunChance;
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return plugin.getConfigManager().hoglinMoneyChance;
+				else if (mob instanceof Piglin)
+					return plugin.getConfigManager().piglinMoneyChance;
+				else if (mob instanceof Strider)
+					return plugin.getConfigManager().striderMoneyChance;
+				else if (mob instanceof Zoglin)
+					return plugin.getConfigManager().zoglinMoneyChance;
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMoneyChance;
@@ -1993,6 +2035,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMcMMOSkillRewardChance;
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return plugin.getConfigManager().hoglinMcMMOSkillRewardChance;
+				else if (mob instanceof Piglin)
+					return plugin.getConfigManager().piglinMcMMOSkillRewardChance;
+				else if (mob instanceof Strider)
+					return plugin.getConfigManager().striderMcMMOSkillRewardChance;
+				else if (mob instanceof Zoglin)
+					return plugin.getConfigManager().zoglinMcMMOSkillRewardChance;
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMcMMOSkillRewardChance;
@@ -2309,6 +2361,16 @@ public class RewardManager {
 			return getMcMMOXP(mob, plugin.getConfigManager().wolfMcMMOSkillRewardAmount);
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return getMcMMOXP(mob, plugin.getConfigManager().hoglinMcMMOSkillRewardAmount);
+				else if (mob instanceof Piglin)
+					return getMcMMOXP(mob, plugin.getConfigManager().piglinMcMMOSkillRewardAmount);
+				else if (mob instanceof Strider)
+					return getMcMMOXP(mob, plugin.getConfigManager().striderMcMMOSkillRewardAmount);
+				else if (mob instanceof Zoglin)
+					return getMcMMOXP(mob, plugin.getConfigManager().zoglinMcMMOSkillRewardAmount);
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getMcMMOXP(mob, plugin.getConfigManager().beeMcMMOSkillRewardAmount);
@@ -2596,6 +2658,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfEnabled;
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return plugin.getConfigManager().hoglinEnabled;
+				else if (mob instanceof Piglin)
+					return plugin.getConfigManager().piglinEnabled;
+				else if (mob instanceof Strider)
+					return plugin.getConfigManager().striderEnabled;
+				else if (mob instanceof Zoglin)
+					return plugin.getConfigManager().zoglinEnabled;
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeEnabled;
@@ -2894,6 +2966,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropHead;
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return plugin.getConfigManager().hoglinHeadDropHead;
+				else if (mob instanceof Piglin)
+					return plugin.getConfigManager().piglinHeadDropHead;
+				else if (mob instanceof Strider)
+					return plugin.getConfigManager().striderHeadDropHead;
+				else if (mob instanceof Zoglin)
+					return plugin.getConfigManager().zoglinHeadDropHead;
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadDropHead;
@@ -3194,6 +3276,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropChance;
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return plugin.getConfigManager().hoglinHeadDropChance;
+				else if (mob instanceof Piglin)
+					return plugin.getConfigManager().piglinHeadDropChance;
+				else if (mob instanceof Strider)
+					return plugin.getConfigManager().striderHeadDropChance;
+				else if (mob instanceof Zoglin)
+					return plugin.getConfigManager().zoglinHeadDropChance;
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadDropChance;
@@ -3493,6 +3585,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadMessage;
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return plugin.getConfigManager().hoglinHeadMessage;
+				else if (mob instanceof Piglin)
+					return plugin.getConfigManager().piglinHeadMessage;
+				else if (mob instanceof Strider)
+					return plugin.getConfigManager().striderHeadMessage;
+				else if (mob instanceof Zoglin)
+					return plugin.getConfigManager().zoglinHeadMessage;
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadMessage;
@@ -3793,6 +3895,16 @@ public class RewardManager {
 			return getPrice(mob, plugin.getConfigManager().wolfHeadPrize);
 
 		} else {
+			if (Servers.isMC116OrNewer())
+				if (mob instanceof Hoglin)
+					return getPrice(mob, plugin.getConfigManager().hoglinHeadPrize);
+				else if (mob instanceof Piglin)
+					return getPrice(mob, plugin.getConfigManager().piglinHeadPrize);
+				else if (mob instanceof Strider)
+					return getPrice(mob, plugin.getConfigManager().striderHeadPrize);
+				else if (mob instanceof Zoglin)
+					return getPrice(mob, plugin.getConfigManager().zoglinHeadPrize);
+
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getPrice(mob, plugin.getConfigManager().beeHeadPrize);
