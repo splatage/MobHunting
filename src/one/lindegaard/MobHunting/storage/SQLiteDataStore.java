@@ -1694,7 +1694,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 		// There is noting to do if the plugin uses Sqlite
 	}
 
-	protected void migrateDatabaseLayoutFromV7ToV8(Connection mConnection) throws DataStoreException {
+	protected boolean migrateDatabaseLayoutFromV7ToV8(Connection mConnection) throws DataStoreException {
 		Statement statement;
 		try {
 			statement = mConnection.createStatement();
@@ -1719,6 +1719,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			Core.getDataStoreManager().flush();
 			statement.close();
 			mConnection.commit();
+			return true;
 		} catch (SQLException e) {
 			throw new DataStoreException(e);
 		}

@@ -1869,7 +1869,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 		}
 	}
 
-	protected void migrateDatabaseLayoutFromV7ToV8(Connection mConnection) throws DataStoreException {
+	protected boolean migrateDatabaseLayoutFromV7ToV8(Connection mConnection) throws DataStoreException {
 		Statement statement;
 		try {
 			statement = mConnection.createStatement();
@@ -1894,6 +1894,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			Core.getDataStoreManager().flush();
 			statement.close();
 			mConnection.commit();
+			return true;
 		} catch (SQLException e) {
 			throw new DataStoreException(e);
 		}

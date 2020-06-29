@@ -125,7 +125,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	 * 
 	 * @throws DataStoreException
 	 */
-	protected abstract void migrateDatabaseLayoutFromV7ToV8(Connection connection) throws DataStoreException;
+	protected abstract boolean migrateDatabaseLayoutFromV7ToV8(Connection connection) throws DataStoreException;
 
 	/**
 	 * Open a connection to the Database and prepare a statement for executing.
@@ -276,8 +276,12 @@ public abstract class DatabaseDataStore implements IDataStore {
 						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV6Tables(mConnection);
 				setupTriggerV4andV5(mConnection);
-				migrateDatabaseLayoutFromV7ToV8(mConnection);
-				plugin.getConfigManager().databaseVersion = 8;
+				if (migrateDatabaseLayoutFromV7ToV8(mConnection))
+					plugin.getConfigManager().databaseVersion = 8;
+				else {
+					plugin.getConfigManager().databaseVersion = 7;
+					break;
+				}
 				plugin.getConfigManager().saveConfig();
 			case 8:
 				setupV8Tables(mConnection);
