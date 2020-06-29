@@ -159,35 +159,36 @@ public abstract class DatabaseDataStore implements IDataStore {
 				try {
 					ResultSet rs = statement.executeQuery("SELECT TEXTURE FROM mh_Players LIMIT 0");
 					rs.close();
-					// The TABLE Coloumn BALANCE only exists in Database
-					// layout V5
+					/**
+					 * The TABLE Coloumn BALANCE only exists in Database layout V5
+					 **/
 					plugin.getConfigManager().databaseVersion = 6;
 					plugin.getConfigManager().saveConfig();
 				} catch (SQLException e6) {
 					try {
 						ResultSet rs = statement.executeQuery("SELECT BALANCE FROM mh_Players LIMIT 0");
 						rs.close();
-						// The TABLE Coloumn BALANCE only exists in Database
-						// layout V5
+						/**
+						 * The TABLE Coloumn BALANCE only exists in Database layout V5
+						 **/
 						plugin.getConfigManager().databaseVersion = 5;
 						plugin.getConfigManager().saveConfig();
 					} catch (SQLException e5) {
 						try {
 							ResultSet rs = statement.executeQuery("SELECT TOTAL_CASH FROM mh_Daily LIMIT 0");
 							rs.close();
-							// The TABLE Coloumn TOTAL_CASH only exists in
-							// Database
-							// layout V4
+							/**
+							 * The TABLE Coloumn TOTAL_CASH only exists in Database layout V4
+							 **/
 							plugin.getConfigManager().databaseVersion = 4;
 							plugin.getConfigManager().saveConfig();
 						} catch (SQLException e4) {
 							try {
 								ResultSet rs = statement.executeQuery("SELECT MOB_ID FROM mh_Mobs LIMIT 0");
 								rs.close();
-								// The TABLE mh_Mobs created for V3 and does
-								// only
-								// contain
-								// data after migration
+								/**
+								 * The TABLE mh_Mobs created for V3 and does only contain data after migration
+								 **/
 								plugin.getConfigManager().databaseVersion = 3;
 								plugin.getConfigManager().saveConfig();
 							} catch (SQLException e3) {
@@ -198,11 +199,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 									plugin.getConfigManager().databaseVersion = 2;
 									plugin.getConfigManager().saveConfig();
 								} catch (SQLException e2) {
-									// database if from before Minecraft 1.7.9
-									// R1
-									// (No
-									// UUID)
-									// = V1
+									/**
+									 * database if from before Minecraft 1.7.9 R1 (No UUID) = V1
+									 **/
 									try {
 										ResultSet rs = statement
 												.executeQuery("SELECT PLAYER_ID from mh_Players LIMIT 0");
@@ -210,11 +209,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 										plugin.getConfigManager().databaseVersion = 1;
 										plugin.getConfigManager().saveConfig();
 									} catch (SQLException e1) {
-										// DATABASE DOES NOT EXIST AT ALL,
-										// CREATE
-										// NEW
-										// EMPTY
-										// V3 DATABASE
+										/**
+										 * DATABASE DOES NOT EXIST AT ALL, CREATE NEW EMPTY V3 DATABASE
+										 **/
 										plugin.getConfigManager().databaseVersion = 7;
 										plugin.getConfigManager().saveConfig();
 									}
