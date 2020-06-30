@@ -92,6 +92,7 @@ public class MobHunting extends JavaPlugin {
 	private static Core mCore;
 
 	private boolean mInitialized = false;
+	public boolean disabling = false;
 
 	@Override
 	public void onLoad() {
@@ -343,7 +344,7 @@ public class MobHunting extends JavaPlugin {
 			getMessages().debug("Reloading %s player settings from the database", Tools.getOnlinePlayersAmount());
 			for (Player player : Tools.getOnlinePlayers()) {
 				Core.getPlayerSettingsManager().load(player);
-					mAchievementManager.load(player);
+				mAchievementManager.load(player);
 				if (mConfig.enablePlayerBounties)
 					mBountyManager.load(player);
 				mMobHuntingManager.setHuntEnabled(player, true);
@@ -364,16 +365,15 @@ public class MobHunting extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		getMessages().debug("Disabling MobHunting initiated");
+		getMessages().debug("Disabling MobHunting.");
+		disabling = true;
 
 		if (!mInitialized)
 			return;
 
-		getMessages().debug("Saving all Reward Blocks to disk");
 		mRewardManager.saveAllRewards();
 		getMessages().debug("Shutdown LeaderBoardManager");
 		mLeaderboardManager.shutdown();
-		getMessages().debug("Shutdown GrindingManager");
 		mGrindingManager.saveData();
 		if (PlaceholderAPICompat.isSupported()) {
 			getMessages().debug("Shutdown PlaceHolderManager");

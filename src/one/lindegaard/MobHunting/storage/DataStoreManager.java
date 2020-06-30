@@ -236,12 +236,17 @@ public class DataStoreManager {
 					}
 					mTaskThread.addTask(new StoreTask(mWaiting), null);
 
-					Bukkit.getScheduler().runTask(plugin, new Runnable() {
-						@Override
-						public void run() {
-							plugin.getGrindingManager().saveData();
-						}
-					});
+					if (plugin.disabling) {
+						plugin.getRewardManager().saveAllRewards();
+						plugin.getGrindingManager().saveData();
+					} else
+						Bukkit.getScheduler().runTask(plugin, new Runnable() {
+							@Override
+							public void run() {
+								plugin.getRewardManager().saveAllRewards();
+								plugin.getGrindingManager().saveData();
+							}
+						});
 
 					Thread.sleep(mSaveInterval * 50);
 				}

@@ -50,6 +50,7 @@ public class GrindingManager implements Listener {
 	}
 
 	public void saveData() {
+		plugin.getMessages().debug("Saving Whitelists and blacklists.");
 		saveWhitelist();
 		saveBlacklist();
 	}
