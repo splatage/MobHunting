@@ -7,6 +7,7 @@ import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.Core.messages.MessageType;
 import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.server.Servers;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
@@ -18,7 +19,6 @@ import one.lindegaard.MobHunting.grinding.Area;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
 import one.lindegaard.MobHunting.modifier.*;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderData;
-import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.update.SpigetUpdater;
 import one.lindegaard.MobHunting.util.Misc;
 
@@ -1567,7 +1567,7 @@ public class MobHuntingManager implements Listener {
 			plugin.getMessages().debug("This was a PVP kill (killed=%s), number of bounties=%s", killed.getName(),
 					plugin.getBountyManager().getAllBounties().size());
 			OfflinePlayer wantedPlayer = (OfflinePlayer) killed;
-			String worldGroupName = plugin.getWorldGroupManager().getCurrentWorldGroup(player);
+			String worldGroupName = Core.getWorldGroupManager().getCurrentWorldGroup(player);
 			if (plugin.getBountyManager().hasOpenBounties(wantedPlayer)) {
 				BountyKillEvent bountyEvent = new BountyKillEvent(worldGroupName, player, wantedPlayer,
 						plugin.getBountyManager().getOpenBounties(worldGroupName, wantedPlayer));
@@ -1990,11 +1990,11 @@ public class MobHuntingManager implements Listener {
 			if (random < plugin.getRewardManager().getHeadDropChance(killed)) {
 				MobType minecraftMob = MobType.getMobType(killed);
 				if (minecraftMob == MobType.PvpPlayer) {
-					ItemStack head = new CustomItems().getPlayerHead(killed.getUniqueId(), killed.getName(), 1,
+					ItemStack head = new CoreCustomItems(plugin).getPlayerHead(killed.getUniqueId(), killed.getName(), 1,
 							plugin.getRewardManager().getHeadValue(killed));
 					player.getWorld().dropItem(killed.getLocation(), head);
 				} else {
-					ItemStack head = new CustomItems().getCustomHead(minecraftMob, mob.getFriendlyName(), 1,
+					ItemStack head = new CoreCustomItems(plugin).getCustomHead(minecraftMob, mob.getFriendlyName(), 1,
 							plugin.getRewardManager().getHeadValue(killed), minecraftMob.getSkinUUID());
 					player.getWorld().dropItem(killed.getLocation(), head);
 				}

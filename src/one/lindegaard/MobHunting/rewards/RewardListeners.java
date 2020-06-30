@@ -359,8 +359,7 @@ public class RewardListeners implements Listener {
 					plugin.getMessages().learn(event.getPlayer(),
 							plugin.getMessages().getString("mobhunting.learn.no-duplication"));
 				}
-				int id = plugin.getRewardManager().getNextID();
-				reward.setUniqueID(id);
+				reward.setUniqueID(Core.getRewardBlockManager().getNextID());
 				plugin.getMessages().debug("%s placed a reward block: %s", player.getName(),
 						ChatColor.stripColor(reward.toString()));
 			} else {
@@ -368,9 +367,7 @@ public class RewardListeners implements Listener {
 						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(6)");
 				reward.setMoney(0);
 			}
-			block.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, reward));
-			plugin.getRewardManager().getRewardBlocks().put(reward.getUniqueID(),
-					new RewardBlock(block.getLocation(), reward));
+			Core.getRewardBlockManager().addReward(block, reward);
 		}
 	}
 
@@ -806,7 +803,7 @@ public class RewardListeners implements Listener {
 				if (!Reward.isReward(event.getSourceBlock())) {
 					// plugin.getMessages().debug("RewardListeners: a %s changed a %s(%s)",
 					// event.getSourceBlock().getType(), block.getType(), reward.getMoney());
-					plugin.getRewardManager().removeReward(block);
+					Core.getRewardBlockManager().removeReward(block);
 					plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
 				}
 			} else if (event.getSourceBlock().getType() == Material.matchMaterial("PLAYER_HEAD")) {
@@ -845,7 +842,7 @@ public class RewardListeners implements Listener {
 		Block block = event.getBlock();
 		if (Reward.isReward(block)) {
 			Reward reward = Reward.getReward(block);
-			plugin.getRewardManager().removeReward(block);
+			Core.getRewardBlockManager().removeReward(block);
 			plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
 		}
 	}

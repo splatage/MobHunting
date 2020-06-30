@@ -90,7 +90,7 @@ public class BountyCommand implements ICommand {
 		}
 		@SuppressWarnings("deprecation")
 		OfflinePlayer bountyOwner = Bukkit.getOfflinePlayer(sender.getName());
-		String worldGroupName = plugin.getWorldGroupManager().getCurrentWorldGroup((Player) bountyOwner);
+		String worldGroupName = Core.getWorldGroupManager().getCurrentWorldGroup((Player) bountyOwner);
 		if (args.length == 0) {
 
 			// /mh bounty

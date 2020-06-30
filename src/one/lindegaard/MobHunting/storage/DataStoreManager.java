@@ -20,7 +20,6 @@ import one.lindegaard.MobHunting.achievements.Achievement;
 import one.lindegaard.MobHunting.achievements.ProgressAchievement;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.bounty.BountyStatus;
-import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.storage.asynch.AchievementRetrieverTask;
@@ -239,15 +238,15 @@ public class DataStoreManager {
 					mTaskThread.addTask(new StoreTask(mWaiting), null);
 
 					if (plugin.disabling) {
-						if (!BagOfGoldCompat.isSupported())
-							plugin.getRewardManager().saveAllRewards();
+						//if (!BagOfGoldCompat.isSupported())
+						//	plugin.getRewardManager().saveAllRewards();
 						plugin.getGrindingManager().saveData();
 					} else
 						Bukkit.getScheduler().runTask(plugin, new Runnable() {
 							@Override
 							public void run() {
-								if (!BagOfGoldCompat.isSupported())
-									plugin.getRewardManager().saveAllRewards();
+								//if (!BagOfGoldCompat.isSupported())
+								//	plugin.getRewardManager().saveAllRewards();
 								plugin.getGrindingManager().saveData();
 							}
 						});

@@ -27,6 +27,7 @@ import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import one.lindegaard.Core.Core;
 import one.lindegaard.Core.messages.MessageType;
 import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.compatibility.FactionsHelperCompat;
@@ -39,7 +40,6 @@ import one.lindegaard.MobHunting.modifier.HappyHourBonus;
 import one.lindegaard.MobHunting.modifier.IModifier;
 import one.lindegaard.MobHunting.modifier.RankBonus;
 import one.lindegaard.MobHunting.modifier.WorldBonus;
-import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.MobHunting.util.Misc;
 
 public class FishingManager implements Listener {
@@ -377,7 +377,7 @@ public class FishingManager implements Listener {
 					double random = plugin.mRand.nextDouble();
 					if (random < plugin.getRewardManager().getHeadDropChance(fish)) {
 						MobType minecraftMob = MobType.getMobType(fish);
-						ItemStack head = new CustomItems().getCustomHead(minecraftMob, minecraftMob.getFriendlyName(),
+						ItemStack head = new CoreCustomItems(plugin).getCustomHead(minecraftMob, minecraftMob.getFriendlyName(),
 								1, plugin.getRewardManager().getHeadValue(fish), minecraftMob.getSkinUUID());
 						head = Reward.setDisplayNameAndHiddenLores(head,
 								new Reward(minecraftMob.getFriendlyName(), plugin.getRewardManager().getHeadValue(fish),

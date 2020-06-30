@@ -2,7 +2,6 @@ package one.lindegaard.MobHunting.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,15 +12,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.rewards.CustomItems;
 
 public class HeadCommand implements ICommand, Listener {
 
@@ -95,7 +92,7 @@ public class HeadCommand implements ICommand, Listener {
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
 		// /mh head give [toPlayername] [mobname|playername] [displayname]
 		// [amount] [silent]
-		CustomItems customItems = new CustomItems();
+		CoreCustomItems customItems = new CoreCustomItems(plugin);
 		if (args.length >= 2 && (args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("spawn"))) {
 			if (args.length >= 3) {
 				OfflinePlayer offlinePlayer = null, toPlayer = null;

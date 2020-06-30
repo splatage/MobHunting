@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import net.citizensnpcs.api.npc.NPC;
 import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
@@ -20,7 +21,6 @@ import one.lindegaard.MobHunting.compatibility.MysteriousHalloweenCompat;
 import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
 import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
 import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
-import one.lindegaard.MobHunting.rewards.CustomItems;
 
 public class ExtendedMob {
 
@@ -196,7 +196,7 @@ public class ExtendedMob {
 		case Minecraft:
 			MobType mob = MobType.getMobType(name);
 			
-			return new CustomItems().getCustomHead(mob,name, amount, money, mob.getSkinUUID());
+			return new CoreCustomItems(MobHunting.getInstance()).getCustomHead(mob,name, amount, money, mob.getSkinUUID());
 		default:
 			return new ItemStack(Material.IRON_INGOT, amount);
 		}

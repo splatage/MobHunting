@@ -2,11 +2,11 @@ package one.lindegaard.MobHunting.bounty;
 
 import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.achievements.AchievementManager;
 import one.lindegaard.MobHunting.compatibility.EssentialsCompat;
 import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
-import one.lindegaard.MobHunting.rewards.CustomItems;
 import one.lindegaard.Core.storage.DataStoreManager;
 import one.lindegaard.Core.storage.IDataCallback;
 import one.lindegaard.Core.storage.UserNotFoundException;
@@ -344,7 +344,7 @@ public class BountyManager implements Listener {
 			if (hasOpenBounties(wantedPlayer)) {
 				Set<Bounty> bountiesOnWantedPlayer = getOpenBounties(worldGroupName, wantedPlayer);
 				if (useGui) {
-					CustomItems customItems = new CustomItems();
+					CoreCustomItems customItems = new CoreCustomItems(plugin);
 					final Inventory inventory = Bukkit.createInventory(null, 54,
 							ChatColor.BLUE + "" + ChatColor.BOLD + "Wanted:" + wantedPlayer.getName());
 					int n = 0;
@@ -414,7 +414,7 @@ public class BountyManager implements Listener {
 		if (sender instanceof Player) {
 			if (!mOpenBounties.isEmpty()) {
 				if (useGui) {
-					CustomItems customItems = new CustomItems();
+					CoreCustomItems customItems = new CoreCustomItems(plugin);
 					Inventory inventory = Bukkit.createInventory(null, 54,
 							ChatColor.BLUE + "" + ChatColor.BOLD + "MostWanted:");
 					int n = 0;
@@ -506,7 +506,7 @@ public class BountyManager implements Listener {
 						n++;
 				}
 				if (randomPlayer != null) {
-					String worldGroup = plugin.getWorldGroupManager().getCurrentWorldGroup(randomPlayer);
+					String worldGroup = Core.getWorldGroupManager().getCurrentWorldGroup(randomPlayer);
 					Core.getDataStoreManager();
 					Bounty randomBounty = new Bounty(plugin, worldGroup,
 							Bukkit.getOfflinePlayer(UUID.fromString(DataStoreManager.RANDOM_PLAYER_UUID)), randomPlayer,

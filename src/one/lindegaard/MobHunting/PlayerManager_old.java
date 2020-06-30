@@ -15,9 +15,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import one.lindegaard.Core.Core;
 import one.lindegaard.Core.PlayerSettings;
+import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.Core.storage.IDataCallback;
-import one.lindegaard.MobHunting.rewards.CustomItems;
 
 public class PlayerManager_old implements Listener {
 
@@ -123,7 +123,7 @@ public class PlayerManager_old implements Listener {
 
 				if (ps.getTexture() == null || ps.getTexture().equals("")) {
 					plugin.getMessages().debug("Store %s skin in MobHunting Skin Cache", player.getName());
-					new CustomItems().getPlayerHead(player.getUniqueId(), player.getName(), 1, 0);
+					new CoreCustomItems(plugin).getPlayerHead(player.getUniqueId(), player.getName(), 1, 0);
 				}
 			}
 

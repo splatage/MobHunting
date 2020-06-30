@@ -5,7 +5,6 @@ import java.util.Random;
 
 import one.lindegaard.Core.server.Servers;
 import one.lindegaard.Core.storage.DataStoreException;
-import one.lindegaard.Core.WorldGroupManager;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.Core.messages.MessageManager;
 import one.lindegaard.BagOfGold.BagOfGold;
@@ -79,7 +78,6 @@ public class MobHunting extends JavaPlugin {
 	private BountyManager mBountyManager;
 	private ParticleManager mParticleManager = new ParticleManager();
 	private MetricsManager mMetricsManager;
-	private WorldGroupManager mWorldGroupManager;
 	private ExtendedMobManager mExtendedMobManager;
 	private IDataStore mStore;
 	private DataStoreManager mStoreManager;
@@ -110,6 +108,8 @@ public class MobHunting extends JavaPlugin {
 	@Override
 	public void onEnable() {
 
+		disabling = false;
+		
 		int config_version = ConfigManager.getConfigVersion(mFile);
 		Bukkit.getConsoleSender().sendMessage(
 				ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Your config version is " + config_version);
@@ -167,9 +167,6 @@ public class MobHunting extends JavaPlugin {
 				}
 			}
 		}
-
-		mWorldGroupManager = new WorldGroupManager(this);
-		mWorldGroupManager.load();
 
 		mCompatibilityManager = new CompatibilityManager(this);
 
@@ -357,7 +354,7 @@ public class MobHunting extends JavaPlugin {
 			}
 		}, 20 * 5);
 
-		mRewardManager.loadAllStoredRewards();
+		//mRewardManager.loadAllStoredRewards();
 
 		mInitialized = true;
 
@@ -371,7 +368,7 @@ public class MobHunting extends JavaPlugin {
 		if (!mInitialized)
 			return;
 
-		mRewardManager.saveAllRewards();
+		//mRewardManager.saveAllRewards();
 		getMessages().debug("Shutdown LeaderBoardManager");
 		mLeaderboardManager.shutdown();
 		mGrindingManager.saveData();
@@ -393,8 +390,6 @@ public class MobHunting extends JavaPlugin {
 		}
 		getMessages().debug("Shutdown CitizensCompat");
 		CitizensCompat.shutdown();
-		getMessages().debug("Shutdown WorldGroupManager");
-		mWorldGroupManager.save();
 		Bukkit.getConsoleSender()
 				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "MobHunting disabled.");
 	}
@@ -503,15 +498,6 @@ public class MobHunting extends JavaPlugin {
 	}
 
 	/**
-	 * Get all WorldGroups and their worlds
-	 * 
-	 * @return
-	 */
-	public WorldGroupManager getWorldGroupManager() {
-		return mWorldGroupManager;
-	}
-
-	/**
 	 * Get the RewardManager
 	 * 
 	 * @return
@@ -577,13 +563,6 @@ public class MobHunting extends JavaPlugin {
 
 	public EconomyManager getEconomyManager() {
 		return mEconomyManager;
-	}
-
-	public static Core getCore() {
-		if (BagOfGoldCompat.isSupported())
-			return BagOfGold.getAPI().getCore();
-		else
-			return mCore;
 	}
 
 }

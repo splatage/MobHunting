@@ -20,7 +20,6 @@ import one.lindegaard.Core.rewards.CoreCustomItems;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.rewards.CustomItems;
 
 public class BossShopCompat {
 
@@ -75,7 +74,7 @@ public class BossShopCompat {
 		plugin.getMessages().debug("test3");
 		BSBuy sell = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, 1, 10, "bought bag of gold", 4, null);
 
-		ItemStack is = new CoreCustomItems().getCustomtexture(
+		ItemStack is = new CoreCustomItems(plugin).getCustomtexture(
 				new Reward(Core.getConfigManager().bagOfGoldName.trim(), 10, RewardType.BAGOFGOLD,
 						UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
 				Core.getConfigManager().skullTextureValue,
