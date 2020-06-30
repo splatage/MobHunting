@@ -245,7 +245,8 @@ public class DataStoreManager {
 						Bukkit.getScheduler().runTask(plugin, new Runnable() {
 							@Override
 							public void run() {
-								plugin.getRewardManager().saveAllRewards();
+								if (!BagOfGoldCompat.isSupported())
+									plugin.getRewardManager().saveAllRewards();
 								plugin.getGrindingManager().saveData();
 							}
 						});
