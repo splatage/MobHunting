@@ -4636,9 +4636,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "broadcast_first_achievement", category = "general", comment = "Should the hunt begins achievement be broadcasted?")
 	public boolean broadcastFirstAchievement = true;
 
-	@ConfigField(name = "save_period", category = "general", comment = "Time between saves in ticks (20 ticks ~ 1 sec) This number must be higher that 1200 ticks = 2 minutes,"
-			+ "\nbut I recommend to save every 5th minute = 6000 ticks")
-	public int savePeriod = 6000;
+	//@ConfigField(name = "save_period", category = "general", comment = "Time between saves in ticks (20 ticks ~ 1 sec) This number must be higher that 1200 ticks = 2 minutes,"
+	//		+ "\nbut I recommend to save every 5th minute = 6000 ticks")
+	//public int savePeriod_old = 6000;
 
 	@ConfigField(name = "leaderboard_update_period", category = "general", comment = "Time between leaderboard updates in ticks (20 ticks ~ 1 sec) This number must be higher that 1200 ticks = 2 minutes,"
 			+ "\nbut I recommend to update leaderboards max every 5 min = 6000 ticks")

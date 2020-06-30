@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.Core.storage.IDataCallback;
@@ -50,7 +51,7 @@ public class DataStoreManager {
 		this.plugin = plugin;
 		mStore = store;
 		mTaskThread = new TaskThread();
-		int savePeriod = plugin.getConfigManager().savePeriod;
+		int savePeriod = Core.getConfigManager().savePeriod;
 		if (savePeriod < 1200) {
 			savePeriod = 1200;
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
