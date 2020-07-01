@@ -109,7 +109,7 @@ public class MobHunting extends JavaPlugin {
 	public void onEnable() {
 
 		disabling = false;
-		
+
 		int config_version = ConfigManager.getConfigVersion(mFile);
 		Bukkit.getConsoleSender().sendMessage(
 				ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Your config version is " + config_version);
@@ -139,7 +139,7 @@ public class MobHunting extends JavaPlugin {
 		}
 		mConfig.saveConfig();
 
-		if (!Core.getBagOfGoldCompat().isSupported())
+		if (Bukkit.getPluginManager().getPlugin(CompatPlugin.BagOfGold.getName()) == null)
 			mCore = new Core(this);
 
 		if (isbStatsEnabled())
@@ -387,10 +387,10 @@ public class MobHunting extends JavaPlugin {
 		}
 		getMessages().debug("Shutdown CitizensCompat");
 		CitizensCompat.shutdown();
-		
+
 		if (!BagOfGoldCompat.isSupported())
 			mCore.shutdown();
-		
+
 		Bukkit.getConsoleSender()
 				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "MobHunting disabled.");
 	}
