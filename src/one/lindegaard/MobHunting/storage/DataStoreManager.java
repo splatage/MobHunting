@@ -184,14 +184,9 @@ public class DataStoreManager {
 				mTaskThread.interrupt();
 			}
 			plugin.getMessages().debug("mStoreThread.state=%s", mStoreThread.getState());
-			// plugin.getMessages().debug("Interupting mStoreThread");
-			// mStoreThread.interrupt();
 			plugin.getMessages().debug("mTaskThread.state=%s", mTaskThread.getState());
 			if (mTaskThread.getState() != Thread.State.WAITING) {
 				mTaskThread.waitForEmptyQueue();
-			} else {
-				// plugin.getMessages().debug("Interupting mTaskThread");
-				// mTaskThread.interrupt();
 			}
 
 		} catch (InterruptedException e) {
@@ -237,19 +232,7 @@ public class DataStoreManager {
 					}
 					mTaskThread.addTask(new StoreTask(mWaiting), null);
 
-					if (plugin.disabling) {
-						//if (!BagOfGoldCompat.isSupported())
-						//	plugin.getRewardManager().saveAllRewards();
-						plugin.getGrindingManager().saveData();
-					} else
-						Bukkit.getScheduler().runTask(plugin, new Runnable() {
-							@Override
-							public void run() {
-								//if (!BagOfGoldCompat.isSupported())
-								//	plugin.getRewardManager().saveAllRewards();
-								plugin.getGrindingManager().saveData();
-							}
-						});
+					plugin.getGrindingManager().saveData();
 
 					Thread.sleep(mSaveInterval * 50);
 				}

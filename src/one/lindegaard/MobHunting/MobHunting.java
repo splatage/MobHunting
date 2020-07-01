@@ -139,7 +139,7 @@ public class MobHunting extends JavaPlugin {
 		}
 		mConfig.saveConfig();
 
-		if (!BagOfGoldCompat.isSupported())
+		if (!Core.getBagOfGoldCompat().isSupported())
 			mCore = new Core(this);
 
 		if (isbStatsEnabled())
@@ -354,8 +354,6 @@ public class MobHunting extends JavaPlugin {
 			}
 		}, 20 * 5);
 
-		//mRewardManager.loadAllStoredRewards();
-
 		mInitialized = true;
 
 	}
@@ -368,7 +366,6 @@ public class MobHunting extends JavaPlugin {
 		if (!mInitialized)
 			return;
 
-		//mRewardManager.saveAllRewards();
 		getMessages().debug("Shutdown LeaderBoardManager");
 		mLeaderboardManager.shutdown();
 		mGrindingManager.saveData();
@@ -390,6 +387,10 @@ public class MobHunting extends JavaPlugin {
 		}
 		getMessages().debug("Shutdown CitizensCompat");
 		CitizensCompat.shutdown();
+		
+		if (!BagOfGoldCompat.isSupported())
+			mCore.shutdown();
+		
 		Bukkit.getConsoleSender()
 				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "MobHunting disabled.");
 	}

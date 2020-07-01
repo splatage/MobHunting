@@ -507,7 +507,6 @@ public class BountyManager implements Listener {
 				}
 				if (randomPlayer != null) {
 					String worldGroup = Core.getWorldGroupManager().getCurrentWorldGroup(randomPlayer);
-					Core.getDataStoreManager();
 					Bounty randomBounty = new Bounty(plugin, worldGroup,
 							Bukkit.getOfflinePlayer(UUID.fromString(DataStoreManager.RANDOM_PLAYER_UUID)), randomPlayer,
 							Misc.round(
