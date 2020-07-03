@@ -1,5 +1,6 @@
 V7.5.1
 * Added support for RGB colours in lang file
+* Support for HerobrineAI 2.0.3 + added
 V7.5.0
 * Support for MC 1.16 mobs: Huglin, Piglin, Strider, Zoglin.
 V7.1.0
