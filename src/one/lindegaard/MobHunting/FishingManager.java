@@ -25,6 +25,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 
 import one.lindegaard.Core.Core;
+import one.lindegaard.Core.Strings;
 import one.lindegaard.Core.messages.MessageType;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.rewards.CoreCustomItems;
@@ -360,7 +361,7 @@ public class FishingManager implements Listener {
 								cmd.get("permission"), cmd.get("cmd"));
 					}
 
-					String message = plugin.getRewardManager().getKillMessage(fish);
+					String message = Strings.convertColors(plugin.getRewardManager().getKillMessage(fish));
 					if (!message.isEmpty() && !fisherman_muted) {
 						plugin.getMessages().playerSendMessage(player, ChatColor.GREEN + "" + ChatColor.ITALIC
 								+ message.replaceAll("\\{player\\}", player.getName())
@@ -377,8 +378,9 @@ public class FishingManager implements Listener {
 					double random = plugin.mRand.nextDouble();
 					if (random < plugin.getRewardManager().getHeadDropChance(fish)) {
 						MobType minecraftMob = MobType.getMobType(fish);
-						ItemStack head = new CoreCustomItems(plugin).getCustomHead(minecraftMob, minecraftMob.getFriendlyName(),
-								1, plugin.getRewardManager().getHeadValue(fish), minecraftMob.getSkinUUID());
+						ItemStack head = new CoreCustomItems(plugin).getCustomHead(minecraftMob,
+								minecraftMob.getFriendlyName(), 1, plugin.getRewardManager().getHeadValue(fish),
+								minecraftMob.getSkinUUID());
 						head = Reward.setDisplayNameAndHiddenLores(head,
 								new Reward(minecraftMob.getFriendlyName(), plugin.getRewardManager().getHeadValue(fish),
 										RewardType.KILLED, minecraftMob.getSkinUUID()));
@@ -387,15 +389,15 @@ public class FishingManager implements Listener {
 								player.getName(), fish.getName());
 						if (!plugin.getRewardManager().getHeadDropMessage(fish).isEmpty())
 							plugin.getMessages().playerSendMessage(player,
-									ChatColor.GREEN + plugin.getRewardManager().getHeadDropMessage(fish)
-											.replaceAll("\\{player\\}", player.getName())
+									ChatColor.GREEN + Strings.convertColors(plugin.getRewardManager()
+											.getHeadDropMessage(fish).replaceAll("\\{player\\}", player.getName())
 											.replaceAll("\\{killer\\}", player.getName())
 											.replaceAll("\\{killed\\}", minecraftMob.getFriendlyName())
 											.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 											.replaceAll("\\{world\\}", player.getWorld().getName())
 											.replaceAll("\\{killerpos\\}", fishermanPos)
 											.replaceAll("\\{killedpos\\}", killedpos).replaceAll("\\{rewardname\\}",
-													Core.getConfigManager().bagOfGoldName.trim()));
+													Core.getConfigManager().bagOfGoldName.trim())));
 					} else {
 						plugin.getMessages().debug("Did not drop a head: random(%s)>chance(%s)", random,
 								plugin.getRewardManager().getHeadDropChance(fish));

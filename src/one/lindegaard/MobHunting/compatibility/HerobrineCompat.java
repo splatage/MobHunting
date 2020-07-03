@@ -19,7 +19,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 
 import net.theprogrammersworld.herobrine.Herobrine;
-import net.theprogrammersworld.herobrine.nms.entity.MobType;
+import net.theprogrammersworld.herobrine.entity.*;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;

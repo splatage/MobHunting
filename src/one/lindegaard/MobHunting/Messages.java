@@ -28,6 +28,7 @@ import org.bukkit.entity.Player;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import one.lindegaard.Core.Core;
+import one.lindegaard.Core.Strings;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.messages.MessageType;
 import one.lindegaard.MobHunting.compatibility.ActionAnnouncerCompat;
@@ -121,10 +122,6 @@ public class Messages {
 				writer.append("\n" + entry.getKey() + "=" + entry.getValue());
 			}
 			writer.close();
-			// Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "
-			// Sorted " +
-			// onDisk.getName() +
-			// " translation");
 
 			return true;
 		} catch (IOException e) {
@@ -414,7 +411,7 @@ public class Messages {
 					output = output.replaceAll("\\$\\{" + name + "\\}", Matcher.quoteReplacement(replace.toString()));
 			}
 
-			return ChatColor.translateAlternateColorCodes('&', output);
+			return Strings.convertColors(ChatColor.translateAlternateColorCodes('&', output));
 		} catch (MissingResourceException e) {
 			Bukkit.getServer().getConsoleSender()
 					.sendMessage(PREFIX + " MobHunting could not find key: " + key.toString());
@@ -424,7 +421,7 @@ public class Messages {
 
 	public String getString(String key) {
 		try {
-			return ChatColor.translateAlternateColorCodes('&', getStringInternal(key));
+			return Strings.convertColors(ChatColor.translateAlternateColorCodes('&', getStringInternal(key)));
 		} catch (MissingResourceException e) {
 			return key;
 		}
@@ -495,7 +492,7 @@ public class Messages {
 		if (isEmpty(message))
 			return;
 
-		message = PlaceholderAPICompat.setPlaceholders(player, message);
+		message = Strings.convertColors(PlaceholderAPICompat.setPlaceholders(player, message));
 
 		if (BossBarAPICompat.isSupported()) {
 			BossBarAPICompat.addBar(player, String.format(message, args));

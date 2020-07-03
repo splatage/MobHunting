@@ -3,6 +3,7 @@ package one.lindegaard.MobHunting;
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.BagOfGold.PlayerBalance;
 import one.lindegaard.Core.Core;
+import one.lindegaard.Core.Strings;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.Core.messages.MessageType;
@@ -1666,14 +1667,14 @@ public class MobHuntingManager implements Listener {
 
 		// send a message to the player
 		if (!plugin.getRewardManager().getKillMessage(killed).trim().isEmpty() && !killer_muted) {
-			String message = ChatColor.GREEN + plugin.getRewardManager().getKillMessage(killed).trim()
+			String message = Strings.convertColors(ChatColor.GREEN + plugin.getRewardManager().getKillMessage(killed).trim()
 					.replaceAll("\\{player\\}", player.getName()).replaceAll("\\{killer\\}", player.getName())
 					.replaceAll("\\{killed\\}", mob.getFriendlyName())
 					.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 					.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 					.replaceAll("\\{world\\}", worldname).replaceAll("\\{killerpos\\}", killerpos)
 					.replaceAll("\\{killedpos\\}", killedpos)
-					.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim());
+					.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim()));
 			if (killed instanceof Player)
 				message = message.replaceAll("\\{killed_player\\}", killed.getName()).replaceAll("\\{killed\\}",
 						killed.getName());
@@ -2004,7 +2005,7 @@ public class MobHuntingManager implements Listener {
 				if (!plugin.getRewardManager().getHeadDropMessage(killed).isEmpty()) {
 					MessageType message_type = MessageType.valueOf(plugin.getConfigManager().defaultHeadMessageType);
 					plugin.getMessages().playerSendMessageAt(killer,
-							ChatColor.GREEN + plugin.getRewardManager().getHeadDropMessage(killed)
+							ChatColor.GREEN + Strings.convertColors(plugin.getRewardManager().getHeadDropMessage(killed)
 									.replaceAll("\\{player\\}", player.getName())
 									.replaceAll("\\{killer\\}", player.getName())
 									.replaceAll("\\{killed\\}", mob.getFriendlyName())
@@ -2012,7 +2013,7 @@ public class MobHuntingManager implements Listener {
 									.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{world\\}", worldname).replaceAll("\\{killerpos\\}", killerpos)
 									.replaceAll("\\{killedpos\\}", killedpos)
-									.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim()),
+									.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim())),
 							message_type);
 				}
 			} else {
