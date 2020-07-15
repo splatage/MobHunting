@@ -20,9 +20,13 @@ public class WorldEditCompat {
 		} else {
 			mPlugin = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.WorldEdit.getName());
 			if (Servers.isMC113OrNewer()) {
-				if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
+				if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0 ) {
 					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 							+ "Enabling compatibility with WorldEdit (" + mPlugin.getDescription().getVersion() + ")");
+					supported = true;
+				} else if (mPlugin.getDescription().getVersion().compareTo("1.16") >= 0) {
+					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+							+ "Enabling compatibility with FastAsyncWorldEdit (" + mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else {
 					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED

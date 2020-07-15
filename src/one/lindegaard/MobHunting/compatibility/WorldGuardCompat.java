@@ -27,6 +27,10 @@ public class WorldGuardCompat {
 					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 							+ "Enabling compatibility with WorldGuard (" + mPlugin.getDescription().getVersion() + ")");
 					supported = true;
+				} else if (mPlugin.getDescription().getVersion().compareTo("1.16") >= 0) {
+					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+							+ "Enabling compatibility with FastAsyncWorldGuard (" + mPlugin.getDescription().getVersion() + ")");
+					supported = true;
 				} else {
 					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
 							+ "Your current version of WorldGuard (" + mPlugin.getDescription().getVersion()
@@ -71,7 +75,7 @@ public class WorldGuardCompat {
 			return WorldGuard6Helper.isAllowedByWorldGuard2(damager, damaged, stateFlag, defaultValue);
 		}
 	}
-	
+
 	public static void registerFlag() {
 		mPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.WorldGuard.getName());
 		if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
@@ -79,9 +83,7 @@ public class WorldGuardCompat {
 		} else {
 			WorldGuard6Helper.registerFlag2();
 		}
-			
+
 	}
-	
-	
 
 }

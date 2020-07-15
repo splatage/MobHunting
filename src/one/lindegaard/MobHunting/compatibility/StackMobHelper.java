@@ -1,10 +1,11 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 
 import one.lindegaard.MobHunting.MobHunting;
 import uk.antiperson.stackmob.StackMob;
-import uk.antiperson.stackmob.api.EntityManager;
+import uk.antiperson.stackmob.entity.EntityManager;
 
 public class StackMobHelper {
 
@@ -16,15 +17,15 @@ public class StackMobHelper {
 		return new EntityManager(getStackMob());
 	}
 
-	public static boolean isStackedMob(Entity entity) {
+	public static boolean isStackedMob(LivingEntity entity) {
 		if (StackMobCompat.isSupported()) {
 			return getEntityManager().isStackedEntity(entity);
 		}
 		return false;
 	}
 
-	public static int getStackSize(Entity entity) {
-		return getEntityManager().getStackedEntity(entity).getSize();
+	public static int getStackSize(LivingEntity entity) {
+		return getEntityManager().getStackEntity(entity).getSize();
 	}
 
 	public static boolean killHoleStackOnDeath(Entity entity) {

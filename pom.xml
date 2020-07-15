@@ -397,7 +397,7 @@
 
 		<!-- MobStack -->
 		<dependency>
-			<groupId>uk.antiperson.stackmob.StackMob</groupId>
+			<groupId>uk.antiperson.stackmob</groupId>
 			<artifactId>StackMob</artifactId>
 			<version>${StackMob.version}</version>
 		</dependency>

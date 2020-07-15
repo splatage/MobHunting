@@ -2,6 +2,7 @@ package one.lindegaard.MobHunting.modifier;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
@@ -29,8 +30,8 @@ public class StackedMobBonus implements IModifier {
 			return MobStackerCompat.getStackSize(entity);
 		} else if (StackMobCompat.isSupported() && StackMobHelper.killHoleStackOnDeath(entity)) {
 			MobHunting.getInstance().getMessages().debug("StackedMobBonus: Pay reward for no %s mob",
-					StackMobHelper.getStackSize(entity));
-			return StackMobHelper.getStackSize(entity);
+					StackMobHelper.getStackSize((LivingEntity) entity));
+			return StackMobHelper.getStackSize((LivingEntity) entity);
 		} else {
 			MobHunting.getInstance().getMessages().debug("StackedMobBonus: Pay reward for one mob");
 			return 1;
@@ -40,6 +41,6 @@ public class StackedMobBonus implements IModifier {
 	@Override
 	public boolean doesApply(Entity entity, Player killer, HuntData data, DamageInformation extraInfo,
 			EntityDamageByEntityEvent lastDamageCause) {
-		return MobStackerCompat.isStackedMob(entity) || StackMobHelper.isStackedMob(entity);
+		return MobStackerCompat.isStackedMob(entity) || StackMobHelper.isStackedMob((LivingEntity) entity);
 	}
 }
