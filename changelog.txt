@@ -1,7 +1,10 @@
 V7.5.1
 * Added support for RGB colours in lang file
-* Support for HerobrineAI 2.0.3 + added
+* Support for HerobrineAI 2.0.3+ added
 * Added support for FastAsyncWolrdEdit 1.16 (https://www.spigotmc.org/resources/fast-async-worldedit-voxelsniper.13932/)
+* Fixed NPE bug when saving bounties
+* Fixed support with StackMob 5.2.2
+* Fixed bug where BagOfGold could be placed as a playerhead
 V7.5.0
 * Support for MC 1.16 mobs: Huglin, Piglin, Strider, Zoglin.
 V7.1.0

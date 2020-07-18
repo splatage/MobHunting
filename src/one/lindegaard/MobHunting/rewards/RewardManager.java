@@ -92,7 +92,6 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Strings;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.rewards.CoreCustomItems;

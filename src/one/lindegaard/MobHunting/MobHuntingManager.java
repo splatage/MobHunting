@@ -1667,8 +1667,8 @@ public class MobHuntingManager implements Listener {
 
 		// send a message to the player
 		if (!plugin.getRewardManager().getKillMessage(killed).trim().isEmpty() && !killer_muted) {
-			String message = Strings.convertColors(ChatColor.GREEN + plugin.getRewardManager().getKillMessage(killed).trim()
-					.replaceAll("\\{player\\}", player.getName()).replaceAll("\\{killer\\}", player.getName())
+			String message = Strings.convertColors(ChatColor.GREEN + plugin.getRewardManager().getKillMessage(killed)
+					.trim().replaceAll("\\{player\\}", player.getName()).replaceAll("\\{killer\\}", player.getName())
 					.replaceAll("\\{killed\\}", mob.getFriendlyName())
 					.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 					.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
@@ -1991,8 +1991,8 @@ public class MobHuntingManager implements Listener {
 			if (random < plugin.getRewardManager().getHeadDropChance(killed)) {
 				MobType minecraftMob = MobType.getMobType(killed);
 				if (minecraftMob == MobType.PvpPlayer) {
-					ItemStack head = new CoreCustomItems(plugin).getPlayerHead(killed.getUniqueId(), killed.getName(), 1,
-							plugin.getRewardManager().getHeadValue(killed));
+					ItemStack head = new CoreCustomItems(plugin).getPlayerHead(killed.getUniqueId(), killed.getName(),
+							1, plugin.getRewardManager().getHeadValue(killed));
 					player.getWorld().dropItem(killed.getLocation(), head);
 				} else {
 					ItemStack head = new CoreCustomItems(plugin).getCustomHead(minecraftMob, mob.getFriendlyName(), 1,
@@ -2185,6 +2185,9 @@ public class MobHuntingManager implements Listener {
 				if (plugin.getConfigManager().grindingDetectionEnabled
 						&& !plugin.getGrindingManager().isWhitelisted(event.getEntity().getLocation()))
 					event.getEntity().setMetadata(SPAWNER_BLOCKED, new FixedMetadataValue(plugin, true));
+			if (event.getEntityType().equals(EntityType.MAGMA_CUBE))
+				plugin.getMessages().debug("MobHuntingManager: a Magma Cube was spawned. The spawnreason is %s",
+						event.getSpawnReason());
 		}
 	}
 

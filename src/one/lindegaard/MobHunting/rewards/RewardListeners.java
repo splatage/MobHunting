@@ -657,16 +657,31 @@ public class RewardListeners implements Listener {
 							}
 						}
 						break;
-					case MOVE_TO_OTHER_INVENTORY:
-						if (allowedInventories.contains(inventory.getType())) {
-							if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
-								plugin.getMessages().debug("%s tried to do a MOVE_TO_OTHER_INVENTORY with a BagOfGold.",
-										player.getName());
+					case MOVE_TO_OTHER_INVENTORY:		
+						if ((Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor))
+								&& inventory.getType() != InventoryType.ANVIL
+								&& inventory.getType() != InventoryType.ENCHANTING
+								&& inventory.getType() != InventoryType.CRAFTING) {
+							Reward reward = Reward.isReward(isCurrentSlot) ? Reward.getReward(isCurrentSlot)
+									: Reward.getReward(isCursor);
+							if (reward.isMoney()) {
+								if (slotType != SlotType.CONTAINER && slotType != SlotType.QUICKBAR)
+									if (clickedInventory.getType() == InventoryType.PLAYER) {
+										plugin.getMessages().debug("%s moved %s %s out of the Player Inventory",
+												player.getName(), reward.getMoney(), reward.getDisplayName());
+									} else { // CHEST, DISPENSER, DROPPER, ......
+										plugin.getMessages().debug("%s moved %s %s into the Player Inventory",
+												player.getName(), reward.getMoney(), reward.getDisplayName());
+									}
 							}
 						} else {
-							plugin.getMessages().debug("%s reward can't be moved into %s inventories.",
-									player.getName(), inventory.getType());
+							plugin.getMessages().debug("%s: this reward can't be moved into %s", player.getName(),
+									inventory.getType());
+							event.setCancelled(true);
+							return;
 						}
+						
+						
 						break;
 					case NOTHING:
 						break;
