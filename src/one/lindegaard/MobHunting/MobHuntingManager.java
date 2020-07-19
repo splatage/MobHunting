@@ -2185,9 +2185,24 @@ public class MobHuntingManager implements Listener {
 				if (plugin.getConfigManager().grindingDetectionEnabled
 						&& !plugin.getGrindingManager().isWhitelisted(event.getEntity().getLocation()))
 					event.getEntity().setMetadata(SPAWNER_BLOCKED, new FixedMetadataValue(plugin, true));
-			if (event.getEntityType().equals(EntityType.MAGMA_CUBE))
-				plugin.getMessages().debug("MobHuntingManager: a Magma Cube was spawned. The spawnreason is %s",
-						event.getSpawnReason());
+		}
+		// if (event.getEntityType().equals(EntityType.MAGMA_CUBE))
+		// plugin.getMessages().debug("MobHuntingManager: a Magma Cube was spawned. The
+		// spawnreason is %s",
+		// event.getSpawnReason());
+		// result is: MobHuntingManager: a Magma Cube was spawned. The spawnreason is
+		// SLIME_SPLIT
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	private void spawnerMobSpawn(SlimeSplitEvent event) {
+		if (plugin.getConfigManager().denySlimesToSpiltIfFromSpawer
+				&& (event.getEntityType().equals(EntityType.MAGMA_CUBE)
+						|| event.getEntityType().equals(EntityType.SLIME))) {
+			if (event.getEntity().hasMetadata(SPAWNER_BLOCKED))
+				plugin.getMessages().debug(
+						"[Splitting Blocked] Splitting i s blocked because the Slime/Magma Cube from a SPAWNER / SPAWNEGG. This behavior can be changed in Config.yml.");
+			event.setCancelled(true);
 		}
 	}
 

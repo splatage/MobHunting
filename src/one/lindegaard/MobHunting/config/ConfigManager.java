@@ -3530,6 +3530,12 @@ public class ConfigManager extends AutoConfig {
 			+ "\nIf you disable this you are still able to get rewards from specific Spawners, if you white list the area "
 			+ "\nusing '/mh whitelistarea'.")
 	public boolean disableMoneyRewardsFromMobSpawnersEggsAndDispensers = true;
+
+	@ConfigField(name = "deny_slime_and_maga_cube_to_spilt", category = "grinding.spawners", comment = "Slimes and Maga Cubes can be used for grinding money because that only the"
+			+ "\nmother is marked as from a SPAWNER. Spilitting is therefor denied if the slime/MC is" + ""
+			+ "+\nfrom a SPAWNER. If you want Vanilla behavior set this to false.")
+	public boolean denySlimesToSpiltIfFromSpawer = true;
+
 	@ConfigField(name = "disable_naturally_dropped_items_from_mobspawners_and_eggs", category = "grinding.spawners", comment = "Let the players get the naturally dropped items from mobs spawned from mobspawners, eggs and from eggs from Dispensers ?")
 	public boolean disableNaturallyDroppedItemsFromMobSpawnersEggsAndDispensers = false;
 	@ConfigField(name = "disable_naturally_dropped_xp_from_mobspawners_and_eggs", category = "grinding.spawners", comment = "Let the players get the naturally dropped XP from mobs spawned from mobspawners, eggs and from eggs from Dispensers ?")
@@ -4636,9 +4642,11 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "broadcast_first_achievement", category = "general", comment = "Should the hunt begins achievement be broadcasted?")
 	public boolean broadcastFirstAchievement = true;
 
-	//@ConfigField(name = "save_period", category = "general", comment = "Time between saves in ticks (20 ticks ~ 1 sec) This number must be higher that 1200 ticks = 2 minutes,"
-	//		+ "\nbut I recommend to save every 5th minute = 6000 ticks")
-	//public int savePeriod_old = 6000;
+	// @ConfigField(name = "save_period", category = "general", comment = "Time
+	// between saves in ticks (20 ticks ~ 1 sec) This number must be higher that
+	// 1200 ticks = 2 minutes,"
+	// + "\nbut I recommend to save every 5th minute = 6000 ticks")
+	// public int savePeriod_old = 6000;
 
 	@ConfigField(name = "leaderboard_update_period", category = "general", comment = "Time between leaderboard updates in ticks (20 ticks ~ 1 sec) This number must be higher that 1200 ticks = 2 minutes,"
 			+ "\nbut I recommend to update leaderboards max every 5 min = 6000 ticks")
