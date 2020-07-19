@@ -22,7 +22,7 @@
 	<properties>
 		<mobhunting-core.version>0.4.7-SNAPSHOT</mobhunting-core.version>
 		<!-- <bagofgold.version>3.0.1</bagofgold.version> -->
-		<bagofgold.version>3.0.2-SNAPSHOT-B464</bagofgold.version>
+		<bagofgold.version>3.0.2-SNAPSHOT-B466</bagofgold.version>
 	</properties>
 
 	<issueManagement>
