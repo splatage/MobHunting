@@ -688,6 +688,7 @@ public class AchievementManager implements Listener {
 
 			@Override
 			public void run() {
+				load(event.getPlayer());
 			}
 		}, (long) 5);
 
