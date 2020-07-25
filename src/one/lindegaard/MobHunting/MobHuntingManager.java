@@ -2199,10 +2199,11 @@ public class MobHuntingManager implements Listener {
 		if (plugin.getConfigManager().denySlimesToSpiltIfFromSpawer
 				&& (event.getEntityType().equals(EntityType.MAGMA_CUBE)
 						|| event.getEntityType().equals(EntityType.SLIME))) {
-			if (event.getEntity().hasMetadata(SPAWNER_BLOCKED))
+			if (event.getEntity().hasMetadata(SPAWNER_BLOCKED)) {
 				plugin.getMessages().debug(
 						"[Splitting Blocked] Splitting i s blocked because the Slime/Magma Cube from a SPAWNER / SPAWNEGG. This behavior can be changed in Config.yml.");
-			event.setCancelled(true);
+				event.setCancelled(true);
+			}
 		}
 	}
 
