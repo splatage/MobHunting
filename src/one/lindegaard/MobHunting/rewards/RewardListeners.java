@@ -91,8 +91,8 @@ public class RewardListeners implements Listener {
 
 		if (Reward.isReward(item)) {
 			Reward reward = Reward.getReward(item);
-			int amount=item.getItemStack().getAmount();
-			double money = reward.getMoney()*amount;
+			int amount = item.getItemStack().getAmount();
+			double money = reward.getMoney() * amount;
 			ItemStack is = item.getItemStack();
 			reward.setMoney(money);
 			is = Reward.setDisplayNameAndHiddenLores(is.clone(), reward);
@@ -489,8 +489,8 @@ public class RewardListeners implements Listener {
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInventoryClickReward(InventoryClickEvent event) {
+
 		if (event.isCancelled() || event.getInventory() == null) {
-			plugin.getMessages().debug("RewardListeners: Something cancelled the InventoryClickEvent");
 			return;
 		}
 
@@ -499,12 +499,13 @@ public class RewardListeners implements Listener {
 
 		Player player = (Player) event.getWhoClicked();
 
-		ItemStack isCurrentSlot = event.getCurrentItem();
-		ItemStack isCursor = event.getCursor();
-		ItemStack isKey = event.getHotbarButton() != -1 ? player.getInventory().getItem(event.getHotbarButton()) : null;
+		ItemStack isCurrentSlot = event.getCurrentItem()!=null?event.getCurrentItem().clone():null;
+		ItemStack isCursor = event.getCursor()!=null?event.getCursor().clone():null;
+		ItemStack isKey = event.getHotbarButton() != -1 ? player.getInventory().getItem(event.getHotbarButton())
+				: null;
 
 		InventoryAction action = event.getAction();
-		
+
 		if (isFakeReward(isCurrentSlot)) {
 			isCurrentSlot.setType(Material.AIR);
 			return;
@@ -519,7 +520,9 @@ public class RewardListeners implements Listener {
 			return;
 		}
 
-		// Check if 
+		if (!Reward.isReward(isCurrentSlot) && !Reward.isReward(isCursor) && !Reward.isReward(isKey))
+			return;
+
 		if (Reward.isReward(isCurrentSlot)) {
 			Reward reward = Reward.getReward(isCurrentSlot);
 			if (!reward.checkHash()) {
@@ -527,9 +530,10 @@ public class RewardListeners implements Listener {
 						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(9)");
 				reward.setMoney(0);
 				isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot, reward);
-			} else if (reward.isMoney() && isCurrentSlot.getAmount()>1) {
+			} else if (reward.isMoney() && isCurrentSlot.getAmount() > 1) {
 				plugin.getMessages().debug("Merge currentslot stack");
-				reward.setMoney(reward.getMoney()*isCurrentSlot.getAmount());
+				reward.setMoney(reward.getMoney() * isCurrentSlot.getAmount());
+				isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot, reward);
 				isCurrentSlot.setAmount(1);
 				event.setCurrentItem(isCurrentSlot);
 			}
@@ -541,9 +545,10 @@ public class RewardListeners implements Listener {
 						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(10)");
 				reward.setMoney(0);
 				isCursor = Reward.setDisplayNameAndHiddenLores(isCursor, reward);
-			} else if (reward.isMoney() && isCursor.getAmount()>1) {
+			} else if (reward.isMoney() && isCursor.getAmount() > 1) {
 				plugin.getMessages().debug("Merge cursor stack");
-				reward.setMoney(reward.getMoney()*isCursor.getAmount());
+				reward.setMoney(reward.getMoney() * isCursor.getAmount());
+				isCursor = Reward.setDisplayNameAndHiddenLores(isCursor, reward);
 				isCursor.setAmount(1);
 				event.setCursor(isCursor);
 			}
@@ -555,9 +560,9 @@ public class RewardListeners implements Listener {
 						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(11)");
 				reward.setMoney(0);
 				isKey = Reward.setDisplayNameAndHiddenLores(isKey, reward);
-			} 
+			}
 		}
-		
+
 		SlotType slotType = event.getSlotType();
 
 		Inventory inventory = event.getInventory();
@@ -570,288 +575,286 @@ public class RewardListeners implements Listener {
 		else
 			clickedInventory = inventory;
 
-		if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
+		plugin.getMessages().debug("action=%s, InvType=%s, slottype=%s, slotno=%s, current=%s, cursor=%s, view=%s",
+				action, inventory.getType(), slotType, event.getSlot(),
+				isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
+				isCursor == null ? "null" : isCursor.getType(), event.getView().getType());
 
-			plugin.getMessages().debug("action=%s, InvType=%s, slottype=%s, slotno=%s, current=%s, cursor=%s, view=%s",
-					action, inventory.getType(), slotType, event.getSlot(),
-					isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
-					isCursor == null ? "null" : isCursor.getType(), event.getView().getType());
+		if (slotType == SlotType.OUTSIDE && Reward.isReward(isCursor)) {
+			Reward reward = Reward.getReward(isCursor);
+			plugin.getMessages().debug("RewardListerner: %s dropped %s BagOfGold outside the inventory",
+					player.getName(), reward.getMoney());
+			return;
+		}
 
-			if (slotType == SlotType.OUTSIDE && Reward.isReward(isCursor)) {
-				Reward reward = Reward.getReward(isCursor);
-				plugin.getMessages().debug("RewardListerner: %s dropped %s BagOfGold outside the inventory",
-						player.getName(), reward.getMoney());
-				return;
-			}
+		List<InventoryType> allowedInventories;
+		if (Servers.isMC114OrNewer())
+			allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.BARREL, InventoryType.ANVIL,
+					InventoryType.CHEST, InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST,
+					InventoryType.HOPPER, InventoryType.SHULKER_BOX, InventoryType.CRAFTING);
+		else if (Servers.isMC19OrNewer())
+			allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.ANVIL, InventoryType.CHEST,
+					InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST, InventoryType.HOPPER,
+					InventoryType.SHULKER_BOX, InventoryType.CRAFTING);
+		else // MC 1.8
+			allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.ANVIL, InventoryType.CHEST,
+					InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST, InventoryType.HOPPER,
+					InventoryType.CRAFTING);
+		List<SlotType> allowedSlots = Arrays.asList(SlotType.CONTAINER, SlotType.QUICKBAR, SlotType.OUTSIDE);
 
-			List<InventoryType> allowedInventories;
-			if (Servers.isMC114OrNewer())
-				allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.BARREL, InventoryType.ANVIL,
-						InventoryType.CHEST, InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST,
-						InventoryType.HOPPER, InventoryType.SHULKER_BOX, InventoryType.CRAFTING);
-			else if (Servers.isMC19OrNewer())
-				allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.ANVIL, InventoryType.CHEST,
-						InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST, InventoryType.HOPPER,
-						InventoryType.SHULKER_BOX, InventoryType.CRAFTING);
-			else // MC 1.8
-				allowedInventories = Arrays.asList(InventoryType.PLAYER, InventoryType.ANVIL, InventoryType.CHEST,
-						InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENDER_CHEST, InventoryType.HOPPER,
-						InventoryType.CRAFTING);
-			List<SlotType> allowedSlots = Arrays.asList(SlotType.CONTAINER, SlotType.QUICKBAR, SlotType.OUTSIDE);
+		if (allowedSlots.contains(slotType)) {
+			if (allowedInventories.contains(clickedInventory.getType())) {
 
-			if (allowedSlots.contains(slotType)) {
-				if (allowedInventories.contains(clickedInventory.getType())) {
+				switch (action) {
+				case UNKNOWN:
+				case CLONE_STACK:
+					if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
+						Reward reward = Reward.isReward(isCurrentSlot) ? Reward.getReward(isCurrentSlot)
+								: Reward.getReward(isCursor);
+						plugin.getMessages().learn(player, plugin.getMessages()
+								.getString("mobhunting.learn.rewards.no-clone", "rewardname", reward.getDisplayName()));
+						plugin.getMessages().debug("RewardListerner: %s its not allowed to clone BagOfGold",
+								player.getName());
+						event.setCancelled(true);
+						return;
+					}
+					break;
+				case COLLECT_TO_CURSOR:
+					if (Reward.isReward(isCursor)) {
+						event.setCancelled(true);
+						Reward cursor = Reward.getReward(isCursor);
+						double money_in_hand = cursor.getMoney() * isCursor.getAmount();
+						if (cursor.isMoney()) {
+							double saldo = Misc.floor(money_in_hand);
+							for (int slot = 0; slot < clickedInventory.getSize(); slot++) {
+								ItemStack is = clickedInventory.getItem(slot);
+								if (Reward.isReward(is)) {
+									Reward reward = Reward.getReward(is);
+									if ((reward.isBagOfGoldReward() || reward.isItemReward())
+											&& reward.getMoney() > 0) {
+										saldo = saldo + reward.getMoney() * is.getAmount();
+										if (saldo <= Core.getConfigManager().limitPerBag)
+											clickedInventory.clear(slot);
+										else {
+											reward.setMoney(Core.getConfigManager().limitPerBag);
+											is = Reward.setDisplayNameAndHiddenLores(is.clone(), reward);
+											is.setAmount(1);
+											clickedInventory.clear(slot);
+											clickedInventory.addItem(is);
+											saldo = saldo - Core.getConfigManager().limitPerBag;
+										}
+									}
+								}
+							}
+							cursor.setMoney(saldo);
+							isCursor = Reward.setDisplayNameAndHiddenLores(isCursor.clone(), cursor);
+							isCursor.setAmount(1);
+							event.setCursor(isCursor);
+							plugin.getMessages().debug("%s collected %s to the cursor", player.getName(), saldo);
+						} else if (cursor.isKilledHeadReward() || cursor.isKillerHeadReward()) {
+							plugin.getMessages()
+									.debug("Collect to cursor on MobHunting heads is still not implemented");
+						}
+					}
 
-					switch (action) {
-					case UNKNOWN:
-					case CLONE_STACK:
+					break;
+				case DROP_ALL_CURSOR:
+				case DROP_ALL_SLOT:
+				case DROP_ONE_CURSOR:
+				case DROP_ONE_SLOT:
+					if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
+						plugin.getMessages().debug("%s dropped BagOfGold from inventory.", player.getName());
+					}
+					break;
+				case HOTBAR_MOVE_AND_READD:
+					if (action == InventoryAction.HOTBAR_MOVE_AND_READD) {
 						if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
-							Reward reward = Reward.isReward(isCurrentSlot) ? Reward.getReward(isCurrentSlot)
-									: Reward.getReward(isCursor);
-							plugin.getMessages().learn(player, plugin.getMessages().getString(
-									"mobhunting.learn.rewards.no-clone", "rewardname", reward.getDisplayName()));
-							plugin.getMessages().debug("RewardListerner: %s its not allowed to clone BagOfGold",
+							plugin.getMessages().debug("%s tried to do a HOTBAR_MOVE_AND_READD with a BagOfGold.",
+									player.getName());
+						}
+					}
+					break;
+				case HOTBAR_SWAP:
+					if (action == InventoryAction.HOTBAR_SWAP) {
+						if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
+							plugin.getMessages().debug("%s tried to do a HATBAR_SWAP with a BagOfGold. Cancelled",
 									player.getName());
 							event.setCancelled(true);
 							return;
 						}
-						break;
-					case COLLECT_TO_CURSOR:
-						if (Reward.isReward(isCursor)) {
-							event.setCancelled(true);
-							Reward cursor = Reward.getReward(isCursor);
-							double money_in_hand = cursor.getMoney() * isCursor.getAmount();
-							if (cursor.isMoney()) {
-								double saldo = Misc.floor(money_in_hand);
-								for (int slot = 0; slot < clickedInventory.getSize(); slot++) {
-									ItemStack is = clickedInventory.getItem(slot);
-									if (Reward.isReward(is)) {
-										Reward reward = Reward.getReward(is);
-										if ((reward.isBagOfGoldReward() || reward.isItemReward())
-												&& reward.getMoney() > 0) {
-											saldo = saldo + reward.getMoney() * is.getAmount();
-											if (saldo <= Core.getConfigManager().limitPerBag)
-												clickedInventory.clear(slot);
-											else {
-												reward.setMoney(Core.getConfigManager().limitPerBag);
-												is = Reward.setDisplayNameAndHiddenLores(is.clone(), reward);
-												is.setAmount(1);
-												clickedInventory.clear(slot);
-												clickedInventory.addItem(is);
-												saldo = saldo - Core.getConfigManager().limitPerBag;
-											}
-										}
-									}
+					}
+					break;
+				case MOVE_TO_OTHER_INVENTORY:
+					if ((Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor))
+							&& inventory.getType() != InventoryType.ANVIL
+							&& inventory.getType() != InventoryType.ENCHANTING
+							&& inventory.getType() != InventoryType.CRAFTING) {
+						Reward reward = Reward.isReward(isCurrentSlot) ? Reward.getReward(isCurrentSlot)
+								: Reward.getReward(isCursor);
+						if (reward.isMoney()) {
+							//if (slotType != SlotType.CONTAINER) { // && slotType != SlotType.QUICKBAR) {
+								if (clickedInventory.getType() == InventoryType.PLAYER) {
+									plugin.getMessages().debug("%s moved %s %s out of the Player Inventory",
+											player.getName(), reward.getMoney(), reward.getDisplayName());
+								} else { // CHEST, DISPENSER, DROPPER, ......
+									plugin.getMessages().debug("%s moved %s %s into the Player Inventory",
+											player.getName(), reward.getMoney(), reward.getDisplayName());
 								}
-								cursor.setMoney(saldo);
-								isCursor = Reward.setDisplayNameAndHiddenLores(isCursor.clone(), cursor);
-								isCursor.setAmount(1);
-								event.setCursor(isCursor);
-								plugin.getMessages().debug("%s collected %s to the cursor", player.getName(), saldo);
-							} else if (cursor.isKilledHeadReward() || cursor.isKillerHeadReward()) {
-								plugin.getMessages()
-										.debug("Collect to cursor on MobHunting heads is still not implemented");
-							}
+							//}
 						}
+					} else {
+						plugin.getMessages().debug("%s: this reward can't be moved into %s", player.getName(),
+								inventory.getType());
+						event.setCancelled(true);
+						return;
+					}
 
-						break;
-					case DROP_ALL_CURSOR:
-					case DROP_ALL_SLOT:
-					case DROP_ONE_CURSOR:
-					case DROP_ONE_SLOT:
-						if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
-							plugin.getMessages().debug("%s dropped BagOfGold from inventory.", player.getName());
-						}
-						break;
-					case HOTBAR_MOVE_AND_READD:
-						if (action == InventoryAction.HOTBAR_MOVE_AND_READD) {
-							if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
-								plugin.getMessages().debug("%s tried to do a HOTBAR_MOVE_AND_READD with a BagOfGold.",
-										player.getName());
-							}
-						}
-						break;
-					case HOTBAR_SWAP:
-						if (action == InventoryAction.HOTBAR_SWAP) {
-							if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
-								plugin.getMessages().debug("%s tried to do a HATBAR_SWAP with a BagOfGold. Cancelled",
-										player.getName());
+					break;
+				case NOTHING:
+					break;
+				case PICKUP_HALF:
+					if (isCursor.getType() == Material.AIR && Reward.isReward(isCurrentSlot)) {
+						Reward reward = Reward.getReward(isCurrentSlot);
+						if (reward.isMoney()) {
+							int amount_of_currentslot = isCurrentSlot.getAmount();
+							// int amount_of_cursor = isCursor.getAmount();
+							double currentSlotMoney = Misc.round(reward.getMoney() * amount_of_currentslot / 2);
+							double cursorMoney = Misc
+									.round((reward.getMoney() * amount_of_currentslot - currentSlotMoney));
+							if (cursorMoney >= plugin.getConfigManager().minimumReward) {
+
 								event.setCancelled(true);
-								return;
-							}
-						}
-						break;
-					case MOVE_TO_OTHER_INVENTORY:
-						if ((Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor))
-								&& inventory.getType() != InventoryType.ANVIL
-								&& inventory.getType() != InventoryType.ENCHANTING
-								&& inventory.getType() != InventoryType.CRAFTING) {
-							Reward reward = Reward.isReward(isCurrentSlot) ? Reward.getReward(isCurrentSlot)
-									: Reward.getReward(isCursor);
-							if (reward.isMoney()) {
-								if (slotType != SlotType.CONTAINER ) { //&& slotType != SlotType.QUICKBAR) {
-									if (clickedInventory.getType() == InventoryType.PLAYER) {
-										plugin.getMessages().debug("%s moved %s %s out of the Player Inventory",
-												player.getName(), reward.getMoney(), reward.getDisplayName());
-									} else { // CHEST, DISPENSER, DROPPER, ......
-										plugin.getMessages().debug("%s moved %s %s into the Player Inventory",
-												player.getName(), reward.getMoney(), reward.getDisplayName());
-									}
-								}
-							}
-						} else {
-							plugin.getMessages().debug("%s: this reward can't be moved into %s", player.getName(),
-									inventory.getType());
-							event.setCancelled(true);
-							return;
-						}
 
-						break;
-					case NOTHING:
-						break;
-					case PICKUP_HALF:
-						if (isCursor.getType() == Material.AIR && Reward.isReward(isCurrentSlot)) {
-							Reward reward = Reward.getReward(isCurrentSlot);
-							if (reward.isMoney()) {
-								int amount_of_currentslot = isCurrentSlot.getAmount();
-								//int amount_of_cursor = isCursor.getAmount();
-								double currentSlotMoney = Misc.round(reward.getMoney() * amount_of_currentslot / 2);
-								double cursorMoney = Misc.round((reward.getMoney() * amount_of_currentslot - currentSlotMoney));
-								if (cursorMoney >= plugin.getConfigManager().minimumReward) {
-									
-									event.setCancelled(true);
-									
-									reward.setMoney(currentSlotMoney);
-									isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
-									isCurrentSlot.setAmount(1);
-									event.setCurrentItem(isCurrentSlot);
-									
-									reward.setMoney(cursorMoney);
-									isCursor = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
-									isCursor.setAmount(1);
-									event.setCursor(isCursor);
-									
-									plugin.getMessages().debug("%s halfed a reward in two (%s,%s)", player.getName(),
-											plugin.getRewardManager().format(currentSlotMoney),
-											plugin.getRewardManager().format(cursorMoney));
-								
-								}
-							}
-						}
-						break;
-					case PICKUP_ONE:
-					case PICKUP_ALL:
-					case PICKUP_SOME:
-						if (Reward.isReward(isCurrentSlot)) {
-							Reward reward = Reward.getReward(isCurrentSlot);
-							int amount=isCurrentSlot.getAmount();
-							if (reward.isMoney()&&amount>1) {
-								reward.setMoney(reward.getMoney()*amount);
+								reward.setMoney(currentSlotMoney);
 								isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
 								isCurrentSlot.setAmount(1);
 								event.setCurrentItem(isCurrentSlot);
+
+								reward.setMoney(cursorMoney);
+								isCursor = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
+								isCursor.setAmount(1);
+								event.setCursor(isCursor);
+
+								plugin.getMessages().debug("%s halfed a reward in two (%s,%s)", player.getName(),
+										plugin.getRewardManager().format(currentSlotMoney),
+										plugin.getRewardManager().format(cursorMoney));
+
 							}
-							plugin.getMessages().debug("%s moved %s (%s) out of Inventory", player.getName(),
-									reward.getDisplayName(), reward.getMoney()*amount);
 						}
-						break;
-					case PLACE_ONE:
-					case PLACE_SOME:
-					case PLACE_ALL:
-						if (Reward.isReward(isCursor)) {
-							event.setCancelled(true);
-							int amount_of_cursor=isCursor.getAmount();
-							int amount_of_currentslot=isCurrentSlot!=null?isCurrentSlot.getAmount():0;
-							Reward reward = Reward.getReward(isCursor);
-							reward.setMoney(reward.getMoney()*(amount_of_cursor+amount_of_currentslot));
-							isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCursor.clone(), reward);
-							isCurrentSlot.setAmount(1);
-							event.setCurrentItem(isCurrentSlot);
-							isCursor.setAmount(0);
-							event.setCursor(isCursor);
-							plugin.getMessages().debug("%s moved %s (%s) into Inventory", player.getName(),
-									reward.getDisplayName(), reward.getMoney());
-						}
-						if (Reward.isReward(isCurrentSlot) && isCursor.getType() == Material.AIR) {
-							int amount_of_currentslot=isCurrentSlot.getAmount();
-							Reward reward = Reward.getReward(isCurrentSlot);
-							reward.setMoney(reward.getMoney()*amount_of_currentslot);
+					}
+					break;
+				case PICKUP_ONE:
+				case PICKUP_ALL:
+				case PICKUP_SOME:
+					if (Reward.isReward(isCurrentSlot)) {
+						Reward reward = Reward.getReward(isCurrentSlot);
+						int amount = isCurrentSlot.getAmount();
+						if (reward.isMoney() && amount > 1) {
+							reward.setMoney(reward.getMoney() * amount);
 							isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
 							isCurrentSlot.setAmount(1);
 							event.setCurrentItem(isCurrentSlot);
-							plugin.getMessages().debug("(2) %s moved %s (%s) out of Inventory", player.getName(),
-									reward.getDisplayName(), reward.getMoney());
 						}
-						break;
-					case SWAP_WITH_CURSOR:
+						plugin.getMessages().debug("%s moved %s (%s) out of Inventory", player.getName(),
+								reward.getDisplayName(), reward.getMoney() * amount);
+					}
+					break;
+				case PLACE_ONE:
+				case PLACE_SOME:
+				case PLACE_ALL:
+					if (Reward.isReward(isCursor)) {
+						event.setCancelled(true);
+						int amount_of_cursor = isCursor.getAmount();
+						int amount_of_currentslot = isCurrentSlot != null ? isCurrentSlot.getAmount() : 0;
+						Reward reward = Reward.getReward(isCursor);
+						reward.setMoney(reward.getMoney() * (amount_of_cursor + amount_of_currentslot));
+						isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCursor.clone(), reward);
+						isCurrentSlot.setAmount(1);
+						event.setCurrentItem(isCurrentSlot);
+						isCursor.setType(Material.AIR);
+						isCursor.setAmount(0);
+						event.setCursor(isCursor);
+						plugin.getMessages().debug("%s moved %s (%s) into Inventory", player.getName(),
+								reward.getDisplayName(), reward.getMoney());
+					}
+					if (Reward.isReward(isCurrentSlot) && isCursor.getType() == Material.AIR) {
+						int amount_of_currentslot = isCurrentSlot.getAmount();
+						Reward reward = Reward.getReward(isCurrentSlot);
+						reward.setMoney(reward.getMoney() * amount_of_currentslot);
+						isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
+						isCurrentSlot.setAmount(1);
+						event.setCurrentItem(isCurrentSlot);
+						plugin.getMessages().debug("(2) %s moved %s (%s) out of Inventory", player.getName(),
+								reward.getDisplayName(), reward.getMoney());
+					}
+					break;
+				case SWAP_WITH_CURSOR:
 
-						if (Reward.isReward(isCurrentSlot) && Reward.isReward(isCursor)) {
-							ItemMeta imCurrent = isCurrentSlot.getItemMeta();
-							ItemMeta imCursor = isCursor.getItemMeta();
-							Reward reward1 = new Reward(imCurrent.getLore());
-							Reward reward2 = new Reward(imCursor.getLore());
-							int amount_reward1 = isCurrentSlot.getAmount();
-							int amount_reward2 = isCursor.getAmount();
-							if (reward1.isMoney() && reward1.getRewardType().equals(reward2.getRewardType())) {
-								event.setCancelled(true);
-								if (reward1.getMoney() * amount_reward1
-										+ reward2.getMoney() * amount_reward2 <= Core.getConfigManager().limitPerBag) {
-									reward2.setMoney(
-											reward1.getMoney() * amount_reward1 + reward2.getMoney() * amount_reward2);
-									isCursor = Reward.setDisplayNameAndHiddenLores(isCursor, reward2);
-									isCursor.setAmount(1);
-									isCurrentSlot.setAmount(0);
-									isCurrentSlot.setType(Material.AIR);
-									event.setCurrentItem(isCursor);
-									event.setCursor(isCurrentSlot);
-									plugin.getMessages().debug("%s merged two rewards(1)", player.getName());
-								} else {
-									double rest = reward1.getMoney() * amount_reward1
-											+ reward2.getMoney() * amount_reward2 - Core.getConfigManager().limitPerBag;
-									reward2.setMoney(Core.getConfigManager().limitPerBag);
-									isCursor = Reward.setDisplayNameAndHiddenLores(isCursor.clone(), reward2);
-									isCursor.setAmount(1);
-									reward1.setMoney(rest);
-									isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward1);
-									isCurrentSlot.setAmount(1);
-									event.setCurrentItem(isCursor);
-									event.setCursor(isCurrentSlot);
-									plugin.getMessages().debug("%s merged two rewards(2)", player.getName());
+					if (Reward.isReward(isCurrentSlot) && Reward.isReward(isCursor)) {
+						ItemMeta imCurrent = isCurrentSlot.getItemMeta();
+						ItemMeta imCursor = isCursor.getItemMeta();
+						Reward reward1 = new Reward(imCurrent.getLore());
+						Reward reward2 = new Reward(imCursor.getLore());
+						int amount_reward1 = isCurrentSlot.getAmount();
+						int amount_reward2 = isCursor.getAmount();
+						if (reward1.isMoney() && reward1.getRewardType().equals(reward2.getRewardType())) {
+							event.setCancelled(true);
+							if (reward1.getMoney() * amount_reward1
+									+ reward2.getMoney() * amount_reward2 <= Core.getConfigManager().limitPerBag) {
+								reward2.setMoney(
+										reward1.getMoney() * amount_reward1 + reward2.getMoney() * amount_reward2);
+								isCursor = Reward.setDisplayNameAndHiddenLores(isCursor, reward2);
+								isCursor.setAmount(1);
+								isCurrentSlot.setAmount(0);
+								isCurrentSlot.setType(Material.AIR);
+								event.setCurrentItem(isCursor);
+								event.setCursor(isCurrentSlot);
+								plugin.getMessages().debug("%s merged two rewards(1)", player.getName());
+							} else {
+								double rest = reward1.getMoney() * amount_reward1 + reward2.getMoney() * amount_reward2
+										- Core.getConfigManager().limitPerBag;
+								reward2.setMoney(Core.getConfigManager().limitPerBag);
+								isCursor = Reward.setDisplayNameAndHiddenLores(isCursor.clone(), reward2);
+								isCursor.setAmount(1);
+								reward1.setMoney(rest);
+								isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward1);
+								isCurrentSlot.setAmount(1);
+								event.setCurrentItem(isCursor);
+								event.setCursor(isCurrentSlot);
+								plugin.getMessages().debug("%s merged two rewards(2)", player.getName());
 
-								}
+							}
 
-							} else if ((reward1.isKilledHeadReward() || reward1.isKillerHeadReward())
-									&& reward1.getRewardType().equals(reward2.getRewardType())
-									&& reward1.getSkinUUID().equals(reward2.getSkinUUID())
-									&& Misc.round(reward1.getMoney()) == Misc.round(reward2.getMoney())) {
-								event.setCancelled(true);
-								if (isCursor.getAmount() + isCurrentSlot.getAmount() <= 64) {
-									isCurrentSlot.setAmount(isCursor.getAmount() + isCurrentSlot.getAmount());
-									isCursor.setAmount(0);
-									isCursor.setType(Material.AIR);
-									plugin.getMessages().debug("%s merged two rewards(3)", player.getName());
-								} else {
-									isCursor.setAmount(isCursor.getAmount() + isCurrentSlot.getAmount() - 64);
-									isCurrentSlot.setAmount(64);
-									plugin.getMessages().debug("%s merged two rewards(4)", player.getName());
-								}
+						} else if ((reward1.isKilledHeadReward() || reward1.isKillerHeadReward())
+								&& reward1.getRewardType().equals(reward2.getRewardType())
+								&& reward1.getSkinUUID().equals(reward2.getSkinUUID())
+								&& Misc.round(reward1.getMoney()) == Misc.round(reward2.getMoney())) {
+							event.setCancelled(true);
+							if (isCursor.getAmount() + isCurrentSlot.getAmount() <= 64) {
+								isCurrentSlot.setAmount(isCursor.getAmount() + isCurrentSlot.getAmount());
+								isCursor.setAmount(0);
+								isCursor.setType(Material.AIR);
+								plugin.getMessages().debug("%s merged two rewards(3)", player.getName());
+							} else {
+								isCursor.setAmount(isCursor.getAmount() + isCurrentSlot.getAmount() - 64);
+								isCurrentSlot.setAmount(64);
+								plugin.getMessages().debug("%s merged two rewards(4)", player.getName());
 							}
 						}
-						break;
 					}
-				} else {
-					plugin.getMessages().debug("%s its not allowed to use BagOfGold in a %s inventory",
-							player.getName(), inventory.getType());
-					event.setCancelled(true);
-					return;
+					break;
 				}
 			} else {
-				plugin.getMessages().debug("%s its not allowed to use BagOfGold a %s slot", player.getName(), slotType);
+				plugin.getMessages().debug("%s its not allowed to use BagOfGold in a %s inventory", player.getName(),
+						inventory.getType());
 				event.setCancelled(true);
 				return;
 			}
-		} // No MobHunting Reward
-
+		} else {
+			plugin.getMessages().debug("%s its not allowed to use BagOfGold a %s slot", player.getName(), slotType);
+			event.setCancelled(true);
+			return;
+		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
