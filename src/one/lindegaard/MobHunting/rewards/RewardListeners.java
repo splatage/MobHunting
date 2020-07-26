@@ -503,6 +503,8 @@ public class RewardListeners implements Listener {
 		ItemStack isCursor = event.getCursor();
 		ItemStack isKey = event.getHotbarButton() != -1 ? player.getInventory().getItem(event.getHotbarButton()) : null;
 
+		InventoryAction action = event.getAction();
+		
 		if (isFakeReward(isCurrentSlot)) {
 			isCurrentSlot.setType(Material.AIR);
 			return;
@@ -517,7 +519,45 @@ public class RewardListeners implements Listener {
 			return;
 		}
 
-		InventoryAction action = event.getAction();
+		// Check if 
+		if (Reward.isReward(isCurrentSlot)) {
+			Reward reward = Reward.getReward(isCurrentSlot);
+			if (!reward.checkHash()) {
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[BagOfGold]" + ChatColor.RED + "[Warning] "
+						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(9)");
+				reward.setMoney(0);
+				isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot, reward);
+			} else if (reward.isMoney() && isCurrentSlot.getAmount()>1) {
+				plugin.getMessages().debug("Merge currentslot stack");
+				reward.setMoney(reward.getMoney()*isCurrentSlot.getAmount());
+				isCurrentSlot.setAmount(1);
+				event.setCurrentItem(isCurrentSlot);
+			}
+		}
+		if (Reward.isReward(isCursor)) {
+			Reward reward = Reward.getReward(isCursor);
+			if (!reward.checkHash()) {
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[BagOfGold]" + ChatColor.RED + "[Warning] "
+						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(10)");
+				reward.setMoney(0);
+				isCursor = Reward.setDisplayNameAndHiddenLores(isCursor, reward);
+			} else if (reward.isMoney() && isCursor.getAmount()>1) {
+				plugin.getMessages().debug("Merge cursor stack");
+				reward.setMoney(reward.getMoney()*isCursor.getAmount());
+				isCursor.setAmount(1);
+				event.setCursor(isCursor);
+			}
+		}
+		if (Reward.isReward(isKey)) {
+			Reward reward = Reward.getReward(isKey);
+			if (!reward.checkHash()) {
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[BagOfGold]" + ChatColor.RED + "[Warning] "
+						+ player.getName() + " has tried to change the value of a BagOfGold Item. Value set to 0!(11)");
+				reward.setMoney(0);
+				isKey = Reward.setDisplayNameAndHiddenLores(isKey, reward);
+			} 
+		}
+		
 		SlotType slotType = event.getSlotType();
 
 		Inventory inventory = event.getInventory();
@@ -705,7 +745,7 @@ public class RewardListeners implements Listener {
 						if (Reward.isReward(isCurrentSlot)) {
 							Reward reward = Reward.getReward(isCurrentSlot);
 							int amount=isCurrentSlot.getAmount();
-							if (amount>1) {
+							if (reward.isMoney()&&amount>1) {
 								reward.setMoney(reward.getMoney()*amount);
 								isCurrentSlot = Reward.setDisplayNameAndHiddenLores(isCurrentSlot.clone(), reward);
 								isCurrentSlot.setAmount(1);
@@ -715,6 +755,8 @@ public class RewardListeners implements Listener {
 									reward.getDisplayName(), reward.getMoney()*amount);
 						}
 						break;
+					case PLACE_ONE:
+					case PLACE_SOME:
 					case PLACE_ALL:
 						if (Reward.isReward(isCursor)) {
 							event.setCancelled(true);
@@ -741,8 +783,6 @@ public class RewardListeners implements Listener {
 									reward.getDisplayName(), reward.getMoney());
 						}
 						break;
-					case PLACE_ONE:
-					case PLACE_SOME:
 					case SWAP_WITH_CURSOR:
 
 						if (Reward.isReward(isCurrentSlot) && Reward.isReward(isCursor)) {
