@@ -1697,8 +1697,8 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Daily "//
 				+ "(ID CHAR(7) NOT NULL,"//
-				+ " MOB_ID INTEGER NOT NULL,"//
-				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ " MOB_ID INTEGER,"//
+				+ " PLAYER_ID INTEGER,"//
 				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0,"//
 				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
