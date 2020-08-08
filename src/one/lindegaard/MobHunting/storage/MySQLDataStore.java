@@ -1710,8 +1710,8 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Weekly "//
 				+ "(ID CHAR(6) NOT NULL,"//
-				+ " MOB_ID INTEGER NOT NULL,"//
-				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ " MOB_ID INTEGER,"//
+				+ " PLAYER_ID INTEGER,"//
 				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0,"//
 				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
@@ -1724,8 +1724,8 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Monthly "//
 				+ "(ID CHAR(6) NOT NULL,"//
-				+ " MOB_ID INTEGER NOT NULL,"//
-				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ " MOB_ID INTEGER,"//
+				+ " PLAYER_ID INTEGER,"//
 				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0,"//
 				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
@@ -1738,8 +1738,8 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Yearly "//
 				+ "(ID CHAR(4) NOT NULL,"//
-				+ " MOB_ID INTEGER NOT NULL,"//
-				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ " MOB_ID INTEGER,"//
+				+ " PLAYER_ID INTEGER,"//
 				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0,"//
 				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
@@ -1751,8 +1751,8 @@ public class MySQLDataStore extends DatabaseDataStore {
 				+ " CONSTRAINT mh_Yearly_Mob_Id FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE)");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_AllTime "//
-				+ "(MOB_ID INTEGER NOT NULL,"//
-				+ " PLAYER_ID INTEGER NOT NULL,"//
+				+ "(MOB_ID INTEGER,"//
+				+ " PLAYER_ID INTEGER,"//
 				+ " ACHIEVEMENT_COUNT INTEGER DEFAULT 0,"//
 				+ " TOTAL_KILL INTEGER DEFAULT 0,"//
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
@@ -1764,7 +1764,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				+ " CONSTRAINT mh_AllTime_Mob_Id FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE)");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Achievements "//
-				+ "(PLAYER_ID INTEGER NOT NULL,"//
+				+ "(PLAYER_ID INTEGER,"//
 				+ " ACHIEVEMENT VARCHAR(64) NOT NULL,"//
 				+ " DATE DATETIME NOT NULL,"//
 				+ " PROGRESS INTEGER NOT NULL,"//
