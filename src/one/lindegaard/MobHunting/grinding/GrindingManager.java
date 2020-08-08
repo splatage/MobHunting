@@ -148,8 +148,9 @@ public class GrindingManager implements Listener {
 						if (!killed.getWorld().equals(gi.getKilled().getWorld()))
 							continue;
 
-						if (killed.getType() == EntityType.ZOMBIFIED_PIGLIN && gi.getKilled().getType() == killed.getType()
-								&& gi.getKilled().getEntityId() != killed.getEntityId()) {
+						//if (killed.getType() == EntityType.ZOMBIFIED_PIGLIN && gi.getKilled().getType() == killed.getType()
+						//		&& gi.getKilled().getEntityId() != killed.getEntityId()) {
+						if (MobType.getMobType(gi.getKilled()) == MobType.ZombiePigman && gi.getKilled().getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
 									if (killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
