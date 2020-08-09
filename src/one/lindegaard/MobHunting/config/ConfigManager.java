@@ -31,7 +31,9 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("header",
 				"########################################################################"
 						+ "\nMobHunting Configuration File"
-						+ "\n########################################################################\n");
+						+ "\n########################################################################\n"
+						+ "\nOBS! Please note that the plugins/BagOfGold folder contains shared"
+						+ "\nsettings, which is used by both MobHunting and BagOfGold.");
 
 		setCategoryComment("example", "########################################################################"
 				+ "\nExample of a mob configuration of rewards for killing a mob."

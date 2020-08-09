@@ -316,7 +316,7 @@ public class RewardManager {
 			for (Denomination d : denoms) {
 				ItemStack is = new ItemStack(d.getKey().type.getType(), 1);
 				while (rest >= (d.getValue() / unit)) {
-					item = location.getWorld().dropItemNaturally(location, is);
+					item = location.getWorld().dropItem(location, is);
 					rest = rest - (d.getValue() / unit);
 				}
 			}
@@ -352,7 +352,7 @@ public class RewardManager {
 					ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + Core.getConfigManager().bagOfGoldName,
 					money, rewardType, skinuuid);
 			is = Reward.setDisplayNameAndHiddenLores(is, reward);
-			item = location.getWorld().dropItemNaturally(location, is);
+			item = location.getWorld().dropItem(location, is);
 			getDroppedMoney().put(item.getEntityId(), money);
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			item.setCustomName(is.getItemMeta().getDisplayName());
@@ -374,21 +374,21 @@ public class RewardManager {
 			dropMoneyOnGround_RewardManager(null, null, location, reward.getMoney());
 		} else if (reward.isItemReward()) {
 			ItemStack is = new ItemStack(Material.valueOf(Core.getConfigManager().rewardItem), 1);
-			Item item = location.getWorld().dropItemNaturally(location, is);
+			Item item = location.getWorld().dropItem(location, is);
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else if (reward.isKilledHeadReward()) {
 			MobType mob = MobType.getMobType(reward.getSkinUUID());
 			if (mob != null) {
 				ItemStack is = new CoreCustomItems(plugin).getCustomHead(mob, reward.getDisplayName(), 1,
 						reward.getMoney(), reward.getSkinUUID());
-				Item item = location.getWorld().dropItemNaturally(location, is);
+				Item item = location.getWorld().dropItem(location, is);
 				item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 				getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 			}
 		} else if (reward.isKillerHeadReward()) {
 			ItemStack is = new CoreCustomItems(plugin).getPlayerHead(reward.getSkinUUID(), reward.getDisplayName(), 1,
 					reward.getMoney());
-			Item item = location.getWorld().dropItemNaturally(location, is);
+			Item item = location.getWorld().dropItem(location, is);
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else {
