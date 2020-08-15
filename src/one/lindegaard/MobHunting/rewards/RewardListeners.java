@@ -701,30 +701,28 @@ public class RewardListeners implements Listener {
 					}
 					break;
 				case MOVE_TO_OTHER_INVENTORY:
-					if ((Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor))
-							&& inventory.getType() != InventoryType.ANVIL
-							&& inventory.getType() != InventoryType.ENCHANTING
-							&& inventory.getType() != InventoryType.CRAFTING) {
+					if ((Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor))) {
 						Reward reward = Reward.isReward(isCurrentSlot) ? Reward.getReward(isCurrentSlot)
 								: Reward.getReward(isCursor);
 						if (reward.isMoney()) {
-							// if (slotType != SlotType.CONTAINER) { // && slotType != SlotType.QUICKBAR) {
-							if (clickedInventory.getType() == InventoryType.PLAYER) {
-								plugin.getMessages().debug("%s moved %s %s out of the Player Inventory",
-										player.getName(), reward.getMoney(), reward.getDisplayName());
-							} else { // CHEST, DISPENSER, DROPPER, ......
-								plugin.getMessages().debug("%s moved %s %s into the Player Inventory", player.getName(),
-										reward.getMoney(), reward.getDisplayName());
+							if (inventory.getType() != InventoryType.ANVIL
+									&& inventory.getType() != InventoryType.ENCHANTING
+									&& inventory.getType() != InventoryType.CRAFTING) {
+								if (clickedInventory.getType() == InventoryType.PLAYER) {
+									plugin.getMessages().debug("%s moved %s %s out of the Player Inventory",
+											player.getName(), reward.getMoney(), reward.getDisplayName());
+								} else { // CHEST, DISPENSER, DROPPER, ......
+									plugin.getMessages().debug("%s moved %s %s into the Player Inventory",
+											player.getName(), reward.getMoney(), reward.getDisplayName());
+								}
+							} else {
+								plugin.getMessages().debug("%s: this reward can't be moved into %s", player.getName(),
+										inventory.getType());
+								event.setCancelled(true);
+								return;
 							}
-							// }
 						}
-					} else {
-						plugin.getMessages().debug("%s: this reward can't be moved into %s", player.getName(),
-								inventory.getType());
-						event.setCancelled(true);
-						return;
 					}
-
 					break;
 				case NOTHING:
 					break;
@@ -809,7 +807,6 @@ public class RewardListeners implements Listener {
 					}
 					break;
 				case SWAP_WITH_CURSOR:
-
 					if (Reward.isReward(isCurrentSlot) && Reward.isReward(isCursor)) {
 						ItemMeta imCurrent = isCurrentSlot.getItemMeta();
 						ItemMeta imCursor = isCursor.getItemMeta();
@@ -817,7 +814,11 @@ public class RewardListeners implements Listener {
 						Reward reward2 = new Reward(imCursor.getLore());
 						int amount_reward1 = isCurrentSlot.getAmount();
 						int amount_reward2 = isCursor.getAmount();
-						if (reward1.isMoney() && reward1.getRewardType().equals(reward2.getRewardType())) {
+						if (reward2.isMoney() && slotType == SlotType.ARMOR) {
+							plugin.getMessages().debug("%s tried to moved money in to the helmetslot",
+									player.getName());
+							event.setCancelled(true);
+						} else if (reward1.isMoney() && reward1.getRewardType().equals(reward2.getRewardType())) {
 							event.setCancelled(true);
 							if (reward1.getMoney() * amount_reward1
 									+ reward2.getMoney() * amount_reward2 <= Core.getConfigManager().limitPerBag) {
