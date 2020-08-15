@@ -1,6 +1,10 @@
+V7.5.4
+* Support for Minecraft 1.16.2 added
+* New mob Piglin Brute added 
 V7.5.3
 * Fixed ticket 671 (https://github.com/Rocologo/MobHunting/issues/671)
 * Deny Slimes / Maga Cubes to spilt if they are spawned from a Spawner or Egg so they cant be used for money grinding. This behavior can be chnaged in config.yml 
+* Implemented InventoryDragEvent (Fixed alot of tickets)
 V7.5.2
 * Fixed missing method one.lindegaard.MobHunting.Strings
 V7.5.1

@@ -6,8 +6,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<version>7.5.3</version>
-	<!-- <version>7.5.3-SNAPSHOT-B${build.number}</version> -->
+	<version>7.5.4</version>
+	<!-- <version>7.5.4-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -20,9 +20,9 @@
 	</parent>
 
 	<properties>
-		<mobhunting-core.version>0.4.7-SNAPSHOT</mobhunting-core.version>
-		<!-- <bagofgold.version>3.0.3-SNAPSHOT-B472</bagofgold.version> -->
-		<bagofgold.version>3.0.3</bagofgold.version>
+		<mobhunting-core.version>0.4.8-SNAPSHOT</mobhunting-core.version>
+		<bagofgold.version>3.0.4-SNAPSHOT-B476</bagofgold.version>
+		<!-- <bagofgold.version>3.0.3</bagofgold.version> -->
 	</properties>
 
 	<issueManagement>
@@ -125,7 +125,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>${spigotmc_1_16_R1.version}</version>
+			<version>${spigotmc_1_16_R2.version}</version>
 			<scope>provided</scope>
 		</dependency>
 

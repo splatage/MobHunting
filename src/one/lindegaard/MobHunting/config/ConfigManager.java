@@ -1138,6 +1138,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "piglin.head.message", category = "mobs")
 	public String piglinHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Piglin Brute============================================
+	@ConfigField(name = "piglin_brute.enabled", category = "mobs")
+	public boolean piglinBruteEnabled = true;
+	@ConfigField(name = "piglin_brute.message", category = "mobs")
+	public String piglinBruteMessage = "You killed a §1{killed}";
+	@ConfigField(name = "piglin_brute.money.amount", category = "mobs")
+	public String piglinBruteMoney = "5:10";
+	@ConfigField(name = "piglin_brute.money.chance", category = "mobs")
+	public double piglinBruteMoneyChance = 1;
+	@ConfigField(name = "piglin_brute.commands", category = "mobs")
+	public List<HashMap<String, String>> piglinBruteCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.1");
+		piglinBruteCommands.add(values1);
+	}
+	@ConfigField(name = "piglin_brute.head.drophead", category = "mobs")
+	public boolean piglinBruteHeadDropHead = true;
+	@ConfigField(name = "piglin_brute.head.value", category = "mobs")
+	public String piglinBruteHeadPrize = "0";
+	@ConfigField(name = "piglin_brute.head.chance", category = "mobs")
+	public double piglinBruteHeadDropChance = 0.33;
+	@ConfigField(name = "piglin_brute.head.message", category = "mobs")
+	public String piglinBruteHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Pillager============================================
 	@ConfigField(name = "pillager.enabled", category = "mobs")
 	public boolean pillagerEnabled = true;
@@ -3318,6 +3344,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "piglin_level1", category = "achievements.hunter.mob_level")
 	public int piglinLevel1 = 100;
 
+	@ConfigField(name = "piglin_brute_level1", category = "achievements.hunter.mob_level")
+	public int piglinBruteLevel1 = 100;
+
 	@ConfigField(name = "pig_level1", category = "achievements.hunter.mob_level")
 	public int pigLevel1 = 100;
 
@@ -4136,6 +4165,12 @@ public class ConfigManager extends AutoConfig {
 	public double piglinMcMMOSkillRewardChance = 0.050;
 	// Hostile mob, low risc
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.piglin_brute")
+	public String piglinBruteMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.piglin_brute")
+	public double piglinBruteMcMMOSkillRewardChance = 0.050;
+	// Hostile mob, low risc
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.pig")
 	public String pigMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.pig")
@@ -4938,6 +4973,8 @@ public class ConfigManager extends AutoConfig {
 			return hoglinLevel1;
 		case Piglin:
 			return piglinLevel1;
+		case PiglinBrute:
+			return piglinBruteLevel1;
 		case Strider:
 			return striderLevel1;
 		case Zoglin:
@@ -5127,6 +5164,8 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, hoglinHeadPrize);
 		case Piglin:
 			return getPrice(mob, piglinHeadPrize);
+		case PiglinBrute:
+			return getPrice(mob, piglinBruteHeadPrize);
 		case Strider:
 			return getPrice(mob, striderHeadPrize);
 		case Zoglin:

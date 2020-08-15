@@ -48,6 +48,7 @@ import org.bukkit.entity.Phantom;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Piglin;
+import org.bukkit.entity.PiglinBrute;
 import org.bukkit.entity.Pillager;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.PolarBear;
@@ -545,6 +546,10 @@ public class RewardManager {
 			return 0;
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return getPrice(mob, plugin.getConfigManager().piglinBruteMoney);
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getPrice(mob, plugin.getConfigManager().hoglinMoney);
@@ -911,6 +916,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCommands;
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return plugin.getConfigManager().piglinBruteCommands;
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinCommands;
@@ -1218,6 +1227,10 @@ public class RewardManager {
 			return  plugin.getConfigManager().wolfMessage ;
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return  plugin.getConfigManager().piglinBruteMessage ;
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return  plugin.getConfigManager().hoglinMessage ;
@@ -1515,6 +1528,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCmdRunChance;
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return plugin.getConfigManager().piglinBruteMoneyChance;
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMoneyChance;
@@ -1817,6 +1834,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMcMMOSkillRewardChance;
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return plugin.getConfigManager().piglinBruteMcMMOSkillRewardChance;
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMcMMOSkillRewardChance;
@@ -2143,6 +2164,10 @@ public class RewardManager {
 			return getMcMMOXP(mob, plugin.getConfigManager().wolfMcMMOSkillRewardAmount);
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return getMcMMOXP(mob, plugin.getConfigManager().piglinBruteMcMMOSkillRewardAmount);
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getMcMMOXP(mob, plugin.getConfigManager().hoglinMcMMOSkillRewardAmount);
@@ -2440,6 +2465,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfEnabled;
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return plugin.getConfigManager().piglinBruteEnabled;
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinEnabled;
@@ -2748,6 +2777,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropHead;
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return plugin.getConfigManager().piglinBruteHeadDropHead;
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadDropHead;
@@ -3058,6 +3091,10 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropChance;
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return plugin.getConfigManager().piglinBruteHeadDropChance;
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadDropChance;
@@ -3367,6 +3404,10 @@ public class RewardManager {
 			return  plugin.getConfigManager().wolfHeadMessage ;
 
 		} else {
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return  plugin.getConfigManager().piglinBruteHeadMessage ;
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return  plugin.getConfigManager().hoglinHeadMessage ;
