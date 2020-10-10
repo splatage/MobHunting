@@ -56,7 +56,7 @@ public class MythicMobsV400Compat implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	private void onMythicMobV400SpawnEvent(MythicMobSpawnEvent event) {
 		String mobtype = event.getMobType().getInternalName();
-		MobHunting.getInstance().getMessages().debug("MythicMobSpawnEvent: MythicMobType=%s", mobtype);
+		//MobHunting.getInstance().getMessages().debug("MythicMobSpawnEvent: MythicMobType=%s", mobtype);
 
 		if (!MythicMobsCompat.getMobRewardData().containsKey(mobtype)) {
 			MobHunting.getInstance().getMessages().debug("New MythicMobType found=%s", mobtype);

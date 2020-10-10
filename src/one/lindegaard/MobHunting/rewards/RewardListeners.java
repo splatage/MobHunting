@@ -20,29 +20,23 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryInteractEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.jetbrains.annotations.NotNull;
 import org.bukkit.event.block.Action;
 
 import one.lindegaard.Core.Core;
@@ -155,7 +149,7 @@ public class RewardListeners implements Listener {
 			return;
 
 		Item item = event.getItem();
-		if (!item.hasMetadata(Reward.MH_REWARD_DATA_NEW))
+		if (!Reward.isReward(item))
 			return;
 
 		if (Core.getConfigManager().denyHoppersToPickUpRewards
@@ -166,8 +160,7 @@ public class RewardListeners implements Listener {
 			// event.getInventory().getType());
 			event.setCancelled(true);
 		} else {
-			// plugin.getMessages().debug("The reward was picked up by %s",
-			// event.getInventory().getType());
+			plugin.getMessages().debug("The reward was picked up by %s", event.getInventory().getType());
 			if (plugin.getRewardManager().getDroppedMoney().containsKey(item.getEntityId()))
 				plugin.getRewardManager().getDroppedMoney().remove(item.getEntityId());
 		}
@@ -577,10 +570,11 @@ public class RewardListeners implements Listener {
 		else
 			clickedInventory = inventory;
 
-		//plugin.getMessages().debug("action=%s, InvType=%s, slottype=%s, slotno=%s, current=%s, cursor=%s, view=%s",
-		//		action, inventory.getType(), slotType, event.getSlot(),
-		//		isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
-		//		isCursor == null ? "null" : isCursor.getType(), event.getView().getType());
+		// plugin.getMessages().debug("action=%s, InvType=%s, slottype=%s, slotno=%s,
+		// current=%s, cursor=%s, view=%s",
+		// action, inventory.getType(), slotType, event.getSlot(),
+		// isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
+		// isCursor == null ? "null" : isCursor.getType(), event.getView().getType());
 
 		if (slotType == SlotType.ARMOR) {
 			if (Reward.isReward(isCursor)) {
@@ -925,22 +919,6 @@ public class RewardListeners implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onBlockPistonExtendEvent(BlockPistonExtendEvent event) {
-		if (event.isCancelled())
-			return;
-		@NotNull
-		List<Block> changedBlocks = event.getBlocks();
-		if (!changedBlocks.isEmpty())
-			for (Block b : changedBlocks) {
-				if (Reward.isReward(b)) {
-					plugin.getMessages().debug("Is not possible to move a Reward with a Piston");
-					event.setCancelled(true);
-					return;
-				}
-			}
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onRewardBlockBreak(BlockBreakEvent event) {
 		if (event.isCancelled())
 			return;
@@ -950,55 +928,6 @@ public class RewardListeners implements Listener {
 			Reward reward = Reward.getReward(block);
 			Core.getRewardBlockManager().removeReward(block);
 			plugin.getRewardManager().dropRewardOnGround(block.getLocation(), reward);
-		}
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerQuit(PlayerQuitEvent event) {
-		Player player = (Player) event.getPlayer();
-		if (player.getOpenInventory() != null) {
-			if (player.getOpenInventory().getCursor() == null)
-				return;
-			if (!Reward.isReward(player.getOpenInventory().getCursor()))
-				return;
-			player.getOpenInventory().setCursor(null);
-		}
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onInventoryMoveItemEvent(InventoryMoveItemEvent event) {
-		plugin.getMessages().debug("BagOfGoldItems: onInventoryMoveItemEvent called");
-		ItemStack is = event.getItem();
-		if (Reward.isReward(is)) {
-			plugin.getMessages().debug("You move a reward like that");
-			event.setCancelled(true);
-		}
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onInventoryInteractEvent(InventoryInteractEvent event) {
-		plugin.getMessages().debug("BagOfGoldItems: onInventoryInteractEvent called");
-		// plugin.getMessages().debug("BagOfGoldItems: %s clicked an inventory %s",
-		// event.getWhoClicked().getName(),
-		// event.getInventory().getType());
-	}
-
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onInventoryDragEvent(InventoryDragEvent event) {
-		plugin.getMessages().debug("BagOfGoldItems: onInventoryDragEvent called");
-		ItemStack isCursor = event.getCursor();
-		if (Reward.isReward(isCursor)) {
-			Reward reward = Reward.getReward(isCursor);
-			if (reward.isMoney()) {
-				plugin.getMessages().debug("You can't drag money");
-				event.setCancelled(true);
-			}
-		} else if (Reward.isReward(event.getOldCursor())) {
-			Reward reward = Reward.getReward(event.getOldCursor());
-			if (reward.isMoney()) {
-				plugin.getMessages().debug("You can't drag money(2)");
-				event.setCancelled(true);
-			}
 		}
 	}
 }
