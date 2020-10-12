@@ -121,8 +121,6 @@ public class RewardManager {
 
 	private PickupRewards pickupRewards;
 
-	private HashMap<Integer, Double> droppedMoney = new HashMap<Integer, Double>();
-
 	public RewardManager(MobHunting plugin) {
 		this.plugin = plugin;
 		if (!BagOfGoldCompat.isSupported()) {
@@ -150,10 +148,6 @@ public class RewardManager {
 			return false;
 		}
 
-	}
-
-	public HashMap<Integer, Double> getDroppedMoney() {
-		return droppedMoney;
 	}
 
 	public boolean depositPlayer(OfflinePlayer offlinePlayer, double amount) {
@@ -354,14 +348,14 @@ public class RewardManager {
 					money, rewardType, skinuuid);
 			is = Reward.setDisplayNameAndHiddenLores(is, reward);
 			item = location.getWorld().dropItem(location, is);
-			getDroppedMoney().put(item.getEntityId(), money);
+			Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), money);
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			item.setCustomName(is.getItemMeta().getDisplayName());
 			item.setCustomNameVisible(true);
 		}
 		if (item != null)
 			plugin.getMessages().debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
-					Core.getConfigManager().rewardItemtype, droppedMoney.size());
+					Core.getConfigManager().rewardItemtype, Core.getCoreRewardManager().getDroppedMoney().size());
 	}
 
 	/**
@@ -376,7 +370,7 @@ public class RewardManager {
 		} else if (reward.isItemReward()) {
 			ItemStack is = new ItemStack(Material.valueOf(Core.getConfigManager().rewardItem), 1);
 			Item item = location.getWorld().dropItem(location, is);
-			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
+			Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else if (reward.isKilledHeadReward()) {
 			MobType mob = MobType.getMobType(reward.getSkinUUID());
 			if (mob != null) {
@@ -384,14 +378,14 @@ public class RewardManager {
 						reward.getMoney(), reward.getSkinUUID());
 				Item item = location.getWorld().dropItem(location, is);
 				item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
-				getDroppedMoney().put(item.getEntityId(), reward.getMoney());
+				Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 			}
 		} else if (reward.isKillerHeadReward()) {
 			ItemStack is = new CoreCustomItems(plugin).getPlayerHead(reward.getSkinUUID(), reward.getDisplayName(), 1,
 					reward.getMoney());
 			Item item = location.getWorld().dropItem(location, is);
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
-			getDroppedMoney().put(item.getEntityId(), reward.getMoney());
+			Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else {
 			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
 					+ "Unhandled reward type in RewardManager (DropRewardOnGround).");

@@ -1,13 +1,11 @@
 package one.lindegaard.MobHunting.rewards;
 
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import one.lindegaard.Core.Core;
@@ -76,8 +74,8 @@ public class MoneyMergeEventListener implements Listener {
 								plugin.getRewardManager().format(reward2.getMoney()));
 					}
 				}
-				if (plugin.getRewardManager().getDroppedMoney().containsKey(item1.getEntityId()))
-					plugin.getRewardManager().getDroppedMoney().remove(item1.getEntityId());
+				if (Core.getCoreRewardManager().getDroppedMoney().containsKey(item1.getEntityId()))
+					Core.getCoreRewardManager().getDroppedMoney().remove(item1.getEntityId());
 			}
 		}
 	}

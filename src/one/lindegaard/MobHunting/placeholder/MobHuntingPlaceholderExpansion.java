@@ -3,6 +3,7 @@ package one.lindegaard.MobHunting.placeholder;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Listener;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import one.lindegaard.Core.Core;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.PlaceholderAPICompat;
 
@@ -33,13 +34,13 @@ public class MobHuntingPlaceholderExpansion extends PlaceholderExpansion impleme
 
 		// placeholder: %mobhunting_dropped_rewards%
 		if (identifier.equals("dropped_rewards")) {
-			return String.valueOf(MobHunting.getInstance().getRewardManager().getDroppedMoney().size());
+			return String.valueOf(Core.getCoreRewardManager().getDroppedMoney().size());
 		}
 
 		// placeholder: %mobhunting_dropped_rewards%
 		if (identifier.equals("dropped_money")) {
 			double amt = 0;
-			for (double d : MobHunting.getInstance().getRewardManager().getDroppedMoney().values())
+			for (double d : Core.getCoreRewardManager().getDroppedMoney().values())
 				amt = amt + d;
 			return MobHunting.getInstance().getRewardManager().format(amt);
 		}

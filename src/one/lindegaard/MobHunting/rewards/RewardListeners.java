@@ -21,7 +21,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -40,6 +39,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.event.block.Action;
 
 import one.lindegaard.Core.Core;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.Core.server.Servers;
@@ -58,21 +58,6 @@ public class RewardListeners implements Listener {
 		this.plugin = plugin;
 	}
 
-	private boolean isFakeReward(Item item) {
-		ItemStack itemStack = item.getItemStack();
-		return isFakeReward(itemStack);
-	}
-
-	private boolean isFakeReward(ItemStack itemStack) {
-		if (itemStack != null && itemStack.hasItemMeta() && itemStack.getItemMeta().hasDisplayName()
-				&& itemStack.getItemMeta().getDisplayName().contains(Core.getConfigManager().bagOfGoldName)) {
-			if (!itemStack.getItemMeta().hasLore()) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerDropReward(PlayerDropItemEvent event) {
 		if (event.isCancelled())
@@ -81,7 +66,7 @@ public class RewardListeners implements Listener {
 		Item item = event.getItemDrop();
 		Player player = event.getPlayer();
 
-		if (isFakeReward(item)) {
+		if (Reward.isFakeReward(item)) {
 			player.sendMessage(ChatColor.RED + "[MobHunting] WARNING, this was a FAKE reward with no value");
 			return;
 		}
@@ -95,48 +80,27 @@ public class RewardListeners implements Listener {
 			is = Reward.setDisplayNameAndHiddenLores(is.clone(), reward);
 			is.setAmount(1);
 			item.setItemStack(is);
-			plugin.getRewardManager().getDroppedMoney().put(item.getEntityId(), money);
+			Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), money);
 			if (money == 0) {
 				plugin.getMessages().debug("%s dropped a %s (# of rewards left=%s)", player.getName(),
 						reward.getDisplayName() != null ? reward.getDisplayName()
 								: Core.getConfigManager().bagOfGoldName.trim(),
-						plugin.getRewardManager().getDroppedMoney().size());
+						Core.getCoreRewardManager().getDroppedMoney().size());
 			} else {
 				if (!BagOfGoldCompat.isSupported() && !plugin.getConfigManager().dropMoneyOnGroup
 						&& !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
 					plugin.getEconomyManager().withdrawPlayer(player, money);
 
 				plugin.getMessages().debug("%s dropped %s money. (# of rewards left=%s)", player.getName(),
-						plugin.getRewardManager().format(money), plugin.getRewardManager().getDroppedMoney().size());
+						Tools.format(money), Core.getCoreRewardManager().getDroppedMoney().size());
 				plugin.getMessages().playerActionBarMessageQueue(player,
-						plugin.getMessages().getString("mobhunting.moneydrop", "money",
-								plugin.getRewardManager().format(money), "rewardname",
+						plugin.getMessages().getString("mobhunting.moneydrop", "money", Tools.format(money),
+								"rewardname",
 								ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
 										+ (reward.isItemReward() ? Core.getConfigManager().bagOfGoldName.trim()
 												: reward.getDisplayName())));
 			}
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, reward));
-		}
-	}
-
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void onDespawnRewardEvent(ItemDespawnEvent event) {
-		if (event.isCancelled())
-			return;
-
-		if (BagOfGoldCompat.isSupported() && BagOfGoldCompat.useAsEconomyAnEconomyPlugin())
-			return;
-
-		if (Reward.isReward(event.getEntity())) {
-			if (plugin.getRewardManager().getDroppedMoney().containsKey(event.getEntity().getEntityId())) {
-				plugin.getRewardManager().getDroppedMoney().remove(event.getEntity().getEntityId());
-				if (event.getEntity().getLastDamageCause() != null)
-					plugin.getMessages().debug("The reward was destroyed by %s",
-							event.getEntity().getLastDamageCause().getCause());
-				else
-					plugin.getMessages().debug("The reward despawned (# of rewards left=%s)",
-							plugin.getRewardManager().getDroppedMoney().size());
-			}
 		}
 	}
 
@@ -161,8 +125,8 @@ public class RewardListeners implements Listener {
 			event.setCancelled(true);
 		} else {
 			plugin.getMessages().debug("The reward was picked up by %s", event.getInventory().getType());
-			if (plugin.getRewardManager().getDroppedMoney().containsKey(item.getEntityId()))
-				plugin.getRewardManager().getDroppedMoney().remove(item.getEntityId());
+			if (Core.getCoreRewardManager().getDroppedMoney().containsKey(item.getEntityId()))
+				Core.getCoreRewardManager().getDroppedMoney().remove(item.getEntityId());
 		}
 	}
 
@@ -180,23 +144,23 @@ public class RewardListeners implements Listener {
 		if (player.getGameMode() == GameMode.SPECTATOR)
 			return;
 
-		if (plugin.getRewardManager().canPickupMoney(player)) {
+		if (Core.getCoreRewardManager().canPickupMoney(player)) {
 
 			Iterator<Entity> entityList = ((Entity) player).getNearbyEntities(1, 1, 1).iterator();
-			while (entityList.hasNext() && plugin.getRewardManager().canPickupMoney(player)) {
+			while (entityList.hasNext() && Core.getCoreRewardManager().canPickupMoney(player)) {
 				Entity entity = entityList.next();
 				if (!(entity instanceof Item))
 					continue;
 
 				Item item = (Item) entity;
 
-				if (isFakeReward(item)) {
+				if (Reward.isFakeReward(item)) {
 					player.sendMessage(ChatColor.RED + "[MobHunting] WARNING, this was a FAKE reward with no value");
 					return;
 				}
 
 				if (Reward.isReward(item)) {
-					if (plugin.getRewardManager().getDroppedMoney().containsKey(entity.getEntityId())) {
+					if (Core.getCoreRewardManager().getDroppedMoney().containsKey(entity.getEntityId())) {
 						Reward reward = Reward.getReward(item);
 						if (reward.isMoney()) {
 							double addedMoney = 0;
@@ -220,9 +184,8 @@ public class RewardListeners implements Listener {
 											is = Reward.setDisplayNameAndHiddenLores(is, rewardInSlot);
 											plugin.getMessages().debug(
 													"Added %s to %s's item in slot %s, new value is %s",
-													plugin.getRewardManager().format(reward.getMoney()),
-													player.getName(), slot,
-													plugin.getRewardManager().format(rewardInSlot.getMoney()));
+													Tools.format(reward.getMoney()), player.getName(), slot,
+													Tools.format(rewardInSlot.getMoney()));
 											addedMoney = reward.getMoney();
 											break;
 										} else if ((reward.isKilledHeadReward() || reward.isKillerHeadReward())
@@ -244,8 +207,7 @@ public class RewardListeners implements Listener {
 											}
 											plugin.getMessages().debug(
 													"Added %s to %s's item in slot %s, new value is %s",
-													plugin.getRewardManager().format(reward.getMoney()),
-													player.getName(), slot,
+													Tools.format(reward.getMoney()), player.getName(), slot,
 													plugin.getRewardManager().format(rewardInSlot.getMoney()));
 										}
 									}
@@ -254,21 +216,21 @@ public class RewardListeners implements Listener {
 							if (Misc.round(addedMoney) == Misc.round(reward.getMoney())) {
 								plugin.getMessages().debug("Was able to pickup all the money");
 								item.remove();
-								if (plugin.getRewardManager().getDroppedMoney().containsKey(entity.getEntityId()))
-									plugin.getRewardManager().getDroppedMoney().remove(entity.getEntityId());
+								if (Core.getCoreRewardManager().getDroppedMoney().containsKey(entity.getEntityId()))
+									Core.getCoreRewardManager().getDroppedMoney().remove(entity.getEntityId());
 								if (ProtocolLibCompat.isSupported())
 									ProtocolLibHelper.pickupMoney(player, item);
 
 								if (reward.getMoney() == 0) {
 									plugin.getMessages().debug("%s picked up a %s (# of rewards left=%s)",
 											player.getName(), reward.getDisplayName(),
-											plugin.getRewardManager().getDroppedMoney().size());
+											Core.getCoreRewardManager().getDroppedMoney().size());
 								} else {
 									plugin.getMessages().debug(
 											"%s picked up a %s with a value:%s (# of rewards left=%s)",
 											player.getName(), reward.getDisplayName(),
 											plugin.getRewardManager().format(Misc.round(reward.getMoney())),
-											plugin.getRewardManager().getDroppedMoney().size());
+											Core.getCoreRewardManager().getDroppedMoney().size());
 									plugin.getMessages().playerActionBarMessageQueue(player,
 											plugin.getMessages().getString("mobhunting.moneypickup", "money",
 													plugin.getRewardManager().format(reward.getMoney()), "rewardname",
@@ -282,8 +244,8 @@ public class RewardListeners implements Listener {
 								plugin.getMessages().debug("Was not able to pick up %s money (remove Item)", rest);
 								item.remove();
 
-								if (plugin.getRewardManager().getDroppedMoney().containsKey(entity.getEntityId()))
-									plugin.getRewardManager().getDroppedMoney().remove(entity.getEntityId());
+								if (Core.getCoreRewardManager().getDroppedMoney().containsKey(entity.getEntityId()))
+									Core.getCoreRewardManager().getDroppedMoney().remove(entity.getEntityId());
 								if (ProtocolLibCompat.isSupported())
 									ProtocolLibHelper.pickupMoney(player, item);
 
@@ -309,11 +271,11 @@ public class RewardListeners implements Listener {
 			targetEntity = nearby.next();
 
 			if (Reward.isReward(targetEntity)) {
-				if (plugin.getRewardManager().getDroppedMoney().containsKey(targetEntity.getEntityId()))
-					plugin.getRewardManager().getDroppedMoney().remove(targetEntity.getEntityId());
+				if (Core.getCoreRewardManager().getDroppedMoney().containsKey(targetEntity.getEntityId()))
+					Core.getCoreRewardManager().getDroppedMoney().remove(targetEntity.getEntityId());
 				targetEntity.remove();
 				plugin.getMessages().debug("The reward was hit by %s and removed. (# of rewards left=%s)",
-						projectile.getType(), plugin.getRewardManager().getDroppedMoney().size());
+						projectile.getType(), Core.getCoreRewardManager().getDroppedMoney().size());
 			}
 		}
 	}
@@ -327,7 +289,7 @@ public class RewardListeners implements Listener {
 		ItemStack is = event.getItemInHand();
 		Block block = event.getBlockPlaced();
 
-		if (isFakeReward(is)) {
+		if (Reward.isFakeReward(is)) {
 			player.sendMessage(ChatColor.RED + "[MobHunting] WARNING, this was a FAKE reward with no value");
 			return;
 		}
@@ -360,7 +322,7 @@ public class RewardListeners implements Listener {
 		if (inventory.getType() == InventoryType.CRAFTING) {
 			ItemStack helmet = player.getEquipment().getHelmet();
 
-			if (isFakeReward(helmet)) {
+			if (Reward.isFakeReward(helmet)) {
 				plugin.getMessages().playerActionBarMessageQueue(player,
 						ChatColor.RED + "[MobHunting] WARNING, you have a reward on your head. It was removed.");
 				event.getPlayer().getEquipment().setHelmet(new ItemStack(Material.AIR));
@@ -501,15 +463,15 @@ public class RewardListeners implements Listener {
 
 		InventoryAction action = event.getAction();
 
-		if (isFakeReward(isCurrentSlot)) {
+		if (Reward.isFakeReward(isCurrentSlot)) {
 			isCurrentSlot.setType(Material.AIR);
 			return;
 		}
-		if (isFakeReward(isCursor)) {
+		if (Reward.isFakeReward(isCursor)) {
 			isCursor.setType(Material.AIR);
 			return;
 		}
-		if (isFakeReward(isKey)) {
+		if (Reward.isFakeReward(isKey)) {
 			isKey.setType(Material.AIR);
 			isKey.setAmount(0);
 			return;

@@ -44,8 +44,8 @@ public class PickupRewards {
 			}
 			if (succes) {
 				item.remove();
-				if (plugin.getRewardManager().getDroppedMoney().containsKey(item.getEntityId()))
-					plugin.getRewardManager().getDroppedMoney().remove(item.getEntityId());
+				if (Core.getCoreRewardManager().getDroppedMoney().containsKey(item.getEntityId()))
+					Core.getCoreRewardManager().getDroppedMoney().remove(item.getEntityId());
 				if (ProtocolLibCompat.isSupported())
 					ProtocolLibHelper.pickupMoney(player, item);
 
@@ -54,14 +54,14 @@ public class PickupRewards {
 							.debug("%s picked up a %s (# of rewards left=%s)", player.getName(),
 									Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM") ? "ITEM"
 											: reward.getDisplayName(),
-									plugin.getRewardManager().getDroppedMoney().size());
+									Core.getCoreRewardManager().getDroppedMoney().size());
 				} else {
 					plugin.getMessages().debug(
 							"%s picked up a %s with a value:%s (# of rewards left=%s)(PickupRewards)", player.getName(),
 							reward.getDisplayName().equalsIgnoreCase("") ? reward.getDisplayName()
 									: Core.getConfigManager().rewardItemtype,
 							plugin.getRewardManager().format(Misc.round(reward.getMoney())),
-							plugin.getRewardManager().getDroppedMoney().size());
+							Core.getCoreRewardManager().getDroppedMoney().size());
 					plugin.getMessages().playerActionBarMessageQueue(player,
 							plugin.getMessages().getString("mobhunting.moneypickup", "money",
 									plugin.getRewardManager().format(reward.getMoney()), "rewardname",
