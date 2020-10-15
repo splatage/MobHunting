@@ -659,7 +659,7 @@ public class MobHuntingManager implements Listener {
 
 		}
 
-		plugin.getGrindingManager().registerDeath(killer != null ? killer.getUniqueId() : null, killed);
+		plugin.getGrindingManager().registerDeath(killer, killed);
 
 		// Grinding Farm detections
 		if (plugin.getConfigManager().grindingDetectionEnabled && plugin.getConfigManager().detectFarms
@@ -667,7 +667,6 @@ public class MobHuntingManager implements Listener {
 			if (killed.getLastDamageCause() != null) {
 				if (!plugin.getGrindingManager().isWhitelisted(killed.getLocation())) {
 					if (killed.getLastDamageCause().getCause() == DamageCause.FALL) {
-						// plugin.getGrindingManager().registerDeath(killed);
 						if (plugin.getConfigManager().detectNetherGoldFarms) {
 							if (!silent)
 								plugin.getMessages()
@@ -736,7 +735,6 @@ public class MobHuntingManager implements Listener {
 						if (plugin.getConfigManager().detectEndermanFarms) {
 							if (!silent)
 								plugin.getMessages().debug("=============== Enderman Farm detection ===============");
-							// plugin.getGrindingManager().registerDeath(killed);
 							if (plugin.getGrindingManager().isEndermanFarm(killed, silent)) {
 								cancelDrops(event, plugin.getConfigManager().disableNaturalItemDropsOnEndermanFarms,
 										plugin.getConfigManager().disableNaturalXPDropsOnEndermanFarms);
@@ -2000,7 +1998,7 @@ public class MobHuntingManager implements Listener {
 					player.getWorld().dropItem(killed.getLocation(), head);
 				}
 				plugin.getMessages().debug("%s killed a %s and a head was dropped (random: %s<%s config)",
-						getKillerName(killer,killed), killed.getName(), random,
+						getKillerName(killer, killed), killed.getName(), random,
 						plugin.getRewardManager().getHeadDropChance(killed));
 				if (!plugin.getRewardManager().getHeadDropMessage(killed).isEmpty()) {
 					MessageType message_type = MessageType.valueOf(plugin.getConfigManager().defaultHeadMessageType);
