@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.AdvancedPie;
+import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 
 import one.lindegaard.Core.HttpTools;
@@ -59,7 +62,6 @@ import one.lindegaard.MobHunting.compatibility.TownyCompat;
 import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
 import one.lindegaard.MobHunting.compatibility.WorldEditCompat;
 import one.lindegaard.MobHunting.compatibility.WorldGuardCompat;
-import org.bstats.bukkit.Metrics;
 
 public class MetricsManager {
 
@@ -109,15 +111,15 @@ public class MetricsManager {
 		bStatsMetrics = new Metrics(plugin,173);
 		
 		bStatsMetrics.addCustomChart(
-				new Metrics.SimplePie("database_used_for_mobhunting", () -> plugin.getConfigManager().databaseType));
-		bStatsMetrics.addCustomChart(new Metrics.SimplePie("language", () -> plugin.getConfigManager().language));	// McMMO 2.1.0 documentation:
+				new SimplePie("database_used_for_mobhunting", () -> plugin.getConfigManager().databaseType));
+		bStatsMetrics.addCustomChart(new SimplePie("language", () -> plugin.getConfigManager().language));	// McMMO 2.1.0 documentation:
 		// https://docs.google.com/document/d/1qY6hEyGCO5z1PRup_OvMBxAmumydxxoO_H-pnUrVK8M/edit#heading=h.474ghxburdpp
 
 		bStatsMetrics.addCustomChart(
-				new Metrics.SimplePie("economy_plugin", () -> plugin.getEconomyManager().getName()));
+				new SimplePie("economy_plugin", () -> plugin.getEconomyManager().getName()));
 
 		bStatsMetrics.addCustomChart(
-				new Metrics.AdvancedPie("protection_plugin_integrations", new Callable<Map<String, Integer>>() {
+				new AdvancedPie("protection_plugin_integrations", new Callable<Map<String, Integer>>() {
 					@Override
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
@@ -135,7 +137,7 @@ public class MetricsManager {
 				}));
 
 		bStatsMetrics
-				.addCustomChart(new Metrics.AdvancedPie("minigame_integrations", new Callable<Map<String, Integer>>() {
+				.addCustomChart(new AdvancedPie("minigame_integrations", new Callable<Map<String, Integer>>() {
 					@Override
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
@@ -150,7 +152,7 @@ public class MetricsManager {
 				}));
 
 		bStatsMetrics.addCustomChart(
-				new Metrics.AdvancedPie("disguise_plugin_integrations", new Callable<Map<String, Integer>>() {
+				new AdvancedPie("disguise_plugin_integrations", new Callable<Map<String, Integer>>() {
 					@Override
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
@@ -180,7 +182,7 @@ public class MetricsManager {
 				}));
 
 		bStatsMetrics
-				.addCustomChart(new Metrics.AdvancedPie("other_integrations", new Callable<Map<String, Integer>>() {
+				.addCustomChart(new AdvancedPie("other_integrations", new Callable<Map<String, Integer>>() {
 					@Override
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
@@ -200,7 +202,7 @@ public class MetricsManager {
 
 				}));
 
-		bStatsMetrics.addCustomChart(new Metrics.AdvancedPie("special_mobs", new Callable<Map<String, Integer>>() {
+		bStatsMetrics.addCustomChart(new AdvancedPie("special_mobs", new Callable<Map<String, Integer>>() {
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> valueMap = new HashMap<>();
@@ -222,7 +224,7 @@ public class MetricsManager {
 
 		}));
 
-		bStatsMetrics.addCustomChart(new Metrics.AdvancedPie("titlemanagers", new Callable<Map<String, Integer>>() {
+		bStatsMetrics.addCustomChart(new AdvancedPie("titlemanagers", new Callable<Map<String, Integer>>() {
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> valueMap = new HashMap<>();
@@ -240,7 +242,7 @@ public class MetricsManager {
 			}
 		}));
 
-		bStatsMetrics.addCustomChart(new Metrics.AdvancedPie("mobhunting_usage", new Callable<Map<String, Integer>>() {
+		bStatsMetrics.addCustomChart(new AdvancedPie("mobhunting_usage", new Callable<Map<String, Integer>>() {
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> valueMap = new HashMap<>();
@@ -257,7 +259,7 @@ public class MetricsManager {
 			}
 		}));
 
-		bStatsMetrics.addCustomChart(new Metrics.DrilldownPie("economy_api", () -> {
+		bStatsMetrics.addCustomChart(new DrilldownPie("economy_api", () -> {
 	        Map<String, Map<String, Integer>> map = new HashMap<>();
 	        String economyAPI = plugin.getEconomyManager().getVersion();
 	        Map<String, Integer> entry = new HashMap<>();
