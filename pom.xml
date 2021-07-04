@@ -18,7 +18,7 @@
 		<version>0.1.3-SNAPSHOT</version>
 		<relativePath>../Main/pom.xml</relativePath>
 	</parent>
- 
+
 	<properties>
 		<mobhunting-core.version>0.5.2-SNAPSHOT</mobhunting-core.version>
 		<bagofgold.version>3.1.1-SNAPSHOT-BTestBuild</bagofgold.version>
@@ -97,6 +97,7 @@
 				</executions>
 				<configuration>
 					<createDependencyReducedPom>false</createDependencyReducedPom>
+					<createSourcesJar>false</createSourcesJar>
 					<artifactSet>
 						<includes>
 							<include>org.bstats:*</include>
@@ -317,7 +318,9 @@
 			<groupId>com.gmail.nossr50</groupId>
 			<artifactId>mcMMO</artifactId>
 			<version>1.6.0</version>
-			<type>pom</type>
+			<scope>system</scope>
+			<systemPath>/home/christian/Nextcloud/Development/WorkspaceMinecraft/MobHunting/lib/${mcmmo160.jar.version}</systemPath>
+			<!-- <systemPath>${project.basedir}/lib/${mcmmo160.jar.version}</systemPath> -->
 		</dependency>
 
 		<!-- MyPet -->
@@ -337,18 +340,25 @@
 		</dependency>
 
 		<!-- Worldguard -->
-		<!-- <dependency> <groupId>com.sk89q.worldguard</groupId> <artifactId>worldguard-legacy</artifactId> 
-			<version>${worldguard.version}</version> <scope>provided</scope> </dependency> -->
+		<dependency>
+			<groupId>com.sk89q.worldguard</groupId>
+			<artifactId>worldguard-legacy-old</artifactId>
+			<version>6.2.2-SNAPSHOT;1733-8161fd0</version>
+			<scope>system</scope>
+			<systemPath>/home/christian/Nextcloud/Development/WorkspaceMinecraft/MobHunting/lib/worldguard-legacy-6.2.2-SNAPSHOT-dist-B1713.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>com.sk89q.worldguard</groupId>
+			<artifactId>worldguard-legacy</artifactId>
+			<version>7.0.0-SNAPSHOT;1733-8161fd0</version>
+			<scope>system</scope>
+			<systemPath>/home/christian/Nextcloud/Development/WorkspaceMinecraft/MobHunting/lib/worldguard-bukkit-7.0.1-SNAPSHOT-dist-B1975.jar</systemPath>
+		</dependency>
 		<dependency>
 			<groupId>com.sk89q.worldguard.bukkit</groupId>
 			<artifactId>WorldGuardPlugin</artifactId>
 			<version>7.0.1</version>
 			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>com.sk89q.worldguard.bukkit</groupId>
-			<artifactId>WorldGuardPlugin</artifactId>
-			<version>6.2.2</version>
 		</dependency>
 
 		<!-- PreciousStones -->
@@ -567,6 +577,9 @@
 			<version>1.6.9.5</version>
 			<classifier>B130</classifier>
 		</dependency>
+		<!-- <dependency> <groupId>com.massivecraft</groupId> <artifactId>Factions</artifactId> 
+			<version>${factionsuuid.jar.version}</version> <scope>system</scope> <systemPath>${project.basedir}/lib/${factionsuuid.jar.version}</systemPath> 
+			</dependency> -->
 
 		<!-- Towny -->
 		<dependency>
@@ -593,7 +606,23 @@
 		<dependency>
 			<groupId>com.extrahardmode</groupId>
 			<artifactId>ExtraHardMode</artifactId>
-			<version>3.12.1</version>
+			<version>3.14.2</version>
 		</dependency>
 	</dependencies>
+
+	<!-- Added to make maven shade plugin support java 16 -->
+	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>Maven Plugin Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 </project>
