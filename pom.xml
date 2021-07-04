@@ -23,6 +23,8 @@
 		<mobhunting-core.version>0.5.2-SNAPSHOT</mobhunting-core.version>
 		<bagofgold.version>3.1.1-SNAPSHOT-BTestBuild</bagofgold.version>
 		<!-- <bagofgold.version>3.0.3</bagofgold.version> -->
+		<java.version>1.16</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<issueManagement>
@@ -126,7 +128,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>${spigotmc_1_16_R2.version}</version>
+			<version>${spigotmc_1_17_R1.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -609,20 +611,5 @@
 			<version>3.14.2</version>
 		</dependency>
 	</dependencies>
-
-	<!-- Added to make maven shade plugin support java 16 -->
-	<pluginRepositories>
-		<pluginRepository>
-			<releases>
-				<updatePolicy>never</updatePolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>central</id>
-			<name>Maven Plugin Repository</name>
-			<url>http://repo1.maven.org/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 </project>

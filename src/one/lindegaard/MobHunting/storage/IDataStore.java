@@ -1,6 +1,5 @@
 package one.lindegaard.MobHunting.storage;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;

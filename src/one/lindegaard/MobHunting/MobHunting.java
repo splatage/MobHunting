@@ -183,6 +183,10 @@ public class MobHunting extends JavaPlugin {
 		mRewardManager = new RewardManager(this);
 
 		mGrindingManager = new GrindingManager(this);
+		
+		Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
+				+ "Database type = " + mConfig.databaseType);
+		
 
 		if (mConfig.databaseType.equalsIgnoreCase("mysql"))
 			mStore = new MySQLDataStore(this);
