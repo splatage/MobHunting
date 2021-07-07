@@ -139,8 +139,12 @@ public class MobHunting extends JavaPlugin {
 		}
 		mConfig.saveConfig();
 
-		if (Bukkit.getPluginManager().getPlugin(CompatPlugin.BagOfGold.getName()) == null)
-			mCore = new Core(this);
+		//if (Bukkit.getPluginManager().getPlugin(CompatPlugin.BagOfGold.getName()) == null)
+		
+		mCore = new Core(this);
+		
+		// else
+		// mCore = BagOfGoldCompat.getBagOfGoldCore();
 
 		if (isbStatsEnabled())
 			getMessages().debug("bStat is enabled");
@@ -183,10 +187,9 @@ public class MobHunting extends JavaPlugin {
 		mRewardManager = new RewardManager(this);
 
 		mGrindingManager = new GrindingManager(this);
-		
-		Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-				+ "Database type = " + mConfig.databaseType);
-		
+
+		Bukkit.getConsoleSender().sendMessage(
+				ChatColor.GOLD + "[MobHunting]" + ChatColor.RED + "Database type = " + mConfig.databaseType);
 
 		if (mConfig.databaseType.equalsIgnoreCase("mysql"))
 			mStore = new MySQLDataStore(this);
@@ -227,7 +230,8 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(ProtocolLibCompat.class, CompatPlugin.ProtocolLib);
 		mCompatibilityManager.registerPlugin(MyPetCompat.class, CompatPlugin.MyPet);
 		mCompatibilityManager.registerPlugin(McMMOHorses.class, CompatPlugin.McMMOHorses);
-		//mCompatibilityManager.registerPlugin(BossShopCompat.class, CompatPlugin.BossShop);
+		// mCompatibilityManager.registerPlugin(BossShopCompat.class,
+		// CompatPlugin.BossShop);
 
 		// Minigame plugins
 		mCompatibilityManager.registerPlugin(MinigamesCompat.class, CompatPlugin.Minigames);
@@ -393,7 +397,7 @@ public class MobHunting extends JavaPlugin {
 		CitizensCompat.shutdown();
 
 		if (!BagOfGoldCompat.isSupported())
-			mCore.shutdown();
+			Core.shutdown();
 
 		Bukkit.getConsoleSender()
 				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "MobHunting disabled.");

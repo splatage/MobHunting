@@ -286,7 +286,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 			case 8:
 				setupV8Tables(mConnection);
 				setupTriggerV4andV5(mConnection);
-				Core.getDataStoreManager().createRandomBountyPlayer();
 				plugin.getConfigManager().databaseVersion = 8;
 				plugin.getConfigManager().saveConfig();
 			}
@@ -463,7 +462,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 					+ "[Error]: Could not delete expired records from bounty database.");
 		}
 	}
-
+	
 	// ******************************************************************
 	// V2 To V3 Database migration
 	// ******************************************************************
