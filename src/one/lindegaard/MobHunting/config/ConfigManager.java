@@ -99,6 +99,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.zombie_pigman", "### Zombie Pigman settings ###");
 		setCategoryComment("mobs.vex", "### Vex settings ###");
 		setCategoryComment("mobs.vindicator", "### Vindicator settings ###");
+//		setCategoryComment("mobs.warden", "### Warden settings ###");
 		setCategoryComment("mobs.witch", "### Witch settings ###");
 		setCategoryComment("mobs.wither_skeleton", "### Wither Skeleton settings ###");
 
@@ -157,6 +158,7 @@ public class ConfigManager extends AutoConfig {
 						+ "\nBy default the player does not get a reward for killing friendly mobs."
 						+ "\nIf you make the number negative, the reward will be a fine for killing a passive animal.");
 
+		setCategoryComment("passive.axolotl", "### Axolotl settings ###");
 		setCategoryComment("passive.bat", "### Bat settings ###");
 		setCategoryComment("passive.bee", "### Bee settings ###");
 		setCategoryComment("passive.cat", "### Cat settings ###");
@@ -165,6 +167,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("passive.dolphin", "### Dolphin settings ###");
 		setCategoryComment("passive.donkey", "### Donkey settings ###");
 		setCategoryComment("passive.fox", "### Fox settings ###");
+		setCategoryComment("passive.goat", "### Goat settings ###");
 		setCategoryComment("passive.horse", "### Horse settings ###");
 		setCategoryComment("passive.llama", "### Llama settings ###");
 		setCategoryComment("passive.mule", "### Mule settings ###");
@@ -1556,6 +1559,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "vex.head.message", category = "mobs")
 	public String vexHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Warden============================================
+	@ConfigField(name = "warden.enabled", category = "mobs")
+	public boolean wardenEnabled = true;
+	@ConfigField(name = "warden.message", category = "mobs")
+	public String wardenMessage = "You killed a §1{killed}";
+	@ConfigField(name = "witch.money.amount", category = "mobs")
+	public String wardenMoney = "10:15";
+	@ConfigField(name = "warden.money.chance", category = "mobs")
+	public double wardenMoneyChance = 1;
+	@ConfigField(name = "warden.commands", category = "mobs")
+	public List<HashMap<String, String>> wardenCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} emerald 1");
+		values1.put("chance", "0.05");
+		wardenCommands.add(values1);
+	}
+	@ConfigField(name = "warden.head.drophead", category = "mobs")
+	public boolean wardenHeadDropHead = true;
+	@ConfigField(name = "warden.head.value", category = "mobs")
+	public String wardenHeadPrize = "0";
+	@ConfigField(name = "warden.head.chance", category = "mobs")
+	public double wardenHeadDropChance = 0.05;
+	@ConfigField(name = "warden.head.message", category = "mobs")
+	public String wardenHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Witch============================================
 	@ConfigField(name = "witch.enabled", category = "mobs")
 	public boolean witchEnabled = true;
@@ -2218,6 +2247,32 @@ public class ConfigManager extends AutoConfig {
 	// #####################################################################################
 	// Passive Mobs
 	// #####################################################################################
+	// =====Axolotl============================================
+	@ConfigField(name = "axolotl.enabled", category = "mobs")
+	public boolean axolotlEnabled = true;
+	@ConfigField(name = "axolotl.message", category = "mobs")
+	public String axolotlMessage = "You killed a §1{killed}";
+	@ConfigField(name = "axolotl.money.amount", category = "mobs")
+	public String axolotlMoney = "0.0";
+	@ConfigField(name = "axolotl.money.chance", category = "mobs")
+	public double axolotlMoneyChance = 0.05;
+	@ConfigField(name = "axolotl.commands", category = "mobs")
+	public List<HashMap<String, String>> axolotlCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.10");
+		axolotlCommands.add(values1);
+	}
+	@ConfigField(name = "axolotl.head.drophead", category = "mobs")
+	public boolean axolotlHeadDropHead = true;
+	@ConfigField(name = "axolotl.head.value", category = "mobs")
+	public String axolotlHeadPrize = "0";
+	@ConfigField(name = "axolotl.head.chance", category = "mobs")
+	public double axolotlHeadDropChance = 0.05;
+	@ConfigField(name = "axolotl.head.message", category = "mobs")
+	public String axolotlHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Bat============================================
 	@ConfigField(name = "bat.enabled", category = "passive")
 	public boolean batEnabled = true;
@@ -2400,6 +2455,58 @@ public class ConfigManager extends AutoConfig {
 	public double foxHeadDropChance = 0.05;
 	@ConfigField(name = "fox.head.message", category = "passive")
 	public String foxHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Goat============================================
+	@ConfigField(name = "goat.enabled", category = "mobs")
+	public boolean goatEnabled = true;
+	@ConfigField(name = "goat.message", category = "mobs")
+	public String goatMessage = "You killed a §1{killed}";
+	@ConfigField(name = "goat.money.amount", category = "mobs")
+	public String goatMoney = "0.0";
+	@ConfigField(name = "goat.money.chance", category = "mobs")
+	public double goatMoneyChance = 0.05;
+	@ConfigField(name = "goat.commands", category = "mobs")
+	public List<HashMap<String, String>> goatCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.10");
+		goatCommands.add(values1);
+	}
+	@ConfigField(name = "goat.head.drophead", category = "mobs")
+	public boolean goatHeadDropHead = true;
+	@ConfigField(name = "goat.head.value", category = "mobs")
+	public String goatHeadPrize = "1";
+	@ConfigField(name = "goat.head.chance", category = "mobs")
+	public double goatHeadDropChance = 0.05;
+	@ConfigField(name = "goat.head.message", category = "mobs")
+	public String goatHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Glow Squid============================================
+	@ConfigField(name = "glowsquid.enabled", category = "mobs")
+	public boolean glowsquidEnabled = true;
+	@ConfigField(name = "glowsquid.message", category = "mobs")
+	public String glowsquidMessage = "You killed a §1{killed}";
+	@ConfigField(name = "glowsquid.money.amount", category = "mobs")
+	public String glowsquidMoney = "2.0";
+	@ConfigField(name = "glowsquid.money.chance", category = "mobs")
+	public double glowsquidMoneyChance = 0.5;
+	@ConfigField(name = "glowsquid.commands", category = "mobs")
+	public List<HashMap<String, String>> glowsquidCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.10");
+		glowsquidCommands.add(values1);
+	}
+	@ConfigField(name = "glowsquid.head.drophead", category = "mobs")
+	public boolean glowsquidHeadDropHead = true;
+	@ConfigField(name = "glowsquid.head.value", category = "mobs")
+	public String glowsquidHeadPrize = "0";
+	@ConfigField(name = "glowsquid.head.chance", category = "mobs")
+	public double glowsquidHeadDropChance = 0.05;
+	@ConfigField(name = "glowsquid.head.message", category = "mobs")
+	public String glowsquidHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Horse============================================
 	@ConfigField(name = "horse.enabled", category = "passive")
@@ -3194,6 +3301,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "armorer_level1", category = "achievements.hunter.mob_level")
 	public int armorerLevel1 = 100;
 
+	@ConfigField(name = "axolotl_level1", category = "achievements.hunter.mob_level")
+	public int axolotlLevel1 = 100;
+
 	@ConfigField(name = "bat_level1", category = "achievements.hunter.mob_level")
 	public int batLevel1 = 100;
 
@@ -3280,6 +3390,12 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "giant_level1", category = "achievements.hunter.mob_level")
 	public int giantLevel1 = 100;
+
+	@ConfigField(name = "goat_level1", category = "achievements.hunter.mob_level")
+	public int goatLevel1 = 100;
+
+	@ConfigField(name = "glow_squid_level1", category = "achievements.hunter.mob_level")
+	public int glowSquidLevel1 = 100;
 
 	@ConfigField(name = "guardian_level1", category = "achievements.hunter.mob_level")
 	public int guardianLevel1 = 100;
@@ -3430,6 +3546,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "wandering_trader_level1", category = "achievements.hunter.mob_level")
 	public int wanderingTraderLevel1 = 80;
+
+	@ConfigField(name = "warden_level1", category = "achievements.hunter.mob_level")
+	public int wardenLevel1 = 80;
 
 	@ConfigField(name = "weaponsmith_level1", category = "achievements.hunter.mob_level")
 	public int weaponsmithLevel1 = 80;
@@ -3867,6 +3986,11 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "enable_mcmmo_level_rewards", category = "plugins.mcmmo", comment = "Set 'enable_mcmmo_level_rewards: true' to let the players get Level as a MobHunting reward.")
 	public boolean enableMcMMOLevelRewards = true;
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.axolotl")
+	public String axolotlMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.axolotl")
+	public double axolotlMcMMOSkillRewardChance = 0.025;
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.bat")
 	public String batMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.bat")
@@ -4042,8 +4166,16 @@ public class ConfigManager extends AutoConfig {
 	public String giantMcMMOSkillRewardAmount = "1:2";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.giant")
 	public double giantMcMMOSkillRewardChance = 0.1;
-	// Not really a part of the standard game, but I imagine they are Hostile,
-	// Challenging
+	
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.goat")
+	public String goatMcMMOSkillRewardAmount = "1:2";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.goat")
+	public double goatMcMMOSkillRewardChance = 0.1;
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.glowsquid")
+	public String glowsquidMcMMOSkillRewardAmount = "1:2";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.glowsquid")
+	public double glowsquidMcMMOSkillRewardChance = 0.1;
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.guardian")
 	public String guardianMcMMOSkillRewardAmount = "1";
@@ -4343,6 +4475,12 @@ public class ConfigManager extends AutoConfig {
 	public String wanderingTraderMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.wanderingtrader")
 	public double wanderingTraderMcMMOSkillRewardChance = 0.05;
+	// Hostile mob, normal
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.warden")
+	public String wardenMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.warden")
+	public double wardenMcMMOSkillRewardChance = 0.05;
 	// Hostile mob, normal
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.weaponsmith")
@@ -4799,6 +4937,9 @@ public class ConfigManager extends AutoConfig {
 
 	public int getProgressAchievementLevel1(MobType mob) {
 		switch (mob) {
+		
+		case Axolotl:
+			return axolotlLevel1;
 		case Bat:
 			return batLevel1;
 		case BonusMob:
@@ -4837,6 +4978,10 @@ public class ConfigManager extends AutoConfig {
 			return ghastLevel1;
 		case Giant:
 			return giantLevel1;
+		case Goat:
+			return goatLevel1;
+		case GlowSquid:
+			return glowSquidLevel1;
 		case Guardian:
 			return guardianLevel1;
 		case Horse:
@@ -4911,6 +5056,8 @@ public class ConfigManager extends AutoConfig {
 			return vindicatorLevel1;
 		case WanderingTrader:
 			return wanderingTraderLevel1;
+//		case Warden:
+//			return wardenLevel1;
 		case Witch:
 			return witchLevel1;
 		case Wither:

@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Axolotl;
 import org.bukkit.entity.Bat;
 import org.bukkit.entity.Bee;
 import org.bukkit.entity.Blaze;
@@ -30,6 +31,8 @@ import org.bukkit.entity.Evoker;
 import org.bukkit.entity.Fox;
 import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Giant;
+import org.bukkit.entity.GlowSquid;
+import org.bukkit.entity.Goat;
 import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Hoglin;
 import org.bukkit.entity.Horse;
@@ -540,6 +543,16 @@ public class RewardManager {
 			return 0;
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return getPrice(mob, plugin.getConfigManager().axolotlMoney);
+				else if (mob instanceof Goat)
+					return getPrice(mob, plugin.getConfigManager().goatMoney);
+				else if (mob instanceof GlowSquid)
+					return getPrice(mob, plugin.getConfigManager().glowsquidMoney);
+//				else if (mob instanceof Warden)
+//					return getPrice(mob, plugin.getConfigManager().wardenMoney);
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getPrice(mob, plugin.getConfigManager().piglinBruteMoney);
@@ -910,6 +923,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCommands;
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return plugin.getConfigManager().axolotlCommands;
+				else if (mob instanceof Goat)
+					return plugin.getConfigManager().goatCommands;
+				else if (mob instanceof GlowSquid)
+					return plugin.getConfigManager().glowsquidCommands;
+//				else if (mob instanceof Warden)
+//					return plugin.getConfigManager().wardenCommands;
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteCommands;
@@ -1221,6 +1244,16 @@ public class RewardManager {
 			return  plugin.getConfigManager().wolfMessage ;
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return plugin.getConfigManager().axolotlMessage;
+				else if (mob instanceof Goat)
+					return plugin.getConfigManager().goatMessage;
+				else if (mob instanceof GlowSquid)
+					return plugin.getConfigManager().glowsquidMessage;
+//				else if (mob instanceof Warden)
+//					return plugin.getConfigManager().wardenMessage;
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return  plugin.getConfigManager().piglinBruteMessage ;
@@ -1522,6 +1555,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCmdRunChance;
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return plugin.getConfigManager().axolotlMoneyChance;
+				else if (mob instanceof Goat)
+					return plugin.getConfigManager().goatMoneyChance;
+				else if (mob instanceof GlowSquid)
+					return plugin.getConfigManager().glowsquidMoneyChance;
+//				else if (mob instanceof Warden)
+//					return plugin.getConfigManager().wardenMoneyChance;
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMoneyChance;
@@ -1828,6 +1871,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMcMMOSkillRewardChance;
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return plugin.getConfigManager().axolotlMcMMOSkillRewardChance;
+				else if (mob instanceof Goat)
+					return plugin.getConfigManager().goatMcMMOSkillRewardChance;
+				else if (mob instanceof GlowSquid)
+					return plugin.getConfigManager().glowsquidMcMMOSkillRewardChance;
+//				else if (mob instanceof Warden)
+//					return plugin.getConfigManager().wardenMcMMOSkillRewardChance;
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMcMMOSkillRewardChance;
@@ -2158,6 +2211,16 @@ public class RewardManager {
 			return getMcMMOXP(mob, plugin.getConfigManager().wolfMcMMOSkillRewardAmount);
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return getMcMMOXP(mob, plugin.getConfigManager().axolotlMcMMOSkillRewardAmount);
+				else if (mob instanceof Goat)
+					return getMcMMOXP(mob, plugin.getConfigManager().goatMcMMOSkillRewardAmount);
+				else if (mob instanceof GlowSquid)
+					return getMcMMOXP(mob, plugin.getConfigManager().glowsquidMcMMOSkillRewardAmount);
+//				else if (mob instanceof Warden)
+//					return getMcMMOXP(mob, plugin.getConfigManager().wardenMcMMOSkillRewardAmount);
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getMcMMOXP(mob, plugin.getConfigManager().piglinBruteMcMMOSkillRewardAmount);
@@ -2459,6 +2522,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfEnabled;
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return plugin.getConfigManager().axolotlEnabled;
+				else if (mob instanceof Goat)
+					return plugin.getConfigManager().goatEnabled;
+				else if (mob instanceof GlowSquid)
+					return plugin.getConfigManager().glowsquidEnabled;
+//				else if (mob instanceof Warden)
+//					return plugin.getConfigManager().wardenEnabled;
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteEnabled;
@@ -2771,6 +2844,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropHead;
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return plugin.getConfigManager().axolotlHeadDropHead;
+				else if (mob instanceof Goat)
+					return plugin.getConfigManager().goatHeadDropHead;
+				else if (mob instanceof GlowSquid)
+					return plugin.getConfigManager().glowsquidHeadDropHead;
+//				else if (mob instanceof Warden)
+//					return plugin.getConfigManager().wardenHeadDropHead;
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadDropHead;
@@ -3085,6 +3168,16 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropChance;
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return plugin.getConfigManager().axolotlHeadDropChance;
+				else if (mob instanceof Goat)
+					return plugin.getConfigManager().goatHeadDropChance;
+				else if (mob instanceof GlowSquid)
+					return plugin.getConfigManager().glowsquidHeadDropChance;
+//				else if (mob instanceof Warden)
+//					return plugin.getConfigManager().wardenHeadDropChance;
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadDropChance;
@@ -3398,6 +3491,16 @@ public class RewardManager {
 			return  plugin.getConfigManager().wolfHeadMessage ;
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return plugin.getConfigManager().axolotlHeadMessage;
+				else if (mob instanceof Goat)
+					return plugin.getConfigManager().goatHeadMessage;
+				else if (mob instanceof GlowSquid)
+					return plugin.getConfigManager().glowsquidHeadMessage;
+//				else if (mob instanceof Warden)
+//					return plugin.getConfigManager().wardenHeadMessage;
+
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return  plugin.getConfigManager().piglinBruteHeadMessage ;
@@ -3712,6 +3815,20 @@ public class RewardManager {
 			return getPrice(mob, plugin.getConfigManager().wolfHeadPrize);
 
 		} else {
+			if (Servers.isMC117OrNewer())
+				if (mob instanceof Axolotl)
+					return getPrice(mob, plugin.getConfigManager().axolotlHeadPrize);
+				else if (mob instanceof Goat)
+					return getPrice(mob, plugin.getConfigManager().goatHeadPrize);
+				else if (mob instanceof GlowSquid)
+					return getPrice(mob, plugin.getConfigManager().glowsquidHeadPrize);
+//				else if (mob instanceof Warden)
+//					return getPrice(mob, plugin.getConfigManager().wardenHeadPrize);
+
+			if (Servers.isMC1162OrNewer())
+				if (mob instanceof PiglinBrute)
+					return  getPrice(mob, plugin.getConfigManager().piglinBruteHeadPrize);
+			
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getPrice(mob, plugin.getConfigManager().hoglinHeadPrize);

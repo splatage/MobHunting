@@ -646,6 +646,7 @@ public class MobHuntingManager implements Listener {
 
 		ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
 		if (mob.getMob_id() == 0) {
+			plugin.getMessages().debug("MOB_ID=0");
 			return;
 		}
 
