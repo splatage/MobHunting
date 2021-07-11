@@ -210,30 +210,41 @@ public class MySQLDataStore extends DatabaseDataStore {
 		try {
 			Connection mConnection = setupConnection();
 			Statement statement = mConnection.createStatement();
-			String str = "SELECT " + column + ", PLAYER_ID, mh_Players.UUID uuid, mh_Players.NAME name" + " from mh_"
-					+ period.getTable() + " inner join mh_Players using (PLAYER_ID)"
-					+ " inner join mh_Mobs using (MOB_ID) WHERE PLAYER_ID!=0 AND NAME IS NOT NULL " + wherepart
+			/**
+			 * String str = "SELECT " + column + ", PLAYER_ID, mh_Players.UUID uuid,
+			 * mh_Players.NAME name" + " from mh_" + period.getTable() + " inner join
+			 * mh_Players using (PLAYER_ID)" + " inner join mh_Mobs using (MOB_ID) WHERE
+			 * PLAYER_ID!=0 AND NAME IS NOT NULL " + wherepart + " GROUP BY PLAYER_ID ORDER
+			 * BY " + ((type.getDBColumn().equalsIgnoreCase("total_cash") ||
+			 * plugins_cash.contains(type.getDBColumn())) ? "CASH" : "AMOUNT") + " DESC
+			 * LIMIT " + count;
+			 **/
+			String str = "SELECT " + column + ", PLAYER_ID " + " from mh_" + period.getTable()
+					+ " inner join mh_Mobs using (MOB_ID) WHERE PLAYER_ID!=0 " + wherepart
 					+ " GROUP BY PLAYER_ID ORDER BY "
 					+ ((type.getDBColumn().equalsIgnoreCase("total_cash") || plugins_cash.contains(type.getDBColumn()))
 							? "CASH"
 							: "AMOUNT")
 					+ " DESC LIMIT " + count;
+			
+			// plugin.getMessages().debug("Load str=%s",exestr);
+
 			ResultSet results = statement.executeQuery(str);
 			while (results.next()) {
 				OfflinePlayer offlinePlayer = null;
-				try {
-					if (results.getString("uuid").equals(""))
-						offlinePlayer = Bukkit.getOfflinePlayer(results.getString("name"));
-					else
-						offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(results.getString("uuid")));
-				} catch (Exception e) {
-					Bukkit.getLogger()
-							.warning("Could not find player name for PLAYER_ID:" + results.getString("PLAYER_ID"));
-				}
-				if (offlinePlayer == null)
-					plugin.getMessages().debug("getOfflinePlayer(%s) was not in cache.", results.getString("name"));
-				else
+				int player_id = results.getInt("PLAYER_ID");
+				UUID uuid = Core.getPlayerSettingsManager().getPlayerByID(player_id);
+				if (uuid != null) {
+					offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+					if (offlinePlayer != null)
+						list.add(new StatStore(type, offlinePlayer, results.getInt("amount"),
+								results.getDouble("cash")));
+					else {
+						plugin.getMessages().debug("PLAYER_ID: %s was not found.", player_id);
+					}
+				} else {					
 					list.add(new StatStore(type, offlinePlayer, results.getInt("amount"), results.getDouble("cash")));
+				}
 			}
 			results.close();
 			statement.close();
@@ -1705,7 +1716,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				+ " TOTAL_CASH REAL DEFAULT 0,"//
 				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"//
 				+ " KEY `MOB_ID` (`MOB_ID`)," + " KEY `mh_Daily_Player_Id` (`PLAYER_ID`),"
-				+ " CONSTRAINT mh_Daily_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE,"
+				//+ " CONSTRAINT mh_Daily_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE, "
 				+ " CONSTRAINT mh_Daily_Mob_Id FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE)");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Weekly "//
@@ -1719,7 +1730,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"//
 				+ " KEY `MOB_ID` (`MOB_ID`),"//
 				+ " KEY `mh_Weekly_Player_Id` (`PLAYER_ID`),"
-				+ " CONSTRAINT mh_Weekly_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE,"
+				//+ " CONSTRAINT mh_Weekly_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE,"
 				+ " CONSTRAINT mh_Weekly_Mob_Id FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE)");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Monthly "//
@@ -1733,7 +1744,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"//
 				+ " KEY `MOB_ID` (`MOB_ID`),"//
 				+ " KEY `mh_Monthly_Player_Id` (`PLAYER_ID`),"
-				+ " CONSTRAINT mh_Monthly_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE,"
+				//+ " CONSTRAINT mh_Monthly_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE,"
 				+ " CONSTRAINT mh_Monthly_Mob_Id FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE)");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Yearly "//
@@ -1747,7 +1758,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"//
 				+ " KEY `MOB_ID` (`MOB_ID`),"//
 				+ " KEY `mh_Yearly_Player_Id` (`PLAYER_ID`),"
-				+ " CONSTRAINT mh_Yearly_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE,"
+				//+ " CONSTRAINT mh_Yearly_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE,"
 				+ " CONSTRAINT mh_Yearly_Mob_Id FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE)");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_AllTime "//
@@ -1760,7 +1771,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				+ " PRIMARY KEY(MOB_ID, PLAYER_ID),"//
 				+ " KEY `MOB_ID` (`MOB_ID`),"//
 				+ " KEY `mh_AllTime_Player_Id` (`PLAYER_ID`),"//
-				+ " CONSTRAINT mh_AllTime_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE,"
+				//+ " CONSTRAINT mh_AllTime_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE,"
 				+ " CONSTRAINT mh_AllTime_Mob_Id FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE)");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Achievements "//
@@ -1768,8 +1779,8 @@ public class MySQLDataStore extends DatabaseDataStore {
 				+ " ACHIEVEMENT VARCHAR(64) NOT NULL,"//
 				+ " DATE DATETIME NOT NULL,"//
 				+ " PROGRESS INTEGER NOT NULL,"//
-				+ " PRIMARY KEY(PLAYER_ID, ACHIEVEMENT),"
-				+ " CONSTRAINT mh_Achievements_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+				+ " PRIMARY KEY(PLAYER_ID, ACHIEVEMENT) )");
+				//+ " CONSTRAINT mh_Achievements_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
 
 		try {
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP PRIMARY KEY");

@@ -33,7 +33,7 @@ public class StatRetrieverTask implements IDataStoreTask<List<StatStore>> {
 
 				while (it.hasNext()) {
 					StatStore stat = it.next();
-					if (cached.getPlayer().getUniqueId().equals(stat.getPlayer().getUniqueId())
+					if (stat.getPlayer()!=null && cached.getPlayer().getUniqueId().equals(stat.getPlayer().getUniqueId())
 							&& cached.getType().equals(stat.getType())) {
 						stat.setAmount(stat.getAmount() + cached.getAmount());
 						stat.setCash(stat.getCash() + cached.getCash());

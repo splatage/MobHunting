@@ -27,6 +27,7 @@ public class StatType {
 		mValues[3] = CashTotal;
 
 		int offset = 4, count = 0;
+		
 		// Adding plugin types (Minecraft_kills, MythicMob_kills, .....)
 		for (int i = 0; i < MobPlugin.values().length; ++i)
 			if (MobPlugin.values()[i].isSupported()) {
@@ -80,6 +81,7 @@ public class StatType {
 				offset = offset + 3;
 			}
 		}
+
 
 		for (int i = 0; i < mValues.length; ++i)
 			if (mValues[i] != null)

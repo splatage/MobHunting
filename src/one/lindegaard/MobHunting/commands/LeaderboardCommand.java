@@ -51,10 +51,11 @@ public class LeaderboardCommand implements ICommand, Listener {
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
 		return new String[] {
-				ChatColor.GOLD + label + ChatColor.GREEN + " create <type> <period> [isHorizonal?] " + ChatColor.YELLOW
-						+ "[<width> <height>]",
-				ChatColor.GOLD + label + ChatColor.GREEN + " delete <id>",
-				ChatColor.GOLD + label + ChatColor.GREEN + " edit (type|period|horizontal|addtype|addperiod) <value>" };
+				ChatColor.GOLD + label + ChatColor.GREEN + " create <type> <period> " + ChatColor.YELLOW+"[isHorizonal? (0/1)]" + ChatColor.YELLOW
+						+ "[<width> <height>]"+ ChatColor.WHITE + " - to create a leaderboard.",
+				ChatColor.GOLD + label + ChatColor.GREEN + " delete <id>" + ChatColor.WHITE + " - to delete a leaderboard.",
+				ChatColor.GOLD + label + ChatColor.GREEN + " edit (type|period|horizontal|addtype|addperiod) <value> ",
+				ChatColor.GOLD + label + ChatColor.GREEN + " update <id>" + ChatColor.WHITE + " - to update all leaderboards."};
 	}
 
 	@Override
@@ -270,6 +271,8 @@ public class LeaderboardCommand implements ICommand, Listener {
 			return onDelete(sender, args);
 		else if (args[0].equalsIgnoreCase("edit"))
 			return onEdit(sender, args);
+		else if (args[0].equalsIgnoreCase("update"))
+			return plugin.getLeaderboardManager().updateAllLeaderboards(); 
 
 		return false;
 	}
@@ -282,6 +285,7 @@ public class LeaderboardCommand implements ICommand, Listener {
 			items.add("create");
 			items.add("delete");
 			items.add("edit");
+			items.add("update");
 		} else if (args.length > 1) {
 			if (args[0].equalsIgnoreCase("create")) {
 				if (args.length == 2) {

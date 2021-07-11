@@ -1,3 +1,7 @@
+V8.0.1
+* Fixed leaderboards. Statistics is now updated.
+V8.0.0 
+* MC 1.17 support added.
 V7.5.4
 * Support for Minecraft 1.16.2 added
 * New mob Piglin Brute added 

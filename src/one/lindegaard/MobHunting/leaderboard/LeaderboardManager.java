@@ -37,6 +37,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.google.common.collect.HashMultimap;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.MobHunting.HologramManager;
 import one.lindegaard.MobHunting.MobHunting;
@@ -99,6 +100,12 @@ public class LeaderboardManager implements Listener {
 						mLegacyLeaderboards.size() + mLeaderboards.size());
 			}
 		}
+	}
+	
+	public Boolean updateAllLeaderboards() {
+		Core.getDataStoreManager().save();
+		Bukkit.getScheduler().runTask(plugin, new Updater());
+		return true;
 	}
 
 	public LegacyLeaderboard getLeaderboard(String id) {

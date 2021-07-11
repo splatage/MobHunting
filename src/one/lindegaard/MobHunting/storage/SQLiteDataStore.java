@@ -190,31 +190,41 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			Connection mConnection = setupConnection();
 
 			Statement statement = mConnection.createStatement();
-			String exestr = "SELECT " + column + ", PLAYER_ID, mh_Players.UUID uuid, mh_Players.NAME name" + " from mh_"
-					+ period.getTable() + " inner join mh_Players using (PLAYER_ID)"
-					+ " inner join mh_Mobs using (MOB_ID) WHERE PLAYER_ID!=0 AND NAME IS NOT NULL " + wherepart
+			/**
+			 * String exestr = "SELECT " + column + ", PLAYER_ID, mh_Players.UUID uuid,
+			 * mh_Players.NAME name" + " from mh_" + period.getTable() + " inner join
+			 * mh_Players using (PLAYER_ID)" + " inner join mh_Mobs using (MOB_ID) WHERE
+			 * PLAYER_ID!=0 AND NAME IS NOT NULL " + wherepart + " GROUP BY PLAYER_ID ORDER
+			 * BY " + ((type.getDBColumn().equalsIgnoreCase("total_cash") ||
+			 * plugins_cash.contains(type.getDBColumn())) ? "CASH" : "AMOUNT") + " DESC
+			 * LIMIT " + count;
+			 **/
+			String exestr = "SELECT " + column + ", PLAYER_ID " + " from mh_" + period.getTable()
+					+ " inner join mh_Mobs using (MOB_ID) WHERE PLAYER_ID!=0 " + wherepart
 					+ " GROUP BY PLAYER_ID ORDER BY "
 					+ ((type.getDBColumn().equalsIgnoreCase("total_cash") || plugins_cash.contains(type.getDBColumn()))
 							? "CASH"
 							: "AMOUNT")
 					+ " DESC LIMIT " + count;
+
 			// plugin.getMessages().debug("Load str=%s",exestr);
+
 			ResultSet results = statement.executeQuery(exestr);
 			while (results.next()) {
 				OfflinePlayer offlinePlayer = null;
-				try {
-					if (results.getString("uuid").equals(""))
-						offlinePlayer = Bukkit.getOfflinePlayer(results.getString("name"));
-					else
-						offlinePlayer = Bukkit.getOfflinePlayer(UUID.fromString(results.getString("uuid")));
-				} catch (Exception e) {
-					Bukkit.getLogger()
-							.warning("Could not find player name for PLAYER_ID:" + results.getString("PLAYER_ID"));
-				}
-				if (offlinePlayer == null)
-					plugin.getMessages().debug("getOfflinePlayer(%s) was not in cache.", results.getString("name"));
-				else
+				int player_id = results.getInt("PLAYER_ID");
+				UUID uuid = Core.getPlayerSettingsManager().getPlayerByID(player_id);
+				if (uuid != null) {
+					offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+					if (offlinePlayer != null)
+						list.add(new StatStore(type, offlinePlayer, results.getInt("amount"),
+								results.getDouble("cash")));
+					else {
+						plugin.getMessages().debug("PLAYER_ID: %s was not found.", player_id);
+					}
+				} else {					
 					list.add(new StatStore(type, offlinePlayer, results.getInt("amount"), results.getDouble("cash")));
+				}
 			}
 			results.close();
 			statement.close();
@@ -267,7 +277,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 						"UPDATE mh_Daily SET %1$s = %1$s + %2$d, %5$s = %5$s + %6$f WHERE ID = strftime(\"%%Y%%j\",\"now\")"
 								+ " AND MOB_ID=%3$d AND PLAYER_ID = %4$d;",
 						column, amount, mob_id, player_id, column2, cash);
-				// plugin.getMessages().debug("Save Str=%s", str);
+				//plugin.getMessages().debug("Save Str=%s", str);
 				statement.addBatch(str);
 			}
 			statement.executeBatch();
@@ -1590,8 +1600,8 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0," //
 				+ " TOTAL_CASH REAL DEFAULT 0," //
 				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"
-				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
-				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE)");
+		// + " FOREIGN KEY(PLAYER_ID) )");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Weekly"//
 				+ "(ID CHAR(6) NOT NULL,"//
@@ -1602,8 +1612,8 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
 				+ " TOTAL_CASH REAL DEFAULT 0," //
 				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"
-				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
-				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE )");
+		// + " FOREIGN KEY(PLAYER_ID) )");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Monthly"//
 				+ "(ID CHAR(6) NOT NULL,"//
@@ -1614,8 +1624,8 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
 				+ " TOTAL_CASH REAL DEFAULT 0," //
 				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"
-				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
-				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE )");
+		// + " FOREIGN KEY(PLAYER_ID) )");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Yearly"//
 				+ "(ID CHAR(4) NOT NULL,"//
@@ -1626,8 +1636,8 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
 				+ " TOTAL_CASH REAL DEFAULT 0," //
 				+ " PRIMARY KEY(ID, MOB_ID, PLAYER_ID),"
-				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
-				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE )");
+		// + " FOREIGN KEY(PLAYER_ID) )");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_AllTime"//
 				+ " (MOB_ID INTEGER NOT NULL,"//
@@ -1637,24 +1647,32 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				+ " TOTAL_ASSIST INTEGER DEFAULT 0,"//
 				+ " TOTAL_CASH REAL DEFAULT 0," //
 				+ " PRIMARY KEY(MOB_ID, PLAYER_ID),"
-				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE,"
-				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE)");
+				+ " FOREIGN KEY(MOB_ID) REFERENCES mh_Mobs(MOB_ID) ON DELETE CASCADE )");
+		// + " FOREIGN KEY(PLAYER_ID) )");
 
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Achievements "//
 				+ "(PLAYER_ID INTEGER NOT NULL,"//
 				+ " ACHIEVEMENT TEXT NOT NULL,"//
 				+ " DATE INTEGER NOT NULL,"//
-				+ " PROGRESS INTEGER NOT NULL," + " PRIMARY KEY(PLAYER_ID, ACHIEVEMENT), "
-				+ " FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID))");
+				+ " PROGRESS INTEGER NOT NULL," + " PRIMARY KEY(PLAYER_ID, ACHIEVEMENT) ) ");
+		// + " FOREIGN KEY(PLAYER_ID) )");
 
-		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Bounties ("
-				+ "BOUNTYOWNER_ID INTEGER REFERENCES mh_Players(PLAYER_ID) NOT NULL, " + "MOBTYPE TEXT, "
-				+ "WANTEDPLAYER_ID INTEGER REFERENCES mh_Players(PLAYER_ID), " + "NPC_ID INTEGER, " + "MOB_ID TEXT, "
+//		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Bounties ("
+//				+ "BOUNTYOWNER_ID INTEGER REFERENCES mh_Players(PLAYER_ID) NOT NULL, " + "MOBTYPE TEXT, "
+//				+ "WANTEDPLAYER_ID INTEGER REFERENCES mh_Players(PLAYER_ID), " + "NPC_ID INTEGER, " + "MOB_ID TEXT, "
+//				+ "WORLDGROUP TEXT NOT NULL, " + "CREATED_DATE INTEGER NOT NULL, " + "END_DATE INTEGER NOT NULL, "
+//				+ "PRIZE FLOAT NOT NULL, " + "MESSAGE TEXT, " + "STATUS INTEGER NOT NULL DEFAULT 0, "
+//				+ "PRIMARY KEY(WORLDGROUP, WANTEDPLAYER_ID, BOUNTYOWNER_ID), "
+//				+ "FOREIGN KEY(BOUNTYOWNER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE, "
+//				+ "FOREIGN KEY(WANTEDPLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE" + ")");
+
+		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Bounties (" + "BOUNTYOWNER_ID INTEGER NOT NULL, "
+				+ "MOBTYPE TEXT, " + "WANTEDPLAYER_ID INTEGER, " + "NPC_ID INTEGER, " + "MOB_ID TEXT, "
 				+ "WORLDGROUP TEXT NOT NULL, " + "CREATED_DATE INTEGER NOT NULL, " + "END_DATE INTEGER NOT NULL, "
 				+ "PRIZE FLOAT NOT NULL, " + "MESSAGE TEXT, " + "STATUS INTEGER NOT NULL DEFAULT 0, "
-				+ "PRIMARY KEY(WORLDGROUP, WANTEDPLAYER_ID, BOUNTYOWNER_ID), "
-				+ "FOREIGN KEY(BOUNTYOWNER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE, "
-				+ "FOREIGN KEY(WANTEDPLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE" + ")");
+				+ "PRIMARY KEY(WORLDGROUP, WANTEDPLAYER_ID, BOUNTYOWNER_ID) ) ");
+		// + "FOREIGN KEY(BOUNTYOWNER_ID), "
+		// + "FOREIGN KEY(WANTEDPLAYER_ID) )");
 
 		// Setup Database triggers
 		create.executeUpdate("DROP TRIGGER IF EXISTS `mh_DailyInsert`");

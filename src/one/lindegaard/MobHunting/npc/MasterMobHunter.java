@@ -151,7 +151,7 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 	public void onCompleted(List<StatStore> data) {
 		ArrayList<StatStore> altData = new ArrayList<StatStore>(data.size());
 		for (StatStore stat : data) {
-			if (stat.getAmount() != 0 && stat.getPlayer().getName() != null) {
+			if (stat.getAmount() != 0 && stat.getPlayer()!=null && stat.getPlayer().getName() != null) {
 				altData.add(stat);
 			}
 		}
