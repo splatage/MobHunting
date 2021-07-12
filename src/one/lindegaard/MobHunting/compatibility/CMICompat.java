@@ -2,23 +2,26 @@ package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Containers.CMIUser;
-import com.Zrips.CMI.Modules.BossBar.BossBarInfo;
 import com.Zrips.CMI.Modules.Holograms.HologramManager;
 
+import net.Zrips.CMILib.CMILib;
+import net.Zrips.CMILib.BossBar.BossBarInfo;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class CMICompat {
 
-	private static Plugin mPlugin;
+	private static Plugin mPlugin, mPlugin2;
 	private static boolean supported = false;
 
 	// https://www.spigotmc.org/resources/cmi-ranks-kits-portals-essentials-mysql-sqlite-bungeecord.3742/
+	// https://www.spigotmc.org/resources/cmilib.87610/
 
 	public CMICompat() {
 		if (!isEnabledInConfig()) {
@@ -26,6 +29,7 @@ public class CMICompat {
 					+ "Compatibility with CMI is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.CMI.getName());
+			mPlugin2 = Bukkit.getPluginManager().getPlugin(CompatPlugin.CMILib.getName());
 			if (mPlugin.getDescription().getVersion().compareTo("7.6") >= 0) {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 						+ "Enabling compatibility with CMI (" + mPlugin.getDescription().getVersion() + ").");
@@ -59,17 +63,15 @@ public class CMICompat {
 	}
 	
 	public static void sendActionBarMessage(Player player, String text) {
-		getCMIPlugin().getActionBarManager().send(player, text);
+		//getCMIPlugin().getActionBarManager().send(player, text);
 	}
 	
 	public static void sendBossBarMessage(Player player, String text) {
-		CMIUser user = getCMIPlugin().getPlayerManager().getUser(player);
-	    BossBarInfo bossBar = new BossBarInfo(user, "...");
+	    BossBarInfo bossBar = new BossBarInfo(player, "..."); 
 	    bossBar.setSeconds(10);
 	    bossBar.setTitleOfBar(text);
 	    bossBar.setKeepForTicks(0);
-	    user.addBossBar(bossBar);
-		
+	    CMILib.getInstance().getBossBarManager().addBossBar(player, bossBar);
 	}
 	
 }

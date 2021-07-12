@@ -1,5 +1,6 @@
 V8.0.1
 * Fixed leaderboards. Statistics is now updated.
+* Added support for CMI 9.0.1.0 and CMILib 1.0.12.1
 V8.0.0 
 * MC 1.17 support added.
 V7.5.4

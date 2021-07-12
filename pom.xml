@@ -342,25 +342,21 @@
 		</dependency>
 
 		<!-- Worldguard -->
+		<!-- <dependency> <groupId>com.sk89q.worldguard</groupId> <artifactId>worldguard-legacy</artifactId> 
+			<version>${worldguard.version}</version> <scope>provided</scope> </dependency> -->
 		<dependency>
 			<groupId>com.sk89q.worldguard</groupId>
-			<artifactId>worldguard-legacy-old</artifactId>
-			<version>6.2.2-SNAPSHOT;1733-8161fd0</version>
+			<artifactId>worldguard-legacy</artifactId>
+			<version>7.0.1-SNAPSHOT-B1975</version>
 			<scope>system</scope>
-			<systemPath>/home/christian/Nextcloud/Development/WorkspaceMinecraft/MobHunting/lib/worldguard-legacy-6.2.2-SNAPSHOT-dist-B1713.jar</systemPath>
+			<systemPath>${project.basedir}/lib/worldguard-bukkit-7.0.1-SNAPSHOT-dist-B1975.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.sk89q.worldguard</groupId>
 			<artifactId>worldguard-legacy</artifactId>
-			<version>7.0.0-SNAPSHOT;1733-8161fd0</version>
+			<version>6.2.2-SNAPSHOT-B1713</version>
 			<scope>system</scope>
-			<systemPath>/home/christian/Nextcloud/Development/WorkspaceMinecraft/MobHunting/lib/worldguard-bukkit-7.0.1-SNAPSHOT-dist-B1975.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>com.sk89q.worldguard.bukkit</groupId>
-			<artifactId>WorldGuardPlugin</artifactId>
-			<version>7.0.1</version>
-			<type>pom</type>
+			<systemPath>${project.basedir}/lib/worldguard-legacy-6.2.2-SNAPSHOT-dist-B1713.jar</systemPath>
 		</dependency>
 
 		<!-- PreciousStones -->
@@ -539,9 +535,14 @@
 
 		<!-- CMI Holograms -->
 		<dependency>
-			<groupId>com.Zrips.CMI.CMI</groupId>
+			<groupId>com.Zrips</groupId>
 			<artifactId>CMI</artifactId>
 			<version>${CMI.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.Zrips</groupId>
+			<artifactId>CMILib</artifactId>
+			<version>${CMILib.version}</version>
 		</dependency>
 
 		<!-- Minigames -->

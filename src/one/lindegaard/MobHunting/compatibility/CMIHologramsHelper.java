@@ -5,9 +5,9 @@ import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
-import com.Zrips.CMI.Containers.CMILocation;
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 
+import net.Zrips.CMILib.Container.CMILocation;
 import one.lindegaard.MobHunting.leaderboard.HologramLeaderboard;
 
 public class CMIHologramsHelper {
