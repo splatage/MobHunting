@@ -5317,6 +5317,14 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, striderHeadPrize);
 		case Zoglin:
 			return getPrice(mob, zoglinHeadPrize);
+		case Axolotl:
+			return getPrice(mob, axolotlHeadPrize);
+		case GlowSquid:
+			return getPrice(mob, glowsquidHeadPrize);
+		case Goat:
+			return getPrice(mob, goatHeadPrize);
+		default:
+			break;
 		}
 		return 0;
 	}
@@ -5348,23 +5356,6 @@ public class ConfigManager extends AutoConfig {
 
 	public String getFriendlyName(MobType mob) {
 		return MobHunting.getInstance().getMessages().getString("mobs." + mob.name() + ".name");
-	}
-
-	/**
-	 * getCommandString. Only used for Minecraft 1.7
-	 * 
-	 * @return the command string which can be run in the console to give the player
-	 *         a head
-	 */
-	public String getCommandString(MobType mob) {
-		switch (mob) {
-		case PvpPlayer:
-		case Blaze:
-		case Slime:
-			return "minecraft:give {player} skull {amount} 3 {SkullOwner:\"{playername}\",display:{Name:\"{displayname}\",Lore:[{lore}]}}";
-		default:
-			return "minecraft:give {player} skull {amount} 3 {SkullOwner:{Id:\"{playerid}\",Properties:{textures:[{Value:\"{texturevalue}\"}]}},display:{Name:\"{displayname}\",Lore:[{lore}]}}";
-		}
 	}
 
 }

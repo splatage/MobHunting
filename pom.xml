@@ -6,8 +6,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<!-- <version>8.0.1</version> -->
-	<version>8.0.1-SNAPSHOT-B${build.number}</version>
+	<!-- <version>8.0.2</version> -->
+	<!-- <version>8.0.2-SNAPSHOT-B${build.number}</version> -->
+	<version>8.0.2-SNAPSHOT</version>
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -21,10 +22,8 @@
 
 	<properties>
 		<mobhunting-core.version>0.5.2-SNAPSHOT</mobhunting-core.version>
-		<bagofgold.version>4.0.0-SNAPSHOT-B${build.number}</bagofgold.version>
-		<!-- <bagofgold.version>3.0.3</bagofgold.version> -->
-		<java.version>1.16</java.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<bagofgold.version>4.0.5</bagofgold.version>
+		<!-- <bagofgold.version>4.0.6-SNAPSHOT-B${build.number}</bagofgold.version> -->
 	</properties>
 
 	<issueManagement>
@@ -60,31 +59,6 @@
 		</resources>
 		<directory>${basedir}/target</directory>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${mavenCompilerPlugin.version}</version>
-				<configuration>
-					<source>${javaCompilerSource.version}</source>
-					<target>${javaCompilerTarget.version}</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.Maven.plugins</groupId>
-				<artifactId>Maven-jar-plugin</artifactId>
-				<version>${mavenJarPlugin.version}</version>
-				<configuration>
-					<archive>
-						<index>true</index>
-						<manifest>
-							<addClasspath>true</addClasspath>
-						</manifest>
-						<manifestEntries>
-							<Implementation-Version>B${build.number}</Implementation-Version>
-						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -129,7 +103,6 @@
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<version>${spigotmc_1_17_R1.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- Rocologo Core -->
@@ -137,14 +110,6 @@
 			<groupId>one.lindegaard</groupId>
 			<artifactId>Core</artifactId>
 			<version>${mobhunting-core.version}</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>one.lindegaard</groupId>
-			<artifactId>NMS_Shared</artifactId>
-			<version>${NMS_Shared.version}</version>
-			<type>jar</type>
-			<optional>true</optional>
 		</dependency>
 
 		<!-- BagOfGold / -->
@@ -152,7 +117,6 @@
 			<groupId>one.lindegaard</groupId>
 			<artifactId>BagOfGold</artifactId>
 			<version>${bagofgold.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- Vault / -->
@@ -160,7 +124,6 @@
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>Vault</artifactId>
 			<version>${vault.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- Reserve / -->
@@ -168,7 +131,6 @@
 			<groupId>net.tnemc</groupId>
 			<artifactId>Reserve</artifactId>
 			<version>${reserve.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- Citizens -->
@@ -185,7 +147,6 @@
 			<groupId>org.inventivetalent</groupId>
 			<artifactId>bossbarapi</artifactId>
 			<version>${bossbarapi.version}</version>
-			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>metrics-lite</artifactId>
@@ -199,7 +160,6 @@
 			<groupId>me.confuser</groupId>
 			<artifactId>BarAPI</artifactId>
 			<version>${barapi.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- TitleManager -->
@@ -207,7 +167,6 @@
 			<groupId>io.puharesource.mc</groupId>
 			<artifactId>TitleManager</artifactId>
 			<version>${titlemanager.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- TitleAPI -->
@@ -251,7 +210,6 @@
 			<groupId>me.clip</groupId>
 			<artifactId>placeholderapi</artifactId>
 			<version>${placeholderapi.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- BossShop -->
@@ -259,7 +217,6 @@
 			<groupId>org.black_ixx</groupId>
 			<artifactId>BossShop</artifactId>
 			<version>${bossshop.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- SpigetUpdate -->
@@ -268,19 +225,6 @@
 			<artifactId>bukkit</artifactId>
 			<version>${spigetupdate.version}</version>
 			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
 		</dependency>
 
 		<!-- Gringotts -->
@@ -312,7 +256,6 @@
 			<groupId>com.gmail.nossr50.mcMMO</groupId>
 			<artifactId>mcMMO</artifactId>
 			<version>${mcmmo210.version}</version>
-			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
 		<!-- McMMO Classic -->
@@ -330,7 +273,6 @@
 			<groupId>de.keyle</groupId>
 			<artifactId>mypet</artifactId>
 			<version>${mypet.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- McMMOHorses -->
@@ -338,7 +280,6 @@
 			<groupId>com.blueskullgames.horserpg.HorseRPG</groupId>
 			<artifactId>mcMMOHorse</artifactId>
 			<version>${mcmmohorses.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- Worldguard -->
@@ -371,7 +312,6 @@
 			<groupId>mc.alk</groupId>
 			<artifactId>BattleArena</artifactId>
 			<version>${battleArena.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- TARDISWeepingangels -->
@@ -463,7 +403,6 @@
 			<groupId>com.github.MCE-Plugins</groupId>
 			<artifactId>MinigamesLib</artifactId>
 			<version>${minigameslib.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<!-- VanishNoPacket -->
@@ -550,7 +489,6 @@
 			<groupId>au.com.mineauz</groupId>
 			<artifactId>Minigames</artifactId>
 			<version>${minigames.version}</version>
-			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>org.bukkit</groupId>
@@ -609,7 +547,7 @@
 		<dependency>
 			<groupId>com.extrahardmode</groupId>
 			<artifactId>ExtraHardMode</artifactId>
-			<version>3.14.2</version>
+			<version>${extrahardmode.version}</version>
 		</dependency>
 	</dependencies>
 

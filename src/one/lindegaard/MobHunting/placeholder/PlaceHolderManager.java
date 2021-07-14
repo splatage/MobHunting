@@ -68,7 +68,7 @@ public class PlaceHolderManager implements Listener, IDataCallback<List<StatStor
 		int n = 0;
 		for (StatStore statStore : data) {
 			n++;
-			if (statStore.getPlayer().isOnline()) {
+			if (statStore.getPlayer() != null && statStore.getPlayer().isOnline()) {
 				PlaceHolderData placeholder;
 				if (placeHolders.containsKey(statStore.getPlayer().getUniqueId()))
 					placeholder = placeHolders.get(statStore.getPlayer().getUniqueId());
