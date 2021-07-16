@@ -264,8 +264,7 @@
 			<artifactId>mcMMO</artifactId>
 			<version>1.6.0</version>
 			<scope>system</scope>
-			<systemPath>/home/christian/Nextcloud/Development/WorkspaceMinecraft/MobHunting/lib/${mcmmo160.jar.version}</systemPath>
-			<!-- <systemPath>${project.basedir}/lib/${mcmmo160.jar.version}</systemPath> -->
+			<systemPath>${project.basedir}/lib/${mcmmo160.jar.version}</systemPath>
 		</dependency>
 
 		<!-- MyPet -->
