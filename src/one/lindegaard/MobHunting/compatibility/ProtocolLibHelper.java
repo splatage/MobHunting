@@ -3,6 +3,7 @@ package one.lindegaard.MobHunting.compatibility;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -26,7 +27,7 @@ public class ProtocolLibHelper {
 		protocolManager = ProtocolLibrary.getProtocolManager();
 
 		ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(MobHunting.getInstance(),
-				ListenerPriority.NORMAL, PacketType.Play.Server.SET_SLOT, PacketType.Play.Server.WINDOW_ITEMS) {
+				ListenerPriority.HIGHEST, PacketType.Play.Server.SET_SLOT, PacketType.Play.Server.WINDOW_ITEMS) {
 			@Override
 			public void onPacketSending(PacketEvent event) {
 				if (event.getPacketType() == PacketType.Play.Server.SET_SLOT) {
@@ -42,7 +43,8 @@ public class ProtocolLibHelper {
 								while (itr.hasNext()) {
 									String str = itr.next();
 									if (str.startsWith("Hidden("))
-										itr.remove();
+										if (event.getPlayer().getGameMode() == GameMode.SURVIVAL)
+											itr.remove();
 								}
 								itemMeta.setLore(lore);
 								is.setItemMeta(itemMeta);
@@ -67,7 +69,8 @@ public class ProtocolLibHelper {
 									while (itr.hasNext()) {
 										String str = itr.next();
 										if (str.startsWith("Hidden("))
-											itr.remove();
+											if (event.getPlayer().getGameMode() == GameMode.SURVIVAL)
+												itr.remove();
 									}
 									itemMeta.setLore(lore);
 									is.setItemMeta(itemMeta);
@@ -77,10 +80,9 @@ public class ProtocolLibHelper {
 					}
 					event.setPacket(packet);
 				}
-				
+
 				else if (event.getPacketType() == PacketType.Play.Client.CHAT) {
-					
-					
+
 				}
 			}
 		});

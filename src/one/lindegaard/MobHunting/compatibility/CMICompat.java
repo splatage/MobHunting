@@ -2,15 +2,14 @@ package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.Zrips.CMI.CMI;
-import com.Zrips.CMI.Containers.CMIUser;
 import com.Zrips.CMI.Modules.Holograms.HologramManager;
 
 import net.Zrips.CMILib.CMILib;
+import net.Zrips.CMILib.ActionBar.CMIActionBar;
 import net.Zrips.CMILib.BossBar.BossBarInfo;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
@@ -63,7 +62,7 @@ public class CMICompat {
 	}
 	
 	public static void sendActionBarMessage(Player player, String text) {
-		//getCMIPlugin().getActionBarManager().send(player, text);
+		CMIActionBar.send(player, text);
 	}
 	
 	public static void sendBossBarMessage(Player player, String text) {
