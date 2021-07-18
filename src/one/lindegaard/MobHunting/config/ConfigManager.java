@@ -407,7 +407,7 @@ public class ConfigManager extends AutoConfig {
 
 		setCategoryComment("plugins.levelmobs",
 				"########################################################################"
-						+ "\nLevel Mob Settings (Conquestian / LorinthsRPGMobs"
+						+ "\nLevel Mob Settings (Conquestian / LorinthsRPGMobs / LevelledMobs"
 						+ "\n########################################################################");
 
 		setCategoryComment("plugins.levelmobs.conquestiamobs",
@@ -422,6 +422,12 @@ public class ConfigManager extends AutoConfig {
 						+ "\n########################################################################"
 						+ "\nDisable integration with LorinthsRpgMobs"
 						+ "\nhttps://dev.bukkit.org/projects/lorinthsrpgmobs");
+
+		setCategoryComment("plugins.levelmobs.levelledmobs",
+				"########################################################################" + "\nLevelledMobs"
+						+ "\n########################################################################"
+						+ "\nDisable integration with LevelledMobs"
+						+ "\nhttps://www.spigotmc.org/resources/levelledmobs-for-1-14-x-1-17-x.74304/");
 
 		setCategoryComment("plugins.factions",
 				"########################################################################"
@@ -3909,7 +3915,7 @@ public class ConfigManager extends AutoConfig {
 	public double elitemobMultiplier = 2;
 
 	// #####################################################################################
-	// ConquestiaMobs / LorinthsRpgMobs Settings
+	// ConquestiaMobs / LorinthsRpgMobs / LevelledMobs Settings
 	// #####################################################################################
 	@ConfigField(name = "enable_integration_conquestiamobs", category = "plugins.levelmobs.conquestia", comment = "Enable/disable integration with ConquestiaMobs"
 			+ "\nhttps://www.spigotmc.org/resources/conquesita_mobs.21307/")
@@ -3918,6 +3924,10 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "enable_integration_lorinthsrpgmobs", category = "plugins.levelmobs.lorinthsrpgmobs")
 	public boolean enableIntegrationLorinthsRpgMobs = true;
 
+	@ConfigField(name = "enable_integration_levelledmobs", category = "plugins.levelmobs.levelledmobs")
+	public boolean enableIntegrationLevelledMobs = true;
+
+	
 	@ConfigField(name = "multiplier_per_level", category = "plugins.levelmobs", comment = "This is the multiplier per level mutiplied with the basic reward."
 			+ "\nBecareful not to ruin the server economy by making the multiplier to big."
 			+ "\nExample: If the reward is 10 and the multiplier is 1.05, the calculated" + "\nreward is:"

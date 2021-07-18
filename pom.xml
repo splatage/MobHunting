@@ -6,9 +6,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<version>8.0.2</version>
-	<!-- <version>8.0.2-SNAPSHOT</version> -->
-	<!-- <version>8.0.2-SNAPSHOT-B${build.number}</version> -->
+	<!-- <version>8.0.3</version> -->
+	<version>8.0.3-SNAPSHOT</version>
+	<!-- <version>8.0.3-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -22,8 +22,7 @@
 
 	<properties>
 		<mobhunting-core.version>0.5.2-SNAPSHOT</mobhunting-core.version>
-		<bagofgold.version>4.0.5</bagofgold.version>
-		<!-- <bagofgold.version>4.0.6-SNAPSHOT-B${build.number}</bagofgold.version> -->
+		<bagofgold.version>4.0.6</bagofgold.version>
 	</properties>
 
 	<issueManagement>
@@ -332,6 +331,13 @@
 			<groupId>me.lorinth.rpgmobs</groupId>
 			<artifactId>LorinthsRpgMobs</artifactId>
 			<version>${LorinthsRpgMobs.version}</version>
+		</dependency>
+
+		<!-- LevelledMobs -->
+		<dependency>
+			<groupId>me.lokka30</groupId>
+			<artifactId>LevelledMobs</artifactId>
+			<version>${LevelledMobs.version}</version>
 		</dependency>
 
 		<!-- MobStack -->

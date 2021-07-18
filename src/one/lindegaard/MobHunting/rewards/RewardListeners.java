@@ -532,10 +532,10 @@ public class RewardListeners implements Listener {
 		else
 			clickedInventory = inventory;
 
-		plugin.getMessages().debug("action=%s, InvType=%s, slottype=%s, slotno=%s, current=%s, cursor=%s, view=%s",
-				action, inventory.getType(), slotType, event.getSlot(),
-				isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
-				isCursor == null ? "null" : isCursor.getType(), event.getView().getType());
+		//plugin.getMessages().debug("action=%s, InvType=%s, slottype=%s, slotno=%s, current=%s, cursor=%s, view=%s",
+		//		action, inventory.getType(), slotType, event.getSlot(),
+		//		isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
+		//		isCursor == null ? "null" : isCursor.getType(), event.getView().getType());
 
 		if (slotType == SlotType.ARMOR) {
 			if (Reward.isReward(isCursor)) {

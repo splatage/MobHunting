@@ -263,6 +263,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(LorinthsRpgMobsCompat.class, CompatPlugin.LorinthsRpgMobs);
 		mCompatibilityManager.registerPlugin(EliteMobsCompat.class, CompatPlugin.EliteMobs);
 		mCompatibilityManager.registerPlugin(BossCompat.class, CompatPlugin.Boss);
+		mCompatibilityManager.registerPlugin(LevelledMobsCompat.class, CompatPlugin.LevelledMobs);
 
 		// ExtendedMob Plugins where special mobs are created
 		mCompatibilityManager.registerPlugin(MythicMobsCompat.class, CompatPlugin.MythicMobs);
