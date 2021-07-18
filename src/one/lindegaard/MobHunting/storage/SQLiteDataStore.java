@@ -104,7 +104,6 @@ public class SQLiteDataStore extends DatabaseDataStore {
 	// *******************************************************************************
 	// LoadStats / SaveStats
 	// *******************************************************************************
-	@SuppressWarnings("deprecation")
 	@Override
 	public List<StatStore> loadPlayerStats(StatType type, TimePeriod period, int count) throws DataStoreException {
 		ArrayList<StatStore> list = new ArrayList<StatStore>();

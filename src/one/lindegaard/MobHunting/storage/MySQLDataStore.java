@@ -124,7 +124,6 @@ public class MySQLDataStore extends DatabaseDataStore {
 	// LoadStats / SaveStats
 	// *******************************************************************************
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public List<StatStore> loadPlayerStats(StatType type, TimePeriod period, int count) throws DataStoreException {
 		ArrayList<StatStore> list = new ArrayList<StatStore>();
@@ -227,7 +226,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 							: "AMOUNT")
 					+ " DESC LIMIT " + count;
 			
-			// plugin.getMessages().debug("Load str=%s",exestr);
+			//plugin.getMessages().debug("Load str=%s",str);
 
 			ResultSet results = statement.executeQuery(str);
 			while (results.next()) {

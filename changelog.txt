@@ -1,5 +1,9 @@
 V8.0.3
-*
+* Added support for LevelledMobs
+* Added horizontal parameter list for /mh leaderboard create ....
+* Added 2 new commands on request (https://github.com/Rocologo/BagOfGold/issues/115)
+  /mh money give * 10 (to give all online players 10$)
+  /mh money take * 10  (to take 10$ from all online players)
 V8.0.2
 * BagOfGold items works a lot better in Creative mode. At the moment Im not able to remove the "strange" Lores on BagOfGold items in Creative mode, because of how Creative mode handle the items.  
 * ActionBar messages using CMILib re-added.

@@ -65,33 +65,30 @@ public class MoneyCommand implements ICommand {
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
 		return new String[] {
-				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN
-						+ " drop <amount>" + ChatColor.WHITE + " - to drop <amount> of "
-						+ Core.getConfigManager().bagOfGoldName.trim() + ", where you look.",
-				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN
-						+ " drop <playername> " + ChatColor.YELLOW + "<amount>" + ChatColor.WHITE
-						+ " - to drop <amount> of " + Core.getConfigManager().bagOfGoldName.trim()
-						+ " 3 block in front of the <player>.",
-				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN
-						+ " give <player>" + ChatColor.YELLOW + " <amount>" + ChatColor.WHITE
-						+ " - to give the player a " + Core.getConfigManager().bagOfGoldName.trim()
-						+ " in his inventory.",
-				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN
-						+ " take <player>" + ChatColor.YELLOW + " <amount>" + ChatColor.WHITE
-						+ " - to take <amount> gold from the " + Core.getConfigManager().bagOfGoldName.trim()
-						+ " in the players inventory",
-				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " sell"
-						+ ChatColor.WHITE + " - to sell the " + Core.getConfigManager().bagOfGoldName.trim()
-						+ " in your hand.",
-				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " sell"
-						+ ChatColor.YELLOW + " <amount>" + ChatColor.WHITE + " - to sell some of the gold in your "
+				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " drop <amount>"
+						+ ChatColor.WHITE + " - to drop <amount> of " + Core.getConfigManager().bagOfGoldName.trim()
+						+ ", where you look.",
+				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " drop <playername> "
+						+ ChatColor.YELLOW + "<amount>" + ChatColor.WHITE + " - to drop <amount> of "
+						+ Core.getConfigManager().bagOfGoldName.trim() + " 3 block in front of the <player>.",
+				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " give <player>"
+						+ ChatColor.YELLOW + " <amount>" + ChatColor.WHITE + " - to give the player a "
+						+ Core.getConfigManager().bagOfGoldName.trim() + " in his inventory. * = all online players.",
+				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " take <player>"
+						+ ChatColor.YELLOW + " <amount>" + ChatColor.WHITE + " - to take <amount> gold from the "
+						+ Core.getConfigManager().bagOfGoldName.trim()
+						+ " in the players inventory. * = all online players.",
+				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " sell" + ChatColor.WHITE
+						+ " - to sell the " + Core.getConfigManager().bagOfGoldName.trim() + " in your hand.",
+				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " sell" + ChatColor.YELLOW
+						+ " <amount>" + ChatColor.WHITE + " - to sell some of the gold in your "
 						+ Core.getConfigManager().bagOfGoldName.trim() + " and get the money.",
-				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " buy"
-						+ ChatColor.YELLOW + " <amount>" + ChatColor.WHITE
+				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " buy" + ChatColor.YELLOW
+						+ " <amount>" + ChatColor.WHITE
 						+ " - to buy some more gold with your money and put it into your "
 						+ Core.getConfigManager().bagOfGoldName.trim() + ".",
-				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " shop"
-						+ ChatColor.WHITE + " - to open the MobHunting BossShop." };
+				ChatColor.GOLD + Core.getConfigManager().commandAlias + ChatColor.GREEN + " shop" + ChatColor.WHITE
+						+ " - to open the MobHunting BossShop." };
 	}
 
 	@Override
@@ -156,11 +153,11 @@ public class MoneyCommand implements ICommand {
 
 				if (other)
 					plugin.getMessages().senderSendMessage(sender,
-							ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.money.balance",
-									"playername", offlinePlayer.getName(), "money",
-									plugin.getRewardManager().format(balance), "rewardname",
-									ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-											+ Core.getConfigManager().bagOfGoldName.trim()));
+							ChatColor.GREEN
+									+ plugin.getMessages().getString("mobhunting.commands.money.balance", "playername",
+											offlinePlayer.getName(), "money", plugin.getRewardManager().format(balance),
+											"rewardname", ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+													+ Core.getConfigManager().bagOfGoldName.trim()));
 				else
 					plugin.getMessages().senderSendMessage(sender,
 							ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.money.balance",
@@ -277,6 +274,7 @@ public class MoneyCommand implements ICommand {
 
 		} else if (args.length >= 2 && args[0].equalsIgnoreCase("give")) {
 			// /mh money give <player> <amount>
+			// /mh money give * <amount>
 			if (sender.hasPermission("mobhunting.money.give") || sender.hasPermission("mobhunting.money.*")) {
 				if (args.length == 2 && !(sender instanceof Player)) {
 					plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
@@ -285,71 +283,77 @@ public class MoneyCommand implements ICommand {
 				}
 
 				OfflinePlayer offlinePlayer = Bukkit.getServer().getOfflinePlayer(args[1]);
-				if (offlinePlayer == null || !offlinePlayer.hasPlayedBefore()) {
-					plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
-							.getString("mobhunting.commands.base.playername-missing", "player", args[1]));
-					return true;
-				}
+				boolean allPlayers = args[1].equals("*");
+				if (!allPlayers)
+					if (offlinePlayer == null || !offlinePlayer.hasPlayedBefore()) {
+						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
+								.getString("mobhunting.commands.base.playername-missing", "player", args[1]));
+						return true;
+					}
 
+				double amount = 0;
 				if (args[2].matches("\\d+(\\.\\d+)?")) {
-					double amount = Misc.round(Double.valueOf(args[2]));
+					amount = Misc.round(Double.valueOf(args[2]));
 					if (amount > Core.getConfigManager().limitPerBag * 100) {
 						amount = Core.getConfigManager().limitPerBag * 100;
 						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages().getString(
 								"mobhunting.commands.money.to_big_number", "number", args[2], "maximum", amount));
-					}
-
-					if (BagOfGoldCompat.isSupported()) {
-						plugin.getMessages().debug("BagOfGold supported, using depositPlayer");
-						BagOfGold.getAPI().getEconomyManager().depositPlayer(offlinePlayer, amount);
-					} else {
-						if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
-							if (offlinePlayer.isOnline()) {
-								Player player = (Player) offlinePlayer;
-								// double result =
-								// BagOfGold.getAPI().getEconomyManager().addMoneyToPlayer(player, amount);
-								double result = plugin.getRewardManager().addBagOfGoldPlayer(player, amount);
-								if (Misc.round(result) != Misc.round(amount)) {
-									plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null,
-											player.getLocation(), Misc.floor(amount - result));
-									// BagOfGold.getAPI().getEconomyManager().dropMoneyOnGround_EconomyManager(player,
-									// null, player.getLocation(), Misc.floor(amount - result));
-								}
-								if (Misc.round(result) == Misc.round(amount)) {
-									plugin.getMessages().playerActionBarMessageQueue(player,
-											plugin.getMessages().getString("mobhunting.commands.money.give",
-													"rewardname",
-													ChatColor
-															.valueOf(Core.getConfigManager().rewardTextColor)
-															+ Core.getConfigManager().bagOfGoldName.trim(),
-													"money", plugin.getRewardManager().format(amount)));
-									plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
-											"mobhunting.commands.money.give-sender", "rewardname",
-											ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-													+ Core.getConfigManager().bagOfGoldName.trim(),
-											"money", plugin.getRewardManager().format(amount), "player",
-											player.getName()));
-								}
-							} else {
-								plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
-										.getString("mobhunting.commands.base.playername-missing", "player", args[1]));
-							}
-						} else {
-							// BagOfGOld is not a currency. So /mh money give 25
-							// is the same as /eco give player 25
-							plugin.getEconomyManager().depositPlayer(offlinePlayer, amount);
-							// plugin.getEconomyManager().depositPlayer(offlinePlayer, amount);
-						}
+						return true;
 					}
 				} else {
-					if (args.length > 2)
-						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
-								.getString("bagofgold.commands.base.not_a_number", "number", args[2]));
-					else
-						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
-								.getString("bagofgold.commands.base.not_a_number", "number", "{missing}"));
-
+					plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
+							.getString("bagofgold.commands.base.not_a_number", "number", args[2]));
+					return true;
 				}
+
+				if (BagOfGoldCompat.isSupported()) {
+					if (allPlayers)
+						for (Player player2 : Tools.getOnlinePlayers())
+							BagOfGold.getAPI().getEconomyManager().depositPlayer(player2, amount);
+					else
+						BagOfGold.getAPI().getEconomyManager().depositPlayer(offlinePlayer, amount);
+					plugin.getMessages().debug("BagOfGold supported, using depositPlayer");
+					return true;
+				}
+
+				if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
+					if (allPlayers) {
+						for (Player player : Tools.getOnlinePlayers()) {
+							givePlayerMoney(player, amount);
+						}
+						plugin.getMessages().senderSendMessage(sender,
+								plugin.getMessages().getString("mobhunting.commands.money.give-sender", "rewardname",
+										ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+												+ Core.getConfigManager().bagOfGoldName.trim(),
+										"money", plugin.getRewardManager().format(amount), "player",
+										"all online players"));
+						return true;
+					}
+
+					if (offlinePlayer.isOnline()) {
+						Player player = (Player) offlinePlayer;
+						givePlayerMoney(player, amount);
+						plugin.getMessages().senderSendMessage(sender,
+								plugin.getMessages().getString("mobhunting.commands.money.give-sender", "rewardname",
+										ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+												+ Core.getConfigManager().bagOfGoldName.trim(),
+										"money", plugin.getRewardManager().format(amount), "player", player.getName()));
+
+					} else {
+						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
+								.getString("mobhunting.commands.base.playername-missing", "player", args[1]));
+					}
+
+				} else {
+					// BagOfGOld is not a currency. So /mh money give 25
+					// is the same as /eco give player 25
+					if (allPlayers) {
+						for (Player player : Tools.getOnlinePlayers())
+							plugin.getEconomyManager().depositPlayer(player, amount);
+					} else
+						plugin.getEconomyManager().depositPlayer(offlinePlayer, amount);
+				}
+
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
 						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "perm",
@@ -358,9 +362,7 @@ public class MoneyCommand implements ICommand {
 			return true;
 		}
 
-		else if (args.length >= 2 && args[0].equalsIgnoreCase("take"))
-
-		{
+		else if (args.length >= 2 && args[0].equalsIgnoreCase("take")) {
 			// /mh money take <player> <amount>
 			if (sender.hasPermission("mobhunting.money.take") || sender.hasPermission("mobhunting.money.*")) {
 				if (args.length == 2 && !(sender instanceof Player)) {
@@ -369,32 +371,65 @@ public class MoneyCommand implements ICommand {
 					return true;
 				}
 				OfflinePlayer offlinePlayer = Bukkit.getServer().getOfflinePlayer(args[1]);
-				if (offlinePlayer == null || !offlinePlayer.hasPlayedBefore()) {
-					plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
-							.getString("mobhunting.commands.base.playername-missing", "player", args[1]));
-					return true;
-				}
+				boolean allPlayers = args[1].equals("*");
+				if (!allPlayers)
+					if (offlinePlayer == null || !offlinePlayer.hasPlayedBefore()) {
+						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
+								.getString("mobhunting.commands.base.playername-missing", "player", args[1]));
+						return true;
+					}
+
+				double rest = 0;
 				if (args[2].matches("\\d+(\\.\\d+)?")) {
-					double rest = Misc.round(Double.valueOf(args[2]));
+					rest = Misc.round(Double.valueOf(args[2]));
 					if (rest > Core.getConfigManager().limitPerBag * 100) {
 						rest = Core.getConfigManager().limitPerBag * 100;
 						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages().getString(
 								"mobhunting.commands.money.to_big_number", "number", args[2], "maximum", rest));
+						return true;
 					}
+				} else {
+					plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
+							.getString("bagofgold.commands.base.not_a_number", "number", args[2]));
+					return false;
+				}
 
-					double taken = 0;
-					if (BagOfGoldCompat.isSupported()) {
-						plugin.getMessages().debug("BagOfGold supported, using withdrawPlayer");
+				double taken = 0;
+				if (BagOfGoldCompat.isSupported()) {
+					if (allPlayers)
+						for (Player player : Tools.getOnlinePlayers())
+							BagOfGold.getAPI().getEconomyManager().withdrawPlayer(player, rest);
+					else
 						BagOfGold.getAPI().getEconomyManager().withdrawPlayer(offlinePlayer, rest);
-					} else if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
-						if (Bukkit.getServer().getOfflinePlayer(args[1]).isOnline()) {
-							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[1]));
+					plugin.getMessages().debug("BagOfGold supported, using withdrawPlayer");
+					return true;
+				}
+
+				if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
+					if (allPlayers) {
+						for (Player player : Tools.getOnlinePlayers()) {
 							taken = plugin.getRewardManager().removeBagOfGoldPlayer(player, rest);
-						} else {
-							plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
-									.getString("mobhunting.commands.base.playername-missing", "player", args[1]));
-							return true;
+							if (taken != 0) {
+								if (offlinePlayer.isOnline())
+									plugin.getMessages().playerActionBarMessageQueue((Player) offlinePlayer,
+											plugin.getMessages().getString("mobhunting.commands.money.take",
+													"rewardname",
+													ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+															+ Core.getConfigManager().bagOfGoldName,
+													"money", plugin.getRewardManager().format(taken)));
+
+							}
 						}
+						plugin.getMessages().senderSendMessage(sender,
+								plugin.getMessages().getString("mobhunting.commands.money.take-sender", "rewardname",
+										ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+												+ Core.getConfigManager().bagOfGoldName.trim(),
+										"money", plugin.getRewardManager().format(taken), "player",
+										offlinePlayer.getName()));
+						return true;
+					} else {
+						Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[1]));
+						taken = plugin.getRewardManager().removeBagOfGoldPlayer(player, rest);
 						if (taken != 0) {
 							if (offlinePlayer.isOnline())
 								plugin.getMessages().playerActionBarMessageQueue((Player) offlinePlayer,
@@ -409,18 +444,16 @@ public class MoneyCommand implements ICommand {
 									"money", plugin.getRewardManager().format(taken), "player",
 									offlinePlayer.getName()));
 						}
-					} else {
-						// BagOfGold is not a currency. /mh money take player 25
-						// will work as /eco take player 25
-						plugin.getEconomyManager().withdrawPlayer(offlinePlayer, rest);
-						// plugin.getEconomyManager().withdrawPlayer(offlinePlayer, rest);
 					}
-				} else if (args.length > 2)
-					plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
-							.getString("bagofgold.commands.base.not_a_number", "number", args[2]));
-				else
-					plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
-							.getString("bagofgold.commands.base.not_a_number", "number", "{missing}"));
+				} else {
+					// BagOfGold is not a currency. /mh money take player 25
+					// will work as /eco take player 25
+					if (allPlayers)
+						for (Player player : Tools.getOnlinePlayers())
+							plugin.getEconomyManager().withdrawPlayer(player, rest);
+					else
+						plugin.getEconomyManager().withdrawPlayer(offlinePlayer, rest);
+				}
 
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
@@ -465,8 +498,7 @@ public class MoneyCommand implements ICommand {
 					} else {
 						plugin.getMessages().playerSendMessage(player,
 								plugin.getMessages().getString("mobhunting.bagofgoldsign.hold_reward_in_hand",
-										"rewardname",
-										ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+										"rewardname", ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
 												+ Core.getConfigManager().bagOfGoldName));
 
 					}
@@ -578,6 +610,21 @@ public class MoneyCommand implements ICommand {
 
 	}
 
+	private void givePlayerMoney(Player player, double amount) {
+		double result = plugin.getRewardManager().addBagOfGoldPlayer(player, amount);
+		if (Misc.round(result) != Misc.round(amount)) {
+			plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null, player.getLocation(),
+					Misc.floor(amount - result));
+		}
+		if (Misc.round(result) == Misc.round(amount)) {
+			plugin.getMessages().playerActionBarMessageQueue(player,
+					plugin.getMessages().getString("mobhunting.commands.money.give", "rewardname",
+							ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
+									+ Core.getConfigManager().bagOfGoldName.trim(),
+							"money", plugin.getRewardManager().format(amount)));
+		}
+	}
+
 	@Override
 	public List<String> onTabComplete(CommandSender sender, String label, String[] args) {
 		ArrayList<String> items = new ArrayList<String>();
@@ -588,9 +635,11 @@ public class MoneyCommand implements ICommand {
 			items.add("sell");
 			items.add("buy");
 			items.add("shop");
-		} else if (args.length == 2)
+		} else if (args.length == 2) {
 			for (Player player : Bukkit.getOnlinePlayers())
 				items.add(player.getName());
+			items.add("*");
+		}
 
 		if (!args[args.length - 1].trim().isEmpty()) {
 			String match = args[args.length - 1].trim().toLowerCase();

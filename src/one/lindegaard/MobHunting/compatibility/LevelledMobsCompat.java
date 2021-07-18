@@ -1,19 +1,14 @@
 package one.lindegaard.MobHunting.compatibility;
 
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.plugin.Plugin;
 
 import me.lokka30.levelledmobs.LevelInterface;
 import me.lokka30.levelledmobs.LevelledMobs;
-import one.lindegaard.Core.Core;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
@@ -40,8 +35,8 @@ public class LevelledMobsCompat implements Listener {
 				supported = true;
 			} else {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-						+ "Your current version of ConqustiaMobs (" + mPlugin.getDescription().getVersion()
-						+ ") is not supported by MobHunting. Please update ConquestiaMobs to version 3.3.3 or newer.");
+						+ "Your current version of LevelledMobs (" + mPlugin.getDescription().getVersion()
+						+ ") is not supported by MobHunting. Please update LevelledMobs to version 3.3.3 or newer.");
 			}
 		}
 
@@ -58,22 +53,24 @@ public class LevelledMobsCompat implements Listener {
 		return supported;
 	}
 
-	public static boolean isLevelledMobs(Entity entity) {
-		if (isSupported()) {
-			final LevelInterface levelInterface = ((LevelledMobs) getLevelledMobs()).levelInterface;
-			if (entity instanceof LivingEntity)
-				return levelInterface.isLevelled((LivingEntity) entity);
-		}
-		return false;
+	private static final LevelInterface getLevelInterface() {
+		return ((LevelledMobs) getLevelledMobs()).levelInterface;
 	}
 
-	public static Integer getMobLevel(Entity entity) {
-		if (isSupported()) {
-			final LevelInterface levelInterface = ((LevelledMobs) getLevelledMobs()).levelInterface;
-			if (entity instanceof LivingEntity)
-				return levelInterface.getLevelOfMob((LivingEntity) entity);
-		}
-		return 1;
+	public static boolean isLevelledMobs(Entity entity) {
+		if (!isSupported())
+			return false;
+		if (!(entity instanceof LivingEntity))
+			return false;
+
+		return getLevelInterface().isLevelled((LivingEntity) entity);
+	}
+
+	public static Integer getLevelledMobsLevel(Entity entity) {
+		if (!isSupported())
+			return 1;
+
+		return getLevelInterface().getLevelOfMob((LivingEntity) entity);
 	}
 
 	public static boolean isEnabledInConfig() {
@@ -84,13 +81,14 @@ public class LevelledMobsCompat implements Listener {
 	// EVENTS
 	// **************************************************************************
 
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	/**@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void LevelledMobsSpawnEvent(EntitySpawnEvent event) {
 		Entity entity = event.getEntity();
 		if (isLevelledMobs(entity)) {
 			int level = getMobLevel(entity);
-			//Core.getMessages().debug("LevelledMobsSpawnEvent: MinecraftMobtype=%s Level=%s", entity.getType(), level);
+			// Core.getMessages().debug("LevelledMobsSpawnEvent: MinecraftMobtype=%s
+			// Level=%s", entity.getType(), level);
 		}
-	}
+	}**/
 
 }

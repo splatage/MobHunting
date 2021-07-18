@@ -51,7 +51,7 @@ public class LeaderboardCommand implements ICommand, Listener {
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
 		return new String[] {
-				ChatColor.GOLD + label + ChatColor.GREEN + " create <type> <period> " + ChatColor.YELLOW+"[isHorizonal? (0/1)]" + ChatColor.YELLOW
+				ChatColor.GOLD + label + ChatColor.GREEN + " create <type> <period> " + ChatColor.YELLOW+"[isHorizonal? (true/false)]" + ChatColor.YELLOW
 						+ "[<width> <height>]"+ ChatColor.WHITE + " - to create a leaderboard.",
 				ChatColor.GOLD + label + ChatColor.GREEN + " delete <id>" + ChatColor.WHITE + " - to delete a leaderboard.",
 				ChatColor.GOLD + label + ChatColor.GREEN + " edit (type|period|horizontal|addtype|addperiod) <value> ",
@@ -295,6 +295,10 @@ public class LeaderboardCommand implements ICommand, Listener {
 				} else if (args.length == 3)
 					for (TimePeriod period : TimePeriod.values())
 						items.add(period.translateName().replaceAll(" ", "_"));
+				else if (args.length == 4) {
+					items.add("true");
+					items.add("false");
+				}
 			} else if (args[0].equalsIgnoreCase("edit")) {
 				if (args.length == 2) {
 					items.add("type");

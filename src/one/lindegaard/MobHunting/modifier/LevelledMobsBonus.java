@@ -20,16 +20,16 @@ public class LevelledMobsBonus implements IModifier {
 	public double getMultiplier(Entity deadEntity, Player killer, HuntData data, DamageInformation extraInfo,
 			EntityDamageByEntityEvent lastDamageCause) {
 		MobHunting.getInstance().getMessages().debug("LevelledMobs total multiplier = %s", Math.pow(
-				MobHunting.getInstance().getConfigManager().mulitiplierPerLevel, LevelledMobsCompat.getMobLevel(deadEntity)-1));
+				MobHunting.getInstance().getConfigManager().mulitiplierPerLevel, LevelledMobsCompat.getLevelledMobsLevel(deadEntity)-1));
 		return Math.pow(MobHunting.getInstance().getConfigManager().mulitiplierPerLevel,
-				LevelledMobsCompat.getMobLevel(deadEntity)-1);
+				LevelledMobsCompat.getLevelledMobsLevel(deadEntity)-1);
 	}
 
 	@Override
 	public boolean doesApply(Entity deadEntity, Player killer, HuntData data, DamageInformation extraInfo,
 			EntityDamageByEntityEvent lastDamageCause) {
 		MobHunting.getInstance().getMessages().debug("%s killed a LevelledMob %s level %s", killer.getName(), deadEntity.getType(),
-				LevelledMobsCompat.getMobLevel(deadEntity));
+				LevelledMobsCompat.getLevelledMobsLevel(deadEntity));
 		return LevelledMobsCompat.isLevelledMobs(deadEntity);
 	}
 
