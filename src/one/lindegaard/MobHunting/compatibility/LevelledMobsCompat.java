@@ -89,7 +89,7 @@ public class LevelledMobsCompat implements Listener {
 		Entity entity = event.getEntity();
 		if (isLevelledMobs(entity)) {
 			int level = getMobLevel(entity);
-			Core.getMessages().debug("LevelledMobsSpawnEvent: MinecraftMobtype=%s Level=%s", entity.getType(), level);
+			//Core.getMessages().debug("LevelledMobsSpawnEvent: MinecraftMobtype=%s Level=%s", entity.getType(), level);
 		}
 	}
 
