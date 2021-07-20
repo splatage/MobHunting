@@ -133,7 +133,8 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 					HologramLine line = hologram.getLine(n + 1);
 					if (line != null)
 						((TextualHologramLine) line)
-								.setText(String.format(PlaceholderAPICompat.setPlaceholders(null, mRow_format_money), n + 1, mData.get(n).getPlayer().getName(),
+								.setText(String.format(PlaceholderAPICompat.setPlaceholders(null, mRow_format_money),
+										n + 1, mData.get(n).getPlayer().getName(),
 										plugin.getRewardManager().format(mData.get(n).getCash())));
 					else
 						HologramsHelper.editTextLine(hologram,
@@ -151,6 +152,7 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 				}
 				hologram.setDirty(true);
 			}
+
 		} else if (HolographicDisplaysCompat.isSupported()) {
 			for (com.gmail.filoghost.holographicdisplays.api.Hologram hologram : HologramsAPI.getHolograms(plugin)) {
 				if (hologram.getLocation().equals(plugin.getLeaderboardManager().getHologramManager().getHolograms()
@@ -171,20 +173,17 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 									mData.get(n).getPlayer().getName(), mData.get(n).getAmount()), n + 1);
 
 					}
-					break;
-				} else {
-
 				}
 			}
+
 		} else if (CMICompat.isSupported()) {
 			for (CMIHologram hologram : CMICompat.getHologramManager().getHolograms().values()) {
-				if (hologram.getName().equalsIgnoreCase(plugin.getLeaderboardManager().getHologramManager().getHolograms()
-						.get(mHologramName).getHologramName())) {
-					//hologram.clearLines();
-					if (hologram.getLines().size() == 0)
-						CMIHologramsHelper.addTextLine(hologram, 
-								mFormat_title.replace("[StatType]", mType[mTypeIndex].longTranslateName())
-										.replace("[Period]", mPeriod[mPeriodIndex].translateNameFriendly()));
+				if (hologram.getName().equalsIgnoreCase(plugin.getLeaderboardManager().getHologramManager()
+						.getHolograms().get(mHologramName).getHologramName())) {
+					if (hologram.getHeight() == 0)
+						hologram.addLine(mFormat_title.replace("[StatType]", mType[mTypeIndex].longTranslateName())
+								.replace("[Period]", mPeriod[mPeriodIndex].translateNameFriendly()));
+
 					for (int n = 0; n < mHeight && n < mData.size(); n++) {
 						if (getStatType().getDBColumn().endsWith("_cash"))
 							CMIHologramsHelper.editTextLine(hologram,
@@ -194,11 +193,9 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 						else
 							CMIHologramsHelper.editTextLine(hologram, String.format(mRow_format_integer, n + 1,
 									mData.get(n).getPlayer().getName(), mData.get(n).getAmount()), n + 1);
-
 					}
-					break;
-				} else {
-
+					hologram.enable();
+					hologram.update();
 				}
 			}
 		}

@@ -14,29 +14,30 @@ public class CMIHologramsHelper {
 
 	public static void createHologram(HologramLeaderboard board) {
 		Location loc = board.getLocation().subtract(0, 1, 0);
-		CMIHologram hologram = new CMIHologram(board.getHologramName(), new CMILocation(loc) );
+		CMIHologram hologram = new CMIHologram(board.getHologramName(), new CMILocation(loc));
 		CMICompat.getHologramManager().addHologram(hologram);
+		hologram.enable();
+		hologram.update();
 	}
 
 	public static void addTextLine(CMIHologram hologram, String text) {
 		List<String> lines = hologram.getLines();
 		lines.add(lines.size(), text);
 		hologram.setLines(lines);
+		hologram.update();
 	}
 
 	public static void removeLine(CMIHologram hologram, int i) {
-		List<String> lines = hologram.getLines();
-		if (lines.size() > i)
-			lines.remove(i);
-		hologram.setLines(lines);
+		hologram.removeLine(i);
+		hologram.update();
 	}
 
 	public static void editTextLine(CMIHologram hologram, String text, int i) {
-		List<String> lines = hologram.getLines();
-		if (lines.size() > i)
-			lines.remove(i);
-		lines.add(i, text);
-		hologram.setLines(lines);
+		if (i < hologram.getHeight())
+			hologram.addLine(text);
+		else
+			hologram.setLine(i, text);
+		hologram.update();
 	}
 
 	public static void addItemLineXXX(CMIHologram hologram, ItemStack itemstack) {
@@ -44,6 +45,7 @@ public class CMIHologramsHelper {
 	}
 
 	public static void deleteHologram(CMIHologram hologram) {
+		hologram.disable();
 		CMICompat.getHologramManager().removeHolo(hologram);
 	}
 

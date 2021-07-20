@@ -36,7 +36,7 @@ public class LevelledMobsCompat implements Listener {
 			} else {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
 						+ "Your current version of LevelledMobs (" + mPlugin.getDescription().getVersion()
-						+ ") is not supported by MobHunting. Please update LevelledMobs to version 3.3.3 or newer.");
+						+ ") is not supported by MobHunting. Please update LevelledMobs to version 3.0.6 or newer.");
 			}
 		}
 

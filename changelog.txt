@@ -1,3 +1,6 @@
+V8.0.4
+* Fixed the command /mh hologram .....  
+* CMIHolograms is now supported. 
 V8.0.3
 * Added support for LevelledMobs
 * Added horizontal parameter list for /mh leaderboard create ....

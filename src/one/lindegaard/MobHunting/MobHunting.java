@@ -139,10 +139,11 @@ public class MobHunting extends JavaPlugin {
 		}
 		mConfig.saveConfig();
 
-		//if (Bukkit.getPluginManager().getPlugin(CompatPlugin.BagOfGold.getName()) == null)
-		
+		// if (Bukkit.getPluginManager().getPlugin(CompatPlugin.BagOfGold.getName()) ==
+		// null)
+
 		mCore = new Core(this);
-		
+
 		// else
 		// mCore = BagOfGoldCompat.getBagOfGoldCore();
 
@@ -217,6 +218,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(HologramsCompat.class, CompatPlugin.Holograms);
 		mCompatibilityManager.registerPlugin(HolographicDisplaysCompat.class, CompatPlugin.HolographicDisplays);
 		mCompatibilityManager.registerPlugin(CMICompat.class, CompatPlugin.CMI);
+		mCompatibilityManager.registerPlugin(CMICompat.class, CompatPlugin.CMILib);
 		mCompatibilityManager.registerPlugin(FactionsHelperCompat.class, CompatPlugin.Factions);
 		mCompatibilityManager.registerPlugin(TownyCompat.class, CompatPlugin.Towny);
 		mCompatibilityManager.registerPlugin(ResidenceCompat.class, CompatPlugin.Residence);
@@ -292,8 +294,12 @@ public class MobHunting extends JavaPlugin {
 		mCommandDispatcher.registerCommand(new DatabaseCommand(this));
 		mCommandDispatcher.registerCommand(new HeadCommand(this));
 		mCommandDispatcher.registerCommand(new LeaderboardCommand(this));
-		if (HolographicDisplaysCompat.isSupported() || HologramsCompat.isSupported() || CMICompat.isSupported())
-			mCommandDispatcher.registerCommand(new HologramCommand(this));
+		// if (HolographicDisplaysCompat.isSupported() || HologramsCompat.isSupported()
+		// || CMICompat.isSupported())
+		mCommandDispatcher.registerCommand(new HologramCommand(this));
+		// else
+		// getMessages().debug("/mh Hologram command not supported. No Hologram plugin
+		// was found.");
 		mCommandDispatcher.registerCommand(new LearnCommand(this));
 		mCommandDispatcher.registerCommand(new MuteCommand(this));
 		// moved to CitizensCompat

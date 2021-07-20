@@ -89,6 +89,9 @@ public class HologramCommand implements ICommand, Listener {
 					for (String hologramName : plugin.getLeaderboardManager().getHologramManager().getHolograms()
 							.keySet())
 						items.add(hologramName);
+				else if (args[0].equalsIgnoreCase("create")){
+					items.add("name");
+				}
 			} else if (args.length == 3) {
 				if (args[0].equalsIgnoreCase("create")) {
 					StatType[] values = StatType.values();
@@ -231,4 +234,5 @@ public class HologramCommand implements ICommand, Listener {
 
 		return periods;
 	}
+	
 }

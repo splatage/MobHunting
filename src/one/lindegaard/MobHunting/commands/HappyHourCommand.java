@@ -22,7 +22,7 @@ public class HappyHourCommand implements ICommand, Listener {
 
 	public HappyHourCommand(MobHunting plugin) {
 		this.plugin = plugin;
-		Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
+		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
 	private int minutesToRun = 0;

@@ -35,6 +35,7 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.scheduler.BukkitTask;
 
+import com.Zrips.CMI.CMI;
 import com.google.common.collect.HashMultimap;
 
 import one.lindegaard.Core.Core;
@@ -42,6 +43,9 @@ import one.lindegaard.Core.materials.Materials;
 import one.lindegaard.MobHunting.HologramManager;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
+import one.lindegaard.MobHunting.compatibility.CMICompat;
+import one.lindegaard.MobHunting.compatibility.HologramsCompat;
+import one.lindegaard.MobHunting.compatibility.HolographicDisplaysCompat;
 import one.lindegaard.MobHunting.storage.StatStore;
 import one.lindegaard.MobHunting.storage.TimePeriod;
 
@@ -69,7 +73,7 @@ public class LeaderboardManager implements Listener {
 		loadLegacyboards();
 
 		for (World world : Bukkit.getWorlds()) {
-				loadWorld(world);
+			loadWorld(world);
 		}
 
 		hologramManager = new HologramManager(plugin);
@@ -83,25 +87,29 @@ public class LeaderboardManager implements Listener {
 	private class Updater implements Runnable {
 		@Override
 		public void run() {
-			for (LegacyLeaderboard board : mLegacyLeaderboards)
-				board.updateBoard();
 
-			for (WorldLeaderboard board : mLeaderboards.values())
-				board.update();
+			if (!mLegacyLeaderboards.isEmpty()) {
+				for (LegacyLeaderboard board : mLegacyLeaderboards)
+					board.updateBoard();
+			}
 
-			if (hologramManager != null) {
-				for (HologramLeaderboard board : hologramManager.getHolograms().values())
+			if (!mLeaderboards.isEmpty()) {
+				for (WorldLeaderboard board : mLeaderboards.values())
 					board.update();
-
-				plugin.getMessages().debug("Refreshed %s leaderboards.",
-						hologramManager.getHolograms().size() + mLegacyLeaderboards.size() + mLeaderboards.size());
-			} else {
 				plugin.getMessages().debug("Refreshed %s leaderboards.",
 						mLegacyLeaderboards.size() + mLeaderboards.size());
 			}
+
+			if (HologramsCompat.isSupported() || HolographicDisplaysCompat.isSupported()
+					|| (CMICompat.isSupported()) && CMI.getInstance() != null && CMI.getInstance().isFullyLoaded()) {
+				for (HologramLeaderboard board : hologramManager.getHolograms().values())
+					board.update();
+				plugin.getMessages().debug("Refreshed %s holograms.", hologramManager.getHolograms().size());
+			}
+
 		}
 	}
-	
+
 	public Boolean updateAllLeaderboards() {
 		Core.getDataStoreManager().save();
 		Bukkit.getScheduler().runTask(plugin, new Updater());

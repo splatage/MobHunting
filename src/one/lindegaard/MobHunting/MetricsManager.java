@@ -38,6 +38,7 @@ import one.lindegaard.MobHunting.compatibility.HologramsCompat;
 import one.lindegaard.MobHunting.compatibility.HolographicDisplaysCompat;
 import one.lindegaard.MobHunting.compatibility.IDisguiseCompat;
 import one.lindegaard.MobHunting.compatibility.InfernalMobsCompat;
+import one.lindegaard.MobHunting.compatibility.LevelledMobsCompat;
 import one.lindegaard.MobHunting.compatibility.LibsDisguisesCompat;
 import one.lindegaard.MobHunting.compatibility.LorinthsRpgMobsCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
@@ -213,6 +214,7 @@ public class MetricsManager {
 				valueMap.put("CustomMobs", CustomMobsCompat.isSupported() ? 1 : 0);
 				valueMap.put("ConquestiaMobs", ConquestiaMobsCompat.isSupported() ? 1 : 0);
 				valueMap.put("LorinthsRpgMobs", LorinthsRpgMobsCompat.isSupported() ? 1 : 0);
+				valueMap.put("Levelled Mobs", LevelledMobsCompat.isSupported() ? 1 : 0);
 				valueMap.put("StackMob", StackMobCompat.isSupported() ? 1 : 0);
 				valueMap.put("MysteriousHalloween", MysteriousHalloweenCompat.isSupported() ? 1 : 0);
 				valueMap.put("SmartGiants", SmartGiantsCompat.isSupported() ? 1 : 0);
