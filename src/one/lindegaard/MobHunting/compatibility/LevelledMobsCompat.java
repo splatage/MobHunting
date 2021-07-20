@@ -53,7 +53,7 @@ public class LevelledMobsCompat implements Listener {
 		return supported;
 	}
 
-	private static final LevelInterface getLevelInterface() {
+	private static final LevelInterface getLevelInterfacexxx() {
 		return ((LevelledMobs) getLevelledMobs()).levelInterface;
 	}
 
@@ -63,14 +63,14 @@ public class LevelledMobsCompat implements Listener {
 		if (!(entity instanceof LivingEntity))
 			return false;
 
-		return getLevelInterface().isLevelled((LivingEntity) entity);
+		return ((LevelledMobs) getLevelledMobs()).levelInterface.isLevelled((LivingEntity) entity);
 	}
 
 	public static Integer getLevelledMobsLevel(Entity entity) {
 		if (!isSupported())
 			return 1;
 
-		return getLevelInterface().getLevelOfMob((LivingEntity) entity);
+		return ((LevelledMobs) getLevelledMobs()).levelInterface.getLevelOfMob((LivingEntity) entity);
 	}
 
 	public static boolean isEnabledInConfig() {
