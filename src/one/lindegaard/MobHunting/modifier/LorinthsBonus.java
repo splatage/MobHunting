@@ -28,8 +28,8 @@ public class LorinthsBonus implements IModifier {
 	@Override
 	public boolean doesApply(Entity deadEntity, Player killer, HuntData data, DamageInformation extraInfo,
 			EntityDamageByEntityEvent lastDamageCause) {
-		MobHunting.getInstance().getMessages().debug("%s killed a LorinthsRpgMobs %s level %s", killer.getName(), deadEntity.getType(),
-				LorinthsRpgMobsCompat.getLorinthsRpgMobsLevel(deadEntity));
+		//MobHunting.getInstance().getMessages().debug("%s killed a LorinthsRpgMobs %s level %s", killer.getName(), deadEntity.getType(),
+		//		LorinthsRpgMobsCompat.getLorinthsRpgMobsLevel(deadEntity));
 		return deadEntity.hasMetadata(LorinthsRpgMobsCompat.MH_LORINTHS_RPG_MOBS);
 	}
 

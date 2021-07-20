@@ -28,8 +28,8 @@ public class ConquestiaBonus implements IModifier {
 	@Override
 	public boolean doesApply(Entity deadEntity, Player killer, HuntData data, DamageInformation extraInfo,
 			EntityDamageByEntityEvent lastDamageCause) {
-		MobHunting.getInstance().getMessages().debug("%s killed a ConquestiaMob %s level %s", killer.getName(), deadEntity.getType(),
-				ConquestiaMobsCompat.getCqLevel(deadEntity));
+		//MobHunting.getInstance().getMessages().debug("%s killed a ConquestiaMob %s level %s", killer.getName(), deadEntity.getType(),
+		//		ConquestiaMobsCompat.getCqLevel(deadEntity));
 		return deadEntity.hasMetadata(ConquestiaMobsCompat.MH_CONQUESTIAMOBS);
 	}
 
