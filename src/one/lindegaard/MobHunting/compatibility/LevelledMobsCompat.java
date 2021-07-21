@@ -26,7 +26,7 @@ public class LevelledMobsCompat implements Listener {
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.LevelledMobs.getName());
 
-			if (mPlugin.getDescription().getVersion().compareTo("3.0.6") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo("3.0.7") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 				Bukkit.getConsoleSender()
 						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
@@ -36,7 +36,7 @@ public class LevelledMobsCompat implements Listener {
 			} else {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
 						+ "Your current version of LevelledMobs (" + mPlugin.getDescription().getVersion()
-						+ ") is not supported by MobHunting. Please update LevelledMobs to version 3.0.6 or newer.");
+						+ ") is not supported by MobHunting. Please update LevelledMobs to version 3.0.7 or newer.");
 			}
 		}
 
