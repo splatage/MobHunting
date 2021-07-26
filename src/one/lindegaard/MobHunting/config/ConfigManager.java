@@ -3610,7 +3610,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "grinding_stacked_mobs_allowed", category = "grinding", comment = "Killing stacked mobs (created by a mob stacking plugin) "
 			+ "\nis by nature detected as grinding and by default allowed. If you want to the the grinding detection to detect"
-			+ "\nkillings of stacked to be detected as gring, you must set grinding_stacked_mobs_allowed to false.")
+			+ "\nkillings of stacked to be detected as grinding, you must set grinding_stacked_mobs_allowed to false. Notice that grinding"
+			+ "\nis not detected until its detected as Area grinding or Speedgrinding. So the players will be allowed to kill a number of "
+			+ "\nstacked mobs. See Area grinding and speedgrinding.")
 	public boolean isGrindingStackedMobsAllowed = true;
 
 	@ConfigField(name = "disable_natural_item_drops_on_player_grinding", category = "grinding", comment = "Disable natural drops here")

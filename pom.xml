@@ -22,7 +22,7 @@
 
 	<properties>
 		<mobhunting-core.version>0.5.2-SNAPSHOT</mobhunting-core.version>
-		<bagofgold.version>4.0.7-SNAPSHOT</bagofgold.version>
+		<bagofgold.version>4.0.8-SNAPSHOT</bagofgold.version>
 	</properties>
 
 	<issueManagement>
@@ -451,7 +451,7 @@
 
 		<!-- InfernalMobs -->
 		<dependency>
-			<groupId>io.hotmail.com.jacob_vejvoda.infernal_mobs.infernal_mobs</groupId>
+			<groupId>io.hotmail.com.jacob_vejvoda</groupId>
 			<artifactId>InfernalMobs</artifactId>
 			<version>${InfernalMobs.version}</version>
 		</dependency>
