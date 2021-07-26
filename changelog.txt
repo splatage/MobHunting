@@ -1,10 +1,3 @@
-V8.0.5
-* Updated to InfernalMobs 6.4
-* Updated to LevelledMobs 3.0.7
-* Updated to MythicMobs 4.12.0
-* Updated to TardisWeepingAngels Build 156
-* Fixed grinding allowed on StackedMobs
-* Fixed Money-Merge-Bug
 V8.0.4
 * Fixed the command /mh hologram .....  
 * CMIHolograms is now supported. 
