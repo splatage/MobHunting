@@ -1379,6 +1379,9 @@ public class MobHuntingManager implements Listener {
 					if (plugin.getGrindingManager().isWhitelisted(loc)) {
 						plugin.getMessages().debug("This Area is whitelisted. Area grinding not detected.");
 
+					} else if(StackMobHelper.isGrindingStackedMobsAllowed() && StackMobHelper.isStackedMob(killed)) {
+						plugin.getMessages().debug("The killed mob was a Stacked Mob and Grinding is allowed in config.yml. Area grinding and speed grinding is not deteted.");
+
 					} else {
 
 						data.setDampenedKills(data.getDampenedKills() + 1);

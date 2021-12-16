@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<!-- <version>8.0.5</version> -->
+	<!-- <version>8.0.5</version> --> 
 	<version>8.0.5-SNAPSHOT</version>
 	<!-- <version>8.0.5-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
@@ -101,7 +101,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>${spigotmc_1_17_R1.version}</version>
+			<version>${spigotmc_1_18_R1.version}</version>
 		</dependency>
 
 		<!-- Rocologo Core -->
@@ -335,12 +335,12 @@
 
 		<!-- LevelledMobs -->
 		<dependency>
-			<groupId>me.lokka30</groupId>
+			<groupId>com.github.lokka30</groupId>
 			<artifactId>LevelledMobs</artifactId>
 			<version>${LevelledMobs.version}</version>
 		</dependency>
 
-		<!-- MobStack -->
+		<!-- StackMob -->
 		<dependency>
 			<groupId>uk.antiperson.stackmob</groupId>
 			<artifactId>StackMob</artifactId>

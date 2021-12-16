@@ -29,8 +29,6 @@ public class LevelledMobsBonus implements IModifier {
 	@Override
 	public boolean doesApply(Entity deadEntity, Player killer, HuntData data, DamageInformation extraInfo,
 			EntityDamageByEntityEvent lastDamageCause) {
-		//MobHunting.getInstance().getMessages().debug("%s killed a LevelledMob %s", killer.getName(),
-		//		deadEntity.getType());
 		return LevelledMobsCompat.isLevelledMobs(deadEntity);
 	}
 
