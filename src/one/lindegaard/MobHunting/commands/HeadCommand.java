@@ -234,6 +234,10 @@ public class HeadCommand implements ICommand, Listener {
 			// /mh head drop <head> <x> <y> <z> <world>
 			if (sender.hasPermission("mobhunting.head.drop")) {
 
+				// arguments missing
+				if (args.length < 2)
+					return true;
+
 				// /mh head drop
 				MobType mob = MobType.getMobType(args[1]);
 
@@ -251,8 +255,8 @@ public class HeadCommand implements ICommand, Listener {
 							player.getWorld().dropItem(location,
 									customItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
 						} else
-							player.getWorld().dropItem(location, customItems.getCustomHead(mob, mob.getFriendlyName(),
-									1, money, mob.getSkinUUID()));
+							player.getWorld().dropItem(location,
+									customItems.getCustomHead(mob, mob.getFriendlyName(), 1, money, mob.getSkinUUID()));
 
 					} else if (args.length == 3) {
 						if (Bukkit.getServer().getOfflinePlayer(args[2]).isOnline()) {
@@ -286,15 +290,14 @@ public class HeadCommand implements ICommand, Listener {
 						if (mob == MobType.PvpPlayer) {
 							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[1]));
 							ItemStack head = customItems.getCustomHead(mob, args[1], 1, money, player.getUniqueId());
-							head = Reward.setDisplayNameAndHiddenLores(head, new Reward(args[1], money,
-									RewardType.KILLER, player.getUniqueId()));
+							head = Reward.setDisplayNameAndHiddenLores(head,
+									new Reward(args[1], money, RewardType.KILLER, player.getUniqueId()));
 							world.dropItem(location, head);
 						} else {
 							ItemStack head = customItems.getCustomHead(mob, mob.getFriendlyName(), 1, money,
 									mob.getSkinUUID());
 							head = Reward.setDisplayNameAndHiddenLores(head,
-									new Reward(mob.getFriendlyName(), money, RewardType.KILLED, 
-											mob.getSkinUUID()));
+									new Reward(mob.getFriendlyName(), money, RewardType.KILLED, mob.getSkinUUID()));
 							world.dropItem(location, head);
 						}
 					}
@@ -327,7 +330,7 @@ public class HeadCommand implements ICommand, Listener {
 		} else if (args.length == 2 && (args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("spawn"))) {
 			for (Player player : Bukkit.getOnlinePlayers())
 				items.add(ChatColor.stripColor(player.getName()));
-		} else if ((args.length == 3 && args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("spawn"))) {
+		} else if (args.length == 3 && (args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("spawn"))) {
 			for (MobType mob : MobType.values())
 				items.add(ChatColor.stripColor(mob.getFriendlyName().replace(" ", "_")));
 			for (Player player : Bukkit.getOnlinePlayers())
