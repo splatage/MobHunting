@@ -20,6 +20,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 
 import org.mineacademy.boss.api.*;
+import org.mineacademy.boss.model.Boss;
+
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
@@ -110,23 +112,23 @@ public class BossCompat implements Listener {
 		if (isSupported()) {
 			Entity entity = event.getEntity();
 			if (isBossMob(entity)) {
-				Boss mob = BossAPI.getBoss(entity);
+				String mob = BossAPI.getBoss(entity).getName();
 
 				MobHunting.getInstance().getMessages().debug("A Boss (%s) was spawned at %s,%s,%s in %s",
-						mob.getSettings().getCustomName(), event.getEntity().getLocation().getBlockX(),
+						mob, event.getEntity().getLocation().getBlockX(),
 						event.getEntity().getLocation().getBlockY(), event.getEntity().getLocation().getBlockZ(),
 						event.getEntity().getLocation().getWorld().getName());
 
-				if (mMobRewardData != null && !mMobRewardData.containsKey(mob.getName())) {
+				if (mMobRewardData != null && !mMobRewardData.containsKey(mob)) {
 					MobHunting.getInstance().getMessages().debug("New Boss found=%s(%s)",
-							mob.getSettings().getCustomName(), mob.getName());
+							mob, mob);
 
-					mMobRewardData.put(mob.getName(),
-							new ExtendedMobRewardData(MobPlugin.Boss, mob.getName(), mob.getSettings().getCustomName(),
-									true, "10", 1, "You killed a " + mob.getSettings().getCustomName(),
+					mMobRewardData.put(mob,
+							new ExtendedMobRewardData(MobPlugin.Boss, mob, mob,
+									true, "10", 1, "You killed a " + mob,
 									new ArrayList<HashMap<String, String>>(), 1, 0.02));
-					saveBossMobsData(mob.getName().replace(" ", "_"));
-					MobHunting.getInstance().getStoreManager().insertBossMobs(mob.getName());
+					saveBossMobsData(mob.replace(" ", "_"));
+					MobHunting.getInstance().getStoreManager().insertBossMobs(mob);
 					// Update mob loaded into memory
 					MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
 					MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
@@ -175,8 +177,8 @@ public class BossCompat implements Listener {
 			for (Boss boss:BossAPI.getBosses()) {
 				if (!mMobRewardData.containsKey(boss.getName())) {
 					mMobRewardData.put(boss.getName(),
-							new ExtendedMobRewardData(MobPlugin.Boss, boss.getName(), boss.getSettings().getCustomName(),
-									true, "10", 1, "You killed a " + boss.getSettings().getCustomName(),
+							new ExtendedMobRewardData(MobPlugin.Boss, boss.getName(), boss.getName(),
+									true, "10", 1, "You killed a " + boss.getName(),
 									new ArrayList<HashMap<String, String>>(), 1, 0.02));
 				}
 			}

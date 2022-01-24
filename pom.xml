@@ -379,7 +379,7 @@
 		<dependency>
 			<groupId>org.mineacademy.boss</groupId>
 			<artifactId>Boss</artifactId>
-			<version>${Boss.version}</version>
+			<version>${boss.version}</version>
 		</dependency>
 
 		<!-- iDisguise -->
