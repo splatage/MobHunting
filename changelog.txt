@@ -1,3 +1,5 @@
+V8.0.7 
+* Boss plugin updated to Version 4.1.9
 V8.0.4
 * Fixed the command /mh hologram .....  
 * CMIHolograms is now supported. 
