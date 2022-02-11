@@ -1,5 +1,6 @@
 V8.0.7 
 * Boss plugin updated to Version 4.1.9
+* Allow Cave Spiders from Spawners to pay a reward when killed. Cave Spiders is not spawned naturally.  
 V8.0.4
 * Fixed the command /mh hologram .....  
 * CMIHolograms is now supported. 
