@@ -3687,8 +3687,14 @@ public class ConfigManager extends AutoConfig {
 			+ "\nusing '/mh whitelistarea'.")
 	public boolean disableMoneyRewardsFromMobSpawnersEggsAndDispensers = true;
 
-	@ConfigField(name = "deny_slime_and_maga_cube_to_spilt", category = "grinding.spawners", comment = "Slimes and Maga Cubes can be used for grinding money because that only the"
-			+ "\nmother is marked as from a SPAWNER. Spilitting is therefor denied if the slime/MC is" + ""
+	@ConfigField(name = "enable_rewards_from_cave_spiders", category = "grinding.spawners", 
+			comment = "This allow players to get rewards when killing Cave Spiders from SPAWNERS. Cave Spiders does not only "
+			+ "\nnaturally and only from SPAWNERS.")
+	public boolean enableRewardsFromCaveSpiders = true;
+
+	@ConfigField(name = "deny_slime_and_maga_cube_to_spilt", category = "grinding.spawners", 
+			comment = "Slimes and Maga Cubes can be used for grinding money because that only the"
+			+ "\nmother is marked as from a SPAWNER. Spilitting is therefor denied if the slime/MC is"
 			+ "+\nfrom a SPAWNER. If you want Vanilla behavior set this to false.")
 	public boolean denySlimesToSpiltIfFromSpawer = true;
 
@@ -3927,7 +3933,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "enable_integration_levelledmobs", category = "plugins.levelmobs.levelledmobs")
 	public boolean enableIntegrationLevelledMobs = true;
 
-	
 	@ConfigField(name = "multiplier_per_level", category = "plugins.levelmobs", comment = "This is the multiplier per level mutiplied with the basic reward."
 			+ "\nBecareful not to ruin the server economy by making the multiplier to big."
 			+ "\nExample: If the reward is 10 and the multiplier is 1.05, the calculated" + "\nreward is:"
@@ -4176,7 +4181,7 @@ public class ConfigManager extends AutoConfig {
 	public String giantMcMMOSkillRewardAmount = "1:2";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.giant")
 	public double giantMcMMOSkillRewardChance = 0.1;
-	
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.goat")
 	public String goatMcMMOSkillRewardAmount = "1:2";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.goat")
@@ -4947,7 +4952,7 @@ public class ConfigManager extends AutoConfig {
 
 	public int getProgressAchievementLevel1(MobType mob) {
 		switch (mob) {
-		
+
 		case Axolotl:
 			return axolotlLevel1;
 		case Bat:

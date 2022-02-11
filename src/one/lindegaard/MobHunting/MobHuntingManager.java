@@ -1171,17 +1171,25 @@ public class MobHuntingManager implements Listener {
 				&& event.getEntity().hasMetadata(SPAWNER_BLOCKED)) {
 			if (!plugin.getGrindingManager().isWhitelisted(event.getEntity().getLocation())) {
 				if (killed != null) {
-					plugin.getMessages().debug(
-							"KillBlocked %s(%d): Mob has MH:blocked meta (probably spawned from a mob spawner, an egg or a egg-dispenser )",
-							event.getEntity().getType(), killed.getEntityId());
-					plugin.getMessages().learn(player,
-							plugin.getMessages().getString("mobhunting.learn.mobspawner", "killed", mob.getMobName()));
-					cancelDrops(event,
-							plugin.getConfigManager().disableNaturallyDroppedItemsFromMobSpawnersEggsAndDispensers,
-							plugin.getConfigManager().disableNaturallyDroppedXPFromMobSpawnersEggsAndDispensers);
+					if (plugin.getConfigManager().enableRewardsFromCaveSpiders
+							&& mob.getMobtype().equalsIgnoreCase(MobType.CaveSpider.getMobType())) {
+						plugin.getMessages().debug(
+								"%s killed a Cave Spider from a SPAWNER, byt this is allowed in config.yml",
+								killer.getName());
+					} else {
+						plugin.getMessages().debug(
+								"KillBlocked %s(%d): Mob has MH:blocked meta (probably spawned from a mob spawner, an egg or a egg-dispenser )",
+								event.getEntity().getType(), killed.getEntityId());
+						plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.mobspawner",
+								"killed", mob.getMobName()));
+						cancelDrops(event,
+								plugin.getConfigManager().disableNaturallyDroppedItemsFromMobSpawnersEggsAndDispensers,
+								plugin.getConfigManager().disableNaturallyDroppedXPFromMobSpawnersEggsAndDispensers);
+
+						plugin.getMessages().debug("======================= kill ended (26)======================");
+						return;
+					}
 				}
-				plugin.getMessages().debug("======================= kill ended (26)======================");
-				return;
 			} else {
 				plugin.getMessages().debug("A mob from a spawner or an egg was killed in a whitelisted area");
 			}
@@ -1379,8 +1387,9 @@ public class MobHuntingManager implements Listener {
 					if (plugin.getGrindingManager().isWhitelisted(loc)) {
 						plugin.getMessages().debug("This Area is whitelisted. Area grinding not detected.");
 
-					} else if(StackMobHelper.isGrindingStackedMobsAllowed() && StackMobHelper.isStackedMob(killed)) {
-						plugin.getMessages().debug("The killed mob was a Stacked Mob and Grinding is allowed in config.yml. Area grinding and speed grinding is not deteted.");
+					} else if (StackMobHelper.isGrindingStackedMobsAllowed() && StackMobHelper.isStackedMob(killed)) {
+						plugin.getMessages().debug(
+								"The killed mob was a Stacked Mob and Grinding is allowed in config.yml. Area grinding and speed grinding is not deteted.");
 
 					} else {
 
