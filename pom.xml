@@ -21,8 +21,8 @@
 	</parent>
 
 	<properties>
-		<mobhunting-core.version>0.5.4-SNAPSHOT</mobhunting-core.version>
-		<bagofgold.version>4.1.1-SNAPSHOT</bagofgold.version>
+		<mobhunting-core.version>0.5.5-SNAPSHOT</mobhunting-core.version>
+		<bagofgold.version>4.1.2-SNAPSHOT</bagofgold.version>
 	</properties>
 
 	<issueManagement>
