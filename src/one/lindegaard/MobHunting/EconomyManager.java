@@ -12,7 +12,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import net.milkbowl.vault.economy.Economy;
 import net.tnemc.core.Reserve;
 import net.tnemc.core.economy.EconomyAPI;
-import net.tnemc.core.economy.ExtendedEconomyAPI;
+//import net.tnemc.core.economy.ExtendedEconomyAPI;
 
 /**
  * Economy handler to interface with Vault or Reserve directly.
@@ -149,17 +149,19 @@ public class EconomyManager {
 	 * @param offlinePlayer - Name of the player's account (usually playername)
 	 * @return - The relevant player's economy account
 	 */
-	private Object getEconomyAccount(OfflinePlayer offlinePlayer) {
+	/**private Object getEconomyAccount(OfflinePlayer offlinePlayer) {
 		switch (Type) {
 		case RESERVE:
-			if (reserveEconomy instanceof ExtendedEconomyAPI)
-				return ((ExtendedEconomyAPI) reserveEconomy).getAccount(offlinePlayer.getUniqueId());
-			break;
+			//if (reserveEconomy instanceof ExtendedEconomyAPI)
+			//	return ((ExtendedEconomyAPI) reserveEconomy).getAccount(offlinePlayer.getUniqueId());
+			return reserveEconomy.getBankHoldings(offlinePlayer.getUniqueId());
+			//break;
 		default:
 			break;
 		}
 		return null;
-	}
+		
+	}**/
 
 	/**
 	 * Check if account exists
