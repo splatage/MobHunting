@@ -170,14 +170,14 @@
 
 		<!-- TitleAPI -->
 		<dependency>
-			<groupId>com.github.ConnorLinfoot</groupId>
+			<groupId>com.connorlinfoot</groupId>
 			<artifactId>TitleAPI</artifactId>
 			<version>${TitleAPI.version}</version>
 		</dependency>
 
 		<!-- Essentials -->
 		<dependency>
-			<groupId>net.ess3</groupId>
+			<groupId>net.essentialsx</groupId>
 			<artifactId>EssentialsX</artifactId>
 			<version>${EssentialsX.version}</version>
 		</dependency>
