@@ -214,7 +214,7 @@
 
 		<!-- BossShop -->
 		<dependency>
-			<groupId>org.black_ixx.bossshop</groupId>
+			<groupId>org.black_ixx</groupId>
 			<artifactId>BossShop</artifactId>
 			<version>${bossshop.version}</version>
 		</dependency>
