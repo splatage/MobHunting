@@ -22,7 +22,7 @@
 
 	<properties>
 		<mobhunting-core.version>0.5.4-SNAPSHOT</mobhunting-core.version>
-		<bagofgold.version>4.0.9-SNAPSHOT</bagofgold.version>
+		<bagofgold.version>4.1.1-SNAPSHOT</bagofgold.version>
 	</properties>
 
 	<issueManagement>
@@ -121,7 +121,7 @@
 		<!-- Vault / -->
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
-			<artifactId>Vault</artifactId>
+			<artifactId>VaultAPI</artifactId>
 			<version>${vault.version}</version>
 		</dependency>
 
