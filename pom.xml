@@ -206,15 +206,15 @@
 
 		<!-- PlaceholderAPI -->
 		<dependency>
-			<groupId>me.clip</groupId>
-			<artifactId>placeholderapi</artifactId>
+			<groupId>me.clip.placeholderapi.PlaceholderAPIPlugin</groupId>
+			<artifactId>PlaceholderAPI</artifactId>
 			<version>${placeholderapi.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
 		<!-- BossShop -->
 		<dependency>
-			<groupId>org.black_ixx</groupId>
+			<groupId>org.black_ixx.bossshop</groupId>
 			<artifactId>BossShop</artifactId>
 			<version>${bossshop.version}</version>
 		</dependency>
