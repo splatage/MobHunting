@@ -245,7 +245,7 @@
 
 		<!-- LibsDisguises -->
 		<dependency>
-			<groupId>me.libraryaddict.disguise.LibsDisguises</groupId>
+			<groupId>LibsDisguises</groupId>
 			<artifactId>LibsDisguises</artifactId>
 			<version>${libsdisguises.version}</version>
 			<scope>provided</scope>
