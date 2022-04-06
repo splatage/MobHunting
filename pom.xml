@@ -206,8 +206,8 @@
 
 		<!-- PlaceholderAPI -->
 		<dependency>
-			<groupId>me.clip.placeholderapi.PlaceholderAPIPlugin</groupId>
-			<artifactId>PlaceholderAPI</artifactId>
+			<groupId>me.clip</groupId>
+			<artifactId>placeholderapi</artifactId>
 			<version>${placeholderapi.version}</version>
 		</dependency>
 
