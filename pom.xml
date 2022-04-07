@@ -308,7 +308,7 @@
 
 		<!-- BattleArena -->
 		<dependency>
-			<groupId>mc.alk</groupId>
+			<groupId>mc.alk.arena</groupId>
 			<artifactId>BattleArena</artifactId>
 			<version>${battleArena.version}</version>
 		</dependency>
