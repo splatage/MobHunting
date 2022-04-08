@@ -72,7 +72,7 @@ public class WorldGuardCompat {
 		if (getWorldGuardPlugin().getDescription().getVersion().compareTo("7.0.0") >= 0) {
 			return WorldGuard7Helper.isAllowedByWorldGuard2(damager, damaged, stateFlag, defaultValue);
 		} else {
-			return WorldGuard6Helper.isAllowedByWorldGuard2(damager, damaged, stateFlag, defaultValue);
+			return true;//WorldGuard6Helper.isAllowedByWorldGuard2(damager, damaged, stateFlag, defaultValue);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class WorldGuardCompat {
 		if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
 			WorldGuard7Helper.registerFlag2();
 		} else {
-			WorldGuard6Helper.registerFlag2();
+			//WorldGuard6Helper.registerFlag2();
 		}
 
 	}
