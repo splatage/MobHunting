@@ -286,12 +286,12 @@
 			<version>${worldguard7.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.sk89q.worldguard.bukkit</groupId>
 			<artifactId>WorldGuardPlugin</artifactId>
 			<version>${worldguard6.version}</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 
 		<!-- PreciousStones -->
 		<dependency>
