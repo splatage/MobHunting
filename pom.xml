@@ -239,6 +239,12 @@
 			<version>${worldedit.version}</version>
 			<scope>provied</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.sk89q.worldedit</groupId>
+			<artifactId>worldedit-core</artifactId>
+			<version>${worldedit.version}</version>
+			<scope>provied</scope>
+		</dependency>
 
 		<!-- LibsDisguises -->
 		<dependency>
