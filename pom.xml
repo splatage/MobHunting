@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
@@ -235,12 +233,11 @@
 		</dependency>
 
 		<!-- WorldEdit -->
-		<!-- <dependency> <groupId>com.sk89q.worldedit</groupId> <artifactId>worldedit-bukkit</artifactId> 
-			<version>${worldedit.version}</version> <scope>provied</scope> </dependency> -->
 		<dependency>
-			<groupId>com.sk89q.worldedit.bukkit</groupId>
-			<artifactId>WorldEditPlugin</artifactId>
-			<version>7.1.0</version>
+			<groupId>com.sk89q.worldedit</groupId>
+			<artifactId>worldedit-bukkit</artifactId>
+			<version>${worldedit.version}</version>
+			<scope>provied</scope>
 		</dependency>
 
 		<!-- LibsDisguises -->
@@ -256,15 +253,15 @@
 			<groupId>com.gmail.nossr50.mcMMO</groupId>
 			<artifactId>mcMMO</artifactId>
 			<version>${mcmmo210.version}</version>
+			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
 		<!-- McMMO Classic -->
 		<dependency>
 			<groupId>com.gmail.nossr50</groupId>
 			<artifactId>mcMMO</artifactId>
-			<version>1.6.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/${mcmmo160.jar.version}</systemPath>
+			<version>${mcmmo160version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- MyPet -->
@@ -282,21 +279,17 @@
 		</dependency>
 
 		<!-- Worldguard -->
-		<!-- <dependency> <groupId>com.sk89q.worldguard</groupId> <artifactId>worldguard-legacy</artifactId> 
-			<version>${worldguard.version}</version> <scope>provided</scope> </dependency> -->
 		<dependency>
 			<groupId>com.sk89q.worldguard</groupId>
-			<artifactId>worldguard-legacy</artifactId>
-			<version>7.0.1-SNAPSHOT-B1975</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/worldguard-bukkit-7.0.1-SNAPSHOT-dist-B1975.jar</systemPath>
+			<artifactId>worldguard-bukkit</artifactId>
+			<version>${worldguard7.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.sk89q.worldguard</groupId>
 			<artifactId>worldguard-legacy</artifactId>
-			<version>6.2.2-SNAPSHOT-B1713</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/worldguard-legacy-6.2.2-SNAPSHOT-dist-B1713.jar</systemPath>
+			<version>${worldguard6.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- PreciousStones -->
@@ -556,5 +549,15 @@
 			<version>${extrahardmode.version}</version>
 		</dependency>
 	</dependencies>
+
+
+	<!-- Add imported jar files to mobhunting project-->
+	<repositories>
+		<repository>
+			<id>mobhunting-local-repo</id>
+			<url>file://${project.basedir}/lib</url>
+		</repository>
+	</repositories>
+
 
 </project>
