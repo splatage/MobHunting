@@ -31,7 +31,7 @@ public class MythicMobsCompat {
 	public static final String MH_MYTHICMOBS = "MH:MYTHICMOBS";
 
 	public enum MythicMobVersion {
-		NOT_DETECTED, MYTHICMOBS_V251, MYTHICMOBS_V400
+		NOT_DETECTED, MYTHICMOBS_V251, MYTHICMOBS_V400, MYTHICMOBS_V500 
 	};
 
 	public static MythicMobVersion mmVersion = MythicMobVersion.NOT_DETECTED;
@@ -42,7 +42,15 @@ public class MythicMobsCompat {
 					+ "Compatibility with MythicMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.MythicMobs.getName());
-			if (mPlugin.getDescription().getVersion().compareTo("4.0.0") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo("5.0.0") >= 0) {
+
+				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+						+ "Enabling compatibility with MythicMobs (" + mPlugin.getDescription().getVersion() + ")");
+				mmVersion = MythicMobVersion.MYTHICMOBS_V500;
+				supported = true;
+				Bukkit.getPluginManager().registerEvents(new MythicMobsV400Compat(), MobHunting.getInstance());
+
+			} else if (mPlugin.getDescription().getVersion().compareTo("4.0.0") >= 0) {
 
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 						+ "Enabling compatibility with MythicMobs (" + mPlugin.getDescription().getVersion() + ")");
@@ -94,6 +102,8 @@ public class MythicMobsCompat {
 			return MythicMobsV251Compat.isMythicMobV251(mob);
 		case MYTHICMOBS_V400:
 			return MythicMobsV400Compat.isMythicMobV400(mob);
+		case MYTHICMOBS_V500:
+			return MythicMobsV500Compat.isMythicMobV400(mob);
 		case NOT_DETECTED:
 			break;
 		default:
@@ -108,6 +118,8 @@ public class MythicMobsCompat {
 			return MythicMobsV251Compat.getMythicMobV251(mob).getInternalName();
 		case MYTHICMOBS_V400:
 			return MythicMobsV400Compat.getMythicMobV400(mob).getInternalName();
+		case MYTHICMOBS_V500:
+			return MythicMobsV500Compat.getMythicMobV400(mob).getInternalName();
 		case NOT_DETECTED:
 			break;
 		default:
