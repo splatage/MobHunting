@@ -287,8 +287,8 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sk89q.worldguard</groupId>
-			<artifactId>worldguard-legacy</artifactId>
+			<groupId>com.sk89q</groupId>
+			<artifactId>worldguard</artifactId>
 			<version>${worldguard6.version}</version>
 			<scope>provided</scope>
 		</dependency>
