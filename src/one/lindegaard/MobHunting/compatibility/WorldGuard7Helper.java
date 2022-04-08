@@ -14,8 +14,6 @@ import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 
-import one.lindegaard.BagOfGold.BagOfGold;
-
 public class WorldGuard7Helper {
 
 public static boolean isAllowedByWorldGuard2(Entity damager, Entity damaged, StateFlag stateFlag,

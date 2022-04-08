@@ -27,8 +27,7 @@ public static boolean isAllowedByWorldGuard2(Entity damager, Entity damaged, Sta
 
 		if (checkedPlayer != null) {
 			Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
-			RegionManager regionManager = WorldGuardCompat.getWorldGuardPlugin()
-					.getRegionManager(checkedPlayer.getWorld());
+			RegionManager regionManager = WorldGuardCompat.getWorldGuardPlugin().getRegionManager(checkedPlayer.getWorld());
 			if (regionManager != null) {
 				com.sk89q.worldguard.bukkit.RegionContainer container = ((WorldGuardPlugin)wg).getRegionContainer();
 				RegionQuery query = container.createQuery();
