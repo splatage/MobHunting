@@ -4,6 +4,7 @@ V8.0.7
 * Updated to Reserve 0.1.5.4
 * Updated to TittleManager 2.2.0
 * Updated to PlaceholderAPI 2.11.1  
+* Support for MythicMobs 5 added
 V8.0.4
 * Fixed the command /mh hologram .....  
 * CMIHolograms is now supported. 

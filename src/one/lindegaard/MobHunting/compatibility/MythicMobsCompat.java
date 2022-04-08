@@ -103,7 +103,7 @@ public class MythicMobsCompat {
 		case MYTHICMOBS_V400:
 			return MythicMobsV400Compat.isMythicMobV400(mob);
 		case MYTHICMOBS_V500:
-			return MythicMobsV500Compat.isMythicMobV400(mob);
+			return MythicMobsV500Compat.isMythicMobV500(mob);
 		case NOT_DETECTED:
 			break;
 		default:
@@ -119,7 +119,7 @@ public class MythicMobsCompat {
 		case MYTHICMOBS_V400:
 			return MythicMobsV400Compat.getMythicMobV400(mob).getInternalName();
 		case MYTHICMOBS_V500:
-			return MythicMobsV500Compat.getMythicMobV400(mob).getInternalName();
+			return MythicMobsV500Compat.getMythicMobV500(mob).getInternalName();
 		case NOT_DETECTED:
 			break;
 		default:
