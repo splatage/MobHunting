@@ -28,6 +28,7 @@
 		<mcmmohorses.version>4.3.55</mcmmohorses.version>
 		<worldedit.version>7.2.8</worldedit.version>
 		<worldguard7.version>7.0.6</worldguard7.version>
+		<worldguard6.version>6.2</worldguard6.version>
 		<PreciousStones.version>10.7.2</PreciousStones.version>
 		<libsdisguises.version>10.0.28</libsdisguises.version>
 		<battleArena.version>3.9.16.4</battleArena.version>
@@ -331,12 +332,12 @@
 			<version>${worldguard7.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.sk89q.worldguard.bukkit</groupId>
 			<artifactId>WorldGuardPlugin</artifactId>
 			<version>${worldguard6.version}</version>
 			<scope>provided</scope>
-		</dependency> -->
+		</dependency>
 
 		<!-- PreciousStones -->
 		<dependency>
