@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
-import com.sk89q.worldedit.util.Location;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
@@ -27,12 +26,11 @@ public static boolean isAllowedByWorldGuard2(Entity damager, Entity damaged, Sta
 
 		if (checkedPlayer != null) {
 			LocalPlayer localPlayer = WorldGuardCompat.getWorldGuardPlugin().wrapPlayer(checkedPlayer);
-			Location loc = localPlayer.getLocation();
 			RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
 			if (container != null) {
 				// https://worldguard.enginehub.org/en/latest/developer/regions/spatial-queries/
 				RegionQuery query = container.createQuery();
-				ApplicableRegionSet set = query.getApplicableRegions(loc);
+				ApplicableRegionSet set = query.getApplicableRegions(localPlayer.getLocation());
 				if (set.size() > 0) {
 					State flag = set.queryState(localPlayer, stateFlag);
 					if (flag != null) {
