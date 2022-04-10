@@ -327,8 +327,8 @@
 
 		<!-- Worldguard -->
 		<dependency>
-			<groupId>com.sk89q.worldguard.bukkit.WorldGuardPlugin</groupId>
-  			<artifactId>WorldGuard</artifactId>
+			<groupId>com.sk89q.worldguard</groupId>
+			<artifactId>worldguard-bukkit</artifactId>
 			<version>${worldguard7.version}</version>
 			<scope>provided</scope>
 		</dependency>
