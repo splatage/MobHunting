@@ -1,4 +1,4 @@
-V8.0.7 
+V8.0.8 
 * Updated to Boss 4.1.9
 * Updated to Reserve 0.1.5.4
 * Updated to TitleManager 2.2.0
