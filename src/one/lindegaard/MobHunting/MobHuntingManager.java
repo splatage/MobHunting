@@ -1178,8 +1178,8 @@ public class MobHuntingManager implements Listener {
 								killer.getName());
 					} else {
 						plugin.getMessages().debug(
-								"KillBlocked %s(%d): Mob has MH:blocked meta (probably spawned from a mob spawner, an egg or a egg-dispenser )",
-								event.getEntity().getType(), killed.getEntityId());
+								"KillBlocked: %s(%d) has MH:blocked meta (probably spawned from a mob spawner, an egg or a egg-dispenser) MobType:%s EntityType:%s ",
+								event.getEntity().getType(), killed.getEntityId(), mob.getMobtype(),event.getEntity().getType());
 						plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.mobspawner",
 								"killed", mob.getMobName()));
 						cancelDrops(event,
