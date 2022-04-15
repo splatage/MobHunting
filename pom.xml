@@ -446,8 +446,8 @@
 
 		<!-- MinigamesLib -->
 		<dependency>
-			<groupId>com.github.MCE-Plugins</groupId>
-			<artifactId>MinigamesLib</artifactId>
+			<groupId>com.comze_instancelabs.minigamesapi.MinigamesAPI</groupId>
+  			<artifactId>MinigamesLib</artifactId>
 			<version>${minigameslib.version}</version>
 		</dependency>
 
