@@ -5,6 +5,7 @@ V8.0.7
 * Updated to PlaceholderAPI 2.11.1  
 * Updated to MythicMobs 5 
 * Updated to EssentialsX 2.19.4
+* Updated to MyPet 3.12-SNAPSHOT
 * Allow Cave Spiders from Spawners to pay a reward when killed. Cave Spiders is not spawned naturally.
 V8.0.4
 * Fixed the command /mh hologram .....  

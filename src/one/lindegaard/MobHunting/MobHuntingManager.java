@@ -1174,7 +1174,7 @@ public class MobHuntingManager implements Listener {
 					if (plugin.getConfigManager().enableRewardsFromCaveSpiders
 							&& killed.getType().toString().equalsIgnoreCase(MobType.CaveSpider.getMobType())) {
 						plugin.getMessages().debug(
-								"%s killed a Cave Spider from a SPAWNER, byt this is allowed in config.yml",
+								"%s killed a Cave Spider from a SPAWNER, but this is allowed in config.yml (see enable_rewards_from_cave_spiders)",
 								killer.getName());
 					} else {
 						plugin.getMessages().debug(
