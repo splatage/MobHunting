@@ -1172,7 +1172,7 @@ public class MobHuntingManager implements Listener {
 			if (!plugin.getGrindingManager().isWhitelisted(event.getEntity().getLocation())) {
 				if (killed != null) {
 					if (plugin.getConfigManager().enableRewardsFromCaveSpiders
-							&& mob.getMobtype().equalsIgnoreCase(MobType.CaveSpider.getMobType())) {
+							&& killed.getType().toString().equalsIgnoreCase(MobType.CaveSpider.getMobType())) {
 						plugin.getMessages().debug(
 								"%s killed a Cave Spider from a SPAWNER, byt this is allowed in config.yml",
 								killer.getName());
