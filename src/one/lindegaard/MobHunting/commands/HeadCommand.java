@@ -170,7 +170,7 @@ public class HeadCommand implements ICommand, Listener {
 				Player player = (Player) sender;
 				if (sender.hasPermission("mobhunting.head.rename")) {
 					ItemStack itemInHand = player.getItemInHand();
-					if (Reward.isReward(itemInHand)) {
+					if (Reward.isHead(itemInHand)) {
 						Reward reward = Reward.getReward(itemInHand);
 						String displayName = "";
 						for (int i = 1; i < args.length; i++) {
@@ -179,6 +179,7 @@ public class HeadCommand implements ICommand, Listener {
 							else
 								displayName = displayName + args[i];
 						}
+						reward.setDisplayname(displayName);
 						itemInHand = Reward.setDisplayNameAndHiddenLores(itemInHand, reward);
 						player.setItemInHand(itemInHand);
 					} else {
@@ -201,7 +202,7 @@ public class HeadCommand implements ICommand, Listener {
 				Player player = (Player) sender;
 				if (sender.hasPermission("mobhunting.head.value")) {
 					ItemStack itemInHand = player.getItemInHand();
-					if (Reward.isReward(itemInHand)) {
+					if (Reward.isHead(itemInHand)) {
 						Reward reward = Reward.getReward(itemInHand);
 
 						// get amount

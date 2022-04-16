@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<!-- <version>8.0.9</version>  -->
-	<version>8.0.9-SNAPSHOT</version>
+	<version>8.0.9</version>
+	<!-- <version>8.0.9-SNAPSHOT</version>  -->
 	<!-- <version>8.0.9-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
@@ -19,7 +19,7 @@
 	</parent>
 
 	<properties>
-		<mobhunting-core.version>0.5.5-SNAPSHOT</mobhunting-core.version>
+		<mobhunting-core.version>0.5.6-SNAPSHOT</mobhunting-core.version>
 		<bagofgold.version>4.1.2-SNAPSHOT</bagofgold.version>
 
 		<minigames.version>1.9.0-SNAPSHOT</minigames.version>
@@ -602,13 +602,51 @@
 		</dependency>
 	</dependencies>
 
-
-	<!-- Add imported jar files to mobhunting project-->
 	<repositories>
+
+		<!-- Add imported jar files to mobhunting project-->
 		<repository>
 			<id>mobhunting-local-repo</id>
 			<url>file://${project.basedir}/lib</url>
 		</repository>
+
+		<!-- mypet repository -->
+		<repository>
+			<id>mypet-repo1</id>
+			<url>https://repo.mypet-plugin.de</url>
+		</repository>
+		
+				<!-- BattleArena -->
+		<!--<repository>
+			<id>battleplugins-net</id>
+			<name>BattlePlugins</name>
+			<url>http://rainbowcraft.sytes.net/maven/repository/</url>-->
+			<!-- <url>https://repo.battleplugins.org/artifactory/libs-release-local/</url> -->
+		<!-- </repository> -->
+
+		<!-- MiniGamesLib / MinigamesAPI repo -->
+		<!-- REPO IS DOWN <repository>
+			<id>minigameslib-repo</id>
+			<url>https://nexus.xworlds.eu/nexus/content/repositories/</url>
+		</repository> -->
+
+				<!-- Minigames / Addstar repo -->
+		<!-- <repository> <id>addstar-snapshot-repo</id> <url>http://maven.addstar.com.au/artifactory/ext-snapshot-local/</url> 
+			</repository> -->
+
+		<!-- md5 repository -->
+		<!-- mcMMO - old versions -->
+		<repository>
+			<id>md5-repo</id>
+			<url>https://repo.md-5.net/content/repositories/public/</url>
+		</repository>
+		<repository>
+  			<id>md_5-public</id>
+  			<url>https://repo.md-5.net/content/groups/public/</url>
+		</repository>
+
+		
+
 	</repositories>
 
 
