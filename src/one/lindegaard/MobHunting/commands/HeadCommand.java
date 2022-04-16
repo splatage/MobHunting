@@ -180,6 +180,7 @@ public class HeadCommand implements ICommand, Listener {
 								displayName = displayName + args[i];
 						}
 						itemInHand = Reward.setDisplayNameAndHiddenLores(itemInHand, reward);
+						player.setItemInHand(itemInHand);
 					} else {
 						plugin.getMessages().senderSendMessage(sender,
 								plugin.getMessages().getString("mobhunting.commands.head.headmustbeinhand"));
@@ -214,6 +215,7 @@ public class HeadCommand implements ICommand, Listener {
 						}
 						reward.setMoney(money);
 						itemInHand = Reward.setDisplayNameAndHiddenLores(itemInHand.clone(), reward);
+						player.setItemInHand(itemInHand);
 					} else {
 						plugin.getMessages().senderSendMessage(sender,
 								plugin.getMessages().getString("mobhunting.commands.head.headmustbeinhand"));
