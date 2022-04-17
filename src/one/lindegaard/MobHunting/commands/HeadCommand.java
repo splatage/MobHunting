@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.rewards.CoreCustomItems;
@@ -189,7 +190,7 @@ public class HeadCommand implements ICommand, Listener {
 				} else {
 					plugin.getMessages().senderSendMessage(sender,
 							ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
-									"perm", "mobhunting.head.rename", "command", "head"));
+									Core.PH_PERMISSION, "mobhunting.head.rename", "command", "head"));
 				}
 			} else {
 				plugin.getMessages().senderSendMessage(sender, "You can only rename heads ingame.");
@@ -224,7 +225,7 @@ public class HeadCommand implements ICommand, Listener {
 				} else {
 					plugin.getMessages().senderSendMessage(sender,
 							ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
-									"perm", "mobhunting.head.value", "command", "head"));
+									Core.PH_PERMISSION, "mobhunting.head.value", "command", "head"));
 				}
 			} else {
 				plugin.getMessages().senderSendMessage(sender, "You can only give a head a new value ingame.");
@@ -311,7 +312,7 @@ public class HeadCommand implements ICommand, Listener {
 
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "perm",
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
 								"mobhunting.head.drop", "command", "head"));
 			}
 			return true;

@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitTask;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 
@@ -142,7 +143,7 @@ public class HappyHourCommand implements ICommand, Listener {
 				} else {
 					plugin.getMessages().senderSendMessage(sender,
 							ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
-									"perm", "mobhunting.happyhour.admin", "command", "happyhour cancel"));
+									Core.PH_PERMISSION, "mobhunting.happyhour.admin", "command", "happyhour cancel"));
 				}
 				return true;
 			}
@@ -199,7 +200,7 @@ public class HappyHourCommand implements ICommand, Listener {
 
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "perm",
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
 								"mobhunting.happyhour.admin", "command", "happyhour <min> <multiplier>"));
 
 			}

@@ -144,7 +144,7 @@ public class MoneyCommand implements ICommand {
 					} else {
 						plugin.getMessages().senderSendMessage(sender,
 								ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
-										"perm", "mobhunting.money.balance.other", "command", "money <playername>"));
+										Core.PH_PERMISSION, "mobhunting.money.balance.other", "command", "money <playername>"));
 						return true;
 					}
 				}
@@ -166,7 +166,7 @@ public class MoneyCommand implements ICommand {
 											+ Core.getConfigManager().bagOfGoldName.trim()));
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "perm",
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
 								"mobhunting.money.balance", "command", "money"));
 			}
 			return true;
@@ -193,7 +193,7 @@ public class MoneyCommand implements ICommand {
 					} else {
 						plugin.getMessages().senderSendMessage(sender,
 								ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
-										"perm", "mobhunting.money.shop", "command", "shop"));
+										Core.PH_PERMISSION, "mobhunting.money.shop", "command", "shop"));
 						return true;
 					}
 				} else {
@@ -267,7 +267,7 @@ public class MoneyCommand implements ICommand {
 				}
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "perm",
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
 								"mobhunting.money.drop", "command", "money drop"));
 			}
 			return true;
@@ -356,7 +356,7 @@ public class MoneyCommand implements ICommand {
 
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "perm",
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
 								"mobhunting.money.give", "command", "money give"));
 			}
 			return true;
@@ -457,7 +457,7 @@ public class MoneyCommand implements ICommand {
 
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "perm",
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
 								"mobhunting.money.take", "command", "money take"));
 			}
 			return true;
@@ -550,7 +550,7 @@ public class MoneyCommand implements ICommand {
 				}
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "perm",
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
 								"mobhunting.money.sell", "command", "money sell"));
 			}
 			return true;
@@ -601,7 +601,7 @@ public class MoneyCommand implements ICommand {
 				}
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "perm",
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
 								"mobhunting.money.buy", "command", "money buy"));
 			}
 			return true;

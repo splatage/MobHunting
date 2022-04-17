@@ -15,6 +15,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.MobHunting.MobHunting;
 
 /**
@@ -90,7 +91,7 @@ public class CommandDispatcher implements CommandExecutor, TabCompleter {
 		if (com.getPermission() != null && !sender.hasPermission(com.getPermission())) {
 			plugin.getMessages().senderSendMessage(sender,
 					ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", "command",
-							"/" + label + " " + subCommand, "perm", com.getPermission()));
+							"/" + label + " " + subCommand, Core.PH_PERMISSION, com.getPermission()));
 			return true;
 		}
 

@@ -12,11 +12,11 @@ import one.lindegaard.Core.Core;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.MobHunting.MobHunting;
 
-public class MoneyMergeEventListener implements Listener {
+public class MoneyMergeEventListener_old implements Listener {
 
 	private MobHunting plugin;
 
-	public MoneyMergeEventListener(MobHunting plugin) {
+	public MoneyMergeEventListener_old(MobHunting plugin) {
 		this.plugin = plugin;
 	}
 

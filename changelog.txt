@@ -1,4 +1,10 @@
-V8.0.9
+V8.1.1
+* placeholders in the lang files is updated. You will need to delete the lang folder and restart the server to get the new files.
+* Fixed bug on "Ender Dragon Kills" leaderboards. (https://github.com/Rocologo/MobHunting/issues/736)
+* You can now hide the BagOfGold/MobHunting item displayname. Change "show_displayname: false" in BagOfGoldCore.yml
+* Fixed wrong language after /mh reload
+* Fixed wrong value when BagOfGold/MobHunting items merged
+V8.1.0
 * Fixed rename heads /mh head rename newname
 * fixed change value /mh head value newvalue (Only give this command to admins you trust)
 V8.0.8 

@@ -99,6 +99,7 @@ import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.rewards.CoreCustomItems;
+import one.lindegaard.Core.rewards.MoneyMergeEventListener;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.Core.server.Servers;
@@ -131,7 +132,10 @@ public class RewardManager {
 			pickupRewards = new PickupRewards(plugin);
 
 			Bukkit.getPluginManager().registerEvents(new RewardListeners(plugin), plugin);
-			Bukkit.getPluginManager().registerEvents(new MoneyMergeEventListener(plugin), plugin);
+			
+			if (!BagOfGoldCompat.isSupported())
+				Bukkit.getPluginManager().registerEvents(new MoneyMergeEventListener(plugin), plugin);
+			
 			if (Servers.isMC112OrNewer() && eventDoesExists())
 				Bukkit.getPluginManager().registerEvents(new EntityPickupItemEventListener(pickupRewards), plugin);
 			else
@@ -354,7 +358,7 @@ public class RewardManager {
 			Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), money);
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			item.setCustomName(is.getItemMeta().getDisplayName());
-			item.setCustomNameVisible(true);
+			item.setCustomNameVisible(Core.getConfigManager().showCustomDisplayname);
 		}
 		if (item != null)
 			plugin.getMessages().debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
@@ -556,7 +560,7 @@ public class RewardManager {
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getPrice(mob, plugin.getConfigManager().piglinBruteMoney);
-			
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getPrice(mob, plugin.getConfigManager().hoglinMoney);
@@ -936,7 +940,7 @@ public class RewardManager {
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteCommands;
-			
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinCommands;
@@ -1185,63 +1189,62 @@ public class RewardManager {
 		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return  TARDISWeepingAngelsCompat.getMobRewardData()
-						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).getRewardDescription() ;
+				return TARDISWeepingAngelsCompat.getMobRewardData()
+						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).getRewardDescription();
 			return "";
 
 		} else if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
-				return  MythicMobsCompat.getMobRewardData()
-						.get(MythicMobsCompat.getMythicMobType(mob)).getRewardDescription() ;
+				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
+						.getRewardDescription();
 			return "";
 
 		} else if (CitizensCompat.isNPC(mob) && CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
 			NPC npc = CitizensAPI.getNPCRegistry().getNPC(mob);
 			String key = String.valueOf(npc.getId());
 			if (CitizensCompat.getMobRewardData().containsKey(key)) {
-				return  CitizensCompat.getMobRewardData().get(key).getRewardDescription() ;
+				return CitizensCompat.getMobRewardData().get(key).getRewardDescription();
 			}
 			return "";
 
 		} else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return  CustomMobsCompat.getMobRewardData()
-						.get(CustomMobsCompat.getCustomMobType(mob)).getRewardDescription() ;
+				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
+						.getRewardDescription();
 			return "";
 
 		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
 			if (MysteriousHalloweenCompat.getMobRewardData()
 					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return  MysteriousHalloweenCompat.getMobRewardData()
-						.get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getRewardDescription() ;
+				return MysteriousHalloweenCompat.getMobRewardData()
+						.get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getRewardDescription();
 			return "";
 
 		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
 			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return  SmartGiantsCompat.getMobRewardData()
-						.get(SmartGiantsCompat.getSmartGiantsMobType(mob)).getRewardDescription() ;
+				return SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(mob))
+						.getRewardDescription();
 			return "";
 
 		} else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return  HerobrineCompat.getMobRewardData()
-						.get(HerobrineCompat.getHerobrineMobType(mob)).getRewardDescription() ;
+				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
+						.getRewardDescription();
 			return "";
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
-				return  EliteMobsCompat.getMobRewardData()
-						.get(EliteMobsCompat.getEliteMobsType(mob).getName()).getRewardDescription() ;
+				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
+						.getRewardDescription();
 			return "";
 
 		} else if (BossCompat.isBossMob(mob)) {
 			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return 
-						BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getRewardDescription() ;
+				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getRewardDescription();
 			return "";
 
 		} else if (MyPetCompat.isMyPet(mob)) {
-			return  plugin.getConfigManager().wolfMessage ;
+			return plugin.getConfigManager().wolfMessage;
 
 		} else {
 			if (Servers.isMC117OrNewer())
@@ -1256,240 +1259,240 @@ public class RewardManager {
 
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
-					return  plugin.getConfigManager().piglinBruteMessage ;
-			
+					return plugin.getConfigManager().piglinBruteMessage;
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
-					return  plugin.getConfigManager().hoglinMessage ;
+					return plugin.getConfigManager().hoglinMessage;
 				else if (mob instanceof Piglin)
-					return  plugin.getConfigManager().piglinMessage ;
+					return plugin.getConfigManager().piglinMessage;
 				else if (mob instanceof Strider)
-					return  plugin.getConfigManager().striderMessage ;
+					return plugin.getConfigManager().striderMessage;
 				else if (mob instanceof Zoglin)
-					return  plugin.getConfigManager().zoglinMessage ;
+					return plugin.getConfigManager().zoglinMessage;
 
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
-					return  plugin.getConfigManager().beeMessage ;
+					return plugin.getConfigManager().beeMessage;
 
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
-					return  plugin.getConfigManager().catMessage ;
+					return plugin.getConfigManager().catMessage;
 				else if (mob instanceof Fox)
-					return  plugin.getConfigManager().foxMessage ;
+					return plugin.getConfigManager().foxMessage;
 				else if (mob instanceof Panda)
-					return  plugin.getConfigManager().pandaMessage ;
+					return plugin.getConfigManager().pandaMessage;
 				else if (mob instanceof Pillager)
-					return  plugin.getConfigManager().pillagerMessage ;
+					return plugin.getConfigManager().pillagerMessage;
 				else if (mob instanceof Ravager)
-					return  plugin.getConfigManager().ravagerMessage ;
+					return plugin.getConfigManager().ravagerMessage;
 				else if (mob instanceof Husk)
-					return  plugin.getConfigManager().huskMessage ;
+					return plugin.getConfigManager().huskMessage;
 				else if (mob instanceof Stray)
-					return  plugin.getConfigManager().strayMessage ;
+					return plugin.getConfigManager().strayMessage;
 				else if (mob instanceof TraderLlama)
-					return  plugin.getConfigManager().traderLlamaMessage ;
+					return plugin.getConfigManager().traderLlamaMessage;
 				else if (mob instanceof WanderingTrader)
-					return  plugin.getConfigManager().wanderingTraderMessage ;
+					return plugin.getConfigManager().wanderingTraderMessage;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
-						return  plugin.getConfigManager().armorerMessage ;
+						return plugin.getConfigManager().armorerMessage;
 					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
-						return  plugin.getConfigManager().butcherMessage ;
+						return plugin.getConfigManager().butcherMessage;
 					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
-						return  plugin.getConfigManager().cartographerMessage ;
+						return plugin.getConfigManager().cartographerMessage;
 					else if (((Villager) mob).getProfession() == Profession.CLERIC)
-						return  plugin.getConfigManager().clericMessage ;
+						return plugin.getConfigManager().clericMessage;
 					else if (((Villager) mob).getProfession() == Profession.FARMER)
-						return  plugin.getConfigManager().farmerMessage ;
+						return plugin.getConfigManager().farmerMessage;
 					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
-						return  plugin.getConfigManager().fishermanMessage ;
+						return plugin.getConfigManager().fishermanMessage;
 					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
-						return  plugin.getConfigManager().fletcherMessage ;
+						return plugin.getConfigManager().fletcherMessage;
 					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
-						return  plugin.getConfigManager().leatherworkerMessage ;
+						return plugin.getConfigManager().leatherworkerMessage;
 					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
-						return  plugin.getConfigManager().librarianMessage ;
+						return plugin.getConfigManager().librarianMessage;
 					else if (((Villager) mob).getProfession() == Profession.MASON)
-						return  plugin.getConfigManager().masonMessage ;
+						return plugin.getConfigManager().masonMessage;
 					else if (((Villager) mob).getProfession() == Profession.NITWIT)
-						return  plugin.getConfigManager().nitwitMessage ;
+						return plugin.getConfigManager().nitwitMessage;
 					else if (((Villager) mob).getProfession() == Profession.NONE)
-						return  plugin.getConfigManager().villagerMessage ;
+						return plugin.getConfigManager().villagerMessage;
 					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
-						return  plugin.getConfigManager().shepherdMessage ;
+						return plugin.getConfigManager().shepherdMessage;
 					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
-						return  plugin.getConfigManager().toolsmithMessage ;
+						return plugin.getConfigManager().toolsmithMessage;
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
-						return  plugin.getConfigManager().weaponsmithMessage ;
+						return plugin.getConfigManager().weaponsmithMessage;
 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
-					return  plugin.getConfigManager().dolphinMessage ;
+					return plugin.getConfigManager().dolphinMessage;
 				else if (mob instanceof Drowned)
-					return  plugin.getConfigManager().drownedMessage ;
+					return plugin.getConfigManager().drownedMessage;
 				else if (mob instanceof Cod)
-					return  plugin.getConfigManager().codMessage ;
+					return plugin.getConfigManager().codMessage;
 				else if (mob instanceof Salmon)
-					return  plugin.getConfigManager().salmonMessage ;
+					return plugin.getConfigManager().salmonMessage;
 				else if (mob instanceof TropicalFish)
-					return  plugin.getConfigManager().tropicalFishMessage ;
+					return plugin.getConfigManager().tropicalFishMessage;
 				else if (mob instanceof PufferFish)
-					return  plugin.getConfigManager().pufferfishMessage ;
+					return plugin.getConfigManager().pufferfishMessage;
 				else if (mob instanceof Phantom)
-					return  plugin.getConfigManager().phantomMessage ;
+					return plugin.getConfigManager().phantomMessage;
 				else if (mob instanceof Turtle)
-					return  plugin.getConfigManager().turtleMessage ;
+					return plugin.getConfigManager().turtleMessage;
 
 			if (Servers.isMC112OrNewer())
 				if (mob instanceof Parrot)
-					return  plugin.getConfigManager().parrotMessage ;
+					return plugin.getConfigManager().parrotMessage;
 				else if (mob instanceof Illusioner)
-					return  plugin.getConfigManager().illusionerMessage ;
+					return plugin.getConfigManager().illusionerMessage;
 
 			if (Servers.isMC111OrNewer())
 				if (mob instanceof Llama)
-					return  plugin.getConfigManager().llamaMessage ;
+					return plugin.getConfigManager().llamaMessage;
 				else if (mob instanceof Vex)
-					return  plugin.getConfigManager().vexMessage ;
+					return plugin.getConfigManager().vexMessage;
 				else if (mob instanceof Vindicator)
-					return  plugin.getConfigManager().vindicatorMessage ;
+					return plugin.getConfigManager().vindicatorMessage;
 				else if (mob instanceof Evoker)
-					return  plugin.getConfigManager().evokerMessage ;
+					return plugin.getConfigManager().evokerMessage;
 				else if (mob instanceof Donkey)
-					return  plugin.getConfigManager().donkeyMessage ;
+					return plugin.getConfigManager().donkeyMessage;
 				else if (mob instanceof Mule)
-					return  plugin.getConfigManager().muleMessage ;
+					return plugin.getConfigManager().muleMessage;
 				else if (mob instanceof SkeletonHorse)
-					return  plugin.getConfigManager().skeletonHorseMessage ;
+					return plugin.getConfigManager().skeletonHorseMessage;
 				else if (mob instanceof ZombieHorse)
-					return  plugin.getConfigManager().zombieHorseMessage ;
+					return plugin.getConfigManager().zombieHorseMessage;
 				else if (mob instanceof Stray)
-					return  plugin.getConfigManager().strayMessage ;
+					return plugin.getConfigManager().strayMessage;
 				else if (mob instanceof Husk)
-					return  plugin.getConfigManager().huskMessage ;
+					return plugin.getConfigManager().huskMessage;
 				else if (mob instanceof ZombieVillager)
-					return  plugin.getConfigManager().zombieVillagerMessage ;
+					return plugin.getConfigManager().zombieVillagerMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
-					return  plugin.getConfigManager().nitwitMessage ;
+					return plugin.getConfigManager().nitwitMessage;
 
 			if (Servers.isMC110OrNewer())
 				if (mob instanceof PolarBear)
-					return  plugin.getConfigManager().polarBearMessage ;
+					return plugin.getConfigManager().polarBearMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
-					return  plugin.getConfigManager().strayMessage ;
+					return plugin.getConfigManager().strayMessage;
 
 			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
-					return  plugin.getConfigManager().huskMessage ;
+					return plugin.getConfigManager().huskMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
-					return  plugin.getConfigManager().villagerMessage ;
+					return plugin.getConfigManager().villagerMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
-					return  plugin.getConfigManager().priestMessage ;
+					return plugin.getConfigManager().priestMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-					return  plugin.getConfigManager().butcherMessage ;
+					return plugin.getConfigManager().butcherMessage;
 				else if (mob instanceof Villager
 						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
-					return  plugin.getConfigManager().blacksmithMessage ;
+					return plugin.getConfigManager().blacksmithMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-					return  plugin.getConfigManager().librarianMessage ;
+					return plugin.getConfigManager().librarianMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-					return  plugin.getConfigManager().farmerMessage ;
+					return plugin.getConfigManager().farmerMessage;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
-					return  plugin.getConfigManager().shulkerMessage ;
+					return plugin.getConfigManager().shulkerMessage;
 
 			// MC1.8 or older
 			if (mob instanceof Guardian && ((Guardian) mob).isElder())
-				return  plugin.getConfigManager().elderGuardianMessage ;
+				return plugin.getConfigManager().elderGuardianMessage;
 			else if (mob instanceof Guardian)
-				return  plugin.getConfigManager().guardianMessge ;
+				return plugin.getConfigManager().guardianMessge;
 			else if (mob instanceof Endermite)
-				return  plugin.getConfigManager().endermiteMessage ;
+				return plugin.getConfigManager().endermiteMessage;
 			else if (mob instanceof Rabbit)
 				if ((((Rabbit) mob).getRabbitType()) == Rabbit.Type.THE_KILLER_BUNNY)
-					return  plugin.getConfigManager().killerRabbitMessage ;
+					return plugin.getConfigManager().killerRabbitMessage;
 				else
-					return  plugin.getConfigManager().rabbitMessage ;
+					return plugin.getConfigManager().rabbitMessage;
 			else if (mob instanceof Player)
-				return  plugin.getConfigManager().pvpKillMessage ;
+				return plugin.getConfigManager().pvpKillMessage;
 			else if (mob instanceof Blaze)
-				return  plugin.getConfigManager().blazeMessage ;
+				return plugin.getConfigManager().blazeMessage;
 			else if (mob instanceof Creeper)
-				return  plugin.getConfigManager().creeperMessage ;
+				return plugin.getConfigManager().creeperMessage;
 			else if (mob instanceof Silverfish)
-				return  plugin.getConfigManager().silverfishMessage ;
+				return plugin.getConfigManager().silverfishMessage;
 			else if (mob instanceof Enderman)
-				return  plugin.getConfigManager().endermanMessage ;
+				return plugin.getConfigManager().endermanMessage;
 			else if (mob instanceof Giant)
-				return  plugin.getConfigManager().giantMessage ;
+				return plugin.getConfigManager().giantMessage;
 			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
-				return  plugin.getConfigManager().skeletonMessage ;
+				return plugin.getConfigManager().skeletonMessage;
 			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
-				return  plugin.getConfigManager().witherSkeletonMessage ;
+				return plugin.getConfigManager().witherSkeletonMessage;
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a Subclass of Spider
-				return  plugin.getConfigManager().caveSpiderMessage ;
+				return plugin.getConfigManager().caveSpiderMessage;
 			else if (mob instanceof Spider)
-				return  plugin.getConfigManager().spiderMessage ;
+				return plugin.getConfigManager().spiderMessage;
 			else if (mob instanceof Witch)
-				return  plugin.getConfigManager().witchMessage ;
+				return plugin.getConfigManager().witchMessage;
 			else if (mob instanceof PigZombie)
 				// PigZombie is a subclass of Zombie
-				return  plugin.getConfigManager().zombiePigmanMessage ;
+				return plugin.getConfigManager().zombiePigmanMessage;
 			else if (mob instanceof Zombie)
-				return  plugin.getConfigManager().zombieMessage ;
+				return plugin.getConfigManager().zombieMessage;
 			else if (mob instanceof Ghast)
-				return  plugin.getConfigManager().ghastMessage ;
+				return plugin.getConfigManager().ghastMessage;
 			else if (mob instanceof MagmaCube)
 				// MagmaCube is a subclass of Slime
-				return  plugin.getConfigManager().magmaCubeMessage ;
+				return plugin.getConfigManager().magmaCubeMessage;
 			else if (mob instanceof Slime)
-				return  plugin.getConfigManager().slimeMessage ;
+				return plugin.getConfigManager().slimeMessage;
 			else if (mob instanceof EnderDragon)
-				return  plugin.getConfigManager().enderDragonMessage ;
+				return plugin.getConfigManager().enderDragonMessage;
 			else if (mob instanceof Wither)
-				return  plugin.getConfigManager().witherMessage ;
+				return plugin.getConfigManager().witherMessage;
 			else if (mob instanceof IronGolem)
-				return  plugin.getConfigManager().ironGolemMessage ;
+				return plugin.getConfigManager().ironGolemMessage;
 
 			// Passive mobs
 			else if (mob instanceof Bat)
-				return  plugin.getConfigManager().batMessage ;
+				return plugin.getConfigManager().batMessage;
 			else if (mob instanceof Chicken)
-				return  plugin.getConfigManager().chickenMessage ;
+				return plugin.getConfigManager().chickenMessage;
 			else if (mob instanceof Cow)
 				if (mob instanceof MushroomCow)
 					// MushroomCow is a subclass of Cow
-					return  plugin.getConfigManager().mushroomCowMessage ;
+					return plugin.getConfigManager().mushroomCowMessage;
 				else
-					return  plugin.getConfigManager().cowCmdDesc ;
+					return plugin.getConfigManager().cowCmdDesc;
 			else if (mob instanceof Horse)
-				return  plugin.getConfigManager().horseMessage ;
+				return plugin.getConfigManager().horseMessage;
 			else if (mob instanceof Ocelot)
-				return  plugin.getConfigManager().ocelotMessage ;
+				return plugin.getConfigManager().ocelotMessage;
 			else if (mob instanceof Pig)
-				return  plugin.getConfigManager().pigMessage ;
+				return plugin.getConfigManager().pigMessage;
 			else if (mob instanceof Sheep)
-				return  plugin.getConfigManager().sheepMessage ;
+				return plugin.getConfigManager().sheepMessage;
 			else if (mob instanceof Snowman)
-				return  plugin.getConfigManager().snowmanMessage ;
+				return plugin.getConfigManager().snowmanMessage;
 			else if (mob instanceof Squid)
-				return  plugin.getConfigManager().squidMessage ;
+				return plugin.getConfigManager().squidMessage;
 			else if (mob instanceof Villager)
-				return  plugin.getConfigManager().villagerMessage ;
+				return plugin.getConfigManager().villagerMessage;
 			else if (mob instanceof Wolf)
-				return  plugin.getConfigManager().wolfMessage ;
+				return plugin.getConfigManager().wolfMessage;
 			else if (mob instanceof Item && ((Item) mob).getItemStack().getType() == Material.COD)
-				return  plugin.getConfigManager().codMessage ;
+				return plugin.getConfigManager().codMessage;
 			else if (mob instanceof Item && ((Item) mob).getItemStack().getType() == Material.SALMON)
-				return  plugin.getConfigManager().salmonMessage ;
+				return plugin.getConfigManager().salmonMessage;
 			else if (mob instanceof Item && ((Item) mob).getItemStack().getType() == Material.TROPICAL_FISH)
-				return  plugin.getConfigManager().tropicalFishMessage ;
+				return plugin.getConfigManager().tropicalFishMessage;
 			else if (mob instanceof Item && ((Item) mob).getItemStack().getType() == Material.PUFFERFISH)
-				return  plugin.getConfigManager().pufferfishMessage ;
+				return plugin.getConfigManager().pufferfishMessage;
 
 		}
 		return "";
@@ -1568,7 +1571,7 @@ public class RewardManager {
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMoneyChance;
-			
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMoneyChance;
@@ -1884,7 +1887,7 @@ public class RewardManager {
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMcMMOSkillRewardChance;
-			
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMcMMOSkillRewardChance;
@@ -2224,7 +2227,7 @@ public class RewardManager {
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getMcMMOXP(mob, plugin.getConfigManager().piglinBruteMcMMOSkillRewardAmount);
-			
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getMcMMOXP(mob, plugin.getConfigManager().hoglinMcMMOSkillRewardAmount);
@@ -2535,7 +2538,7 @@ public class RewardManager {
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteEnabled;
-			
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinEnabled;
@@ -2857,7 +2860,7 @@ public class RewardManager {
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadDropHead;
-			
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadDropHead;
@@ -3181,7 +3184,7 @@ public class RewardManager {
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadDropChance;
-			
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadDropChance;
@@ -3488,7 +3491,7 @@ public class RewardManager {
 			return "";
 
 		} else if (MyPetCompat.isMyPet(mob)) {
-			return  plugin.getConfigManager().wolfHeadMessage ;
+			return plugin.getConfigManager().wolfHeadMessage;
 
 		} else {
 			if (Servers.isMC117OrNewer())
@@ -3503,241 +3506,241 @@ public class RewardManager {
 
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
-					return  plugin.getConfigManager().piglinBruteHeadMessage ;
-			
+					return plugin.getConfigManager().piglinBruteHeadMessage;
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
-					return  plugin.getConfigManager().hoglinHeadMessage ;
+					return plugin.getConfigManager().hoglinHeadMessage;
 				else if (mob instanceof Piglin)
-					return  plugin.getConfigManager().piglinHeadMessage ;
+					return plugin.getConfigManager().piglinHeadMessage;
 				else if (mob instanceof Strider)
-					return  plugin.getConfigManager().striderHeadMessage ;
+					return plugin.getConfigManager().striderHeadMessage;
 				else if (mob instanceof Zoglin)
-					return  plugin.getConfigManager().zoglinHeadMessage ;
+					return plugin.getConfigManager().zoglinHeadMessage;
 
 			if (Servers.isMC115OrNewer())
 				if (mob instanceof Bee)
-					return  plugin.getConfigManager().beeHeadMessage ;
+					return plugin.getConfigManager().beeHeadMessage;
 
 			if (Servers.isMC114OrNewer())
 				if (mob instanceof Cat)
-					return  plugin.getConfigManager().catHeadMessage ;
+					return plugin.getConfigManager().catHeadMessage;
 				else if (mob instanceof Fox)
-					return  plugin.getConfigManager().foxHeadMessage ;
+					return plugin.getConfigManager().foxHeadMessage;
 				else if (mob instanceof Panda)
-					return  plugin.getConfigManager().pandaHeadMessage ;
+					return plugin.getConfigManager().pandaHeadMessage;
 				else if (mob instanceof Pillager)
-					return  plugin.getConfigManager().pillagerHeadMessage ;
+					return plugin.getConfigManager().pillagerHeadMessage;
 				else if (mob instanceof Ravager)
-					return  plugin.getConfigManager().ravagerHeadMessage ;
+					return plugin.getConfigManager().ravagerHeadMessage;
 				else if (mob instanceof Husk)
-					return  plugin.getConfigManager().huskHeadMessage ;
+					return plugin.getConfigManager().huskHeadMessage;
 				else if (mob instanceof Stray)
-					return  plugin.getConfigManager().strayHeadMessage ;
+					return plugin.getConfigManager().strayHeadMessage;
 				else if (mob instanceof TraderLlama)
-					return  plugin.getConfigManager().traderLlamaHeadMessage ;
+					return plugin.getConfigManager().traderLlamaHeadMessage;
 				else if (mob instanceof WanderingTrader)
-					return  plugin.getConfigManager().wanderingTraderHeadMessage ;
+					return plugin.getConfigManager().wanderingTraderHeadMessage;
 				else if (mob instanceof Villager)
 					if (((Villager) mob).getProfession() == Profession.ARMORER)
-						return  plugin.getConfigManager().armorerHeadMessage ;
+						return plugin.getConfigManager().armorerHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.BUTCHER)
-						return  plugin.getConfigManager().butcherHeadMessage ;
+						return plugin.getConfigManager().butcherHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.CARTOGRAPHER)
-						return  plugin.getConfigManager().cartographerHeadMessage ;
+						return plugin.getConfigManager().cartographerHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.CLERIC)
-						return  plugin.getConfigManager().clericHeadMessage ;
+						return plugin.getConfigManager().clericHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.FARMER)
-						return  plugin.getConfigManager().farmerHeadMessage ;
+						return plugin.getConfigManager().farmerHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.FISHERMAN)
-						return  plugin.getConfigManager().fishermanHeadMessage ;
+						return plugin.getConfigManager().fishermanHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.FLETCHER)
-						return  plugin.getConfigManager().fletcherHeadMessage ;
+						return plugin.getConfigManager().fletcherHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.LEATHERWORKER)
-						return  plugin.getConfigManager().leatherworkerHeadMessage ;
+						return plugin.getConfigManager().leatherworkerHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.LIBRARIAN)
-						return  plugin.getConfigManager().librarianHeadMessage ;
+						return plugin.getConfigManager().librarianHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.MASON)
-						return  plugin.getConfigManager().masonHeadMessage ;
+						return plugin.getConfigManager().masonHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.NITWIT)
-						return  plugin.getConfigManager().nitwitHeadMessage ;
+						return plugin.getConfigManager().nitwitHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.NONE)
-						return  plugin.getConfigManager().villagerHeadMessage ;
+						return plugin.getConfigManager().villagerHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.SHEPHERD)
-						return  plugin.getConfigManager().shepherdHeadMessage ;
+						return plugin.getConfigManager().shepherdHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.TOOLSMITH)
-						return  plugin.getConfigManager().toolsmithHeadMessage ;
+						return plugin.getConfigManager().toolsmithHeadMessage;
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
-						return  plugin.getConfigManager().weaponsmithHeadMessage ;
+						return plugin.getConfigManager().weaponsmithHeadMessage;
 
 			if (Servers.isMC113OrNewer())
 				if (mob instanceof Dolphin)
-					return  plugin.getConfigManager().dolphinHeadMessage ;
+					return plugin.getConfigManager().dolphinHeadMessage;
 				else if (mob instanceof Drowned)
-					return  plugin.getConfigManager().drownedHeadMessage ;
+					return plugin.getConfigManager().drownedHeadMessage;
 				else if (mob instanceof Cod)
-					return  plugin.getConfigManager().codHeadMessage ;
+					return plugin.getConfigManager().codHeadMessage;
 				else if (mob instanceof Salmon)
-					return  plugin.getConfigManager().salmonHeadMessage ;
+					return plugin.getConfigManager().salmonHeadMessage;
 				else if (mob instanceof TropicalFish)
-					return  plugin.getConfigManager().tropicalFishHeadMessage ;
+					return plugin.getConfigManager().tropicalFishHeadMessage;
 				else if (mob instanceof PufferFish)
-					return  plugin.getConfigManager().pufferfishHeadMessage ;
+					return plugin.getConfigManager().pufferfishHeadMessage;
 				else if (mob instanceof Phantom)
-					return  plugin.getConfigManager().phantomHeadMessage ;
+					return plugin.getConfigManager().phantomHeadMessage;
 				else if (mob instanceof Turtle)
-					return  plugin.getConfigManager().turtleHeadMessage ;
+					return plugin.getConfigManager().turtleHeadMessage;
 
 			if (Servers.isMC112OrNewer())
 				if (mob instanceof Parrot)
-					return  plugin.getConfigManager().parrotHeadMessage ;
+					return plugin.getConfigManager().parrotHeadMessage;
 				else if (mob instanceof Illusioner)
-					return  plugin.getConfigManager().illusionerHeadMessage ;
+					return plugin.getConfigManager().illusionerHeadMessage;
 
 			if (Servers.isMC111OrNewer())
 				if (mob instanceof Llama)
-					return  plugin.getConfigManager().llamaHeadMessage ;
+					return plugin.getConfigManager().llamaHeadMessage;
 				else if (mob instanceof Vex)
-					return  plugin.getConfigManager().vexHeadMessage ;
+					return plugin.getConfigManager().vexHeadMessage;
 				else if (mob instanceof Vindicator)
-					return  plugin.getConfigManager().vindicatorHeadMessage ;
+					return plugin.getConfigManager().vindicatorHeadMessage;
 				else if (mob instanceof Evoker)
-					return  plugin.getConfigManager().evokerHeadMessage ;
+					return plugin.getConfigManager().evokerHeadMessage;
 				else if (mob instanceof Donkey)
-					return  plugin.getConfigManager().donkeyHeadMessage ;
+					return plugin.getConfigManager().donkeyHeadMessage;
 				else if (mob instanceof Mule)
-					return  plugin.getConfigManager().muleHeadMessage ;
+					return plugin.getConfigManager().muleHeadMessage;
 				else if (mob instanceof SkeletonHorse)
-					return  plugin.getConfigManager().skeletonHorseHeadMessage ;
+					return plugin.getConfigManager().skeletonHorseHeadMessage;
 				else if (mob instanceof ZombieHorse)
-					return  plugin.getConfigManager().zombieHorseHeadMessage ;
+					return plugin.getConfigManager().zombieHorseHeadMessage;
 				else if (mob instanceof Stray)
-					return  plugin.getConfigManager().strayHeadMessage ;
+					return plugin.getConfigManager().strayHeadMessage;
 				else if (mob instanceof Husk)
-					return  plugin.getConfigManager().huskHeadMessage ;
+					return plugin.getConfigManager().huskHeadMessage;
 				else if (mob instanceof ZombieVillager)
-					return  plugin.getConfigManager().zombieVillagerHeadMessage ;
+					return plugin.getConfigManager().zombieVillagerHeadMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
-					return  plugin.getConfigManager().nitwitHeadMessage ;
+					return plugin.getConfigManager().nitwitHeadMessage;
 
 			if (Servers.isMC110OrNewer())
 				if (mob instanceof PolarBear)
-					return  plugin.getConfigManager().polarBearHeadMessage ;
+					return plugin.getConfigManager().polarBearHeadMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
-					return  plugin.getConfigManager().strayHeadMessage ;
+					return plugin.getConfigManager().strayHeadMessage;
 
 			// Handle old villagers
 			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Villager.Profession.valueOf("HUSK"))
-					return  plugin.getConfigManager().huskHeadMessage ;
+					return plugin.getConfigManager().huskHeadMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
-					return  plugin.getConfigManager().villagerHeadMessage ;
+					return plugin.getConfigManager().villagerHeadMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("PRIEST"))
-					return  plugin.getConfigManager().priestHeadMessage ;
+					return plugin.getConfigManager().priestHeadMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.BUTCHER)
-					return  plugin.getConfigManager().butcherHeadMessage ;
+					return plugin.getConfigManager().butcherHeadMessage;
 				else if (mob instanceof Villager
 						&& ((Villager) mob).getProfession() == Profession.valueOf("BLACKSMITH"))
-					return  plugin.getConfigManager().blacksmithHeadMessage ;
+					return plugin.getConfigManager().blacksmithHeadMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.LIBRARIAN)
-					return  plugin.getConfigManager().librarianHeadMessage ;
+					return plugin.getConfigManager().librarianHeadMessage;
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
-					return  plugin.getConfigManager().farmerHeadMessage ;
+					return plugin.getConfigManager().farmerHeadMessage;
 
 			if (Servers.isMC19OrNewer())
 				if (mob instanceof Shulker)
-					return  plugin.getConfigManager().shulkerHeadMessage ;
+					return plugin.getConfigManager().shulkerHeadMessage;
 
 			// MC1.8 or older
 			if (mob instanceof Guardian && ((Guardian) mob).isElder())
-				return  plugin.getConfigManager().elderGuardianHeadMessage ;
+				return plugin.getConfigManager().elderGuardianHeadMessage;
 			else if (mob instanceof Guardian)
-				return  plugin.getConfigManager().guardianHeadMessage ;
+				return plugin.getConfigManager().guardianHeadMessage;
 			else if (mob instanceof Endermite)
-				return  plugin.getConfigManager().endermiteHeadMessage ;
+				return plugin.getConfigManager().endermiteHeadMessage;
 			else if (mob instanceof Rabbit)
 				if ((((Rabbit) mob).getRabbitType()) == Rabbit.Type.THE_KILLER_BUNNY)
-					return  plugin.getConfigManager().killerRabbitHeadMessage ;
+					return plugin.getConfigManager().killerRabbitHeadMessage;
 				else
-					return  plugin.getConfigManager().rabbitHeadMessage ;
+					return plugin.getConfigManager().rabbitHeadMessage;
 			else if (mob instanceof Player)
-				return  plugin.getConfigManager().pvpHeadMessage ;
+				return plugin.getConfigManager().pvpHeadMessage;
 			else if (mob instanceof Blaze)
-				return  plugin.getConfigManager().blazeHeadMessage ;
+				return plugin.getConfigManager().blazeHeadMessage;
 			else if (mob instanceof Creeper)
-				return  plugin.getConfigManager().creeperHeadMessage ;
+				return plugin.getConfigManager().creeperHeadMessage;
 			else if (mob instanceof Silverfish)
-				return  plugin.getConfigManager().silverfishHeadMessage ;
+				return plugin.getConfigManager().silverfishHeadMessage;
 			else if (mob instanceof Enderman)
-				return  plugin.getConfigManager().endermanHeadMessage ;
+				return plugin.getConfigManager().endermanHeadMessage;
 			else if (mob instanceof Giant)
-				return  plugin.getConfigManager().giantHeadMessage ;
+				return plugin.getConfigManager().giantHeadMessage;
 			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
-				return  plugin.getConfigManager().skeletonHeadMessage ;
+				return plugin.getConfigManager().skeletonHeadMessage;
 			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
-				return  plugin.getConfigManager().witherSkeletonHeadMessage ;
+				return plugin.getConfigManager().witherSkeletonHeadMessage;
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a subclass of Spider
-				return  plugin.getConfigManager().caveSpiderHeadMessage ;
+				return plugin.getConfigManager().caveSpiderHeadMessage;
 			else if (mob instanceof Spider)
-				return  plugin.getConfigManager().spiderHeadMessage ;
+				return plugin.getConfigManager().spiderHeadMessage;
 			else if (mob instanceof Witch)
-				return  plugin.getConfigManager().witchHeadMessage ;
+				return plugin.getConfigManager().witchHeadMessage;
 			else if (mob instanceof PigZombie)
 				// PigZombie is a subclass of Zombie.
-				return  plugin.getConfigManager().zombiePigmanHeadMessage ;
+				return plugin.getConfigManager().zombiePigmanHeadMessage;
 			else if (mob instanceof Zombie)
-				return  plugin.getConfigManager().zombieHeadMessage ;
+				return plugin.getConfigManager().zombieHeadMessage;
 			else if (mob instanceof Ghast)
-				return  plugin.getConfigManager().ghastHeadMessage ;
+				return plugin.getConfigManager().ghastHeadMessage;
 			else if (mob instanceof MagmaCube)
 				// MagmaCube is a subclass of Slime
-				return  plugin.getConfigManager().magmaCubeHeadMessage ;
+				return plugin.getConfigManager().magmaCubeHeadMessage;
 			else if (mob instanceof Slime)
-				return  plugin.getConfigManager().slimeHeadMessage ;
+				return plugin.getConfigManager().slimeHeadMessage;
 			else if (mob instanceof EnderDragon)
-				return  plugin.getConfigManager().enderDragonHeadMessage ;
+				return plugin.getConfigManager().enderDragonHeadMessage;
 			else if (mob instanceof Wither)
-				return  plugin.getConfigManager().witherHeadMessage ;
+				return plugin.getConfigManager().witherHeadMessage;
 			else if (mob instanceof IronGolem)
-				return  plugin.getConfigManager().ironGolemHeadMessage ;
+				return plugin.getConfigManager().ironGolemHeadMessage;
 
 			// Passive mobs
 			else if (mob instanceof Bat)
-				return  plugin.getConfigManager().batHeadMessage ;
+				return plugin.getConfigManager().batHeadMessage;
 			else if (mob instanceof Chicken)
-				return  plugin.getConfigManager().chickenHeadMessage ;
+				return plugin.getConfigManager().chickenHeadMessage;
 			else if (mob instanceof Cow)
 				if (mob instanceof MushroomCow)
 					// MushroomCow is a subclass of Cow
-					return  plugin.getConfigManager().mushroomCowHeadMessage ;
+					return plugin.getConfigManager().mushroomCowHeadMessage;
 				else
-					return  plugin.getConfigManager().cowHeadMessage ;
+					return plugin.getConfigManager().cowHeadMessage;
 			else if (mob instanceof Horse)
-				return  plugin.getConfigManager().horseHeadMessage ;
+				return plugin.getConfigManager().horseHeadMessage;
 			else if (mob instanceof Ocelot)
-				return  plugin.getConfigManager().ocelotHeadMessage ;
+				return plugin.getConfigManager().ocelotHeadMessage;
 			else if (mob instanceof Pig)
-				return  plugin.getConfigManager().pigHeadMessage ;
+				return plugin.getConfigManager().pigHeadMessage;
 			else if (mob instanceof Sheep)
-				return  plugin.getConfigManager().sheepHeadMessage ;
+				return plugin.getConfigManager().sheepHeadMessage;
 			else if (mob instanceof Snowman)
-				return  plugin.getConfigManager().snowmanHeadMessage ;
+				return plugin.getConfigManager().snowmanHeadMessage;
 			else if (mob instanceof Squid)
-				return  plugin.getConfigManager().squidHeadMessage ;
+				return plugin.getConfigManager().squidHeadMessage;
 			else if (mob instanceof Villager)
-				return  plugin.getConfigManager().villagerHeadMessage ;
+				return plugin.getConfigManager().villagerHeadMessage;
 			else if (mob instanceof Wolf)
-				return  plugin.getConfigManager().wolfHeadMessage ;
+				return plugin.getConfigManager().wolfHeadMessage;
 			else if (mob instanceof Item && ((Item) mob).getItemStack().getType() == Material.COD)
-				return  plugin.getConfigManager().codHeadMessage ;
+				return plugin.getConfigManager().codHeadMessage;
 			else if (mob instanceof Item && ((Item) mob).getItemStack().getType() == Material.SALMON)
-				return  plugin.getConfigManager().salmonHeadMessage ;
+				return plugin.getConfigManager().salmonHeadMessage;
 			else if (mob instanceof Item && ((Item) mob).getItemStack().getType() == Material.TROPICAL_FISH)
-				return  plugin.getConfigManager().tropicalFishHeadMessage ;
+				return plugin.getConfigManager().tropicalFishHeadMessage;
 			else if (mob instanceof Item && ((Item) mob).getItemStack().getType() == Material.PUFFERFISH)
-				return  plugin.getConfigManager().pufferfishHeadMessage ;
+				return plugin.getConfigManager().pufferfishHeadMessage;
 		}
 		return "";
 	}
@@ -3827,8 +3830,8 @@ public class RewardManager {
 
 			if (Servers.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
-					return  getPrice(mob, plugin.getConfigManager().piglinBruteHeadPrize);
-			
+					return getPrice(mob, plugin.getConfigManager().piglinBruteHeadPrize);
+
 			if (Servers.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getPrice(mob, plugin.getConfigManager().hoglinHeadPrize);

@@ -221,18 +221,20 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 			org.bukkit.block.Sign sign = (org.bukkit.block.Sign) signBlock.getState();
 			sign.setLine(0, ChatColor.BLUE + ChatColor.BOLD.toString() + "MobHunting");
 			String statName = getStatType().translateName();
+			String color = ChatColor.getLastColors(statName);
+			statName = ChatColor.stripColor(statName);
 			if (statName.length() > 15) {
 				int splitPos = statName.indexOf(' ');
 
 				if (splitPos == -1 || splitPos >= 14) {
-					sign.setLine(1, statName.substring(0, 14).trim());
-					sign.setLine(2, statName.substring(14).trim());
+					sign.setLine(1, color+statName.substring(0, 14).trim());
+					sign.setLine(2, color+statName.substring(14).trim());
 				} else {
-					sign.setLine(1, statName.substring(0, splitPos).trim());
-					sign.setLine(2, statName.substring(splitPos).trim());
+					sign.setLine(1, color+statName.substring(0, splitPos).trim());
+					sign.setLine(2, color+statName.substring(splitPos).trim());
 				}
 			} else {
-				sign.setLine(1, statName);
+				sign.setLine(1, color+statName);
 				sign.setLine(2, EMPTY_STRING);
 			}
 			sign.setLine(3, Tools.trimSignText(getPeriod().translateNameFriendly()));

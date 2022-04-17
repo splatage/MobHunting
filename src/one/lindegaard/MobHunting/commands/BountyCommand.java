@@ -274,7 +274,7 @@ public class BountyCommand implements ICommand {
 						}
 					} else {
 						plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
-								"mobhunting.commands.bounty.no-permission", "perm", "mobhunting.bounty.admin"));
+								"mobhunting.commands.bounty.no-permission", Core.PH_PERMISSION, "mobhunting.bounty.admin"));
 						return true;
 					}
 					// plugin.getMessages().senderSendMessage(sender,plugin.getMessages().getString("mobhunting.commands.bounty.no-bounties-player",

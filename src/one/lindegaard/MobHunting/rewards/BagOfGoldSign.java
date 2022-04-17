@@ -244,7 +244,7 @@ public class BagOfGoldSign implements Listener {
 				}
 			} else {
 				plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
-						"mobhunting.bagofgoldsign.no_permission_to_use", "perm", "mobhunting.bagofgoldsign.use"));
+						"mobhunting.bagofgoldsign.no_permission_to_use", Core.PH_PERMISSION, "mobhunting.bagofgoldsign.use"));
 			}
 		}
 	}
@@ -311,7 +311,7 @@ public class BagOfGoldSign implements Listener {
 
 			} else {
 				plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
-						"mobhunting.bagofgoldsign.no_permission", "perm", "mobhunting.bagofgoldsign.create"));
+						"mobhunting.bagofgoldsign.no_permission", Core.PH_PERMISSION, "mobhunting.bagofgoldsign.create"));
 				event.setCancelled(true);
 			}
 		}
@@ -330,7 +330,7 @@ public class BagOfGoldSign implements Listener {
 				plugin.getMessages().debug("%s tried to destroy a BagOfGold sign without permission",
 						event.getPlayer().getName());
 				event.getPlayer().sendMessage(plugin.getMessages().getString("mobhunting.bagofgoldsign.no_permission",
-						"perm", "mobhunting.bagofgoldsign.destroy"));
+						Core.PH_PERMISSION, "mobhunting.bagofgoldsign.destroy"));
 				event.setCancelled(true);
 			}
 		}
