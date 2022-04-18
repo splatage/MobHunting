@@ -1908,7 +1908,7 @@ public class MobHuntingManager implements Listener {
 						if (commandCmd != null) {
 							commandCmd = commandCmd.replaceAll("\\{player\\}", player.getName())
 									.replaceAll("\\{killer\\}", player.getName())
-									.replaceAll("\\{killed\\}", mob.getFriendlyName())
+									.replaceAll("\\{killed\\}", mob.getMobName())
 									.replaceAll("\\{world\\}", worldname)
 									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
