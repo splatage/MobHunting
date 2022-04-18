@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<version>8.1.1</version>
-	<!-- <version>8.1.1-SNAPSHOT</version>  -->
-	<!-- <version>8.1.1-SNAPSHOT-B${build.number}</version> -->
+	<!-- <version>8.1.2</version>  -->
+	<version>8.1.2-SNAPSHOT</version>
+	<!-- <version>8.1.2-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
 	<description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -48,7 +48,7 @@
 		<TARDISWeepingAngels.version>2.4</TARDISWeepingAngels.version>
 		<ConquestiaMobs.version>3.3.3</ConquestiaMobs.version>
 		<LorinthsRpgMobs.version>1.6.8</LorinthsRpgMobs.version>
-		<LevelledMobs.version>3.1.0</LevelledMobs.version>
+		<LevelledMobs.version>3.4.1</LevelledMobs.version>
 		<MysteriousHalloween.version>1.3.5</MysteriousHalloween.version>
 		<EliteMobs.version>6.5.0</EliteMobs.version>
 		<SmartGiants.version>2.3.6</SmartGiants.version>

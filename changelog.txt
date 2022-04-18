@@ -1,3 +1,5 @@
+V8.1.2
+* Updated to LevelledMobs 4.3.1 (https://www.spigotmc.org/resources/levelledmobs.74304/)
 V8.1.1
 * placeholders in the lang files is updated. You will need to delete the lang folder and restart the server to get the new files.
 * Fixed bug on "Ender Dragon Kills" leaderboards. (https://github.com/Rocologo/MobHunting/issues/736)
