@@ -172,18 +172,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(BagOfGoldCompat.class, CompatPlugin.BagOfGold);
 		mCompatibilityManager.registerPlugin(GringottsCompat.class, CompatPlugin.Gringotts);
 
-		Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "1) IsBagOfGold loaded: "
-				+ mCompatibilityManager.isPluginLoaded(BagOfGoldCompat.class));
-		Bukkit.getConsoleSender()
-				.sendMessage(ChatColor.YELLOW + "2) IsBagOfGold Supported: " + BagOfGoldCompat.isSupported());
-
-		// if (Bukkit.getPluginManager().getPlugin(CompatPlugin.BagOfGold.getName()) ==
-		// null)
-
 		mCore = new Core(this);
-
-		// else
-		// mCore = BagOfGoldCompat.getBagOfGoldCore();
 
 		// Hook into Vault or Reserve
 		mEconomyManager = new EconomyManager(this);
