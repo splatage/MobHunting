@@ -82,7 +82,7 @@ public class MobHuntingManager implements Listener {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					new SpigetUpdater(plugin).checkForUpdate(player, true);
+					new SpigetUpdater(plugin).checkForUpdate(player, true, false);
 				}
 			}.runTaskLater(plugin, 20L);
 		}
