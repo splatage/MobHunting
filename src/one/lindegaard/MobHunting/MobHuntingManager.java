@@ -358,7 +358,9 @@ public class MobHuntingManager implements Listener {
 					plugin.getMessages().debug("There is NO penalty for being killed by a %s", mob.getName());
 				}
 
-			} else if (killer != null && BagOfGoldCompat.isSupported()) {
+			} else 
+				
+			if (killer != null && BagOfGoldCompat.isSupported()) {
 				PlayerBalance ps = BagOfGold.getAPI().getPlayerBalanceManager().getPlayerBalance(killed);
 				double balance = ps.getBalance() + ps.getBalanceChanges();
 				if (balance != 0) {

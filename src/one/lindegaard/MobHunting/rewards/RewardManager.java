@@ -432,6 +432,7 @@ public class RewardManager {
 			double balance = 0;
 			if (BagOfGoldCompat.isSupported()) {
 				for (ItemStack is : droplist) {
+					plugin.getMessages().debug("Dropped item: %s", is.getType());
 					if (Reward.isReward(is)) {
 						Reward reward = Reward.getReward(is);
 						if (reward.isBagOfGoldReward() || reward.isItemReward())
