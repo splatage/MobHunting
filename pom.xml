@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<!-- <version>8.1.3</version>  -->
-	<version>8.1.3-SNAPSHOT</version>
+	<version>8.1.3</version>
+	<!-- <version>8.1.3-SNAPSHOT</version>  -->
 	<!-- <version>8.1.3-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
@@ -27,15 +27,15 @@
 		<mypet.version>3.12-SNAPSHOT</mypet.version>
 		<mcmmohorses.version>4.3.55</mcmmohorses.version>
 		<worldedit.version>7.2.8</worldedit.version>
-		<worldguard7.version>7.0.0</worldguard7.version>
+		<worldguard7.version>7.0.7</worldguard7.version>
 		<worldguard6.version>6.2</worldguard6.version>
 		<PreciousStones.version>10.7.2</PreciousStones.version>
 		<libsdisguises.version>10.0.28</libsdisguises.version>
 		<battleArena.version>3.9.16.4</battleArena.version>
 		<custommobs.version>4.16</custommobs.version>
 		<mobarena.version>0.97.1</mobarena.version>
-		<massivecore.version>2.12.1</massivecore.version>
-		<factions.version>2.12.1</factions.version>
+		<massivecore.version>2.14.0</massivecore.version>
+		<factions.version>2.14.0</factions.version>
 		<factionsuuid.version>1.6.9.5-U0.3.0</factionsuuid.version>
 
 		<iDisguise.version>5.5.5</iDisguise.version>
@@ -652,9 +652,6 @@
   			<id>md_5-public</id>
   			<url>https://repo.md-5.net/content/groups/public/</url>
 		</repository>
-
-		
-
 	</repositories>
 
 

@@ -486,3 +486,8 @@ mobs.Strider.name=§9Strider
 mobs.Zoglin.name=§9Zoglin
 mobs.TraderLlama.name=§9Trader llama
 mobs.WanderingTrader.name=§9Wandering Trader
+
+mobs.Allay.name=§9Allay
+mobs.Frog.name=§9Frog
+mobs.Tadpole.name=§9Tadpole
+mobs.Warden.name=§9Warden

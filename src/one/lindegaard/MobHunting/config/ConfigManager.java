@@ -99,7 +99,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.zombie_pigman", "### Zombie Pigman settings ###");
 		setCategoryComment("mobs.vex", "### Vex settings ###");
 		setCategoryComment("mobs.vindicator", "### Vindicator settings ###");
-//		setCategoryComment("mobs.warden", "### Warden settings ###");
+		setCategoryComment("mobs.warden", "### Warden settings ###");
 		setCategoryComment("mobs.witch", "### Witch settings ###");
 		setCategoryComment("mobs.wither_skeleton", "### Wither Skeleton settings ###");
 
@@ -158,6 +158,7 @@ public class ConfigManager extends AutoConfig {
 						+ "\nBy default the player does not get a reward for killing friendly mobs."
 						+ "\nIf you make the number negative, the reward will be a fine for killing a passive animal.");
 
+		setCategoryComment("passive.allay", "### Allay settings ###");
 		setCategoryComment("passive.axolotl", "### Axolotl settings ###");
 		setCategoryComment("passive.bat", "### Bat settings ###");
 		setCategoryComment("passive.bee", "### Bee settings ###");
@@ -167,6 +168,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("passive.dolphin", "### Dolphin settings ###");
 		setCategoryComment("passive.donkey", "### Donkey settings ###");
 		setCategoryComment("passive.fox", "### Fox settings ###");
+		setCategoryComment("passive.frog", "### Frog settings ###");
 		setCategoryComment("passive.goat", "### Goat settings ###");
 		setCategoryComment("passive.horse", "### Horse settings ###");
 		setCategoryComment("passive.llama", "### Llama settings ###");
@@ -181,6 +183,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("passive.skeleton_horse", "### Skeleton Horse settings ###");
 		setCategoryComment("passive.snowman", "### Snowman settings ###");
 		setCategoryComment("passive.squid", "### Squid settings ###");
+		setCategoryComment("passive.tadpole", "### Tadpole settings ###");
 		setCategoryComment("passive.traderllama", "### Trader Llama settings ###");
 		setCategoryComment("passive.turtle", "### Turtle settings ###");
 		setCategoryComment("passive.wolf", "### Wolf settings ###");
@@ -2253,6 +2256,32 @@ public class ConfigManager extends AutoConfig {
 	// #####################################################################################
 	// Passive Mobs
 	// #####################################################################################
+	// =====Allay============================================
+	@ConfigField(name = "allay.enabled", category = "mobs")
+	public boolean allayEnabled = true;
+	@ConfigField(name = "allay.message", category = "mobs")
+	public String allayMessage = "You killed a §1{killed}";
+	@ConfigField(name = "allay.money.amount", category = "mobs")
+	public String allayMoney = "0.0";
+	@ConfigField(name = "allay.money.chance", category = "mobs")
+	public double allayMoneyChance = 0.05;
+	@ConfigField(name = "allay.commands", category = "mobs")
+	public List<HashMap<String, String>> allayCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.10");
+		allayCommands.add(values1);
+	}
+	@ConfigField(name = "allay.head.drophead", category = "mobs")
+	public boolean allayHeadDropHead = true;
+	@ConfigField(name = "allay.head.value", category = "mobs")
+	public String allayHeadPrize = "0";
+	@ConfigField(name = "allay.head.chance", category = "mobs")
+	public double allayHeadDropChance = 0.05;
+	@ConfigField(name = "allay.head.message", category = "mobs")
+	public String allayHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Axolotl============================================
 	@ConfigField(name = "axolotl.enabled", category = "mobs")
 	public boolean axolotlEnabled = true;
@@ -2461,6 +2490,32 @@ public class ConfigManager extends AutoConfig {
 	public double foxHeadDropChance = 0.05;
 	@ConfigField(name = "fox.head.message", category = "passive")
 	public String foxHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Frog============================================
+	@ConfigField(name = "frog.enabled", category = "passive")
+	public boolean frogEnabled = true;
+	@ConfigField(name = "frog.message", category = "passive")
+	public String frogMessage = "You killed a §1{killed}";
+	@ConfigField(name = "frog.money.amount", category = "passive")
+	public String frogMoney = "2";
+	@ConfigField(name = "frog.money.chance", category = "passive")
+	public double frogMoneyChance = 0.05;
+	@ConfigField(name = "frog.commands", category = "passive")
+	public List<HashMap<String, String>> frogCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} ghast_tear 1");
+		values1.put("chance", "0.1");
+		frogCommands.add(values1);
+	}
+	@ConfigField(name = "frog.drophead", category = "passive")
+	public boolean frogHeadDropHead = true;
+	@ConfigField(name = "frog.head.value", category = "passive")
+	public String frogHeadPrize = "0";
+	@ConfigField(name = "frog.head.chance", category = "passive")
+	public double frogHeadDropChance = 0.05;
+	@ConfigField(name = "frog.head.message", category = "passive")
+	public String frogHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Goat============================================
 	@ConfigField(name = "goat.enabled", category = "mobs")
@@ -2851,6 +2906,33 @@ public class ConfigManager extends AutoConfig {
 	public double squidHeadDropChance = 0.05;
 	@ConfigField(name = "squid.head.message", category = "passive")
 	public String squidHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Tadpole============================================
+	@ConfigField(name = "tadpole.enabled", category = "passive")
+	public boolean tadpoleEnabled = true;
+	@ConfigField(name = "tadpole.message", category = "passive")
+	public String tadpoleMessage = "You killed a §1{killed}";
+	@ConfigField(name = "tadpole.money.amount", category = "passive")
+	public String tadpoleMoney = "-10";
+	@ConfigField(name = "tadpole.money.chance", category = "passive")
+	public double tadpoleMoneyChance = 1;
+	
+	@ConfigField(name = "tadpole.commands", category = "passive")
+	public List<HashMap<String, String>> tadpoleCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} chest 1");
+		values1.put("chance", "0.05");
+		tadpoleCommands.add(values1);
+	}
+	@ConfigField(name = "tadpole.head.drophead", category = "passive")
+	public boolean tadpoleHeadDropHead = true;
+	@ConfigField(name = "tadpole.head.value", category = "passive")
+	public String tadpoleHeadPrize = "0";
+	@ConfigField(name = "tadpole.head.chance", category = "passive")
+	public double tadpoleHeadDropChance = 0.05;
+	@ConfigField(name = "tadpole.head.message", category = "passive")
+	public String tadpoleHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Trader Llama============================================
 	@ConfigField(name = "traderllama.enabled", category = "passive")
@@ -3304,6 +3386,9 @@ public class ConfigManager extends AutoConfig {
 	// #####################################################################################
 	// Achievement Hunter Levels
 	// #####################################################################################
+	@ConfigField(name = "allay_level1", category = "achievements.hunter.mob_level")
+	public int allayLevel1 = 100;
+
 	@ConfigField(name = "armorer_level1", category = "achievements.hunter.mob_level")
 	public int armorerLevel1 = 100;
 
@@ -3390,6 +3475,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "fox_level1", category = "achievements.hunter.mob_level")
 	public int foxLevel1 = 100;
+
+	@ConfigField(name = "frog_level1", category = "achievements.hunter.mob_level")
+	public int frogLevel1 = 100;
 
 	@ConfigField(name = "ghast_level1", category = "achievements.hunter.mob_level")
 	public int ghastLevel1 = 80;
@@ -3534,6 +3622,9 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "stray_level1", category = "achievements.hunter.mob_level")
 	public int strayLevel1 = 100;
+
+	@ConfigField(name = "tadpole_level1", category = "achievements.hunter.mob_level")
+	public int tadpoleLevel1 = 100;
 
 	@ConfigField(name = "turtle_level1", category = "achievements.hunter.mob_level")
 	public int turtleLevel1 = 100;
@@ -3687,13 +3778,11 @@ public class ConfigManager extends AutoConfig {
 			+ "\nusing '/mh whitelistarea'.")
 	public boolean disableMoneyRewardsFromMobSpawnersEggsAndDispensers = true;
 
-	@ConfigField(name = "enable_rewards_from_cave_spiders", category = "grinding.spawners", 
-			comment = "This allow players to get rewards when killing Cave Spiders from SPAWNERS. Cave Spiders does not only "
+	@ConfigField(name = "enable_rewards_from_cave_spiders", category = "grinding.spawners", comment = "This allow players to get rewards when killing Cave Spiders from SPAWNERS. Cave Spiders does not only "
 			+ "\nnaturally and only from SPAWNERS.")
 	public boolean enableRewardsFromCaveSpiders = true;
 
-	@ConfigField(name = "deny_slime_and_maga_cube_to_spilt", category = "grinding.spawners", 
-			comment = "Slimes and Maga Cubes can be used for grinding money because that only the"
+	@ConfigField(name = "deny_slime_and_maga_cube_to_spilt", category = "grinding.spawners", comment = "Slimes and Maga Cubes can be used for grinding money because that only the"
 			+ "\nmother is marked as from a SPAWNER. Spilitting is therefor denied if the slime/MC is"
 			+ "+\nfrom a SPAWNER. If you want Vanilla behavior set this to false.")
 	public boolean denySlimesToSpiltIfFromSpawer = true;
@@ -4001,6 +4090,11 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "enable_mcmmo_level_rewards", category = "plugins.mcmmo", comment = "Set 'enable_mcmmo_level_rewards: true' to let the players get Level as a MobHunting reward.")
 	public boolean enableMcMMOLevelRewards = true;
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.allay")
+	public String allayMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.allay")
+	public double allayMcMMOSkillRewardChance = 0.025;
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.axolotl")
 	public String axolotlMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.axolotl")
@@ -4169,6 +4263,12 @@ public class ConfigManager extends AutoConfig {
 	public String foxMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.fox")
 	public double foxMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.frog")
+	public String frogMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.frog")
+	public double frogMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.ghast")
@@ -4460,6 +4560,12 @@ public class ConfigManager extends AutoConfig {
 	public String toolsmithMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.toolsmith")
 	public double toolsmithMcMMOSkillRewardChance = 0.04;
+	// Passive mob, easy
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.tadpole")
+	public String tadpoleMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.tadpole")
+	public double tadpoleMcMMOSkillRewardChance = 0.04;
 	// Passive mob, easy
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.traderllama")
@@ -4953,6 +5059,8 @@ public class ConfigManager extends AutoConfig {
 	public int getProgressAchievementLevel1(MobType mob) {
 		switch (mob) {
 
+		case Allay:
+			return allayLevel1;
 		case Axolotl:
 			return axolotlLevel1;
 		case Bat:
@@ -5061,6 +5169,8 @@ public class ConfigManager extends AutoConfig {
 			return squidLevel1;
 		case Stray:
 			return strayLevel1;
+		case Tadpole:
+			return tadpoleLevel1;
 		case TraderLlama:
 			return traderllamaLevel1;
 		case Vex:
@@ -5071,8 +5181,8 @@ public class ConfigManager extends AutoConfig {
 			return vindicatorLevel1;
 		case WanderingTrader:
 			return wanderingTraderLevel1;
-//		case Warden:
-//			return wardenLevel1;
+		case Warden:
+			return wardenLevel1;
 		case Witch:
 			return witchLevel1;
 		case Wither:
@@ -5101,6 +5211,8 @@ public class ConfigManager extends AutoConfig {
 			return catLevel1;
 		case Fox:
 			return foxLevel1;
+		case Frog:
+			return frogLevel1;
 		case Panda:
 			return pandaLevel1;
 		case Pillager:
@@ -5152,6 +5264,8 @@ public class ConfigManager extends AutoConfig {
 	 */
 	public double getHeadPrize(MobType mob) {
 		switch (mob) {
+		case Allay:
+			return getPrice(mob, allayHeadPrize);
 		case Bat:
 			return getPrice(mob, batHeadPrize);
 		case Blacksmith:
@@ -5188,6 +5302,8 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, evokerHeadPrize);
 		case Farmer:
 			return getPrice(mob, farmerHeadPrize);
+		case Frog:
+			return getPrice(mob, frogHeadPrize);
 		case Ghast:
 			return getPrice(mob, ghastHeadPrize);
 		case Giant:
@@ -5256,6 +5372,8 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, squidHeadPrize);
 		case Stray:
 			return getPrice(mob, strayHeadPrize);
+		case Tadpole:
+			return getPrice(mob, tadpoleHeadPrize);
 		case TraderLlama:
 			return getPrice(mob, traderLlamaHeadPrize);
 		case Vex:
@@ -5338,6 +5456,8 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, glowsquidHeadPrize);
 		case Goat:
 			return getPrice(mob, goatHeadPrize);
+		case Warden:
+			return getPrice(mob, wardenHeadPrize);
 		default:
 			break;
 		}
