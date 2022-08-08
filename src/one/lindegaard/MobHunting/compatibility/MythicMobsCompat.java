@@ -48,7 +48,7 @@ public class MythicMobsCompat {
 						+ "Enabling compatibility with MythicMobs (" + mPlugin.getDescription().getVersion() + ")");
 				mmVersion = MythicMobVersion.MYTHICMOBS_V500;
 				supported = true;
-				Bukkit.getPluginManager().registerEvents(new MythicMobsV400Compat(), MobHunting.getInstance());
+				Bukkit.getPluginManager().registerEvents(new MythicMobsV500Compat(), MobHunting.getInstance());
 
 			} else if (mPlugin.getDescription().getVersion().compareTo("4.0.0") >= 0) {
 
