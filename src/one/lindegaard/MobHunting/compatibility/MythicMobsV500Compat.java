@@ -10,6 +10,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 
+import io.lumine.mythic.api.mobs.MythicMob;
+import io.lumine.mythic.bukkit.MythicBukkit;
+import io.lumine.mythic.bukkit.events.MythicMobDeathEvent;
+import io.lumine.mythic.bukkit.events.MythicMobSpawnEvent;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
@@ -25,8 +29,8 @@ public class MythicMobsV500Compat implements Listener {
 	// **************************************************************************
 	// OTHER FUNCTIONS
 	// **************************************************************************
-	private static MythicMobs getMythicMobsV500() {
-		return (MythicMobs) mPlugin;
+	private static MythicBukkit getMythicMobsV500() {
+		return (MythicBukkit) mPlugin;
 	}
 
 	public static boolean isMythicMobV500(String killed) {
