@@ -19,7 +19,7 @@ public class MasterMobHunterEvents implements Listener{
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onBlockRedstoneEvent(BlockRedstoneEvent e) {
 		
-		if (MobHunting.getAPI().getConfigManager().disableRedstonePoweredSigns)
+		if (MobHunting.getInstance().getConfigManager().disableRedstonePoweredSigns)
 			return;
 		
 		Block b = e.getBlock();
@@ -45,7 +45,7 @@ public class MasterMobHunterEvents implements Listener{
 	@EventHandler
 	public void onBlockPhysicsEvent(final BlockPhysicsEvent e) {
 		
-		if (MobHunting.getAPI().getConfigManager().disableRedstonePoweredSigns)
+		if (MobHunting.getInstance().getConfigManager().disableRedstonePoweredSigns)
 			return;
 
 		// This is the block which is going to be changed
@@ -77,7 +77,7 @@ public class MasterMobHunterEvents implements Listener{
 	@EventHandler
 	public void onBlockBreakEvent(BlockBreakEvent e) {
 		
-		if (MobHunting.getAPI().getConfigManager().disableRedstonePoweredSigns)
+		if (MobHunting.getInstance().getConfigManager().disableRedstonePoweredSigns)
 			return;
 		
 		Block b = e.getBlock();

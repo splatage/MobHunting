@@ -179,7 +179,7 @@ public class MasterMobHunterSign implements Listener {
 		if (event.isCancelled())
 			return;
 		
-		if (MobHunting.getAPI().getConfigManager().disableRedstonePoweredSigns)
+		if (MobHunting.getInstance().getConfigManager().disableRedstonePoweredSigns)
 			return;
 
 		Block clickedblock = event.getClickedBlock();
@@ -270,7 +270,7 @@ public class MasterMobHunterSign implements Listener {
 		// BlockPlaceEvent is called before the player enter the text on the
 		// sign
 		
-		if (MobHunting.getAPI().getConfigManager().disableRedstonePoweredSigns)
+		if (MobHunting.getInstance().getConfigManager().disableRedstonePoweredSigns)
 			return;
 
 		Block b = e.getBlock();

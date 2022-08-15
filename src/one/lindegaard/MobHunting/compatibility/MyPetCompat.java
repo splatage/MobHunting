@@ -154,7 +154,7 @@ public class MyPetCompat implements Listener {
 					MobHunting.getInstance().getEconomyManager().format(reward.getMoney()),
 					reward.getDisplayName());
 			if (reward.isBagOfGoldReward() || reward.isItemReward()) {
-				if (!BagOfGoldCompat.isSupported() && !MobHunting.getAPI().getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
+				if (!BagOfGoldCompat.isSupported() && !MobHunting.getInstance().getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
 					event.setCancelled(true);
 					item.remove();
 					MobHunting.getInstance().getRewardManager().depositPlayer(player, reward.getMoney());

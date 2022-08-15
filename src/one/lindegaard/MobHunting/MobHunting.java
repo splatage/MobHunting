@@ -9,7 +9,7 @@ import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.Core.messages.MessageManager;
 import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.Core.*;
-
+import one.lindegaard.MobHunting.Api.MobHuntingAPI;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
 import one.lindegaard.MobHunting.commands.BountyCommand;
@@ -415,8 +415,8 @@ public class MobHunting extends JavaPlugin {
 		return instance;
 	}
 
-	public static MobHunting getAPI() {
-		return instance;
+	public static MobHuntingAPI getAPI() {
+		return MobHunting.getAPI();
 	}
 
 	public ConfigManager getConfigManager() {
