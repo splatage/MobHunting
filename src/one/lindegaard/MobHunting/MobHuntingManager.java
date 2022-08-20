@@ -361,12 +361,12 @@ public class MobHuntingManager implements Listener {
 			} else 
 				
 			if (killer != null && BagOfGoldCompat.isSupported()) {
-				PlayerBalance ps = BagOfGold.getAPI().getPlayerBalanceManager().getPlayerBalance(killed);
+				PlayerBalance ps = BagOfGold.getInstance().getPlayerBalanceManager().getPlayerBalance(killed);
 				double balance = ps.getBalance() + ps.getBalanceChanges();
 				if (balance != 0) {
 					plugin.getMessages().debug("%s dropped %s because of his death, killed by %s", killed.getName(),
 							plugin.getEconomyManager().format(balance), killer.getName());
-					BagOfGold.getAPI().getRewardManager().removeMoneyFromPlayerBalance(killed, balance);
+					BagOfGold.getAPI().removeMoneyFromPlayerBalance(killed, balance);
 				}
 			}
 		}

@@ -144,7 +144,8 @@ public class MoneyCommand implements ICommand {
 					} else {
 						plugin.getMessages().senderSendMessage(sender,
 								ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
-										Core.PH_PERMISSION, "mobhunting.money.balance.other", "command", "money <playername>"));
+										Core.PH_PERMISSION, "mobhunting.money.balance.other", "command",
+										"money <playername>"));
 						return true;
 					}
 				}
@@ -166,8 +167,8 @@ public class MoneyCommand implements ICommand {
 											+ Core.getConfigManager().bagOfGoldName.trim()));
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
-								"mobhunting.money.balance", "command", "money"));
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
+								Core.PH_PERMISSION, "mobhunting.money.balance", "command", "money"));
 			}
 			return true;
 
@@ -267,8 +268,8 @@ public class MoneyCommand implements ICommand {
 				}
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
-								"mobhunting.money.drop", "command", "money drop"));
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
+								Core.PH_PERMISSION, "mobhunting.money.drop", "command", "money drop"));
 			}
 			return true;
 
@@ -309,9 +310,9 @@ public class MoneyCommand implements ICommand {
 				if (BagOfGoldCompat.isSupported()) {
 					if (allPlayers)
 						for (Player player2 : Tools.getOnlinePlayers())
-							BagOfGold.getAPI().getEconomyManager().depositPlayer(player2, amount);
+							BagOfGold.getAPI().depositPlayer(player2, amount);
 					else
-						BagOfGold.getAPI().getEconomyManager().depositPlayer(offlinePlayer, amount);
+						BagOfGold.getAPI().depositPlayer(offlinePlayer, amount);
 					plugin.getMessages().debug("BagOfGold supported, using depositPlayer");
 					return true;
 				}
@@ -356,8 +357,8 @@ public class MoneyCommand implements ICommand {
 
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
-								"mobhunting.money.give", "command", "money give"));
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
+								Core.PH_PERMISSION, "mobhunting.money.give", "command", "money give"));
 			}
 			return true;
 		}
@@ -398,9 +399,9 @@ public class MoneyCommand implements ICommand {
 				if (BagOfGoldCompat.isSupported()) {
 					if (allPlayers)
 						for (Player player : Tools.getOnlinePlayers())
-							BagOfGold.getAPI().getEconomyManager().withdrawPlayer(player, rest);
+							BagOfGold.getAPI().withdrawPlayer(player, rest);
 					else
-						BagOfGold.getAPI().getEconomyManager().withdrawPlayer(offlinePlayer, rest);
+						BagOfGold.getAPI().withdrawPlayer(offlinePlayer, rest);
 					plugin.getMessages().debug("BagOfGold supported, using withdrawPlayer");
 					return true;
 				}
@@ -457,8 +458,8 @@ public class MoneyCommand implements ICommand {
 
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
-								"mobhunting.money.take", "command", "money take"));
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
+								Core.PH_PERMISSION, "mobhunting.money.take", "command", "money take"));
 			}
 			return true;
 
@@ -550,8 +551,8 @@ public class MoneyCommand implements ICommand {
 				}
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
-								"mobhunting.money.sell", "command", "money sell"));
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
+								Core.PH_PERMISSION, "mobhunting.money.sell", "command", "money sell"));
 			}
 			return true;
 		}
@@ -601,8 +602,8 @@ public class MoneyCommand implements ICommand {
 				}
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
-								"mobhunting.money.buy", "command", "money buy"));
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
+								Core.PH_PERMISSION, "mobhunting.money.buy", "command", "money buy"));
 			}
 			return true;
 		}
