@@ -421,7 +421,14 @@ public class GrindingManager implements Listener {
 						(long) map.getOrDefault("Time", System.currentTimeMillis()));
 				areas.add(area);
 			}
-			mBlacklistedAreas.put(UUID.fromString(worldId), areas);
+			
+			for (World w: Bukkit.getWorlds()) {
+				if (w.getUID().equals(UUID.fromString(worldId))) {
+					mBlacklistedAreas.put(UUID.fromString(worldId), areas);
+					break;
+				}
+			}
+				
 		}
 
 		return true;
