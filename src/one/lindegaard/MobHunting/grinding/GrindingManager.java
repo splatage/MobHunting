@@ -409,6 +409,7 @@ public class GrindingManager implements Listener {
 		mBlacklistedAreas.clear();
 
 		for (String worldId : blacklist.getKeys(false)) {
+			UUID world = UUID.fromString(worldId);
 			List<Map<String, Object>> list = (List<Map<String, Object>>) blacklist.getList(worldId);
 			LinkedList<Area> areas = new LinkedList<Area>();
 
@@ -421,14 +422,14 @@ public class GrindingManager implements Listener {
 						(long) map.getOrDefault("Time", System.currentTimeMillis()));
 				areas.add(area);
 			}
-			
-			for (World w: Bukkit.getWorlds()) {
-				if (w.getUID().equals(UUID.fromString(worldId))) {
-					mBlacklistedAreas.put(UUID.fromString(worldId), areas);
+
+			for (World w : Bukkit.getWorlds()) {
+				if (w.getUID().equals(world)) {
+					mBlacklistedAreas.put(world, areas);
 					break;
 				}
 			}
-				
+
 		}
 
 		return true;
@@ -622,7 +623,12 @@ public class GrindingManager implements Listener {
 				areas.add(area);
 			}
 
-			mWhitelistedAreas.put(world, areas);
+			for (World w : Bukkit.getWorlds()) {
+				if (w.getUID().equals(world)) {
+					mWhitelistedAreas.put(world, areas);
+					break;
+				}
+			}
 		}
 
 		return true;
