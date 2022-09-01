@@ -475,7 +475,7 @@ public class GrindingManager implements Listener {
 		if (location != null) {
 			LinkedList<Area> areas = getKnownGrindingSpots(location);
 			for (Area area : areas) {
-				if (area.getCenter().getWorld().equals(location.getWorld())) {
+				if (area.getCenter().getWorld() != null && area.getCenter().getWorld().equals(location.getWorld())) {
 					if (area.getCenter().distance(location) < area.getRange()) {
 						return true;
 					}
@@ -490,7 +490,7 @@ public class GrindingManager implements Listener {
 		while (it.hasNext()) {
 			Area area = it.next();
 
-			if (area.getCenter().getWorld().equals(location.getWorld())) {
+			if (area.getCenter().getWorld() == null || area.getCenter().getWorld().equals(location.getWorld())) {
 				if (area.getCenter().distance(location) < area.getRange()) {
 					it.remove();
 				}
@@ -649,7 +649,7 @@ public class GrindingManager implements Listener {
 	public Area getWhitelistArea(Location location) {
 		LinkedList<Area> areas = getWhitelistedAreas(location.getWorld());
 		for (Area area : areas) {
-			if (area.getCenter().getWorld().equals(location.getWorld())) {
+			if (area.getCenter().getWorld() != null && area.getCenter().getWorld().equals(location.getWorld())) {
 				if (area.getCenter().distance(location) < area.getRange()) {
 					return area;
 				}
