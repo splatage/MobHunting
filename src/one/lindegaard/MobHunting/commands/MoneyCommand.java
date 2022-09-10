@@ -9,7 +9,6 @@ import one.lindegaard.Core.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.BossShopCompat;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -223,7 +222,7 @@ public class MoneyCommand implements ICommand {
 					if (args[1].matches("\\d+(\\.\\d+)?")) {
 						Player player = (Player) sender;
 						Location location = Tools.getTargetBlock(player, 20).getLocation();
-						double money = Misc.floor(Double.valueOf(args[1]));
+						double money = Tools.floor(Double.valueOf(args[1]));
 						if (money > Core.getConfigManager().limitPerBag * 100) {
 							money = Core.getConfigManager().limitPerBag * 100;
 							plugin.getMessages().senderSendMessage(sender,
@@ -242,7 +241,7 @@ public class MoneyCommand implements ICommand {
 						if (args.length > 2 && args[2].matches("\\d+(\\.\\d+)?")) {
 							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[1]));
 							Location location = Tools.getTargetBlock(player, 3).getLocation();
-							double money = Misc.floor(Double.valueOf(args[2]));
+							double money = Tools.floor(Double.valueOf(args[2]));
 							if (money > Core.getConfigManager().limitPerBag * 100) {
 								money = Core.getConfigManager().limitPerBag * 100;
 								plugin.getMessages().senderSendMessage(sender,
@@ -294,7 +293,7 @@ public class MoneyCommand implements ICommand {
 
 				double amount = 0;
 				if (args[2].matches("\\d+(\\.\\d+)?")) {
-					amount = Misc.round(Double.valueOf(args[2]));
+					amount = Tools.round(Double.valueOf(args[2]));
 					if (amount > Core.getConfigManager().limitPerBag * 100) {
 						amount = Core.getConfigManager().limitPerBag * 100;
 						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages().getString(
@@ -382,7 +381,7 @@ public class MoneyCommand implements ICommand {
 
 				double rest = 0;
 				if (args[2].matches("\\d+(\\.\\d+)?")) {
-					rest = Misc.round(Double.valueOf(args[2]));
+					rest = Tools.round(Double.valueOf(args[2]));
 					if (rest > Core.getConfigManager().limitPerBag * 100) {
 						rest = Core.getConfigManager().limitPerBag * 100;
 						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages().getString(
@@ -505,13 +504,13 @@ public class MoneyCommand implements ICommand {
 					}
 				} else if ((args[0].equalsIgnoreCase("sell") && (args[1].matches("\\d+(\\.\\d+)?")))) {
 					double sold = 0;
-					double toBeSold = Misc.floor(Double.valueOf(args[1]));
+					double toBeSold = Tools.floor(Double.valueOf(args[1]));
 					for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
 						ItemStack is = player.getInventory().getItem(slot);
 						if (Reward.isReward(is)) {
 							Reward reward = Reward.getReward(is);
 							if (reward.isBagOfGoldReward()) {
-								double saldo = Misc.floor(reward.getMoney());
+								double saldo = Tools.floor(reward.getMoney());
 								if (saldo > toBeSold) {
 									reward.setMoney(saldo - toBeSold);
 									is = new CoreCustomItems(plugin).getCustomtexture(
@@ -568,30 +567,30 @@ public class MoneyCommand implements ICommand {
 					return true;
 				}
 				if (args.length == 2 && args[1].matches("\\d+(\\.\\d+)?")) {
-					if (plugin.getEconomyManager().hasMoney(player, Misc.floor(Double.valueOf(args[1])))) {
+					if (plugin.getEconomyManager().hasMoney(player, Tools.floor(Double.valueOf(args[1])))) {
 						// if (BagOfGoldCompat.isSupported()) {
 						if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
 							plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null,
-									player.getLocation(), Misc.floor(Double.valueOf(args[1])));
+									player.getLocation(), Tools.floor(Double.valueOf(args[1])));
 						} else if (player.getInventory().firstEmpty() == -1)
 							plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null,
-									player.getLocation(), Misc.floor(Double.valueOf(args[1])));
+									player.getLocation(), Tools.floor(Double.valueOf(args[1])));
 						else {
 							ItemStack is = new CoreCustomItems(plugin).getCustomtexture(
 									new Reward(Core.getConfigManager().bagOfGoldName.trim(),
-											Misc.floor(Double.valueOf(args[1])), RewardType.BAGOFGOLD,
+											Tools.floor(Double.valueOf(args[1])), RewardType.BAGOFGOLD,
 											UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
 									Core.getConfigManager().skullTextureValue,
 									Core.getConfigManager().skullTextureSignature);
 							player.getInventory().addItem(is);
 						}
-						plugin.getRewardManager().withdrawPlayer(player, Misc.floor(Double.valueOf(args[1])));
+						plugin.getRewardManager().withdrawPlayer(player, Tools.floor(Double.valueOf(args[1])));
 						plugin.getMessages().playerActionBarMessageQueue(player,
 								plugin.getMessages().getString("mobhunting.commands.money.buy", "rewardname",
 										ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
 												+ Core.getConfigManager().bagOfGoldName,
 										"money",
-										plugin.getRewardManager().format(Misc.floor(Double.valueOf(args[1])))));
+										plugin.getRewardManager().format(Tools.floor(Double.valueOf(args[1])))));
 					} else {
 						plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
 								.getString("mobhunting.commands.money.not-enough-money", "money", args[1]));
@@ -613,11 +612,11 @@ public class MoneyCommand implements ICommand {
 
 	private void givePlayerMoney(Player player, double amount) {
 		double result = plugin.getRewardManager().addBagOfGoldPlayer(player, amount);
-		if (Misc.round(result) != Misc.round(amount)) {
+		if (Tools.round(result) != Tools.round(amount)) {
 			plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null, player.getLocation(),
-					Misc.floor(amount - result));
+					Tools.floor(amount - result));
 		}
-		if (Misc.round(result) == Misc.round(amount)) {
+		if (Tools.round(result) == Tools.round(amount)) {
 			plugin.getMessages().playerActionBarMessageQueue(player,
 					plugin.getMessages().getString("mobhunting.commands.money.give", "rewardname",
 							ChatColor.valueOf(Core.getConfigManager().rewardTextColor)

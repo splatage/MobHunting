@@ -10,9 +10,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import one.lindegaard.Core.Core;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.bounty.Bounty;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class BountyCommand implements ICommand {
 
@@ -171,9 +171,9 @@ public class BountyCommand implements ICommand {
 				return true;
 			}
 			if (wantedPlayer != null && playerId != 0) {
-				double prize = Misc.round(Double.valueOf(args[1]));
+				double prize = Tools.round(Double.valueOf(args[1]));
 				if (!plugin.getEconomyManager().hasMoney(bountyOwner, prize)) {
-				//if (!plugin.getRewardManager().getEconomy().has(bountyOwner, prize)) {
+					// if (!plugin.getRewardManager().getEconomy().has(bountyOwner, prize)) {
 					plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
 							"mobhunting.commands.bounty.no-money", "money", plugin.getRewardManager().format(prize)));
 					return true;
@@ -201,23 +201,19 @@ public class BountyCommand implements ICommand {
 						plugin.getMessages().getString("mobhunting.commands.bounty.money-withdrawn", "money",
 								plugin.getRewardManager().format(prize)));
 
-				//broadcast message to all online players
+				// broadcast message to all online players
 				if (bountyOwner.isOnline())
-					plugin.getMessages()
-							.broadcast(plugin.getMessages().getString("mobhunting.commands.bounty.bounties",
-									"wantedplayer", wantedPlayer.getName(), "bountyowner", bountyOwner.getName(),"prize",
-									plugin.getRewardManager().format(prize),"money",
-									plugin.getRewardManager().format(prize),
-									"daysleft", (bounty.getEndDate() - System.currentTimeMillis()) / (86400000L)),
-									(Player) bountyOwner);
+					plugin.getMessages().broadcast(plugin.getMessages().getString("mobhunting.commands.bounty.bounties",
+							"wantedplayer", wantedPlayer.getName(), "bountyowner", bountyOwner.getName(), "prize",
+							plugin.getRewardManager().format(prize), "money", plugin.getRewardManager().format(prize),
+							"daysleft", (bounty.getEndDate() - System.currentTimeMillis()) / (86400000L)),
+							(Player) bountyOwner);
 				else
-					plugin.getMessages()
-					.broadcast(plugin.getMessages().getString("mobhunting.commands.bounty.bounties",
-							"wantedplayer", wantedPlayer.getName(), "bountyowner", bountyOwner.getName(),"prize",
-							plugin.getRewardManager().format(prize),"money",
-							plugin.getRewardManager().format(prize),
+					plugin.getMessages().broadcast(plugin.getMessages().getString("mobhunting.commands.bounty.bounties",
+							"wantedplayer", wantedPlayer.getName(), "bountyowner", bountyOwner.getName(), "prize",
+							plugin.getRewardManager().format(prize), "money", plugin.getRewardManager().format(prize),
 							"daysleft", (bounty.getEndDate() - System.currentTimeMillis()) / (86400000L)), null);
-				
+
 				plugin.getMessages().debug("%s has put %s on %s with the message %s", bountyOwner.getName(),
 						plugin.getRewardManager().format(prize), wantedPlayer.getName(), message);
 				return true;
@@ -273,8 +269,9 @@ public class BountyCommand implements ICommand {
 							return true;
 						}
 					} else {
-						plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
-								"mobhunting.commands.bounty.no-permission", Core.PH_PERMISSION, "mobhunting.bounty.admin"));
+						plugin.getMessages().senderSendMessage(sender,
+								plugin.getMessages().getString("mobhunting.commands.bounty.no-permission",
+										Core.PH_PERMISSION, "mobhunting.bounty.admin"));
 						return true;
 					}
 					// plugin.getMessages().senderSendMessage(sender,plugin.getMessages().getString("mobhunting.commands.bounty.no-bounties-player",

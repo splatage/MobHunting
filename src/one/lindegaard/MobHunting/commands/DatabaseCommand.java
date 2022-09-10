@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.MobHunting.MobHunting;
@@ -125,6 +126,14 @@ public class DatabaseCommand implements ICommand, Listener {
 			String database_name = args[1];
 			try {
 				plugin.getStoreManager().databaseConvertToUtf8(database_name);
+			} catch (DataStoreException e) {
+				e.printStackTrace();
+			}
+			return true;
+		} else if (args.length == 1 && (args[0].equalsIgnoreCase("deleteoldplayers"))) {
+			try {
+				plugin.getStoreManager().databaseDeleteOldPlayers();
+				Core.getStoreManager().databaseDeleteOldPlayers();
 			} catch (DataStoreException e) {
 				e.printStackTrace();
 			}

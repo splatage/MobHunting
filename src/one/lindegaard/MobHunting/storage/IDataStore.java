@@ -173,4 +173,9 @@ public interface IDataStore {
 	 */
 	void deleteExpiredBounties();
 
+	/**
+	 * Delete all players which is not known on the server.
+	 */
+	void databaseDeleteOldPlayers() throws DataStoreException;
+	
 }

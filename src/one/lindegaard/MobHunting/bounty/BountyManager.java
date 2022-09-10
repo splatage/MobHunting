@@ -10,7 +10,6 @@ import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
 import one.lindegaard.Core.storage.DataStoreManager;
 import one.lindegaard.Core.storage.IDataCallback;
 import one.lindegaard.Core.storage.UserNotFoundException;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -509,7 +508,7 @@ public class BountyManager implements Listener {
 					String worldGroup = Core.getWorldGroupManager().getCurrentWorldGroup(randomPlayer);
 					Bounty randomBounty = new Bounty(plugin, worldGroup,
 							Bukkit.getOfflinePlayer(UUID.fromString(DataStoreManager.RANDOM_PLAYER_UUID)), randomPlayer,
-							Misc.round(
+							Tools.round(
 									plugin.getRewardManager().getRandomPrice(plugin.getConfigManager().randomBounty)),
 							"Random Bounty");
 					save(randomBounty);

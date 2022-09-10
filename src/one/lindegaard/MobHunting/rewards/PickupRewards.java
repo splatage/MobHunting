@@ -1,12 +1,12 @@
 package one.lindegaard.MobHunting.rewards;
 
 import one.lindegaard.Core.Core;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.rewards.Reward;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibHelper;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -60,7 +60,7 @@ public class PickupRewards {
 							"%s picked up a %s with a value:%s (# of rewards left=%s)(PickupRewards)", player.getName(),
 							reward.getDisplayName().equalsIgnoreCase("") ? reward.getDisplayName()
 									: Core.getConfigManager().rewardItemtype,
-							plugin.getRewardManager().format(Misc.round(reward.getMoney())),
+							plugin.getRewardManager().format(Tools.round(reward.getMoney())),
 							Core.getCoreRewardManager().getDroppedMoney().size());
 					plugin.getMessages().playerActionBarMessageQueue(player,
 							plugin.getMessages().getString("mobhunting.moneypickup", "money",

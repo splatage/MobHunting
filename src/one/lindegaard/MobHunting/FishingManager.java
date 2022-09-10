@@ -26,6 +26,7 @@ import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 
 import one.lindegaard.Core.Core;
 import one.lindegaard.Core.Strings;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.messages.MessageType;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.Core.rewards.CoreCustomItems;
@@ -41,7 +42,6 @@ import one.lindegaard.MobHunting.modifier.HappyHourBonus;
 import one.lindegaard.MobHunting.modifier.IModifier;
 import one.lindegaard.MobHunting.modifier.RankBonus;
 import one.lindegaard.MobHunting.modifier.WorldBonus;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class FishingManager implements Listener {
 
@@ -193,10 +193,10 @@ public class FishingManager implements Listener {
 
 			cash *= multipliers;
 
-			cash = Misc.ceil(cash);
+			cash = Tools.ceil(cash);
 
 			// Pay the reward to player and assister
-			if (cash >= plugin.getConfigManager().minimumReward || cash <= -plugin.getConfigManager().minimumReward
+			if (cash >= Core.getConfigManager().minimumReward || cash <= -Core.getConfigManager().minimumReward
 					|| !plugin.getRewardManager().getKillCommands(fish).isEmpty()) {
 
 				// Handle MobHuntFishingEvent
@@ -210,11 +210,11 @@ public class FishingManager implements Listener {
 
 				fish.setMetadata("MH:FishCaught", new FixedMetadataValue(plugin, true));
 
-				if (cash >= plugin.getConfigManager().minimumReward) {
+				if (cash >= Core.getConfigManager().minimumReward) {
 					plugin.getEconomyManager().depositPlayer(player, cash);
 					plugin.getMessages().debug("%s got a reward (%s)", player.getName(),
 							plugin.getEconomyManager().format(cash));
-				} else if (cash <= -plugin.getConfigManager().minimumReward) {
+				} else if (cash <= -Core.getConfigManager().minimumReward) {
 					plugin.getEconomyManager().withdrawPlayer(player, -cash);
 					plugin.getMessages().debug("%s got a penalty (%s)", player.getName(),
 							plugin.getEconomyManager().format(cash));
@@ -246,12 +246,12 @@ public class FishingManager implements Listener {
 				// muted
 				if (!fisherman_muted)
 					if (extraString.trim().isEmpty()) {
-						if (cash >= plugin.getConfigManager().minimumReward) {
+						if (cash >= Core.getConfigManager().minimumReward) {
 							plugin.getMessages().playerActionBarMessageQueue(player,
 									ChatColor.GREEN + "" + ChatColor.ITALIC
 											+ plugin.getMessages().getString("mobhunting.fishcaught.reward", "prize",
 													plugin.getEconomyManager().format(cash)));
-						} else if (cash <= -plugin.getConfigManager().minimumReward) {
+						} else if (cash <= -Core.getConfigManager().minimumReward) {
 							plugin.getMessages().playerActionBarMessageQueue(player,
 									ChatColor.RED + "" + ChatColor.ITALIC
 											+ plugin.getMessages().getString("mobhunting.fishcaught.penalty", "prize",
@@ -259,7 +259,7 @@ public class FishingManager implements Listener {
 						}
 
 					} else {
-						if (cash >= plugin.getConfigManager().minimumReward) {
+						if (cash >= Core.getConfigManager().minimumReward) {
 							plugin.getMessages().debug("Message to send to ActionBar=%s", ChatColor.GREEN + ""
 									+ ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.fishcaught.reward.bonuses", "prize",
@@ -270,7 +270,7 @@ public class FishingManager implements Listener {
 									+ plugin.getMessages().getString("mobhunting.fishcaught.reward.bonuses", "prize",
 											plugin.getEconomyManager().format(cash), "bonuses", extraString.trim(),
 											"multipliers", plugin.getEconomyManager().format(multipliers)));
-						} else if (cash <= -plugin.getConfigManager().minimumReward) {
+						} else if (cash <= -Core.getConfigManager().minimumReward) {
 							plugin.getMessages().playerActionBarMessageQueue(player, ChatColor.RED + ""
 									+ ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.fishcaught.penalty.bonuses", "prize",
@@ -278,7 +278,7 @@ public class FishingManager implements Listener {
 											"multipliers", plugin.getEconomyManager().format(multipliers)));
 						} else
 							plugin.getMessages().debug("FishingBlocked %s: Reward was less than %s", player.getName(),
-									plugin.getConfigManager().minimumReward);
+									Core.getConfigManager().minimumReward);
 					}
 
 				// McMMO Experience rewards

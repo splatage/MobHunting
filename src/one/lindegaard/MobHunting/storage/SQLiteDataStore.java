@@ -19,13 +19,13 @@ import org.bukkit.command.ConsoleCommandSender;
 
 import one.lindegaard.Core.Core;
 import one.lindegaard.Core.PlayerSettings;
+import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.storage.DataStoreException;
 import one.lindegaard.Core.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.MobHunting.util.Misc;
 import one.lindegaard.MobHunting.util.UUIDHelper;
 
 public class SQLiteDataStore extends DatabaseDataStore {
@@ -221,7 +221,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 					else {
 						plugin.getMessages().debug("PLAYER_ID: %s was not found.", player_id);
 					}
-				} else {					
+				} else {
 					list.add(new StatStore(type, offlinePlayer, results.getInt("amount"), results.getDouble("cash")));
 				}
 			}
@@ -270,13 +270,13 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				}
 				column2 = "total_cash";
 				int amount = stat.getAmount();
-				double cash = Misc.round(stat.getCash());
+				double cash = Tools.round(stat.getCash());
 				int player_id = Core.getDataStoreManager().getPlayerId(stat.getPlayer());
 				String str = String.format(Locale.US,
 						"UPDATE mh_Daily SET %1$s = %1$s + %2$d, %5$s = %5$s + %6$f WHERE ID = strftime(\"%%Y%%j\",\"now\")"
 								+ " AND MOB_ID=%3$d AND PLAYER_ID = %4$d;",
 						column, amount, mob_id, player_id, column2, cash);
-				//plugin.getMessages().debug("Save Str=%s", str);
+				// plugin.getMessages().debug("Save Str=%s", str);
 				statement.addBatch(str);
 			}
 			statement.executeBatch();

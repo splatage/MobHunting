@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import one.lindegaard.Core.Tools;
 import one.lindegaard.Core.config.AutoConfig;
 import one.lindegaard.Core.config.ConfigField;
 import one.lindegaard.Core.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,12 +28,25 @@ public class ConfigManager extends AutoConfig {
 		super(file);
 		this.plugin = plugin;
 
-		setCategoryComment("header",
+		setCategoryComment("general", "########################################################################"
+				+ "\nMobHunting Configuration File"
+				+ "\n########################################################################\n"
+				+ "\nOBS! Please note that the plugins/BagOfGold folder contains shared"
+				+ "\nsettings, which is used by both MobHunting and BagOfGold." + "\n\n"
+				+ "\n########################################################################" + "\nGeneral settings"
+				+ "\n########################################################################");
+
+		setCategoryComment("dropmoneyonground",
 				"########################################################################"
-						+ "\nMobHunting Configuration File"
-						+ "\n########################################################################\n"
-						+ "\nOBS! Please note that the plugins/BagOfGold folder contains shared"
-						+ "\nsettings, which is used by both MobHunting and BagOfGold.");
+						+ "\nDropMoneyOnGround for servers WITHOUT the BagOfGold plugin installed"
+						+ "\n########################################################################");
+
+		setCategoryComment("database",
+				"########################################################################" + "\nDatabase Settings."
+						+ "\n########################################################################");
+
+		setCategoryComment("updates", "########################################################################"
+				+ "\nUpdate settings" + "\n########################################################################");
 
 		setCategoryComment("example", "########################################################################"
 				+ "\nExample of a mob configuration of rewards for killing a mob."
@@ -595,21 +608,6 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("plugins.precious_stones",
 				"########################################################################" + "\nPrecious Stones"
 						+ "\n########################################################################");
-
-		setCategoryComment("dropmoneyonground",
-				"########################################################################"
-						+ "\nDropMoneyOnGround for servers WITHOUT the BagOfGold plugin installed"
-						+ "\n########################################################################");
-
-		setCategoryComment("database",
-				"########################################################################" + "\nDatabase Settings."
-						+ "\n########################################################################");
-
-		setCategoryComment("updates", "########################################################################"
-				+ "\nUpdate settings" + "\n########################################################################");
-
-		setCategoryComment("general", "########################################################################"
-				+ "\nGeneral Settings" + "\n########################################################################");
 
 	}
 
@@ -2916,7 +2914,7 @@ public class ConfigManager extends AutoConfig {
 	public String tadpoleMoney = "-10";
 	@ConfigField(name = "tadpole.money.chance", category = "passive")
 	public double tadpoleMoneyChance = 1;
-	
+
 	@ConfigField(name = "tadpole.commands", category = "passive")
 	public List<HashMap<String, String>> tadpoleCommands = new ArrayList<HashMap<String, String>>();
 	{
@@ -4832,43 +4830,59 @@ public class ConfigManager extends AutoConfig {
 	// #####################################################################################
 	// Deprecated
 	// #####################################################################################
-	@ConfigField(name = "drop_money_on_ground_itemtype", category = "dropmoneyonground", comment = "This settings is deprecated."
-			+ "\nThe setting is only keept so it can be copied to the BagOfGold folder. ")
-	public String dropMoneyOnGroundItemtypeOld = "SKULL";
+	// @ConfigField(name = "drop_money_on_ground_itemtype", category =
+	// "dropmoneyonground", comment = "This settings is deprecated."
+	// + "\nThe setting is only keept so it can be copied to the BagOfGold folder.
+	// ")
+	// public String dropMoneyOnGroundItemtypeOld = "SKULL";
 
-	@ConfigField(name = "drop_money_command_alias", category = "dropmoneyonground", comment = "This settings is deprecated."
-			+ "\nThe setting is only keept so it can be copied to the BagOfGold folder. ")
-	public String dropMoneyOnGroundMoneyCommandAliasOld = "money";
+	// @ConfigField(name = "drop_money_command_alias", category =
+	// "dropmoneyonground", comment = "This settings is deprecated."
+	// + "\nThe setting is only keept so it can be copied to the BagOfGold folder.
+	// ")
+	// public String dropMoneyOnGroundMoneyCommandAliasOld = "money";
 
-	@ConfigField(name = "drop_money_on_ground_item", category = "dropmoneyonground", comment = "This settings is deprecated."
-			+ "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
-	public String dropMoneyOnGroundItemOld = "GOLD_INGOT";
+	// @ConfigField(name = "drop_money_on_ground_item", category =
+	// "dropmoneyonground", comment = "This settings is deprecated."
+	/// + "\nThe setting is only keept so it can be copied to the BagOfGold
+	// folder.")
+	// public String dropMoneyOnGroundItemOld = "GOLD_INGOT";
 
-	@ConfigField(name = "drop_money_on_ground_text_color", category = "dropmoneyonground", comment = "This settings is deprecated.")
-	public String dropMoneyOnGroundTextColorOld = "GOLD";
+	// @ConfigField(name = "drop_money_on_ground_text_color", category =
+	// "dropmoneyonground", comment = "This settings is deprecated.")
+	// public String dropMoneyOnGroundTextColorOld = "GOLD";
 
-	@ConfigField(name = "drop_money_on_ground_skull_reward_name", category = "dropmoneyonground", comment = "This settings is deprecated."
-			+ "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
-	public String dropMoneyOnGroundSkullRewardNameOld = "Bag of gold";
+	// @ConfigField(name = "drop_money_on_ground_skull_reward_name", category =
+	// "dropmoneyonground", comment = "This settings is deprecated."
+	/// + "\nThe setting is only keept so it can be copied to the BagOfGold
+	// folder.")
+	// public String dropMoneyOnGroundSkullRewardNameOld = "Bag of gold";
 
-	@ConfigField(name = "drop_money_on_ground_skull_reward_name_plural", category = "dropmoneyonground", comment = "This is deprecated.")
-	public String dropMoneyOnGroundSkullRewardNamePluralOld = "Bag of gold";
+	// @ConfigField(name = "drop_money_on_ground_skull_reward_name_plural", category
+	// = "dropmoneyonground", comment = "This is deprecated.")
+	// public String dropMoneyOnGroundSkullRewardNamePluralOld = "Bag of gold";
 
-	@ConfigField(name = "drop_money_on_ground_skull_texture_value", category = "dropmoneyonground", comment = "This settings is deprecated."
-			+ "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
-	public String dropMoneyOnGroundSkullTextureValueOld = "eyJ0aW1lc3RhbXAiOjE0ODU5MTIwNjk3OTgsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM5NmNlMTNmZjYxNTVmZGYzMjM1ZDhkMjIxNzRjNWRlNGJmNTUxMmYxYWRlZGExYWZhM2ZjMjgxODBmM2Y3In19fQ==";
+	// @ConfigField(name = "drop_money_on_ground_skull_texture_value", category =
+	// "dropmoneyonground", comment = "This settings is deprecated."
+	// + "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
+	// public String dropMoneyOnGroundSkullTextureValueOld =
+	// "eyJ0aW1lc3RhbXAiOjE0ODU5MTIwNjk3OTgsInByb2ZpbGVJZCI6IjdkYTJhYjNhOTNjYTQ4ZWU4MzA0OGFmYzNiODBlNjhlIiwicHJvZmlsZU5hbWUiOiJHb2xkYXBmZWwiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM5NmNlMTNmZjYxNTVmZGYzMjM1ZDhkMjIxNzRjNWRlNGJmNTUxMmYxYWRlZGExYWZhM2ZjMjgxODBmM2Y3In19fQ==";
 
-	@ConfigField(name = "drop_money_on_ground_skull_texture_signature", category = "dropmoneyonground", comment = "This settings is deprecated."
-			+ "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
-	public String dropMoneyOnGroundSkullTextureSignatureOld = "m8u2ChI43ySVica7pcY0CsCuMCGgAdN7c9f/ZOxDZsPzJY8eiDrwxLIh6oPY1rvE1ja/rmftPSmdnbeHYrzLQ18QBzehFp8ZVegPsd9iNHc4FuD7nr1is2FD8M8AWAZOViiwlUKnfd8avb3SKfvFmhmVhQtE+atJYQrXhJwiqR4S+KTccA6pjIESM3AWlbCOmykg31ey7MQWB4YgtRp8NyFD3HNTLZ8alcEXBuG3t58wYBEME1UaOFah45tHuV1FW+iGBHHFWLu1UsAbg0Uw87Pp+KSTUGrhdwSc/55czILulI8IUnUfxmkaThRjd7g6VpH/w+9jLvm+7tOwfMQZlXp9104t9XMVnTAchzQr6mB3U6drCsGnuZycQzEgretQsUh3hweN7Jzz5knl6qc1n3Sn8t1yOvaIQLWG1f3l6irPdl28bwEd4Z7VDrGqYgXsd2GsOK/gCQ7rChNqbJ2p+jCja3F3ZohfmTYOU8W7DJ8Ne+xaofSuPnWODnZN9x+Y+3RE3nzH9tzP+NBMsV3YQXpvUD7Pepg7ScO+k9Fj3/F+KfBje0k6xfl+75s7kR3pNWQI5EVrO6iuky6dMuFPUBfNfq33fZV6Tqr/7o24aKpfA4WwJf91G9mC18z8NCgFR6iK4cPGmkTMvNtxUQ3MoB0LCOkRcbP0i7qxHupt8xE=";
+	// @ConfigField(name = "drop_money_on_ground_skull_texture_signature", category
+	// = "dropmoneyonground", comment = "This settings is deprecated."
+	// + "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
+	// public String dropMoneyOnGroundSkullTextureSignatureOld =
+	// "m8u2ChI43ySVica7pcY0CsCuMCGgAdN7c9f/ZOxDZsPzJY8eiDrwxLIh6oPY1rvE1ja/rmftPSmdnbeHYrzLQ18QBzehFp8ZVegPsd9iNHc4FuD7nr1is2FD8M8AWAZOViiwlUKnfd8avb3SKfvFmhmVhQtE+atJYQrXhJwiqR4S+KTccA6pjIESM3AWlbCOmykg31ey7MQWB4YgtRp8NyFD3HNTLZ8alcEXBuG3t58wYBEME1UaOFah45tHuV1FW+iGBHHFWLu1UsAbg0Uw87Pp+KSTUGrhdwSc/55czILulI8IUnUfxmkaThRjd7g6VpH/w+9jLvm+7tOwfMQZlXp9104t9XMVnTAchzQr6mB3U6drCsGnuZycQzEgretQsUh3hweN7Jzz5knl6qc1n3Sn8t1yOvaIQLWG1f3l6irPdl28bwEd4Z7VDrGqYgXsd2GsOK/gCQ7rChNqbJ2p+jCja3F3ZohfmTYOU8W7DJ8Ne+xaofSuPnWODnZN9x+Y+3RE3nzH9tzP+NBMsV3YQXpvUD7Pepg7ScO+k9Fj3/F+KfBje0k6xfl+75s7kR3pNWQI5EVrO6iuky6dMuFPUBfNfq33fZV6Tqr/7o24aKpfA4WwJf91G9mC18z8NCgFR6iK4cPGmkTMvNtxUQ3MoB0LCOkRcbP0i7qxHupt8xE=";
 
-	@ConfigField(name = "deny_hoppers_to_pickup_money_on_ground", category = "dropmoneyonground", comment = "This settings is deprecated."
-			+ "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
-	public boolean denyHoppersToPickUpMoneyOld = true;
+	// @ConfigField(name = "deny_hoppers_to_pickup_money_on_ground", category =
+	// "dropmoneyonground", comment = "This settings is deprecated."
+	// + "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
+	// public boolean denyHoppersToPickUpMoneyOld = true;
 
-	@ConfigField(name = "limit_per_bag", category = "dropmoneyonground", comment = "This settings is deprecated."
-			+ "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
-	public double limitPerBagOld = 10000;
+	// @ConfigField(name = "limit_per_bag", category = "dropmoneyonground", comment
+	// = "This settings is deprecated."
+	// + "\nThe setting is only keept so it can be copied to the BagOfGold folder.")
+	// public double limitPerBagOld = 10000;
 
 	// #####################################################################################
 	// Database
@@ -4938,12 +4952,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "broadcast_first_achievement", category = "general", comment = "Should the hunt begins achievement be broadcasted?")
 	public boolean broadcastFirstAchievement = true;
 
-	// @ConfigField(name = "save_period", category = "general", comment = "Time
-	// between saves in ticks (20 ticks ~ 1 sec) This number must be higher that
-	// 1200 ticks = 2 minutes,"
-	// + "\nbut I recommend to save every 5th minute = 6000 ticks")
-	// public int savePeriod_old = 6000;
-
 	@ConfigField(name = "leaderboard_update_period", category = "general", comment = "Time between leaderboard updates in ticks (20 ticks ~ 1 sec) This number must be higher that 1200 ticks = 2 minutes,"
 			+ "\nbut I recommend to update leaderboards max every 5 min = 6000 ticks")
 	public int leaderboardUpdatePeriod = 6000;
@@ -4956,16 +4964,6 @@ public class ConfigManager extends AutoConfig {
 
 	@ConfigField(name = "backup", category = "general", comment = "Backup config on each server start / reload")
 	public boolean backup = true;
-
-	@ConfigField(name = "reward_rounding", category = "general", comment = "This setting is deprecated. Please use the settings in the BagOfGold folder.")
-	public double rewardRoundingOld = 0.01;
-
-	@ConfigField(name = "minimum_reward", category = "general", comment = "This is the minimum reward which will which will be paid to the player 0.01 will be fine"
-			+ "\nin most installation, but Gringott users who want very low rewards (like 0.001  for killing"
-			+ "\na mob) will have to lower the minimum reward. Remember that some multipliers are less than 1"
-			+ "\n and grinding detection and penalties. The minimum_reward should therefor be less than 10%"
-			+ "\n of smallest reward. In the Gringotts example minimum_reward should be 0.0001 or 0.00005.")
-	public double minimumReward = 0.01;
 
 	@ConfigField(name = "newplayer_learning_mode", category = "general", comment = "When a new playerjoins the server he will by default start"
 			+ "\nin 'LEARNING MODE' and get extra information about when he get rewards and not,"
@@ -5484,7 +5482,7 @@ public class ConfigManager extends AutoConfig {
 			String[] str1 = str.split(":");
 			double prize = (MobHunting.getInstance().mRand.nextDouble()
 					* (Double.valueOf(str1[1]) - Double.valueOf(str1[0])) + Double.valueOf(str1[0]));
-			return Misc.round(prize);
+			return Tools.round(prize);
 		} else
 			return Double.valueOf(str);
 	}

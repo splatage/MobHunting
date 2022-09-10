@@ -21,7 +21,6 @@ import one.lindegaard.MobHunting.mobs.ExtendedMob;
 import one.lindegaard.MobHunting.modifier.*;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderData;
 import one.lindegaard.MobHunting.update.SpigetUpdater;
-import one.lindegaard.MobHunting.util.Misc;
 
 import org.bukkit.*;
 import org.bukkit.command.CommandException;
@@ -358,8 +357,8 @@ public class MobHuntingManager implements Listener {
 					plugin.getMessages().debug("There is NO penalty for being killed by a %s", mob.getName());
 				}
 
-			} else 
-				
+			} else
+
 			if (killer != null && BagOfGoldCompat.isSupported()) {
 				PlayerBalance ps = BagOfGold.getInstance().getPlayerBalanceManager().getPlayerBalance(killed);
 				double balance = ps.getBalance() + ps.getBalanceChanges();
@@ -1181,7 +1180,8 @@ public class MobHuntingManager implements Listener {
 					} else {
 						plugin.getMessages().debug(
 								"KillBlocked: %s(%d) has MH:blocked meta (probably spawned from a mob spawner, an egg or a egg-dispenser) MobType:%s EntityType:%s ",
-								event.getEntity().getType(), killed.getEntityId(), mob.getMobtype(),event.getEntity().getType());
+								event.getEntity().getType(), killed.getEntityId(), mob.getMobtype(),
+								event.getEntity().getType());
 						plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.mobspawner",
 								"killed", mob.getMobName()));
 						cancelDrops(event,
@@ -1575,7 +1575,7 @@ public class MobHuntingManager implements Listener {
 
 		cash *= multipliers;
 
-		cash = Misc.ceil(cash);
+		cash = Tools.ceil(cash);
 
 		// Handle Bounty Kills
 		double reward = 0;
@@ -1628,12 +1628,12 @@ public class MobHuntingManager implements Listener {
 			}
 		}
 
-		cash = Misc.round(cash);
+		cash = Tools.round(cash);
 		plugin.getMessages().debug("Reward rounded to %s", cash);
 
 		// Check if there is a reward for this kill
-		if ((cash >= plugin.getConfigManager().minimumReward && cash != 0)
-				|| (cash <= -plugin.getConfigManager().minimumReward && cash != 0)
+		if ((cash >= Core.getConfigManager().minimumReward && cash != 0)
+				|| (cash <= -Core.getConfigManager().minimumReward && cash != 0)
 				|| !plugin.getRewardManager().getKillCommands(killed).isEmpty()
 				|| (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards)
 				|| plugin.getRewardManager().getHeadDropHead(killed)) {
@@ -1702,7 +1702,7 @@ public class MobHuntingManager implements Listener {
 		}
 
 		// Pay the money reward to killer/player and assister
-		if ((cash >= plugin.getConfigManager().minimumReward || cash <= -plugin.getConfigManager().minimumReward)
+		if ((cash >= Core.getConfigManager().minimumReward || cash <= -Core.getConfigManager().minimumReward)
 				&& cash != 0) {
 
 			// Handle reward on PVP kill. (Robbing)
@@ -1732,7 +1732,7 @@ public class MobHuntingManager implements Listener {
 
 			// Reward/Penalty for assisted kill
 			if (info.getAssister() == null || plugin.getConfigManager().enableAssists == false) {
-				if (cash >= plugin.getConfigManager().minimumReward && cash != 0) {
+				if (cash >= Core.getConfigManager().minimumReward && cash != 0) {
 					if (plugin.getConfigManager().dropMoneyOnGroup) {
 						plugin.getRewardManager().dropMoneyOnGround_RewardManager(killer, killed, killed.getLocation(),
 								cash);
@@ -1747,7 +1747,7 @@ public class MobHuntingManager implements Listener {
 						plugin.getMessages().debug("%s got a reward (%s)", killer.getName(),
 								plugin.getEconomyManager().format(cash));
 					}
-				} else if (cash <= -plugin.getConfigManager().minimumReward && cash != 0) {
+				} else if (cash <= -Core.getConfigManager().minimumReward && cash != 0) {
 					plugin.getRewardManager().withdrawPlayer(killer, -cash);
 					// plugin.getMessages().debug("RecordCash: %s killed a %s
 					// (%s) Cash=%s",
@@ -1759,8 +1759,8 @@ public class MobHuntingManager implements Listener {
 							plugin.getEconomyManager().format(cash));
 				}
 			} else {
-				cash = Misc.round(cash / 2);
-				if (cash >= plugin.getConfigManager().minimumReward & cash != 0) {
+				cash = Tools.round(cash / 2);
+				if (cash >= Core.getConfigManager().minimumReward & cash != 0) {
 					if (plugin.getConfigManager().dropMoneyOnGroup) {
 						if (MyPetCompat.isKilledByMyPet(killed))
 							plugin.getMessages().debug("1)%s was assisted by %s. Reward/Penalty is only ½ (%s)",
@@ -1789,7 +1789,7 @@ public class MobHuntingManager implements Listener {
 									player.getName(), getKillerName(killer, killed),
 									plugin.getEconomyManager().format(cash));
 					}
-				} else if (cash <= -plugin.getConfigManager().minimumReward && cash != 0) {
+				} else if (cash <= -Core.getConfigManager().minimumReward && cash != 0) {
 					plugin.getRewardManager().withdrawPlayer(player, -cash);
 					if (!MyPetCompat.isKilledByMyPet(killed) && !CitizensCompat.isNPC(killer))
 						onAssist(info.getAssister(), killer, killed, info.getLastAssistTime());
@@ -1802,7 +1802,7 @@ public class MobHuntingManager implements Listener {
 			if (!killer_muted) {
 				MessageType messageType = MessageType.valueOf(plugin.getConfigManager().defaultMoneyMessageType);
 				if (extraString.trim().isEmpty()) {
-					if (cash >= plugin.getConfigManager().minimumReward && cash != 0) {
+					if (cash >= Core.getConfigManager().minimumReward && cash != 0) {
 						if (!plugin.getConfigManager().dropMoneyOnGroup) {
 							plugin.getMessages().playerSendMessageAt(player, ChatColor.GREEN + "" + ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.moneygain", "prize",
@@ -1815,7 +1815,7 @@ public class MobHuntingManager implements Listener {
 											plugin.getEconomyManager().format(cash), "money",
 											plugin.getEconomyManager().format(cash), "killed", mob.getFriendlyName()),
 									messageType);
-					} else if (cash <= -plugin.getConfigManager().minimumReward && cash != 0) {
+					} else if (cash <= -Core.getConfigManager().minimumReward && cash != 0) {
 						plugin.getMessages().playerSendMessageAt(player, ChatColor.RED + "" + ChatColor.ITALIC
 								+ plugin.getMessages().getString("mobhunting.moneylost", "prize",
 										plugin.getEconomyManager().format(cash), "money",
@@ -1824,7 +1824,7 @@ public class MobHuntingManager implements Listener {
 					}
 
 				} else {
-					if (cash >= plugin.getConfigManager().minimumReward && cash != 0) {
+					if (cash >= Core.getConfigManager().minimumReward && cash != 0) {
 						if (!plugin.getConfigManager().dropMoneyOnGroup) {
 							plugin.getMessages().playerSendMessageAt(player, ChatColor.GREEN + "" + ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.moneygain.bonuses", "basic_prize",
@@ -1843,7 +1843,7 @@ public class MobHuntingManager implements Listener {
 											"multipliers", plugin.getEconomyManager().format(multipliers), "killed",
 											mob.getFriendlyName()),
 									messageType);
-					} else if (cash <= -plugin.getConfigManager().minimumReward && cash != 0) {
+					} else if (cash <= -Core.getConfigManager().minimumReward && cash != 0) {
 						plugin.getMessages().playerSendMessageAt(player,
 								ChatColor.RED + "" + ChatColor.ITALIC
 										+ plugin.getMessages().getString("mobhunting.moneylost.bonuses", "basic_prize",
@@ -1857,7 +1857,7 @@ public class MobHuntingManager implements Listener {
 			}
 		} else
 			plugin.getMessages().debug("The money reward was 0 or less than 'minimum_reward: %s'  (Bonuses=%s)",
-					player.getName(), plugin.getConfigManager().minimumReward, extraString);
+					player.getName(), Core.getConfigManager().minimumReward, extraString);
 
 		// McMMO Level rewards
 		if (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards
@@ -1910,8 +1910,7 @@ public class MobHuntingManager implements Listener {
 						if (commandCmd != null) {
 							commandCmd = commandCmd.replaceAll("\\{player\\}", player.getName())
 									.replaceAll("\\{killer\\}", player.getName())
-									.replaceAll("\\{killed\\}", mob.getMobName())
-									.replaceAll("\\{world\\}", worldname)
+									.replaceAll("\\{killed\\}", mob.getMobName()).replaceAll("\\{world\\}", worldname)
 									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{killerpos\\}", killerpos).replaceAll("\\{killedpos\\}", killedpos)
@@ -2113,7 +2112,7 @@ public class MobHuntingManager implements Listener {
 		else
 			cash = plugin.getRewardManager().getBaseKillPrize(killed) * multiplier;
 
-		if ((cash >= plugin.getConfigManager().minimumReward || cash <= -plugin.getConfigManager().minimumReward)
+		if ((cash >= Core.getConfigManager().minimumReward || cash <= -Core.getConfigManager().minimumReward)
 				&& cash != 0) {
 			ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
 			if (mob.getMob_id() == 0) {
@@ -2150,7 +2149,7 @@ public class MobHuntingManager implements Listener {
 			}
 		} else
 			plugin.getMessages().debug("KillBlocked %s: Reward was less than 'minimum_reward: %s' or 0",
-					killer.getName(), plugin.getConfigManager().minimumReward);
+					killer.getName(), Core.getConfigManager().minimumReward);
 		;
 	}
 

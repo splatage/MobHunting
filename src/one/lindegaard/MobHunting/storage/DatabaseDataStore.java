@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -462,7 +463,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 					+ "[Error]: Could not delete expired records from bounty database.");
 		}
 	}
-	
+
 	// ******************************************************************
 	// V2 To V3 Database migration
 	// ******************************************************************
@@ -1546,6 +1547,40 @@ public abstract class DatabaseDataStore implements IDataStore {
 
 		statement.close();
 		connection.commit();
+	}
+
+	@Override
+	public void databaseDeleteOldPlayers() {
+		plugin.getMessages().debug("Deleting players not known on this server.");
+		int n = 0;
+		try {
+			Connection mConnection = setupConnection();
+			Statement statement = mConnection.createStatement();
+			ResultSet rs = statement.executeQuery("SELECT UUID, PLAYER_ID FROM mh_Players");
+			while (rs.next()) {
+				String uuid = rs.getString("UUID");
+				int playerId = rs.getInt("PLAYER_ID");
+				if (!Bukkit.getOfflinePlayer(UUID.fromString(uuid)).hasPlayedBefore()) {
+					plugin.getMessages().debug("Deleting ID:%s (%s) from MobHunting tables.", playerId, uuid);
+					statement.executeUpdate("DELETE FROM mh_Players WHERE UUID='" + uuid + "'");
+					statement.executeUpdate("DELETE FROM mh_Achievements WHERE ID='" + playerId + "'");
+					statement.executeUpdate("DELETE FROM mh_Bounties WHERE ID='" + playerId + "'");
+					statement.executeUpdate("DELETE FROM mh_Daily WHERE ID='" + playerId + "'");
+					statement.executeUpdate("DELETE FROM mh_Weekly WHERE ID='" + playerId + "'");
+					statement.executeUpdate("DELETE FROM mh_Monthly WHERE ID='" + playerId + "'");
+					statement.executeUpdate("DELETE FROM mh_Yearly WHERE ID='" + playerId + "'");
+					statement.executeUpdate("DELETE FROM mh_AllTime WHERE ID='" + playerId + "'");
+					n++;
+				}
+			}
+			rs.close();
+			statement.close();
+			mConnection.close();
+			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.WHITE + n
+					+ " players was deleted from the MobHunting database.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

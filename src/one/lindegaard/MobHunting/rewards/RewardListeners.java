@@ -48,7 +48,6 @@ import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibCompat;
 import one.lindegaard.MobHunting.compatibility.ProtocolLibHelper;
-import one.lindegaard.MobHunting.util.Misc;
 
 public class RewardListeners implements Listener {
 
@@ -191,7 +190,7 @@ public class RewardListeners implements Listener {
 										} else if ((reward.isKilledHeadReward() || reward.isKillerHeadReward())
 												&& reward.getRewardType().equals(rewardInSlot.getRewardType())
 												&& reward.getSkinUUID().equals(rewardInSlot.getSkinUUID())
-												&& Misc.round(reward.getMoney()) == Misc
+												&& Tools.round(reward.getMoney()) == Tools
 														.round(rewardInSlot.getMoney())) {
 											ItemStack isPickup = item.getItemStack();
 											if (is.getAmount() + isPickup.getAmount() <= 64) {
@@ -213,7 +212,7 @@ public class RewardListeners implements Listener {
 									}
 								}
 							}
-							if (Misc.round(addedMoney) == Misc.round(reward.getMoney())) {
+							if (Tools.round(addedMoney) == Tools.round(reward.getMoney())) {
 								plugin.getMessages().debug("Was able to pickup all the money");
 								item.remove();
 								if (Core.getCoreRewardManager().getDroppedMoney().containsKey(entity.getEntityId()))
@@ -229,7 +228,7 @@ public class RewardListeners implements Listener {
 									plugin.getMessages().debug(
 											"%s picked up a %s with a value:%s (# of rewards left=%s)",
 											player.getName(), reward.getDisplayName(),
-											plugin.getRewardManager().format(Misc.round(reward.getMoney())),
+											plugin.getRewardManager().format(Tools.round(reward.getMoney())),
 											Core.getCoreRewardManager().getDroppedMoney().size());
 									plugin.getMessages().playerActionBarMessageQueue(player,
 											plugin.getMessages().getString("mobhunting.moneypickup", "money",
@@ -239,7 +238,7 @@ public class RewardListeners implements Listener {
 																	? Core.getConfigManager().bagOfGoldName.trim()
 																	: reward.getDisplayName())));
 								}
-							} else if (Misc.round(addedMoney) < Misc.round(reward.getMoney())) {
+							} else if (Tools.round(addedMoney) < Tools.round(reward.getMoney())) {
 								double rest = reward.getMoney() - addedMoney;
 								plugin.getMessages().debug("Was not able to pick up %s money (remove Item)", rest);
 								item.remove();
@@ -334,7 +333,7 @@ public class RewardListeners implements Listener {
 					plugin.getMessages().learn(player,
 							plugin.getMessages().getString("mobhunting.learn.rewards.no-helmet"));
 					event.getPlayer().getEquipment().setHelmet(new ItemStack(Material.AIR));
-					if (Misc.round(reward.getMoney()) != Misc
+					if (Tools.round(reward.getMoney()) != Tools
 							.round(plugin.getRewardManager().addBagOfGoldPlayer(player, reward.getMoney())))
 						plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null, player.getLocation(),
 								reward.getMoney());
@@ -531,10 +530,11 @@ public class RewardListeners implements Listener {
 		else
 			clickedInventory = inventory;
 
-		//plugin.getMessages().debug("action=%s, InvType=%s, slottype=%s, slotno=%s, current=%s, cursor=%s, view=%s",
-		//		action, inventory.getType(), slotType, event.getSlot(),
-		//		isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
-		//		isCursor == null ? "null" : isCursor.getType(), event.getView().getType());
+		// plugin.getMessages().debug("action=%s, InvType=%s, slottype=%s, slotno=%s,
+		// current=%s, cursor=%s, view=%s",
+		// action, inventory.getType(), slotType, event.getSlot(),
+		// isCurrentSlot == null ? "null" : isCurrentSlot.getType(),
+		// isCursor == null ? "null" : isCursor.getType(), event.getView().getType());
 
 		if (slotType == SlotType.ARMOR) {
 			if (Reward.isReward(isCursor)) {
@@ -595,7 +595,7 @@ public class RewardListeners implements Listener {
 						if (cursor.isMoney()) {
 							event.setCancelled(true);
 							double money_in_hand = cursor.getMoney() * isCursor.getAmount();
-							double saldo = Misc.floor(money_in_hand);
+							double saldo = Tools.floor(money_in_hand);
 							for (int slot = 0; slot < clickedInventory.getSize(); slot++) {
 								ItemStack is = clickedInventory.getItem(slot);
 								if (Reward.isReward(is)) {
@@ -643,12 +643,12 @@ public class RewardListeners implements Listener {
 					}
 					break;
 				case HOTBAR_SWAP:
-						if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
-							plugin.getMessages().debug("%s tried to do a HATBAR_SWAP with a BagOfGold. Cancelled",
-									player.getName());
-							event.setCancelled(true);
-							return;
-						}
+					if (Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor)) {
+						plugin.getMessages().debug("%s tried to do a HATBAR_SWAP with a BagOfGold. Cancelled",
+								player.getName());
+						event.setCancelled(true);
+						return;
+					}
 					break;
 				case MOVE_TO_OTHER_INVENTORY:
 					if ((Reward.isReward(isCurrentSlot) || Reward.isReward(isCursor))) {
@@ -682,10 +682,10 @@ public class RewardListeners implements Listener {
 						if (reward.isMoney()) {
 							int amount_of_currentslot = isCurrentSlot.getAmount();
 							// int amount_of_cursor = isCursor.getAmount();
-							double currentSlotMoney = Misc.round(reward.getMoney() * amount_of_currentslot / 2);
-							double cursorMoney = Misc
+							double currentSlotMoney = Tools.round(reward.getMoney() * amount_of_currentslot / 2);
+							double cursorMoney = Tools
 									.round((reward.getMoney() * amount_of_currentslot - currentSlotMoney));
-							if (cursorMoney >= plugin.getConfigManager().minimumReward) {
+							if (cursorMoney >= Core.getConfigManager().minimumReward) {
 
 								event.setCancelled(true);
 
@@ -848,7 +848,7 @@ public class RewardListeners implements Listener {
 						} else if ((reward1.isKilledHeadReward() || reward1.isKillerHeadReward())
 								&& reward1.getRewardType().equals(reward2.getRewardType())
 								&& reward1.getSkinUUID().equals(reward2.getSkinUUID())
-								&& Misc.round(reward1.getMoney()) == Misc.round(reward2.getMoney())) {
+								&& Tools.round(reward1.getMoney()) == Tools.round(reward2.getMoney())) {
 							event.setCancelled(true);
 							if (isCursor.getAmount() + isCurrentSlot.getAmount() <= 64) {
 								isCurrentSlot.setAmount(isCursor.getAmount() + isCurrentSlot.getAmount());

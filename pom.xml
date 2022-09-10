@@ -183,7 +183,12 @@
 			<artifactId>citizensapi</artifactId>
 			<version>${citizensapi.version}</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			 <exclusions>
+            <exclusion>
+                <groupId>*</groupId>
+                <artifactId>*</artifactId>
+            </exclusion>
+        </exclusions>
 		</dependency>
 
 		<!-- BossBarAPI -->
