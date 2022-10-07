@@ -66,11 +66,11 @@ public class Creepercide extends AbstractSkullAchievement implements Listener {
 				a = plugin.getMobHuntingManager().getDamageInformation(killed);
 				b = plugin.getMobHuntingManager().getDamageInformation((Creeper) damage.getDamager());
 
-				if (a != null)
-					initiator = a.getAttacker();
+				if (a != null && a.getAttacker() instanceof Player)
+					initiator = (Player) a.getAttacker();
 
-				if (b != null && initiator == null)
-					initiator = b.getAttacker();
+				if (b != null && initiator == null && b.getAttacker() instanceof Player)
+					initiator = (Player) b.getAttacker();
 			}
 
 			if (initiator != null && plugin.getMobHuntingManager().isHuntEnabled(initiator)) {

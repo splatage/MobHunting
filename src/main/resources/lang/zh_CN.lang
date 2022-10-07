@@ -70,6 +70,7 @@ bonus.sneaky.name=Sneaky!
 bonus.sniper.name=狙击手
 bonus.undercover.message=${cause} 被揭穿了!
 bonus.undercover.name=Under cover!
+bonus.weaponmechanics.name=Weapon Mechanics
 bonus.world.name=世界
 leaderboard.exists=这个排行榜 ${leaderboard} 已经存在
 leaderboard.notexists=这个排行榜 ${leaderboard} 不存在

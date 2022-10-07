@@ -54,6 +54,7 @@ bonus.conquestiamobs.name=ConquestiaMob
 bonus.coverblown.message=${damaged} был замаскирован!
 bonus.coverblown.name=Срыв покровов!
 bonus.crackshot.name=Меткий Выстрел
+bonus.weaponmechanics.name=Weapon Mechanics
 bonus.critical.name=Критический!
 bonus.difficulty.name=Сложность
 bonus.factionwarzone.name=Боевая зона

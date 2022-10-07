@@ -123,7 +123,7 @@ public class CrackShotCompat implements Listener {
 			info.setAttacker(event.getPlayer());
 			info.setAttackerPosition(event.getPlayer().getLocation().clone());
 			info.setCrackShotWeapon(getCrackShotWeapon(event.getPlayer().getItemInHand()));
-			info.setCrackShotPlayer(event.getPlayer());
+			info.setWeaponUser(event.getPlayer());
 			MobHunting.getInstance().getMobHuntingManager().getDamageHistory().put((LivingEntity) event.getVictim(),
 					info);
 		}

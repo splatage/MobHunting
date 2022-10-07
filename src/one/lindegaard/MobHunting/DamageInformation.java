@@ -1,6 +1,7 @@
 package one.lindegaard.MobHunting;
 
 import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -18,7 +19,8 @@ public class DamageInformation {
 	private boolean wolfAssist;
 	private boolean wasFlying;
 	private String crackShotWeapon = "";
-	private Player crackShotPlayer;
+	private Player weaponUser;
+	private String weaponMechanicsWeapon = "";
 
 	// Disguises
 	private boolean playerUndercover; // Player attacking undercover (disguise)
@@ -125,11 +127,11 @@ public class DamageInformation {
 	}
 
 	/**
-	 * @param assister
+	 * @param livingEntity
 	 *            the assister to set
 	 */
-	public void setAssister(Player assister) {
-		this.assister = assister;
+	public void setAssister(Player player) {
+		this.assister = player;
 	}
 
 	/**
@@ -222,6 +224,15 @@ public class DamageInformation {
 		this.mobCoverBlown = mobCoverBlown;
 	}
 
+	//CrackShot & Weapon Mechanics
+	public Player getWeaponUser() {
+		return weaponUser;
+	}
+
+	public void setWeaponUser(Player weaponUser) {
+		this.weaponUser = weaponUser;
+	}
+
 	// CRACKSHOT Integration
 	public boolean isCrackShotWeaponUsed() {
 		return crackShotWeapon!=null && !crackShotWeapon.isEmpty();
@@ -235,12 +246,17 @@ public class DamageInformation {
 		crackShotWeapon = weapon;
 	}
 
-	public Player getCrackShotPlayer() {
-		return crackShotPlayer;
+	// Weapon Mechanics
+	public boolean isWeaponMechanicsWeaponUsed() {
+		return weaponMechanicsWeapon!=null && !weaponMechanicsWeapon.isEmpty();
 	}
 
-	public void setCrackShotPlayer(Player crackShotPlayer) {
-		this.crackShotPlayer = crackShotPlayer;
+	public String getWeaponMechanicsWeapon() {
+		return weaponMechanicsWeapon;
+	}
+
+	public void setWeaponMechanicsWeapon(String weaponMechanicsWeapon) {
+		this.weaponMechanicsWeapon = weaponMechanicsWeapon;
 	}
 
 }

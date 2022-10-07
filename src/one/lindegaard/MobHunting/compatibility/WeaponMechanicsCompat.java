@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,6 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import me.deecaad.weaponmechanics.WeaponMechanicsAPI;
+import me.deecaad.weaponmechanics.weapon.weaponevents.WeaponAssistEvent;
+import me.deecaad.weaponmechanics.weapon.weaponevents.WeaponDamageEntityEvent;
+import me.deecaad.weaponmechanics.weapon.weaponevents.WeaponKillEntityEvent;
+import one.lindegaard.Core.Core;
 import one.lindegaard.Core.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.DamageInformation;
 import one.lindegaard.MobHunting.MobHunting;
@@ -63,27 +68,29 @@ public class WeaponMechanicsCompat implements Listener {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationWeaponMechanics;
 	}
 	
-	public static String getWeaponName(ItemStack itemStack) {
+	public static String getWeaponMechanicsWeapon(ItemStack itemStack) {
 		return WeaponMechanicsAPI.getWeaponTitle(itemStack);
 	}
-	
-/**
-	public static boolean isCrackShotWeapon(ItemStack itemStack) {
+
+	public static boolean isWeaponMechanicsWeapon(ItemStack itemStack) {
 		if (isSupported()) {
-			CSUtility cs = new CSUtility();
-			return cs.getWeaponTitle(itemStack) != null;
+			String weaponName = WeaponMechanicsAPI.getWeaponTitle(itemStack);
+			Core.getMessages().debug("This is a WeaponMechanics weapon");
+			return weaponName != null;
 		}
 		return false;
 	}
 
-	public static String getCrackShotWeapon(ItemStack itemStack) {
-		if (isSupported()) {
-			CSUtility cs = new CSUtility();
-			return cs.getWeaponTitle(itemStack);
-		}
-		return null;
+	public static boolean isWeaponMechanicsWeaponUsed(Entity entity) {
+		if (MobHunting.getInstance().getMobHuntingManager().getDamageHistory().containsKey(entity))
+			return MobHunting.getInstance().getMobHuntingManager().getDamageHistory().get(entity)
+					.getCrackShotWeaponUsed() != null
+					&& !MobHunting.getInstance().getMobHuntingManager().getDamageHistory().get(entity)
+							.getWeaponMechanicsWeapon().isEmpty();
+		return false;
 	}
-
+	
+/**
 	public static boolean isCrackShotProjectile(Projectile Projectile) {
 		if (isSupported()) {
 			CSUtility cs = new CSUtility();
@@ -99,22 +106,13 @@ public class WeaponMechanicsCompat implements Listener {
 		}
 		return null;
 	}
-
-	public static boolean isCrackShotUsed(Entity entity) {
-		if (MobHunting.getInstance().getMobHuntingManager().getDamageHistory().containsKey(entity))
-			return MobHunting.getInstance().getMobHuntingManager().getDamageHistory().get(entity)
-					.getCrackShotWeaponUsed() != null
-					&& !MobHunting.getInstance().getMobHuntingManager().getDamageHistory().get(entity)
-							.getCrackShotWeaponUsed().isEmpty();
-		return false;
-	}
+	
 **/
+	
 	// **************************************************************************
 	// EVENTS
 	// **************************************************************************
 
-	/**
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.LOW)
 	public void onWeaponDamageEntityEvent(WeaponDamageEntityEvent event) {
 		if (event.getVictim() instanceof LivingEntity) {
@@ -123,14 +121,28 @@ public class WeaponMechanicsCompat implements Listener {
 			if (info == null)
 				info = new DamageInformation();
 			info.setTime(System.currentTimeMillis());
-			info.setAttacker(event.getPlayer());
-			info.setAttackerPosition(event.getPlayer().getLocation().clone());
-			info.setCrackShotWeapon(getCrackShotWeapon(event.getPlayer().getItemInHand()));
-			info.setCrackShotPlayer(event.getPlayer());
-			MobHunting.getInstance().getMobHuntingManager().getDamageHistory().put((LivingEntity) event.getVictim(),
+			info.setAttacker((Player) event.getShooter());
+			info.setAttackerPosition(event.getShooter().getLocation().clone());
+			info.setCrackShotWeapon(getWeaponMechanicsWeapon(((Player)event.getShooter()).getItemInHand()));
+			info.setWeaponUser((Player) event.getShooter());
+			MobHunting.getInstance().getMobHuntingManager().getDamageHistory().put(event.getVictim(),
 					info);
 		}
 	}
-	**/
+	
+	@EventHandler(priority = EventPriority.LOW)
+	public void onWeaponKillEntityEvent(WeaponKillEntityEvent event) {
+		//TESTING
+		LivingEntity victim = event.getVictim();
+		Player player = (Player) event.getShooter();
+	}
+	
+	@EventHandler(priority = EventPriority.LOW)
+	public void onWeaponAssistEvent(WeaponAssistEvent event) {
+		//TESTING
+		LivingEntity victim = event.getKilled();
+		//Player player = (Player) event.getAssistInfo().;
+	}
+	
 
 }

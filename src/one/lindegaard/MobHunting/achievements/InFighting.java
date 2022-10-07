@@ -2,6 +2,7 @@ package one.lindegaard.MobHunting.achievements;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
@@ -66,10 +67,10 @@ public class InFighting implements Achievement, Listener {
 				b = plugin.getMobHuntingManager().getDamageInformation(skele);
 
 				Player initiator = null;
-				if (a != null)
+				if (a != null && a.getAttacker() instanceof Player)
 					initiator = a.getAttacker();
 
-				if (b != null && initiator == null)
+				if (b != null && initiator == null && b.getAttacker() instanceof Player)
 					initiator = b.getAttacker();
 
 				if (initiator != null && plugin.getMobHuntingManager().isHuntEnabled(initiator))

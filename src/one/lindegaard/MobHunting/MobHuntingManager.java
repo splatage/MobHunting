@@ -41,6 +41,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import me.deecaad.weaponmechanics.WeaponMechanics;
+
 import java.util.*;
 
 public class MobHuntingManager implements Listener {
@@ -185,6 +187,8 @@ public class MobHuntingManager implements Listener {
 		mHuntingModifiers.add(new Undercover());
 		if (CrackShotCompat.isSupported())
 			mHuntingModifiers.add(new CrackShotPenalty());
+		if (WeaponMechanicsCompat.isSupported())
+			mHuntingModifiers.add(new WeaponMechanicsPenalty());
 		if (InfernalMobsCompat.isSupported())
 			mHuntingModifiers.add(new InfernalMobBonus());
 	}
@@ -496,6 +500,10 @@ public class MobHuntingManager implements Listener {
 			return;
 		}
 
+		if (WeaponMechanicsCompat.isSupported() && WeaponMechanicsCompat.isWeaponMechanicsWeaponUsed(damaged)) {
+			return;
+		}
+
 		if (McMMOHorses.isSupported() && McMMOHorses.isMcMMOHorse(damaged)) {
 			return;
 		}
@@ -532,6 +540,8 @@ public class MobHuntingManager implements Listener {
 				info.setCrackShotWeapon(CrackShotCompat.getCrackShotWeapon((Projectile) damager));
 			}
 
+			// TODO : Weapon Mechancs Projectile
+
 		} else
 			info.setIsMeleWeaponUsed(true);
 
@@ -561,6 +571,12 @@ public class MobHuntingManager implements Listener {
 				plugin.getMessages().debug("%s used a CrackShot weapon: %s", cause.getName(),
 						info.getCrackShotWeaponUsed());
 			}
+
+			if (WeaponMechanicsCompat.isWeaponMechanicsWeapon(weapon)) {
+				info.setCrackShotWeapon(WeaponMechanicsCompat.getWeaponMechanicsWeapon(weapon));
+				plugin.getMessages().debug("%s used a Weapon Mechanics weapon: %s", cause.getName(),
+						info.getWeaponMechanicsWeapon());
+			}
 		}
 
 		if (weapon != null)
@@ -569,7 +585,7 @@ public class MobHuntingManager implements Listener {
 		// Take note that a weapon has been used at all
 		if (info.getWeapon() != null && (Materials.isSword(info.getWeapon()) || Materials.isAxe(info.getWeapon())
 				|| Materials.isPick(info.getWeapon()) || Materials.isTrident(info.getWeapon())
-				|| info.isCrackShotWeaponUsed() || projectile))
+				|| info.isCrackShotWeaponUsed() || projectile || info.isWeaponMechanicsWeaponUsed()))
 			info.setHasUsedWeapon(true);
 
 		if (cause != null) {
@@ -792,7 +808,8 @@ public class MobHuntingManager implements Listener {
 		}
 
 		// Killer is not a player and not a MyPet and CrackShot not used.
-		if (killer == null && !MyPetCompat.isKilledByMyPet(killed) && !info.isCrackShotWeaponUsed()) {
+		if (killer == null && !MyPetCompat.isKilledByMyPet(killed) && !info.isCrackShotWeaponUsed()
+				&& !info.isWeaponMechanicsWeaponUsed()) {
 			return;
 		}
 
@@ -827,10 +844,21 @@ public class MobHuntingManager implements Listener {
 					(int) MyPetCompat.getMyPetOwner(killed).getLocation().getBlockZ());
 		else if (info.isCrackShotWeaponUsed()) {
 			if (killer == null) {
-				killer = info.getCrackShotPlayer();
+				killer = info.getWeaponUser();
 				if (killer != null)
 					plugin.getMessages().debug("%s killed a %s (%s) using a %s@ (%s:%s,%s,%s)", killer.getName(),
 							mob.getMobName(), mob.getMobPlugin().getName(), info.getCrackShotWeaponUsed(),
+							killer.getWorld().getName(), (int) killer.getLocation().getBlockX(),
+							(int) killer.getLocation().getBlockY(), (int) killer.getLocation().getBlockZ());
+				else
+					plugin.getMessages().debug("No killer was stored in the Damageinformation");
+			}
+		} else if (info.isWeaponMechanicsWeaponUsed()) {
+			if (killer == null) {
+				killer = info.getWeaponUser();
+				if (killer != null)
+					plugin.getMessages().debug("%s killed a %s (%s) using a %s@ (%s:%s,%s,%s)", killer.getName(),
+							mob.getMobName(), mob.getMobPlugin().getName(), info.getWeaponMechanicsWeapon(),
 							killer.getWorld().getName(), (int) killer.getLocation().getBlockX(),
 							(int) killer.getLocation().getBlockY(), (int) killer.getLocation().getBlockZ());
 				else
@@ -1271,6 +1299,10 @@ public class MobHuntingManager implements Listener {
 					info.setCrackShotWeapon(CrackShotCompat.getCrackShotWeapon(weapon));
 					plugin.getMessages().debug("%s used a CrackShot weapon: %s", killer.getName(),
 							CrackShotCompat.getCrackShotWeapon(weapon));
+				} else if (WeaponMechanicsCompat.isWeaponMechanicsWeapon(weapon)) {
+					info.setWeaponMechanicsWeapon(WeaponMechanicsCompat.getWeaponMechanicsWeapon(weapon));
+					plugin.getMessages().debug("%s used a Weapon Mechanings weapon: %s", killer.getName(),
+							WeaponMechanicsCompat.getWeaponMechanicsWeapon(weapon));
 				} else
 					plugin.getMessages().debug("%s used a weapon: %s", killer.getName(), weapon.getType());
 				info.setWeapon(weapon);
@@ -1861,7 +1893,8 @@ public class MobHuntingManager implements Listener {
 
 		// McMMO Level rewards
 		if (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards
-				&& data.getDampenedKills() < 10 && !CrackShotCompat.isCrackShotUsed(killed)) {
+				&& data.getDampenedKills() < 10 && !CrackShotCompat.isCrackShotUsed(killed)
+				&& !WeaponMechanicsCompat.isWeaponMechanicsWeaponUsed(killed)) {
 
 			String skilltypename = McMMOCompat.getSkilltypeName(info);
 
@@ -2062,7 +2095,8 @@ public class MobHuntingManager implements Listener {
 		}
 
 		DamageInformation damageInformation = mDamageHistory.get(killed);
-		if (damageInformation != null && damageInformation.isCrackShotWeaponUsed())
+		if (damageInformation != null
+				&& (damageInformation.isCrackShotWeaponUsed() || damageInformation.isWeaponMechanicsWeaponUsed()))
 			return damageInformation.getAttacker();
 
 		// plugin.getMessages().debug("MobHuntingManager: Name of killer was not

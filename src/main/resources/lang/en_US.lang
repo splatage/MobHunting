@@ -324,6 +324,7 @@ bonus.levelledmobs.name=LevelledMob
 bonus.happyhour.name=Happy Hour
 bonus.factionwarzone.name=WarZone
 bonus.crackshot.name=Crackshot
+bonus.weaponmechanics.name=Weapon Mechanics
 bonus.infernalmob.name=Infernal
 
 penalty.flying.name=Flying Penalty

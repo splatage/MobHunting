@@ -44,6 +44,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Firework;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -371,11 +372,11 @@ public class AchievementManager implements Listener {
 	/**
 	 * Award the player when he make an Achievement
 	 * 
-	 * @param achievement
-	 * @param player
+	 * @param string
+	 * @param initiator
 	 */
-	public void awardAchievement(String achievement, Player player, ExtendedMob mob) {
-		awardAchievement(getAchievement(achievement), player, mob);
+	public void awardAchievement(String string, Player initiator, ExtendedMob mob) {
+		awardAchievement(getAchievement(string), initiator, mob);
 	}
 
 	/**

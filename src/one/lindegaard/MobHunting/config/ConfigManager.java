@@ -4672,21 +4672,22 @@ public class ConfigManager extends AutoConfig {
 	// CrackShot integration
 	// #####################################################################################
 	@ConfigField(name = "crackshot.enable_integration_crackshot", category = "plugins", comment = "Enable/disable integration with CrackShot."
-			+ "\nhttps://www.spigotmc.org/resources/weaponmechanics-1-9-4-1-19-2.99913/")
-	public boolean enableIntegrationWeaponMechanics = true;
-
-	@ConfigField(name = "weaponmechanics.weaponmechanics_multiplier", category = "plugins", comment = "Multiplier used when a WeaponMechanics weapon was used to kill a mob or a player")
-	public double weaponMechanicsShot = 0.7;
-
-	// #####################################################################################
-	// WeaponMechanics integration
-	// #####################################################################################
-	@ConfigField(name = "weaponmechanics.enable_integration_weaponmechanics", category = "plugins", comment = "Enable/disable integration with CrackShot."
 			+ "\nhttps://dev.bukkit.org/projects/crackshot")
 	public boolean enableIntegrationCrackShot = true;
 
 	@ConfigField(name = "crackshot.crackshot_multiplier", category = "plugins", comment = "Multiplier used when a Crackshot weapon was used to kill a mob or a player")
 	public double crackShot = 0.7;
+
+	// #####################################################################################
+	// WeaponMechanics integration
+	// #####################################################################################
+	@ConfigField(name = "weaponmechanics.enable_integration_weaponmechanics", 
+			category = "plugins", comment = "Enable/disable integration with Weapon Mechanics."
+			+ "\nhttps://www.spigotmc.org/resources/weaponmechanics-1-9-4-1-19-2.99913/")
+	public boolean enableIntegrationWeaponMechanics = true;
+	
+	@ConfigField(name = "weaponmechanics.weaponmechanics_multiplier", category = "plugins", comment = "Multiplier used when a WeaponMechanics weapon was used to kill a mob or a player")
+	public double weaponMechanicsShot = 0.5;
 
 
 	// #####################################################################################
