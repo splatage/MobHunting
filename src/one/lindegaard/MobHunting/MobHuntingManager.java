@@ -540,7 +540,7 @@ public class MobHuntingManager implements Listener {
 				info.setCrackShotWeapon(CrackShotCompat.getCrackShotWeapon((Projectile) damager));
 			}
 
-			// TODO : Weapon Mechancs Projectile
+			// TODO : Weapon Mechancs Projectile - WM Projectiles is not an entity like in Crackshot. 
 
 		} else
 			info.setIsMeleWeaponUsed(true);
