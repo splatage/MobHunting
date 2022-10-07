@@ -44,6 +44,7 @@
 		<mcmmo210.version>2.1.211</mcmmo210.version>
 		<disguisecraft.version>5.1</disguisecraft.version>
 		<crackshot.version>0.98.5</crackshot.version>
+		<WeaponMechanics.version>1.11.10</WeaponMechanics.version>
 		<PvpArena.version>1.3</PvpArena.version>
 		<TARDISWeepingAngels.version>2.4</TARDISWeepingAngels.version>
 		<ConquestiaMobs.version>3.3.3</ConquestiaMobs.version>
@@ -607,6 +608,13 @@
 			<artifactId>CrackShot</artifactId>
 			<version>${crackshot.version}</version>
 		</dependency>
+
+		<!-- WeaponMechanics -->
+<dependency>
+<groupId>me.deecaad.weaponmechanics</groupId>
+<artifactId>WeaponMechanics</artifactId>
+<version>${WeaponMechanics.version}</version>
+</dependency>
 
 		<!-- ExtraHardMode -->
 		<dependency>

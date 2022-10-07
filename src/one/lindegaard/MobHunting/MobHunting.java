@@ -273,6 +273,7 @@ public class MobHunting extends JavaPlugin {
 
 		mCompatibilityManager.registerPlugin(ExtraHardModeCompat.class, CompatPlugin.ExtraHardMode);
 		mCompatibilityManager.registerPlugin(CrackShotCompat.class, CompatPlugin.CrackShot);
+		mCompatibilityManager.registerPlugin(WeaponMechanicsCompat.class, CompatPlugin.WeaponMechanics);
 
 		mExtendedMobManager = new ExtendedMobManager(this);
 

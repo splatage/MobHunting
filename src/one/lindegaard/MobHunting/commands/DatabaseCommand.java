@@ -40,9 +40,14 @@ public class DatabaseCommand implements ICommand, Listener {
 	public String[] getUsageString(String label, CommandSender sender) {
 		return new String[] { ChatColor.GOLD + label + ChatColor.GREEN + " fixLeaderboard",
 				ChatColor.GOLD + label + ChatColor.GREEN + " convert-to-utf8",
-				ChatColor.GOLD + label + ChatColor.GREEN + " reset-achievements",
-				ChatColor.GOLD + label + ChatColor.GREEN + " reset-statistics",
-				ChatColor.GOLD + label + ChatColor.GREEN + " reset-bounties" };
+				ChatColor.GOLD + label + ChatColor.GREEN + " reset-achievements" + ChatColor.WHITE
+						+ " - delete achievements and start over.",
+				ChatColor.GOLD + label + ChatColor.GREEN + " reset-statistics" + ChatColor.WHITE
+						+ " - delete statistics and start over.",
+				ChatColor.GOLD + label + ChatColor.GREEN + " reset-bounties" + ChatColor.WHITE
+						+ " - delete all bounties and start over.",
+				ChatColor.GOLD + label + ChatColor.GREEN + " deleteoldplayers" + ChatColor.WHITE
+						+ " - delete players not know on this server." };
 	}
 
 	@Override
@@ -70,6 +75,7 @@ public class DatabaseCommand implements ICommand, Listener {
 			items.add("reset-achievements");
 			items.add("reset-statistics");
 			items.add("reset-bounties");
+			items.add("deleteoldplayers");
 			// items.add("backup");
 			// items.add("restore");
 			// items.add("deletebackup");

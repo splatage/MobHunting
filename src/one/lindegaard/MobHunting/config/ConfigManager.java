@@ -480,6 +480,13 @@ public class ConfigManager extends AutoConfig {
 						+ "\nThis section only relevant if you use CrackShot."
 						+ "\nHere you configure if the player will get a multiplier for using a CrackShot weapon");
 
+		setCategoryComment("plugins.weaponmechanics",
+				"########################################################################"
+						+ "\nIntegration to WeaponMechanics"
+						+ "\n########################################################################"
+						+ "\nThis section only relevant if you use WeaponMechanics."
+						+ "\nHere you configure if the player will get a multiplier for using a WeaponMechanics weapon");
+
 		setCategoryComment("plugins.mobarena",
 				"########################################################################" + "\nMobArena"
 						+ "\n########################################################################");
@@ -4665,11 +4672,22 @@ public class ConfigManager extends AutoConfig {
 	// CrackShot integration
 	// #####################################################################################
 	@ConfigField(name = "crackshot.enable_integration_crackshot", category = "plugins", comment = "Enable/disable integration with CrackShot."
+			+ "\nhttps://www.spigotmc.org/resources/weaponmechanics-1-9-4-1-19-2.99913/")
+	public boolean enableIntegrationWeaponMechanics = true;
+
+	@ConfigField(name = "weaponmechanics.weaponmechanics_multiplier", category = "plugins", comment = "Multiplier used when a WeaponMechanics weapon was used to kill a mob or a player")
+	public double weaponMechanicsShot = 0.7;
+
+	// #####################################################################################
+	// WeaponMechanics integration
+	// #####################################################################################
+	@ConfigField(name = "weaponmechanics.enable_integration_weaponmechanics", category = "plugins", comment = "Enable/disable integration with CrackShot."
 			+ "\nhttps://dev.bukkit.org/projects/crackshot")
 	public boolean enableIntegrationCrackShot = true;
 
 	@ConfigField(name = "crackshot.crackshot_multiplier", category = "plugins", comment = "Multiplier used when a Crackshot weapon was used to kill a mob or a player")
 	public double crackShot = 0.7;
+
 
 	// #####################################################################################
 	// MobArena integration
