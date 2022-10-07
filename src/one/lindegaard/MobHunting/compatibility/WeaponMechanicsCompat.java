@@ -91,24 +91,20 @@ public class WeaponMechanicsCompat implements Listener {
 	}
 	
 /**
-	public static boolean isCrackShotProjectile(Projectile Projectile) {
+	public static boolean isWeaponMechanicsProjectile(Projectile Projectile) {
 		if (isSupported()) {
-			CSUtility cs = new CSUtility();
-			return cs.getWeaponTitle(Projectile) != null;
+			return WeaponMechanicsAPI.getWeaponTitle(Projectile) != null;
 		}
 		return false;
 	}
 
-	public static String getCrackShotWeapon(Projectile Projectile) {
+	public static String getWeaponMechanicsWeapon(Projectile Projectile) {
 		if (isSupported()) {
-			CSUtility cs = new CSUtility();
-			return cs.getWeaponTitle(Projectile);
+			return WeaponMechanicsAPI.getWeaponTitle(Projectile);
 		}
 		return null;
 	}
-	
-**/
-	
+**/	
 	// **************************************************************************
 	// EVENTS
 	// **************************************************************************
