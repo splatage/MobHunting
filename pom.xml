@@ -468,11 +468,17 @@
 		</dependency>
 
 		<!-- VanishNoPacket -->
-		<dependency>
+		<!-- https://mvnrepository.com/artifact/org.kitteh.vanish/VanishNoPacket -->
+<dependency>
+    <groupId>org.kitteh.vanish</groupId>
+    <artifactId>VanishNoPacket</artifactId>
+    <version>3.20</version>
+</dependency>
+		<!--<dependency>
 			<groupId>org.kitteh</groupId>
 			<artifactId>VanishNoPacket</artifactId>
 			<version>${vanishnopacket.version}</version>
-		</dependency>
+		</dependency>-->
 
 		<!-- MobStacker -->
 		<dependency>
