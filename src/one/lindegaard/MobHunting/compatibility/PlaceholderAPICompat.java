@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.placeholder.MobHuntingPlaceholderExpansion;
 import one.lindegaard.MobHunting.placeholder.PlaceHolderData;
@@ -26,13 +25,13 @@ public class PlaceholderAPICompat {
 
 	public PlaceholderAPICompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX
 					+ "Compatibility with PlaceholderAPI is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.PlaceholderAPI.getName());
 			if (mPlugin.getDescription().getVersion().compareTo("2.11.1") >= 0) {
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+						.sendMessage(MobHunting.PREFIX
 								+ "Enabling compatibility with PlaceholderAPI (" + mPlugin.getDescription().getVersion()
 								+ ").");
 				new MobHuntingPlaceholderExpansion().register();
@@ -40,7 +39,7 @@ public class PlaceholderAPICompat {
 				supported = true;
 			} else {
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
+						.sendMessage(MobHunting.PREFIX_WARNING
 								+ "Your current version of PlaceholderAPI (" + mPlugin.getDescription().getVersion()
 								+ ") is not supported by MobHunting, please upgrade to 2.11.1 or newer.");
 			}

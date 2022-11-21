@@ -1,15 +1,15 @@
 package one.lindegaard.MobHunting.bounty;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.rewards.CoreCustomItems;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.rewards.CoreCustomItems;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.achievements.AchievementManager;
 import one.lindegaard.MobHunting.compatibility.EssentialsCompat;
 import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
-import one.lindegaard.Core.storage.DataStoreManager;
-import one.lindegaard.Core.storage.IDataCallback;
-import one.lindegaard.Core.storage.UserNotFoundException;
+import one.lindegaard.CustomItemsLib.storage.DataStoreManager;
+import one.lindegaard.CustomItemsLib.storage.IDataCallback;
+import one.lindegaard.CustomItemsLib.storage.UserNotFoundException;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

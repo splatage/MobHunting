@@ -3,7 +3,7 @@ package one.lindegaard.MobHunting.storage.asynch;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import one.lindegaard.Core.storage.DataStoreException;
+import one.lindegaard.CustomItemsLib.storage.DataStoreException;
 import one.lindegaard.MobHunting.bounty.Bounty;
 import one.lindegaard.MobHunting.storage.AchievementStore;
 import one.lindegaard.MobHunting.storage.IDataStore;

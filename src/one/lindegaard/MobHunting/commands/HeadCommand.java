@@ -13,12 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.mobs.MobType;
-import one.lindegaard.Core.rewards.CoreCustomItems;
-import one.lindegaard.Core.rewards.Reward;
-import one.lindegaard.Core.rewards.RewardType;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
+import one.lindegaard.CustomItemsLib.rewards.CoreCustomItems;
+import one.lindegaard.CustomItemsLib.rewards.Reward;
+import one.lindegaard.CustomItemsLib.rewards.RewardType;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class HeadCommand implements ICommand, Listener {

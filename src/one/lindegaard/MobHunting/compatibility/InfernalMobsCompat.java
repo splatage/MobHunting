@@ -13,8 +13,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 
 import io.hotmail.com.jacob_vejvoda.infernal_mobs.infernal_mobs;
-import one.lindegaard.Core.compatibility.CompatPlugin;
-import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class InfernalMobsCompat implements Listener {

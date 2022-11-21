@@ -17,10 +17,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-import one.lindegaard.Core.mobs.MobType;
-import one.lindegaard.Core.server.Servers;
-import one.lindegaard.Core.storage.IDataCallback;
-import one.lindegaard.Core.storage.UserNotFoundException;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
+import one.lindegaard.CustomItemsLib.server.Servers;
+import one.lindegaard.CustomItemsLib.storage.IDataCallback;
+import one.lindegaard.CustomItemsLib.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;

@@ -15,7 +15,7 @@ import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
 import me.lorinth.rpgmobs.LorinthsRpgMobs;
-import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class LorinthsRpgMobsCompat implements Listener {

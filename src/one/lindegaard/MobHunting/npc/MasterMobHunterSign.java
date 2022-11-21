@@ -7,9 +7,9 @@ import java.util.regex.Pattern;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.materials.Materials;
-import one.lindegaard.Core.server.Servers;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.materials.Materials;
+import one.lindegaard.CustomItemsLib.server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;
 import org.bukkit.Bukkit;

@@ -11,8 +11,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 
-import one.lindegaard.Core.mobs.MobType;
-import one.lindegaard.Core.storage.DataStoreException;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
+import one.lindegaard.CustomItemsLib.storage.DataStoreException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;

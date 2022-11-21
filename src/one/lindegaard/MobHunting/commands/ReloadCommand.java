@@ -6,8 +6,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Tools;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.Tools;
 import one.lindegaard.MobHunting.Messages;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BossCompat;

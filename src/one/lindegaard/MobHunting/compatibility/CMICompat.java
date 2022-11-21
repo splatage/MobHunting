@@ -11,7 +11,7 @@ import com.Zrips.CMI.Modules.Holograms.HologramManager;
 import net.Zrips.CMILib.CMILib;
 import net.Zrips.CMILib.ActionBar.CMIActionBar;
 import net.Zrips.CMILib.BossBar.BossBarInfo;
-import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class CMICompat {

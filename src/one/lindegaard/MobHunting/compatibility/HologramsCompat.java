@@ -7,7 +7,7 @@ import org.bukkit.plugin.Plugin;
 import com.sainttx.holograms.api.HologramManager;
 import com.sainttx.holograms.api.HologramPlugin;
 
-import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class HologramsCompat {

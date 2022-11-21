@@ -10,10 +10,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.mobs.MobType;
-import one.lindegaard.Core.storage.DataStoreException;
-import one.lindegaard.Core.storage.IDataCallback;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
+import one.lindegaard.CustomItemsLib.storage.DataStoreException;
+import one.lindegaard.CustomItemsLib.storage.IDataCallback;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.achievements.Achievement;

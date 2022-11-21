@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 
-import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class EssentialsCompat {

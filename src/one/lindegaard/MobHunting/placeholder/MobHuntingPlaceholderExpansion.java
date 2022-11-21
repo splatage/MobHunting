@@ -3,7 +3,7 @@ package one.lindegaard.MobHunting.placeholder;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Listener;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import one.lindegaard.Core.Core;
+import one.lindegaard.CustomItemsLib.Core;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.PlaceholderAPICompat;
 

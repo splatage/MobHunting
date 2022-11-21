@@ -23,7 +23,7 @@ import com.garbagemule.MobArena.events.ArenaPlayerReadyEvent;
 import com.garbagemule.MobArena.events.ArenaStartEvent;
 import com.garbagemule.MobArena.events.NewWaveEvent;
 
-import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class MobArenaCompat implements Listener {

@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.bukkit.OfflinePlayer;
 
-import one.lindegaard.Core.storage.DataStoreException;
+import one.lindegaard.CustomItemsLib.storage.DataStoreException;
 import one.lindegaard.MobHunting.storage.AchievementStore;
 import one.lindegaard.MobHunting.storage.IDataStore;
 

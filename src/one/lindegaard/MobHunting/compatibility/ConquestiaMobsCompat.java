@@ -15,7 +15,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.conquestiamc.cqmobs.CqMobs;
 
-import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class ConquestiaMobsCompat implements Listener {

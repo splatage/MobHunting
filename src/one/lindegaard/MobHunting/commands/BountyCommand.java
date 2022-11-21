@@ -9,8 +9,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Tools;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.bounty.Bounty;
 
@@ -165,7 +166,7 @@ public class BountyCommand implements ICommand {
 			int playerId;
 			try {
 				playerId = Core.getDataStoreManager().getPlayerId(wantedPlayer);
-			} catch (one.lindegaard.Core.storage.UserNotFoundException e) {
+			} catch (UserNotFoundException e) {
 				plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
 						"mobhunting.commands.bounty.unknown-player", "wantedplayer", wantedPlayer.getName()));
 				return true;

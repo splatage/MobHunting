@@ -3,12 +3,13 @@ package one.lindegaard.MobHunting;
 import java.io.File;
 import java.util.Random;
 
-import one.lindegaard.Core.server.Servers;
-import one.lindegaard.Core.storage.DataStoreException;
-import one.lindegaard.Core.compatibility.CompatPlugin;
-import one.lindegaard.Core.messages.MessageManager;
+import one.lindegaard.CustomItemsLib.server.Servers;
+import one.lindegaard.CustomItemsLib.storage.DataStoreException;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.messages.MessageManager;
 import one.lindegaard.BagOfGold.BagOfGold;
-import one.lindegaard.Core.*;
 import one.lindegaard.MobHunting.Api.MobHuntingAPI;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
@@ -87,10 +88,15 @@ public class MobHunting extends JavaPlugin {
 	private SpigetUpdater mSpigetUpdater;
 	private MessageManager mMessageManager;
 
-	private static Core mCore;
+	//private static Core mCore;
 
 	private boolean mInitialized = false;
 	public boolean disabling = false;
+	
+	public static final String PREFIX = ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET;
+	public static final String PREFIX_DEBUG = ChatColor.GOLD + "[MobHunting][Debug] " + ChatColor.RESET;
+	public static final String PREFIX_WARNING = ChatColor.GOLD + "[MobHunting][Warning] " + ChatColor.RED;
+	public static final String PREFIX_ERROR = ChatColor.GOLD + "[MobHunting][Error] " + ChatColor.RED;
 
 	@Override
 	public void onLoad() {
@@ -172,7 +178,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(BagOfGoldCompat.class, CompatPlugin.BagOfGold);
 		mCompatibilityManager.registerPlugin(GringottsCompat.class, CompatPlugin.Gringotts);
 
-		mCore = new Core(this);
+		//mCore = new Core(this);
 
 		// Hook into Vault or Reserve
 		mEconomyManager = new EconomyManager(this);
@@ -395,8 +401,8 @@ public class MobHunting extends JavaPlugin {
 		getMessages().debug("Shutdown CitizensCompat");
 		CitizensCompat.shutdown();
 
-		if (!BagOfGoldCompat.isSupported())
-			Core.shutdown();
+//		if (!BagOfGoldCompat.isSupported())
+//			Core.shutdown();
 
 		Bukkit.getConsoleSender()
 				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "MobHunting disabled.");

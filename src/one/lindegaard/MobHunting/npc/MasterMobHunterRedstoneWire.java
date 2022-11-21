@@ -3,7 +3,7 @@ package one.lindegaard.MobHunting.npc;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import one.lindegaard.Core.server.Servers;
+import one.lindegaard.CustomItemsLib.server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class MasterMobHunterRedstoneWire {

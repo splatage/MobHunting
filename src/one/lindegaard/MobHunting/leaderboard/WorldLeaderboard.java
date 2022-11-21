@@ -20,10 +20,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.materials.Materials;
-import one.lindegaard.Core.server.Servers;
-import one.lindegaard.Core.storage.IDataCallback;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.materials.Materials;
+import one.lindegaard.CustomItemsLib.server.Servers;
+import one.lindegaard.CustomItemsLib.storage.IDataCallback;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.storage.StatStore;

@@ -27,14 +27,17 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
 
 public class GrindingManager implements Listener {
 
 	private MobHunting plugin;
+
+	private boolean saveWhitelist = false;
+	private boolean saveBlacklist = false;
 
 	private static HashMap<UUID, LinkedList<Area>> mBlacklistedAreas = new HashMap<>();
 	private static HashMap<UUID, LinkedList<Area>> mWhitelistedAreas = new HashMap<>();
@@ -50,9 +53,14 @@ public class GrindingManager implements Listener {
 	}
 
 	public void saveData() {
-		plugin.getMessages().debug("Saving whitelisted and blacklisted areas to disk.");
-		saveWhitelist();
-		saveBlacklist();
+		if (saveWhitelist) {
+			plugin.getMessages().debug("Saving whitelisted areas to disk.");
+			saveWhitelist();
+		}
+		if (saveBlacklist) {
+			plugin.getMessages().debug("Saving blacklisted areas to disk.");
+			saveBlacklist();
+		}
 	}
 
 	/**
@@ -363,6 +371,7 @@ public class GrindingManager implements Listener {
 		LinkedList<Area> list = getKnownGrindingSpots(area.getCenter());
 		list.add(area);
 		mBlacklistedAreas.put(area.getCenter().getWorld().getUID(), list);
+		saveBlacklist = true;
 	}
 
 	private boolean saveBlacklist() {
@@ -384,6 +393,7 @@ public class GrindingManager implements Listener {
 
 		try {
 			blacklist.save(file);
+			saveBlacklist = false;
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -525,7 +535,7 @@ public class GrindingManager implements Listener {
 		}
 		areas.add(newArea);
 		mBlacklistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
-		saveBlacklist();
+		saveBlacklist = true;
 	}
 
 	public void unBlacklistArea(Location location) {
@@ -548,7 +558,7 @@ public class GrindingManager implements Listener {
 			mBlacklistedAreas.remove(location.getWorld().getUID());
 		else
 			mBlacklistedAreas.put(location.getWorld().getUID(), areas);
-		saveBlacklist();
+		saveBlacklist = true;
 	}
 
 	// ****************************************************************
@@ -581,6 +591,7 @@ public class GrindingManager implements Listener {
 
 		try {
 			whitelist.save(file);
+			saveWhitelist = false;
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -663,6 +674,7 @@ public class GrindingManager implements Listener {
 		if (areas == null) {
 			areas = new LinkedList<Area>();
 			mWhitelistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
+
 		}
 
 		for (Area area : areas) {
@@ -685,7 +697,7 @@ public class GrindingManager implements Listener {
 		}
 		areas.add(newArea);
 		mWhitelistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
-		saveWhitelist();
+		saveWhitelist = true;
 	}
 
 	public void unWhitelistArea(Location location) {
@@ -707,7 +719,7 @@ public class GrindingManager implements Listener {
 			mWhitelistedAreas.remove(location.getWorld().getUID());
 		else
 			mWhitelistedAreas.put(location.getWorld().getUID(), areas);
-		saveWhitelist();
+		saveWhitelist = true;
 	}
 
 	/**

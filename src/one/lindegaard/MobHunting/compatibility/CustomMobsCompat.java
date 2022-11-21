@@ -25,7 +25,7 @@ import de.hellfirepvp.api.data.ICustomMob;
 import de.hellfirepvp.api.event.CustomMobDeathEvent;
 import de.hellfirepvp.api.event.CustomMobSpawnEvent;
 import de.hellfirepvp.api.event.CustomMobSpawnEvent.SpawnReason;
-import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.mobs.MobPlugin;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;

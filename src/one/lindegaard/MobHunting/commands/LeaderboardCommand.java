@@ -16,8 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.Sign;
 
-import one.lindegaard.Core.materials.Materials;
-import one.lindegaard.Core.server.Servers;
+import one.lindegaard.CustomItemsLib.materials.Materials;
+import one.lindegaard.CustomItemsLib.server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.leaderboard.WorldLeaderboard;

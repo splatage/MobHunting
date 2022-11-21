@@ -24,14 +24,14 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Strings;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.messages.MessageType;
-import one.lindegaard.Core.mobs.MobType;
-import one.lindegaard.Core.rewards.CoreCustomItems;
-import one.lindegaard.Core.rewards.Reward;
-import one.lindegaard.Core.rewards.RewardType;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.Strings;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.messages.MessageType;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
+import one.lindegaard.CustomItemsLib.rewards.CoreCustomItems;
+import one.lindegaard.CustomItemsLib.rewards.Reward;
+import one.lindegaard.CustomItemsLib.rewards.RewardType;
 import one.lindegaard.MobHunting.compatibility.FactionsHelperCompat;
 import one.lindegaard.MobHunting.compatibility.McMMOCompat;
 import one.lindegaard.MobHunting.events.MobHuntFishingEvent;

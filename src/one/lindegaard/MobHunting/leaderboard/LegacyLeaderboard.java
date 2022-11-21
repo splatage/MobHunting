@@ -14,8 +14,8 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 import org.bukkit.util.BlockVector;
 
-import one.lindegaard.Core.materials.Materials;
-import one.lindegaard.Core.storage.IDataCallback;
+import one.lindegaard.CustomItemsLib.materials.Materials;
+import one.lindegaard.CustomItemsLib.storage.IDataCallback;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.storage.StatStore;

@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.PlayerSettings;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.PlayerSettings;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class MuteCommand implements ICommand {

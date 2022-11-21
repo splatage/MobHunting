@@ -8,9 +8,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.storage.DataStoreException;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.storage.DataStoreException;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class DatabaseCommand implements ICommand, Listener {

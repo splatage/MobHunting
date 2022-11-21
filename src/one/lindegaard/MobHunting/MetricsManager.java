@@ -12,8 +12,8 @@ import org.bstats.charts.DrilldownPie;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 
-import one.lindegaard.Core.HttpTools;
-import one.lindegaard.Core.HttpTools.httpCallback;
+import one.lindegaard.CustomItemsLib.HttpTools;
+import one.lindegaard.CustomItemsLib.HttpTools.httpCallback;
 import one.lindegaard.MobHunting.compatibility.ActionAnnouncerCompat;
 import one.lindegaard.MobHunting.compatibility.ActionBarAPICompat;
 import one.lindegaard.MobHunting.compatibility.ActionbarCompat;

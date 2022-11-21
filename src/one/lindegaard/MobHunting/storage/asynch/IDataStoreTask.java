@@ -1,6 +1,6 @@
 package one.lindegaard.MobHunting.storage.asynch;
 
-import one.lindegaard.Core.storage.DataStoreException;
+import one.lindegaard.CustomItemsLib.storage.DataStoreException;
 import one.lindegaard.MobHunting.storage.IDataStore;
 
 public interface IDataStoreTask<T>

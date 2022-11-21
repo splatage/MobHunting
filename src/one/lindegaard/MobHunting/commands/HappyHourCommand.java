@@ -13,8 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitTask;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Tools;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.Tools;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class HappyHourCommand implements ICommand, Listener {

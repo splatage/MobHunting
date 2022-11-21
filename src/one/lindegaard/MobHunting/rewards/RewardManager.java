@@ -99,14 +99,14 @@ import org.gestern.gringotts.currency.Denomination;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.mobs.MobType;
-import one.lindegaard.Core.rewards.CoreCustomItems;
-import one.lindegaard.Core.rewards.MoneyMergeEventListener;
-import one.lindegaard.Core.rewards.Reward;
-import one.lindegaard.Core.rewards.RewardType;
-import one.lindegaard.Core.server.Servers;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
+import one.lindegaard.CustomItemsLib.rewards.CoreCustomItems;
+import one.lindegaard.CustomItemsLib.rewards.MoneyMergeEventListener;
+import one.lindegaard.CustomItemsLib.rewards.Reward;
+import one.lindegaard.CustomItemsLib.rewards.RewardType;
+import one.lindegaard.CustomItemsLib.server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
 import one.lindegaard.MobHunting.compatibility.BossCompat;
@@ -240,7 +240,7 @@ public class RewardManager {
 			}
 		}
 		if (!found) {
-			while (Tools.round(moneyLeftToGive) > 0 && canPickupMoney(player)) {
+			while (Tools.round(moneyLeftToGive) > 0 && Core.getCoreRewardManager().canPickupMoney(player)) {
 				double nextBag = 0;
 				if (moneyLeftToGive > Core.getConfigManager().limitPerBag) {
 					nextBag = Core.getConfigManager().limitPerBag;
@@ -402,21 +402,22 @@ public class RewardManager {
 		}
 	}
 
-	public boolean canPickupMoney(Player player) {
-		if (player.getInventory().firstEmpty() != -1)
-			return true;
-		for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
-			ItemStack is = player.getInventory().getItem(slot);
-			if (Reward.isReward(is)) {
-				Reward rewardInSlot = Reward.getReward(is);
-				if (rewardInSlot.isMoney()) {
-					if (rewardInSlot.getMoney() < Core.getConfigManager().limitPerBag)
-						return true;
-				}
-			}
-		}
-		return false;
-	}
+// Moved to Core
+//	public boolean canPickupMoney(Player player) {
+//		if (player.getInventory().firstEmpty() != -1)
+//			return true;
+//		for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
+//			ItemStack is = player.getInventory().getItem(slot);
+//			if (Reward.isReward(is)) {
+//				Reward rewardInSlot = Reward.getReward(is);
+//				if (rewardInSlot.isMoney()) {
+//					if (rewardInSlot.getMoney() < Core.getConfigManager().limitPerBag)
+//						return true;
+//				}
+//			}
+//		}
+//		return false;
+//	}
 
 	public double getPlayerKilledByMobPenalty(Player playerToBeRobbed, List<ItemStack> droplist) {
 		if (plugin.getConfigManager().mobKillsPlayerPenalty == null

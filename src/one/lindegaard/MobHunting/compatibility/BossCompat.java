@@ -22,8 +22,8 @@ import org.bukkit.plugin.Plugin;
 import org.mineacademy.boss.api.*;
 import org.mineacademy.boss.model.Boss;
 
-import one.lindegaard.Core.compatibility.CompatPlugin;
-import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;

@@ -17,11 +17,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.PlayerSettings;
-import one.lindegaard.Core.Tools;
-import one.lindegaard.Core.storage.DataStoreException;
-import one.lindegaard.Core.storage.UserNotFoundException;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.PlayerSettings;
+import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.storage.DataStoreException;
+import one.lindegaard.CustomItemsLib.storage.UserNotFoundException;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.bounty.Bounty;

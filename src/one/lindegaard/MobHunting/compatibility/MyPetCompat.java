@@ -17,9 +17,9 @@ import de.Keyle.MyPet.api.entity.MyPetBukkitEntity;
 import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent;
 import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent.Action;
 import de.Keyle.MyPet.api.event.MyPetPickupItemEvent;
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.compatibility.CompatPlugin;
-import one.lindegaard.Core.rewards.Reward;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.rewards.Reward;
 import one.lindegaard.MobHunting.MobHunting;
 
 public class MyPetCompat implements Listener {

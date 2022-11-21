@@ -38,8 +38,8 @@ import org.bukkit.scheduler.BukkitTask;
 import com.Zrips.CMI.CMI;
 import com.google.common.collect.HashMultimap;
 
-import one.lindegaard.Core.Core;
-import one.lindegaard.Core.materials.Materials;
+import one.lindegaard.CustomItemsLib.Core;
+import one.lindegaard.CustomItemsLib.materials.Materials;
 import one.lindegaard.MobHunting.HologramManager;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;

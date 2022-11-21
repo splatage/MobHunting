@@ -8,8 +8,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
 import net.citizensnpcs.api.npc.NPC;
-import one.lindegaard.Core.mobs.MobType;
-import one.lindegaard.Core.rewards.CoreCustomItems;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
+import one.lindegaard.CustomItemsLib.rewards.CoreCustomItems;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.compatibility.BossCompat;
 import one.lindegaard.MobHunting.compatibility.CitizensCompat;

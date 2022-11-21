@@ -20,7 +20,7 @@ import org.bukkit.plugin.Plugin;
 
 import net.theprogrammersworld.herobrine.Herobrine;
 import net.theprogrammersworld.herobrine.entity.*;
-import one.lindegaard.Core.compatibility.CompatPlugin;
+import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.mobs.ExtendedMobRewardData;
@@ -125,7 +125,7 @@ public class HerobrineCompat implements Listener {
 	}
 
 	public static int getProgressAchievementLevel1(String mobtype) {
-		one.lindegaard.Core.mobs.MobType mob = one.lindegaard.Core.mobs.MobType.valueOf(mobtype);
+		one.lindegaard.CustomItemsLib.mobs.MobType mob = one.lindegaard.CustomItemsLib.mobs.MobType.valueOf(mobtype);
 		if (mob != null)
 			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
 		else

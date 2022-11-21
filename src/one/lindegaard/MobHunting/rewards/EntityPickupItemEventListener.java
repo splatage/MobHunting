@@ -6,11 +6,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 
-import one.lindegaard.Core.server.Servers;
+import one.lindegaard.CustomItemsLib.server.Servers;
 
 public class EntityPickupItemEventListener implements Listener {
 
-	// TODO: must be moved to bagofgold
+	// TODO: must be moved to Core
 
 	private PickupRewards pickupRewards;
 

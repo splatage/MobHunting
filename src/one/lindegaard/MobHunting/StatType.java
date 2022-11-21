@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import org.bukkit.ChatColor;
 
 import one.lindegaard.MobHunting.mobs.MobPlugin;
-import one.lindegaard.Core.mobs.MobType;
+import one.lindegaard.CustomItemsLib.mobs.MobType;
 import one.lindegaard.MobHunting.mobs.ExtendedMob;
 
 public class StatType {

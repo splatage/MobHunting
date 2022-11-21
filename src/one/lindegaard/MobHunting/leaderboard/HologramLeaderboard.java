@@ -19,7 +19,7 @@ import com.sainttx.holograms.api.Hologram;
 import com.sainttx.holograms.api.line.HologramLine;
 import com.sainttx.holograms.api.line.TextualHologramLine;
 
-import one.lindegaard.Core.storage.IDataCallback;
+import one.lindegaard.CustomItemsLib.storage.IDataCallback;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.StatType;
 import one.lindegaard.MobHunting.compatibility.CMICompat;

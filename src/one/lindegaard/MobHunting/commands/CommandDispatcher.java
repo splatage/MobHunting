@@ -15,7 +15,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.RemoteConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
 
-import one.lindegaard.Core.Core;
+import one.lindegaard.CustomItemsLib.Core;
 import one.lindegaard.MobHunting.MobHunting;
 
 /**

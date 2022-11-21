@@ -5,8 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import one.lindegaard.Core.materials.Materials;
-import one.lindegaard.Core.server.Servers;
+import one.lindegaard.CustomItemsLib.materials.Materials;
+import one.lindegaard.CustomItemsLib.server.Servers;
 import one.lindegaard.MobHunting.MobHunting;
 import one.lindegaard.MobHunting.events.MobHuntKillEvent;
 
