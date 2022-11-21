@@ -54,13 +54,12 @@ public class UpdateCommand implements ICommand {
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
 		if (plugin.getSpigetUpdater().getUpdateAvailable() == UpdateStatus.AVAILABLE)
-			//plugin.getSpigetUpdater().downloadAndUpdateJar(sender);
-			plugin.getSpigetUpdater().checkForUpdate(sender, false , true);
+			plugin.getSpigetUpdater().checkForUpdate(sender, false, true);
 		else if (plugin.getSpigetUpdater().getUpdateAvailable() == UpdateStatus.RESTART_NEEDED)
 			plugin.getMessages().senderSendMessage(sender,
 					ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.update.complete"));
 		else
-			plugin.getSpigetUpdater().checkForUpdate(sender, false , true);
+			plugin.getSpigetUpdater().checkForUpdate(sender, false, true);
 		return true;
 	}
 

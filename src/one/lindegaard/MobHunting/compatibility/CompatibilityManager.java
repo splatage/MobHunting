@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginEnableEvent;
 
+import one.lindegaard.CustomItemsLib.Core;
 import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
@@ -29,9 +29,10 @@ public class CompatibilityManager implements Listener {
 		try {
 			register(c, pluginName);
 		} catch (Exception e) {
-			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-					+ "[ERROR] MobHunting could not register with [" + pluginName + "] please check if [" + pluginName
-					+ "] is compatible with the server [" + Bukkit.getServer().getBukkitVersion() + "]");
+			Bukkit.getServer().getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_ERROR + "MobHunting could not register with [" + pluginName
+							+ "] please check if [" + pluginName + "] is compatible with the server ["
+							+ Bukkit.getServer().getBukkitVersion() + "]");
 			if (plugin.getConfigManager().killDebug)
 				e.printStackTrace();
 		}
@@ -40,10 +41,8 @@ public class CompatibilityManager implements Listener {
 	/**
 	 * Registers the compatability handler if the plugin specified is loaded
 	 * 
-	 * @param compatibilityHandler
-	 *            The class that will be created
-	 * @param pluginName
-	 *            The name of the plugin to check
+	 * @param compatibilityHandler The class that will be created
+	 * @param pluginName           The name of the plugin to check
 	 */
 	private void register(Class<?> compatibilityHandler, CompatPlugin pluginName) {
 		if (Bukkit.getPluginManager().isPluginEnabled(pluginName.getName())) {
@@ -59,8 +58,7 @@ public class CompatibilityManager implements Listener {
 	/**
 	 * detect if the compatibility class is loaded.
 	 * 
-	 * @param class1
-	 *            - The Compatibility class ex. "WorldGuardCompat.class"
+	 * @param class1 - The Compatibility class ex. "WorldGuardCompat.class"
 	 * @return true if loaded.
 	 */
 	public boolean isPluginLoaded(Class<?> class1) {

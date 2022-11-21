@@ -8,8 +8,6 @@ import one.lindegaard.CustomItemsLib.storage.DataStoreException;
 import one.lindegaard.CustomItemsLib.Core;
 import one.lindegaard.CustomItemsLib.Tools;
 import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
-import one.lindegaard.CustomItemsLib.messages.MessageManager;
-import one.lindegaard.BagOfGold.BagOfGold;
 import one.lindegaard.MobHunting.Api.MobHuntingAPI;
 import one.lindegaard.MobHunting.achievements.*;
 import one.lindegaard.MobHunting.bounty.BountyManager;
@@ -86,9 +84,6 @@ public class MobHunting extends JavaPlugin {
 	private CommandDispatcher mCommandDispatcher;
 	private CompatibilityManager mCompatibilityManager;
 	private SpigetUpdater mSpigetUpdater;
-	private MessageManager mMessageManager;
-
-	//private static Core mCore;
 
 	private boolean mInitialized = false;
 	public boolean disabling = false;
@@ -177,8 +172,6 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(EssentialsCompat.class, CompatPlugin.Essentials);
 		mCompatibilityManager.registerPlugin(BagOfGoldCompat.class, CompatPlugin.BagOfGold);
 		mCompatibilityManager.registerPlugin(GringottsCompat.class, CompatPlugin.Gringotts);
-
-		//mCore = new Core(this);
 
 		// Hook into Vault or Reserve
 		mEconomyManager = new EconomyManager(this);
@@ -401,9 +394,6 @@ public class MobHunting extends JavaPlugin {
 		getMessages().debug("Shutdown CitizensCompat");
 		CitizensCompat.shutdown();
 
-//		if (!BagOfGoldCompat.isSupported())
-//			Core.shutdown();
-
 		Bukkit.getConsoleSender()
 				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "MobHunting disabled.");
 	}
@@ -566,13 +556,6 @@ public class MobHunting extends JavaPlugin {
 
 	public SpigetUpdater getSpigetUpdater() {
 		return mSpigetUpdater;
-	}
-
-	public MessageManager getMessageManager() {
-		//if (BagOfGoldCompat.isSupported())
-		//	return BagOfGold.getInstance().getMessageManager();
-		//else
-			return mMessageManager;
 	}
 
 	public EconomyManager getEconomyManager() {
