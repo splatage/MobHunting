@@ -468,17 +468,11 @@
 		</dependency>
 
 		<!-- VanishNoPacket -->
-		<!-- https://mvnrepository.com/artifact/org.kitteh.vanish/VanishNoPacket -->
-<dependency>
-    <groupId>org.kitteh.vanish</groupId>
-    <artifactId>VanishNoPacket</artifactId>
-    <version>${vanishnopacket.version}</version>
-</dependency>
-		<!--<dependency>
-			<groupId>org.kitteh</groupId>
+		<dependency>
+			<groupId>org.kitteh.vanish</groupId>
 			<artifactId>VanishNoPacket</artifactId>
 			<version>${vanishnopacket.version}</version>
-		</dependency>-->
+		</dependency>
 
 		<!-- MobStacker -->
 		<dependency>
@@ -645,7 +639,7 @@
 			<id>mypet-repo1</id>
 			<url>https://repo.mypet-plugin.de</url>
 		</repository>
-		
+
 		<!-- BattleArena -->
 		<!--<repository>
 			<id>battleplugins-net</id>

@@ -569,9 +569,9 @@ public class MobHunting extends JavaPlugin {
 	}
 
 	public MessageManager getMessageManager() {
-		if (BagOfGoldCompat.isSupported())
-			return BagOfGold.getInstance().getMessageManager();
-		else
+		//if (BagOfGoldCompat.isSupported())
+		//	return BagOfGold.getInstance().getMessageManager();
+		//else
 			return mMessageManager;
 	}
 
