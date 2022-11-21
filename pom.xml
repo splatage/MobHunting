@@ -645,6 +645,13 @@
 			<id>mypet-repo1</id>
 			<url>https://repo.mypet-plugin.de</url>
 		</repository>
+		
+		
+		<!-- mypet repository -->
+		<repository>
+			<id>mvnrepor</id>
+			<url>https://mvnrepository.com/artifact/org.kitteh.vanish/VanishNoPacket</url>
+		</repository>
 
 		<!-- BattleArena -->
 		<!--<repository>
