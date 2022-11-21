@@ -472,7 +472,7 @@
 <dependency>
     <groupId>org.kitteh.vanish</groupId>
     <artifactId>VanishNoPacket</artifactId>
-    <version>3.20</version>
+    <version>${vanishnopacket.version}</version>
 </dependency>
 		<!--<dependency>
 			<groupId>org.kitteh</groupId>
@@ -646,13 +646,6 @@
 			<url>https://repo.mypet-plugin.de</url>
 		</repository>
 		
-		
-		<!-- mypet repository -->
-		<repository>
-			<id>mvnrepor</id>
-			<url>https://mvnrepository.com/artifact/org.kitteh.vanish/VanishNoPacket</url>
-		</repository>
-
 		<!-- BattleArena -->
 		<!--<repository>
 			<id>battleplugins-net</id>
