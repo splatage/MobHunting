@@ -1,5 +1,10 @@
-V8.1.9
-*
+V8.5.0
+* Support for Weapon Mechanics added (https://www.spigotmc.org/resources/weaponmechanics-1-9-4-1-19-2.99913/)
+* CustomItemsLib is mandatory (https://www.spigotmc.org/resources/customitemslib.106375/)
+* All methods drop, pickup, moving rewards has been rewritten and moved to CustomItemsLib to fix duplication bugs and other bugs.
+* Worldgroups.yml was moved from the BagOfGold folder to the CustomItemsLib folder
+* rewards.yml was moved from the BagOfGold folder to the CustomItemsLib folder 
+
 V8.1.8
 * fixed bug when blacklist.yml or whitelist.yml contained a unknown/deleted world.
 * fixed /mh head .....

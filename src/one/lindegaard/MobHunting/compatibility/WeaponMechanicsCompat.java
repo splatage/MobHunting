@@ -26,7 +26,6 @@ public class WeaponMechanicsCompat implements Listener {
 	private static Plugin mPlugin;
 	private static boolean supported = false;
 
-
 	public WeaponMechanicsCompat() {
 		if (!isEnabledInConfig()) {
 			Bukkit.getLogger().info(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
@@ -36,8 +35,10 @@ public class WeaponMechanicsCompat implements Listener {
 
 			if (mPlugin.getDescription().getVersion().compareTo("1.11") >= 0) {
 
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling compatibility with WeaponMechanics (" + mPlugin.getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender()
+						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+								+ "Enabling compatibility with WeaponMechanics ("
+								+ mPlugin.getDescription().getVersion() + ")");
 
 				supported = true;
 
@@ -67,7 +68,7 @@ public class WeaponMechanicsCompat implements Listener {
 	public static boolean isEnabledInConfig() {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationWeaponMechanics;
 	}
-	
+
 	public static String getWeaponMechanicsWeapon(ItemStack itemStack) {
 		return WeaponMechanicsAPI.getWeaponTitle(itemStack);
 	}
@@ -75,8 +76,10 @@ public class WeaponMechanicsCompat implements Listener {
 	public static boolean isWeaponMechanicsWeapon(ItemStack itemStack) {
 		if (isSupported()) {
 			String weaponName = WeaponMechanicsAPI.getWeaponTitle(itemStack);
-			Core.getMessages().debug("This is a WeaponMechanics weapon");
-			return weaponName != null;
+			if (weaponName != null) {
+				Core.getMessages().debug("This is a WeaponMechanics weapon: %s", weaponName);
+				return true;
+			}
 		}
 		return false;
 	}
@@ -89,22 +92,16 @@ public class WeaponMechanicsCompat implements Listener {
 							.getWeaponMechanicsWeapon().isEmpty();
 		return false;
 	}
-	
-/**
-	public static boolean isWeaponMechanicsProjectile(Projectile Projectile) {
-		if (isSupported()) {
-			return WeaponMechanicsAPI.getWeaponTitle(Projectile) != null;
-		}
-		return false;
-	}
 
-	public static String getWeaponMechanicsWeapon(Projectile Projectile) {
-		if (isSupported()) {
-			return WeaponMechanicsAPI.getWeaponTitle(Projectile);
-		}
-		return null;
-	}
-**/	
+	/**
+	 * public static boolean isWeaponMechanicsProjectile(Projectile Projectile) { if
+	 * (isSupported()) { return WeaponMechanicsAPI.getWeaponTitle(Projectile) !=
+	 * null; } return false; }
+	 * 
+	 * public static String getWeaponMechanicsWeapon(Projectile Projectile) { if
+	 * (isSupported()) { return WeaponMechanicsAPI.getWeaponTitle(Projectile); }
+	 * return null; }
+	 **/
 	// **************************************************************************
 	// EVENTS
 	// **************************************************************************
@@ -119,26 +116,24 @@ public class WeaponMechanicsCompat implements Listener {
 			info.setTime(System.currentTimeMillis());
 			info.setAttacker((Player) event.getShooter());
 			info.setAttackerPosition(event.getShooter().getLocation().clone());
-			info.setCrackShotWeapon(getWeaponMechanicsWeapon(((Player)event.getShooter()).getItemInHand()));
+			info.setCrackShotWeapon(getWeaponMechanicsWeapon(((Player) event.getShooter()).getItemInHand()));
 			info.setWeaponUser((Player) event.getShooter());
-			MobHunting.getInstance().getMobHuntingManager().getDamageHistory().put(event.getVictim(),
-					info);
+			MobHunting.getInstance().getMobHuntingManager().getDamageHistory().put(event.getVictim(), info);
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.LOW)
 	public void onWeaponKillEntityEvent(WeaponKillEntityEvent event) {
-		//TESTING
+		// TESTING
 		LivingEntity victim = event.getVictim();
 		Player player = (Player) event.getShooter();
 	}
-	
+
 	@EventHandler(priority = EventPriority.LOW)
 	public void onWeaponAssistEvent(WeaponAssistEvent event) {
-		//TESTING
+		// TESTING
 		LivingEntity victim = event.getKilled();
-		//Player player = (Player) event.getAssistInfo().;
+		// Player player = (Player) event.getAssistInfo().;
 	}
-	
 
 }
