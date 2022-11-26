@@ -1,3 +1,5 @@
+V8.5.1
+*
 V8.5.0
 * Support for Weapon Mechanics added (https://www.spigotmc.org/resources/weaponmechanics-1-9-4-1-19-2.99913/)
 * CustomItemsLib is mandatory (https://www.spigotmc.org/resources/customitemslib.106375/)

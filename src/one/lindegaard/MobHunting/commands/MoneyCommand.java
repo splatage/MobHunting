@@ -485,7 +485,6 @@ public class MoneyCommand implements ICommand {
 							return true;
 						}
 						plugin.getEconomyManager().depositPlayer(player, reward.getMoney());
-						// plugin.getEconomyManager().depositPlayer(player, reward.getMoney());
 						is.setType(Material.AIR);
 						is.setAmount(0);
 						is.setItemMeta(null);
