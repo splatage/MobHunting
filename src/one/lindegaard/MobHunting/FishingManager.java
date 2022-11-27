@@ -147,9 +147,9 @@ public class FishingManager implements Listener {
 			// Calculate basic the reward
 			ExtendedMob extendedMob = plugin.getExtendedMobManager().getExtendedMobFromEntity(fish);
 			if (extendedMob.getMob_id() == 0) {
-				Bukkit.getLogger().warning(
-						"Unknown Mob:" + extendedMob.getMobName() + " from plugin " + extendedMob.getMobPlugin());
-				Bukkit.getLogger().warning("Please report this to developer!");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Unknown Mob:"
+						+ extendedMob.getMobName() + " from plugin " + extendedMob.getMobPlugin());
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Please report this to developer!");
 				return;
 			}
 			double cash = plugin.getRewardManager().getBaseKillPrize(fish);

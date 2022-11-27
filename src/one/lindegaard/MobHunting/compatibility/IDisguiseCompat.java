@@ -12,7 +12,6 @@ import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -37,12 +36,12 @@ public class IDisguiseCompat implements Listener {
 			mPlugin = Bukkit.getServer().getPluginManager().getPlugin(CompatPlugin.iDisguise.getName());
 			api = Bukkit.getServicesManager().getRegistration(DisguiseAPI.class).getProvider();
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling compatibility with iDisguise (" + getiDisguise().getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with iDisguise ("
+					+ getiDisguise().getDescription().getVersion() + ")");
 			supported = true;
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with iDisguise is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with iDisguise is disabled in config.yml");
 		}
 	}
 

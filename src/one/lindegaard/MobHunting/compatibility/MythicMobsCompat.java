@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -31,43 +30,43 @@ public class MythicMobsCompat {
 	public static final String MH_MYTHICMOBS = "MH:MYTHICMOBS";
 
 	public enum MythicMobVersion {
-		NOT_DETECTED, MYTHICMOBS_V251, MYTHICMOBS_V400, MYTHICMOBS_V500 
+		NOT_DETECTED, MYTHICMOBS_V251, MYTHICMOBS_V400, MYTHICMOBS_V500
 	};
 
 	public static MythicMobVersion mmVersion = MythicMobVersion.NOT_DETECTED;
 
 	public MythicMobsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with MythicMobs is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MythicMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.MythicMobs.getName());
 			if (mPlugin.getDescription().getVersion().compareTo("5.0.0") >= 0) {
 
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling compatibility with MythicMobs (" + mPlugin.getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MythicMobs ("
+						+ mPlugin.getDescription().getVersion() + ")");
 				mmVersion = MythicMobVersion.MYTHICMOBS_V500;
 				supported = true;
 				Bukkit.getPluginManager().registerEvents(new MythicMobsV500Compat(), MobHunting.getInstance());
 
 			} else if (mPlugin.getDescription().getVersion().compareTo("4.0.0") >= 0) {
 
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling compatibility with MythicMobs (" + mPlugin.getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MythicMobs ("
+						+ mPlugin.getDescription().getVersion() + ")");
 				mmVersion = MythicMobVersion.MYTHICMOBS_V400;
 				supported = true;
 				Bukkit.getPluginManager().registerEvents(new MythicMobsV400Compat(), MobHunting.getInstance());
 
 			} else if (mPlugin.getDescription().getVersion().compareTo("2.5.1") >= 0) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling compatibility with MythicMobs (" + mPlugin.getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MythicMobs ("
+						+ mPlugin.getDescription().getVersion() + ")");
 				mmVersion = MythicMobVersion.MYTHICMOBS_V251;
 				supported = true;
 				Bukkit.getPluginManager().registerEvents(new MythicMobsV251Compat(), MobHunting.getInstance());
 
 			} else {
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-				console.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+				console.sendMessage(MobHunting.PREFIX_WARNING
 						+ "MythicMobs is outdated. Please update to V2.5.1 or newer. Integration will be disabled");
 				return;
 			}
@@ -154,7 +153,7 @@ public class MythicMobsCompat {
 		try {
 			if (!file.exists())
 				return;
-			
+
 			MobHunting.getInstance().getMessages().debug("Loading extra MobRewards for MythicMobs mobs.");
 
 			config.load(file);

@@ -41,8 +41,6 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.deecaad.weaponmechanics.WeaponMechanics;
-
 import java.util.*;
 
 public class MobHuntingManager implements Listener {
@@ -540,7 +538,8 @@ public class MobHuntingManager implements Listener {
 				info.setCrackShotWeapon(CrackShotCompat.getCrackShotWeapon((Projectile) damager));
 			}
 
-			// TODO : Weapon Mechancs Projectile - WM Projectiles is not an entity like in Crackshot. 
+			// TODO : Weapon Mechancs Projectile - WM Projectiles is not an entity like in
+			// Crackshot.
 
 		} else
 			info.setIsMeleWeaponUsed(true);
@@ -2150,8 +2149,9 @@ public class MobHuntingManager implements Listener {
 				&& cash != 0) {
 			ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
 			if (mob.getMob_id() == 0) {
-				Bukkit.getLogger().warning("Unknown Mob:" + mob.getMobName() + " from plugin " + mob.getMobPlugin());
-				Bukkit.getLogger().warning("Please report this to developer!");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Unknown Mob:" + mob.getMobName()
+						+ " from plugin " + mob.getMobPlugin());
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Please report this to developer!");
 				return;
 			}
 			// plugin.getDataStoreManager().recordAssist(player, killer,

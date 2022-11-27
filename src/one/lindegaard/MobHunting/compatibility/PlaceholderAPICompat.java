@@ -25,22 +25,20 @@ public class PlaceholderAPICompat {
 
 	public PlaceholderAPICompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX
-					+ "Compatibility with PlaceholderAPI is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with PlaceholderAPI is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.PlaceholderAPI.getName());
 			if (mPlugin.getDescription().getVersion().compareTo("2.11.1") >= 0) {
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX
-								+ "Enabling compatibility with PlaceholderAPI (" + mPlugin.getDescription().getVersion()
-								+ ").");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with PlaceholderAPI ("
+						+ mPlugin.getDescription().getVersion() + ").");
 				new MobHuntingPlaceholderExpansion().register();
 				mPlaceHolderManager = new PlaceHolderManager(MobHunting.getInstance());
 				supported = true;
 			} else {
 				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX_WARNING
-								+ "Your current version of PlaceholderAPI (" + mPlugin.getDescription().getVersion()
+						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of PlaceholderAPI ("
+								+ mPlugin.getDescription().getVersion()
 								+ ") is not supported by MobHunting, please upgrade to 2.11.1 or newer.");
 			}
 		}

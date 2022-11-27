@@ -1,7 +1,6 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
@@ -21,20 +20,18 @@ public class LevelledMobsCompat implements Listener {
 
 	public LevelledMobsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getLogger().info(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with LevelledMobs is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with LevelledMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.LevelledMobs.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo("3.0.7") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-								+ "Enabling Compatibility with LevelledMobs ("
-								+ getLevelledMobs().getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with LevelledMobs ("
+						+ getLevelledMobs().getDescription().getVersion() + ")");
 				supported = true;
 			} else {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
 						+ "Your current version of LevelledMobs (" + mPlugin.getDescription().getVersion()
 						+ ") is not supported by MobHunting. Please update LevelledMobs to version 3.0.7 or newer.");
 			}
@@ -81,14 +78,15 @@ public class LevelledMobsCompat implements Listener {
 	// EVENTS
 	// **************************************************************************
 
-	/**@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	private void LevelledMobsSpawnEvent(EntitySpawnEvent event) {
-		Entity entity = event.getEntity();
-		if (isLevelledMobs(entity)) {
-			int level = getMobLevel(entity);
-			// Core.getMessages().debug("LevelledMobsSpawnEvent: MinecraftMobtype=%s
-			// Level=%s", entity.getType(), level);
-		}
-	}**/
+	/**
+	 * @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	 *                        private void LevelledMobsSpawnEvent(EntitySpawnEvent
+	 *                        event) { Entity entity = event.getEntity(); if
+	 *                        (isLevelledMobs(entity)) { int level =
+	 *                        getMobLevel(entity); //
+	 *                        Core.getMessages().debug("LevelledMobsSpawnEvent:
+	 *                        MinecraftMobtype=%s // Level=%s", entity.getType(),
+	 *                        level); } }
+	 **/
 
 }

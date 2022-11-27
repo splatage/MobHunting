@@ -1,7 +1,6 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -27,45 +26,41 @@ public class McMMOCompat implements Listener {
 	private static Plugin mPlugin;
 	public static final String MH_MCMMO = "MH:MCMMO";
 
-
-	
 	public enum McMMO_Version {
 		NOT_DETECTED, McMMO, McMMO_CLASSIC
 	};
-	
+
 	public static McMMO_Version mMcMMOVersion = McMMO_Version.NOT_DETECTED;
 
 	public McMMOCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with McMMO / McMMO Classic is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with McMMO / McMMO Classic is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.mcMMO.getName());
 			if (mPlugin.getDescription().getVersion().compareTo("2.0") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling compatibility with McMMO (" + getMcMmoAPI().getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with McMMO ("
+						+ getMcMmoAPI().getDescription().getVersion() + ")");
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "McMMO Level rewards is "
+						.sendMessage(MobHunting.PREFIX + "McMMO Level rewards is "
 								+ (MobHunting.getInstance().getConfigManager().enableMcMMOLevelRewards ? "enabled"
 										: "disabled"));
 				mMcMMOVersion = McMMO_Version.McMMO;
 				supported = true;
 			} else if (mPlugin.getDescription().getVersion().compareTo("1.5.00") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with McMMO Classic ("
+						+ getMcMmoAPI().getDescription().getVersion() + ")");
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-								+ "Enabling compatibility with McMMO Classic ("
-								+ getMcMmoAPI().getDescription().getVersion() + ")");
-				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "McMMO Classic Level rewards is "
+						.sendMessage(MobHunting.PREFIX + "McMMO Classic Level rewards is "
 								+ (MobHunting.getInstance().getConfigManager().enableMcMMOLevelRewards ? "enabled"
 										: "disabled"));
 				mMcMMOVersion = McMMO_Version.McMMO_CLASSIC;
 				supported = true;
 			} else {
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-				console.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED + "Your current version of McMMO ("
+				console.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of McMMO ("
 						+ mPlugin.getDescription().getVersion()
 						+ ") is not supported by MobHunting. Please update McMMO / McMMO Classic to a newer version.");
 			}
@@ -83,7 +78,7 @@ public class McMMOCompat implements Listener {
 	public static boolean isSupported() {
 		return supported;
 	}
-	
+
 	public static McMMO_Version getMcMMOVersion() {
 		return mMcMMOVersion;
 	}
@@ -97,12 +92,12 @@ public class McMMOCompat implements Listener {
 	public static boolean isEnabledInConfig() {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationMcMMO;
 	}
-	
+
 	public static String getSkilltypeName(DamageInformation info) {
 		switch (mMcMMOVersion) {
 		case McMMO:
 			return McMMOCompatHelper.getSKillTypeName(info);
-		case McMMO_CLASSIC: 
+		case McMMO_CLASSIC:
 			return McMMOClassicCompatHelper.getSKillTypeName(info);
 		default:
 			return "";
@@ -116,7 +111,7 @@ public class McMMOCompat implements Listener {
 	public static void addLevel(Player player, String skillType, int levels) {
 		ExperienceAPI.addLevel(player, skillType, levels);
 	}
-	
+
 	// **************************************************************************
 	// EVENTS
 	// **************************************************************************

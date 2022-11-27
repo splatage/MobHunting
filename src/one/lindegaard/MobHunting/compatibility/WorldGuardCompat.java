@@ -1,7 +1,6 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -18,33 +17,34 @@ public class WorldGuardCompat {
 
 	public WorldGuardCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with WorldGuard is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with WorldGuard is disabled in config.yml");
 		} else {
 			mPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.WorldGuard.getName());
 			if (Servers.isMC113OrNewer()) {
 				if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
-					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling compatibility with WorldGuard (" + mPlugin.getDescription().getVersion() + ")");
+					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldGuard ("
+							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else if (mPlugin.getDescription().getVersion().compareTo("1.16") >= 0) {
-					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling compatibility with FastAsyncWorldGuard (" + mPlugin.getDescription().getVersion() + ")");
+					Bukkit.getConsoleSender()
+							.sendMessage(MobHunting.PREFIX + "Enabling compatibility with FastAsyncWorldGuard ("
+									+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else {
-					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
+					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
 							+ "Your current version of WorldGuard (" + mPlugin.getDescription().getVersion()
 							+ ") is not supported by MobHunting. Mobhunting 6.x does only support 7.0.0 beta 1 and newer.");
 				}
 			} else {
 				if (mPlugin.getDescription().getVersion().compareTo("6.0.0") >= 0) {
-					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling compatibility with WorldGuard (" + mPlugin.getDescription().getVersion() + ")");
+					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldGuard ("
+							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else {
 					Bukkit.getConsoleSender()
-							.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-									+ "Your current version of WorldGuard (" + mPlugin.getDescription().getVersion()
+							.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of WorldGuard ("
+									+ mPlugin.getDescription().getVersion()
 									+ ") is not supported by MobHunting. Mobhunting does only support 6.0.0 newer.");
 				}
 			}
@@ -72,7 +72,8 @@ public class WorldGuardCompat {
 		if (getWorldGuardPlugin().getDescription().getVersion().compareTo("7.0.0") >= 0) {
 			return WorldGuard7Helper.isAllowedByWorldGuard2(damager, damaged, stateFlag, defaultValue);
 		} else {
-			return true;//WorldGuard6Helper.isAllowedByWorldGuard2(damager, damaged, stateFlag, defaultValue);
+			return true;// WorldGuard6Helper.isAllowedByWorldGuard2(damager, damaged, stateFlag,
+						// defaultValue);
 		}
 	}
 
@@ -81,7 +82,7 @@ public class WorldGuardCompat {
 		if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
 			WorldGuard7Helper.registerFlag2();
 		} else {
-			//WorldGuard6Helper.registerFlag2();
+			// WorldGuard6Helper.registerFlag2();
 		}
 
 	}

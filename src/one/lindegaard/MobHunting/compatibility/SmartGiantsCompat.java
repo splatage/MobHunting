@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -41,15 +40,15 @@ public class SmartGiantsCompat implements Listener {
 
 	public SmartGiantsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with SmartGiants is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with SmartGiants is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.SmartGiants.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo("2.3.3") >= 0) {
 
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling compatibility with SmartGiants (" + mPlugin.getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with SmartGiants ("
+						+ mPlugin.getDescription().getVersion() + ")");
 
 				supported = true;
 
@@ -59,8 +58,8 @@ public class SmartGiantsCompat implements Listener {
 				saveSmartGiantsData();
 			} else {
 				Bukkit.getServer().getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-								+ "Your current version of SmartGiants (" + mPlugin.getDescription().getVersion()
+						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of SmartGiants ("
+								+ mPlugin.getDescription().getVersion()
 								+ ") has no API implemented. Please update to V2.3.3 or newer.");
 			}
 		}
@@ -121,8 +120,8 @@ public class SmartGiantsCompat implements Listener {
 		try {
 			if (!file.exists()) {
 				String monster = "SmartGiant";
-				mMobRewardData.put(monster, new ExtendedMobRewardData(MobPlugin.SmartGiants, monster, monster, true, "100:200", 1,
-						"You killed a SmartGiant", new ArrayList<HashMap<String, String>>(), 1, 0.02));
+				mMobRewardData.put(monster, new ExtendedMobRewardData(MobPlugin.SmartGiants, monster, monster, true,
+						"100:200", 1, "You killed a SmartGiant", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 				saveSmartGiantsData(mMobRewardData.get(monster).getMobType());
 				return;
 			}
@@ -218,8 +217,8 @@ public class SmartGiantsCompat implements Listener {
 			if (mMobRewardData != null && !mMobRewardData.containsKey(mobtype)) {
 				MobHunting.getInstance().getMessages().debug("New SmartGiants mob found=%s (%s)", mobtype,
 						mobtype.toString());
-				mMobRewardData.put(mobtype, new ExtendedMobRewardData(MobPlugin.SmartGiants, mobtype, mobtype, true, "100:200", 1,
-						"You killed a SmartGiant", new ArrayList<HashMap<String, String>>(), 1, 0.02));
+				mMobRewardData.put(mobtype, new ExtendedMobRewardData(MobPlugin.SmartGiants, mobtype, mobtype, true,
+						"100:200", 1, "You killed a SmartGiant", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 				saveSmartGiantsData(mobtype);
 				MobHunting.getInstance().getStoreManager().insertSmartGiants(mobtype);
 				// Update mob loaded into memory

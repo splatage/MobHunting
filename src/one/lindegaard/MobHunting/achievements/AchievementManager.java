@@ -558,7 +558,7 @@ public class AchievementManager implements Listener {
 		if (!file.exists())
 			return false;
 
-		plugin.getLogger().info("Upgrading old awards.yml file");
+		Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Upgrading old awards.yml file");
 
 		YamlConfiguration config = new YamlConfiguration();
 		try {

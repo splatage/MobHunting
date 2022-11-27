@@ -28,13 +28,13 @@ public class MyPetCompat implements Listener {
 
 	public MyPetCompat() {
 		if (!MobHunting.getInstance().getConfigManager().enableIntegrationMyPet) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with MyPet is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MyPet is disabled in config.yml");
 		} else {
 			mPlugin = (MyPetPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.MyPet.getName());
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling compatibility with MyPet (" + getMyPetPlugin().getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MyPet ("
+					+ getMyPetPlugin().getDescription().getVersion() + ")");
 			supported = true;
 		}
 	}
@@ -104,10 +104,10 @@ public class MyPetCompat implements Listener {
 	// **************************************************************************
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onMyPetKillMob(EntityDeathEvent event) {
-		//MobHunting is not started initialized yet...
-		if (MobHunting.getInstance().getMobHuntingManager()==null)
-			return ;
-		
+		// MobHunting is not started initialized yet...
+		if (MobHunting.getInstance().getMobHuntingManager() == null)
+			return;
+
 		if (!MobHunting.getInstance().getMobHuntingManager().isHuntEnabledInWorld(event.getEntity().getWorld())
 				|| !(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent))
 			return;
@@ -145,16 +145,15 @@ public class MyPetCompat implements Listener {
 			Reward reward = Reward.getReward(item);
 			MobHunting.getInstance().getMessages().playerActionBarMessageQueue(player,
 					MobHunting.getInstance().getMessages().getString("mobhunting.reward.mypet_pickup", "rewardname",
-							ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
-									+ reward.getDisplayName(),
+							ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + reward.getDisplayName(),
 							"petname", pet.getPetName(), "money",
 							MobHunting.getInstance().getEconomyManager().format(reward.getMoney())));
 			MobHunting.getInstance().getMessages().debug("%s owned by %s picked up %s %s.", pet.getPetName(),
-					player.getName(),
-					MobHunting.getInstance().getEconomyManager().format(reward.getMoney()),
+					player.getName(), MobHunting.getInstance().getEconomyManager().format(reward.getMoney()),
 					reward.getDisplayName());
 			if (reward.isBagOfGoldReward() || reward.isItemReward()) {
-				if (!BagOfGoldCompat.isSupported() && !MobHunting.getInstance().getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
+				if (!BagOfGoldCompat.isSupported()
+						&& !MobHunting.getInstance().getConfigManager().dropMoneyOnGroundUseItemAsCurrency) {
 					event.setCancelled(true);
 					item.remove();
 					MobHunting.getInstance().getRewardManager().depositPlayer(player, reward.getMoney());

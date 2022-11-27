@@ -237,9 +237,12 @@ public class SpigetUpdater {
 				} else if (updateCheck < pluginCheck)
 					return UpdateStatus.NOT_AVAILABLE;
 			} catch (Exception e) {
-				plugin.getLogger().warning("Could not determine update's version # ");
-				plugin.getLogger().warning("Installed plugin version: " + plugin.getDescription().getVersion());
-				plugin.getLogger().warning("Newest version on Spiget.org: " + newVersion);
+				Bukkit.getConsoleSender()
+						.sendMessage(MobHunting.PREFIX_WARNING + "Could not determine update's version # ");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Installed plugin version: "
+						+ plugin.getDescription().getVersion());
+				Bukkit.getConsoleSender()
+						.sendMessage(MobHunting.PREFIX_WARNING + "Newest version on Spiget.org: " + newVersion);
 				return UpdateStatus.UNKNOWN;
 			}
 		}

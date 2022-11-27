@@ -1,7 +1,6 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,12 +16,11 @@ public class MinigamesCompat implements Listener {
 
 	public MinigamesCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with MiniGames is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MiniGames is disabled in config.yml");
 		} else {
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-			Bukkit.getConsoleSender().sendMessage(
-					ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Enabling compatibility with Minigames");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with Minigames");
 			supported = true;
 		}
 	}

@@ -56,7 +56,7 @@ public class ExtendedMobManager {
 			plugin.getStoreManager().insertEliteMobs();
 		if (BossCompat.isSupported())
 			plugin.getStoreManager().insertBossMobs();
-		
+
 		// Not needed
 		// if (InfernalMobsCompat.isSupported())
 		// plugin.getStoreManager().insertInfernalMobs();
@@ -66,7 +66,7 @@ public class ExtendedMobManager {
 		try {
 			set = (HashSet<ExtendedMob>) plugin.getStoreManager().loadMobs();
 		} catch (DataStoreException e) {
-			Bukkit.getLogger().severe("[MobHunting] Could not load data from mh_Mobs");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Could not load data from mh_Mobs");
 			e.printStackTrace();
 		}
 
@@ -126,7 +126,7 @@ public class ExtendedMobManager {
 				if (!BossCompat.isSupported() || !BossCompat.isEnabledInConfig())
 					continue;
 				break;
-				
+
 			case Minecraft:
 				break;
 
@@ -142,7 +142,7 @@ public class ExtendedMobManager {
 			}
 		}
 		plugin.getMessages().debug("%s mobs was loaded into memory. Total mobs=%s", n, mobs.size());
-		
+
 		MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 
 	}

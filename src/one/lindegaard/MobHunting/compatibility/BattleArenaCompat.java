@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,17 +25,15 @@ public class BattleArenaCompat implements Listener {
 
 	public BattleArenaCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with BattleArena is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with BattleArena is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.BattleArena.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
-			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling compatibility with BattleArena ("
-							+ getBattleArena().getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with BattleArena ("
+					+ getBattleArena().getDescription().getVersion() + ")");
 			supported = true;
 		}
 	}

@@ -37,15 +37,14 @@ public class TARDISWeepingAngelsCompat implements Listener {
 
 	public TARDISWeepingAngelsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with TARDISWeepingAngels is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with TARDISWeepingAngels is disabled in config.yml");
 		} else {
 			mPlugin = (TARDISWeepingAngels) Bukkit.getPluginManager()
 					.getPlugin(CompatPlugin.TARDISWeepingAngels.getName());
 
 			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling compatibility with TARDISWeepingAngelsAPI ("
+					.sendMessage(MobHunting.PREFIX + "Enabling compatibility with TARDISWeepingAngelsAPI ("
 							+ mPlugin.getDescription().getVersion() + ")");
 
 			supported = true;
@@ -202,7 +201,7 @@ public class TARDISWeepingAngelsCompat implements Listener {
 
 		Entity entity = event.getEntity();
 		Monster monster = getWeepingAngelMonsterType(entity);
-		
+
 		if (monster != null) {
 			if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
 				MobHunting.getInstance().getMessages().debug("New TARDIS mob found=%s (%s)", monster.name(),
@@ -216,8 +215,8 @@ public class TARDISWeepingAngelsCompat implements Listener {
 				// Update mob loaded into memory
 				MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
 				MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
-			} 
-			
+			}
+
 			event.getEntity().setMetadata(MH_TARDISWEEPINGANGELS,
 					new FixedMetadataValue(mPlugin, mMobRewardData.get(monster.name())));
 		}

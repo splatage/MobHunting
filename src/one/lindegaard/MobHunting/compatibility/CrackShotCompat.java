@@ -1,7 +1,6 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
@@ -27,15 +26,15 @@ public class CrackShotCompat implements Listener {
 
 	public CrackShotCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getLogger().info(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with CrackShot is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with CrackShot is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.CrackShot.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo("0.98.5") >= 0) {
 
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling compatibility with CrackShot (" + mPlugin.getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with CrackShot ("
+						+ mPlugin.getDescription().getVersion() + ")");
 
 				supported = true;
 
@@ -43,8 +42,8 @@ public class CrackShotCompat implements Listener {
 
 			} else {
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-								+ "Your current version of CrackShot (" + mPlugin.getDescription().getVersion()
+						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of CrackShot ("
+								+ mPlugin.getDescription().getVersion()
 								+ ") has no API implemented. Please update to V0.98.5 or newer.");
 			}
 		}

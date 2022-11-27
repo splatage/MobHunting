@@ -1,7 +1,6 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.gestern.gringotts.Gringotts;
 
 import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
@@ -17,21 +16,21 @@ public class GringottsCompat {
 
 	public GringottsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with Gringotts is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Gringotts is disabled in config.yml");
 		} else {
 			mPlugin = (Gringotts) Bukkit.getPluginManager().getPlugin(CompatPlugin.Gringotts.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo("2.11") >= 0) {
 
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Enabling Compatibility with Gringotts (" + getGringotts().getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with Gringotts ("
+						+ getGringotts().getDescription().getVersion() + ")");
 				supported = true;
 
 			} else {
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-								+ "Your current version of Gringotts (" + mPlugin.getDescription().getVersion()
+						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of Gringotts ("
+								+ mPlugin.getDescription().getVersion()
 								+ ") has no API implemented. Please update to V2.11 or newer.");
 			}
 		}
@@ -43,7 +42,7 @@ public class GringottsCompat {
 	public static Gringotts getGringotts() {
 		return mPlugin;
 	}
-	
+
 	public static boolean isSupported() {
 		return supported;
 	}

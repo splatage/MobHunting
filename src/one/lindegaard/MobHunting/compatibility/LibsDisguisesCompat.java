@@ -9,7 +9,6 @@ import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.MobHunting;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -36,16 +35,14 @@ public class LibsDisguisesCompat implements Listener {
 	public LibsDisguisesCompat() {
 		if (MobHunting.getInstance().getConfigManager().enableIntegrationLibsDisguises) {
 			mPlugin = Bukkit.getServer().getPluginManager().getPlugin(CompatPlugin.LibsDisguises.getName());
-			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling compatibility with LibsDisguises ("
-							+ getLibsDisguises().getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with LibsDisguises ("
+					+ getLibsDisguises().getDescription().getVersion() + ")");
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 			supported = true;
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with LibsDisguises is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with LibsDisguises is disabled in config.yml");
 		}
 	}
 

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -39,16 +38,15 @@ public class MysteriousHalloweenCompat implements Listener {
 
 	public MysteriousHalloweenCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with MysteriousHalloween is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with MysteriousHalloween is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.MysteriousHalloween.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo("1.3.2") >= 0) {
 
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-								+ "Enabling compatibility with MysteriousHalloween ("
+						.sendMessage(MobHunting.PREFIX + "Enabling compatibility with MysteriousHalloween ("
 								+ mPlugin.getDescription().getVersion() + ")");
 
 				supported = true;
@@ -59,8 +57,8 @@ public class MysteriousHalloweenCompat implements Listener {
 				saveMysteriousHalloweenMobsData();
 			} else {
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-				console.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-						+ "Your current version of MysteriousHalloween (" + mPlugin.getDescription().getVersion()
+				console.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of MysteriousHalloween ("
+						+ mPlugin.getDescription().getVersion()
 						+ ") has no API implemented. Please update to V1.3.2 or newer.");
 			}
 		}
@@ -81,8 +79,7 @@ public class MysteriousHalloweenCompat implements Listener {
 	/**
 	 * Returns whether an entity is a MysteriousHalloween entity.
 	 *
-	 * @param entity
-	 *            the entity to check
+	 * @param entity the entity to check
 	 * @return true if the entity is a MysteriousHalloween entity
 	 */
 	public static boolean isMysteriousHalloween(Entity entity) {
@@ -94,8 +91,7 @@ public class MysteriousHalloweenCompat implements Listener {
 	/**
 	 * Returns the Monster type for a MysteriousHalloween entity.
 	 *
-	 * @param entity
-	 *            the entity to get the mob type for
+	 * @param entity the entity to get the mob type for
 	 * @return the mob type or null if it is not MysteriousHalloween entity
 	 */
 	public static MobType getMysteriousHalloweenType(Entity entity) {
@@ -115,8 +111,8 @@ public class MysteriousHalloweenCompat implements Listener {
 		try {
 			if (!file.exists()) {
 				for (MobType monster : MysteriousHalloweenAPI.getMobTypes()) {
-					mMobRewardData.put(monster.name(), new ExtendedMobRewardData(MobPlugin.MysteriousHalloween, monster.name(),
-							MysteriousHalloweenAPI.getMobTypeName(monster), true, "40:60", 1,
+					mMobRewardData.put(monster.name(), new ExtendedMobRewardData(MobPlugin.MysteriousHalloween,
+							monster.name(), MysteriousHalloweenAPI.getMobTypeName(monster), true, "40:60", 1,
 							"You killed a MysteriousHalloween mob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 					saveMysteriousHalloweenMobsData(mMobRewardData.get(monster.name()).getMobType());
 				}
@@ -217,8 +213,8 @@ public class MysteriousHalloweenCompat implements Listener {
 			if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
 				MobHunting.getInstance().getMessages().debug("New MysteriousHalloween mob found=%s (%s)",
 						monster.name(), monster.toString());
-				mMobRewardData.put(monster.name(), new ExtendedMobRewardData(MobPlugin.MysteriousHalloween, monster.name(),
-						MysteriousHalloweenAPI.getMobTypeName(monster), true, "40:60", 1,
+				mMobRewardData.put(monster.name(), new ExtendedMobRewardData(MobPlugin.MysteriousHalloween,
+						monster.name(), MysteriousHalloweenAPI.getMobTypeName(monster), true, "40:60", 1,
 						"You killed a MysteriousHalloween mob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 				saveMysteriousHalloweenMobsData(monster.name());
 				MobHunting.getInstance().getStoreManager().insertMysteriousHalloweenMobs(monster.name());

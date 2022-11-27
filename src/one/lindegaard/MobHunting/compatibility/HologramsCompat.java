@@ -19,13 +19,13 @@ public class HologramsCompat {
 
 	public HologramsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with Holograms is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Holograms is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.Holograms.getName());
 
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling compatibility with Holograms (" + mPlugin.getDescription().getVersion() + ").");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with Holograms ("
+					+ mPlugin.getDescription().getVersion() + ").");
 
 			supported = true;
 		}

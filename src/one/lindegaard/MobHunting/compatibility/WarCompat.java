@@ -9,8 +9,7 @@ import one.lindegaard.MobHunting.MobHunting;
 public class WarCompat implements Listener {
 	public WarCompat() {
 		Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-		Bukkit.getConsoleSender()
-				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Enabling War Compatibility");
+		Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling War Compatibility");
 	}
 
 }

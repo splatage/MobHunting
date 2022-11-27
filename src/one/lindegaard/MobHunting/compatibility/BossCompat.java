@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -43,15 +42,15 @@ public class BossCompat implements Listener {
 
 	public BossCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with Boss is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Boss is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.Boss.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling Compatibility with Boss (" + mPlugin.getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with Boss ("
+					+ mPlugin.getDescription().getVersion() + ")");
 
 			supported = true;
 			loadBossMobsData();
@@ -114,19 +113,16 @@ public class BossCompat implements Listener {
 			if (isBossMob(entity)) {
 				String mob = BossAPI.getBoss(entity).getName();
 
-				MobHunting.getInstance().getMessages().debug("A Boss (%s) was spawned at %s,%s,%s in %s",
-						mob, event.getEntity().getLocation().getBlockX(),
-						event.getEntity().getLocation().getBlockY(), event.getEntity().getLocation().getBlockZ(),
+				MobHunting.getInstance().getMessages().debug("A Boss (%s) was spawned at %s,%s,%s in %s", mob,
+						event.getEntity().getLocation().getBlockX(), event.getEntity().getLocation().getBlockY(),
+						event.getEntity().getLocation().getBlockZ(),
 						event.getEntity().getLocation().getWorld().getName());
 
 				if (mMobRewardData != null && !mMobRewardData.containsKey(mob)) {
-					MobHunting.getInstance().getMessages().debug("New Boss found=%s(%s)",
-							mob, mob);
+					MobHunting.getInstance().getMessages().debug("New Boss found=%s(%s)", mob, mob);
 
-					mMobRewardData.put(mob,
-							new ExtendedMobRewardData(MobPlugin.Boss, mob, mob,
-									true, "10", 1, "You killed a " + mob,
-									new ArrayList<HashMap<String, String>>(), 1, 0.02));
+					mMobRewardData.put(mob, new ExtendedMobRewardData(MobPlugin.Boss, mob, mob, true, "10", 1,
+							"You killed a " + mob, new ArrayList<HashMap<String, String>>(), 1, 0.02));
 					saveBossMobsData(mob.replace(" ", "_"));
 					MobHunting.getInstance().getStoreManager().insertBossMobs(mob);
 					// Update mob loaded into memory
@@ -173,16 +169,16 @@ public class BossCompat implements Listener {
 							key);
 				}
 			}
-			
-			for (Boss boss:BossAPI.getBosses()) {
+
+			for (Boss boss : BossAPI.getBosses()) {
 				if (!mMobRewardData.containsKey(boss.getName())) {
 					mMobRewardData.put(boss.getName(),
-							new ExtendedMobRewardData(MobPlugin.Boss, boss.getName(), boss.getName(),
-									true, "10", 1, "You killed a " + boss.getName(),
-									new ArrayList<HashMap<String, String>>(), 1, 0.02));
+							new ExtendedMobRewardData(MobPlugin.Boss, boss.getName(), boss.getName(), true, "10", 1,
+									"You killed a " + boss.getName(), new ArrayList<HashMap<String, String>>(), 1,
+									0.02));
 				}
 			}
-			
+
 			MobHunting.getInstance().getMessages().debug("Loaded %s Boss mobs", n);
 		} catch (IOException e) {
 			e.printStackTrace();

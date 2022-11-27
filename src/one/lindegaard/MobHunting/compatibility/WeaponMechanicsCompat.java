@@ -1,11 +1,9 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -28,16 +26,15 @@ public class WeaponMechanicsCompat implements Listener {
 
 	public WeaponMechanicsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getLogger().info(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with WeaponMechanics is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with WeaponMechanics is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.WeaponMechanics.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo("1.11") >= 0) {
 
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-								+ "Enabling compatibility with WeaponMechanics ("
+						.sendMessage(MobHunting.PREFIX + "Enabling compatibility with WeaponMechanics ("
 								+ mPlugin.getDescription().getVersion() + ")");
 
 				supported = true;
@@ -46,8 +43,8 @@ public class WeaponMechanicsCompat implements Listener {
 
 			} else {
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-								+ "Your current version of WeaponMechanics (" + mPlugin.getDescription().getVersion()
+						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of WeaponMechanics ("
+								+ mPlugin.getDescription().getVersion()
 								+ ") has no API implemented. Please update to V1.11 or newer.");
 			}
 		}

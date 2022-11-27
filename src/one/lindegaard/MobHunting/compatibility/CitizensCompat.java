@@ -24,7 +24,6 @@ import one.lindegaard.MobHunting.npc.MasterMobHunterManager;
 import one.lindegaard.MobHunting.npc.MasterMobHunterTrait;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -46,8 +45,8 @@ public class CitizensCompat implements Listener {
 
 	public CitizensCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with Citizens2 is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Citizens2 is disabled in config.yml");
 		} else {
 			citizensAPI = (CitizensPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.Citizens.getName());
 			if (citizensAPI == null)
@@ -55,10 +54,8 @@ public class CitizensCompat implements Listener {
 
 			TraitInfo trait = TraitInfo.create(MasterMobHunterTrait.class).withName("MasterMobHunter");
 			citizensAPI.getTraitFactory().registerTrait(trait);
-			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling compatibility with Citizens2 ("
-							+ getCitizensPlugin().getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with Citizens2 ("
+					+ getCitizensPlugin().getDescription().getVersion() + ")");
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
@@ -231,9 +228,9 @@ public class CitizensCompat implements Listener {
 	public static MasterMobHunterManager getMasterMobHunterManager() {
 		return mMasterMobHunterManager;
 	}
-	
+
 	public void setSkin(Integer id) {
-		//CitizensAPI.
+		// CitizensAPI.
 	}
 
 	// **************************************************************************
@@ -247,7 +244,6 @@ public class CitizensCompat implements Listener {
 		supported = true;
 
 		loadCitizensData();
-		
 
 		mMasterMobHunterManager = new MasterMobHunterManager(MobHunting.getInstance());
 
@@ -269,8 +265,9 @@ public class CitizensCompat implements Listener {
 				if (!CitizensCompat.getMasterMobHunterManager().contains(npc.getId())) {
 					MasterMobHunter masterMobHunter = new MasterMobHunter(MobHunting.getInstance(), npc);
 					CitizensCompat.getMasterMobHunterManager().put(npc.getId(), masterMobHunter);
-					ExtendedMobRewardData rewardData = new ExtendedMobRewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true, "0", 1,
-							"You killed a Citizen", new ArrayList<HashMap<String, String>>(), 1, 0.02);
+					ExtendedMobRewardData rewardData = new ExtendedMobRewardData(MobPlugin.Citizens, "npc",
+							npc.getFullName(), true, "0", 1, "You killed a Citizen",
+							new ArrayList<HashMap<String, String>>(), 1, 0.02);
 					CitizensCompat.getMobRewardData().put(String.valueOf(npc.getId()), rewardData);
 					npc.getEntity().setMetadata(CitizensCompat.MH_CITIZENS,
 							new FixedMetadataValue(MobHunting.getInstance(), rewardData));
@@ -284,10 +281,10 @@ public class CitizensCompat implements Listener {
 			MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 		}
 
-		Bukkit.getPluginManager().registerEvents(new MasterMobHunterEvents(),MobHunting.getInstance());
+		Bukkit.getPluginManager().registerEvents(new MasterMobHunterEvents(), MobHunting.getInstance());
 
 		MobHunting.getInstance().getCommandDispatcher().registerCommand(new NpcCommand(MobHunting.getInstance()));
-		
+
 		saveCitizensData();
 	}
 

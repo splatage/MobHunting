@@ -50,13 +50,13 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 		this.plugin = plugin;
 		this.npc = npc;
 		if (StatType.fromColumnName(npc.getTrait(MasterMobHunterTrait.class).stattype) == null) {
-			plugin.getLogger().warning("NPC ID=" + npc.getId() + " has an invalid StatType. Resetting to "
-					+ StatType.KillsTotal.getDBColumn());
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "NPC ID=" + npc.getId()
+					+ " has an invalid StatType. Resetting to " + StatType.KillsTotal.getDBColumn());
 			setStatType(StatType.KillsTotal);
 		}
 		if (TimePeriod.fromColumnName(npc.getTrait(MasterMobHunterTrait.class).period) == null) {
-			plugin.getLogger().warning("NPC ID=" + npc.getId() + " has an invalid TimePeriod. Resetting to "
-					+ TimePeriod.AllTime.getDBColumn());
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "NPC ID=" + npc.getId()
+					+ " has an invalid TimePeriod. Resetting to " + TimePeriod.AllTime.getDBColumn());
 			setPeriod(TimePeriod.AllTime);
 		}
 		if (npc.getTrait(MasterMobHunterTrait.class).signLocations == null)
@@ -151,7 +151,7 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 	public void onCompleted(List<StatStore> data) {
 		ArrayList<StatStore> altData = new ArrayList<StatStore>(data.size());
 		for (StatStore stat : data) {
-			if (stat.getAmount() != 0 && stat.getPlayer()!=null && stat.getPlayer().getName() != null) {
+			if (stat.getAmount() != 0 && stat.getPlayer() != null && stat.getPlayer().getName() != null) {
 				altData.add(stat);
 			}
 		}
@@ -186,7 +186,7 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 				Location loc = itr.next();
 				Block sb = loc.getBlock();
 				if (isLoaded(sb)) {
-					
+
 					if (MasterMobHunterSign.isMHSign(sb)) {
 						Sign s = (Sign) sb.getState();
 						if (MasterMobHunterSign.isMHSign(s.getLine(0))) {
@@ -244,8 +244,7 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 	}
 
 	/**
-	 * @param npc
-	 *            the npc to set
+	 * @param npc the npc to set
 	 */
 	public void setNpc(NPC npc) {
 		this.npc = npc;

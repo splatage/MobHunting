@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -34,15 +33,15 @@ public class MobArenaCompat implements Listener {
 
 	public MobArenaCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with MobArena is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MobArena is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.MobArena.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling compatibility with MobArena (" + getMobArena().getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MobArena ("
+					+ getMobArena().getDescription().getVersion() + ")");
 			supported = true;
 		}
 	}
@@ -153,15 +152,14 @@ public class MobArenaCompat implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onNewWareEvent(NewWaveEvent event) {
 	}
-	
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPlayerQuitEvent(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		if (playersPlayingMobArena.remove(player.getUniqueId())) {
-			MobHunting.getInstance().getMessages().debug("Player: %s left the game while playing MobArena", player.getName());
+			MobHunting.getInstance().getMessages().debug("Player: %s left the game while playing MobArena",
+					player.getName());
 		}
 	}
-	
-	
 
 }

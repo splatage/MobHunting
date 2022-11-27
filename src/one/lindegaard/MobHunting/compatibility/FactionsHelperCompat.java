@@ -1,7 +1,6 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -14,8 +13,6 @@ public class FactionsHelperCompat {
 	private static boolean supported = false;
 	private static Plugin mPlugin;
 
-	private final String PREFIX = ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET;
-
 	public enum FactionsVersion {
 		NOT_DETECTED, FACTIONS_UUID, FACTIONS
 	};
@@ -25,19 +22,20 @@ public class FactionsHelperCompat {
 	public FactionsHelperCompat() {
 		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 		if (!isEnabledInConfig()) {
-			console.sendMessage(PREFIX + "Compatibility with Factions/FactionsUUID is disabled in config.yml");
+			console.sendMessage(
+					MobHunting.PREFIX + "Compatibility with Factions/FactionsUUID is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.Factions.getName());
 			if (mPlugin.getDescription().getVersion().compareTo("1.6.9.6") >= 0) {
 				try {
 					@SuppressWarnings({ "rawtypes", "unused" })
 					Class cls = Class.forName("com.massivecraft.factions.entity.BoardColl");
-					console.sendMessage(PREFIX + "Enabling compatibility with Factions ("
+					console.sendMessage(MobHunting.PREFIX + "Enabling compatibility with Factions ("
 							+ mPlugin.getDescription().getVersion() + ")");
 					factionsVersion = FactionsVersion.FACTIONS;
 					supported = true;
 				} catch (ClassNotFoundException e) {
-					console.sendMessage(PREFIX + ChatColor.RED + "Your version of Factions ("
+					console.sendMessage(MobHunting.PREFIX_WARNING + "Your version of Factions ("
 							+ mPlugin.getDescription().getVersion()
 							+ ") is not complatible with this version of MobHunting, please upgrade.");
 				}
@@ -45,7 +43,7 @@ public class FactionsHelperCompat {
 				// MobHunting.getInstance());
 
 			} else if (mPlugin.getDescription().getVersion().startsWith("1.6.9.5-U")) {
-				console.sendMessage(PREFIX + "Enabling compatibility with FactionUUID ("
+				console.sendMessage(MobHunting.PREFIX + "Enabling compatibility with FactionUUID ("
 						+ mPlugin.getDescription().getVersion() + ")");
 				factionsVersion = FactionsVersion.FACTIONS_UUID;
 				supported = true;
@@ -53,7 +51,7 @@ public class FactionsHelperCompat {
 				// MobHunting.getInstance());
 
 			} else {
-				console.sendMessage(PREFIX + ChatColor.RED + "Factions is outdated. Integration will be disabled");
+				console.sendMessage(MobHunting.PREFIX_WARNING + "Factions is outdated. Integration will be disabled");
 				return;
 			}
 		}

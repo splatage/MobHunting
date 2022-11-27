@@ -7,6 +7,7 @@ import one.lindegaard.CustomItemsLib.server.Servers;
 import one.lindegaard.CustomItemsLib.storage.DataStoreException;
 import one.lindegaard.CustomItemsLib.Core;
 import one.lindegaard.CustomItemsLib.Tools;
+import one.lindegaard.CustomItemsLib.compatibility.CMICompat;
 import one.lindegaard.CustomItemsLib.compatibility.CompatPlugin;
 import one.lindegaard.MobHunting.Api.MobHuntingAPI;
 import one.lindegaard.MobHunting.achievements.*;
@@ -33,7 +34,49 @@ import one.lindegaard.MobHunting.commands.TopCommand;
 import one.lindegaard.MobHunting.commands.UpdateCommand;
 import one.lindegaard.MobHunting.commands.VersionCommand;
 import one.lindegaard.MobHunting.commands.WhitelistAreaCommand;
-import one.lindegaard.MobHunting.compatibility.*;
+import one.lindegaard.MobHunting.compatibility.BagOfGoldCompat;
+import one.lindegaard.MobHunting.compatibility.BattleArenaCompat;
+import one.lindegaard.MobHunting.compatibility.BossCompat;
+import one.lindegaard.MobHunting.compatibility.CitizensCompat;
+import one.lindegaard.MobHunting.compatibility.CompatibilityManager;
+import one.lindegaard.MobHunting.compatibility.ConquestiaMobsCompat;
+import one.lindegaard.MobHunting.compatibility.CrackShotCompat;
+import one.lindegaard.MobHunting.compatibility.CustomMobsCompat;
+import one.lindegaard.MobHunting.compatibility.DisguiseCraftCompat;
+import one.lindegaard.MobHunting.compatibility.EliteMobsCompat;
+import one.lindegaard.MobHunting.compatibility.EssentialsCompat;
+import one.lindegaard.MobHunting.compatibility.ExtraHardModeCompat;
+import one.lindegaard.MobHunting.compatibility.FactionsHelperCompat;
+import one.lindegaard.MobHunting.compatibility.GringottsCompat;
+import one.lindegaard.MobHunting.compatibility.HerobrineCompat;
+import one.lindegaard.MobHunting.compatibility.HologramsCompat;
+import one.lindegaard.MobHunting.compatibility.HolographicDisplaysCompat;
+import one.lindegaard.MobHunting.compatibility.IDisguiseCompat;
+import one.lindegaard.MobHunting.compatibility.InfernalMobsCompat;
+import one.lindegaard.MobHunting.compatibility.LevelledMobsCompat;
+import one.lindegaard.MobHunting.compatibility.LibsDisguisesCompat;
+import one.lindegaard.MobHunting.compatibility.LorinthsRpgMobsCompat;
+import one.lindegaard.MobHunting.compatibility.McMMOCompat;
+import one.lindegaard.MobHunting.compatibility.McMMOHorses;
+import one.lindegaard.MobHunting.compatibility.MinigamesCompat;
+import one.lindegaard.MobHunting.compatibility.MinigamesLibCompat;
+import one.lindegaard.MobHunting.compatibility.MobArenaCompat;
+import one.lindegaard.MobHunting.compatibility.MobStackerCompat;
+import one.lindegaard.MobHunting.compatibility.MyPetCompat;
+import one.lindegaard.MobHunting.compatibility.MysteriousHalloweenCompat;
+import one.lindegaard.MobHunting.compatibility.MythicMobsCompat;
+import one.lindegaard.MobHunting.compatibility.PVPArenaCompat;
+import one.lindegaard.MobHunting.compatibility.PlaceholderAPICompat;
+import one.lindegaard.MobHunting.compatibility.PreciousStonesCompat;
+import one.lindegaard.MobHunting.compatibility.ResidenceCompat;
+import one.lindegaard.MobHunting.compatibility.SmartGiantsCompat;
+import one.lindegaard.MobHunting.compatibility.StackMobCompat;
+import one.lindegaard.MobHunting.compatibility.TARDISWeepingAngelsCompat;
+import one.lindegaard.MobHunting.compatibility.TownyCompat;
+import one.lindegaard.MobHunting.compatibility.VanishNoPacketCompat;
+import one.lindegaard.MobHunting.compatibility.WeaponMechanicsCompat;
+import one.lindegaard.MobHunting.compatibility.WorldEditCompat;
+import one.lindegaard.MobHunting.compatibility.WorldGuardCompat;
 import one.lindegaard.MobHunting.config.ConfigManager;
 import one.lindegaard.MobHunting.grinding.GrindingManager;
 import one.lindegaard.MobHunting.leaderboard.LeaderboardManager;
@@ -87,7 +130,7 @@ public class MobHunting extends JavaPlugin {
 
 	private boolean mInitialized = false;
 	public boolean disabling = false;
-	
+
 	public static final String PREFIX = ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET;
 	public static final String PREFIX_DEBUG = ChatColor.GOLD + "[MobHunting][Debug] " + ChatColor.RESET;
 	public static final String PREFIX_WARNING = ChatColor.GOLD + "[MobHunting][Warning] " + ChatColor.RED;
@@ -143,20 +186,18 @@ public class MobHunting extends JavaPlugin {
 		if (isbStatsEnabled())
 			getMessages().debug("bStat is enabled");
 		else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "=====================WARNING=============================");
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "The statistics collection is disabled. As developer I need the");
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "statistics from bStats.org. The statistics is 100% anonymous.");
+			Bukkit.getConsoleSender()
+					.sendMessage(PREFIX_WARNING + "=====================WARNING=============================");
+			Bukkit.getConsoleSender()
+					.sendMessage(PREFIX_WARNING + "The statistics collection is disabled. As developer I need the");
+			Bukkit.getConsoleSender()
+					.sendMessage(PREFIX_WARNING + "statistics from bStats.org. The statistics is 100% anonymous.");
+			Bukkit.getConsoleSender().sendMessage(PREFIX_WARNING + "https://bstats.org/plugin/bukkit/MobHunting");
 			Bukkit.getConsoleSender().sendMessage(
-					ChatColor.GOLD + "[MobHunting]" + ChatColor.RED + "https://bstats.org/plugin/bukkit/MobHunting");
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "Please enable this in /plugins/bStats/config.yml and get rid of this");
-			Bukkit.getConsoleSender().sendMessage(
-					ChatColor.GOLD + "[MobHunting]" + ChatColor.RED + "message. Loading will continue in 15 sec.");
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "=========================================================");
+					PREFIX_WARNING + "Please enable this in /plugins/bStats/config.yml and get rid of this");
+			Bukkit.getConsoleSender().sendMessage(PREFIX_WARNING + "message. Loading will continue in 15 sec.");
+			Bukkit.getConsoleSender()
+					.sendMessage(PREFIX_WARNING + "=========================================================");
 			long now = System.currentTimeMillis();
 			while (System.currentTimeMillis() < now + 15000L) {
 				try {
@@ -219,7 +260,6 @@ public class MobHunting extends JavaPlugin {
 
 		// Other plugins
 		mCompatibilityManager.registerPlugin(McMMOCompat.class, CompatPlugin.mcMMO);
-		mCompatibilityManager.registerPlugin(ProtocolLibCompat.class, CompatPlugin.ProtocolLib);
 		mCompatibilityManager.registerPlugin(MyPetCompat.class, CompatPlugin.MyPet);
 		mCompatibilityManager.registerPlugin(McMMOHorses.class, CompatPlugin.McMMOHorses);
 		// mCompatibilityManager.registerPlugin(BossShopCompat.class,
@@ -238,18 +278,8 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(IDisguiseCompat.class, CompatPlugin.iDisguise);
 		mCompatibilityManager.registerPlugin(VanishNoPacketCompat.class, CompatPlugin.VanishNoPacket);
 
-		// Plugins used for presentation information in the BossBar, ActionBar,
-		// Title or Subtitle
+		// Plugin PlaceholderAPI
 		mCompatibilityManager.registerPlugin(PlaceholderAPICompat.class, CompatPlugin.PlaceholderAPI);
-		// ActionBar
-		mCompatibilityManager.registerPlugin(TitleAPICompat.class, CompatPlugin.TitleAPI);
-		mCompatibilityManager.registerPlugin(TitleManagerCompat.class, CompatPlugin.TitleManager);
-		mCompatibilityManager.registerPlugin(ActionbarCompat.class, CompatPlugin.Actionbar);
-		mCompatibilityManager.registerPlugin(ActionBarAPICompat.class, CompatPlugin.ActionBarApi);
-		mCompatibilityManager.registerPlugin(ActionAnnouncerCompat.class, CompatPlugin.ActionAnnouncer);
-		// BossBar
-		mCompatibilityManager.registerPlugin(BossBarAPICompat.class, CompatPlugin.BossBarApi);
-		mCompatibilityManager.registerPlugin(BarAPICompat.class, CompatPlugin.BarApi);
 
 		// Plugins where the reward is a multiplier
 		mCompatibilityManager.registerPlugin(StackMobCompat.class, CompatPlugin.StackMob);
@@ -394,8 +424,7 @@ public class MobHunting extends JavaPlugin {
 		getMessages().debug("Shutdown CitizensCompat");
 		CitizensCompat.shutdown();
 
-		Bukkit.getConsoleSender()
-				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "MobHunting disabled.");
+		Bukkit.getConsoleSender().sendMessage(PREFIX + "MobHunting disabled.");
 	}
 
 	private boolean isbStatsEnabled() {

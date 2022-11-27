@@ -1,7 +1,6 @@
 package one.lindegaard.MobHunting.compatibility;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.Plugin;
 
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
@@ -18,14 +17,13 @@ public class HolographicDisplaysCompat {
 
 	public HolographicDisplaysCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with Holographic Displays is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with Holographic Displays is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.HolographicDisplays.getName());
 
 			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling compatibility with Holographic Displays ("
+					.sendMessage(MobHunting.PREFIX + "Enabling compatibility with Holographic Displays ("
 							+ mPlugin.getDescription().getVersion() + ").");
 			supported = true;
 		}

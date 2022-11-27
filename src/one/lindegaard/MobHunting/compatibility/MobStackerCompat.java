@@ -3,7 +3,6 @@ package one.lindegaard.MobHunting.compatibility;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
@@ -23,15 +22,14 @@ public class MobStackerCompat implements Listener {
 
 	public MobStackerCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with MobStacker is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MobStacker is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.MobStacker.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling Compatibility with MobStacker ("
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with MobStacker ("
 					+ mPlugin.getDescription().getVersion() + ")");
 			supported = true;
 		}

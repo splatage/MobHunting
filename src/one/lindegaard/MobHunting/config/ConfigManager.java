@@ -531,35 +531,8 @@ public class ConfigManager extends AutoConfig {
 				"########################################################################" + "\nBattleArena"
 						+ "\n########################################################################");
 
-		setCategoryComment("plugins.bossbarapi",
-				"########################################################################" + "\nBossBarAPI"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.barapi", "########################################################################"
-				+ "\nBarApi" + "\n########################################################################");
-
-		setCategoryComment("plugins.titleapi",
-				"########################################################################" + "\nTitleApi"
-						+ "\n########################################################################");
-
 		setCategoryComment("plugins.vanishnopacket",
 				"########################################################################" + "\nVanishNoPackets"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.titlemanager",
-				"########################################################################" + "\nTitlemanager"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.actionbar",
-				"########################################################################" + "\nActionbar"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.actionbarapi",
-				"########################################################################" + "\nActionbarAPI"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.actionannouncer",
-				"########################################################################" + "\nActionAnnouncer"
 						+ "\n########################################################################");
 
 		setCategoryComment("plugins.gringotts",
@@ -568,10 +541,6 @@ public class ConfigManager extends AutoConfig {
 
 		setCategoryComment("plugins.tardis_weepingangles",
 				"########################################################################" + "\nTARDIS Weeping Angels"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.protocollib",
-				"########################################################################" + "\nProtocolLib"
 						+ "\n########################################################################");
 
 		setCategoryComment("plugins.mysterious_halloween",
@@ -600,9 +569,6 @@ public class ConfigManager extends AutoConfig {
 
 		setCategoryComment("plugins.boss", "########################################################################"
 				+ "\nBoss" + "\n########################################################################");
-
-		setCategoryComment("plugins.cmi", "########################################################################"
-				+ "\nCMI" + "\n########################################################################");
 
 		setCategoryComment("plugins.holograms",
 				"########################################################################" + "\nHolograms"
@@ -4739,33 +4705,8 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "battlearena.enable_integration_battlearena", category = "plugins", comment = "Enable/Disable integration with BattleArena")
 	public boolean enableIntegrationBattleArena = true;
 
-	@ConfigField(name = "bossbarapi.enable_integration_bossbarapi", category = "plugins", comment = "Enable/Disable integration with BossBarAPI. If you want messages in player chat you can set this to true.")
-	public boolean enableIntegrationBossBarAPI = true;
-
-	@ConfigField(name = "barapi.enable_integration_barapi", category = "plugins", comment = "Enable/Disable integration with BarAPI. If you want messages in player chat you can set this to true."
-			+ "\nhttps://dev.bukkit.org/projects/bar_api")
-	public boolean enableIntegrationBarAPI = true;
-
-	@ConfigField(name = "titleapi.enable_integration_titleapi", category = "plugins", comment = "Enable/Disable integration with TitleAPI")
-	public boolean enableIntegrationTitleAPI = true;
-
 	@ConfigField(name = "vanishnopacket.enable_integration_vanishnopacket", category = "plugins", comment = "Enable/Disable integration with VanishNoPacket")
 	public boolean enableIntegrationVanishNoPacket = true;
-
-	@ConfigField(name = "titlemanager.enable_integration_titlemanager", category = "plugins", comment = "Enable/Disable integration with TitleManger. If you want messages in player chat you can set this to true."
-			+ "\nhttps://www.spigotmc.org/resources/titlemanager.1049/")
-	public boolean enableIntegrationTitleManager = true;
-
-	@ConfigField(name = "actionbar.enable_integration_actionbar", category = "plugins", comment = "Enable/Disable integration with Actionbar. If you want messages in player chat you can set this to true.")
-	public boolean enableIntegrationActionbar = true;
-
-	@ConfigField(name = "actionbarapi.enable_integration_actionbarapi", category = "plugins", comment = "Enable/Disable integration with ActionBarAPI. If you want messages in player chat you can set this to true."
-			+ "\nhttps://www.spigotmc.org/resources/actionbarapi_1_8_1_9_1_10.1315/")
-	public boolean enableIntegrationActionBarAPI = true;
-
-	@ConfigField(name = "actionannouncer.enable_integration_actionannouncer", category = "plugins", comment = "Enable/Disable integration with ActionAnnouncer. If you want messages in player chat you can set this to true."
-			+ "\nhttps://www.spigotmc.org/resources/actionannouncer.1320/")
-	public boolean enableIntegrationActionAnnouncer = true;
 
 	@ConfigField(name = "gringotts.enable_integration_gringotts", category = "plugins", comment = "Enable/Disable integration with Gringotts Economy."
 			+ "\nhttp://dev.bukkit.org/bukkit_plugins/gringotts/")
@@ -4774,10 +4715,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "tardis_weepingangles.enable_integration_tardis_weeping_angels", category = "plugins", comment = "Enable/Disable integration with TARDIS Weeping Angels."
 			+ "\nhttp://dev.bukkit.org/bukkit_plugins/tardisweepingangels/")
 	public boolean enableIntegrationTARDISWeepingAngels = true;
-
-	@ConfigField(name = "protocollib.enable_integration_protocollib", category = "plugins", comment = "Enable/Disable integration with ProtocolLib."
-			+ "\nhttps://www.spigotmc.org/resources/protocollib.1997/")
-	public boolean enableIntegrationProtocolLib = true;
 
 	@ConfigField(name = "protocollib.show_grinding_area_using_protocollib_temp", category = "plugins", comment = "Enable/Disable. When a Grinding is detected and the reward is denied, the Grinding Area can be shown while a circle of flames."
 			+ "\nhttps://www.spigotmc.org/wiki/mobhunting-grinding-detection/")
@@ -4810,10 +4747,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "boss.enable_integration_boss", category = "plugins", comment = "Enable/Disable integration with Boss."
 			+ "\nhttps://")
 	public boolean enableIntegrationBoss = true;
-
-	@ConfigField(name = "cmi.enable_integration_cmi", category = "plugins", comment = "Enable/Disable integration with CMI."
-			+ "\nhttps://www.spigotmc.org/resources/cmi-270-commands-insane-kits-portals-essentials-economy-mysql-sqlite-much-more.3742/")
-	public boolean enableIntegrationCMI = true;
 
 	@ConfigField(name = "holograms.enable_integration_holograms", category = "plugins", comment = "Enable/Disable integration with Holograms."
 			+ "\nhttps://www.spigotmc.org/resources/holograms.4924/")

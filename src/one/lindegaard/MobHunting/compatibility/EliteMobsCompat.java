@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -39,17 +38,15 @@ public class EliteMobsCompat implements Listener {
 
 	public EliteMobsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getLogger().info(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with EliteMobs is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with EliteMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.EliteMobs.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo("6.5.0") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-								+ "Enabling Compatibility with EliteMobs ("
-								+ getEliteMobs().getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with EliteMobs ("
+						+ getEliteMobs().getDescription().getVersion() + ")");
 
 				supported = true;
 
@@ -57,8 +54,8 @@ public class EliteMobsCompat implements Listener {
 				saveEliteMobsData();
 
 			} else {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-						+ "Your current version of EliteMobs (" + mPlugin.getDescription().getVersion()
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Your current version of EliteMobs ("
+						+ mPlugin.getDescription().getVersion()
 						+ ") is not supported by MobHunting. Please update EliteMobs to version 6.5.0 or newer.");
 			}
 		}
@@ -119,8 +116,9 @@ public class EliteMobsCompat implements Listener {
 	}
 
 	public static enum Mobs {
-		Kraken(MetadataHandler.KRAKEN), Balrog(MetadataHandler.BALROG), Fae(MetadataHandler.FAE), TheReturned(MetadataHandler.THE_RETURNED), TreasureGoblin(
-						MetadataHandler.TREASURE_GOBLIN), Custom(MetadataHandler.ELITE_MOB_MD);
+		Kraken(MetadataHandler.KRAKEN), Balrog(MetadataHandler.BALROG), Fae(MetadataHandler.FAE),
+		TheReturned(MetadataHandler.THE_RETURNED), TreasureGoblin(MetadataHandler.TREASURE_GOBLIN),
+		Custom(MetadataHandler.ELITE_MOB_MD);
 
 		private String name;
 
@@ -189,12 +187,13 @@ public class EliteMobsCompat implements Listener {
 			if (!file.exists()) {
 				for (Mobs monster : Mobs.values()) {
 					mMobRewardData.put(monster.name(),
-							new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "10:20", 1,
-									"You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
+							new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true,
+									"10:20", 1, "You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1,
+									0.02));
 					saveEliteMobsData(monster.name());
 					MobHunting.getInstance().getStoreManager().insertEliteMobs(monster.name());
 				}
-				//MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+				// MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 				return;
 			}
 
@@ -290,8 +289,8 @@ public class EliteMobsCompat implements Listener {
 			if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
 				MobHunting.getInstance().getMessages().debug("New EliteMob found=%s", monster.name());
 				mMobRewardData.put(monster.name(),
-						new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "40:60", 1,
-								"You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
+						new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "40:60",
+								1, "You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 				saveEliteMobsData(monster.name());
 				MobHunting.getInstance().getStoreManager().insertEliteMobs(monster.name());
 				// Update mob loaded into memory

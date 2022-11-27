@@ -3,7 +3,6 @@ package one.lindegaard.MobHunting.compatibility;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,17 +28,15 @@ public class InfernalMobsCompat implements Listener {
 
 	public InfernalMobsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with InfernalMobs is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with InfernalMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.InfernalMobs.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
-			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-							+ "Enabling Compatibility with InfernalMobs ("
-							+ getInfernalMobs().getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with InfernalMobs ("
+					+ getInfernalMobs().getDescription().getVersion() + ")");
 
 			api = (infernal_mobs) mPlugin;
 

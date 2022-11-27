@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -40,15 +39,15 @@ public class HerobrineCompat implements Listener {
 
 	public HerobrineCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with Herobrine is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Herobrine is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.Herobrine.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling Compatibility with Herobrine (" + mPlugin.getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with Herobrine ("
+					+ mPlugin.getDescription().getVersion() + ")");
 
 			api = (Herobrine) mPlugin;
 			supported = true;
@@ -65,11 +64,10 @@ public class HerobrineCompat implements Listener {
 
 	public static boolean isHerobrineMob(Entity entity) {
 		if (isSupported()) {
-			return entity.hasMetadata(MH_HEROBRINEMOBS) 
-					//|| entity.hasMetadata("NPC")
-					//|| entity.getEntityId() == Herobrine.herobrineEntityID
-					|| api.getEntityManager().isCustomMob(entity.getEntityId()
-							);
+			return entity.hasMetadata(MH_HEROBRINEMOBS)
+					// || entity.hasMetadata("NPC")
+					// || entity.getEntityId() == Herobrine.herobrineEntityID
+					|| api.getEntityManager().isCustomMob(entity.getEntityId());
 		}
 		return false;
 	}

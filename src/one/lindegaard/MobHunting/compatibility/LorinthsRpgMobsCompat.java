@@ -3,7 +3,6 @@ package one.lindegaard.MobHunting.compatibility;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -28,20 +27,19 @@ public class LorinthsRpgMobsCompat implements Listener {
 
 	public LorinthsRpgMobsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with LorinthsRpgMobs is disabled in config.yml");
+			Bukkit.getConsoleSender().sendMessage(
+					MobHunting.PREFIX_WARNING + "Compatibility with LorinthsRpgMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.LorinthsRpgMobs.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo("1.0.2") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-								+ "Enabling Compatibility with LorinthsRpgMobs ("
+						.sendMessage(MobHunting.PREFIX + "Enabling Compatibility with LorinthsRpgMobs ("
 								+ getLorinthsRpgMobs().getDescription().getVersion() + ")");
 				supported = true;
 			} else {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
 						+ "Your current version of LorinthsRpgMobs (" + mPlugin.getDescription().getVersion()
 						+ ") is not supported by MobHunting. Please update LorinthsRpgMobs to version 1.0.2 or newer.");
 			}

@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -33,21 +32,18 @@ public class DisguiseCraftCompat implements Listener {
 			if (mPlugin.getDescription().getVersion().compareTo("5.0") >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
-				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-								+ "Enabling compatibility with DisguiseCraft ("
-								+ getDisguiseCraft().getDescription().getVersion() + ")");
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with DisguiseCraft ("
+						+ getDisguiseCraft().getDescription().getVersion() + ")");
 				supported = true;
 
 			} else {
-				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED + "Your version ("
-								+ mPlugin.getDescription().getVersion()
+				Bukkit.getConsoleSender().sendMessage(
+						MobHunting.PREFIX_WARNING + "Your version (" + mPlugin.getDescription().getVersion()
 								+ ") of DisguisCraft is too old and not supported by MobHunting.");
 			}
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with DisguiseCraft is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX + "Compatibility with DisguiseCraft is disabled in config.yml");
 		}
 	}
 

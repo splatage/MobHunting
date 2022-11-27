@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -43,15 +42,15 @@ public class CustomMobsCompat implements Listener {
 
 	public CustomMobsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with CustomMobs is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with CustomMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.CustomMobs.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling Compatibility with CustomMobs (" + getCustomMobs().getDescription().getVersion() + ")");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with CustomMobs ("
+					+ getCustomMobs().getDescription().getVersion() + ")");
 
 			supported = true;
 
@@ -234,8 +233,8 @@ public class CustomMobsCompat implements Listener {
 			MobHunting.getInstance().getMessages().debug("New CustomMobName found=%s,%s", mob.getName(),
 					mob.getDisplayName());
 			String name = mob.getDisplayName() == null ? mob.getName() : mob.getDisplayName();
-			mMobRewardData.put(mob.getName(), new ExtendedMobRewardData(MobPlugin.CustomMobs, mob.getName(), name, true, "10", 1,
-					"You killed a CustomMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
+			mMobRewardData.put(mob.getName(), new ExtendedMobRewardData(MobPlugin.CustomMobs, mob.getName(), name, true,
+					"10", 1, "You killed a CustomMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
 			saveCustomMobsData(mob.getName());
 			MobHunting.getInstance().getStoreManager().insertCustomMobs(mob.getName());
 			// Update mob loaded into memory

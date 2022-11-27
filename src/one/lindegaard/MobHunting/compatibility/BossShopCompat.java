@@ -9,7 +9,6 @@ import org.black_ixx.bossshop.core.BSShop;
 import org.black_ixx.bossshop.core.prices.BSPriceType;
 import org.black_ixx.bossshop.core.rewards.BSRewardType;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -31,13 +30,13 @@ public class BossShopCompat {
 
 	public BossShopCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Compatibility with BossShop is disabled in config.yml");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with BossShop is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.BossShop.getName());
 			bs = (BossShop) mPlugin;
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Enabling compatibility with BossShopPro (" + bs.getDescription().getVersion() + ").");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with BossShopPro ("
+					+ bs.getDescription().getVersion() + ").");
 			supported = true;
 		}
 	}
@@ -77,8 +76,7 @@ public class BossShopCompat {
 		ItemStack is = new CoreCustomItems(plugin).getCustomtexture(
 				new Reward(Core.getConfigManager().bagOfGoldName.trim(), 10, RewardType.BAGOFGOLD,
 						UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
-				Core.getConfigManager().skullTextureValue,
-				Core.getConfigManager().skullTextureSignature);
+				Core.getConfigManager().skullTextureValue, Core.getConfigManager().skullTextureSignature);
 
 		plugin.getMessages().debug("test4");
 		getAPI().addItemToShop(is, buy, shop);
