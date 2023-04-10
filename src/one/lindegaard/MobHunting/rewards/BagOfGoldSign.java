@@ -182,7 +182,7 @@ public class BagOfGoldSign implements Listener {
 											new Reward(Core.getConfigManager().bagOfGoldName.trim(),
 													Tools.ceil(moneyOnSign), RewardType.ITEM, null));
 								} else
-									is = new CoreCustomItems(plugin).getCustomtexture(
+									is = CoreCustomItems.getCustomtexture(
 											new Reward(Core.getConfigManager().bagOfGoldName.trim(),
 													Tools.ceil(moneyOnSign), RewardType.BAGOFGOLD,
 													UUID.fromString(RewardType.BAGOFGOLD.getUUID())),

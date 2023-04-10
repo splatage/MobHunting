@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<version>8.5.1</version>
-	<!-- <version>8.5.1-SNAPSHOT</version>  -->
+	<!-- <version>8.5.2</version>  -->
+	<version>8.5.2-SNAPSHOT</version>
 	<!-- <version>8.1.9-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
@@ -14,21 +14,17 @@
 	<parent>
 		<groupId>one.lindegaard</groupId>
 		<artifactId>Main</artifactId>
-		<version>0.1.3-SNAPSHOT</version>
+		<version>0.1.4-SNAPSHOT</version>
 		<relativePath>../Main/pom.xml</relativePath>
 	</parent>
 
 	<properties>
-		<customitemslib.version>0.9.0-SNAPSHOT</customitemslib.version>
 		<bagofgold.version>4.2.1-SNAPSHOT</bagofgold.version>
 
 		<minigames.version>1.9.0-SNAPSHOT</minigames.version>
 		<minigameslib.version>1.14.18-SNAPSHOT</minigameslib.version>
 		<mypet.version>3.12-SNAPSHOT</mypet.version>
 		<mcmmohorses.version>4.3.55</mcmmohorses.version>
-		<worldedit.version>7.2.8</worldedit.version>
-		<worldguard7.version>7.0.7</worldguard7.version>
-		<worldguard6.version>6.2</worldguard6.version>
 		<PreciousStones.version>10.7.2</PreciousStones.version>
 		<libsdisguises.version>10.0.28</libsdisguises.version>
 		<battleArena.version>3.9.16.4</battleArena.version>
@@ -147,7 +143,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>${spigotmc_1_19_R1.version}</version>
+			<version>${spigotmc_1_19_R3.version}</version>
 		</dependency>
 
 		<!-- Rocologo CustomItemsLib -->
@@ -348,12 +344,6 @@
 			<version>${worldguard7.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- <dependency>
-			<groupId>com.sk89q.worldguard.bukkit</groupId>
-			<artifactId>WorldGuardPlugin</artifactId>
-			<version>${worldguard6.version}</version>
-			<scope>provided</scope>
-		</dependency> -->
 
 		<!-- PreciousStones -->
 		<dependency>
@@ -677,6 +667,5 @@
 		</repository>
 
 	</repositories>
-
 
 </project>

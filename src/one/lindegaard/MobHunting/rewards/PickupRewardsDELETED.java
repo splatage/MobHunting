@@ -13,11 +13,11 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 
-public class PickupRewards {
+public class PickupRewardsDELETED {
 
 	private MobHunting plugin;
 
-	public PickupRewards(MobHunting plugin) {
+	public PickupRewardsDELETED(MobHunting plugin) {
 		this.plugin = plugin;
 	}
 
@@ -51,13 +51,13 @@ public class PickupRewards {
 
 				if (reward.getMoney() == 0) {
 					plugin.getMessages()
-							.debug("%s picked up a %s (# of rewards left=%s)", player.getName(),
+							.debug("%s picked up a %s" + ChatColor.RESET + " (# of rewards left=%s)", player.getName(),
 									Core.getConfigManager().rewardItemtype.equalsIgnoreCase("ITEM") ? "ITEM"
 											: reward.getDisplayName(),
 									Core.getCoreRewardManager().getDroppedMoney().size());
 				} else {
 					plugin.getMessages().debug(
-							"%s picked up a %s with a value:%s (# of rewards left=%s)(PickupRewards)", player.getName(),
+							"%s picked up a %s" + ChatColor.RESET + " with a value:%s (# of rewards left=%s)(PickupRewards)", player.getName(),
 							reward.getDisplayName().equalsIgnoreCase("") ? reward.getDisplayName()
 									: Core.getConfigManager().rewardItemtype,
 							plugin.getRewardManager().format(Tools.round(reward.getMoney())),

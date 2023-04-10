@@ -196,7 +196,7 @@ public class ExtendedMob {
 		case Minecraft:
 			MobType mob = MobType.getMobType(name);
 			
-			return new CoreCustomItems(MobHunting.getInstance()).getCustomHead(mob,name, amount, money, mob.getSkinUUID());
+			return CoreCustomItems.getCustomHead(mob,name, amount, money, mob.getSkinUUID());
 		default:
 			return new ItemStack(Material.IRON_INGOT, amount);
 		}

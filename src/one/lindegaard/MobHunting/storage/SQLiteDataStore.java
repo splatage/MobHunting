@@ -1733,7 +1733,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 					}
 				}
 			}
-			Core.getDataStoreManager().flush();
+			plugin.getDataStoreManager().flush();
 			statement.close();
 			mConnection.commit();
 			return true;

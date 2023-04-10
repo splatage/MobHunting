@@ -6,12 +6,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 @SuppressWarnings("deprecation")
-public class PlayerPickupItemEventListener implements Listener{
+public class PlayerPickupItemEventListenerDELETED implements Listener{
 
 
     private PickupRewards pickupRewards;
 
-    public PlayerPickupItemEventListener(PickupRewards pickupRewards) {
+    public PlayerPickupItemEventListenerDELETED(PickupRewards pickupRewards) {
         this.pickupRewards = pickupRewards;
     }
 

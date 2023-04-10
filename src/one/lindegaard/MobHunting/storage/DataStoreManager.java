@@ -7,7 +7,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
 import one.lindegaard.CustomItemsLib.Core;
@@ -53,8 +52,7 @@ public class DataStoreManager {
 		int savePeriod = Core.getConfigManager().savePeriod;
 		if (savePeriod < 1200) {
 			savePeriod = 1200;
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "[Warning] save-period in your config.yml is too low. Please raise it to 1200 or higher");
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING	+ "save-period in your config.yml is too low. Please raise it to 1200 or higher");
 		}
 		mStoreThread = new StoreThread(savePeriod);
 	}
@@ -175,16 +173,11 @@ public class DataStoreManager {
 			while (mTaskThread.getState() != Thread.State.WAITING && mTaskThread.getState() != Thread.State.TERMINATED
 					&& n < 40) {
 				Thread.sleep(500);
-				//plugin.getMessages().debug("Waiting %s", n);
 				n++;
 			}
-			//plugin.getMessages().debug("mTaskThread.state=%s", mTaskThread.getState());
 			if (mTaskThread.getState() == Thread.State.RUNNABLE) {
-				//plugin.getMessages().debug("Interupting mTaskThread");
 				mTaskThread.interrupt();
 			}
-			//plugin.getMessages().debug("mStoreThread.state=%s", mStoreThread.getState());
-			//plugin.getMessages().debug("mTaskThread.state=%s", mTaskThread.getState());
 			if (mTaskThread.getState() != Thread.State.WAITING) {
 				mTaskThread.waitForEmptyQueue();
 			}
@@ -223,16 +216,19 @@ public class DataStoreManager {
 
 		@Override
 		public void run() {
+
+			plugin.getMessages().debug("Saving MobHunting data");
+			
+			MobHunting.getInstance().getGrindingManager().saveData();
+
 			try {
 				while (true) {
 					synchronized (this) {
-						if (mExit && mWaiting.size() == 0) {
+						if (mExit && mWaiting.isEmpty()) {
 							break;
 						}
 					}
 					mTaskThread.addTask(new StoreTask(mWaiting), null);
-
-					plugin.getGrindingManager().saveData();
 
 					Thread.sleep(mSaveInterval * 50);
 				}

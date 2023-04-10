@@ -249,6 +249,7 @@ public class MobHunting extends JavaPlugin {
 		// Protection plugins
 		mCompatibilityManager.registerPlugin(WorldEditCompat.class, CompatPlugin.WorldEdit);
 		mCompatibilityManager.registerPlugin(WorldGuardCompat.class, CompatPlugin.WorldGuard);
+
 		mCompatibilityManager.registerPlugin(HologramsCompat.class, CompatPlugin.Holograms);
 		mCompatibilityManager.registerPlugin(HolographicDisplaysCompat.class, CompatPlugin.HolographicDisplays);
 		mCompatibilityManager.registerPlugin(CMICompat.class, CompatPlugin.CMI);

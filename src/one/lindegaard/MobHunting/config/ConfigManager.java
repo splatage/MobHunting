@@ -4861,7 +4861,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "newplayer_learning_mode", category = "general", comment = "When a new playerjoins the server he will by default start"
 			+ "\nin 'LEARNING MODE' and get extra information about when he get rewards and not,"
 			+ "\nwhen killing Mobs. The player can disable this InGame by using the command '/mobhunt learn'")
-	public boolean learningMode = false;
+	public boolean learningMode = true;
 
 	@ConfigField(name = "use_gui_for_achievements", category = "general", comment = "When use_gui_for_achivements=true the status of players achievements will"
 			+ "\nbe showed in a Inventory GUI.")

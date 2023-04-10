@@ -3,7 +3,6 @@ package one.lindegaard.MobHunting;
 import java.math.BigDecimal;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
@@ -12,7 +11,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import net.milkbowl.vault.economy.Economy;
 import net.tnemc.core.Reserve;
 import net.tnemc.core.economy.EconomyAPI;
-//import net.tnemc.core.economy.ExtendedEconomyAPI;
 
 /**
  * Economy handler to interface with Vault or Reserve directly.
@@ -90,8 +88,8 @@ public class EconomyManager {
 				 */
 				vaultEconomy = vaultEcoProvider.getProvider();
 				setVersion(String.format("%s %s", vaultEcoProvider.getProvider().getName(), "via Vault"));
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "MobHunting is using " + getVersion() + " as Economy Provider");
+				Bukkit.getConsoleSender().sendMessage(
+						MobHunting.PREFIX + "MobHunting is using " + getVersion() + " as Economy Provider");
 				Type = EcoType.VAULT;
 				return true;
 			}
@@ -108,8 +106,8 @@ public class EconomyManager {
 			 */
 			reserveEconomy = ((Reserve) economyProvider).economy();
 			setVersion(String.format("%s %s", reserveEconomy.name(), "via Reserve"));
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "MobHunting is using " + getVersion() + " as Economy Provider");
+			Bukkit.getConsoleSender()
+					.sendMessage(MobHunting.PREFIX + "MobHunting is using " + getVersion() + " as Economy Provider");
 			Type = EcoType.RESERVE;
 			return true;
 		}
@@ -149,19 +147,16 @@ public class EconomyManager {
 	 * @param offlinePlayer - Name of the player's account (usually playername)
 	 * @return - The relevant player's economy account
 	 */
-	/**private Object getEconomyAccount(OfflinePlayer offlinePlayer) {
-		switch (Type) {
-		case RESERVE:
-			//if (reserveEconomy instanceof ExtendedEconomyAPI)
-			//	return ((ExtendedEconomyAPI) reserveEconomy).getAccount(offlinePlayer.getUniqueId());
-			return reserveEconomy.getBankHoldings(offlinePlayer.getUniqueId());
-			//break;
-		default:
-			break;
-		}
-		return null;
-		
-	}**/
+	/**
+	 * private Object getEconomyAccount(OfflinePlayer offlinePlayer) { switch (Type)
+	 * { case RESERVE: //if (reserveEconomy instanceof ExtendedEconomyAPI) // return
+	 * ((ExtendedEconomyAPI)
+	 * reserveEconomy).getAccount(offlinePlayer.getUniqueId()); return
+	 * reserveEconomy.getBankHoldings(offlinePlayer.getUniqueId()); //break;
+	 * default: break; } return null;
+	 * 
+	 * }
+	 **/
 
 	/**
 	 * Check if account exists
@@ -205,7 +200,7 @@ public class EconomyManager {
 
 	/**
 	 * Check if offlinePlayer has the amount of money on his account
-	 *  
+	 * 
 	 * @param offlinePlayer
 	 * @param amount
 	 * 
@@ -306,7 +301,7 @@ public class EconomyManager {
 	}
 
 	/**
-	 * Set the OfflinePlayers balance on his account to amount 
+	 * Set the OfflinePlayers balance on his account to amount
 	 * 
 	 * @param offlinePlayer
 	 * @param amount
@@ -323,8 +318,8 @@ public class EconomyManager {
 		case VAULT:
 			if (!vaultEconomy.hasAccount(offlinePlayer))
 				vaultEconomy.createPlayerAccount(offlinePlayer);
-			return vaultEconomy.depositPlayer(offlinePlayer,
-					(amount - vaultEconomy.getBalance(offlinePlayer))).transactionSuccess();
+			return vaultEconomy.depositPlayer(offlinePlayer, (amount - vaultEconomy.getBalance(offlinePlayer)))
+					.transactionSuccess();
 		default:
 			break;
 		}
@@ -376,7 +371,7 @@ public class EconomyManager {
 
 	/**
 	 * Check if the if the accounts owner is offlineplayer
-	 *  
+	 * 
 	 * @param account
 	 * @param offlinePlayer
 	 * 
@@ -396,6 +391,7 @@ public class EconomyManager {
 
 	/**
 	 * Get Bank Balance for OfflinePlayer
+	 * 
 	 * @param offlinePlayer
 	 * @return
 	 */

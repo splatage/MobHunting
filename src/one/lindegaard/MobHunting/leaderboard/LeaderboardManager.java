@@ -38,7 +38,6 @@ import org.bukkit.scheduler.BukkitTask;
 import com.Zrips.CMI.CMI;
 import com.google.common.collect.HashMultimap;
 
-import one.lindegaard.CustomItemsLib.Core;
 import one.lindegaard.CustomItemsLib.materials.Materials;
 import one.lindegaard.MobHunting.HologramManager;
 import one.lindegaard.MobHunting.MobHunting;
@@ -111,7 +110,6 @@ public class LeaderboardManager implements Listener {
 	}
 
 	public Boolean updateAllLeaderboards() {
-		Core.getDataStoreManager().save();
 		Bukkit.getScheduler().runTask(plugin, new Updater());
 		return true;
 	}

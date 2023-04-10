@@ -255,7 +255,7 @@ public class RewardManager {
 					addedMoney = addedMoney + nextBag;
 					ItemStack is;
 					if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("SKULL"))
-						is = new CoreCustomItems(plugin).getCustomtexture(
+						is = CoreCustomItems.getCustomtexture(
 								new Reward(Core.getConfigManager().bagOfGoldName.trim(), Tools.round(nextBag),
 										RewardType.BAGOFGOLD, UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
 								Core.getConfigManager().skullTextureValue,
@@ -276,7 +276,6 @@ public class RewardManager {
 	public double removeBagOfGoldPlayer(Player player, double amount) {
 		double taken = 0;
 		double toBeTaken = Tools.floor(amount);
-		CoreCustomItems customItems = new CoreCustomItems(plugin);
 		for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
 			ItemStack is = player.getInventory().getItem(slot);
 			if (Reward.isReward(is)) {
@@ -285,7 +284,7 @@ public class RewardManager {
 					double saldo = Tools.floor(reward.getMoney());
 					if (saldo > toBeTaken) {
 						reward.setMoney(saldo - toBeTaken);
-						is = customItems.getCustomtexture(
+						is = CoreCustomItems.getCustomtexture(
 								new Reward(Core.getConfigManager().bagOfGoldName.trim(), saldo - toBeTaken,
 										reward.getRewardType(), reward.getSkinUUID()),
 								Core.getConfigManager().skullTextureValue,
@@ -333,19 +332,19 @@ public class RewardManager {
 				MobType mob = MobType.getMobType(killedEntity);
 				rewardType = RewardType.KILLED;
 				skinuuid = mob.getSkinUUID();
-				is = new CoreCustomItems(plugin).getCustomHead(mob, mob.getFriendlyName(), 1, money, skinuuid);
+				is = CoreCustomItems.getCustomHead(mob, mob.getFriendlyName(), 1, money, skinuuid);
 
 			} else if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("SKULL")) {
 				rewardType = RewardType.BAGOFGOLD;
 				skinuuid = UUID.fromString(RewardType.BAGOFGOLD.getUUID());
-				is = new CoreCustomItems(plugin).getCustomtexture(
+				is = CoreCustomItems.getCustomtexture(
 						new Reward(Core.getConfigManager().bagOfGoldName.trim(), money, rewardType, skinuuid),
 						Core.getConfigManager().skullTextureValue, Core.getConfigManager().skullTextureSignature);
 
 			} else if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("KILLER")) {
 				rewardType = RewardType.KILLER;
 				skinuuid = player.getUniqueId();
-				is = new CoreCustomItems(plugin).getPlayerHead(player.getUniqueId(), player.getName(), 1, money);
+				is = CoreCustomItems.getPlayerHead(player.getUniqueId(), player.getName(), 1, money);
 
 			} else { // ITEM
 				rewardType = RewardType.ITEM;
@@ -384,14 +383,14 @@ public class RewardManager {
 		} else if (reward.isKilledHeadReward()) {
 			MobType mob = MobType.getMobType(reward.getSkinUUID());
 			if (mob != null) {
-				ItemStack is = new CoreCustomItems(plugin).getCustomHead(mob, reward.getDisplayName(), 1,
+				ItemStack is = CoreCustomItems.getCustomHead(mob, reward.getDisplayName(), 1,
 						reward.getMoney(), reward.getSkinUUID());
 				Item item = location.getWorld().dropItem(location, is);
 				item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 				Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 			}
 		} else if (reward.isKillerHeadReward()) {
-			ItemStack is = new CoreCustomItems(plugin).getPlayerHead(reward.getSkinUUID(), reward.getDisplayName(), 1,
+			ItemStack is = CoreCustomItems.getPlayerHead(reward.getSkinUUID(), reward.getDisplayName(), 1,
 					reward.getMoney());
 			Item item = location.getWorld().dropItem(location, is);
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));

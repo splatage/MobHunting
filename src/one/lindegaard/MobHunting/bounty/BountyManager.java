@@ -343,7 +343,6 @@ public class BountyManager implements Listener {
 			if (hasOpenBounties(wantedPlayer)) {
 				Set<Bounty> bountiesOnWantedPlayer = getOpenBounties(worldGroupName, wantedPlayer);
 				if (useGui) {
-					CoreCustomItems customItems = new CoreCustomItems(plugin);
 					final Inventory inventory = Bukkit.createInventory(null, 54,
 							ChatColor.BLUE + "" + ChatColor.BOLD + "Wanted:" + wantedPlayer.getName());
 					int n = 0;
@@ -351,8 +350,8 @@ public class BountyManager implements Listener {
 						if (bounty.isOpen()) {
 							if (bounty.getBountyOwner() != null)
 								AchievementManager.addInventoryDetails(
-										customItems.getPlayerHead(wantedPlayer.getUniqueId(), wantedPlayer.getName(), 1,
-												bounty.getPrize()),
+										CoreCustomItems.getPlayerHead(wantedPlayer.getUniqueId(),
+												wantedPlayer.getName(), 1, bounty.getPrize()),
 										inventory, n, ChatColor.GREEN + wantedPlayer.getName(),
 										new String[] { ChatColor.WHITE + "", plugin.getMessages().getString(
 												"mobhunting.commands.bounty.bounties", "bountyowner",
@@ -363,8 +362,8 @@ public class BountyManager implements Listener {
 												(bounty.getEndDate() - System.currentTimeMillis()) / (86400000L)) });
 							else
 								AchievementManager.addInventoryDetails(
-										customItems.getPlayerHead(wantedPlayer.getUniqueId(), wantedPlayer.getName(), 1,
-												bounty.getPrize()),
+										CoreCustomItems.getPlayerHead(wantedPlayer.getUniqueId(),
+												wantedPlayer.getName(), 1, bounty.getPrize()),
 										inventory, n, ChatColor.GREEN + wantedPlayer.getName(),
 										new String[] { ChatColor.WHITE + "", plugin.getMessages().getString(
 												"mobhunting.commands.bounty.bounties", "bountyowner", "Random Bounty",
@@ -413,14 +412,13 @@ public class BountyManager implements Listener {
 		if (sender instanceof Player) {
 			if (!mOpenBounties.isEmpty()) {
 				if (useGui) {
-					CoreCustomItems customItems = new CoreCustomItems(plugin);
 					Inventory inventory = Bukkit.createInventory(null, 54,
 							ChatColor.BLUE + "" + ChatColor.BOLD + "MostWanted:");
 					int n = 0;
 					for (Bounty bounty : mOpenBounties) {
 						if (bounty.getBountyOwner() != null)
 							AchievementManager.addInventoryDetails(
-									customItems.getPlayerHead(bounty.getWantedPlayer().getUniqueId(),
+									CoreCustomItems.getPlayerHead(bounty.getWantedPlayer().getUniqueId(),
 											bounty.getWantedPlayer().getName(), 1, bounty.getPrize()),
 									inventory, n, ChatColor.GREEN + bounty.getWantedPlayer().getName(),
 									new String[] { ChatColor.WHITE + "", plugin.getMessages().getString(
@@ -432,7 +430,7 @@ public class BountyManager implements Listener {
 											(bounty.getEndDate() - System.currentTimeMillis()) / (86400000L)) });
 						else
 							AchievementManager.addInventoryDetails(
-									customItems.getPlayerHead(bounty.getWantedPlayer().getUniqueId(),
+									CoreCustomItems.getPlayerHead(bounty.getWantedPlayer().getUniqueId(),
 											bounty.getWantedPlayer().getName(), 1, bounty.getPrize()),
 									inventory, n, ChatColor.GREEN + bounty.getWantedPlayer().getName(),
 									new String[] { ChatColor.WHITE + "", plugin.getMessages().getString(
@@ -478,8 +476,6 @@ public class BountyManager implements Listener {
 	// RANDOM BOUNTY
 	// ***********************************************************
 
-
-	
 	public void createRandomBounty() {
 		boolean createBounty = plugin.mRand.nextDouble() <= plugin.getConfigManager().chanceToCreateBounty;
 		if (createBounty) {

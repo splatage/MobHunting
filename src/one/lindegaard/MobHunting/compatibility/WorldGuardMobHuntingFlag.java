@@ -16,7 +16,7 @@ import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 
 public class WorldGuardMobHuntingFlag {
 
-	private static final StateFlag MOBHUNTING_FLAG = new StateFlag("MobHunting", false);
+	private static final StateFlag MOBHUNTING_FLAG = new StateFlag("mobhunting", false);
 	private static final StateFlag MOB_DAMAGE_FLAG = new StateFlag("mob-damage", true);
 
 	// *******************************************************************

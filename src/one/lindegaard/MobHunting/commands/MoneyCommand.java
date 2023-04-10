@@ -512,7 +512,7 @@ public class MoneyCommand implements ICommand {
 								double saldo = Tools.floor(reward.getMoney());
 								if (saldo > toBeSold) {
 									reward.setMoney(saldo - toBeSold);
-									is = new CoreCustomItems(plugin).getCustomtexture(
+									is = CoreCustomItems.getCustomtexture(
 											new Reward(Core.getConfigManager().bagOfGoldName.trim(), saldo - toBeSold,
 													reward.getRewardType(), reward.getSkinUUID()),
 											Core.getConfigManager().skullTextureValue,
@@ -575,7 +575,7 @@ public class MoneyCommand implements ICommand {
 							plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null,
 									player.getLocation(), Tools.floor(Double.valueOf(args[1])));
 						else {
-							ItemStack is = new CoreCustomItems(plugin).getCustomtexture(
+							ItemStack is = CoreCustomItems.getCustomtexture(
 									new Reward(Core.getConfigManager().bagOfGoldName.trim(),
 											Tools.floor(Double.valueOf(args[1])), RewardType.BAGOFGOLD,
 											UUID.fromString(RewardType.BAGOFGOLD.getUUID())),

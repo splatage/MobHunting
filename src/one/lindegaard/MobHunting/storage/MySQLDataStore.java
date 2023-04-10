@@ -320,8 +320,6 @@ public class MySQLDataStore extends DatabaseDataStore {
 					// ON DUPLCATE KEY
 					mInsertBounty.setLong(12, bounty.getCreatedDate());
 					mInsertBounty.setLong(13, bounty.getEndDate());
-					plugin.getMessages().debug("Saving Bounty on wantedplayer=%s (value=%s)",
-							bounty.getWantedPlayer().getName(), bounty.getPrize());
 					mInsertBounty.setString(14, String.format(Locale.US, String.valueOf(bounty.getPrize())));
 					mInsertBounty.setString(15, bounty.getMessage());
 					mInsertBounty.setInt(16, bounty.getStatus().getValue());

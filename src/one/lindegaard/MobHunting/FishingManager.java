@@ -378,7 +378,7 @@ public class FishingManager implements Listener {
 					double random = plugin.mRand.nextDouble();
 					if (random < plugin.getRewardManager().getHeadDropChance(fish)) {
 						MobType minecraftMob = MobType.getMobType(fish);
-						ItemStack head = new CoreCustomItems(plugin).getCustomHead(minecraftMob,
+						ItemStack head = CoreCustomItems.getCustomHead(minecraftMob,
 								minecraftMob.getFriendlyName(), 1, plugin.getRewardManager().getHeadValue(fish),
 								minecraftMob.getSkinUUID());
 						head = Reward.setDisplayNameAndHiddenLores(head,

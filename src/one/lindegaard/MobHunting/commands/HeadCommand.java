@@ -93,7 +93,6 @@ public class HeadCommand implements ICommand, Listener {
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
 		// /mh head give [toPlayername] [mobname|playername] [displayname]
 		// [amount] [silent]
-		CoreCustomItems customItems = new CoreCustomItems(plugin);
 		if (args.length >= 2 && (args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("spawn"))) {
 			if (args.length >= 3) {
 				OfflinePlayer offlinePlayer = null, toPlayer = null;
@@ -149,10 +148,10 @@ public class HeadCommand implements ICommand, Listener {
 				// Use GameProfile
 				ItemStack head;
 				if (mob == MobType.PvpPlayer)
-					head = customItems.getPlayerHead(offlinePlayer.getUniqueId(), displayName, amount,
+					head = CoreCustomItems.getPlayerHead(offlinePlayer.getUniqueId(), displayName, amount,
 							plugin.getConfigManager().getHeadPrize(mob));
 				else
-					head = customItems.getCustomHead(mob, displayName, amount,
+					head = CoreCustomItems.getCustomHead(mob, displayName, amount,
 							plugin.getConfigManager().getHeadPrize(mob), mob.getSkinUUID());
 
 				((Player) toPlayer).getWorld().dropItem(((Player) toPlayer).getLocation(), head);
@@ -250,29 +249,25 @@ public class HeadCommand implements ICommand, Listener {
 
 				if (mob != null) {
 					double money = plugin.getConfigManager().getHeadPrize(mob);
-					// double money = 0;
+					
 					if (args.length == 2) {
-						Player player = (Player) sender;
-						Location location = Tools.getTargetBlock(player, 20).getLocation();
+						Player toPlayer = (Player) sender;
+						Location location = Tools.getTargetBlock(toPlayer, 20).getLocation();
 						if (mob == MobType.PvpPlayer) {
 							OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
-							player.getWorld().dropItem(location,
-									customItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
+							toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
 						} else
-							player.getWorld().dropItem(location,
-									customItems.getCustomHead(mob, mob.getFriendlyName(), 1, money, mob.getSkinUUID()));
+							toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, mob.getFriendlyName(), 1, money, mob.getSkinUUID()));
 
 					} else if (args.length == 3) {
 						if (Bukkit.getServer().getOfflinePlayer(args[2]).isOnline()) {
-							OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
-							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[2]));
-							Location location = Tools.getTargetBlock(player, 3).getLocation();
-							if (mob == MobType.PvpPlayer)
-								player.getWorld().dropItem(location,
-										customItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
-							else
-								player.getWorld().dropItem(location, customItems.getCustomHead(mob,
-										mob.getFriendlyName(), 1, money, offlinePlayer.getUniqueId()));
+							Player toPlayer = ((Player) Bukkit.getServer().getOfflinePlayer(args[2]));
+							Location location = Tools.getTargetBlock(toPlayer, 20).getLocation();
+							if (mob == MobType.PvpPlayer) {
+								OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
+								toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
+							} else
+								toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, mob.getFriendlyName(), 1, money, mob.getSkinUUID()));
 
 						} else {
 							plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
@@ -293,12 +288,12 @@ public class HeadCommand implements ICommand, Listener {
 						Location location = new Location(world, xpos, ypos, zpos);
 						if (mob == MobType.PvpPlayer) {
 							Player player = ((Player) Bukkit.getServer().getOfflinePlayer(args[1]));
-							ItemStack head = customItems.getCustomHead(mob, args[1], 1, money, player.getUniqueId());
+							ItemStack head = CoreCustomItems.getCustomHead(mob, args[1], 1, money, player.getUniqueId());
 							head = Reward.setDisplayNameAndHiddenLores(head,
 									new Reward(args[1], money, RewardType.KILLER, player.getUniqueId()));
 							world.dropItem(location, head);
 						} else {
-							ItemStack head = customItems.getCustomHead(mob, mob.getFriendlyName(), 1, money,
+							ItemStack head = CoreCustomItems.getCustomHead(mob, mob.getFriendlyName(), 1, money,
 									mob.getSkinUUID());
 							head = Reward.setDisplayNameAndHiddenLores(head,
 									new Reward(mob.getFriendlyName(), money, RewardType.KILLED, mob.getSkinUUID()));
@@ -312,8 +307,8 @@ public class HeadCommand implements ICommand, Listener {
 
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
-						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission", Core.PH_PERMISSION,
-								"mobhunting.head.drop", "command", "head"));
+						ChatColor.RED + plugin.getMessages().getString("mobhunting.commands.base.nopermission",
+								Core.PH_PERMISSION, "mobhunting.head.drop", "command", "head"));
 			}
 			return true;
 		}

@@ -148,8 +148,7 @@ public class RegionCommand implements ICommand {
 									.getString("mobhunting.commands.region.unknownFlag", "flag", args[0]));
 							return true;
 						}
-					} else if (args.length == 2 && args[1].equalsIgnoreCase("mobhunting")
-							&& args[1].equalsIgnoreCase("mobhunting")) {
+					} else if (args.length == 2 && args[1].equalsIgnoreCase("mobhunting")) {
 						Iterator<ProtectedRegion> i = set.getRegions().iterator();
 						while (i.hasNext()) {
 							ProtectedRegion pr = i.next();

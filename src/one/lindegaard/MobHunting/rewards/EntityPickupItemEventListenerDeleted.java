@@ -8,13 +8,13 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 
 import one.lindegaard.CustomItemsLib.server.Servers;
 
-public class EntityPickupItemEventListener implements Listener {
+public class EntityPickupItemEventListenerDeleted implements Listener {
 
 	// TODO: must be moved to Core
 
 	private PickupRewards pickupRewards;
 
-	public EntityPickupItemEventListener(PickupRewards pickupRewards) {
+	public EntityPickupItemEventListenerDeleted(PickupRewards pickupRewards) {
 		this.pickupRewards = pickupRewards;
 	}
 
