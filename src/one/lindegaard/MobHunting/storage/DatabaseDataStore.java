@@ -154,74 +154,80 @@ public abstract class DatabaseDataStore implements IDataStore {
 
 			Connection mConnection = setupConnection();
 
+			int newest_db_version = 8;
+
 			// Find current database version
-			if (plugin.getConfigManager().databaseVersion == 0) {
-				Statement statement = mConnection.createStatement();
-				try {
-					ResultSet rs = statement.executeQuery("SELECT TEXTURE FROM mh_Players LIMIT 0");
-					rs.close();
-					/**
-					 * The TABLE Coloumn BALANCE only exists in Database layout V5
-					 **/
-					plugin.getConfigManager().databaseVersion = 6;
-					plugin.getConfigManager().saveConfig();
-				} catch (SQLException e6) {
+			if (plugin.getConfigManager().databaseVersion < newest_db_version) {
+
+				// Find current database version
+				if (plugin.getConfigManager().databaseVersion == 0) {
+					Statement statement = mConnection.createStatement();
 					try {
-						ResultSet rs = statement.executeQuery("SELECT BALANCE FROM mh_Players LIMIT 0");
+						ResultSet rs = statement.executeQuery("SELECT TEXTURE FROM mh_Players LIMIT 0");
 						rs.close();
 						/**
 						 * The TABLE Coloumn BALANCE only exists in Database layout V5
 						 **/
-						plugin.getConfigManager().databaseVersion = 5;
+						plugin.getConfigManager().databaseVersion = 6;
 						plugin.getConfigManager().saveConfig();
-					} catch (SQLException e5) {
+					} catch (SQLException e6) {
 						try {
-							ResultSet rs = statement.executeQuery("SELECT TOTAL_CASH FROM mh_Daily LIMIT 0");
+							ResultSet rs = statement.executeQuery("SELECT BALANCE FROM mh_Players LIMIT 0");
 							rs.close();
 							/**
-							 * The TABLE Coloumn TOTAL_CASH only exists in Database layout V4
+							 * The TABLE Coloumn BALANCE only exists in Database layout V5
 							 **/
-							plugin.getConfigManager().databaseVersion = 4;
+							plugin.getConfigManager().databaseVersion = 5;
 							plugin.getConfigManager().saveConfig();
-						} catch (SQLException e4) {
+						} catch (SQLException e5) {
 							try {
-								ResultSet rs = statement.executeQuery("SELECT MOB_ID FROM mh_Mobs LIMIT 0");
+								ResultSet rs = statement.executeQuery("SELECT TOTAL_CASH FROM mh_Daily LIMIT 0");
 								rs.close();
 								/**
-								 * The TABLE mh_Mobs created for V3 and does only contain data after migration
+								 * The TABLE Coloumn TOTAL_CASH only exists in Database layout V4
 								 **/
-								plugin.getConfigManager().databaseVersion = 3;
+								plugin.getConfigManager().databaseVersion = 4;
 								plugin.getConfigManager().saveConfig();
-							} catch (SQLException e3) {
+							} catch (SQLException e4) {
 								try {
-									ResultSet rs = statement.executeQuery("SELECT UUID from mh_Players LIMIT 0");
+									ResultSet rs = statement.executeQuery("SELECT MOB_ID FROM mh_Mobs LIMIT 0");
 									rs.close();
-									// Player UUID is migrated in V2
-									plugin.getConfigManager().databaseVersion = 2;
-									plugin.getConfigManager().saveConfig();
-								} catch (SQLException e2) {
 									/**
-									 * database if from before Minecraft 1.7.9 R1 (No UUID) = V1
+									 * The TABLE mh_Mobs created for V3 and does only contain data after migration
 									 **/
+									plugin.getConfigManager().databaseVersion = 3;
+									plugin.getConfigManager().saveConfig();
+								} catch (SQLException e3) {
 									try {
-										ResultSet rs = statement
-												.executeQuery("SELECT PLAYER_ID from mh_Players LIMIT 0");
+										ResultSet rs = statement.executeQuery("SELECT UUID from mh_Players LIMIT 0");
 										rs.close();
-										plugin.getConfigManager().databaseVersion = 1;
+										// Player UUID is migrated in V2
+										plugin.getConfigManager().databaseVersion = 2;
 										plugin.getConfigManager().saveConfig();
-									} catch (SQLException e1) {
+									} catch (SQLException e2) {
 										/**
-										 * DATABASE DOES NOT EXIST AT ALL, CREATE NEW EMPTY V3 DATABASE
+										 * database if from before Minecraft 1.7.9 R1 (No UUID) = V1
 										 **/
-										plugin.getConfigManager().databaseVersion = 7;
-										plugin.getConfigManager().saveConfig();
+										try {
+											ResultSet rs = statement
+													.executeQuery("SELECT PLAYER_ID from mh_Players LIMIT 0");
+											rs.close();
+											plugin.getConfigManager().databaseVersion = 1;
+											plugin.getConfigManager().saveConfig();
+										} catch (SQLException e1) {
+											/**
+											 * DATABASE DOES NOT EXIST AT ALL, CREATE NEW EMPTY DATABASE
+											 **/
+											plugin.getConfigManager().databaseVersion = 7;
+											plugin.getConfigManager().saveConfig();
+										}
 									}
 								}
 							}
 						}
 					}
+					statement.close();
 				}
-				statement.close();
 			}
 
 			switch (plugin.getConfigManager().databaseVersion) {
