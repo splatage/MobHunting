@@ -1,4 +1,7 @@
+V8.5.3
+* 
 V8.5.2
+* Added support for Minecraft 1.19.3 and 1.19.4
 * Worldguard flag MobHunting changed to lowercase letters. It seems to be the standard.  
 V8.5.1
 * Fixed integration with ProtocolLib and all Actionbar/Bossbar/Titlemanager plugings and moved the code from MobHunting+BagOfGold to CustomItemsLib to make development easier.

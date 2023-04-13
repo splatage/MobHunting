@@ -25,7 +25,7 @@ You should also look at following recommended plugins:
 * MasterMobHunters (Citizens2) and Signs
 * Leaderboards
 * Mob grinder detection
-* [Supports Minecraft 1.8 - 1.17.1]
+* [Supports Minecraft 1.8 - 1.19.4]
 * Heavily customizable
 * Language support
 * Tested on SpigotMC, CraftBukkit, PaperSpigot/PaperClip
