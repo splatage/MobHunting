@@ -175,6 +175,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("passive.axolotl", "### Axolotl settings ###");
 		setCategoryComment("passive.bat", "### Bat settings ###");
 		setCategoryComment("passive.bee", "### Bee settings ###");
+		setCategoryComment("passive.camel", "### Camel settings ###");
 		setCategoryComment("passive.cat", "### Cat settings ###");
 		setCategoryComment("passive.chicken", "### Chicken settings ###");
 		setCategoryComment("passive.cow", "### Cow settings ###");
@@ -194,6 +195,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("passive.rabbit", "### Rabbit settings ###");
 		setCategoryComment("passive.sheep", "### Sheep settings ###");
 		setCategoryComment("passive.skeleton_horse", "### Skeleton Horse settings ###");
+		setCategoryComment("passive.sniffer", "### Sniffer settings ###");
 		setCategoryComment("passive.snowman", "### Snowman settings ###");
 		setCategoryComment("passive.squid", "### Squid settings ###");
 		setCategoryComment("passive.tadpole", "### Tadpole settings ###");
@@ -2331,6 +2333,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "bee.head.message", category = "passive")
 	public String beeHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Camel============================================
+	@ConfigField(name = "cat.enabled", category = "passive")
+	public boolean camelEnabled = true;
+	@ConfigField(name = "cat.message", category = "passive")
+	public String camelMessage = "You killed a §1{killed}";
+	@ConfigField(name = "camel.money.amount", category = "passive")
+	public String camelMoney = "0";
+	@ConfigField(name = "camel.money.chance", category = "passive")
+	public double camelMoneyChance = 0.1;
+	@ConfigField(name = "camel.commands", category = "passive")
+	public List<HashMap<String, String>> camelCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} water_bucket 1");
+		values1.put("chance", "0.05");
+		camelCommands.add(values1);
+	}
+	@ConfigField(name = "camel.head.drophead", category = "passive")
+	public boolean camelHeadDropHead = true;
+	@ConfigField(name = "camel.head.value", category = "passive")
+	public String camelHeadPrize = "0";
+	@ConfigField(name = "camel.head.chance", category = "passive")
+	public double camelHeadDropChance = 0.05;
+	@ConfigField(name = "camel.head.message", category = "passive")
+	public String camelHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Cat============================================
 	@ConfigField(name = "cat.enabled", category = "passive")
 	public boolean catEnabled = true;
@@ -2825,6 +2853,32 @@ public class ConfigManager extends AutoConfig {
 	public double skeletonHorseHeadDropChance = 0.05;
 	@ConfigField(name = "skeleton_horse.head.message", category = "passive")
 	public String skeletonHorseHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Sniffer============================================
+	@ConfigField(name = "sniffer.enabled", category = "passive")
+	public boolean snifferEnabled = true;
+	@ConfigField(name = "sniffer.message", category = "passive")
+	public String snifferMessage = "You killed a §1{killed}";
+	@ConfigField(name = "sniffer.money.amount", category = "passive")
+	public String snifferMoney = "0";
+	@ConfigField(name = "sniffer.money.chance", category = "passive")
+	public double snifferCmdRunChance = 0;
+	@ConfigField(name = "sniffer.commands", category = "passive")
+	public List<HashMap<String, String>> snifferCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} suspicious_sand 1");
+		values1.put("chance", "0.25");
+		snifferCommands.add(values1);
+	}
+	@ConfigField(name = "sniffer.head.drophead", category = "passive")
+	public boolean snifferHeadDropHead = true;
+	@ConfigField(name = "sniffer.head.value", category = "passive")
+	public String snifferHeadPrize = "0";
+	@ConfigField(name = "sniffer.head.chance", category = "passive")
+	public double snifferHeadDropChance = 0.05;
+	@ConfigField(name = "sniffer.head.message", category = "passive")
+	public String snifferHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Snowman============================================
 	@ConfigField(name = "snowman.enabled", category = "passive")

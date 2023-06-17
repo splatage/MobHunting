@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>MobHunting</artifactId>
 	<packaging>jar</packaging>
-	<!-- <version>8.5.4</version>  -->
-	<version>8.5.4-SNAPSHOT</version>
+	<!-- <version>8.5.5</version>  -->
+	<version>8.5.5-SNAPSHOT</version>
 	<!-- <version>8.1.9-SNAPSHOT-B${build.number}</version> -->
 	<name>MobHunting</name>
 	<url>https://www.spigotmc.org/resources/mobhunting.3582/</url>
@@ -210,12 +210,20 @@
 			<version>${barapi.version}</version>
 		</dependency>
 
-		<!-- TitleManager -->
+		<!-- TitleManager
+		
 		<dependency>
 			<groupId>io.puharesource.mc</groupId>
 			<artifactId>TitleManager</artifactId>
 			<version>${titlemanager.version}</version>
 		</dependency>
+		
+		 -->
+		<dependency>
+  <groupId>io.puharesource.mc</groupId>
+  <artifactId>TitleManager</artifactId>
+  <version>2.3.6</version>
+</dependency>
 
 		<!-- TitleAPI, ActionBarAPI -->
 		<dependency>
@@ -488,11 +496,11 @@
 			<artifactId>MythicMobs</artifactId>
 			<version>${mythicmobs2.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>MythicLib</groupId>
 			<artifactId>MythicLib</artifactId>
 			<version>${mythiclib.version}</version>
-		</dependency>
+		</dependency> -->
 
 
 		<!-- CustomMobs -->
@@ -560,16 +568,16 @@
 		</dependency>
 
 		<!-- MassiveCore / Factions -->
-		<dependency>
+<!--		<dependency>
 			<groupId>com.massivecraft.massivecore</groupId>
 			<artifactId>MassiveCore</artifactId>
 			<version>${massivecore.version}</version>
-		</dependency>
+		</dependency> 
 		<dependency>
 			<groupId>com.massivecraft.factions</groupId>
 			<artifactId>Factions</artifactId>
 			<version>${factions.version}</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.massivecraft.factions.P</groupId>
 			<artifactId>Factions</artifactId>

@@ -1,5 +1,7 @@
 V8.5.4
-* Fixed Sqlite database bug where the database version was detected as version 7 instead of version 8. 
+* Added support for Minecraft 1.2.0 (Camel+Sniffer added)
+* Fixed Sqlite database bug where the database version was detected as version 7 instead of version 8.
+* If using MySQL you need to be on v 8.0.32 because a security issue was found in 8.0.31 
 V8.5.3
 * Updated MySQLCOnnector to V8.0.32
 V8.5.2
