@@ -1,3 +1,5 @@
+V8.5.5
+* Support for TitleManager removed because the Repository is broken and the plugin has not been updated for a long time.
 V8.5.4
 * Added support for Minecraft 1.2.0 (Camel+Sniffer added)
 * Fixed Sqlite database bug where the database version was detected as version 7 instead of version 8.

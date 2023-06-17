@@ -561,7 +561,7 @@
 		</dependency>
 
 		<!-- MassiveCore / Factions -->
-<!--		<dependency>
+		<dependency>
 			<groupId>com.massivecraft.massivecore</groupId>
 			<artifactId>MassiveCore</artifactId>
 			<version>${massivecore.version}</version>
@@ -570,7 +570,7 @@
 			<groupId>com.massivecraft.factions</groupId>
 			<artifactId>Factions</artifactId>
 			<version>${factions.version}</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>com.massivecraft.factions.P</groupId>
 			<artifactId>Factions</artifactId>
