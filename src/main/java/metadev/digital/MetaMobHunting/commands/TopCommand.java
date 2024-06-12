@@ -7,7 +7,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
 import metadev.digital.MetaMobHunting.storage.StatStore;

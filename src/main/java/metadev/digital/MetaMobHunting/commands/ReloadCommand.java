@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.Messages;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.BossCompat;

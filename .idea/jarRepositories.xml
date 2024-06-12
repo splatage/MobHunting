@@ -2,6 +2,11 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
+      <option name="id" value="bstats1.2" />
+      <option name="name" value="bstats1.2" />
+      <option name="url" value="https://mvnrepository.com/artifact/org.bstats/bstats-bukkit" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="dmulloy2-repo" />
       <option name="name" value="dmulloy2-repo" />
       <option name="url" value="https://repo.dmulloy2.net/content/groups/public/" />

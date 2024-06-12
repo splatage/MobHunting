@@ -8,7 +8,6 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;

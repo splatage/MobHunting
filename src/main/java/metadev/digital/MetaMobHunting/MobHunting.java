@@ -7,8 +7,8 @@ import metadev.digital.metacustomitemslib.server.Servers;
 import metadev.digital.metacustomitemslib.storage.DataStoreException;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
 import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.CMICompat;
 import metadev.digital.MetaMobHunting.Api.MobHuntingAPI;
 import metadev.digital.MetaMobHunting.achievements.*;
 import metadev.digital.MetaMobHunting.bounty.BountyManager;
@@ -126,7 +126,7 @@ public class MobHunting extends JavaPlugin {
 	private AdvancementManager mAdvancementManager;
 	private CommandDispatcher mCommandDispatcher;
 	private CompatibilityManager mCompatibilityManager;
-	private SpigetUpdater mSpigetUpdater;
+	// private SpigetUpdater mSpigetUpdater;
 
 	private boolean mInitialized = false;
 	public boolean disabling = false;
@@ -241,8 +241,8 @@ public class MobHunting extends JavaPlugin {
 			return;
 		}
 
-		mSpigetUpdater = new SpigetUpdater(this);
-		mSpigetUpdater.setCurrentJarFile(this.getFile().getName());
+		// mSpigetUpdater = new SpigetUpdater(this);
+		// mSpigetUpdater.setCurrentJarFile(this.getFile().getName());
 
 		mStoreManager = new DataStoreManager(this, mStore);
 
@@ -366,12 +366,12 @@ public class MobHunting extends JavaPlugin {
 		}
 
 		// Check for new MobHuntig updates using Spiget.org
-		mSpigetUpdater.hourlyUpdateCheck(getServer().getConsoleSender(), mConfig.updateCheck, false);
+		// mSpigetUpdater.hourlyUpdateCheck(getServer().getConsoleSender(), mConfig.updateCheck, false);
 
-		if (!Servers.isGlowstoneServer()) {
+		/** TODO: Fix metrics if (!Servers.isGlowstoneServer()) {
 			mMetricsManager = new MetricsManager(this);
 			mMetricsManager.startBStatsMetrics();
-		}
+		}*/
 
 		// Handle online players when server admin do a /reload or /mh reload
 		if (Tools.getOnlinePlayersAmount() > 0) {
@@ -584,9 +584,9 @@ public class MobHunting extends JavaPlugin {
 		return mCompatibilityManager;
 	}
 
-	public SpigetUpdater getSpigetUpdater() {
+	/** public SpigetUpdater getSpigetUpdater() {
 		return mSpigetUpdater;
-	}
+	}*/
 
 	public EconomyManager getEconomyManager() {
 		return mEconomyManager;

@@ -10,7 +10,6 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.SelectionHelper;
 

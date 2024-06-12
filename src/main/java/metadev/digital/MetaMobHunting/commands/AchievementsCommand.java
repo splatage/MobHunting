@@ -10,7 +10,6 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 
 public class AchievementsCommand implements ICommand {
 

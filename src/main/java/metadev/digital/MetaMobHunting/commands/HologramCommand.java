@@ -9,7 +9,6 @@ import metadev.digital.MetaMobHunting.StatType;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.leaderboard.HologramLeaderboard;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

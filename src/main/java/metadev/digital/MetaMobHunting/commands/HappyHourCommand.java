@@ -15,7 +15,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class HappyHourCommand implements ICommand, Listener {

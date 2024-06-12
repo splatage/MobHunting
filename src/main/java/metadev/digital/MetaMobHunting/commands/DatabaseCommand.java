@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.storage.DataStoreException;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class DatabaseCommand implements ICommand, Listener {

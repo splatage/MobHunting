@@ -107,9 +107,9 @@ public class ExtendedMob {
 			if (MysteriousHalloweenCompat.getMobRewardData().containsKey(mobtype))
 				return MysteriousHalloweenCompat.getMobRewardData().get(mobtype).getMobName();
 			else
-				return mobtype; */
+				return mobtype;
 		case SmartGiants:
-			return "SmartGiant";
+			return "SmartGiant"; */
 		case InfernalMobs:
 			return "Infernal " + mobtype;
 		case Herobrine:

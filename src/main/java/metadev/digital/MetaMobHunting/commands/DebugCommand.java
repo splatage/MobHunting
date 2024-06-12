@@ -6,7 +6,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 
 public class DebugCommand implements ICommand {
 

@@ -6,7 +6,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import metadev.digital.metacustomitemslib.update.UpdateStatus;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class UpdateCommand implements ICommand {
@@ -54,14 +53,15 @@ public class UpdateCommand implements ICommand {
 
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
-		if (plugin.getSpigetUpdater().getUpdateAvailable() == UpdateStatus.AVAILABLE)
+		return true;
+		/** if (plugin.getSpigetUpdater().getUpdateAvailable() == UpdateStatus.AVAILABLE)
 			plugin.getSpigetUpdater().checkForUpdate(sender, false, true);
 		else if (plugin.getSpigetUpdater().getUpdateAvailable() == UpdateStatus.RESTART_NEEDED)
 			plugin.getMessages().senderSendMessage(sender,
 					ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.update.complete"));
 		else
 			plugin.getSpigetUpdater().checkForUpdate(sender, false, true);
-		return true;
+		return true; */
 	}
 
 	@Override

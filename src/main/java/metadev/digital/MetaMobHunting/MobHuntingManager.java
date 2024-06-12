@@ -77,14 +77,14 @@ public class MobHuntingManager implements Listener {
 	private void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		setHuntEnabled(player, true);
-		if (player.hasPermission("mobhunting.update") && plugin.getConfigManager().updateCheck) {
+		/** TODO: Fix Spiget Updater | if (player.hasPermission("mobhunting.update") && plugin.getConfigManager().updateCheck) {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
 					new SpigetUpdater(plugin).checkForUpdate(player, true, false);
 				}
 			}.runTaskLater(plugin, 20L);
-		}
+		}*/
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)

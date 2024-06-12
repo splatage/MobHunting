@@ -18,7 +18,6 @@ import org.bukkit.material.Sign;
 
 import metadev.digital.metacustomitemslib.materials.Materials;
 import metadev.digital.metacustomitemslib.server.Servers;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
 import metadev.digital.MetaMobHunting.leaderboard.WorldLeaderboard;

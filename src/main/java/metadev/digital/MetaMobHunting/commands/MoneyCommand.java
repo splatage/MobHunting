@@ -6,7 +6,6 @@ import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.BossShopCompat;

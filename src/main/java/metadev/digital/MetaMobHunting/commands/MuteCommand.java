@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.PlayerSettings;
-import metadev.digital.metacustomitemslib.commands.ICommand;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class MuteCommand implements ICommand {

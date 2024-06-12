@@ -6,7 +6,7 @@
 
     <groupId>metadev.digital</groupId>
     <artifactId>MetaMobHunting</artifactId>
-    <version>8.6.0-SNAPSHOT</version>
+    <version>8.6.5-SNAPSHOT</version>
     <name>MobHunting</name>
     <url>https://github.com/MetadevDigital</url>
     <description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -174,15 +174,58 @@
     <!-- ******************************** Build ******************************* -->
     <!-- ********************************************************************** -->
     <build>
+        <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <defaultGoal>clean install</defaultGoal>
         <resources>
+            <resource>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>plugin.yml</include>
+                </includes>
+            </resource>
             <resource>
                 <targetPath>lang</targetPath>
                 <filtering>true</filtering>
                 <directory>${basedir}/src/main/resources/lang</directory>
             </resource>
         </resources>
+        <directory>${basedir}/target</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <createSourcesJar>false</createSourcesJar>
+                    <artifactSet>
+                        <includes>
+                            <include>org.bstats:*</include>
+                            <include>org.inventivetalent.spiget-update:bukkit**</include>
+                            <!-- <include>org.inventivetalent:spiget-downloader**</include> -->
+                            <!-- <include>one.lindegaard:Core:*</include> -->
+                        </includes>
+                    </artifactSet>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>metadev.digital.MetaMobHunting</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
-
     <!-- ********************************************************************** -->
     <!-- **************************** Dependencies **************************** -->
     <!-- ********************************************************************** -->
@@ -200,7 +243,7 @@
         <dependency>
             <groupId>metadev.digital</groupId>
             <artifactId>MetaCustomItemsLib</artifactId>
-            <version>1.10.0-SNAPSHOT</version>
+            <version>1.10.5-SNAPSHOT</version>
         </dependency>
 
         <!-- BagofGold
@@ -526,12 +569,12 @@
             <version>6.7.6</version>
         </dependency>
 
-        <!-- MobArena -->
+        <!-- MobArena | Possibly Deprecated
         <dependency>
             <groupId>com.github.garbagemule</groupId>
             <artifactId>MobArena</artifactId>
             <version>0.103</version>
-        </dependency>
+        </dependency> -->
 
         <!-- Holograms -->
         <dependency>
