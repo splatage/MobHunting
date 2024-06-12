@@ -1,0 +1,239 @@
+package metadev.digital.MetaMobHunting.mobs;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Entity;
+
+import metadev.digital.metacustomitemslib.mobs.MobType;
+import metadev.digital.metacustomitemslib.storage.DataStoreException;
+import metadev.digital.MetaMobHunting.MobHunting;
+import metadev.digital.MetaMobHunting.compatibility.BossCompat;
+import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
+import metadev.digital.MetaMobHunting.compatibility.InfernalMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
+import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
+import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+
+public class ExtendedMobManager {
+
+	private MobHunting plugin;
+
+	private HashMap<Integer, ExtendedMob> mobs = new HashMap<Integer, ExtendedMob>();
+
+	public ExtendedMobManager(MobHunting plugin) {
+		this.plugin = plugin;
+		updateExtendedMobs();
+	}
+
+	public void updateExtendedMobs() {
+		plugin.getStoreManager().insertMissingVanillaMobs();
+		if (CitizensCompat.isSupported())
+			plugin.getStoreManager().insertMissingCitizensMobs();
+		if (MythicMobsCompat.isSupported())
+			plugin.getStoreManager().insertMissingMythicMobs();
+		if (CustomMobsCompat.isSupported())
+			plugin.getStoreManager().insertCustomMobs();
+		if (TARDISWeepingAngelsCompat.isSupported())
+			plugin.getStoreManager().insertTARDISWeepingAngelsMobs();
+		if (MysteriousHalloweenCompat.isSupported())
+			plugin.getStoreManager().insertMysteriousHalloweenMobs();
+		if (SmartGiantsCompat.isSupported())
+			plugin.getStoreManager().insertSmartGiants();
+		if (HerobrineCompat.isSupported())
+			plugin.getStoreManager().insertHerobrineMobs();
+		if (EliteMobsCompat.isSupported())
+			plugin.getStoreManager().insertEliteMobs();
+		if (BossCompat.isSupported())
+			plugin.getStoreManager().insertBossMobs();
+
+		// Not needed
+		// if (InfernalMobsCompat.isSupported())
+		// plugin.getStoreManager().insertInfernalMobs();
+
+		Set<ExtendedMob> set = new HashSet<ExtendedMob>();
+
+		try {
+			set = (HashSet<ExtendedMob>) plugin.getStoreManager().loadMobs();
+		} catch (DataStoreException e) {
+			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Could not load data from mh_Mobs");
+			e.printStackTrace();
+		}
+
+		int n = 0;
+		Iterator<ExtendedMob> mobset = set.iterator();
+		while (mobset.hasNext()) {
+			ExtendedMob mob = (ExtendedMob) mobset.next();
+			switch (mob.getMobPlugin()) {
+			case MythicMobs:
+				if (!MythicMobsCompat.isSupported() || !MythicMobsCompat.isEnabledInConfig()
+						|| !MythicMobsCompat.isMythicMob(mob.getMobtype()))
+					continue;
+				break;
+
+			case CustomMobs:
+				if (!CustomMobsCompat.isSupported() || !CustomMobsCompat.isEnabledInConfig())
+					continue;
+				break;
+
+			case TARDISWeepingAngels:
+				if (!TARDISWeepingAngelsCompat.isSupported() || !TARDISWeepingAngelsCompat.isEnabledInConfig())
+					continue;
+				break;
+
+			case Citizens:
+				if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig()
+						|| !CitizensCompat.isSentryOrSentinelOrSentries(mob.getMobtype()))
+					continue;
+				break;
+
+			case MysteriousHalloween:
+				if (!MysteriousHalloweenCompat.isSupported() || !MysteriousHalloweenCompat.isEnabledInConfig())
+					continue;
+				break;
+
+			case SmartGiants:
+				if (!SmartGiantsCompat.isSupported() || !SmartGiantsCompat.isEnabledInConfig())
+					continue;
+				break;
+
+			case InfernalMobs:
+				if (!InfernalMobsCompat.isSupported() || !InfernalMobsCompat.isEnabledInConfig())
+					continue;
+				break;
+
+			case Herobrine:
+				if (!HerobrineCompat.isSupported() || !HerobrineCompat.isEnabledInConfig())
+					continue;
+				break;
+
+			case EliteMobs:
+				if (!EliteMobsCompat.isSupported() || !EliteMobsCompat.isEnabledInConfig())
+					continue;
+				break;
+
+			case Boss:
+				if (!BossCompat.isSupported() || !BossCompat.isEnabledInConfig())
+					continue;
+				break;
+
+			case Minecraft:
+				break;
+
+			default:
+				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+				console.sendMessage(ChatColor.RED + "[MobHunting] Missing PluginType: " + mob.getMobPlugin().getName()
+						+ " in ExtendedMobManager.");
+				continue;
+			}
+			if (!mobs.containsKey(mob.getMob_id())) {
+				n++;
+				mobs.put(mob.getMob_id(), mob);
+			}
+		}
+		plugin.getMessages().debug("%s mobs was loaded into memory. Total mobs=%s", n, mobs.size());
+
+		MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+
+	}
+
+	public ExtendedMob getExtendedMobFromMobID(int i) {
+		return mobs.get(i);
+	}
+
+	public HashMap<Integer, ExtendedMob> getAllMobs() {
+		return mobs;
+	}
+
+	public int getMobIdFromMobTypeAndPluginID(String mobtype, MobPlugin mobPlugin) {
+		Iterator<Entry<Integer, ExtendedMob>> mobset = mobs.entrySet().iterator();
+		while (mobset.hasNext()) {
+			ExtendedMob mob = (ExtendedMob) mobset.next().getValue();
+			if (mob.getMobPlugin().equals(mobPlugin) && mob.getMobtype().equalsIgnoreCase(mobtype))
+				return mob.getMob_id();
+		}
+		return 0;
+	}
+
+	// This is only used to get a "random" mob_id stored when an Achievement is
+	// stored in mh_Daily
+	public ExtendedMob getFirstMob() {
+		int mob_id = mobs.keySet().iterator().next();
+		return mobs.get(mob_id);
+	}
+
+	public String getTranslatedName() {
+		return "";
+	};
+
+	public ExtendedMob getExtendedMobFromEntity(Entity entity) {
+		int mob_id;
+		MobPlugin mobPlugin;
+		String mobtype;
+
+		if (MythicMobsCompat.isMythicMob(entity)) {
+			mobPlugin = MobPlugin.MythicMobs;
+			mobtype = MythicMobsCompat.getMythicMobType(entity);
+		} else if (CitizensCompat.isNPC(entity)) {
+			mobPlugin = MobPlugin.Citizens;
+			mobtype = String.valueOf(CitizensCompat.getNPCId(entity));
+		} else if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(entity)) {
+			mobPlugin = MobPlugin.TARDISWeepingAngels;
+			if (TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(entity) != null)
+				mobtype = TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(entity).name();
+			else
+				mobtype = "unknown";
+		} else if (CustomMobsCompat.isCustomMob(entity)) {
+			mobPlugin = MobPlugin.CustomMobs;
+			mobtype = CustomMobsCompat.getCustomMobType(entity);
+		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(entity)) {
+			mobPlugin = MobPlugin.MysteriousHalloween;
+			if (MysteriousHalloweenCompat.getMysteriousHalloweenType(entity) != null)
+				mobtype = MysteriousHalloweenCompat.getMysteriousHalloweenType(entity).name();
+			else
+				mobtype = "unknown";
+		} else if (SmartGiantsCompat.isSmartGiants(entity)) {
+			mobPlugin = MobPlugin.SmartGiants;
+			mobtype = SmartGiantsCompat.getSmartGiantsMobType(entity);
+		} else if (InfernalMobsCompat.isInfernalMob(entity)) {
+			mobPlugin = MobPlugin.InfernalMobs;
+			MobType mob = MobType.getMobType(entity);
+			if (mob != null)
+				mobtype = mob.name();
+			else {
+				// plugin.getMessages().debug("unhandled entity %s", entity.getType());
+				mobtype = "";
+			}
+		} else if (HerobrineCompat.isHerobrineMob(entity)) {
+			mobPlugin = MobPlugin.Herobrine;
+			mobtype = HerobrineCompat.getHerobrineMobType(entity);
+		} else if (EliteMobsCompat.isEliteMobs(entity)) {
+			mobPlugin = MobPlugin.EliteMobs;
+			mobtype = EliteMobsCompat.getEliteMobsType(entity).name();
+		} else if (BossCompat.isBossMob(entity)) {
+			mobPlugin = MobPlugin.Boss;
+			mobtype = BossCompat.getBossType(entity);
+		} else {
+			// StatType
+			mobPlugin = MobPlugin.Minecraft;
+			MobType mob = MobType.getMobType(entity);
+			if (mob != null)
+				mobtype = mob.name();
+			else
+				mobtype = "";
+		}
+		mob_id = getMobIdFromMobTypeAndPluginID(mobtype, mobPlugin);
+		return new ExtendedMob(mob_id, mobPlugin, mobtype);
+	}
+
+}

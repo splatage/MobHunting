@@ -1,12 +1,12 @@
 name: MobHunting
-main: one.lindegaard.MobHunting.MobHunting
-version: ${version}
+main: metadev.digital.MetaMobHunting.MobHunting
+version: 8.6.0
 description: MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements.
 dev-url: https://dev.bukkit.org/projects/mobhunting
 author: Rocologo
 depend: [CustomItemsLib]
 softdepend: [Vault, Reserve, Multiverse-Core, Essentials, BagOfGold, WorldEdit, WorldGuard, PreciousStones, HolographicDisplays, Holograms, CMI, CMILib, Factions, Towny, Residence, ProtocolLib, mcMMO, BossShop, MythicMobs, TARDISWeepingAngels, InfernalMobs, Boss, Citizens, Sentry, Sentinel, Minigames, MinigamesLib, MyPet, MobArena, PVPArena, BattleArena, LibsDisguises, DisguiseCraft, iDisguise, VanishNoPacket, BossBarAPI, BarAPI, ActionBar, TitleAPI, TitleManager, PlaceholderAPI, MobStacker, Gringotts, ActionBarAPI, ActionAnnouncer, CustomMobs, ConquestiaMobs, LevelledMobs, StackMob, MysteriousHalloween, SmartGiants, ExtraHardMode, CrackShot, WeaponMechanics]
-api-version: 1.13
+api-version: 1.20
 
 commands:
   mobhunt:
@@ -38,25 +38,25 @@ permissions:
     children:
       mobhunting.cmd: true
   mobhunting.achievements.disabled:
-    description: Reject a player to get Achievements. 
+    description: Reject a player to get Achievements.
     default: false
   mobhunting.listachievements:
     description: Allows a player to see all their achievements
     default: true
     children:
-      mobhunting.cmd: true    
+      mobhunting.cmd: true
   mobhunting.listachievements.other:
     description: Allows a player to see another players achievements
     default: op
     children:
       mobhunting.listachievements: true
   mobhunting.checkgrinding:
-    description: Allows a player to check whether the region they are in is a known grinding area 
+    description: Allows a player to check whether the region they are in is a known grinding area
     default: op
     children:
       mobhunting.cmd: true
   mobhunting.cleargrinding:
-    description: Allows a player to remove grinding areas 
+    description: Allows a player to remove grinding areas
     default: op
     children:
       mobhunting.cmd: true
