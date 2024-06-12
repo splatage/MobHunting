@@ -18,13 +18,13 @@ import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
 import metadev.digital.MetaMobHunting.compatibility.BossCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
-import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
-import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
 import metadev.digital.MetaMobHunting.mobs.MobPluginManager;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
@@ -866,8 +866,8 @@ public abstract class DatabaseDataStore implements IDataStore {
 			}
 	}
 
-	@Override
-	public void insertTARDISWeepingAngelsMobs() {
+	/** // TODO: POSSIBLY DEPRECATED @Override
+	 public void insertTARDISWeepingAngelsMobs() {
 		int n = 0;
 		try {
 			Connection mConnection = setupConnection();
@@ -886,9 +886,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 		} catch (SQLException | DataStoreException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
-	@Override
+	/** // TODO: POSSIBLY DEPRECATED @Override
 	public void insertTARDISWeepingAngelsMobs(String mob) {
 		if (getMobIdFromExtendedMobType(mob, MobPlugin.TARDISWeepingAngels) == 0)
 			try {
@@ -903,9 +903,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 			} catch (SQLException | DataStoreException e) {
 				e.printStackTrace();
 			}
-	}
+	} */
 
-	@Override
+	/** // TODO: POSSIBLY DEPRECATED @Override
 	public void insertCustomMobs() {
 		int n = 0;
 		try {
@@ -925,9 +925,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 		} catch (SQLException | DataStoreException e) {
 			e.printStackTrace();
 		}
-	}
+	} */
 
-	@Override
+	/** // TODO: POSSIBLY DEPRECATED @Override
 	public void insertCustomMobs(String mob) {
 		if (getMobIdFromExtendedMobType(mob, MobPlugin.CustomMobs) == 0)
 			try {
@@ -942,9 +942,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 			} catch (SQLException | DataStoreException e) {
 				e.printStackTrace();
 			}
-	}
+	} */
 
-	@Override
+	/** // TODO: POSSIBLY DEPRECATED @Override
 	public void insertMysteriousHalloweenMobs() {
 		int n = 0;
 		try {
@@ -964,9 +964,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 		} catch (SQLException | DataStoreException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
-	@Override
+	/** // TODO: POSSIBLY DEPRECATED @Override
 	public void insertMysteriousHalloweenMobs(String mob) {
 		if (getMobIdFromExtendedMobType(mob, MobPlugin.MysteriousHalloween) == 0)
 			try {
@@ -981,9 +981,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 			} catch (SQLException | DataStoreException e) {
 				e.printStackTrace();
 			}
-	}
+	} */
 
-	@Override
+	/** // TODO: POSSIBLY DEPRECATED @Override
 	public void insertSmartGiants() {
 		int n = 0;
 		try {
@@ -1004,9 +1004,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 		} catch (SQLException | DataStoreException e) {
 			e.printStackTrace();
 		}
-	}
+	} */
 
-	@Override
+	/** // TODO: POSSIBLY DEPRECATED @Override
 	public void insertSmartGiants(String mob) {
 		if (getMobIdFromExtendedMobType(mob, MobPlugin.SmartGiants) == 0)
 			try {
@@ -1021,7 +1021,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			} catch (SQLException | DataStoreException e) {
 				e.printStackTrace();
 			}
-	}
+	} */
 
 	@Override
 	public void insertInfernalMobs() {
@@ -1325,15 +1325,15 @@ public abstract class DatabaseDataStore implements IDataStore {
 					if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig())
 						continue;
 					break;
-				case CustomMobs:
+				/** // TODO: POSSIBLY DEPRECATED case CustomMobs:
 					if (!CustomMobsCompat.isSupported() || !CustomMobsCompat.isEnabledInConfig())
 						continue;
-					break;
+					break; */
 				case MythicMobs:
 					if (!MythicMobsCompat.isSupported() || !MythicMobsCompat.isEnabledInConfig())
 						continue;
 					break;
-				case TARDISWeepingAngels:
+				/** // TODO: POSSIBLY DEPRECATED case TARDISWeepingAngels:
 					if (!TARDISWeepingAngelsCompat.isSupported() || !TARDISWeepingAngelsCompat.isEnabledInConfig())
 						continue;
 					break;
@@ -1344,7 +1344,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				case SmartGiants:
 					if (!SmartGiantsCompat.isSupported() || !SmartGiantsCompat.isEnabledInConfig())
 						continue;
-					break;
+					break; */
 				case Herobrine:
 					if (!HerobrineCompat.isSupported() || !HerobrineCompat.isEnabledInConfig())
 						continue;

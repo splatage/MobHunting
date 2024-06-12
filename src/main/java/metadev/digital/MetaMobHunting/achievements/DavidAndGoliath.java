@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import metadev.digital.metacustomitemslib.server.Servers;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
 
 public class DavidAndGoliath implements Achievement, Listener {
@@ -40,12 +40,12 @@ public class DavidAndGoliath implements Achievement, Listener {
 
 	@EventHandler
 	public void onKill(MobHuntKillEvent event) {
-		if (SmartGiantsCompat.isSmartGiants(event.getKilledEntity())
+		/** if (SmartGiantsCompat.isSmartGiants(event.getKilledEntity())
 				&& event.getDamageInfo().getWeapon().getType() == Material.STONE_BUTTON
 				&& !(plugin.getRewardManager().getBaseKillPrize(event.getKilledEntity()) == 0
 						&& plugin.getRewardManager().getKillCommands(event.getKilledEntity()).isEmpty()))
 			plugin.getAchievementManager().awardAchievement(this, event.getPlayer(),
-					plugin.getExtendedMobManager().getExtendedMobFromEntity(event.getKilledEntity()));
+					plugin.getExtendedMobManager().getExtendedMobFromEntity(event.getKilledEntity())); */
 	}
 
 	@Override

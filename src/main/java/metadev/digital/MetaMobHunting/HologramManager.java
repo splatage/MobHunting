@@ -15,8 +15,8 @@ import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.sainttx.holograms.api.Hologram;
 
-import metadev.digital.MetaMobHunting.compatibility.CMICompat;
-import metadev.digital.MetaMobHunting.compatibility.CMIHologramsHelper;
+import metadev.digital.metacustomitemslib.compatibility.CMICompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.metacustomitemslib.compatibility.CMIHologramsHelper;
 import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
 import metadev.digital.MetaMobHunting.compatibility.HologramsHelper;
 import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
@@ -43,9 +43,9 @@ public class HologramManager {
 			HologramsHelper.createHologram(hologramLeaderboard);
 		else if (HolographicDisplaysCompat.isSupported())
 			HolographicDisplaysHelper.createHologram(hologramLeaderboard);
-		else if (CMICompat.isSupported()) {
+		/** else if (CMICompat.isSupported()) {
 			CMIHologramsHelper.createHologram(hologramLeaderboard);
-		}
+		}*/
 		hologramLeaderboard.update();
 	}
 
@@ -60,10 +60,10 @@ public class HologramManager {
 					break;
 				}
 			}
-		} else if (CMICompat.isSupported()) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CMICompat.isSupported()) {
 			CMIHologram hologram = CMICompat.getHologramManager().getByName(hologramName);
 			CMIHologramsHelper.deleteHologram(hologram);
-		}
+		} */
 		holograms.remove(hologramName);
 	}
 

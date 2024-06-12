@@ -13,10 +13,10 @@ import metadev.digital.MetaMobHunting.Messages;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.BossCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
 
 public class ReloadCommand implements ICommand {
 
@@ -93,12 +93,12 @@ public class ReloadCommand implements ICommand {
 
 			if (MythicMobsCompat.isSupported())
 				MythicMobsCompat.loadMythicMobsData();
-			if (TARDISWeepingAngelsCompat.isSupported())
+			/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isSupported())
 				TARDISWeepingAngelsCompat.loadTARDISWeepingAngelsMobsData();
 			if (CustomMobsCompat.isSupported())
 				CustomMobsCompat.loadCustomMobsData();
 			if (MysteriousHalloweenCompat.isSupported())
-				MysteriousHalloweenCompat.loadMysteriousHalloweenMobsData();
+				MysteriousHalloweenCompat.loadMysteriousHalloweenMobsData(); */
 			if (CitizensCompat.isSupported())
 				CitizensCompat.loadCitizensData();
 			if (BossCompat.isSupported())

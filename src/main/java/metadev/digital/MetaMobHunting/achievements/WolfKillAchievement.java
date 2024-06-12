@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
@@ -78,12 +78,12 @@ public class WolfKillAchievement implements ProgressAchievement, Listener {
 			Player owner = ((OfflinePlayer) killer.getOwner()).getPlayer();
 
 			if (owner != null && plugin.getMobHuntingManager().isHuntEnabled(owner)) {
-				if (MobArenaCompat.isPlayingMobArena((Player) owner)
+				/** // TODO: POSSIBLY DEPRECATED if (MobArenaCompat.isPlayingMobArena((Player) owner)
 						&& !plugin.getConfigManager().mobarenaGetRewards) {
 					plugin.getMessages().debug("AchiveBlocked: FangMaster was achieved while %s was playing MobArena.",
 							owner.getName());
 					plugin.getMessages().learn(owner, plugin.getMessages().getString("mobhunting.learn.mobarena"));
-				} else
+				} else */
 					plugin.getAchievementManager().awardAchievementProgress(this, owner,
 							plugin.getExtendedMobManager().getExtendedMobFromEntity(event.getKilledEntity()), 1);
 			}

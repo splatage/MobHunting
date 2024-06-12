@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import metadev.digital.metacustomitemslib.rewards.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -102,24 +103,20 @@ import net.citizensnpcs.api.npc.NPCRegistry;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.mobs.MobType;
-import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
-import metadev.digital.metacustomitemslib.rewards.MoneyMergeEventListener;
-import metadev.digital.metacustomitemslib.rewards.Reward;
-import metadev.digital.metacustomitemslib.rewards.RewardType;
 import metadev.digital.metacustomitemslib.server.Servers;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.BossCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.GringottsCompat;
 import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
 import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
-import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
-import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMobRewardData;
 
 public class RewardManager {
@@ -130,7 +127,7 @@ public class RewardManager {
 
 	public RewardManager(MobHunting plugin) {
 		this.plugin = plugin;
-		if (!BagOfGoldCompat.isSupported()) {
+		/** TODO: IS bag of gold ever not supported? if (!BagOfGoldCompat.isSupported()) {
 
 			pickupRewards = new PickupRewards(plugin);
 
@@ -144,7 +141,7 @@ public class RewardManager {
 			else
 				Bukkit.getPluginManager().registerEvents(new PlayerPickupItemEventListener(pickupRewards), plugin);
 
-		}
+		} */
 		if (BagOfGoldCompat.isSupported() || plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
 			new BagOfGoldSign(plugin);
 	}
@@ -476,7 +473,7 @@ public class RewardManager {
 	 * @return value
 	 */
 	public double getBaseKillPrize(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return getPrice(mob, TARDISWeepingAngelsCompat.getMobRewardData()
@@ -485,7 +482,7 @@ public class RewardManager {
 					TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).getName());
 			return 0;
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return getPrice(mob, MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getRewardPrize());
@@ -501,7 +498,7 @@ public class RewardManager {
 			plugin.getMessages().debug("Citizens mob %s has no reward data", npc.getName());
 			return 0;
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return getPrice(mob, CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
 						.getRewardPrize());
@@ -525,7 +522,7 @@ public class RewardManager {
 					SmartGiantsCompat.getSmartGiantsMobType(mob));
 			return 0;
 
-		} else if (MyPetCompat.isMyPet(mob)) {
+		} */else if (MyPetCompat.isMyPet(mob)) {
 			plugin.getMessages().debug("Tried to find a prize for a MyPet: %s (Owner=%s)", MyPetCompat.getMyPet(mob),
 					MyPetCompat.getMyPetOwner(mob));
 			return getPrice(mob, plugin.getConfigManager().wolfMoney);
@@ -873,14 +870,14 @@ public class RewardManager {
 	 *         separeted by a "|"
 	 */
 	public List<HashMap<String, String>> getKillCommands(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return TARDISWeepingAngelsCompat.getMobRewardData()
 						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).getConsoleRunCommand();
 			return new ArrayList<>();
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else*/ if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getConsoleRunCommand();
@@ -894,7 +891,7 @@ public class RewardManager {
 			}
 			return new ArrayList<>();
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (mob.hasMetadata(CustomMobsCompat.MH_CUSTOMMOBS)) {
 				List<MetadataValue> data = mob.getMetadata(CustomMobsCompat.MH_CUSTOMMOBS);
 				for (MetadataValue value : data)
@@ -918,7 +915,7 @@ public class RewardManager {
 						.getConsoleRunCommand();
 			return new ArrayList<>();
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
 						.getConsoleRunCommand();
@@ -1206,14 +1203,14 @@ public class RewardManager {
 	 * @return String
 	 */
 	public String getKillMessage(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return TARDISWeepingAngelsCompat.getMobRewardData()
 						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).getRewardDescription();
 			return "";
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getRewardDescription();
@@ -1227,7 +1224,7 @@ public class RewardManager {
 			}
 			return "";
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
 						.getRewardDescription();
@@ -1246,7 +1243,7 @@ public class RewardManager {
 						.getRewardDescription();
 			return "";
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
 						.getRewardDescription();
@@ -1527,14 +1524,14 @@ public class RewardManager {
 	}
 
 	public double getMoneyChance(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return TARDISWeepingAngelsCompat.getMobRewardData()
 						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).getChance();
 			return 0;
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob)).getChance();
 			return 0;
@@ -1548,7 +1545,7 @@ public class RewardManager {
 			}
 			return 0;
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob)).getChance();
 			return 0;
@@ -1566,7 +1563,7 @@ public class RewardManager {
 						.getChance();
 			return 0;
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob)).getChance();
 			return 0;
@@ -1846,7 +1843,7 @@ public class RewardManager {
 	}
 
 	public double getMcMMOChance(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return TARDISWeepingAngelsCompat.getMobRewardData()
@@ -1854,7 +1851,7 @@ public class RewardManager {
 						.getMcMMOSkillRewardChance();
 			return 0;
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getMcMMOSkillRewardChance();
@@ -1869,7 +1866,7 @@ public class RewardManager {
 			}
 			return 0;
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
 						.getMcMMOSkillRewardChance();
@@ -1889,7 +1886,7 @@ public class RewardManager {
 						.getMcMMOSkillRewardChance();
 			return 0;
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
 						.getMcMMOSkillRewardChance();
@@ -2194,7 +2191,7 @@ public class RewardManager {
 	}
 
 	public int getMcMMOLevel(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return TARDISWeepingAngelsCompat.getMobRewardData()
@@ -2202,7 +2199,7 @@ public class RewardManager {
 						.getMcMMOSkillRewardAmount();
 			return 0;
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getMcMMOSkillRewardAmount();
@@ -2217,7 +2214,7 @@ public class RewardManager {
 			}
 			return 0;
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
 						.getMcMMOSkillRewardAmount();
@@ -2237,7 +2234,7 @@ public class RewardManager {
 						.getMcMMOSkillRewardAmount();
 			return 0;
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */ else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
 						.getMcMMOSkillRewardAmount();
@@ -2518,14 +2515,14 @@ public class RewardManager {
 	}
 
 	public boolean getMobEnabled(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return TARDISWeepingAngelsCompat.getMobRewardData()
 						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).isMobEnabled();
 			return false;
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob)).isMobEnabled();
 			return false;
@@ -2539,7 +2536,7 @@ public class RewardManager {
 			}
 			return false;
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob)).isMobEnabled();
 			return false;
@@ -2557,7 +2554,7 @@ public class RewardManager {
 						.isMobEnabled();
 			return false;
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob)).isMobEnabled();
 			return false;
@@ -2837,7 +2834,7 @@ public class RewardManager {
 	}
 
 	public boolean getHeadDropHead(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return false;
@@ -2845,7 +2842,7 @@ public class RewardManager {
 			// .get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(killed).name()).getMobEnabled();
 			return false;
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return false;
 			// return
@@ -2863,7 +2860,7 @@ public class RewardManager {
 			}
 			return false;
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return false;
 			// return
@@ -2886,7 +2883,7 @@ public class RewardManager {
 			// .isMobEnabled();
 			return false;
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return false;
 			// return
@@ -3167,7 +3164,7 @@ public class RewardManager {
 	}
 
 	public double getHeadDropChance(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return 0;
@@ -3175,7 +3172,7 @@ public class RewardManager {
 			// .get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(killed).name()).getMobEnabled();
 			return 0;
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return 0;
 			// return
@@ -3193,7 +3190,7 @@ public class RewardManager {
 			}
 			return 0;
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return 0;
 			// return
@@ -3216,7 +3213,7 @@ public class RewardManager {
 			// .isMobEnabled();
 			return 0;
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return 0;
 			// return
@@ -3498,7 +3495,7 @@ public class RewardManager {
 	}
 
 	public String getHeadDropMessage(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED  if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return "";
@@ -3506,7 +3503,7 @@ public class RewardManager {
 			// .get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(killed).name()).getMobEnabled();
 			return "";
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return "";
 			// return
@@ -3524,7 +3521,7 @@ public class RewardManager {
 			}
 			return "";
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return "";
 			// return
@@ -3547,7 +3544,7 @@ public class RewardManager {
 			// .isMobEnabled();
 			return "";
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return "";
 			// return
@@ -3830,7 +3827,7 @@ public class RewardManager {
 	}
 
 	public double getHeadValue(Entity mob) {
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			if (TARDISWeepingAngelsCompat.getMobRewardData()
 					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
 				return 0;
@@ -3838,7 +3835,7 @@ public class RewardManager {
 			// .get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(killed).name()).getMobEnabled();
 			return 0;
 
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return 0;
 			// return
@@ -3856,7 +3853,7 @@ public class RewardManager {
 			}
 			return 0;
 
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
 			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
 				return 0;
 			// return
@@ -3879,7 +3876,7 @@ public class RewardManager {
 			// .isMobEnabled();
 			return 0;
 
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
+		} */ else if (HerobrineCompat.isHerobrineMob(mob)) {
 			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
 				return 0;
 			// return

@@ -14,19 +14,19 @@ import org.bukkit.Bukkit;
 
 import metadev.digital.metacustomitemslib.HttpTools;
 import metadev.digital.metacustomitemslib.HttpTools.httpCallback;
-import metadev.digital.MetaMobHunting.compatibility.ActionAnnouncerCompat;
-import metadev.digital.MetaMobHunting.compatibility.ActionBarAPICompat;
-import metadev.digital.MetaMobHunting.compatibility.ActionbarCompat;
-import metadev.digital.MetaMobHunting.compatibility.BarAPICompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.metacustomitemslib.compatibility.ActionAnnouncerCompat;
+import metadev.digital.metacustomitemslib.compatibility.ActionBarAPICompat;
+import metadev.digital.metacustomitemslib.compatibility.ActionbarCompat;
+import metadev.digital.metacustomitemslib.compatibility.BarAPICompat;
 import metadev.digital.MetaMobHunting.compatibility.BattleArenaCompat;
-import metadev.digital.MetaMobHunting.compatibility.BossBarAPICompat;
+import metadev.digital.metacustomitemslib.compatibility.BossBarAPICompat;
 import metadev.digital.MetaMobHunting.compatibility.BossCompat;
-import metadev.digital.MetaMobHunting.compatibility.CMICompat;
+import metadev.digital.metacustomitemslib.compatibility.CMICompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.ConquestiaMobsCompat;
+// TODO: POSSIBLY DEPRECATED  metadev.digital.MetaMobHunting.compatibility.ConquestiaMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
-import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.DisguiseCraftCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.DisguiseCraftCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.ExtraHardModeCompat;
@@ -36,7 +36,7 @@ import metadev.digital.MetaMobHunting.compatibility.GringottsCompat;
 import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
 import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
 import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
-import metadev.digital.MetaMobHunting.compatibility.IDisguiseCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.IDisguiseCompat;
 import metadev.digital.MetaMobHunting.compatibility.InfernalMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.LibsDisguisesCompat;
@@ -44,23 +44,23 @@ import metadev.digital.MetaMobHunting.compatibility.LorinthsRpgMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat.McMMO_Version;
 import metadev.digital.MetaMobHunting.compatibility.McMMOHorses;
-import metadev.digital.MetaMobHunting.compatibility.MinigamesCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MinigamesCompat;
 import metadev.digital.MetaMobHunting.compatibility.MinigamesLibCompat;
-import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
-import metadev.digital.MetaMobHunting.compatibility.MobStackerCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobStackerCompat;
 import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
-import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.PVPArenaCompat;
-import metadev.digital.MetaMobHunting.compatibility.PreciousStonesCompat;
-import metadev.digital.MetaMobHunting.compatibility.ProtocolLibCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.PreciousStonesCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.ProtocolLibCompat;
 import metadev.digital.MetaMobHunting.compatibility.ResidenceCompat;
-import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
-import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
-import metadev.digital.MetaMobHunting.compatibility.TitleAPICompat;
-import metadev.digital.MetaMobHunting.compatibility.TitleManagerCompat;
-import metadev.digital.MetaMobHunting.compatibility.TownyCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TitleAPICompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TitleManagerCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TownyCompat;
 import metadev.digital.MetaMobHunting.compatibility.VanishNoPacketCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldEditCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldGuardCompat;
@@ -130,9 +130,9 @@ public class MetricsManager {
 								.valueOf(FactionsHelperCompat.factionsVersion == FactionsVersion.FACTIONS ? 1 : 0));
 						valueMap.put("FactionsUUID", Integer.valueOf(
 								FactionsHelperCompat.factionsVersion == FactionsVersion.FACTIONS_UUID ? 1 : 0));
-						valueMap.put("Towny", Integer.valueOf(TownyCompat.isSupported() ? 1 : 0));
+						// TODO: POSSIBLY DEPRECATED valueMap.put("Towny", Integer.valueOf(TownyCompat.isSupported() ? 1 : 0));
 						valueMap.put("Residence", Integer.valueOf(ResidenceCompat.isSupported() ? 1 : 0));
-						valueMap.put("PreciousStones", Integer.valueOf(PreciousStonesCompat.isSupported() ? 1 : 0));
+						// TODO: POSSIBLY DEPRECATED valueMap.put("PreciousStones", Integer.valueOf(PreciousStonesCompat.isSupported() ? 1 : 0));
 						return valueMap;
 					}
 
@@ -143,8 +143,8 @@ public class MetricsManager {
 					@Override
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
-						valueMap.put("MobArena", MobArenaCompat.isSupported() ? 1 : 0);
-						valueMap.put("Minigames", MinigamesCompat.isSupported() ? 1 : 0);
+						// TODO: POSSIBLY DEPRECATED valueMap.put("MobArena", MobArenaCompat.isSupported() ? 1 : 0);
+						// TODO: POSSIBLY DEPRECATED valueMap.put("Minigames", MinigamesCompat.isSupported() ? 1 : 0);
 						valueMap.put("MinigamesLib", MinigamesLibCompat.isSupported() ? 1 : 0);
 						valueMap.put("PVPArena", PVPArenaCompat.isSupported() ? 1 : 0);
 						valueMap.put("BattleArena", BattleArenaCompat.isSupported() ? 1 : 0);
@@ -158,7 +158,7 @@ public class MetricsManager {
 					@Override
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
-						try {
+						/** // TODO: POSSIBLY DEPRECATED try {
 							@SuppressWarnings({ "rawtypes", "unused" })
 							Class cls = Class.forName("pgDev.bukkit.DisguiseCraft.disguise.DisguiseType");
 							valueMap.put("DisguiseCraft", DisguiseCraftCompat.isSupported() ? 1 : 0);
@@ -169,7 +169,7 @@ public class MetricsManager {
 							Class cls = Class.forName("de.robingrether.idisguise.disguise.DisguiseType");
 							valueMap.put("iDisguise", IDisguiseCompat.isSupported() ? 1 : 0);
 						} catch (ClassNotFoundException e) {
-						}
+						}*/
 						try {
 							@SuppressWarnings({ "rawtypes", "unused" })
 							Class cls = Class.forName("me.libraryaddict.disguise.disguisetypes.DisguiseType");
@@ -195,7 +195,7 @@ public class MetricsManager {
 						valueMap.put("McMMO", McMMOCompat.getMcMMOVersion()==McMMO_Version.McMMO ? 1 : 0);
 						valueMap.put("McMMO Classic", McMMOCompat.getMcMMOVersion()==McMMO_Version.McMMO_CLASSIC ? 1 : 0);
 						valueMap.put("WorldEdit", WorldEditCompat.isSupported() ? 1 : 0);
-						valueMap.put("ProtocolLib", ProtocolLibCompat.isSupported() ? 1 : 0);
+						// TODO: POSSIBLY DEPRECATED valueMap.put("ProtocolLib", ProtocolLibCompat.isSupported() ? 1 : 0);
 						valueMap.put("ExtraHardMode", ExtraHardModeCompat.isSupported() ? 1 : 0);
 						valueMap.put("CrackShot", CrackShotCompat.isSupported() ? 1 : 0);
 						valueMap.put("CMI", CMICompat.isSupported() ? 1 : 0);
@@ -209,15 +209,15 @@ public class MetricsManager {
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> valueMap = new HashMap<>();
 				valueMap.put("MythicMobs", MythicMobsCompat.isSupported() ? 1 : 0);
-				valueMap.put("TARDISWeepingAngels", TARDISWeepingAngelsCompat.isSupported() ? 1 : 0);
-				valueMap.put("MobStacker", MobStackerCompat.isSupported() ? 1 : 0);
-				valueMap.put("CustomMobs", CustomMobsCompat.isSupported() ? 1 : 0);
-				valueMap.put("ConquestiaMobs", ConquestiaMobsCompat.isSupported() ? 1 : 0);
+				// TODO: POSSIBLY DEPRECATED valueMap.put("TARDISWeepingAngels", TARDISWeepingAngelsCompat.isSupported() ? 1 : 0);
+				// TODO: POSSIBLY DEPRECATED valueMap.put("MobStacker", MobStackerCompat.isSupported() ? 1 : 0);
+				// TODO: POSSIBLY DEPRECATED valueMap.put("CustomMobs", CustomMobsCompat.isSupported() ? 1 : 0);
+				// TODO: POSSIBLY DEPRECATED valueMap.put("ConquestiaMobs", ConquestiaMobsCompat.isSupported() ? 1 : 0);
 				valueMap.put("LorinthsRpgMobs", LorinthsRpgMobsCompat.isSupported() ? 1 : 0);
 				valueMap.put("Levelled Mobs", LevelledMobsCompat.isSupported() ? 1 : 0);
 				valueMap.put("StackMob", StackMobCompat.isSupported() ? 1 : 0);
-				valueMap.put("MysteriousHalloween", MysteriousHalloweenCompat.isSupported() ? 1 : 0);
-				valueMap.put("SmartGiants", SmartGiantsCompat.isSupported() ? 1 : 0);
+				// TODO: POSSIBLY DEPRECATED valueMap.put("MysteriousHalloween", MysteriousHalloweenCompat.isSupported() ? 1 : 0);
+				// TODO: POSSIBLY DEPRECATED valueMap.put("SmartGiants", SmartGiantsCompat.isSupported() ? 1 : 0);
 				valueMap.put("InfernalMobs", InfernalMobsCompat.isSupported() ? 1 : 0);
 				valueMap.put("Herobrine", HerobrineCompat.isSupported() ? 1 : 0);
 				valueMap.put("EliteMobs", EliteMobsCompat.isSupported() ? 1 : 0);
@@ -232,12 +232,12 @@ public class MetricsManager {
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> valueMap = new HashMap<>();
 				valueMap.put("BossBarAPI", BossBarAPICompat.isSupported() ? 1 : 0);
-				valueMap.put("TitleAPI", TitleAPICompat.isSupported() ? 1 : 0);
+				// TODO: POSSIBLY DEPRECATED valueMap.put("TitleAPI", TitleAPICompat.isSupported() ? 1 : 0);
 				valueMap.put("BarAPI", BarAPICompat.isSupported() ? 1 : 0);
-				valueMap.put("TitleManager", TitleManagerCompat.isSupported() ? 1 : 0);
+				// TODO: POSSIBLY DEPRECATED valueMap.put("TitleManager", TitleManagerCompat.isSupported() ? 1 : 0);
 				valueMap.put("ActionBar", ActionbarCompat.isSupported() ? 1 : 0);
 				valueMap.put("ActionBarAPI", ActionBarAPICompat.isSupported() ? 1 : 0);
-				valueMap.put("ActionAnnouncer", ActionAnnouncerCompat.isSupported() ? 1 : 0);
+				// TODO: POSSIBLY DEPRECATED valueMap.put("ActionAnnouncer", ActionAnnouncerCompat.isSupported() ? 1 : 0);
 				valueMap.put("Holograms", HologramsCompat.isSupported() ? 1 : 0);
 				valueMap.put("Holographic Display", HolographicDisplaysCompat.isSupported() ? 1 : 0);
 				valueMap.put("CMIHolograms", CMICompat.isSupported() ? 1 : 0);

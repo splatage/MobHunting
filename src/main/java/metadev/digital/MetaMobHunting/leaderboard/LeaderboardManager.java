@@ -42,7 +42,7 @@ import metadev.digital.metacustomitemslib.materials.Materials;
 import metadev.digital.MetaMobHunting.HologramManager;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.MetaMobHunting.compatibility.CMICompat;
+import metadev.digital.metacustomitemslib.compatibility.CMICompat;
 import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
 import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
 import metadev.digital.MetaMobHunting.storage.StatStore;

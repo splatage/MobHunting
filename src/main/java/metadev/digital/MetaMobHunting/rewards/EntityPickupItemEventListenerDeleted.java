@@ -1,3 +1,4 @@
+/** // TODO: POSSIBLY DEPRECATED
 package metadev.digital.MetaMobHunting.rewards;
 
 import org.bukkit.entity.*;
@@ -42,4 +43,4 @@ public class EntityPickupItemEventListenerDeleted implements Listener {
 		
 	}
 
-}
+}*/

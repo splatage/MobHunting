@@ -9,7 +9,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.HuntData;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.MobStackerCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobStackerCompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobHelper;
 
@@ -23,12 +23,12 @@ public class StackedMobBonus implements IModifier {
 	@Override
 	public double getMultiplier(Entity entity, Player killer, HuntData data, DamageInformation extraInfo,
 			EntityDamageByEntityEvent lastDamageCause) {
-		if (MobStackerCompat.isSupported() && MobStackerCompat.killHoleStackOnDeath(entity)
+		/** // TODO: POSSIBLY DEPRECATED  if (MobStackerCompat.isSupported() && MobStackerCompat.killHoleStackOnDeath(entity)
 				&& MobStackerCompat.multiplyLoot()) {
 			MobHunting.getInstance().getMessages().debug("StackedMobBonus: Pay reward for no %s mob",
 					MobStackerCompat.getStackSize(entity));
 			return MobStackerCompat.getStackSize(entity);
-		} else if (StackMobCompat.isSupported() && StackMobHelper.killHoleStackOnDeath(entity)) {
+		} else */if (StackMobCompat.isSupported() && StackMobHelper.killHoleStackOnDeath(entity)) {
 			MobHunting.getInstance().getMessages().debug("StackedMobBonus: Pay reward for no %s mob",
 					StackMobHelper.getStackSize((LivingEntity) entity));
 			return StackMobHelper.getStackSize((LivingEntity) entity);
@@ -41,6 +41,7 @@ public class StackedMobBonus implements IModifier {
 	@Override
 	public boolean doesApply(Entity entity, Player killer, HuntData data, DamageInformation extraInfo,
 			EntityDamageByEntityEvent lastDamageCause) {
-		return MobStackerCompat.isStackedMob(entity) || StackMobHelper.isStackedMob((LivingEntity) entity);
+		// TODO: POSSIBLY DEPRECATED return MobStackerCompat.isStackedMob(entity) || StackMobHelper.isStackedMob((LivingEntity) entity);
+		return StackMobHelper.isStackedMob((LivingEntity) entity);
 	}
 }

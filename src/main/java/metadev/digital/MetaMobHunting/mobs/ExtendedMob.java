@@ -93,7 +93,7 @@ public class ExtendedMob {
 				return MythicMobsCompat.getMobRewardData().get(mobtype).getMobName();
 			else
 				return MythicMobsCompat.getMythicMobName(mobtype);
-		case TARDISWeepingAngels:
+		/** // TODO: POSSIBLY DEPRECATED case TARDISWeepingAngels:
 			if (TARDISWeepingAngelsCompat.getMobRewardData().containsKey(mobtype))
 				return TARDISWeepingAngelsCompat.getMobRewardData().get(mobtype).getMobName();
 			else
@@ -107,7 +107,7 @@ public class ExtendedMob {
 			if (MysteriousHalloweenCompat.getMobRewardData().containsKey(mobtype))
 				return MysteriousHalloweenCompat.getMobRewardData().get(mobtype).getMobName();
 			else
-				return mobtype;
+				return mobtype; */
 		case SmartGiants:
 			return "SmartGiant";
 		case InfernalMobs:
@@ -152,14 +152,14 @@ public class ExtendedMob {
 			return MythicMobsCompat.getProgressAchievementLevel1(mobtype);
 		case Citizens:
 			return CitizensCompat.getProgressAchievementLevel1(mobtype);
-		case MysteriousHalloween:
+		/** // TODO: POSSIBLY DEPRECATED case MysteriousHalloween:
 			return MysteriousHalloweenCompat.getProgressAchievementLevel1(mobtype);
 		case TARDISWeepingAngels:
 			return TARDISWeepingAngelsCompat.getProgressAchievementLevel1(mobtype);
 		case CustomMobs:
 			return CustomMobsCompat.getProgressAchievementLevel1(mobtype);
 		case SmartGiants:
-			return SmartGiantsCompat.getProgressAchievementLevel1(mobtype);
+			return SmartGiantsCompat.getProgressAchievementLevel1(mobtype); */
 		case InfernalMobs:
 			return InfernalMobsCompat.getProgressAchievementLevel1(mobtype);
 		case Herobrine:

@@ -21,12 +21,12 @@ public class DisguisesHelper {
 		if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(LibsDisguisesCompat.class) && entity instanceof Player
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationLibsDisguises)
 			return LibsDisguisesCompat.isDisguised((Player) entity);
-		else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(DisguiseCraftCompat.class) && entity instanceof Player
+		/** // TODO: POSSIBLY DEPRECATED else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(DisguiseCraftCompat.class) && entity instanceof Player
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationDisguiseCraft)
 			return DisguiseCraftCompat.isDisguised((Player) entity);
 		else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(IDisguiseCompat.class) && entity instanceof Player
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationIDisguise)
-			return IDisguiseCompat.isDisguised(entity);
+			return IDisguiseCompat.isDisguised(entity); */
 		else {
 			return false;
 		}
@@ -44,12 +44,12 @@ public class DisguisesHelper {
 		if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(LibsDisguisesCompat.class) && entity instanceof Player
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationLibsDisguises)
 			return LibsDisguisesCompat.isAggresiveDisguise(entity);
-		else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(DisguiseCraftCompat.class) && entity instanceof Player
+		/** // TODO: POSSIBLY DEPRECATED else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(DisguiseCraftCompat.class) && entity instanceof Player
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationDisguiseCraft)
 			return DisguiseCraftCompat.isAggresiveDisguise(entity);
 		else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(IDisguiseCompat.class) && entity instanceof Player
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationIDisguise)
-			return IDisguiseCompat.isAggresiveDisguise(entity);
+			return IDisguiseCompat.isAggresiveDisguise(entity); */
 		else {
 			return false;
 		}
@@ -67,12 +67,12 @@ public class DisguisesHelper {
 		if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(LibsDisguisesCompat.class) && entity instanceof Player
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationLibsDisguises)
 			return LibsDisguisesCompat.isPlayerDisguise((Player) entity);
-		else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(DisguiseCraftCompat.class) && entity instanceof Player
+		/** // TODO: POSSIBLY DEPRECATED else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(DisguiseCraftCompat.class) && entity instanceof Player
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationDisguiseCraft)
 			return DisguiseCraftCompat.isPlayerDisguise((Player) entity);
 		else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(IDisguiseCompat.class) && entity instanceof Player
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationIDisguise)
-			return IDisguiseCompat.isPlayerDisguise((Player) entity);
+			return IDisguiseCompat.isPlayerDisguise((Player) entity); */
 		else {
 			return false;
 		}
@@ -82,12 +82,12 @@ public class DisguisesHelper {
 		if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(LibsDisguisesCompat.class)
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationLibsDisguises)
 			LibsDisguisesCompat.undisguiseEntity(entity);
-		else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(DisguiseCraftCompat.class)
+		/** // TODO: POSSIBLY DEPRECATED else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(DisguiseCraftCompat.class)
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationDisguiseCraft)
 			DisguiseCraftCompat.undisguisePlayer(entity);
 		else if (MobHunting.getInstance().getCompatibilityManager().isPluginLoaded(IDisguiseCompat.class)
 				&& !MobHunting.getInstance().getConfigManager().enableIntegrationIDisguise)
-			IDisguiseCompat.undisguisePlayer(entity);
+			IDisguiseCompat.undisguisePlayer(entity); */
 		else {
 
 		}

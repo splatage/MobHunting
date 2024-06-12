@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.modifier;
+/** // TODO: POSSIBLY DEPRECATED package metadev.digital.MetaMobHunting.modifier;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -33,4 +33,4 @@ public class ConquestiaBonus implements IModifier {
 		return deadEntity.hasMetadata(ConquestiaMobsCompat.MH_CONQUESTIAMOBS);
 	}
 
-}
+}*/

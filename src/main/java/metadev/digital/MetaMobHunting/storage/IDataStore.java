@@ -136,7 +136,7 @@ public interface IDataStore {
 
 	void insertCitizensMobs(String mob);
 
-	void insertTARDISWeepingAngelsMobs();
+	/** // TODO: POSSIBLY DEPRECATED void insertTARDISWeepingAngelsMobs();
 
 	void insertTARDISWeepingAngelsMobs(String mob);
 
@@ -150,7 +150,7 @@ public interface IDataStore {
 
 	void insertCustomMobs();
 
-	void insertCustomMobs(String mob);
+	void insertCustomMobs(String mob); */
 
 	void insertInfernalMobs();
 

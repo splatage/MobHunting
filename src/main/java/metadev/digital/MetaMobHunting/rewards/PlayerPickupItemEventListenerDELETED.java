@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.rewards;
+/** // TODO: POSSIBLY DEPRECATED package metadev.digital.MetaMobHunting.rewards;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,4 +24,4 @@ public class PlayerPickupItemEventListenerDELETED implements Listener{
 		pickupRewards.rewardPlayer(event.getPlayer(),event.getItem(), event::setCancelled);
 	}
 
-}
+}*/

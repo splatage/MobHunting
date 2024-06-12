@@ -6,14 +6,14 @@ import org.bukkit.command.ConsoleCommandSender;
 
 import metadev.digital.MetaMobHunting.compatibility.BossCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
 import metadev.digital.MetaMobHunting.compatibility.InfernalMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
-import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
 
 public enum MobPlugin {
 	Minecraft("Minecraft", 0), MythicMobs("MythicMobs", 1), Citizens("Citizens", 2), TARDISWeepingAngels(
@@ -54,16 +54,16 @@ public enum MobPlugin {
 			return true;
 		case Citizens:
 			return CitizensCompat.isSupported();
-		case CustomMobs:
+		/** // TODO: POSSIBLY DEPRECATED case CustomMobs:
 			return CustomMobsCompat.isSupported();
 		case MysteriousHalloween:
-			return MysteriousHalloweenCompat.isSupported();
+			return MysteriousHalloweenCompat.isSupported();*/
 		case MythicMobs:
 			return MythicMobsCompat.isSupported();
-		case SmartGiants:
+		/** // TODO: POSSIBLY DEPRECATED case SmartGiants:
 			return SmartGiantsCompat.isSupported();
 		case TARDISWeepingAngels:
-			return TARDISWeepingAngelsCompat.isSupported();
+			return TARDISWeepingAngelsCompat.isSupported(); */
 		case InfernalMobs:
 			return InfernalMobsCompat.isSupported();
 		case Herobrine:

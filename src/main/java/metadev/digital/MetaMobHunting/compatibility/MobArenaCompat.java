@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.compatibility;
+/** // TODO: POSSIBLY DEPRECATED package metadev.digital.MetaMobHunting.compatibility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class MobArenaCompat implements Listener {
 	 * 
 	 * @param player
 	 * @return Returns true when the player is in game.
-	 */
+
 	public static boolean isPlayingMobArena(Player player) {
 		if (isSupported())
 			return playersPlayingMobArena.contains(player.getUniqueId());
@@ -78,7 +78,7 @@ public class MobArenaCompat implements Listener {
 	 * Add the player to the list of active MobArena players.
 	 * 
 	 * @param player
-	 */
+
 	public static void startPlayingMobArena(Player player) {
 		playersPlayingMobArena.add(player.getUniqueId());
 	}
@@ -87,7 +87,7 @@ public class MobArenaCompat implements Listener {
 	 * Remove the player from list of active MobArena players
 	 * 
 	 * @param player
-	 */
+
 	public static void stopPlayingMobArena(Player player) {
 		if (!playersPlayingMobArena.remove(player.getUniqueId())) {
 			MobHunting.getInstance().getMessages().debug("Player: %s is not playing MobArena", player.getName());
@@ -162,4 +162,4 @@ public class MobArenaCompat implements Listener {
 		}
 	}
 
-}
+} */

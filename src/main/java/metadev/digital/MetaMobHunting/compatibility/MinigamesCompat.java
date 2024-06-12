@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.compatibility;
+/** // TODO: POSSIBLY DEPRECATED package metadev.digital.MetaMobHunting.compatibility;
 
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -48,3 +48,4 @@ public class MinigamesCompat implements Listener {
 	}
 
 }
+*/

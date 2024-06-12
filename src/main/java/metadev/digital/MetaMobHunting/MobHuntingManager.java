@@ -155,8 +155,8 @@ public class MobHuntingManager implements Listener {
 	private void registerHuntingModifiers() {
 		mHuntingModifiers.add(new BonusMobBonus());
 		mHuntingModifiers.add(new BrawlerBonus());
-		if (ConquestiaMobsCompat.isSupported())
-			mHuntingModifiers.add(new ConquestiaBonus());
+		/** TODO: Deprecated if (ConquestiaMobsCompat.isSupported())
+			mHuntingModifiers.add(new ConquestiaBonus());*/
 		if (LorinthsRpgMobsCompat.isSupported())
 			mHuntingModifiers.add(new LorinthsBonus());
 		if (LevelledMobsCompat.isSupported())
@@ -180,7 +180,9 @@ public class MobHuntingManager implements Listener {
 		mHuntingModifiers.add(new ShoveBonus());
 		mHuntingModifiers.add(new SneakyBonus());
 		mHuntingModifiers.add(new SniperBonus());
-		if (MobStackerCompat.isSupported() || StackMobCompat.isSupported())
+		/** TODO: Remove MobStacker if (MobStackerCompat.isSupported() || StackMobCompat.isSupported())
+			mHuntingModifiers.add(new StackedMobBonus()); */
+		if (StackMobCompat.isSupported())
 			mHuntingModifiers.add(new StackedMobBonus());
 		mHuntingModifiers.add(new Undercover());
 		if (CrackShotCompat.isSupported())
@@ -216,7 +218,7 @@ public class MobHuntingManager implements Listener {
 	 */
 	public boolean hasPermissionToKillMob(Player player, LivingEntity mob) {
 		String permission_postfix = "*";
-		if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
+		/** TODO: Possibly deprecated if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
 			permission_postfix = TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name();
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
@@ -225,7 +227,9 @@ public class MobHuntingManager implements Listener {
 						.debug("Permission mobhunting.mobs." + permission_postfix + " not set, defaulting to True.");
 				return true;
 			}
-		} else if (MythicMobsCompat.isMythicMob(mob)) {
+		} else
+			*/
+			if (MythicMobsCompat.isMythicMob(mob)) {
 			permission_postfix = MythicMobsCompat.getMythicMobType(mob);
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
@@ -243,7 +247,7 @@ public class MobHuntingManager implements Listener {
 						.debug("Permission mobhunting.mobs.'" + permission_postfix + "' not set, defaulting to True.");
 				return true;
 			}
-		} else if (CustomMobsCompat.isCustomMob(mob)) {
+		} /** TODO: Possibly deprecated else if (CustomMobsCompat.isCustomMob(mob)) {
 			permission_postfix = CustomMobsCompat.getCustomMobType(mob);
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
@@ -252,7 +256,7 @@ public class MobHuntingManager implements Listener {
 						.debug("Permission mobhunting.mobs.'" + permission_postfix + "' not set, defaulting to True.");
 				return true;
 			}
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+		}*/ /** TODO: Possibly deprecatedelse if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
 			permission_postfix = "npc-" + MysteriousHalloweenCompat.getMysteriousHalloweenType(mob);
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
@@ -261,7 +265,7 @@ public class MobHuntingManager implements Listener {
 						.debug("Permission mobhunting.mobs.'" + permission_postfix + "' not set, defaulting to True.");
 				return true;
 			}
-		} else {
+		}*/ else {
 			permission_postfix = mob.getType().toString();
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
@@ -321,11 +325,11 @@ public class MobHuntingManager implements Listener {
 				plugin.getMessages().debug("and shooter was %s", ((Projectile) damager).getShooter().toString());
 
 			// MobArena
-			if (MobArenaCompat.isPlayingMobArena((Player) killed) && !plugin.getConfigManager().mobarenaGetRewards) {
+			/** // TODO: POSSIBLY DEPRECATED if (MobArenaCompat.isPlayingMobArena((Player) killed) && !plugin.getConfigManager().mobarenaGetRewards) {
 				plugin.getMessages().debug("KillBlocked: %s was killed while playing MobArena.", killed.getName());
 				return;
 				// PVPArena
-			} else if (PVPArenaCompat.isPlayingPVPArena((Player) killed)
+			} else */if (PVPArenaCompat.isPlayingPVPArena((Player) killed)
 					&& !plugin.getConfigManager().pvparenaGetRewards) {
 				plugin.getMessages().debug("KillBlocked: %s was killed while playing PvpArena.", killed.getName());
 				return;
@@ -490,10 +494,10 @@ public class MobHuntingManager implements Listener {
 			return;
 		}
 
-		if (damager instanceof Player && (PreciousStonesCompat.isMobDamageProtected((Player) damager)
+		/** TODO: Possibly deprecatedif (damager instanceof Player && (PreciousStonesCompat.isMobDamageProtected((Player) damager)
 				|| PreciousStonesCompat.isPVPProtected((Player) damager)))
 			return;
-
+		*/
 		if (CrackShotCompat.isSupported() && CrackShotCompat.isCrackShotUsed(damaged)) {
 			return;
 		}
@@ -874,7 +878,7 @@ public class MobHuntingManager implements Listener {
 		}
 
 		// Player killed a Stacked Mob
-		if (MobStackerCompat.isStackedMob(killed)) {
+		/** TODO: Possibly deprecated if (MobStackerCompat.isStackedMob(killed)) {
 			if (plugin.getConfigManager().getRewardFromStackedMobs) {
 				if (player != null) {
 					plugin.getMessages().debug("%s killed a stacked mob (%s) No=%s", player.getName(), mob.getMobName(),
@@ -891,7 +895,7 @@ public class MobHuntingManager implements Listener {
 				plugin.getMessages().debug("======================= kill ended (3)======================");
 				return;
 			}
-		} else
+		} */ else
 
 		// Player killed a Citizens2 NPC
 		if (player != null && CitizensCompat.isNPC(killed) && CitizensCompat.isSentryOrSentinelOrSentries(killed)) {
@@ -958,7 +962,7 @@ public class MobHuntingManager implements Listener {
 			}
 		}
 
-		if (PreciousStonesCompat.isMobDamageProtected(player)) {
+		/** TODO: Possibly deprecated if (PreciousStonesCompat.isMobDamageProtected(player)) {
 			plugin.getMessages().debug("KillBlocked: %s is hiding in PreciousStone Field with prevent-mob-damage flag",
 					player.getName());
 			plugin.getMessages().learn(player,
@@ -967,7 +971,7 @@ public class MobHuntingManager implements Listener {
 					plugin.getConfigManager().disableNatualXPDrops);
 			plugin.getMessages().debug("======================= kill ended (6)======================");
 			return;
-		}
+		}*/
 
 		// Factions Compatibility - no reward when player are in SafeZone
 		if (FactionsHelperCompat.isSupported()) {
@@ -994,7 +998,7 @@ public class MobHuntingManager implements Listener {
 		}
 
 		// Towny Compatibility - no reward when player are in a protected town
-		if (TownyCompat.isSupported()) {
+		/** TODO: Possibly deprecated if (TownyCompat.isSupported()) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)
 					&& !(killed instanceof Player)) {
 				if (plugin.getConfigManager().disableRewardsInHomeTown && TownyCompat.isInHomeTown(player)) {
@@ -1015,7 +1019,7 @@ public class MobHuntingManager implements Listener {
 					return;
 				}
 			}
-		}
+		}*/
 
 		// Residence Compatibility - no reward when player are in a protected
 		// residence
@@ -1082,14 +1086,14 @@ public class MobHuntingManager implements Listener {
 		// BattleArena, Suicide, PVP, penalty when Mobs kills player
 		if (killed instanceof Player) {
 			// MobArena
-			if (MobArenaCompat.isPlayingMobArena((Player) killed) && !plugin.getConfigManager().mobarenaGetRewards) {
+			/** // TODO: POSSIBLY DEPRECATED if (MobArenaCompat.isPlayingMobArena((Player) killed) && !plugin.getConfigManager().mobarenaGetRewards) {
 				plugin.getMessages().debug("KillBlocked: %s was killed while playing MobArena.", mob.getMobName());
 				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.mobarena"));
 				plugin.getMessages().debug("======================= kill ended (13)=====================");
 				return;
 
 				// PVPArena
-			} else if (PVPArenaCompat.isPlayingPVPArena((Player) killed)
+			} else */if (PVPArenaCompat.isPlayingPVPArena((Player) killed)
 					&& !plugin.getConfigManager().pvparenaGetRewards) {
 				plugin.getMessages().debug("KillBlocked: %s was killed while playing PvpArena.", mob.getMobName());
 				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.pvparena"));
@@ -1111,13 +1115,13 @@ public class MobHuntingManager implements Listener {
 				return;
 
 				//
-			} else if (PreciousStonesCompat.isPVPProtected(player)) {
+			} /** TODO: Possibly deprecated else if (PreciousStonesCompat.isPVPProtected(player)) {
 				plugin.getMessages().debug("KillBlocked: %s is hiding in PreciousStone Field with prevent-pvp flag",
 						player.getName());
 				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.prevent-pvp-flag"));
 				plugin.getMessages().debug("======================= kill ended (16.5)======================");
 				return;
-			} else if (killer != null) {
+			} */else if (killer != null) {
 				if (killed.equals(killer)) {
 					// Suicide
 					plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.suiside"));
@@ -1142,12 +1146,12 @@ public class MobHuntingManager implements Listener {
 		// BattleArena
 		// Player is in Godmode or Vanished
 		// Player permission to Hunt (and get rewards)
-		if (MobArenaCompat.isPlayingMobArena(player) && !plugin.getConfigManager().mobarenaGetRewards) {
+		/** // TODO: POSSIBLY DEPRECATED if (MobArenaCompat.isPlayingMobArena(player) && !plugin.getConfigManager().mobarenaGetRewards) {
 			plugin.getMessages().debug("KillBlocked: %s is currently playing MobArena.", player.getName());
 			plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.mobarena"));
 			plugin.getMessages().debug("======================= kill ended (19)=====================");
 			return;
-		} else if (PVPArenaCompat.isPlayingPVPArena(player) && !plugin.getConfigManager().pvparenaGetRewards) {
+		} else */if (PVPArenaCompat.isPlayingPVPArena(player) && !plugin.getConfigManager().pvparenaGetRewards) {
 			plugin.getMessages().debug("KillBlocked: %s is currently playing PvpArena.", player.getName());
 			plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.pvparena"));
 			plugin.getMessages().debug("======================= kill ended (20)=====================");
@@ -1478,12 +1482,12 @@ public class MobHuntingManager implements Listener {
 							data.setLastKillAreaCenter(loc.clone());
 
 							// Grinding stacked mobs
-						} else if (MobStackerCompat.isSupported() && MobStackerCompat.isStackedMob(killed)
+						} /** TODO: Possibly deprecated else if (MobStackerCompat.isSupported() && MobStackerCompat.isStackedMob(killed)
 								&& !MobStackerCompat.isGrindingStackedMobsAllowed()) {
 							plugin.getMessages().debug(
 									"This was a stacked Mob. It's not allowed to grind stacked mobs (Disabled in config.yml)");
 
-						} else {
+						} */else {
 
 							plugin.getMessages().debug(
 									"Checking kills in this area. DampenedKills=%s. Penalty begins at %s. Max is %s",
@@ -2209,7 +2213,7 @@ public class MobHuntingManager implements Listener {
 			plugin.getParticleManager().attachEffect(event.getEntity(), Effect.MOBSPAWNER_FLAMES);
 			if (plugin.mRand.nextBoolean())
 				event.getEntity()
-						.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, Integer.MAX_VALUE, 3));
+						.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, Integer.MAX_VALUE, 3));
 			else
 				event.getEntity().addPotionEffect(new PotionEffect(PotionEffectType.SPEED, Integer.MAX_VALUE, 2));
 			event.getEntity().setMetadata("MH:hasBonus", new FixedMetadataValue(plugin, true));

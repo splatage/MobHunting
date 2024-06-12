@@ -16,14 +16,14 @@ import metadev.digital.metacustomitemslib.storage.DataStoreException;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.BossCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
 import metadev.digital.MetaMobHunting.compatibility.InfernalMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
-import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
 
 public class ExtendedMobManager {
 
@@ -42,14 +42,14 @@ public class ExtendedMobManager {
 			plugin.getStoreManager().insertMissingCitizensMobs();
 		if (MythicMobsCompat.isSupported())
 			plugin.getStoreManager().insertMissingMythicMobs();
-		if (CustomMobsCompat.isSupported())
+		/** // TODO: POSSIBLY DEPRECATED if (CustomMobsCompat.isSupported())
 			plugin.getStoreManager().insertCustomMobs();
 		if (TARDISWeepingAngelsCompat.isSupported())
 			plugin.getStoreManager().insertTARDISWeepingAngelsMobs();
 		if (MysteriousHalloweenCompat.isSupported())
 			plugin.getStoreManager().insertMysteriousHalloweenMobs();
 		if (SmartGiantsCompat.isSupported())
-			plugin.getStoreManager().insertSmartGiants();
+			plugin.getStoreManager().insertSmartGiants();*/
 		if (HerobrineCompat.isSupported())
 			plugin.getStoreManager().insertHerobrineMobs();
 		if (EliteMobsCompat.isSupported())
@@ -81,7 +81,7 @@ public class ExtendedMobManager {
 					continue;
 				break;
 
-			case CustomMobs:
+			/** // TODO: POSSIBLY DEPRECATED case CustomMobs:
 				if (!CustomMobsCompat.isSupported() || !CustomMobsCompat.isEnabledInConfig())
 					continue;
 				break;
@@ -89,7 +89,7 @@ public class ExtendedMobManager {
 			case TARDISWeepingAngels:
 				if (!TARDISWeepingAngelsCompat.isSupported() || !TARDISWeepingAngelsCompat.isEnabledInConfig())
 					continue;
-				break;
+				break; */
 
 			case Citizens:
 				if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig()
@@ -97,7 +97,7 @@ public class ExtendedMobManager {
 					continue;
 				break;
 
-			case MysteriousHalloween:
+			/** // TODO: POSSIBLY DEPRECATED case MysteriousHalloween:
 				if (!MysteriousHalloweenCompat.isSupported() || !MysteriousHalloweenCompat.isEnabledInConfig())
 					continue;
 				break;
@@ -105,7 +105,7 @@ public class ExtendedMobManager {
 			case SmartGiants:
 				if (!SmartGiantsCompat.isSupported() || !SmartGiantsCompat.isEnabledInConfig())
 					continue;
-				break;
+				break; */
 
 			case InfernalMobs:
 				if (!InfernalMobsCompat.isSupported() || !InfernalMobsCompat.isEnabledInConfig())
@@ -187,7 +187,7 @@ public class ExtendedMobManager {
 		} else if (CitizensCompat.isNPC(entity)) {
 			mobPlugin = MobPlugin.Citizens;
 			mobtype = String.valueOf(CitizensCompat.getNPCId(entity));
-		} else if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(entity)) {
+		}/** // TODO: POSSIBLY DEPRECATED  else if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(entity)) {
 			mobPlugin = MobPlugin.TARDISWeepingAngels;
 			if (TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(entity) != null)
 				mobtype = TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(entity).name();
@@ -205,7 +205,7 @@ public class ExtendedMobManager {
 		} else if (SmartGiantsCompat.isSmartGiants(entity)) {
 			mobPlugin = MobPlugin.SmartGiants;
 			mobtype = SmartGiantsCompat.getSmartGiantsMobType(entity);
-		} else if (InfernalMobsCompat.isInfernalMob(entity)) {
+		} */else if (InfernalMobsCompat.isInfernalMob(entity)) {
 			mobPlugin = MobPlugin.InfernalMobs;
 			MobType mob = MobType.getMobType(entity);
 			if (mob != null)

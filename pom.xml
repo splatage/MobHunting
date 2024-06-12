@@ -103,6 +103,10 @@
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
+        <repository>
+            <id>bstats1.2</id>
+            <url>https://mvnrepository.com/artifact/org.bstats/bstats-bukkit</url>
+        </repository>
 
         <!-- Used by Gringotts, I think -->
         <repository>
@@ -157,6 +161,13 @@
             <id>com.kiwifisher.mobstacker.MobStacker</id>
             <url>https://maven.addstar.com.au/artifactory/all-snapshot/com/kiwifisher/mobstacker/MobStacker/MobStacker/</url>
         </repository> -->
+
+        <!-- MyPet -->
+        <repository>
+            <id>mypet-repo1</id>
+            <url>https://repo.mypet-plugin.de</url>
+        </repository>
+
     </repositories>
 
     <!-- ********************************************************************** -->
@@ -632,5 +643,10 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>de.keyle</groupId>
+            <artifactId>mypet</artifactId>
+            <version>3.12-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

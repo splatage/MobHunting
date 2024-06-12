@@ -17,6 +17,11 @@
       <option name="url" value="https://maven.hellfiredev.net/hellfirepvp/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="bstats1.2" />
+      <option name="name" value="bstats1.2" />
+      <option name="url" value="https://repo.bstats.org/content/repositories/releases" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="sk89q-repo" />
       <option name="name" value="sk89q-repo" />
       <option name="url" value="https://maven.enginehub.org/repo/" />
@@ -92,6 +97,11 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="mypet" />
+      <option name="name" value="mypet" />
+      <option name="url" value="https://repo.spaceio.xyz/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="nexus-public" />
       <option name="name" value="nexus-public" />
       <option name="url" value="https://nexus.lindegaard.one/repository/maven-public/" />
@@ -105,6 +115,11 @@
       <option name="id" value="vault-repo" />
       <option name="name" value="vault-repo" />
       <option name="url" value="https://jitpack.io" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="mypet-repo1" />
+      <option name="name" value="mypet-repo1" />
+      <option name="url" value="https://repo.mypet-plugin.de" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="mobstacker" />

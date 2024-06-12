@@ -22,8 +22,8 @@ import com.sainttx.holograms.api.line.TextualHologramLine;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.MetaMobHunting.compatibility.CMICompat;
-import metadev.digital.MetaMobHunting.compatibility.CMIHologramsHelper;
+import metadev.digital.metacustomitemslib.compatibility.CMICompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CMIHologramsHelper;
 import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
 import metadev.digital.MetaMobHunting.compatibility.HologramsHelper;
 import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
@@ -150,7 +150,7 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 						HologramsHelper.editTextLine(hologram, String.format(mRow_format_integer, n + 1,
 								mData.get(n).getPlayer().getName(), mData.get(n).getAmount()), n + 1);
 				}
-				hologram.setDirty(true);
+				// TODO: Figure out what setDirty(BOOLEAN) is supposed to be | hologram.setDirty(true);
 			}
 
 		} else if (HolographicDisplaysCompat.isSupported()) {
@@ -176,7 +176,7 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 				}
 			}
 
-		} else if (CMICompat.isSupported()) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (CMICompat.isSupported()) {
 			for (CMIHologram hologram : CMICompat.getHologramManager().getHolograms().values()) {
 				if (hologram.getName().equalsIgnoreCase(plugin.getLeaderboardManager().getHologramManager()
 						.getHolograms().get(mHologramName).getHologramName())) {
@@ -198,7 +198,7 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 					hologram.update();
 				}
 			}
-		}
+		} */
 
 	}
 

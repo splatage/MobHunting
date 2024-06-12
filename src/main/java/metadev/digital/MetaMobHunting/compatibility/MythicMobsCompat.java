@@ -49,7 +49,7 @@ public class MythicMobsCompat {
 				supported = true;
 				Bukkit.getPluginManager().registerEvents(new MythicMobsV500Compat(), MobHunting.getInstance());
 
-			} else if (mPlugin.getDescription().getVersion().compareTo("4.0.0") >= 0) {
+			} /** // TODO: POSSIBLY DEPRECATED else if (mPlugin.getDescription().getVersion().compareTo("4.0.0") >= 0) {
 
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MythicMobs ("
 						+ mPlugin.getDescription().getVersion() + ")");
@@ -64,10 +64,10 @@ public class MythicMobsCompat {
 				supported = true;
 				Bukkit.getPluginManager().registerEvents(new MythicMobsV251Compat(), MobHunting.getInstance());
 
-			} else {
+			} */else {
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 				console.sendMessage(MobHunting.PREFIX_WARNING
-						+ "MythicMobs is outdated. Please update to V2.5.1 or newer. Integration will be disabled");
+						+ "MythicMobs is outdated. Please update to V5.0.0 or newer. Integration will be disabled");
 				return;
 			}
 			MythicMobsCompat.loadMythicMobsData();
@@ -97,10 +97,10 @@ public class MythicMobsCompat {
 
 	public static boolean isMythicMob(String mob) {
 		switch (mmVersion) {
-		case MYTHICMOBS_V251:
+		/** // TODO: POSSIBLY DEPRECATED case MYTHICMOBS_V251:
 			return MythicMobsV251Compat.isMythicMobV251(mob);
 		case MYTHICMOBS_V400:
-			return MythicMobsV400Compat.isMythicMobV400(mob);
+			return MythicMobsV400Compat.isMythicMobV400(mob); */
 		case MYTHICMOBS_V500:
 			return MythicMobsV500Compat.isMythicMobV500(mob);
 		case NOT_DETECTED:
@@ -113,10 +113,10 @@ public class MythicMobsCompat {
 
 	public static String getMythicMobName(String mob) {
 		switch (mmVersion) {
-		case MYTHICMOBS_V251:
+		/** // TODO: POSSIBLY DEPRECATED case MYTHICMOBS_V251:
 			return MythicMobsV251Compat.getMythicMobV251(mob).getInternalName();
 		case MYTHICMOBS_V400:
-			return MythicMobsV400Compat.getMythicMobV400(mob).getInternalName();
+			return MythicMobsV400Compat.getMythicMobV400(mob).getInternalName(); */
 		case MYTHICMOBS_V500:
 			return MythicMobsV500Compat.getMythicMobV500(mob).getInternalName();
 		case NOT_DETECTED:

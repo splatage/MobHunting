@@ -24,12 +24,12 @@ import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.metacustomitemslib.storage.UserNotFoundException;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.InfernalMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
-import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.storage.AchievementStore;
@@ -124,8 +124,8 @@ public class AchievementManager implements Listener {
 		registerAchievement(new WolfKillAchievement(plugin));
 		if (Servers.isMC113OrNewer())
 			registerAchievement(new Neptune(plugin));
-		if (SmartGiantsCompat.isSupported())
-			registerAchievement(new DavidAndGoliath(plugin));
+		/** // TODO: POSSIBLY DEPRECATED if (SmartGiantsCompat.isSupported())
+			registerAchievement(new DavidAndGoliath(plugin)); */
 
 		for (MobType type : MobType.values()) {
 			ExtendedMob extendedMob = new ExtendedMob(MobPlugin.Minecraft, type.name());
@@ -165,7 +165,7 @@ public class AchievementManager implements Listener {
 				registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
 			}
 
-		if (MysteriousHalloweenCompat.isSupported())
+		/** // TODO: POSSIBLY DEPRECATED if (MysteriousHalloweenCompat.isSupported())
 			for (String type : MysteriousHalloweenCompat.getMobRewardData().keySet()) {
 				ExtendedMob extendedMob = new ExtendedMob(MobPlugin.MysteriousHalloween, type);
 				registerAchievement(new BasicHuntAchievement(plugin, extendedMob));
@@ -214,7 +214,7 @@ public class AchievementManager implements Listener {
 			registerAchievement(new SixthHuntAchievement(plugin, extendedMob));
 			registerAchievement(new SeventhHuntAchievement(plugin, extendedMob));
 			registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
-		}
+		} */
 
 		if (InfernalMobsCompat.isSupported()) {
 			for (MobType type : MobType.values()) {

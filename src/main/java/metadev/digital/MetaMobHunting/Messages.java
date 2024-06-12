@@ -30,7 +30,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Strings;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.metacustomitemslib.compatibility.ActionAnnouncerCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.metacustomitemslib.compatibility.ActionAnnouncerCompat;
 import metadev.digital.metacustomitemslib.compatibility.ActionBarAPICompat;
 import metadev.digital.metacustomitemslib.compatibility.ActionbarCompat;
 import metadev.digital.metacustomitemslib.compatibility.BarAPICompat;
@@ -551,13 +551,13 @@ public class Messages {
 		if (isEmpty(message))
 			return;
 		message = PlaceholderAPICompat.setPlaceholders(player, message);
-		if (TitleManagerCompat.isSupported()) {
+		/** // TODO: POSSIBLY DEPRECATED  if (TitleManagerCompat.isSupported()) {
 			TitleManagerCompat.setActionBar(player, message);
-		} else if (ActionbarCompat.isSupported()) {
+		} else */if (ActionbarCompat.isSupported()) {
 			ActionbarCompat.setMessage(player, message);
-		} else if (ActionAnnouncerCompat.isSupported()) {
+		} /** // TODO: POSSIBLY DEPRECATED else if (ActionAnnouncerCompat.isSupported()) {
 			ActionAnnouncerCompat.setMessage(player, message);
-		} else if (ActionBarAPICompat.isSupported()) {
+		}*/ else if (ActionBarAPICompat.isSupported()) {
 			ActionBarAPICompat.setMessage(player, message);
 		} else if (CMICompat.isSupported()) {
 			CMICompat.sendActionBarMessage(player, message);
@@ -568,8 +568,9 @@ public class Messages {
 	}
 
 	private boolean isActionBarSupported() {
-		return TitleManagerCompat.isSupported() || ActionbarCompat.isSupported() || ActionAnnouncerCompat.isSupported()
-				|| ActionBarAPICompat.isSupported() || CMICompat.isSupported();
+		/** TODO: POSSIBLY DEPRECATED return TitleManagerCompat.isSupported() || ActionbarCompat.isSupported() || ActionAnnouncerCompat.isSupported()
+				|| ActionBarAPICompat.isSupported() || CMICompat.isSupported(); */
+		return false;
 	}
 
 	public void playerSendMessage(Player player, String message) {

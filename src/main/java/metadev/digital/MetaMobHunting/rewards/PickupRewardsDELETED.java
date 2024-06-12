@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.rewards;
+/** // TODO: POSSIBLY DEPRECATED package metadev.digital.MetaMobHunting.rewards;
 
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
@@ -79,3 +79,4 @@ public class PickupRewardsDELETED {
 	}
 
 }
+*/
