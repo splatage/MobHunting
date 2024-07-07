@@ -11,84 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Allay;
-import org.bukkit.entity.Axolotl;
-import org.bukkit.entity.Bat;
-import org.bukkit.entity.Bee;
-import org.bukkit.entity.Blaze;
-import org.bukkit.entity.Cat;
-import org.bukkit.entity.CaveSpider;
-import org.bukkit.entity.Chicken;
-import org.bukkit.entity.Cod;
-import org.bukkit.entity.Cow;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Dolphin;
-import org.bukkit.entity.Donkey;
-import org.bukkit.entity.Drowned;
-import org.bukkit.entity.EnderDragon;
-import org.bukkit.entity.Enderman;
-import org.bukkit.entity.Endermite;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Evoker;
-import org.bukkit.entity.Fox;
-import org.bukkit.entity.Frog;
-import org.bukkit.entity.Ghast;
-import org.bukkit.entity.Giant;
-import org.bukkit.entity.GlowSquid;
-import org.bukkit.entity.Goat;
-import org.bukkit.entity.Guardian;
-import org.bukkit.entity.Hoglin;
-import org.bukkit.entity.Horse;
-import org.bukkit.entity.Husk;
-import org.bukkit.entity.Illusioner;
-import org.bukkit.entity.IronGolem;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Llama;
-import org.bukkit.entity.MagmaCube;
-import org.bukkit.entity.Mule;
-import org.bukkit.entity.MushroomCow;
-import org.bukkit.entity.Ocelot;
-import org.bukkit.entity.Panda;
-import org.bukkit.entity.Parrot;
-import org.bukkit.entity.Phantom;
-import org.bukkit.entity.Pig;
-import org.bukkit.entity.PigZombie;
-import org.bukkit.entity.Piglin;
-import org.bukkit.entity.PiglinBrute;
-import org.bukkit.entity.Pillager;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.PolarBear;
-import org.bukkit.entity.PufferFish;
-import org.bukkit.entity.Rabbit;
-import org.bukkit.entity.Ravager;
-import org.bukkit.entity.Salmon;
-import org.bukkit.entity.Sheep;
-import org.bukkit.entity.Shulker;
-import org.bukkit.entity.Silverfish;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.entity.SkeletonHorse;
-import org.bukkit.entity.Slime;
-import org.bukkit.entity.Snowman;
-import org.bukkit.entity.Spider;
-import org.bukkit.entity.Squid;
-import org.bukkit.entity.Stray;
-import org.bukkit.entity.Strider;
-import org.bukkit.entity.Tadpole;
-import org.bukkit.entity.TraderLlama;
-import org.bukkit.entity.TropicalFish;
-import org.bukkit.entity.Turtle;
-import org.bukkit.entity.Vex;
-import org.bukkit.entity.Villager;
-import org.bukkit.entity.Vindicator;
-import org.bukkit.entity.WanderingTrader;
-import org.bukkit.entity.Warden;
-import org.bukkit.entity.Witch;
-import org.bukkit.entity.Wither;
-import org.bukkit.entity.Wolf;
-import org.bukkit.entity.Zoglin;
-import org.bukkit.entity.Zombie;
-import org.bukkit.entity.ZombieHorse;
-import org.bukkit.entity.ZombieVillager;
+import org.bukkit.entity.*;
 import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.entity.Villager.Profession;
 import org.bukkit.inventory.ItemStack;
@@ -548,6 +471,20 @@ public class RewardManager {
 			return 0;
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return getPrice(mob,plugin.getConfigManager().breezeMoney);
+				else if(mob instanceof Bogged)
+					return getPrice(mob,plugin.getConfigManager().boggedMoney);
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return getPrice(mob,plugin.getConfigManager().armadilloMoney);
+				else if (mob instanceof Sniffer)
+					return getPrice(mob,plugin.getConfigManager().snifferMoney);
+				else if (mob instanceof Camel)
+					return getPrice(mob,plugin.getConfigManager().camelMoney);
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return getPrice(mob, plugin.getConfigManager().allayMoney);
@@ -751,9 +688,9 @@ public class RewardManager {
 				return getPrice(mob, plugin.getConfigManager().endermanMoney);
 			else if (mob instanceof Giant)
 				return getPrice(mob, plugin.getConfigManager().giantMoney);
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return getPrice(mob, plugin.getConfigManager().skeletonMoney);
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return getPrice(mob, plugin.getConfigManager().witherSkeletonMoney);
 			else if (mob instanceof CaveSpider)
 				return getPrice(mob, plugin.getConfigManager().caveSpiderMoney);
@@ -936,6 +873,20 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCommands;
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return plugin.getConfigManager().breezeCommands;
+				else if(mob instanceof Bogged)
+					return plugin.getConfigManager().boggedCommands;
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return plugin.getConfigManager().armadilloCommands;
+				else if (mob instanceof Sniffer)
+					return plugin.getConfigManager().snifferCommands;
+				else if (mob instanceof Camel)
+					return plugin.getConfigManager().camelCommands;
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayCommands;
@@ -1125,9 +1076,9 @@ public class RewardManager {
 				return plugin.getConfigManager().endermanCommands;
 			else if (mob instanceof Giant)
 				return plugin.getConfigManager().giantCommands;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return plugin.getConfigManager().skeletonCommands;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return plugin.getConfigManager().witherSkeletonCommands;
 			else if (mob instanceof Spider)
 				if (mob instanceof CaveSpider)
@@ -1264,6 +1215,20 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMessage;
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return plugin.getConfigManager().breezeMessage;
+				else if(mob instanceof Bogged)
+					return plugin.getConfigManager().boggedMessage;
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return plugin.getConfigManager().armadilloMessage;
+				else if (mob instanceof Sniffer)
+					return plugin.getConfigManager().snifferMessage;
+				else if (mob instanceof Camel)
+					return plugin.getConfigManager().camelMessage;
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayMessage;
@@ -1453,9 +1418,9 @@ public class RewardManager {
 				return plugin.getConfigManager().endermanMessage;
 			else if (mob instanceof Giant)
 				return plugin.getConfigManager().giantMessage;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return plugin.getConfigManager().skeletonMessage;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return plugin.getConfigManager().witherSkeletonMessage;
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a Subclass of Spider
@@ -1583,6 +1548,20 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCmdRunChance;
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return plugin.getConfigManager().breezeMoneyChance;
+				else if(mob instanceof Bogged)
+					return plugin.getConfigManager().boggedMoneyChance;
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return plugin.getConfigManager().armadilloMoneyChance;
+				else if (mob instanceof Sniffer)
+					return plugin.getConfigManager().snifferMoneyChance;
+				else if (mob instanceof Camel)
+					return plugin.getConfigManager().camelMoneyChance;
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayMoneyChance;
@@ -1773,9 +1752,9 @@ public class RewardManager {
 				return plugin.getConfigManager().endermanMoneyChance;
 			else if (mob instanceof Giant)
 				return plugin.getConfigManager().giantMoneyChance;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return plugin.getConfigManager().skeletonMoneyChance;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return plugin.getConfigManager().witherSkeletonMoneyChance;
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a subclass of Spider
@@ -1907,6 +1886,20 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMcMMOSkillRewardChance;
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return plugin.getConfigManager().breezeMcMMOSkillRewardChance;
+				else if(mob instanceof Bogged)
+					return plugin.getConfigManager().boggedMcMMOSkillRewardChance;
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return plugin.getConfigManager().armadilloMcMMOSkillRewardChance;
+				else if (mob instanceof Sniffer)
+					return plugin.getConfigManager().snifferMcMMOSkillRewardChance;
+				else if (mob instanceof Camel)
+					return plugin.getConfigManager().camelMcMMOSkillRewardChance;
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayMcMMOSkillRewardChance;
@@ -2097,9 +2090,9 @@ public class RewardManager {
 				return plugin.getConfigManager().endermanMcMMOSkillRewardChance;
 			else if (mob instanceof Giant)
 				return plugin.getConfigManager().giantMcMMOSkillRewardChance;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return plugin.getConfigManager().skeletonMcMMOSkillRewardChance;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return plugin.getConfigManager().witherSkeletonMcMMOSkillRewardChance;
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a subclass of Spider
@@ -2255,6 +2248,20 @@ public class RewardManager {
 			return getMcMMOXP(mob, plugin.getConfigManager().wolfMcMMOSkillRewardAmount);
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return getMcMMOXP(mob, plugin.getConfigManager().breezeMcMMOSkillRewardAmount);
+				else if(mob instanceof Bogged)
+					return getMcMMOXP(mob, plugin.getConfigManager().boggedMcMMOSkillRewardAmount);
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return getMcMMOXP(mob, plugin.getConfigManager().armadilloMcMMOSkillRewardAmount);
+				else if (mob instanceof Sniffer)
+					return getMcMMOXP(mob, plugin.getConfigManager().snifferMcMMOSkillRewardAmount);
+				else if (mob instanceof Camel)
+					return getMcMMOXP(mob, plugin.getConfigManager().camelMcMMOSkillRewardAmount);
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return getMcMMOXP(mob, plugin.getConfigManager().allayMcMMOSkillRewardAmount);
@@ -2445,9 +2452,9 @@ public class RewardManager {
 				return getMcMMOXP(mob, plugin.getConfigManager().endermanMcMMOSkillRewardAmount);
 			else if (mob instanceof Giant)
 				return getMcMMOXP(mob, plugin.getConfigManager().giantMcMMOSkillRewardAmount);
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return getMcMMOXP(mob, plugin.getConfigManager().skeletonMcMMOSkillRewardAmount);
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return getMcMMOXP(mob, plugin.getConfigManager().witherSkeletonMcMMOSkillRewardAmount);
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a subclass of Spider
@@ -2574,6 +2581,20 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfEnabled;
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return plugin.getConfigManager().breezeEnabled;
+				else if(mob instanceof Bogged)
+					return plugin.getConfigManager().boggedEnabled;
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return plugin.getConfigManager().armadilloEnabled;
+				else if (mob instanceof Sniffer)
+					return plugin.getConfigManager().snifferEnabled;
+				else if (mob instanceof Camel)
+					return plugin.getConfigManager().camelEnabled;
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayEnabled;
@@ -2764,9 +2785,9 @@ public class RewardManager {
 				return plugin.getConfigManager().endermanEnabled;
 			else if (mob instanceof Giant)
 				return plugin.getConfigManager().giantEnabled;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return plugin.getConfigManager().skeletonEnabled;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return plugin.getConfigManager().witherSkeletonEnabled;
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a subclass of Spider
@@ -2904,6 +2925,20 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropHead;
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return plugin.getConfigManager().breezeHeadDropHead;
+				else if(mob instanceof Bogged)
+					return plugin.getConfigManager().boggedHeadDropHead;
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return plugin.getConfigManager().armadilloHeadDropHead;
+				else if (mob instanceof Sniffer)
+					return plugin.getConfigManager().snifferHeadDropHead;
+				else if (mob instanceof Camel)
+					return plugin.getConfigManager().camelHeadDropHead;
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayHeadDropHead;
@@ -3094,9 +3129,9 @@ public class RewardManager {
 				return plugin.getConfigManager().endermanHeadDropHead;
 			else if (mob instanceof Giant)
 				return plugin.getConfigManager().giantHeadDropHead;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return plugin.getConfigManager().skeletonHeadDropHead;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return plugin.getConfigManager().witherSkeletonHeadDropHead;
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a subclass of Spider
@@ -3236,6 +3271,20 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropChance;
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return plugin.getConfigManager().breezeHeadDropChance;
+				else if(mob instanceof Bogged)
+					return plugin.getConfigManager().boggedHeadDropChance;
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return plugin.getConfigManager().armadilloHeadDropChance;
+				else if (mob instanceof Sniffer)
+					return plugin.getConfigManager().snifferHeadDropChance;
+				else if (mob instanceof Camel)
+					return plugin.getConfigManager().camelHeadDropChance;
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayHeadDropChance;
@@ -3425,9 +3474,9 @@ public class RewardManager {
 				return plugin.getConfigManager().endermanHeadDropChance;
 			else if (mob instanceof Giant)
 				return plugin.getConfigManager().giantHeadDropChance;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return plugin.getConfigManager().skeletonHeadDropChance;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return plugin.getConfigManager().witherSkeletonHeadDropChance;
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a subclass of Spider
@@ -3567,6 +3616,20 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadMessage;
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return plugin.getConfigManager().breezeHeadMessage;
+				else if(mob instanceof Bogged)
+					return plugin.getConfigManager().boggedHeadMessage;
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return plugin.getConfigManager().armadilloHeadMessage;
+				else if (mob instanceof Sniffer)
+					return plugin.getConfigManager().snifferHeadMessage;
+				else if (mob instanceof Camel)
+					return plugin.getConfigManager().camelHeadMessage;
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayHeadMessage;
@@ -3757,9 +3820,9 @@ public class RewardManager {
 				return plugin.getConfigManager().endermanHeadMessage;
 			else if (mob instanceof Giant)
 				return plugin.getConfigManager().giantHeadMessage;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return plugin.getConfigManager().skeletonHeadMessage;
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return plugin.getConfigManager().witherSkeletonHeadMessage;
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a subclass of Spider
@@ -3899,6 +3962,20 @@ public class RewardManager {
 			return getPrice(mob, plugin.getConfigManager().wolfHeadPrize);
 
 		} else {
+			if (Servers.isMC121OrNewer()){
+				if (mob instanceof Breeze)
+					return getPrice(mob, plugin.getConfigManager().breezeHeadPrize);
+				else if(mob instanceof Bogged)
+					return getPrice(mob, plugin.getConfigManager().boggedHeadPrize);
+			}
+			if (Servers.isMC120OrNewer()){
+				if (mob instanceof Armadillo)
+					return getPrice(mob, plugin.getConfigManager().armadilloHeadPrize);
+				else if (mob instanceof Sniffer)
+					return getPrice(mob, plugin.getConfigManager().snifferHeadPrize);
+				else if (mob instanceof Camel)
+					return getPrice(mob, plugin.getConfigManager().camelHeadPrize);
+			}
 			if (Servers.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return getPrice(mob, plugin.getConfigManager().allayHeadPrize);
@@ -4089,9 +4166,9 @@ public class RewardManager {
 				return getPrice(mob, plugin.getConfigManager().endermanHeadPrize);
 			else if (mob instanceof Giant)
 				return getPrice(mob, plugin.getConfigManager().giantHeadPrize);
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.NORMAL)
+			else if (mob instanceof Skeleton)
 				return getPrice(mob, plugin.getConfigManager().skeletonHeadPrize);
-			else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.WITHER)
+			else if (mob instanceof WitherSkeleton)
 				return getPrice(mob, plugin.getConfigManager().witherSkeletonHeadPrize);
 			else if (mob instanceof CaveSpider)
 				// CaveSpider is a subclass of Spider

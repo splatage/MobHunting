@@ -80,6 +80,8 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.default", "### Default/Global settings ###"
 				+ "\nPossible message_type values: Chat, ActionBar, BossBar, Title, Subtitle, None");
 		setCategoryComment("mobs.blaze", "### Blaze settings ###");
+		setCategoryComment("mobs.breeze", "### Breeze settings ###");
+		setCategoryComment("mobs.bogged", "### Bogged settings ###");
 		setCategoryComment("mobs.cave_spider", "### Cave Spider settings ###");
 		setCategoryComment("mobs.creeper", "### Creeper settings ###");
 		setCategoryComment("mobs.drowned", "### Drowned settings ###");
@@ -172,6 +174,7 @@ public class ConfigManager extends AutoConfig {
 						+ "\nIf you make the number negative, the reward will be a fine for killing a passive animal.");
 
 		setCategoryComment("passive.allay", "### Allay settings ###");
+		setCategoryComment("passive.armadillo", "### Armadillo settings ###");
 		setCategoryComment("passive.axolotl", "### Axolotl settings ###");
 		setCategoryComment("passive.bat", "### Bat settings ###");
 		setCategoryComment("passive.bee", "### Bee settings ###");
@@ -675,6 +678,58 @@ public class ConfigManager extends AutoConfig {
 	public double blazeHeadDropChance = 0.10;
 	@ConfigField(name = "blaze.head.message", category = "mobs")
 	public String blazeHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Breeze============================================
+	@ConfigField(name = "breeze.enabled", category = "mobs")
+	public boolean breezeEnabled = true;
+	@ConfigField(name = "breeze.message", category = "mobs")
+	public String breezeMessage = "You killed a §1{killed}";
+	@ConfigField(name = "breeze.money.amount", category = "mobs")
+	public String breezeMoney = "10.0";
+	@ConfigField(name = "breeze.money.chance", category = "mobs")
+	public double breezeMoneyChance = 1;
+	@ConfigField(name = "breeze.commands", category = "mobs")
+	public List<HashMap<String, String>> breezeCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.10");
+		breezeCommands.add(values1);
+	}
+	@ConfigField(name = "breeze.head.drophead", category = "mobs")
+	public boolean breezeHeadDropHead = true;
+	@ConfigField(name = "breeze.head.value", category = "mobs")
+	public String breezeHeadPrize = "0";
+	@ConfigField(name = "breeze.head.chance", category = "mobs")
+	public double breezeHeadDropChance = 0.10;
+	@ConfigField(name = "breeze.head.message", category = "mobs")
+	public String breezeHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
+	// =====Bogged============================================
+	@ConfigField(name = "bogged.enabled", category = "mobs")
+	public boolean boggedEnabled = true;
+	@ConfigField(name = "bogged.message", category = "mobs")
+	public String boggedMessage = "You killed a §1{killed}";
+	@ConfigField(name = "bogged.money.amount", category = "mobs")
+	public String boggedMoney = "10.0";
+	@ConfigField(name = "bogged.money.chance", category = "mobs")
+	public double boggedMoneyChance = 1;
+	@ConfigField(name = "bogged.commands", category = "mobs")
+	public List<HashMap<String, String>> boggedCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.10");
+		boggedCommands.add(values1);
+	}
+	@ConfigField(name = "bogged.head.drophead", category = "mobs")
+	public boolean boggedHeadDropHead = true;
+	@ConfigField(name = "bogged.head.value", category = "mobs")
+	public String boggedHeadPrize = "0";
+	@ConfigField(name = "bogged.head.chance", category = "mobs")
+	public double boggedHeadDropChance = 0.10;
+	@ConfigField(name = "bogged.head.message", category = "mobs")
+	public String boggedHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
 	// =====Cave Spider============================================
 	@ConfigField(name = "cave_spider.enabled", category = "mobs")
@@ -2255,6 +2310,32 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "allay.head.message", category = "mobs")
 	public String allayHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
 
+	// =====Armadillo============================================
+	@ConfigField(name = "armadillo.enabled", category = "mobs")
+	public boolean armadilloEnabled = true;
+	@ConfigField(name = "armadillo.message", category = "mobs")
+	public String armadilloMessage = "You killed a §1{killed}";
+	@ConfigField(name = "armadillo.money.amount", category = "mobs")
+	public String armadilloMoney = "0.0";
+	@ConfigField(name = "armadillo.money.chance", category = "mobs")
+	public double armadilloMoneyChance = 0.05;
+	@ConfigField(name = "armadillo.commands", category = "mobs")
+	public List<HashMap<String, String>> armadilloCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.10");
+		armadilloCommands.add(values1);
+	}
+	@ConfigField(name = "armadillo.head.drophead", category = "mobs")
+	public boolean armadilloHeadDropHead = true;
+	@ConfigField(name = "armadillo.head.value", category = "mobs")
+	public String armadilloHeadPrize = "0";
+	@ConfigField(name = "armadillo.head.chance", category = "mobs")
+	public double armadilloHeadDropChance = 0.05;
+	@ConfigField(name = "armadillo.head.message", category = "mobs")
+	public String armadilloHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+
 	// =====Axolotl============================================
 	@ConfigField(name = "axolotl.enabled", category = "mobs")
 	public boolean axolotlEnabled = true;
@@ -2862,7 +2943,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "sniffer.money.amount", category = "passive")
 	public String snifferMoney = "0";
 	@ConfigField(name = "sniffer.money.chance", category = "passive")
-	public double snifferCmdRunChance = 0;
+	public double snifferMoneyChance = 0;
 	@ConfigField(name = "sniffer.commands", category = "passive")
 	public List<HashMap<String, String>> snifferCommands = new ArrayList<HashMap<String, String>>();
 	{
@@ -4115,6 +4196,12 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "enable_mcmmo_level_rewards", category = "plugins.mcmmo", comment = "Set 'enable_mcmmo_level_rewards: true' to let the players get Level as a MobHunting reward.")
 	public boolean enableMcMMOLevelRewards = true;
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.armadillo")
+	public String armadilloMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.armadillo")
+	public double armadilloMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.allay")
 	public String allayMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.allay")
@@ -4152,6 +4239,18 @@ public class ConfigManager extends AutoConfig {
 	public double blazeMcMMOSkillRewardChance = 0.05;
 	// Hostile, normal challenge
 
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.bogged")
+	public String boggedMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.bogged")
+	public double boggedMcMMOSkillRewardChance = 0.05;
+	// Hostile, normal challenge
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.breeze")
+	public String breezeMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.breeze")
+	public double breezeMcMMOSkillRewardChance = 0.05;
+	// Hostile, normal challenge
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.bonusmob")
 	public String bonusMobMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.bonusmob")
@@ -4168,6 +4267,12 @@ public class ConfigManager extends AutoConfig {
 	public String butcherMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.butcher")
 	public double butcherMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.camel")
+	public String camelMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.camel")
+	public double camelMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.cartographer")
@@ -4502,6 +4607,12 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.raw_salmon")
 	public double rawsalmonMcMMOSkillRewardChance = 0.06;
 	// Fishing normal
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.sniffer")
+	public String snifferMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.sniffer")
+	public double snifferMcMMOSkillRewardChance = 0.025;
+	// Passive mob, risk free
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.sheep")
 	public String sheepMcMMOSkillRewardAmount = "1";
@@ -5434,8 +5545,18 @@ public class ConfigManager extends AutoConfig {
 			return Double.valueOf(str);
 	}
 
+	// TODO: Prune color codes out of lang files
 	public String getFriendlyName(MobType mob) {
-		return MobHunting.getInstance().getMessages().getString("mobs." + mob.name() + ".name");
+		String friendlyName = MobHunting.getInstance().getMessages().getString("mobs." + mob.name() + ".name");
+
+		if(friendlyName.contains("&")){
+			friendlyName = friendlyName.substring((friendlyName.indexOf("&") + 2));
+		}
+		else if (friendlyName.contains("§")) {
+			friendlyName = friendlyName.substring((friendlyName.indexOf("§") + 2));
+		}
+
+		return friendlyName;
 	}
 
 }

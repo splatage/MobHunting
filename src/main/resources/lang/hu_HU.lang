@@ -390,6 +390,9 @@ mobhunting.learn.no-duplication=§bNem engedélyezett a tárgy megismétlése, a
 mobhunting.learn.mcmmohorses-not-permanent-death=§bAz RPGHorses meggyilkolásáért nincs jutalom.
 mobhunting.learn.mcmmohorses-not-own-horses=§bNincs jutalom a saját RPGHorses megöléséért.
 
+mobs.Armadillo.name=§9Tatú
+mobs.Breeze.name=§9Szellő
+mobs.Bogged.name=§9Mocsárt
 mobs.BonusMob.name=§9Bónusz mob
 mobs.Blaze.name=§9Őrláng
 mobs.CaveSpider.name=§9Bányapók

@@ -1,10 +1,10 @@
 name: MobHunting
 main: metadev.digital.MetaMobHunting.MobHunting
-version: 8.6.5
+version: 9.0.5
 description: MobHunting adds a new level of fun to hunting monsters. Now you can
   get money from kills, get bonuses for skilled and creative kills, and get
   special achievements.
-dev-url: https://dev.bukkit.org/projects/mobhunting
+dev-url: https://github.com/Metadev-Digital/MobHunting
 author: JebusChrystler
 depend:
   - CustomItemsLib
@@ -12,7 +12,7 @@ softdepend:
   - ProtocolLib
   - mcMMO
   - Residence
-api-version: 1.20.6
+api-version: 1.21
 commands:
   mobhunt:
     description: Allows you to configure mob hunt

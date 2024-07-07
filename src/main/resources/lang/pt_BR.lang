@@ -39,8 +39,9 @@ core.commands.update.version-found=new version available: ${newversion}
 core.commands.version.currentversion=This server is running 'BagOfGold ${currentversion}'.
 core.commands.version.description=Show BagOfGold's version number.
 core.commands.version.newversion=Version ${newversion} is available. Use '/cil update' to update the plugin.
-
-
+mobs.Armorer.name=§9Armorer
+mobs.Breeze.name=§9Breeze
+mobs.Bogged.name=§9Bogged
 mobs.Bat.name=§9Bat
 mobs.Bee.name=§9Abelha
 mobs.Blacksmith.name=§9Blacksmith

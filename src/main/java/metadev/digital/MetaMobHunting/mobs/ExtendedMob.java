@@ -135,12 +135,21 @@ public class ExtendedMob {
 		return null;
 	}
 
-	public String getFriendlyName() {
+	public String getFriendlyName() { 	// TODO: Prune color codes out of lang files
+		String friendlyName;
 		if (mobPlugin == MobPlugin.Minecraft)
-			return MobHunting.getInstance().getMessages().getString("mobs." + mobtype + ".name");
+			friendlyName = MobHunting.getInstance().getMessages().getString("mobs." + mobtype + ".name");
 		else
-			return MobHunting.getInstance().getMessages()
-					.getString("mobs." + mobPlugin.name() + "_" + mobtype + ".name");
+			friendlyName = MobHunting.getInstance().getMessages().getString("mobs." + mobPlugin.name() + "_" + mobtype + ".name");
+
+		if(friendlyName.contains("&")){
+			friendlyName = friendlyName.substring((friendlyName.indexOf("&") + 2));
+		}
+		else if (friendlyName.contains("§")) {
+			friendlyName = friendlyName.substring((friendlyName.indexOf("§") + 2));
+		}
+
+		return friendlyName;
 	}
 
 	public int getProgressAchievementLevel1() {
