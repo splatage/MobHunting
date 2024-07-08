@@ -350,6 +350,10 @@ mobhunting.reward.killer=这是 ${rewardname} 的头, 价值 (${rewardvalue})
 mobhunting.reward.mypet_pickup=§a${petname}§a picked up ${money} ${rewardname}
 mobhunting.reward.lore=MobHunting 奖励
 mobhunting.reward.steve=史蒂夫
+
+mobs.Armadillo.name=§犰狳
+mobs.Breeze.name=§9微風
+mobs.Bogged.name=§9沼澤
 mobs.Bat.name=§9蝙蝠
 mobs.Bee.name=§9蜜蜂
 mobs.Blacksmith.name=§9铁匠

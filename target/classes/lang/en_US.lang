@@ -389,7 +389,9 @@ mobhunting.learn.residence-no-rewards-in-protected-area=§bNo reward: You are in
 mobhunting.learn.no-duplication=§bYou are not allowed to duplicate this item, value was set to 0.
 mobhunting.learn.mcmmohorses-not-permanent-death=§bThere is no reward for killing RPGHorses.
 mobhunting.learn.mcmmohorses-not-own-horses=§bThere is no reward for killing your own RPGHorses.
-
+mobs.Armadillo.name=§9Armadillo
+mobs.Breeze.name=§9Breeze
+mobs.Bogged.name=§9Bogged
 mobs.BonusMob.name=§9Bonus Mob
 mobs.Blaze.name=§9Blaze
 mobs.CaveSpider.name=§9Cave Spider
