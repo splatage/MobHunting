@@ -149,6 +149,10 @@ public class ExtendedMob {
 			friendlyName = friendlyName.substring((friendlyName.indexOf("§") + 2));
 		}
 
+		if(friendlyName.contains(" ")){
+			friendlyName = friendlyName.replace(' ', '_');
+		}
+
 		return friendlyName;
 	}
 
