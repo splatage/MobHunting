@@ -468,6 +468,36 @@ public class Messages {
 	}
 
 	/**
+	 * Show console message
+	 *
+	 * @param message
+	 * @param args
+	 */
+	public void notice(String message, Object... args) {
+		Bukkit.getServer().getConsoleSender().sendMessage(PREFIX  + " " + String.format(message, args));
+	}
+
+	/**
+	 * Show console warning
+	 *
+	 * @param message
+	 * @param args
+	 */
+	public void warning(String message, Object... args) {
+		Bukkit.getServer().getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + " " + String.format(message, args));
+	}
+
+	/**
+	 * Show console error
+	 *
+	 * @param message
+	 * @param args
+	 */
+	public void error(String message, Object... args) {
+		Bukkit.getServer().getConsoleSender().sendMessage(MobHunting.PREFIX_ERROR  + " " + String.format(message, args));
+	}
+
+	/**
 	 * Show learning messages to the player
 	 * 
 	 * @param player

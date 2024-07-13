@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import metadev.digital.metacustomitemslib.update.UpdateStatus;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class VersionCommand implements ICommand {
@@ -54,17 +53,10 @@ public class VersionCommand implements ICommand {
 
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
+		plugin.getMessages().senderSendMessage(sender,
+				ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.version.currentversion",
+						"currentversion", MobHunting.getInstance().getDescription().getVersion()));
 		return true;
-		/** plugin.getMessages().senderSendMessage(sender,
-				ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.version.currentversion", "currentversion",
-						MobHunting.getInstance().getDescription().getVersion()));
-		if (plugin.getSpigetUpdater().getUpdateAvailable() == UpdateStatus.AVAILABLE)
-			plugin.getMessages().senderSendMessage(sender,
-					ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.version.newversion", "newversion",
-							plugin.getSpigetUpdater().getNewDownloadVersion()));
-		else if (sender.hasPermission("mobhunting.update"))
-			plugin.getSpigetUpdater().checkForUpdate(sender, true, false);
-		return true;*/
 	}
 
 	@Override

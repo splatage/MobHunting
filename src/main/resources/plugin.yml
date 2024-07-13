@@ -21,6 +21,7 @@ commands:
       - mob
       - mh
       - mobhunt
+      - mobhunting
     usage: /<command> command
 permissions:
   mobhunting.enable:
@@ -35,7 +36,7 @@ permissions:
     children:
       mobhunting.cmd: true
   mobhunting.update:
-    description: Allows a player to update the plugin
+    description: Allows a player to check SpigotMc for updates to the plugin
     default: op
     children:
       mobhunting.cmd: true
