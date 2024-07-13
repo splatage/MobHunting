@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
-import metadev.digital.metacustomitemslib.update.UpdateStatus;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class UpdateCommand implements ICommand {
@@ -33,7 +32,7 @@ public class UpdateCommand implements ICommand {
 
 	@Override
 	public String[] getUsageString(String label, CommandSender sender) {
-		return new String[] { ChatColor.GOLD + label + ChatColor.WHITE + " - to download and update the plugin." };
+		return new String[] { ChatColor.GOLD + label };
 	}
 
 	@Override
@@ -43,7 +42,7 @@ public class UpdateCommand implements ICommand {
 
 	@Override
 	public boolean canBeConsole() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -53,15 +52,8 @@ public class UpdateCommand implements ICommand {
 
 	@Override
 	public boolean onCommand(CommandSender sender, String label, String[] args) {
+		plugin.getMessages().senderSendMessage(sender, ChatColor.GREEN + MobHunting.getUpdater().processCheckResultInChat());
 		return true;
-		/** if (plugin.getSpigetUpdater().getUpdateAvailable() == UpdateStatus.AVAILABLE)
-			plugin.getSpigetUpdater().checkForUpdate(sender, false, true);
-		else if (plugin.getSpigetUpdater().getUpdateAvailable() == UpdateStatus.RESTART_NEEDED)
-			plugin.getMessages().senderSendMessage(sender,
-					ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.update.complete"));
-		else
-			plugin.getSpigetUpdater().checkForUpdate(sender, false, true);
-		return true; */
 	}
 
 	@Override

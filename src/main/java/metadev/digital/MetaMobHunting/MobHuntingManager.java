@@ -20,7 +20,6 @@ import metadev.digital.MetaMobHunting.grinding.Area;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.modifier.*;
 import metadev.digital.MetaMobHunting.placeholder.PlaceHolderData;
-import metadev.digital.MetaMobHunting.update.SpigetUpdater;
 
 import org.bukkit.*;
 import org.bukkit.command.CommandException;
@@ -39,7 +38,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -77,14 +75,6 @@ public class MobHuntingManager implements Listener {
 	private void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		setHuntEnabled(player, true);
-		/** TODO: Fix Spiget Updater | if (player.hasPermission("mobhunting.update") && plugin.getConfigManager().updateCheck) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					new SpigetUpdater(plugin).checkForUpdate(player, true, false);
-				}
-			}.runTaskLater(plugin, 20L);
-		}*/
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
