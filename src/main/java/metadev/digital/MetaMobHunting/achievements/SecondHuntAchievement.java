@@ -17,7 +17,7 @@ public class SecondHuntAchievement implements ProgressAchievement {
 
 	@Override
 	public String getName() {
-		return plugin.getMessages().getString("achievements.hunter.2.name", "mob", mExtendedMob.getFriendlyName());
+		return plugin.getMessages().getString("achievements.hunter.2.name", "mob", mExtendedMob.getLocalizedName());
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class SecondHuntAchievement implements ProgressAchievement {
 	@Override
 	public String getDescription() {
 		return plugin.getMessages().getString("achievements.hunter.2.description", "count", getNextLevel(), "mob",
-				mExtendedMob.getFriendlyName());
+				mExtendedMob.getLocalizedName());
 	}
 
 	@Override

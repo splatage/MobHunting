@@ -18,7 +18,7 @@ public class BasicHuntAchievement implements ProgressAchievement {
 
 	@Override
 	public String getName() {
-		return plugin.getMessages().getString("achievements.hunter.1.name", "mob", mExtendedMob.getFriendlyName());
+		return plugin.getMessages().getString("achievements.hunter.1.name", "mob", mExtendedMob.getLocalizedName());
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class BasicHuntAchievement implements ProgressAchievement {
 	@Override
 	public String getDescription() {
 		return plugin.getMessages().getString("achievements.hunter.1.description", "count", getNextLevel(), "mob",
-				mExtendedMob.getFriendlyName());
+				mExtendedMob.getLocalizedName());
 	}
 
 	@Override

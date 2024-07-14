@@ -20,7 +20,6 @@ import metadev.digital.MetaMobHunting.grinding.Area;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.modifier.*;
 import metadev.digital.MetaMobHunting.placeholder.PlaceHolderData;
-import metadev.digital.MetaMobHunting.update.SpigetUpdater;
 
 import org.bukkit.*;
 import org.bukkit.command.CommandException;
@@ -39,7 +38,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -1719,7 +1717,7 @@ public class MobHuntingManager implements Listener {
 		if (!plugin.getRewardManager().getKillMessage(killed).trim().isEmpty() && !killer_muted) {
 			String message = Strings.convertColors(ChatColor.GREEN + plugin.getRewardManager().getKillMessage(killed)
 					.trim().replaceAll("\\{player\\}", player.getName()).replaceAll("\\{killer\\}", player.getName())
-					.replaceAll("\\{killed\\}", mob.getFriendlyName())
+					.replaceAll("\\{killed\\}", mob.getLocalizedName())
 					.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 					.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 					.replaceAll("\\{world\\}", worldname).replaceAll("\\{killerpos\\}", killerpos)
@@ -1842,19 +1840,19 @@ public class MobHuntingManager implements Listener {
 							plugin.getMessages().playerSendMessageAt(player, ChatColor.GREEN + "" + ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.moneygain", "prize",
 											plugin.getEconomyManager().format(cash), "money",
-											plugin.getEconomyManager().format(cash), "killed", mob.getFriendlyName()),
+											plugin.getEconomyManager().format(cash), "killed", mob.getLocalizedName()),
 									messageType);
 						} else
 							plugin.getMessages().playerSendMessageAt(player, ChatColor.GREEN + "" + ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.moneygain.drop", "prize",
 											plugin.getEconomyManager().format(cash), "money",
-											plugin.getEconomyManager().format(cash), "killed", mob.getFriendlyName()),
+											plugin.getEconomyManager().format(cash), "killed", mob.getLocalizedName()),
 									messageType);
 					} else if (cash <= -Core.getConfigManager().minimumReward && cash != 0) {
 						plugin.getMessages().playerSendMessageAt(player, ChatColor.RED + "" + ChatColor.ITALIC
 								+ plugin.getMessages().getString("mobhunting.moneylost", "prize",
 										plugin.getEconomyManager().format(cash), "money",
-										plugin.getEconomyManager().format(cash), "killed", mob.getFriendlyName()),
+										plugin.getEconomyManager().format(cash), "killed", mob.getLocalizedName()),
 								messageType);
 					}
 
@@ -1867,7 +1865,7 @@ public class MobHuntingManager implements Listener {
 											plugin.getEconomyManager().format(cash), "money",
 											plugin.getEconomyManager().format(cash), "bonuses", extraString.trim(),
 											"multipliers", plugin.getEconomyManager().format(multipliers), "killed",
-											mob.getFriendlyName()),
+											mob.getLocalizedName()),
 									messageType);
 						} else
 							plugin.getMessages().playerSendMessageAt(player, ChatColor.GREEN + "" + ChatColor.ITALIC
@@ -1876,7 +1874,7 @@ public class MobHuntingManager implements Listener {
 											plugin.getEconomyManager().format(cash), "money",
 											plugin.getEconomyManager().format(cash), "bonuses", extraString.trim(),
 											"multipliers", plugin.getEconomyManager().format(multipliers), "killed",
-											mob.getFriendlyName()),
+											mob.getLocalizedName()),
 									messageType);
 					} else if (cash <= -Core.getConfigManager().minimumReward && cash != 0) {
 						plugin.getMessages().playerSendMessageAt(player,
@@ -1885,7 +1883,7 @@ public class MobHuntingManager implements Listener {
 												plugin.getEconomyManager().format(basic_prize), "prize",
 												plugin.getEconomyManager().format(cash), "money",
 												plugin.getEconomyManager().format(cash), "bonuses", extraString.trim(),
-												"multipliers", multipliers, "killed", mob.getFriendlyName()),
+												"multipliers", multipliers, "killed", mob.getLocalizedName()),
 								messageType);
 					}
 				}
@@ -1997,7 +1995,7 @@ public class MobHuntingManager implements Listener {
 							plugin.getMessages().playerSendMessageAt(player,
 									message.replaceAll("\\{player\\}", player.getName())
 											.replaceAll("\\{killer\\}", player.getName())
-											.replaceAll("\\{killed\\}", mob.getFriendlyName())
+											.replaceAll("\\{killed\\}", mob.getLocalizedName())
 											.replaceAll("\\{world\\}", worldname)
 											.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 											.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
@@ -2045,7 +2043,7 @@ public class MobHuntingManager implements Listener {
 							1, plugin.getRewardManager().getHeadValue(killed));
 					player.getWorld().dropItem(killed.getLocation(), head);
 				} else {
-					ItemStack head = CoreCustomItems.getCustomHead(minecraftMob, mob.getFriendlyName(), 1,
+					ItemStack head = CoreCustomItems.getCustomHead(minecraftMob, mob.getEntityName(), 1,
 							plugin.getRewardManager().getHeadValue(killed), minecraftMob.getSkinUUID());
 					player.getWorld().dropItem(killed.getLocation(), head);
 				}
@@ -2058,7 +2056,7 @@ public class MobHuntingManager implements Listener {
 							ChatColor.GREEN + Strings.convertColors(plugin.getRewardManager().getHeadDropMessage(killed)
 									.replaceAll("\\{player\\}", player.getName())
 									.replaceAll("\\{killer\\}", player.getName())
-									.replaceAll("\\{killed\\}", mob.getFriendlyName())
+									.replaceAll("\\{killed\\}", mob.getLocalizedName())
 									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{money\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{world\\}", worldname).replaceAll("\\{killerpos\\}", killerpos)
