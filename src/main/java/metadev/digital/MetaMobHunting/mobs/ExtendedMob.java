@@ -135,25 +135,24 @@ public class ExtendedMob {
 		return null;
 	}
 
-	public String getFriendlyName() { 	// TODO: Prune color codes out of lang files
-		String friendlyName;
+	public String getLocalizedName() {
 		if (mobPlugin == MobPlugin.Minecraft)
-			friendlyName = MobHunting.getInstance().getMessages().getString("mobs." + mobtype + ".name");
+			return MobHunting.getInstance().getMessages().getString("mobs." + mobtype + ".name");
 		else
-			friendlyName = MobHunting.getInstance().getMessages().getString("mobs." + mobPlugin.name() + "_" + mobtype + ".name");
+			return MobHunting.getInstance().getMessages().getString("mobs." + mobPlugin.name() + "_" + mobtype + ".name");
+	}
 
-		if(friendlyName.contains("&")){
-			friendlyName = friendlyName.substring((friendlyName.indexOf("&") + 2));
+	/**
+	 * Gets a safe and filtered Entity Name out of what is in the localized files
+	 * @return
+	 */
+	public String getEntityName() {
+		if (mobPlugin == MobPlugin.Minecraft) {
+			return ChatColor.stripColor(MobHunting.getInstance().getMessages().getString("mobs." + mobtype + ".name")).replace(' ', '_');
 		}
-		else if (friendlyName.contains("§")) {
-			friendlyName = friendlyName.substring((friendlyName.indexOf("§") + 2));
+		else {
+			return ChatColor.stripColor(MobHunting.getInstance().getMessages().getString("mobs." + mobPlugin.name() + "_" + mobtype + ".name")).replace(' ', '_');
 		}
-
-		if(friendlyName.contains(" ")){
-			friendlyName = friendlyName.replace(' ', '_');
-		}
-
-		return friendlyName;
 	}
 
 	public int getProgressAchievementLevel1() {

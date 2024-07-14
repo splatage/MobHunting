@@ -23,7 +23,7 @@ public class EighthHuntAchievement implements ProgressAchievement, Listener {
 
 	@Override
 	public String getName() {
-		return plugin.getMessages().getString("achievements.hunter.8.name", "mob", mExtendedMob.getFriendlyName());
+		return plugin.getMessages().getString("achievements.hunter.8.name", "mob", mExtendedMob.getLocalizedName());
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class EighthHuntAchievement implements ProgressAchievement, Listener {
 	@Override
 	public String getDescription() {
 		return plugin.getMessages().getString("achievements.hunter.8.description", "count", getNextLevel(), "mob",
-				mExtendedMob.getFriendlyName());
+				mExtendedMob.getLocalizedName());
 	}
 
 	@Override

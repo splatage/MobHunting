@@ -342,7 +342,7 @@ public class FishingManager implements Listener {
 							String message = plugin.getRewardManager().getKillMessage(fish)
 									.replaceAll("\\{player\\}", player.getName())
 									.replaceAll("\\{killer\\}", player.getName())
-									.replaceAll("\\{killed\\}", extendedMob.getFriendlyName())
+									.replaceAll("\\{killed\\}", extendedMob.getLocalizedName())
 									.replaceAll("\\{world\\}", worldname)
 									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{world\\}", player.getWorld().getName())
@@ -366,7 +366,7 @@ public class FishingManager implements Listener {
 						plugin.getMessages().playerSendMessage(player, ChatColor.GREEN + "" + ChatColor.ITALIC
 								+ message.replaceAll("\\{player\\}", player.getName())
 										.replaceAll("\\{killer\\}", player.getName())
-										.replaceAll("\\{killed\\}", extendedMob.getFriendlyName())
+										.replaceAll("\\{killed\\}", extendedMob.getLocalizedName())
 										.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 										.replaceAll("\\{world\\}", player.getWorld().getName())
 										.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim()));
@@ -379,10 +379,10 @@ public class FishingManager implements Listener {
 					if (random < plugin.getRewardManager().getHeadDropChance(fish)) {
 						MobType minecraftMob = MobType.getMobType(fish);
 						ItemStack head = CoreCustomItems.getCustomHead(minecraftMob,
-								minecraftMob.getFriendlyName(), 1, plugin.getRewardManager().getHeadValue(fish),
+								minecraftMob.getEntityName(), 1, plugin.getRewardManager().getHeadValue(fish),
 								minecraftMob.getSkinUUID());
 						head = Reward.setDisplayNameAndHiddenLores(head,
-								new Reward(minecraftMob.getFriendlyName(), plugin.getRewardManager().getHeadValue(fish),
+								new Reward(minecraftMob.getEntityName(), plugin.getRewardManager().getHeadValue(fish),
 										RewardType.KILLED, minecraftMob.getSkinUUID()));
 						fish.getWorld().dropItem(fish.getLocation(), head);
 						plugin.getMessages().debug("%s caught a %s and a head was dropped in the water",
@@ -392,7 +392,7 @@ public class FishingManager implements Listener {
 									ChatColor.GREEN + Strings.convertColors(plugin.getRewardManager()
 											.getHeadDropMessage(fish).replaceAll("\\{player\\}", player.getName())
 											.replaceAll("\\{killer\\}", player.getName())
-											.replaceAll("\\{killed\\}", minecraftMob.getFriendlyName())
+											.replaceAll("\\{killed\\}", minecraftMob.getLocalizedName())
 											.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 											.replaceAll("\\{world\\}", player.getWorld().getName())
 											.replaceAll("\\{killerpos\\}", fishermanPos)
