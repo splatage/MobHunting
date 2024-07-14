@@ -86,7 +86,6 @@ import metadev.digital.MetaMobHunting.storage.DataStoreManager;
 import metadev.digital.MetaMobHunting.storage.IDataStore;
 import metadev.digital.MetaMobHunting.storage.MySQLDataStore;
 import metadev.digital.MetaMobHunting.storage.SQLiteDataStore;
-import metadev.digital.MetaMobHunting.update.SpigetUpdater;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
