@@ -363,10 +363,10 @@ public class MobHunting extends JavaPlugin {
 			}
 		}
 
-		/** TODO: Fix metrics if (!Servers.isGlowstoneServer()) {
+		if (!Servers.isGlowstoneServer()) {
 			mMetricsManager = new MetricsManager(this);
 			mMetricsManager.startBStatsMetrics();
-		}*/
+		}
 
 		// Handle online players when server admin do a /reload or /mh reload
 		if (Tools.getOnlinePlayersAmount() > 0) {
