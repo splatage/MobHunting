@@ -110,8 +110,8 @@ public class MetricsManager {
 
 	public void startBStatsMetrics() {
 		// https://bstats.org/what-is-my-plugin-id
-		bStatsMetrics = new Metrics(plugin,173);
-		
+		bStatsMetrics = new Metrics(plugin,22712);
+
 		bStatsMetrics.addCustomChart(
 				new SimplePie("database_used_for_mobhunting", () -> plugin.getConfigManager().databaseType));
 		bStatsMetrics.addCustomChart(new SimplePie("language", () -> plugin.getConfigManager().language));	// McMMO 2.1.0 documentation:

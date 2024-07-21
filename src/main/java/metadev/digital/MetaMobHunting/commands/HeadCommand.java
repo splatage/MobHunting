@@ -124,7 +124,7 @@ public class HeadCommand implements ICommand, Listener {
 				// displayName = args[3].replace("_", " ");
 				// } else {
 				if (mob != MobType.PvpPlayer)
-					displayName = mob.getFriendlyName().replace("_", " ");
+					displayName = mob.getLocalizedName().replace("_", " ");
 				else
 					displayName = offlinePlayer.getName();
 				// }
@@ -257,7 +257,7 @@ public class HeadCommand implements ICommand, Listener {
 							OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
 							toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
 						} else
-							toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, mob.getFriendlyName(), 1, money, mob.getSkinUUID()));
+							toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, mob.getLocalizedName(), 1, money, mob.getSkinUUID()));
 
 					} else if (args.length == 3) {
 						if (Bukkit.getServer().getOfflinePlayer(args[2]).isOnline()) {
@@ -267,7 +267,7 @@ public class HeadCommand implements ICommand, Listener {
 								OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
 								toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, args[1], 1, money, offlinePlayer.getUniqueId()));
 							} else
-								toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, mob.getFriendlyName(), 1, money, mob.getSkinUUID()));
+								toPlayer.getWorld().dropItem(location, CoreCustomItems.getCustomHead(mob, mob.getLocalizedName(), 1, money, mob.getSkinUUID()));
 
 						} else {
 							plugin.getMessages().senderSendMessage(sender, ChatColor.RED + plugin.getMessages()
@@ -293,10 +293,10 @@ public class HeadCommand implements ICommand, Listener {
 									new Reward(args[1], money, RewardType.KILLER, player.getUniqueId()));
 							world.dropItem(location, head);
 						} else {
-							ItemStack head = CoreCustomItems.getCustomHead(mob, mob.getFriendlyName(), 1, money,
+							ItemStack head = CoreCustomItems.getCustomHead(mob, mob.getLocalizedName(), 1, money,
 									mob.getSkinUUID());
 							head = Reward.setDisplayNameAndHiddenLores(head,
-									new Reward(mob.getFriendlyName(), money, RewardType.KILLED, mob.getSkinUUID()));
+									new Reward(mob.getLocalizedName(), money, RewardType.KILLED, mob.getSkinUUID()));
 							world.dropItem(location, head);
 						}
 					}
@@ -331,12 +331,12 @@ public class HeadCommand implements ICommand, Listener {
 				items.add(ChatColor.stripColor(player.getName()));
 		} else if (args.length == 3 && (args[0].equalsIgnoreCase("give") || args[0].equalsIgnoreCase("spawn"))) {
 			for (MobType mob : MobType.values())
-				items.add(ChatColor.stripColor(mob.getFriendlyName().replace(" ", "_")));
+				items.add(ChatColor.stripColor(mob.getLocalizedName().replace(" ", "_")));
 			for (Player player : Bukkit.getOnlinePlayers())
 				items.add(ChatColor.stripColor(player.getName()));
 		} else if (args.length == 2 && args[0].equalsIgnoreCase("drop")) {
 			for (MobType mob : MobType.values())
-				items.add(ChatColor.stripColor(mob.getFriendlyName().replace(" ", "_")));
+				items.add(ChatColor.stripColor(mob.getLocalizedName().replace(" ", "_")));
 			for (Player player : Bukkit.getOnlinePlayers())
 				items.add(ChatColor.stripColor(player.getName()));
 		} else if (args.length == 3 && args[0].equalsIgnoreCase("drop")) {

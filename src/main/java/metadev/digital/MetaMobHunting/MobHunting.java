@@ -3,6 +3,7 @@ package metadev.digital.MetaMobHunting;
 import java.io.File;
 import java.util.Random;
 
+import metadev.digital.MetaMobHunting.update.UpdateManager;
 import metadev.digital.metacustomitemslib.server.Servers;
 import metadev.digital.metacustomitemslib.storage.DataStoreException;
 import metadev.digital.metacustomitemslib.Core;
@@ -86,7 +87,6 @@ import metadev.digital.MetaMobHunting.storage.DataStoreManager;
 import metadev.digital.MetaMobHunting.storage.IDataStore;
 import metadev.digital.MetaMobHunting.storage.MySQLDataStore;
 import metadev.digital.MetaMobHunting.storage.SQLiteDataStore;
-import metadev.digital.MetaMobHunting.update.SpigetUpdater;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -126,11 +126,12 @@ public class MobHunting extends JavaPlugin {
 	private AdvancementManager mAdvancementManager;
 	private CommandDispatcher mCommandDispatcher;
 	private CompatibilityManager mCompatibilityManager;
-	// private SpigetUpdater mSpigetUpdater;
+	private static UpdateManager mUpdateManager;
 
 	private boolean mInitialized = false;
 	public boolean disabling = false;
 
+	//TODO Move Prefix and messages to Messages
 	public static final String PREFIX = ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET;
 	public static final String PREFIX_DEBUG = ChatColor.GOLD + "[MobHunting][Debug] " + ChatColor.RESET;
 	public static final String PREFIX_WARNING = ChatColor.GOLD + "[MobHunting][Warning] " + ChatColor.RED;
@@ -240,9 +241,6 @@ public class MobHunting extends JavaPlugin {
 			setEnabled(false);
 			return;
 		}
-
-		// mSpigetUpdater = new SpigetUpdater(this);
-		// mSpigetUpdater.setCurrentJarFile(this.getFile().getName());
 
 		mStoreManager = new DataStoreManager(this, mStore);
 
@@ -365,13 +363,10 @@ public class MobHunting extends JavaPlugin {
 			}
 		}
 
-		// Check for new MobHuntig updates using Spiget.org
-		// mSpigetUpdater.hourlyUpdateCheck(getServer().getConsoleSender(), mConfig.updateCheck, false);
-
-		/** TODO: Fix metrics if (!Servers.isGlowstoneServer()) {
+		if (!Servers.isGlowstoneServer()) {
 			mMetricsManager = new MetricsManager(this);
 			mMetricsManager.startBStatsMetrics();
-		}*/
+		}
 
 		// Handle online players when server admin do a /reload or /mh reload
 		if (Tools.getOnlinePlayersAmount() > 0) {
@@ -390,6 +385,10 @@ public class MobHunting extends JavaPlugin {
 				instance.getMessages().injectMissingMobNamesToLangFiles();
 			}
 		}, 20 * 5);
+
+		// Check for new updates
+		mUpdateManager = new UpdateManager(instance);
+		mUpdateManager.processCheckResultInConsole();
 
 		mInitialized = true;
 
@@ -583,10 +582,8 @@ public class MobHunting extends JavaPlugin {
 	public CompatibilityManager getCompatibilityManager() {
 		return mCompatibilityManager;
 	}
-
-	/** public SpigetUpdater getSpigetUpdater() {
-		return mSpigetUpdater;
-	}*/
+	
+	public static UpdateManager getUpdater() {	return mUpdateManager;	}
 
 	public EconomyManager getEconomyManager() {
 		return mEconomyManager;

@@ -7,7 +7,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.config.AutoConfig;
 import metadev.digital.metacustomitemslib.config.ConfigField;
@@ -623,7 +622,7 @@ public class ConfigManager extends AutoConfig {
 		HashMap<String, String> values3 = new HashMap<String, String>();
 		values3.put("cmd", "say {player} killed an {killed}");
 		values3.put("chance", "1");
-		values3.put("message", "You killed an §1{killed}");
+		values3.put("message", "You killed an §7{killed}");
 		exampleCommands.add(values3);
 
 		HashMap<String, String> values4 = new HashMap<String, String>();
@@ -643,7 +642,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "chance", category = "example.mobname.head", comment = "The chance to drop a head (a number between 0 and 1")
 	public double exampleHeadChance = 0.5;
 	@ConfigField(name = "message", category = "example.mobname.head", comment = "The message you want when a head is dropped")
-	public String exampleHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String exampleHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Default============================================
 	@ConfigField(name = "default.message_type", category = "mobs")
@@ -657,7 +656,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "blaze.enabled", category = "mobs")
 	public boolean blazeEnabled = true;
 	@ConfigField(name = "blaze.message", category = "mobs")
-	public String blazeMessage = "You killed a §1{killed}";
+	public String blazeMessage = "You killed a §7{killed}";
 	@ConfigField(name = "blaze.money.amount", category = "mobs")
 	public String blazeMoney = "10.0";
 	@ConfigField(name = "blaze.money.chance", category = "mobs")
@@ -677,13 +676,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "blaze.head.chance", category = "mobs")
 	public double blazeHeadDropChance = 0.10;
 	@ConfigField(name = "blaze.head.message", category = "mobs")
-	public String blazeHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String blazeHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Breeze============================================
 	@ConfigField(name = "breeze.enabled", category = "mobs")
 	public boolean breezeEnabled = true;
 	@ConfigField(name = "breeze.message", category = "mobs")
-	public String breezeMessage = "You killed a §1{killed}";
+	public String breezeMessage = "You killed a §7{killed}";
 	@ConfigField(name = "breeze.money.amount", category = "mobs")
 	public String breezeMoney = "10.0";
 	@ConfigField(name = "breeze.money.chance", category = "mobs")
@@ -703,13 +702,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "breeze.head.chance", category = "mobs")
 	public double breezeHeadDropChance = 0.10;
 	@ConfigField(name = "breeze.head.message", category = "mobs")
-	public String breezeHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String breezeHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Bogged============================================
 	@ConfigField(name = "bogged.enabled", category = "mobs")
 	public boolean boggedEnabled = true;
 	@ConfigField(name = "bogged.message", category = "mobs")
-	public String boggedMessage = "You killed a §1{killed}";
+	public String boggedMessage = "You killed a §7{killed}";
 	@ConfigField(name = "bogged.money.amount", category = "mobs")
 	public String boggedMoney = "10.0";
 	@ConfigField(name = "bogged.money.chance", category = "mobs")
@@ -729,13 +728,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "bogged.head.chance", category = "mobs")
 	public double boggedHeadDropChance = 0.10;
 	@ConfigField(name = "bogged.head.message", category = "mobs")
-	public String boggedHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String boggedHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Cave Spider============================================
 	@ConfigField(name = "cave_spider.enabled", category = "mobs")
 	public boolean caveSpiderEnabled = true;
 	@ConfigField(name = "cave_spider.message", category = "mobs")
-	public String caveSpiderMessage = "You killed a §1{killed}";
+	public String caveSpiderMessage = "You killed a §7{killed}";
 	@ConfigField(name = "cave_spider.money.amount", category = "mobs")
 	public String caveSpiderMoney = "10:20";
 	@ConfigField(name = "cave_spider.money.chance", category = "mobs")
@@ -755,13 +754,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "cave_spider.head.chance", category = "mobs")
 	public double caveSpiderHeadDropChance = 0.1;
 	@ConfigField(name = "cave_spider.head.message", category = "mobs")
-	public String caveSpiderHeadMessage = "§aThe §1{killed} §adropped a skull on the ground.";
+	public String caveSpiderHeadMessage = "§aThe §7{killed} §adropped a skull on the ground.";
 
 	// =====Creeper============================================
 	@ConfigField(name = "creeper.enabled", category = "mobs")
 	public boolean creeperEnabled = true;
 	@ConfigField(name = "creeper.message", category = "mobs")
-	public String creeperMessage = "You killed a §1{killed}";
+	public String creeperMessage = "You killed a §7{killed}";
 	@ConfigField(name = "creeper.money.amount", category = "mobs")
 	public String creeperMoney = "10.0";
 	@ConfigField(name = "creeper.money.chance", category = "mobs")
@@ -781,13 +780,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "creeper.head.chance", category = "mobs")
 	public double creeperHeadDropChance = 0.05;
 	@ConfigField(name = "creeper.head.message", category = "mobs")
-	public String creeperHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String creeperHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Dolphin============================================
 	@ConfigField(name = "dolphin.enabled", category = "mobs")
 	public boolean dolphinEnabled = true;
 	@ConfigField(name = "dolphin.message", category = "mobs")
-	public String dolphinMessage = "You killed a §1{killed}";
+	public String dolphinMessage = "You killed a §7{killed}";
 	@ConfigField(name = "dolphin.money.amount", category = "mobs")
 	public String dolphinMoney = "3:10";
 	@ConfigField(name = "dolphin.money.chance", category = "mobs")
@@ -807,13 +806,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "dolphin.head.chance", category = "mobs")
 	public double dolphinHeadDropChance = 0.33;
 	@ConfigField(name = "dolphin.head.message", category = "mobs")
-	public String dolphinHeadMessage = "§aThe §1{killed} §adropped a head in the water";
+	public String dolphinHeadMessage = "§aThe §7{killed} §adropped a head in the water";
 
 	// =====Drowned============================================
 	@ConfigField(name = "drowned.enabled", category = "mobs")
 	public boolean drownedEnabled = true;
 	@ConfigField(name = "drowned.message", category = "mobs")
-	public String drownedMessage = "You killed a §1{killed}";
+	public String drownedMessage = "You killed a §7{killed}";
 	@ConfigField(name = "drowned.money.amount", category = "mobs")
 	public String drownedMoney = "5:15";
 	@ConfigField(name = "drowned.money.chance", category = "mobs")
@@ -833,13 +832,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "drowned.head.chance", category = "mobs")
 	public double drownedHeadDropChance = 0.33;
 	@ConfigField(name = "drowned.head.message", category = "mobs")
-	public String drownedHeadMessage = "§aThe §1{killed} §adropped a skull in the water";
+	public String drownedHeadMessage = "§aThe §7{killed} §adropped a skull in the water";
 
 	// =====Elder Guardian============================================
 	@ConfigField(name = "elder_guardian.enabled", category = "mobs")
 	public boolean elderGuardianEnabled = true;
 	@ConfigField(name = "elder_guardian.message", category = "mobs")
-	public String elderGuardianMessage = "You killed a §1{killed}";
+	public String elderGuardianMessage = "You killed a §7{killed}";
 	@ConfigField(name = "elder_guardian.money.amount", category = "mobs")
 	public String elderGuardianMoney = "40:80";
 	@ConfigField(name = "elder_guardian.money.chance", category = "mobs")
@@ -859,13 +858,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "elder_guardian.head.chance", category = "mobs")
 	public double elderGuardianHeadDropChance = 0.33;
 	@ConfigField(name = "elder_guardian.head.message", category = "mobs")
-	public String elderGuardianHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String elderGuardianHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Enderman============================================
 	@ConfigField(name = "enderman.enabled", category = "mobs")
 	public boolean endermanEnabled = true;
 	@ConfigField(name = "enderman.message", category = "mobs")
-	public String endermanMessage = "You killed a §1{killed}";
+	public String endermanMessage = "You killed a §7{killed}";
 	@ConfigField(name = "enderman.money.amount", category = "mobs")
 	public String endermanMoney = "20:40";
 	@ConfigField(name = "enderman.money.chance", category = "mobs")
@@ -885,13 +884,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "enderman.head.chance", category = "mobs")
 	public double endermanHeadDropChance = 0.33;
 	@ConfigField(name = "enderman.head.message", category = "mobs")
-	public String endermanHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String endermanHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Endermite============================================
 	@ConfigField(name = "endermite.enabled", category = "mobs")
 	public boolean endermiteEnabled = true;
 	@ConfigField(name = "enderman.message", category = "mobs")
-	public String endermiteMessage = "You killed a §1{killed}";
+	public String endermiteMessage = "You killed a §7{killed}";
 	@ConfigField(name = "endermite.money.amount", category = "mobs")
 	public String endermiteMoney = "10";
 	@ConfigField(name = "endermite.money.chance", category = "mobs")
@@ -911,13 +910,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "endermite.head.chance", category = "mobs")
 	public double endermiteHeadDropChance = 0.10;
 	@ConfigField(name = "endermite.head.message", category = "mobs")
-	public String endermiteHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String endermiteHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Ghast============================================
 	@ConfigField(name = "ghast.enabled", category = "mobs")
 	public boolean ghastEnabled = true;
 	@ConfigField(name = "ghast.message", category = "mobs")
-	public String ghastMessage = "You killed a §1{killed}";
+	public String ghastMessage = "You killed a §7{killed}";
 	@ConfigField(name = "ghast.money.amount", category = "mobs")
 	public String ghastMoney = "40:80";
 	@ConfigField(name = "ghast.money.chance", category = "mobs")
@@ -937,13 +936,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "ghast.head.chance", category = "mobs")
 	public double ghastHeadDropChance = 0.10;
 	@ConfigField(name = "ghast.head.message", category = "mobs")
-	public String ghastHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String ghastHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Giant============================================
 	@ConfigField(name = "giant.enabled", category = "mobs")
 	public boolean giantEnabled = true;
 	@ConfigField(name = "giant.message", category = "mobs")
-	public String giantMessage = "You killed a §1{killed}";
+	public String giantMessage = "You killed a §7{killed}";
 	@ConfigField(name = "giant.money.amount", category = "mobs")
 	public String giantMoney = "5.0";
 	@ConfigField(name = "giant.money.chance", category = "mobs")
@@ -963,13 +962,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "giant.head.chance", category = "mobs")
 	public double giantHeadDropChance = 0.10;
 	@ConfigField(name = "giant.head.message", category = "mobs")
-	public String giantHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String giantHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Iron Golem============================================
 	@ConfigField(name = "iron_golem.enabled", category = "mobs")
 	public boolean ironGolemEnabled = true;
 	@ConfigField(name = "iron_golem.message", category = "mobs")
-	public String ironGolemMessage = "You killed a §1{killed}";
+	public String ironGolemMessage = "You killed a §7{killed}";
 	@ConfigField(name = "iron_golem.money.amount", category = "mobs")
 	public String ironGolemMoney = "20:40";
 	@ConfigField(name = "iron_golem.money.chance", category = "mobs")
@@ -993,13 +992,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "iron_golem.head.chance", category = "mobs")
 	public double ironGolemHeadDropChance = 0.10;
 	@ConfigField(name = "iron_golem.head.message", category = "mobs")
-	public String ironGolemHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String ironGolemHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Guardian============================================
 	@ConfigField(name = "guardian.enabled", category = "mobs")
 	public boolean guardianEnabled = true;
 	@ConfigField(name = "guardian.message", category = "mobs")
-	public String guardianMessge = "You killed a §1{killed}";
+	public String guardianMessge = "You killed a §7{killed}";
 	@ConfigField(name = "guardian.money.amount", category = "mobs")
 	public String guardianMoney = "20:40";
 	@ConfigField(name = "guardian.money.chance", category = "mobs")
@@ -1019,13 +1018,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "guardian.head.chance", category = "mobs")
 	public double guardianHeadDropChance = 0.10;
 	@ConfigField(name = "guardian.head.message", category = "mobs")
-	public String guardianHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String guardianHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Hoglin============================================
 	@ConfigField(name = "hoglin.enabled", category = "mobs")
 	public boolean hoglinEnabled = true;
 	@ConfigField(name = "hoglin.message", category = "mobs")
-	public String hoglinMessage = "You killed a §1{killed}";
+	public String hoglinMessage = "You killed a §7{killed}";
 	@ConfigField(name = "hoglin.money.amount", category = "mobs")
 	public String hoglinMoney = "9:13";
 	@ConfigField(name = "hoglin.money.chance", category = "mobs")
@@ -1045,13 +1044,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "hoglin.head.chance", category = "mobs")
 	public double hoglinHeadDropChance = 0.20;
 	@ConfigField(name = "hoglin.head.message", category = "mobs")
-	public String hoglinHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String hoglinHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Husk============================================
 	@ConfigField(name = "husk.enabled", category = "mobs")
 	public boolean huskEnabled = true;
 	@ConfigField(name = "husk.message", category = "mobs")
-	public String huskMessage = "You killed a §1{killed}";
+	public String huskMessage = "You killed a §7{killed}";
 	@ConfigField(name = "husk.money.amount", category = "mobs")
 	public String huskMoney = "9:13";
 	@ConfigField(name = "husk.money.chance", category = "mobs")
@@ -1071,13 +1070,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "husk.head.chance", category = "mobs")
 	public double huskHeadDropChance = 0.20;
 	@ConfigField(name = "husk.head.message", category = "mobs")
-	public String huskHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String huskHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Killer Rabbit============================================
 	@ConfigField(name = "killer_rabbit.enabled", category = "mobs")
 	public boolean killerRabbitEnabled = true;
 	@ConfigField(name = "killer_rabbit.message", category = "mobs")
-	public String killerRabbitMessage = "You killed a §1{killed}";
+	public String killerRabbitMessage = "You killed a §7{killed}";
 	@ConfigField(name = "killer_rabbit.money.amount", category = "mobs")
 	public String killerRabbitMoney = "200";
 	@ConfigField(name = "killer_rabbit.money.chance", category = "mobs")
@@ -1098,13 +1097,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "killer_rabbit.head.chance", category = "mobs")
 	public double killerRabbitHeadDropChance = 0.25;
 	@ConfigField(name = "killer_rabbit.head.message", category = "mobs")
-	public String killerRabbitHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String killerRabbitHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Magma Cube============================================
 	@ConfigField(name = "magma_cube.enabled", category = "mobs")
 	public boolean magmaCubeEnabled = true;
 	@ConfigField(name = "magma_cube.message", category = "mobs")
-	public String magmaCubeMessage = "You killed a §1{killed}";
+	public String magmaCubeMessage = "You killed a §7{killed}";
 	@ConfigField(name = "magma_cube.money.amount", category = "mobs")
 	public String magmaCubeMoney = "10:20";
 	@ConfigField(name = "magma_cube.money.chance", category = "mobs")
@@ -1124,13 +1123,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "magma_cube.head.chance", category = "mobs")
 	public double magmaCubeHeadDropChance = 0.10;
 	@ConfigField(name = "magma_cube.head.message", category = "mobs")
-	public String magmaCubeHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String magmaCubeHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Phantom============================================
 	@ConfigField(name = "phantom.enabled", category = "mobs")
 	public boolean phantomEnabled = true;
 	@ConfigField(name = "phantom.message", category = "mobs")
-	public String phantomMessage = "You killed a §1{killed}";
+	public String phantomMessage = "You killed a §7{killed}";
 	@ConfigField(name = "phantom.money.amount", category = "mobs")
 	public String phantomMoney = "20:40";
 	@ConfigField(name = "phantom.money.chance", category = "mobs")
@@ -1150,13 +1149,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "phantom.head.chance", category = "mobs")
 	public double phantomHeadDropChance = 0.33;
 	@ConfigField(name = "phantom.head.message", category = "mobs")
-	public String phantomHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String phantomHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Piglin============================================
 	@ConfigField(name = "piglin.enabled", category = "mobs")
 	public boolean piglinEnabled = true;
 	@ConfigField(name = "piglin.message", category = "mobs")
-	public String piglinMessage = "You killed a §1{killed}";
+	public String piglinMessage = "You killed a §7{killed}";
 	@ConfigField(name = "piglin.money.amount", category = "mobs")
 	public String piglinMoney = "5:10";
 	@ConfigField(name = "piglin.money.chance", category = "mobs")
@@ -1176,13 +1175,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "piglin.head.chance", category = "mobs")
 	public double piglinHeadDropChance = 0.33;
 	@ConfigField(name = "piglin.head.message", category = "mobs")
-	public String piglinHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String piglinHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Piglin Brute============================================
 	@ConfigField(name = "piglin_brute.enabled", category = "mobs")
 	public boolean piglinBruteEnabled = true;
 	@ConfigField(name = "piglin_brute.message", category = "mobs")
-	public String piglinBruteMessage = "You killed a §1{killed}";
+	public String piglinBruteMessage = "You killed a §7{killed}";
 	@ConfigField(name = "piglin_brute.money.amount", category = "mobs")
 	public String piglinBruteMoney = "5:10";
 	@ConfigField(name = "piglin_brute.money.chance", category = "mobs")
@@ -1202,13 +1201,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "piglin_brute.head.chance", category = "mobs")
 	public double piglinBruteHeadDropChance = 0.33;
 	@ConfigField(name = "piglin_brute.head.message", category = "mobs")
-	public String piglinBruteHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String piglinBruteHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Pillager============================================
 	@ConfigField(name = "pillager.enabled", category = "mobs")
 	public boolean pillagerEnabled = true;
 	@ConfigField(name = "pillager.message", category = "mobs")
-	public String pillagerMessage = "You killed a §1{killed}";
+	public String pillagerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "pillager.money.amount", category = "mobs")
 	public String pillagerMoney = "5:10";
 	@ConfigField(name = "pillager.money.chance", category = "mobs")
@@ -1228,13 +1227,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "pillager.head.chance", category = "mobs")
 	public double pillagerHeadDropChance = 0.33;
 	@ConfigField(name = "pillager.head.message", category = "mobs")
-	public String pillagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String pillagerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Polar Bear============================================
 	@ConfigField(name = "polar_bear.enabled", category = "mobs")
 	public boolean polarBearEnabled = true;
 	@ConfigField(name = "polar_bear.message", category = "mobs")
-	public String polarBearMessage = "You killed a §1{killed}";
+	public String polarBearMessage = "You killed a §7{killed}";
 	@ConfigField(name = "polar_bear.money.amount", category = "mobs")
 	public String polarBearMoney = "25";
 	@ConfigField(name = "polar_bear.money.chance", category = "mobs")
@@ -1255,13 +1254,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "polar_bear.head.chance", category = "mobs")
 	public double polarBearHeadDropChance = 0.25;
 	@ConfigField(name = "polar_bear.head.message", category = "mobs")
-	public String polarBearHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String polarBearHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Ravager============================================
 	@ConfigField(name = "ravager.enabled", category = "mobs")
 	public boolean ravagerEnabled = true;
 	@ConfigField(name = "ravager.message", category = "mobs")
-	public String ravagerMessage = "You killed a §1{killed}";
+	public String ravagerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "ravager.money.amount", category = "mobs")
 	public String ravagerMoney = "25";
 	@ConfigField(name = "ravager.money.chance", category = "mobs")
@@ -1281,13 +1280,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "ravager.head.chance", category = "mobs")
 	public double ravagerHeadDropChance = 0.05;
 	@ConfigField(name = "ravager.head.message", category = "mobs")
-	public String ravagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String ravagerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Slime============================================
 	@ConfigField(name = "slime.enabled", category = "mobs")
 	public boolean slimeEnabled = true;
 	@ConfigField(name = "slime.message", category = "mobs")
-	public String slimeMessage = "You killed a §1{killed}";
+	public String slimeMessage = "You killed a §7{killed}";
 	@ConfigField(name = "slime.money.amount", category = "mobs")
 	public String slimeMoney = "25";
 	@ConfigField(name = "slime.money.chance", category = "mobs")
@@ -1307,13 +1306,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "slime.head.chance", category = "mobs")
 	public double slimeHeadDropChance = 0.05;
 	@ConfigField(name = "slime.head.message", category = "mobs")
-	public String slimeHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String slimeHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Shulker============================================
 	@ConfigField(name = "shulker.enabled", category = "mobs")
 	public boolean shulkerEnabled = true;
 	@ConfigField(name = "shulker.message", category = "mobs")
-	public String shulkerMessage = "You killed a §1{killed}";
+	public String shulkerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "shulker.money.amount", category = "mobs")
 	public String shulkerMoney = "25";
 	@ConfigField(name = "shulker.money.chance", category = "mobs")
@@ -1334,13 +1333,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "shulker.head.chance", category = "mobs")
 	public double shulkerHeadDropChance = 0.50;
 	@ConfigField(name = "shulker.head.message", category = "mobs")
-	public String shulkerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String shulkerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Silverfish============================================
 	@ConfigField(name = "silverfish.enabled", category = "mobs")
 	public boolean silverfishEnabled = true;
 	@ConfigField(name = "silverfish.message", category = "mobs")
-	public String silverfishMessage = "You killed a §1{killed}";
+	public String silverfishMessage = "You killed a §7{killed}";
 	@ConfigField(name = "silverfish.money.amount", category = "mobs")
 	public String silverfishMoney = "10";
 	@ConfigField(name = "silverfish.money.chance", category = "mobs")
@@ -1360,13 +1359,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "silverfish.head.chance", category = "mobs")
 	public double silverfishHeadDropChance = 0.20;
 	@ConfigField(name = "silverfish.head.message", category = "mobs")
-	public String silverfishHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String silverfishHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Skeleton============================================
 	@ConfigField(name = "skeleton.enabled", category = "mobs")
 	public boolean skeletonEnabled = true;
 	@ConfigField(name = "skeleton.message", category = "mobs")
-	public String skeletonMessage = "You killed a §1{killed}";
+	public String skeletonMessage = "You killed a §7{killed}";
 	@ConfigField(name = "skeleton.money.amount", category = "mobs")
 	public String skeletonMoney = "10:30";
 	@ConfigField(name = "skeleton.money.chance", category = "mobs")
@@ -1386,13 +1385,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "skeleton.head.chance", category = "mobs")
 	public double skeletonHeadDropChance = 0.05;
 	@ConfigField(name = "skeleton.head.message", category = "mobs")
-	public String skeletonHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String skeletonHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Spider============================================
 	@ConfigField(name = "spider.enabled", category = "mobs")
 	public boolean spiderEnabled = true;
 	@ConfigField(name = "spider.message", category = "mobs")
-	public String spiderMessage = "You killed a §1{killed}";
+	public String spiderMessage = "You killed a §7{killed}";
 	@ConfigField(name = "spider.money.amount", category = "mobs")
 	public String spiderMoney = "5.5:10.5";
 	@ConfigField(name = "spider.money.chance", category = "mobs")
@@ -1412,13 +1411,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "spider.head.chance", category = "mobs")
 	public double spiderHeadDropChance = 0.05;
 	@ConfigField(name = "spider.head.message", category = "mobs")
-	public String spiderHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String spiderHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Stray============================================
 	@ConfigField(name = "stray.enabled", category = "mobs")
 	public boolean strayEnabled = true;
 	@ConfigField(name = "stray.message", category = "mobs")
-	public String strayMessage = "You killed a §1{killed}";
+	public String strayMessage = "You killed a §7{killed}";
 	@ConfigField(name = "stray.money.amount", category = "mobs")
 	public String strayMoney = "15:35";
 	@ConfigField(name = "stray.money.chance", category = "mobs")
@@ -1438,13 +1437,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "stray.head.chance", category = "mobs")
 	public double strayHeadDropChance = 0.20;
 	@ConfigField(name = "stray.head.message", category = "mobs")
-	public String strayHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String strayHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Strider============================================
 	@ConfigField(name = "strider.enabled", category = "mobs")
 	public boolean striderEnabled = true;
 	@ConfigField(name = "strider.message", category = "mobs")
-	public String striderMessage = "You killed a §1{killed}";
+	public String striderMessage = "You killed a §7{killed}";
 	@ConfigField(name = "strider.money.amount", category = "mobs")
 	public String striderMoney = "15:35";
 	@ConfigField(name = "strider.money.chance", category = "mobs")
@@ -1464,13 +1463,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "strider.head.chance", category = "mobs")
 	public double striderHeadDropChance = 0.20;
 	@ConfigField(name = "strider.head.message", category = "mobs")
-	public String striderHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String striderHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Turtle============================================
 	@ConfigField(name = "turtle.enabled", category = "mobs")
 	public boolean turtleEnabled = true;
 	@ConfigField(name = "turtle.message", category = "mobs")
-	public String turtleMessage = "You killed a §1{killed}";
+	public String turtleMessage = "You killed a §7{killed}";
 	@ConfigField(name = "turtle.money.amount", category = "mobs")
 	public String turtleMoney = "1:3";
 	@ConfigField(name = "turtle.money.chance", category = "mobs")
@@ -1490,13 +1489,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "turtle.head.chance", category = "mobs")
 	public double turtleHeadDropChance = 0.33;
 	@ConfigField(name = "turtle.head.message", category = "mobs")
-	public String turtleHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String turtleHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Zoglin============================================
 	@ConfigField(name = "zoglin.enabled", category = "mobs")
 	public boolean zoglinEnabled = true;
 	@ConfigField(name = "zoglin.message", category = "mobs")
-	public String zoglinMessage = "You killed a §1{killed}";
+	public String zoglinMessage = "You killed a §7{killed}";
 	@ConfigField(name = "zoglin.money.amount", category = "mobs")
 	public String zoglinMoney = "7:11";
 	@ConfigField(name = "zoglin.money.chance", category = "mobs")
@@ -1516,13 +1515,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "zoglin.head.chance", category = "mobs")
 	public double zoglinHeadDropChance = 0.005;
 	@ConfigField(name = "zoglin.head.message", category = "mobs")
-	public String zoglinHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String zoglinHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Zombie============================================
 	@ConfigField(name = "zombie.enabled", category = "mobs")
 	public boolean zombieEnabled = true;
 	@ConfigField(name = "zombie.message", category = "mobs")
-	public String zombieMessage = "You killed a §1{killed}";
+	public String zombieMessage = "You killed a §7{killed}";
 	@ConfigField(name = "zombie.money.amount", category = "mobs")
 	public String zombieMoney = "7:11";
 	@ConfigField(name = "zombie.money.chance", category = "mobs")
@@ -1542,13 +1541,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "zombie.head.chance", category = "mobs")
 	public double zombieHeadDropChance = 0.005;
 	@ConfigField(name = "zombie.head.message", category = "mobs")
-	public String zombieHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String zombieHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Zombie Pigman============================================
 	@ConfigField(name = "zombie_pigman.enabled", category = "mobs")
 	public boolean zombiePigmanEnabled = true;
 	@ConfigField(name = "zombie_pigman.message", category = "mobs")
-	public String zombiePigmanMessage = "You killed a §1{killed}";
+	public String zombiePigmanMessage = "You killed a §7{killed}";
 	@ConfigField(name = "zombie_pigman.money.amount", category = "mobs")
 	public String zombiePigmanMoney = "4:8";
 	@ConfigField(name = "zombie_pigman.money.chance", category = "mobs")
@@ -1568,13 +1567,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "zombie_pigman.head.chance", category = "mobs")
 	public double zombiePigmanHeadDropChance = 0.10;
 	@ConfigField(name = "zombie_pigman.head.message", category = "mobs")
-	public String zombiePigmanHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String zombiePigmanHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Vex============================================
 	@ConfigField(name = "vex.enabled", category = "mobs")
 	public boolean vexEnabled = true;
 	@ConfigField(name = "vex.message", category = "mobs")
-	public String vexMessage = "You killed a §1{killed}";
+	public String vexMessage = "You killed a §7{killed}";
 	@ConfigField(name = "vex.money.amount", category = "mobs")
 	public String vexMoney = "10:15";
 	@ConfigField(name = "vex.money.chance", category = "mobs")
@@ -1594,13 +1593,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "vex.head.chance", category = "mobs")
 	public double vexHeadDropChance = 0.50;
 	@ConfigField(name = "vex.head.message", category = "mobs")
-	public String vexHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String vexHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Warden============================================
 	@ConfigField(name = "warden.enabled", category = "mobs")
 	public boolean wardenEnabled = true;
 	@ConfigField(name = "warden.message", category = "mobs")
-	public String wardenMessage = "You killed a §1{killed}";
+	public String wardenMessage = "You killed a §7{killed}";
 	@ConfigField(name = "witch.money.amount", category = "mobs")
 	public String wardenMoney = "10:15";
 	@ConfigField(name = "warden.money.chance", category = "mobs")
@@ -1620,13 +1619,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "warden.head.chance", category = "mobs")
 	public double wardenHeadDropChance = 0.05;
 	@ConfigField(name = "warden.head.message", category = "mobs")
-	public String wardenHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String wardenHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Witch============================================
 	@ConfigField(name = "witch.enabled", category = "mobs")
 	public boolean witchEnabled = true;
 	@ConfigField(name = "witch.message", category = "mobs")
-	public String witchMessage = "You killed a §1{killed}";
+	public String witchMessage = "You killed a §7{killed}";
 	@ConfigField(name = "witch.money.amount", category = "mobs")
 	public String witchMoney = "10:15";
 	@ConfigField(name = "witch.money.chance", category = "mobs")
@@ -1646,13 +1645,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "witch.head.chance", category = "mobs")
 	public double witchHeadDropChance = 0.05;
 	@ConfigField(name = "witch.head.message", category = "mobs")
-	public String witchHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String witchHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Wither Skeleton============================================
 	@ConfigField(name = "wither_skeleton.enabled", category = "mobs")
 	public boolean witherSkeletonEnabled = true;
 	@ConfigField(name = "wither_skeleton.message", category = "mobs")
-	public String witherSkeletonMessage = "You killed a §1{killed}";
+	public String witherSkeletonMessage = "You killed a §7{killed}";
 	@ConfigField(name = "wither_skeleton.money.amount", category = "mobs")
 	public String witherSkeletonMoney = "30:50";
 	@ConfigField(name = "wither_skeleton.money.chance", category = "mobs")
@@ -1672,7 +1671,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "wither_skeleton.head.chance", category = "mobs")
 	public double witherSkeletonHeadDropChance = 0.10;
 	@ConfigField(name = "wither_skeleton.head.message", category = "mobs")
-	public String witherSkeletonHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String witherSkeletonHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// #####################################################################################
 	// Bosses
@@ -1681,7 +1680,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "wither.enabled", category = "boss")
 	public boolean witherEnabled = true;
 	@ConfigField(name = "wither.message", category = "boss")
-	public String witherMessage = "You killed a §1{killed}";
+	public String witherMessage = "You killed a §7{killed}";
 	@ConfigField(name = "wither.money.amount", category = "boss")
 	public String witherMoney = "1000:2000";
 	@ConfigField(name = "wither.money.chance", category = "boss")
@@ -1708,13 +1707,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "wither.head.chance", category = "boss")
 	public double witherHeadDropChance = 0.50;
 	@ConfigField(name = "wither.head.message", category = "boss")
-	public String witherHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String witherHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Ender Dragon============================================
 	@ConfigField(name = "ender_dragon.enabled", category = "boss")
 	public boolean enderDragonEnabled = true;
 	@ConfigField(name = "ender_dragon.message", category = "boss")
-	public String enderDragonMessage = "You killed a §1{killed}";
+	public String enderDragonMessage = "You killed a §7{killed}";
 	@ConfigField(name = "ender_dragon.money.amount", category = "boss")
 	public String enderDragonMoney = "2000.0:5000.0";
 	@ConfigField(name = "ender_dragon.money.chance", category = "boss")
@@ -1740,7 +1739,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "ender_dragon.head.chance", category = "boss")
 	public double enderDragonHeadDropChance = 0.5;
 	@ConfigField(name = "ender_dragon.head.message", category = "boss")
-	public String enderDragonHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String enderDragonHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// Usage: /summon <EntityName> [x] [y] [z] [dataTag]
 	// Try this!!!! /summon Minecart ~ ~ ~20 {Riding:{id:EnderDragon}}
@@ -1761,7 +1760,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "armorer.enabled", category = "villager")
 	public boolean armorerEnabled = true;
 	@ConfigField(name = "armorer.message", category = "villager")
-	public String armorerMessage = "You killed a §1{killed}";
+	public String armorerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "armorer.money.amount", category = "villager")
 	public String armorerMoney = "1:2";
 	@ConfigField(name = "armorer.money.chance", category = "villager")
@@ -1781,13 +1780,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "armorer.head.chance", category = "villager")
 	public double armorerHeadDropChance = 0.10;
 	@ConfigField(name = "armorer.head.message", category = "villager")
-	public String armorerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String armorerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Butcher============================================
 	@ConfigField(name = "butcher.enabled", category = "villager")
 	public boolean butcherEnabled = true;
 	@ConfigField(name = "butcher.message", category = "villager")
-	public String butcherMessage = "You killed a §1{killed}";
+	public String butcherMessage = "You killed a §7{killed}";
 	@ConfigField(name = "butcher.money.amount", category = "villager")
 	public String butcherMoney = "1:2";
 	@ConfigField(name = "butcher.money.chance", category = "villager")
@@ -1807,13 +1806,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "butcher.head.chance", category = "villager")
 	public double butcherHeadDropChance = 0.10;
 	@ConfigField(name = "butcher.head.message", category = "villager")
-	public String butcherHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String butcherHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Cartographer============================================
 	@ConfigField(name = "cartographer.enabled", category = "villager")
 	public boolean cartographerEnabled = true;
 	@ConfigField(name = "cartographer.message", category = "villager")
-	public String cartographerMessage = "You killed a §1{killed}";
+	public String cartographerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "cartographer.money.amount", category = "villager")
 	public String cartographerMoney = "1:2";
 	@ConfigField(name = "cartographer.money.chance", category = "villager")
@@ -1833,13 +1832,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "cartographer.head.chance", category = "villager")
 	public double cartographerHeadDropChance = 0.10;
 	@ConfigField(name = "cartographer.head.message", category = "villager")
-	public String cartographerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String cartographerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Cleric============================================
 	@ConfigField(name = "cleric.enabled", category = "villager")
 	public boolean clericEnabled = true;
 	@ConfigField(name = "cleric.message", category = "villager")
-	public String clericMessage = "You killed a §1{killed}";
+	public String clericMessage = "You killed a §7{killed}";
 	@ConfigField(name = "cleric.money.amount", category = "villager")
 	public String clericMoney = "1:2";
 	@ConfigField(name = "cleric.money.chance", category = "villager")
@@ -1859,13 +1858,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "cleric.head.chance", category = "villager")
 	public double clericHeadDropChance = 0.10;
 	@ConfigField(name = "cleric.head.message", category = "villager")
-	public String clericHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String clericHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Farmer============================================
 	@ConfigField(name = "farmer.enabled", category = "villager")
 	public boolean farmerEnabled = true;
 	@ConfigField(name = "farmer.message", category = "villager")
-	public String farmerMessage = "You killed a §1{killed}";
+	public String farmerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "farmer.money.amount", category = "villager")
 	public String farmerMoney = "1:2";
 	@ConfigField(name = "farmer.money.chance", category = "villager")
@@ -1885,13 +1884,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "farmer.head.chance", category = "villager")
 	public double farmerHeadDropChance = 0.10;
 	@ConfigField(name = "farmer.head.message", category = "villager")
-	public String farmerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String farmerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Fisherman============================================
 	@ConfigField(name = "fisherman.enabled", category = "villager")
 	public boolean fishermanEnabled = true;
 	@ConfigField(name = "fisherman.message", category = "villager")
-	public String fishermanMessage = "You killed a §1{killed}";
+	public String fishermanMessage = "You killed a §7{killed}";
 	@ConfigField(name = "fisherman.money.amount", category = "villager")
 	public String fishermanMoney = "1:2";
 	@ConfigField(name = "fisherman.money.chance", category = "villager")
@@ -1911,13 +1910,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "fisherman.head.chance", category = "villager")
 	public double fishermanHeadDropChance = 0.10;
 	@ConfigField(name = "fisherman.head.message", category = "villager")
-	public String fishermanHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String fishermanHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Fletcher============================================
 	@ConfigField(name = "fletcher.enabled", category = "villager")
 	public boolean fletcherEnabled = true;
 	@ConfigField(name = "fletcher.message", category = "villager")
-	public String fletcherMessage = "You killed a §1{killed}";
+	public String fletcherMessage = "You killed a §7{killed}";
 	@ConfigField(name = "fletcher.money.amount", category = "villager")
 	public String fletcherMoney = "1:2";
 	@ConfigField(name = "fletcher.money.chance", category = "villager")
@@ -1937,13 +1936,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "fletcher.head.chance", category = "villager")
 	public double fletcherHeadDropChance = 0.10;
 	@ConfigField(name = "fletcher.head.message", category = "villager")
-	public String fletcherHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String fletcherHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Leatherworker============================================
 	@ConfigField(name = "leatherworker.enabled", category = "villager")
 	public boolean leatherworkerEnabled = true;
 	@ConfigField(name = "leatherworker.message", category = "villager")
-	public String leatherworkerMessage = "You killed a §1{killed}";
+	public String leatherworkerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "leatherworker.money.amount", category = "villager")
 	public String leatherworkerMoney = "1:2";
 	@ConfigField(name = "leatherworker.money.chance", category = "villager")
@@ -1963,13 +1962,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "leatherworker.head.chance", category = "villager")
 	public double leatherworkerHeadDropChance = 0.10;
 	@ConfigField(name = "leatherworker.head.message", category = "villager")
-	public String leatherworkerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String leatherworkerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Librarian============================================
 	@ConfigField(name = "librarian.enabled", category = "villager")
 	public boolean librarianEnabled = true;
 	@ConfigField(name = "librarian.message", category = "villager")
-	public String librarianMessage = "You killed a §1{killed}";
+	public String librarianMessage = "You killed a §7{killed}";
 	@ConfigField(name = "librarian.money.amount", category = "villager")
 	public String librarianMoney = "1:2";
 	@ConfigField(name = "librarian.money.chance", category = "villager")
@@ -1989,13 +1988,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "librarian.head.chance", category = "villager")
 	public double librarianHeadDropChance = 0.50;
 	@ConfigField(name = "librarian.head.message", category = "villager")
-	public String librarianHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String librarianHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Mason============================================
 	@ConfigField(name = "mason.enabled", category = "villager")
 	public boolean masonEnabled = true;
 	@ConfigField(name = "mason.message", category = "villager")
-	public String masonMessage = "You killed a §1{killed}";
+	public String masonMessage = "You killed a §7{killed}";
 	@ConfigField(name = "mason.money.amount", category = "villager")
 	public String masonMoney = "1:2";
 	@ConfigField(name = "mason.money.chance", category = "villager")
@@ -2015,13 +2014,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "mason.head.chance", category = "villager")
 	public double masonHeadDropChance = 0.50;
 	@ConfigField(name = "mason.head.message", category = "villager")
-	public String masonHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String masonHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Nitwit============================================
 	@ConfigField(name = "nitwit.enabled", category = "villager")
 	public boolean nitwitEnabled = true;
 	@ConfigField(name = "nitwit.message", category = "villager")
-	public String nitwitMessage = "You killed a §1{killed}";
+	public String nitwitMessage = "You killed a §7{killed}";
 	@ConfigField(name = "nitwit.money.amount", category = "villager")
 	public String nitwitMoney = "1:2";
 	@ConfigField(name = "nitwit.money.chance", category = "villager")
@@ -2041,13 +2040,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "nitwit.head.chance", category = "villager")
 	public double nitwitHeadDropChance = 0.5;
 	@ConfigField(name = "nitwit.head.message", category = "villager")
-	public String nitwitHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String nitwitHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Villager============================================
 	@ConfigField(name = "villager.enabled", category = "villager")
 	public boolean villagerEnabled = true;
 	@ConfigField(name = "villager.message", category = "villager")
-	public String villagerMessage = "You killed a §1{killed}";
+	public String villagerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "villager.money.amount", category = "villager")
 	public String villagerMoney = "1";
 	@ConfigField(name = "villager.money.chance", category = "villager")
@@ -2067,13 +2066,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "villager.head.chance", category = "villager")
 	public double villagerHeadDropChance = 0.30;
 	@ConfigField(name = "villager.head.message", category = "villager")
-	public String villagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String villagerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Shepherd============================================
 	@ConfigField(name = "shepherd.enabled", category = "villager")
 	public boolean shepherdEnabled = true;
 	@ConfigField(name = "shepherd.message", category = "villager")
-	public String shepherdMessage = "You killed a §1{killed}";
+	public String shepherdMessage = "You killed a §7{killed}";
 	@ConfigField(name = "shepherd.money.amount", category = "villager")
 	public String shepherdMoney = "1";
 	@ConfigField(name = "shepherd.money.chance", category = "villager")
@@ -2093,13 +2092,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "shepherd.head.chance", category = "villager")
 	public double shepherdHeadDropChance = 0.30;
 	@ConfigField(name = "shepherd.head.message", category = "villager")
-	public String shepherdHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String shepherdHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Toolsmith============================================
 	@ConfigField(name = "toolsmith.enabled", category = "villager")
 	public boolean toolsmithEnabled = true;
 	@ConfigField(name = "toolsmith.message", category = "villager")
-	public String toolsmithMessage = "You killed a §1{killed}";
+	public String toolsmithMessage = "You killed a §7{killed}";
 	@ConfigField(name = "toolsmith.money.amount", category = "villager")
 	public String toolsmithMoney = "1";
 	@ConfigField(name = "toolsmith.money.chance", category = "villager")
@@ -2119,13 +2118,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "toolsmith.head.chance", category = "villager")
 	public double toolsmithHeadDropChance = 0.30;
 	@ConfigField(name = "toolsmith.head.message", category = "villager")
-	public String toolsmithHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String toolsmithHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Shepherd============================================
 	@ConfigField(name = "weaponsmith.enabled", category = "villager")
 	public boolean weaponsmithEnabled = true;
 	@ConfigField(name = "weaponsmith.message", category = "villager")
-	public String weaponsmithMessage = "You killed a §1{killed}";
+	public String weaponsmithMessage = "You killed a §7{killed}";
 	@ConfigField(name = "weaponsmith.money.amount", category = "villager")
 	public String weaponsmithMoney = "1";
 	@ConfigField(name = "weaponsmith.money.chance", category = "villager")
@@ -2145,7 +2144,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "weaponsmith.head.chance", category = "villager")
 	public double weaponsmithHeadDropChance = 0.30;
 	@ConfigField(name = "weaponsmith.head.message", category = "villager")
-	public String weaponsmithHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String weaponsmithHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// #####################################################################################
 	// Deprecated Villagers (Villages which has been removed in Minecraft 1.14)
@@ -2155,7 +2154,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "blacksmith.enabled", category = "villager")
 	public boolean blacksmithEnabled = true;
 	@ConfigField(name = "blacksmith.message", category = "villager")
-	public String blacksmithMessage = "You killed a §1{killed}";
+	public String blacksmithMessage = "You killed a §7{killed}";
 	@ConfigField(name = "blacksmith.money.amount", category = "villager")
 	public String blacksmithMoney = "1:2";
 	@ConfigField(name = "blacksmith.money.chance", category = "villager")
@@ -2175,13 +2174,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "blacksmith.head.chance", category = "villager")
 	public double blacksmithHeadDropChance = 0.10;
 	@ConfigField(name = "blacksmith.head.message", category = "villager")
-	public String blacksmithHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String blacksmithHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Priest============================================
 	@ConfigField(name = "priest.enabled", category = "villager")
 	public boolean priestEnabled = true;
 	@ConfigField(name = "priest.message", category = "villager")
-	public String priestMessage = "You killed a §1{killed}";
+	public String priestMessage = "You killed a §7{killed}";
 	@ConfigField(name = "priest.money.amount", category = "villager")
 	public String priestMoney = "1:2";
 	@ConfigField(name = "priest.money.chance", category = "villager")
@@ -2201,13 +2200,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "priest.head.chance", category = "villager")
 	public double priestHeadDropChance = 0.50;
 	@ConfigField(name = "priest.head.message", category = "villager")
-	public String priestHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String priestHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Evoker============================================
 	@ConfigField(name = "evoker.enabled", category = "villager")
 	public boolean evokerEnabled = true;
 	@ConfigField(name = "evoker.message", category = "villager")
-	public String evokerMessage = "You killed a §1{killed}";
+	public String evokerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "evoker.money.amount", category = "villager")
 	public String evokerMoney = "10";
 	@ConfigField(name = "evoker.money.chance", category = "villager")
@@ -2227,13 +2226,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "evoker.head.chance", category = "villager")
 	public double evokerHeadDropChance = 0.50;
 	@ConfigField(name = "evoker.head.message", category = "villager")
-	public String evokerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String evokerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Illusioner============================================
 	@ConfigField(name = "illusioner.enabled", category = "villager")
 	public boolean illusionerEnabled = true;
 	@ConfigField(name = "illusioner.message", category = "villager")
-	public String illusionerMessage = "You killed a §1{killed}";
+	public String illusionerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "illusioner.money.amount", category = "villager")
 	public String illusionerMoney = "30:50";
 	@ConfigField(name = "illusioner.money.chance", category = "villager")
@@ -2253,13 +2252,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "illusioner.head.chance", category = "villager")
 	public double illusionerHeadDropChance = 0.10;
 	@ConfigField(name = "illusioner.head.message", category = "villager")
-	public String illusionerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String illusionerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Vindicator============================================
 	@ConfigField(name = "vindicator.enabled", category = "villager")
 	public boolean vindicatorEnabled = true;
 	@ConfigField(name = "vindicator.message", category = "villager")
-	public String vindicatorMessage = "You killed a §1{killed}";
+	public String vindicatorMessage = "You killed a §7{killed}";
 	@ConfigField(name = "vindicator.money.amount", category = "villager")
 	public String vindicatorMoney = "10:15";
 	@ConfigField(name = "vindicator.money.chance", category = "villager")
@@ -2279,7 +2278,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "vindicator.head.chance", category = "villager")
 	public double vindicatorHeadDropChance = 0.05;
 	@ConfigField(name = "vindicator.head.message", category = "villager")
-	public String vindicatorHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String vindicatorHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// #####################################################################################
 	// Passive Mobs
@@ -2288,7 +2287,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "allay.enabled", category = "mobs")
 	public boolean allayEnabled = true;
 	@ConfigField(name = "allay.message", category = "mobs")
-	public String allayMessage = "You killed a §1{killed}";
+	public String allayMessage = "You killed a §7{killed}";
 	@ConfigField(name = "allay.money.amount", category = "mobs")
 	public String allayMoney = "0.0";
 	@ConfigField(name = "allay.money.chance", category = "mobs")
@@ -2308,13 +2307,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "allay.head.chance", category = "mobs")
 	public double allayHeadDropChance = 0.05;
 	@ConfigField(name = "allay.head.message", category = "mobs")
-	public String allayHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String allayHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Armadillo============================================
 	@ConfigField(name = "armadillo.enabled", category = "mobs")
 	public boolean armadilloEnabled = true;
 	@ConfigField(name = "armadillo.message", category = "mobs")
-	public String armadilloMessage = "You killed a §1{killed}";
+	public String armadilloMessage = "You killed a §7{killed}";
 	@ConfigField(name = "armadillo.money.amount", category = "mobs")
 	public String armadilloMoney = "0.0";
 	@ConfigField(name = "armadillo.money.chance", category = "mobs")
@@ -2334,13 +2333,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "armadillo.head.chance", category = "mobs")
 	public double armadilloHeadDropChance = 0.05;
 	@ConfigField(name = "armadillo.head.message", category = "mobs")
-	public String armadilloHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String armadilloHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Axolotl============================================
 	@ConfigField(name = "axolotl.enabled", category = "mobs")
 	public boolean axolotlEnabled = true;
 	@ConfigField(name = "axolotl.message", category = "mobs")
-	public String axolotlMessage = "You killed a §1{killed}";
+	public String axolotlMessage = "You killed a §7{killed}";
 	@ConfigField(name = "axolotl.money.amount", category = "mobs")
 	public String axolotlMoney = "0.0";
 	@ConfigField(name = "axolotl.money.chance", category = "mobs")
@@ -2360,13 +2359,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "axolotl.head.chance", category = "mobs")
 	public double axolotlHeadDropChance = 0.05;
 	@ConfigField(name = "axolotl.head.message", category = "mobs")
-	public String axolotlHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String axolotlHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Bat============================================
 	@ConfigField(name = "bat.enabled", category = "passive")
 	public boolean batEnabled = true;
 	@ConfigField(name = "bat.message", category = "passive")
-	public String batMessage = "You killed a §1{killed}";
+	public String batMessage = "You killed a §7{killed}";
 	@ConfigField(name = "bat.money.amount", category = "passive")
 	public String batMoney = "0";
 	@ConfigField(name = "bat.money.chance", category = "passive")
@@ -2386,13 +2385,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "bat.head.chance", category = "passive")
 	public double batHeadDropChance = 0.05;
 	@ConfigField(name = "bat.head.message", category = "passive")
-	public String batHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String batHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Bee============================================
 	@ConfigField(name = "bee.enabled", category = "passive")
 	public boolean beeEnabled = true;
 	@ConfigField(name = "bee.message", category = "passive")
-	public String beeMessage = "You killed a §1{killed}";
+	public String beeMessage = "You killed a §7{killed}";
 	@ConfigField(name = "bee.money.amount", category = "passive")
 	public String beeMoney = "0";
 	@ConfigField(name = "bee.money.chance", category = "passive")
@@ -2412,13 +2411,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "bee.head.chance", category = "passive")
 	public double beeHeadDropChance = 0.05;
 	@ConfigField(name = "bee.head.message", category = "passive")
-	public String beeHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String beeHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Camel============================================
 	@ConfigField(name = "cat.enabled", category = "passive")
 	public boolean camelEnabled = true;
 	@ConfigField(name = "cat.message", category = "passive")
-	public String camelMessage = "You killed a §1{killed}";
+	public String camelMessage = "You killed a §7{killed}";
 	@ConfigField(name = "camel.money.amount", category = "passive")
 	public String camelMoney = "0";
 	@ConfigField(name = "camel.money.chance", category = "passive")
@@ -2438,13 +2437,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "camel.head.chance", category = "passive")
 	public double camelHeadDropChance = 0.05;
 	@ConfigField(name = "camel.head.message", category = "passive")
-	public String camelHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String camelHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Cat============================================
 	@ConfigField(name = "cat.enabled", category = "passive")
 	public boolean catEnabled = true;
 	@ConfigField(name = "cat.message", category = "passive")
-	public String catMessage = "You killed a §1{killed}";
+	public String catMessage = "You killed a §7{killed}";
 	@ConfigField(name = "cat.money.amount", category = "passive")
 	public String catMoney = "0";
 	@ConfigField(name = "cat.money.chance", category = "passive")
@@ -2464,13 +2463,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "cat.head.chance", category = "passive")
 	public double catHeadDropChance = 0.05;
 	@ConfigField(name = "cat.head.message", category = "passive")
-	public String catHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String catHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Chicken============================================
 	@ConfigField(name = "chicken.enabled", category = "passive")
 	public boolean chickenEnabled = true;
 	@ConfigField(name = "chicken.message", category = "passive")
-	public String chickenMessage = "You killed a §1{killed}";
+	public String chickenMessage = "You killed a §7{killed}";
 	@ConfigField(name = "chicken.money.amount", category = "passive")
 	public String chickenMoney = "0";
 	@ConfigField(name = "chicken.money.chance", category = "passive")
@@ -2490,13 +2489,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "chicken.head.chance", category = "passive")
 	public double chickenHeadDropChance = 0.05;
 	@ConfigField(name = "chicken.head.message", category = "passive")
-	public String chickenHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String chickenHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Cow============================================
 	@ConfigField(name = "cow.enabled", category = "passive")
 	public boolean cowEnabled = true;
 	@ConfigField(name = "cow.message", category = "passive")
-	public String cowCmdDesc = "You killed a §1{killed}";
+	public String cowCmdDesc = "You killed a §7{killed}";
 	@ConfigField(name = "cow.money.amount", category = "passive")
 	public String cowPrize = "0";
 	@ConfigField(name = "cow.money.chance", category = "passive")
@@ -2517,13 +2516,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "cow.head.chance", category = "passive")
 	public double cowHeadDropChance = 0.05;
 	@ConfigField(name = "cow.head.message", category = "passive")
-	public String cowHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String cowHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Donkey============================================
 	@ConfigField(name = "donkey.enabled", category = "passive")
 	public boolean donkeyEnabled = true;
 	@ConfigField(name = "donkey.message", category = "passive")
-	public String donkeyMessage = "You killed a §1{killed}";
+	public String donkeyMessage = "You killed a §7{killed}";
 	@ConfigField(name = "donkey.money.amount", category = "passive")
 	public String donkeyMoney = "5";
 	@ConfigField(name = "donkey.money.chance", category = "passive")
@@ -2543,13 +2542,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "donkey.head.chance", category = "passive")
 	public double donkeyHeadDropChance = 0.05;
 	@ConfigField(name = "donkey.head.message", category = "passive")
-	public String donkeyHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String donkeyHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Fox============================================
 	@ConfigField(name = "fox.enabled", category = "passive")
 	public boolean foxEnabled = true;
 	@ConfigField(name = "fox.message", category = "passive")
-	public String foxMessage = "You killed a §1{killed}";
+	public String foxMessage = "You killed a §7{killed}";
 	@ConfigField(name = "fox.money.amount", category = "passive")
 	public String foxMoney = "2";
 	@ConfigField(name = "fox.money.chance", category = "passive")
@@ -2569,13 +2568,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "fox.head.chance", category = "passive")
 	public double foxHeadDropChance = 0.05;
 	@ConfigField(name = "fox.head.message", category = "passive")
-	public String foxHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String foxHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Frog============================================
 	@ConfigField(name = "frog.enabled", category = "passive")
 	public boolean frogEnabled = true;
 	@ConfigField(name = "frog.message", category = "passive")
-	public String frogMessage = "You killed a §1{killed}";
+	public String frogMessage = "You killed a §7{killed}";
 	@ConfigField(name = "frog.money.amount", category = "passive")
 	public String frogMoney = "2";
 	@ConfigField(name = "frog.money.chance", category = "passive")
@@ -2595,13 +2594,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "frog.head.chance", category = "passive")
 	public double frogHeadDropChance = 0.05;
 	@ConfigField(name = "frog.head.message", category = "passive")
-	public String frogHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String frogHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Goat============================================
 	@ConfigField(name = "goat.enabled", category = "mobs")
 	public boolean goatEnabled = true;
 	@ConfigField(name = "goat.message", category = "mobs")
-	public String goatMessage = "You killed a §1{killed}";
+	public String goatMessage = "You killed a §7{killed}";
 	@ConfigField(name = "goat.money.amount", category = "mobs")
 	public String goatMoney = "0.0";
 	@ConfigField(name = "goat.money.chance", category = "mobs")
@@ -2621,13 +2620,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "goat.head.chance", category = "mobs")
 	public double goatHeadDropChance = 0.05;
 	@ConfigField(name = "goat.head.message", category = "mobs")
-	public String goatHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String goatHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Glow Squid============================================
 	@ConfigField(name = "glowsquid.enabled", category = "mobs")
 	public boolean glowsquidEnabled = true;
 	@ConfigField(name = "glowsquid.message", category = "mobs")
-	public String glowsquidMessage = "You killed a §1{killed}";
+	public String glowsquidMessage = "You killed a §7{killed}";
 	@ConfigField(name = "glowsquid.money.amount", category = "mobs")
 	public String glowsquidMoney = "2.0";
 	@ConfigField(name = "glowsquid.money.chance", category = "mobs")
@@ -2647,13 +2646,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "glowsquid.head.chance", category = "mobs")
 	public double glowsquidHeadDropChance = 0.05;
 	@ConfigField(name = "glowsquid.head.message", category = "mobs")
-	public String glowsquidHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String glowsquidHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Horse============================================
 	@ConfigField(name = "horse.enabled", category = "passive")
 	public boolean horseEnabled = true;
 	@ConfigField(name = "horse.message", category = "passive")
-	public String horseMessage = "You killed a §1{killed}";
+	public String horseMessage = "You killed a §7{killed}";
 	@ConfigField(name = "horse.money.amount", category = "passive")
 	public String horseMoney = "0";
 	@ConfigField(name = "horse.money.chance", category = "passive")
@@ -2673,13 +2672,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "horse.head.chance", category = "passive")
 	public double horseHeadDropChance = 0.05;
 	@ConfigField(name = "horse.head.message", category = "passive")
-	public String horseHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String horseHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Llama============================================
 	@ConfigField(name = "llama.enabled", category = "passive")
 	public boolean llamaEnabled = true;
 	@ConfigField(name = "llama.message", category = "passive")
-	public String llamaMessage = "You killed a §1{killed}";
+	public String llamaMessage = "You killed a §7{killed}";
 	@ConfigField(name = "llama.money.amount", category = "passive")
 	public String llamaMoney = "0";
 	@ConfigField(name = "llama.money.chance", category = "passive")
@@ -2699,13 +2698,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "llama.head.chance", category = "passive")
 	public double llamaHeadDropChance = 0.05;
 	@ConfigField(name = "llama.head.message", category = "passive")
-	public String llamaHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String llamaHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Mule============================================
 	@ConfigField(name = "mule.enabled", category = "passive")
 	public boolean muleEnabled = true;
 	@ConfigField(name = "mule.message", category = "passive")
-	public String muleMessage = "You killed a §1{killed}";
+	public String muleMessage = "You killed a §7{killed}";
 	@ConfigField(name = "mule.money.amount", category = "passive")
 	public String muleMoney = "0";
 	@ConfigField(name = "mule.money.chance", category = "passive")
@@ -2725,13 +2724,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "mule.head.chance", category = "passive")
 	public double muleHeadDropChance = 0.05;
 	@ConfigField(name = "mule.head.message", category = "passive")
-	public String muleHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String muleHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Mushroom Cow============================================
 	@ConfigField(name = "mushroom_cow.enabled", category = "passive")
 	public boolean mushroomCowEnabled = true;
 	@ConfigField(name = "mushroom_cow.message", category = "passive")
-	public String mushroomCowMessage = "You killed a §1{killed}";
+	public String mushroomCowMessage = "You killed a §7{killed}";
 	@ConfigField(name = "mushroom_cow.money.amount", category = "passive")
 	public String mushroomCowMoney = "0";
 	@ConfigField(name = "mushroom_cow.money.chance", category = "passive")
@@ -2751,13 +2750,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "mushroom_cow.head.chance", category = "passive")
 	public double mushroomCowHeadDropChance = 0.05;
 	@ConfigField(name = "mushroom_cow.head.message", category = "passive")
-	public String mushroomCowHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String mushroomCowHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Ocelot============================================
 	@ConfigField(name = "ocelot.enabled", category = "passive")
 	public boolean ocelotEnabled = true;
 	@ConfigField(name = "ocelot.message", category = "passive")
-	public String ocelotMessage = "You killed a §1{killed}";
+	public String ocelotMessage = "You killed a §7{killed}";
 	@ConfigField(name = "ocelot.money.amount", category = "passive")
 	public String ocelotMoney = "0";
 	@ConfigField(name = "ocelot.money.chance", category = "passive")
@@ -2777,13 +2776,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "ocelot.head.chance", category = "passive")
 	public double ocelotHeadDropChance = 0.05;
 	@ConfigField(name = "ocelot.head.message", category = "passive")
-	public String ocelotHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String ocelotHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Panda============================================
 	@ConfigField(name = "panda.enabled", category = "passive")
 	public boolean pandaEnabled = true;
 	@ConfigField(name = "panda.message", category = "passive")
-	public String pandaMessage = "You killed a §1{killed}";
+	public String pandaMessage = "You killed a §7{killed}";
 	@ConfigField(name = "panda.money.amount", category = "passive")
 	public String pandaMoney = "2";
 	@ConfigField(name = "panda.money.chance", category = "passive")
@@ -2803,13 +2802,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "panda.head.chance", category = "passive")
 	public double pandaHeadDropChance = 0.10;
 	@ConfigField(name = "panda.head.message", category = "passive")
-	public String pandaHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String pandaHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Parrot============================================
 	@ConfigField(name = "parrot.enabled", category = "passive")
 	public boolean parrotEnabled = true;
 	@ConfigField(name = "parrot.message", category = "passive")
-	public String parrotMessage = "You killed a §1{killed}";
+	public String parrotMessage = "You killed a §7{killed}";
 	@ConfigField(name = "parrot.money.amount", category = "passive")
 	public String parrotMoney = "2";
 	@ConfigField(name = "parrot.money.chance", category = "passive")
@@ -2829,13 +2828,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "parrot.head.chance", category = "passive")
 	public double parrotHeadDropChance = 0.10;
 	@ConfigField(name = "parrot.head.message", category = "passive")
-	public String parrotHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String parrotHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Pig============================================
 	@ConfigField(name = "pig.enabled", category = "passive")
 	public boolean pigEnabled = true;
 	@ConfigField(name = "pig.message", category = "passive")
-	public String pigMessage = "You killed a §1{killed}";
+	public String pigMessage = "You killed a §7{killed}";
 	@ConfigField(name = "pig.money.amount", category = "passive")
 	public String pigMoney = "0";
 	@ConfigField(name = "pig.money.chance", category = "passive")
@@ -2855,13 +2854,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "pig.head.chance", category = "passive")
 	public double pigHeadDropChance = 0.05;
 	@ConfigField(name = "pig.head.message", category = "passive")
-	public String pigHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String pigHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Rabbit============================================
 	@ConfigField(name = "rabbit.enabled", category = "passive")
 	public boolean rabbitEnabled = true;
 	@ConfigField(name = "rabbit.message", category = "passive")
-	public String rabbitMessage = "You killed a §1{killed}";
+	public String rabbitMessage = "You killed a §7{killed}";
 	@ConfigField(name = "rabbit.money.amount", category = "passive")
 	public String rabbitMoney = "0";
 	@ConfigField(name = "rabbit.money.chance", category = "passive")
@@ -2881,13 +2880,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "rabbit.head.chance", category = "passive")
 	public double rabbitHeadDropChance = 0.05;
 	@ConfigField(name = "rabbit.head.message", category = "passive")
-	public String rabbitHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String rabbitHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Sheep============================================
 	@ConfigField(name = "sheep.enabled", category = "passive")
 	public boolean sheepEnabled = true;
 	@ConfigField(name = "sheep.message", category = "passive")
-	public String sheepMessage = "You killed a §1{killed}";
+	public String sheepMessage = "You killed a §7{killed}";
 	@ConfigField(name = "sheep.money.amount", category = "passive")
 	public String sheepMoney = "0";
 	@ConfigField(name = "sheep.money.chance", category = "passive")
@@ -2907,13 +2906,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "sheep.head.chance", category = "passive")
 	public double sheepHeadDropChance = 0.05;
 	@ConfigField(name = "sheep.head.message", category = "passive")
-	public String sheepHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String sheepHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Skeleton Horse============================================
 	@ConfigField(name = "skeleton_horse.enabled", category = "passive")
 	public boolean skeletonHorseEnabled = true;
 	@ConfigField(name = "skeleton_horse.message", category = "passive")
-	public String skeletonHorseMessage = "You killed a §1{killed}";
+	public String skeletonHorseMessage = "You killed a §7{killed}";
 	@ConfigField(name = "skeleton_horse.money.amount", category = "passive")
 	public String skeletonHorseMoney = "10";
 	@ConfigField(name = "skeleton_horse.money.chance", category = "passive")
@@ -2933,13 +2932,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "skeleton_horse.head.chance", category = "passive")
 	public double skeletonHorseHeadDropChance = 0.05;
 	@ConfigField(name = "skeleton_horse.head.message", category = "passive")
-	public String skeletonHorseHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String skeletonHorseHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Sniffer============================================
 	@ConfigField(name = "sniffer.enabled", category = "passive")
 	public boolean snifferEnabled = true;
 	@ConfigField(name = "sniffer.message", category = "passive")
-	public String snifferMessage = "You killed a §1{killed}";
+	public String snifferMessage = "You killed a §7{killed}";
 	@ConfigField(name = "sniffer.money.amount", category = "passive")
 	public String snifferMoney = "0";
 	@ConfigField(name = "sniffer.money.chance", category = "passive")
@@ -2959,13 +2958,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "sniffer.head.chance", category = "passive")
 	public double snifferHeadDropChance = 0.05;
 	@ConfigField(name = "sniffer.head.message", category = "passive")
-	public String snifferHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String snifferHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Snowman============================================
 	@ConfigField(name = "snowman.enabled", category = "passive")
 	public boolean snowmanEnabled = true;
 	@ConfigField(name = "snowman.message", category = "passive")
-	public String snowmanMessage = "You killed a §1{killed}";
+	public String snowmanMessage = "You killed a §7{killed}";
 	@ConfigField(name = "snowman.money.amount", category = "passive")
 	public String snowmanMoney = "0";
 	@ConfigField(name = "snowman.money.chance", category = "passive")
@@ -2985,13 +2984,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "snowman.head.chance", category = "passive")
 	public double snowmanHeadDropChance = 0.05;
 	@ConfigField(name = "snowman.head.message", category = "passive")
-	public String snowmanHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String snowmanHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Squid============================================
 	@ConfigField(name = "squid.enabled", category = "passive")
 	public boolean squidEnabled = true;
 	@ConfigField(name = "squid.message", category = "passive")
-	public String squidMessage = "You killed a §1{killed}";
+	public String squidMessage = "You killed a §7{killed}";
 	@ConfigField(name = "squid.money.amount", category = "passive")
 	public String squidMoney = "0";
 	@ConfigField(name = "squid.money.chance", category = "passive")
@@ -3011,13 +3010,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "squid.head.chance", category = "passive")
 	public double squidHeadDropChance = 0.05;
 	@ConfigField(name = "squid.head.message", category = "passive")
-	public String squidHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String squidHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Tadpole============================================
 	@ConfigField(name = "tadpole.enabled", category = "passive")
 	public boolean tadpoleEnabled = true;
 	@ConfigField(name = "tadpole.message", category = "passive")
-	public String tadpoleMessage = "You killed a §1{killed}";
+	public String tadpoleMessage = "You killed a §7{killed}";
 	@ConfigField(name = "tadpole.money.amount", category = "passive")
 	public String tadpoleMoney = "-10";
 	@ConfigField(name = "tadpole.money.chance", category = "passive")
@@ -3038,13 +3037,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "tadpole.head.chance", category = "passive")
 	public double tadpoleHeadDropChance = 0.05;
 	@ConfigField(name = "tadpole.head.message", category = "passive")
-	public String tadpoleHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String tadpoleHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Trader Llama============================================
 	@ConfigField(name = "traderllama.enabled", category = "passive")
 	public boolean traderLlamaEnabled = true;
 	@ConfigField(name = "traderllama.message", category = "passive")
-	public String traderLlamaMessage = "You killed a §1{killed}";
+	public String traderLlamaMessage = "You killed a §7{killed}";
 	@ConfigField(name = "traderllama.money.amount", category = "passive")
 	public String traderLlamaMoney = "-10";
 	@ConfigField(name = "traderllama.money.chance", category = "passive")
@@ -3064,13 +3063,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "traderllama.head.chance", category = "passive")
 	public double traderLlamaHeadDropChance = 0.05;
 	@ConfigField(name = "traderllama.head.message", category = "passive")
-	public String traderLlamaHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String traderLlamaHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Wandering Trader============================================
 	@ConfigField(name = "wanderingtrader.enabled", category = "villager")
 	public boolean wanderingTraderEnabled = true;
 	@ConfigField(name = "wanderingtrader.message", category = "villager")
-	public String wanderingTraderMessage = "You killed a §1{killed}";
+	public String wanderingTraderMessage = "You killed a §7{killed}";
 	@ConfigField(name = "wanderingtrader.money.amount", category = "villager")
 	public String wanderingTraderMoney = "-5";
 	@ConfigField(name = "wanderingtrader.money.chance", category = "villager")
@@ -3090,13 +3089,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "wanderingtrader.head.chance", category = "villager")
 	public double wanderingTraderHeadDropChance = 0.05;
 	@ConfigField(name = "wanderingtrader.head.message", category = "villager")
-	public String wanderingTraderHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String wanderingTraderHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Wolf============================================
 	@ConfigField(name = "wolf.enabled", category = "passive")
 	public boolean wolfEnabled = true;
 	@ConfigField(name = "wolf.message", category = "passive")
-	public String wolfMessage = "You killed a §1{killed}";
+	public String wolfMessage = "You killed a §7{killed}";
 	@ConfigField(name = "wolf.money.amount", category = "passive")
 	public String wolfMoney = "-10";
 	@ConfigField(name = "wolf.money.chance", category = "passive")
@@ -3116,13 +3115,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "wolf.head.chance", category = "passive")
 	public double wolfHeadDropChance = 0.05;
 	@ConfigField(name = "wolf.head.message", category = "passive")
-	public String wolfHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String wolfHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Zombie Horse============================================
 	@ConfigField(name = "zombie_horse.enabled", category = "passive")
 	public boolean zombieHorseEnabled = true;
 	@ConfigField(name = "zombie_horse.message", category = "passive")
-	public String zombieHorseMessage = "You killed a §1{killed}";
+	public String zombieHorseMessage = "You killed a §7{killed}";
 	@ConfigField(name = "zombie_horse.money.amount", category = "passive")
 	public String zombieHorseMoney = "-10";
 	@ConfigField(name = "zombie_horse.money.chance", category = "passive")
@@ -3142,7 +3141,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "zombie_horse.head.chance", category = "passive")
 	public double zombieHorseHeadDropChance = 0.25;
 	@ConfigField(name = "zombie_horse.head.message", category = "passive")
-	public String zombieHorseHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String zombieHorseHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// #####################################################################################
 	// Passive Mobs - Monsters
@@ -3152,7 +3151,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "zombie_villager.enabled", category = "passive_monsters")
 	public boolean zombieVillagerEnabled = true;
 	@ConfigField(name = "zombie_villager.message", category = "passive_monsters")
-	public String zombieVillagerMessage = "You killed a §1{killed}";
+	public String zombieVillagerMessage = "You killed a §7{killed}";
 	@ConfigField(name = "zombie_villager.money.amount", category = "passive_monsters")
 	public String zombieVillagerMoney = "1:2";
 	@ConfigField(name = "zombie_villager.money.chance", category = "passive_monsters")
@@ -3172,7 +3171,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "zombie_villager.head.chance", category = "passive_monsters")
 	public double zombieVillagerHeadDropChance = 0.05;
 	@ConfigField(name = "zombie_villager.head.message", category = "passive_monsters")
-	public String zombieVillagerHeadMessage = "§aThe §1{killed} §adropped a skull on the ground";
+	public String zombieVillagerHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// #####################################################################################
 	// Fish / Fishing
@@ -3185,7 +3184,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "cod.enabled", category = "fishing")
 	public boolean codEnabled = true;
 	@ConfigField(name = "cod.message", category = "fishing")
-	public String codMessage = "You caught a §1{killed}";
+	public String codMessage = "You caught a §7{killed}";
 	@ConfigField(name = "cod.money.amount", category = "fishing")
 	public String codMoney = "1:3";
 	@ConfigField(name = "cod.money.chance", category = "fishing")
@@ -3205,13 +3204,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "cod.head.chance", category = "fishing")
 	public double codHeadDropChance = 0.05;
 	@ConfigField(name = "cod.head.message", category = "fishing")
-	public String codHeadMessage = "§aThe §1{killed} §adropped a Cod head in the water";
+	public String codHeadMessage = "§aThe §7{killed} §adropped a Cod head in the water";
 
 	// =====Raw Salmon============================================
 	@ConfigField(name = "salmon.enabled", category = "fishing")
 	public boolean salmonEnabled = true;
 	@ConfigField(name = "salmon.message", category = "fishing")
-	public String salmonMessage = "You caught a §1{killed}";
+	public String salmonMessage = "You caught a §7{killed}";
 	@ConfigField(name = "salmon.money.amount", category = "fishing")
 	public String salmonMoney = "2:8";
 	@ConfigField(name = "salmon.money.chance", category = "fishing")
@@ -3231,13 +3230,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "salmon.head.chance", category = "fishing")
 	public double salmonHeadDropChance = 0.10;
 	@ConfigField(name = "salmon.head.message", category = "fishing")
-	public String salmonHeadMessage = "§aThe §1{killed} §adropped a Salmon head in the water";
+	public String salmonHeadMessage = "§aThe §7{killed} §adropped a Salmon head in the water";
 
 	// =====Tropical Fish============================================
 	@ConfigField(name = "tropical_fish.enabled", category = "fishing")
 	public boolean tropicalFishEnabled = true;
 	@ConfigField(name = "tropical_fish.message", category = "fishing")
-	public String tropicalFishMessage = "You caught a §1{killed}";
+	public String tropicalFishMessage = "You caught a §7{killed}";
 	@ConfigField(name = "tropical_fish.money.amount", category = "fishing")
 	public String tropicalFishMoney = "20:40";
 	@ConfigField(name = "tropical_fish.money.chance", category = "fishing")
@@ -3257,13 +3256,13 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "tropical_fish.head.chance", category = "fishing")
 	public double tropicalFishHeadDropChance = 0.5;
 	@ConfigField(name = "tropical_fish.head.message", category = "fishing")
-	public String tropicalFishHeadMessage = "§aThe §1{killed} §adropped a Aquarium in the water";
+	public String tropicalFishHeadMessage = "§aThe §7{killed} §adropped a Aquarium in the water";
 
 	// =====Pufferfish============================================
 	@ConfigField(name = "pufferfish.enabled", category = "fishing")
 	public boolean pufferfishEnabled = true;
 	@ConfigField(name = "pufferfish.message", category = "fishing")
-	public String pufferfishMessage = "You caught a §1{killed}";
+	public String pufferfishMessage = "You caught a §7{killed}";
 	@ConfigField(name = "pufferfish.money.amount", category = "fishing")
 	public String pufferfishMoney = "5:15";
 	@ConfigField(name = "pufferfish.money.chance", category = "fishing")
@@ -3283,7 +3282,7 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "pufferfish.head.chance", category = "fishing")
 	public double pufferfishHeadDropChance = 0.40;
 	@ConfigField(name = "pufferfish.head.message", category = "fishing")
-	public String pufferfishHeadMessage = "§aThe §1{killed} §adropped a fish head in the water";
+	public String pufferfishHeadMessage = "§aThe §7{killed} §adropped a fish head in the water";
 
 	// #####################################################################################
 	// PVP
@@ -4934,13 +4933,13 @@ public class ConfigManager extends AutoConfig {
 			+ "\nNegative rewards will always be taken from the player. "
 			+ "\n\nOBS Notice if you have the BagOfGold plugin installed these settings will be "
 			+ "\noverruled by the settings in BagOfGold config.yml !!!")
-	public boolean dropMoneyOnGroup = true;
+	public boolean dropMoneyOnGroup = false;
 
 	@ConfigField(name = "drop_money_use_item_as_currency", category = "dropmoneyonground", comment = "If you dont want to use BagOfGold (https://dev.bukkit.org/projects/bagofgold) "
 			+ "\nas you economy plugin, but still want to bags to be dropped on the ground, "
 			+ "\nyou can set this to true and then the player will be able to pick up the bags "
 			+ "\nand use MobHunting signs to sell the Bags and get the money this way.")
-	public boolean dropMoneyOnGroundUseItemAsCurrency = true;
+	public boolean dropMoneyOnGroundUseItemAsCurrency = false;
 
 	// #####################################################################################
 	// Database
@@ -5524,13 +5523,13 @@ public class ConfigManager extends AutoConfig {
 		if (str == null || str.equals("") || str.isEmpty()) {
 			Bukkit.getServer().getConsoleSender()
 					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
-							+ mob.getFriendlyName()
+							+ mob.getEntityName()
 							+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
 			return 0;
 		} else if (str.startsWith(":")) {
 			Bukkit.getServer().getConsoleSender()
 					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
-							+ mob.getFriendlyName()
+							+ mob.getEntityName()
 							+ " in config.yml has a wrong format. The prize can't start with \":\"");
 			if (str.length() > 1)
 				return getPrice(mob, str.substring(1, str.length()));
@@ -5545,22 +5544,16 @@ public class ConfigManager extends AutoConfig {
 			return Double.valueOf(str);
 	}
 
-	// TODO: Prune color codes out of lang files
-	public String getFriendlyName(MobType mob) {
-		String friendlyName = MobHunting.getInstance().getMessages().getString("mobs." + mob.name() + ".name");
 
-		if(friendlyName.contains("&")){
-			friendlyName = friendlyName.substring((friendlyName.indexOf("&") + 2));
-		}
-		else if (friendlyName.contains("§")) {
-			friendlyName = friendlyName.substring((friendlyName.indexOf("§") + 2));
-		}
-
-		if(friendlyName.contains(" ")){
-			friendlyName = friendlyName.replace(' ', '_');
-		}
-
-		return friendlyName;
+	public String getLocalizedName(MobType mob) {
+		return MobHunting.getInstance().getMessages().getString("mobs." + mob.name() + ".name");
 	}
 
+	/**
+	 * At some point player head custom names are strictly enforced as though they were legal minecraft player names with no special characters including spaces
+	 * @return - Prune color codes out of the localized files and provide a clean entity name with underscores
+	 */
+	public String getEntityName(MobType mob){
+		return ChatColor.stripColor(MobHunting.getInstance().getMessages().getString("mobs." + mob.name() + ".name")).replace(' ', '_');
+	}
 }

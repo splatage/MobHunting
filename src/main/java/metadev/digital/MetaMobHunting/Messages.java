@@ -10,16 +10,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,7 +31,6 @@ import metadev.digital.metacustomitemslib.compatibility.ActionbarCompat;
 import metadev.digital.metacustomitemslib.compatibility.BarAPICompat;
 import metadev.digital.metacustomitemslib.compatibility.BossBarAPICompat;
 import metadev.digital.metacustomitemslib.compatibility.CMICompat;
-import metadev.digital.metacustomitemslib.compatibility.TitleManagerCompat;
 import metadev.digital.metacustomitemslib.messages.MessageType;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
@@ -55,7 +49,7 @@ public class Messages {
 	private static Map<String, String> mTranslationTable;
 	private static String[] mValidEncodings = new String[] { "UTF-16", "UTF-16BE", "UTF-16LE", "UTF-8", "ISO646-US" };
 	private static final String PREFIX = ChatColor.GOLD + "[MobHunting]" + ChatColor.RESET;
-	private static String[] sources = new String[] { "en_US.lang", "hu_HU.lang", "zh_CN.lang", "ru_RU.lang",
+	private static String[] sources = new String[] { "en_US.lang", "fr_FR.lang", "hu_HU.lang", "zh_CN.lang", "ru_RU.lang",
 			"pl_PL.lang" };
 
 	public void exportDefaultLanguages(MobHunting plugin) {
@@ -88,6 +82,11 @@ public class Messages {
 			if (dest == null)
 				return false;
 
+			if(dest.get("archived-lang-version") == null || compareVersion(source.get("archived-lang-version"), dest.get("archived-lang-version"))){
+				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Newer version of language file " + onDisk.getName() + " available from JAR, overwriting file.");
+				return false;
+			}
+
 			HashMap<String, String> newEntries = new HashMap<String, String>();
 			for (String key : source.keySet()) {
 				if (!dest.containsKey(key)) {
@@ -110,6 +109,36 @@ public class Messages {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	/**
+	 * Compare two semantic versions to see which is newer.
+	 * @param sourceVersion - Version of the lang file in jar
+	 * @param diskVersion - Version of the lang file on disk
+	 * @return - If source is newer than disk
+	 */
+	private static boolean compareVersion(String sourceVersion, String diskVersion){
+		List<Integer> version1Components = Arrays.stream(sourceVersion.split("\\."))
+				.map(Integer::parseInt)
+				.collect(Collectors.toList());
+		List<Integer> version2Components = Arrays.stream(diskVersion.split("\\."))
+				.map(Integer::parseInt)
+				.collect(Collectors.toList());
+
+		int maxLength = Math.max(version1Components.size(), version2Components.size());
+
+		for (int i = 0; i < maxLength; i++) {
+			int v1Component = i < version1Components.size() ? version1Components.get(i) : 0;
+			int v2Component = i < version2Components.size() ? version2Components.get(i) : 0;
+
+			if (v1Component > v2Component) {
+				return true;
+			} else if (v1Component < v2Component) {
+				return false;
+			}
+		}
+
+		return false;
 	}
 
 	private static boolean sortFileOnDisk(File onDisk) {
@@ -141,6 +170,7 @@ public class Messages {
 				customLanguage = false;
 			File dest = new File(folder, source);
 			injectMissingMobNamesToLangFile(dest);
+			sortFileOnDisk(dest);
 		}
 
 		if (customLanguage) {
@@ -465,6 +495,36 @@ public class Messages {
 			else
 				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "[Debug] " + String.format(message, args));
 		}
+	}
+
+	/**
+	 * Show console message
+	 *
+	 * @param message
+	 * @param args
+	 */
+	public void notice(String message, Object... args) {
+		Bukkit.getServer().getConsoleSender().sendMessage(PREFIX  + " " + String.format(message, args));
+	}
+
+	/**
+	 * Show console warning
+	 *
+	 * @param message
+	 * @param args
+	 */
+	public void warning(String message, Object... args) {
+		Bukkit.getServer().getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + " " + String.format(message, args));
+	}
+
+	/**
+	 * Show console error
+	 *
+	 * @param message
+	 * @param args
+	 */
+	public void error(String message, Object... args) {
+		Bukkit.getServer().getConsoleSender().sendMessage(MobHunting.PREFIX_ERROR  + " " + String.format(message, args));
 	}
 
 	/**

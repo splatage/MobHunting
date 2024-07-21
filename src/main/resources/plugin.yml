@@ -1,6 +1,6 @@
 name: MobHunting
 main: metadev.digital.MetaMobHunting.MobHunting
-version: 9.0.6
+version: 9.0.7
 description: MobHunting adds a new level of fun to hunting monsters. Now you can
   get money from kills, get bonuses for skilled and creative kills, and get
   special achievements.
@@ -21,6 +21,7 @@ commands:
       - mob
       - mh
       - mobhunt
+      - mobhunting
     usage: /<command> command
 permissions:
   mobhunting.enable:
@@ -35,7 +36,7 @@ permissions:
     children:
       mobhunting.cmd: true
   mobhunting.update:
-    description: Allows a player to update the plugin
+    description: Allows a player to check SpigotMc for updates to the plugin
     default: op
     children:
       mobhunting.cmd: true

@@ -18,7 +18,7 @@ public class FifthHuntAchievement implements ProgressAchievement {
 
 	@Override
 	public String getName() {
-		return plugin.getMessages().getString("achievements.hunter.5.name", "mob", mExtendedMob.getFriendlyName());
+		return plugin.getMessages().getString("achievements.hunter.5.name", "mob", mExtendedMob.getLocalizedName());
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class FifthHuntAchievement implements ProgressAchievement {
 	@Override
 	public String getDescription() {
 		return plugin.getMessages().getString("achievements.hunter.5.description", "count", getNextLevel(), "mob",
-				mExtendedMob.getFriendlyName());
+				mExtendedMob.getLocalizedName());
 	}
 
 	@Override
