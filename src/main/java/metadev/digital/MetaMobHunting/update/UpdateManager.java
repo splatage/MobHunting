@@ -12,7 +12,7 @@ public class UpdateManager {
         this.plugin = plugin;
         this.lastResult = null;
 
-        this.pluginUpdateChecker = UpdateChecker.init(this.plugin, 117869);
+        this.pluginUpdateChecker = UpdateChecker.init(this.plugin, 117870);
         isInitialized();
     }
 
