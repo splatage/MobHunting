@@ -1,7 +1,7 @@
 package metadev.digital.MetaMobHunting;
 
-import one.lindegaard.BagOfGold.BagOfGold;
-import one.lindegaard.BagOfGold.PlayerBalance;
+import metadev.digital.metabagofgold.BagOfGold;
+import metadev.digital.metabagofgold.PlayerBalance;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Strings;
 import metadev.digital.metacustomitemslib.Tools;

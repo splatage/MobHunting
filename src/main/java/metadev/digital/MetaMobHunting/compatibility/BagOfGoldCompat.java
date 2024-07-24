@@ -3,9 +3,9 @@ package metadev.digital.MetaMobHunting.compatibility;
 import org.bukkit.Bukkit;
 
 import net.citizensnpcs.api.CitizensAPI;
-import one.lindegaard.BagOfGold.BagOfGold;
-import one.lindegaard.BagOfGold.bank.BankManager;
-import one.lindegaard.BagOfGold.storage.DataStoreManager;
+import metadev.digital.metabagofgold.BagOfGold;
+import metadev.digital.metabagofgold.bank.BankManager;
+import metadev.digital.metabagofgold.storage.DataStoreManager;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
 import metadev.digital.MetaMobHunting.MobHunting;
