@@ -1758,7 +1758,7 @@ public class MobHuntingManager implements Listener {
 			// Reward/Penalty for assisted kill
 			if (info.getAssister() == null || plugin.getConfigManager().enableAssists == false) {
 				if (cash >= Core.getConfigManager().minimumReward && cash != 0) {
-					if (plugin.getConfigManager().dropMoneyOnGroup) {
+					if (plugin.getConfigManager().dropMoneyOnGround) {
 						plugin.getRewardManager().dropMoneyOnGround_RewardManager(killer, killed, killed.getLocation(),
 								cash);
 					} else {
@@ -1786,7 +1786,7 @@ public class MobHuntingManager implements Listener {
 			} else {
 				cash = Tools.round(cash / 2);
 				if (cash >= Core.getConfigManager().minimumReward & cash != 0) {
-					if (plugin.getConfigManager().dropMoneyOnGroup) {
+					if (plugin.getConfigManager().dropMoneyOnGround) {
 						if (MyPetCompat.isKilledByMyPet(killed))
 							plugin.getMessages().debug("1)%s was assisted by %s. Reward/Penalty is only ½ (%s)",
 									player.getName(), MyPetCompat.getMyPet(killed).getName(),
@@ -1828,7 +1828,7 @@ public class MobHuntingManager implements Listener {
 				MessageType messageType = MessageType.valueOf(plugin.getConfigManager().defaultMoneyMessageType);
 				if (extraString.trim().isEmpty()) {
 					if (cash >= Core.getConfigManager().minimumReward && cash != 0) {
-						if (!plugin.getConfigManager().dropMoneyOnGroup) {
+						if (!plugin.getConfigManager().dropMoneyOnGround) {
 							plugin.getMessages().playerSendMessageAt(player, ChatColor.GREEN + "" + ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.moneygain", "prize",
 											plugin.getEconomyManager().format(cash), "money",
@@ -1850,7 +1850,7 @@ public class MobHuntingManager implements Listener {
 
 				} else {
 					if (cash >= Core.getConfigManager().minimumReward && cash != 0) {
-						if (!plugin.getConfigManager().dropMoneyOnGroup) {
+						if (!plugin.getConfigManager().dropMoneyOnGround) {
 							plugin.getMessages().playerSendMessageAt(player, ChatColor.GREEN + "" + ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.moneygain.bonuses", "basic_prize",
 											plugin.getEconomyManager().format(basic_prize), "prize",
