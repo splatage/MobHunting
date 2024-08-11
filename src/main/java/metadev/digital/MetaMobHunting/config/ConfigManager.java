@@ -4933,7 +4933,7 @@ public class ConfigManager extends AutoConfig {
 			+ "\nNegative rewards will always be taken from the player. "
 			+ "\n\nOBS Notice if you have the BagOfGold plugin installed these settings will be "
 			+ "\noverruled by the settings in BagOfGold config.yml !!!")
-	public boolean dropMoneyOnGroup = false;
+	public boolean dropMoneyOnGround = false;
 
 	@ConfigField(name = "drop_money_use_item_as_currency", category = "dropmoneyonground", comment = "If you dont want to use BagOfGold (https://dev.bukkit.org/projects/bagofgold) "
 			+ "\nas you economy plugin, but still want to bags to be dropped on the ground, "
