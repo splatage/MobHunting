@@ -175,11 +175,10 @@ public class RewardManager {
 					addedMoney = addedMoney + nextBag;
 					ItemStack is;
 					if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("SKULL"))
-						is = CoreCustomItems.getCustomtexture(
+						is = CoreCustomItems.getCustomTexture(
 								new Reward(Core.getConfigManager().bagOfGoldName.trim(), Tools.round(nextBag),
 										RewardType.BAGOFGOLD, UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
-								Core.getConfigManager().skullTextureValue,
-								Core.getConfigManager().skullTextureSignature);
+								Core.getConfigManager().skullTextureURL);
 					else {
 						is = new ItemStack(Material.valueOf(Core.getConfigManager().rewardItem), 1);
 						is = Reward.setDisplayNameAndHiddenLores(is,
@@ -204,11 +203,10 @@ public class RewardManager {
 					double saldo = Tools.floor(reward.getMoney());
 					if (saldo > toBeTaken) {
 						reward.setMoney(saldo - toBeTaken);
-						is = CoreCustomItems.getCustomtexture(
+						is = CoreCustomItems.getCustomTexture(
 								new Reward(Core.getConfigManager().bagOfGoldName.trim(), saldo - toBeTaken,
 										reward.getRewardType(), reward.getSkinUUID()),
-								Core.getConfigManager().skullTextureValue,
-								Core.getConfigManager().skullTextureSignature);
+								Core.getConfigManager().skullTextureURL);
 						player.getInventory().setItem(slot, is);
 						taken = taken + toBeTaken;
 						toBeTaken = 0;
@@ -257,9 +255,9 @@ public class RewardManager {
 			} else if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("SKULL")) {
 				rewardType = RewardType.BAGOFGOLD;
 				skinuuid = UUID.fromString(RewardType.BAGOFGOLD.getUUID());
-				is = CoreCustomItems.getCustomtexture(
+				is = CoreCustomItems.getCustomTexture(
 						new Reward(Core.getConfigManager().bagOfGoldName.trim(), money, rewardType, skinuuid),
-						Core.getConfigManager().skullTextureValue, Core.getConfigManager().skullTextureSignature);
+						Core.getConfigManager().skullTextureURL);
 
 			} else if (Core.getConfigManager().rewardItemtype.equalsIgnoreCase("KILLER")) {
 				rewardType = RewardType.KILLER;
