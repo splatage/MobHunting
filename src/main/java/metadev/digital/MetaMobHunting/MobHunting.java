@@ -353,14 +353,11 @@ public class MobHunting extends JavaPlugin {
 		if (mConfig.enablePlayerBounties)
 			mBountyManager = new BountyManager(this);
 
-		if (Servers.isSpigotServer()) {
+		if (!getConfigManager().disableMobHuntingAdvancements) {
 			getMessages().debug("Updating advancements");
-			if (!getConfigManager().disableMobHuntingAdvancements && Servers.isSpigotServer()
-					&& Servers.isMC112OrNewer()) {
-				mAdvancementManager = new AdvancementManager(this);
-				if (!disableAdvancements)
-					mAdvancementManager.getAdvancementsFromAchivements();
-			}
+			mAdvancementManager = new AdvancementManager(this);
+			if (!disableAdvancements)
+				mAdvancementManager.getAdvancementsFromAchivements();
 		}
 
 		if (!Servers.isGlowstoneServer()) {
