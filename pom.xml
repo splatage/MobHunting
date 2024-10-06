@@ -6,7 +6,7 @@
 
     <groupId>metadev.digital</groupId>
     <artifactId>MetaMobHunting</artifactId>
-    <version>9.1.1</version>
+    <version>9.1.2</version>
     <name>MobHunting</name>
     <url>https://github.com/Metadev-Digital/MobHunting</url>
     <description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -233,7 +233,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21-R0.1-SNAPSHOT</version>
+            <version>1.21.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -241,14 +241,14 @@
         <dependency>
             <groupId>metadev.digital</groupId>
             <artifactId>MetaCustomItemsLib</artifactId>
-            <version>2.1.1</version>
+            <version>2.1.2</version>
         </dependency>
 
         <!-- Meta BagOfGold -->
         <dependency>
             <groupId>metadev.digital</groupId>
             <artifactId>MetaBagOfGold</artifactId>
-            <version>4.5.7-SNAPSHOT</version>
+            <version>4.5.8-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>

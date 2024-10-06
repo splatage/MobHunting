@@ -73,10 +73,10 @@ public class BossShopCompat {
 		plugin.getMessages().debug("test3");
 		BSBuy sell = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, 1, 10, "bought bag of gold", 4, null);
 
-		ItemStack is = CoreCustomItems.getCustomtexture(
+		ItemStack is = CoreCustomItems.getCustomTexture(
 				new Reward(Core.getConfigManager().bagOfGoldName.trim(), 10, RewardType.BAGOFGOLD,
 						UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
-				Core.getConfigManager().skullTextureValue, Core.getConfigManager().skullTextureSignature);
+				Core.getConfigManager().skullTextureURL);
 
 		plugin.getMessages().debug("test4");
 		getAPI().addItemToShop(is, buy, shop);
