@@ -1098,14 +1098,14 @@ public class MobHuntingManager implements Listener {
 				return;
 
 				// MiniGamesLib
-			} else if (MinigamesLibCompat.isPlayingMinigame((Player) killed)) {
+			} /** TODO: Possibly deprecated else if (MinigamesLibCompat.isPlayingMinigame((Player) killed)) {
 				plugin.getMessages().debug("KillBlocked: %s was killed while playing a MiniGame.", mob.getMobName());
 				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.minigameslib"));
 				plugin.getMessages().debug("======================= kill ended (16)=====================");
 				return;
 
 				//
-			} /** TODO: Possibly deprecated else if (PreciousStonesCompat.isPVPProtected(player)) {
+			}*/ /** TODO: Possibly deprecated else if (PreciousStonesCompat.isPVPProtected(player)) {
 				plugin.getMessages().debug("KillBlocked: %s is hiding in PreciousStone Field with prevent-pvp flag",
 						player.getName());
 				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.prevent-pvp-flag"));

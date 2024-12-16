@@ -1,3 +1,5 @@
+/**
+
 package metadev.digital.MetaMobHunting.compatibility;
 
 import java.util.ArrayList;
@@ -79,3 +81,5 @@ public class MinigamesLibCompat implements Listener {
 	}
 
 }
+ *
+ */
