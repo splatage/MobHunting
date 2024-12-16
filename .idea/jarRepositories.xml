@@ -64,6 +64,11 @@
     <remote-repository>
       <option name="id" value="local-maven-repo" />
       <option name="name" value="local-maven-repo" />
+      <option name="url" value="file:///C:\repos\Meta MobHunting/lib" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="local-maven-repo" />
+      <option name="name" value="local-maven-repo" />
       <option name="url" value="file:///C:\repos\MetaMobHunting/lib" />
     </remote-repository>
     <remote-repository>
