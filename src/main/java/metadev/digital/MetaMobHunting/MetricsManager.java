@@ -45,7 +45,7 @@ import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat.McMMO_Version;
 import metadev.digital.MetaMobHunting.compatibility.McMMOHorses;
 // TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MinigamesCompat;
-import metadev.digital.MetaMobHunting.compatibility.MinigamesLibCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MinigamesLibCompat;
 // TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
 // TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobStackerCompat;
 import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
@@ -145,7 +145,7 @@ public class MetricsManager {
 						Map<String, Integer> valueMap = new HashMap<>();
 						// TODO: POSSIBLY DEPRECATED valueMap.put("MobArena", MobArenaCompat.isSupported() ? 1 : 0);
 						// TODO: POSSIBLY DEPRECATED valueMap.put("Minigames", MinigamesCompat.isSupported() ? 1 : 0);
-						valueMap.put("MinigamesLib", MinigamesLibCompat.isSupported() ? 1 : 0);
+						// TODO: POSSIBLY DEPRECATED valueMap.put("MinigamesLib", MinigamesLibCompat.isSupported() ? 1 : 0);
 						valueMap.put("PVPArena", PVPArenaCompat.isSupported() ? 1 : 0);
 						valueMap.put("BattleArena", BattleArenaCompat.isSupported() ? 1 : 0);
 						return valueMap;

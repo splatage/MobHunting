@@ -82,6 +82,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.breeze", "### Breeze settings ###");
 		setCategoryComment("mobs.bogged", "### Bogged settings ###");
 		setCategoryComment("mobs.cave_spider", "### Cave Spider settings ###");
+		setCategoryComment("mobs.creaking", "### Creaking settings ###");
 		setCategoryComment("mobs.creeper", "### Creeper settings ###");
 		setCategoryComment("mobs.drowned", "### Drowned settings ###");
 		setCategoryComment("mobs.elder_guardian", "### Elder Guardian settings ###");
@@ -755,6 +756,32 @@ public class ConfigManager extends AutoConfig {
 	public double caveSpiderHeadDropChance = 0.1;
 	@ConfigField(name = "cave_spider.head.message", category = "mobs")
 	public String caveSpiderHeadMessage = "§aThe §7{killed} §adropped a skull on the ground.";
+
+	// =====Creaking============================================
+	@ConfigField(name = "creaking.enabled", category = "mobs")
+	public boolean creakingEnabled = true;
+	@ConfigField(name = "creaking.message", category = "mobs")
+	public String creakingMessage = "You killed a §7{killed}";
+	@ConfigField(name = "creaking.money.amount", category = "mobs")
+	public String creakingMoney = "10.0";
+	@ConfigField(name = "creaking.money.chance", category = "mobs")
+	public double creakingMoneyChance = 1;
+	@ConfigField(name = "creaking.commands", category = "mobs")
+	public List<HashMap<String, String>> creakingCommands = new ArrayList<HashMap<String, String>>();
+	{
+		HashMap<String, String> values1 = new HashMap<String, String>();
+		values1.put("cmd", "give {player} iron_ingot 1");
+		values1.put("chance", "0.10");
+		creakingCommands.add(values1);
+	}
+	@ConfigField(name = "creaking.head.drophead", category = "mobs")
+	public boolean creakingHeadDropHead = true;
+	@ConfigField(name = "creaking.head.value", category = "mobs")
+	public String creakingHeadPrize = "0";
+	@ConfigField(name = "creaking.head.chance", category = "mobs")
+	public double creakingHeadDropChance = 0.10;
+	@ConfigField(name = "creaking.head.message", category = "mobs")
+	public String creakingHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
 	// =====Creeper============================================
 	@ConfigField(name = "creeper.enabled", category = "mobs")
@@ -4309,6 +4336,12 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.cow")
 	public double cowMcMMOSkillRewardChance = 0.025;
 	// Passive mob, risk free
+
+	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.creaking")
+	public String creakingMcMMOSkillRewardAmount = "1";
+	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.creaking")
+	public double creakingMcMMOSkillRewardChance = 0.05;
+	// Hostile, normal challenge
 
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.creeper")
 	public String creeperMcMMOSkillRewardAmount = "1";

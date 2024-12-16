@@ -60,7 +60,7 @@ import metadev.digital.MetaMobHunting.compatibility.LorinthsRpgMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOHorses;
 // TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MinigamesCompat;
-import metadev.digital.MetaMobHunting.compatibility.MinigamesLibCompat;
+// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MinigamesLibCompat;
 // TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
 // TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobStackerCompat;
 import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
@@ -266,7 +266,7 @@ public class MobHunting extends JavaPlugin {
 
 		// Minigame plugins
 		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(MinigamesCompat.class, CompatPlugin.Minigames);
-		mCompatibilityManager.registerPlugin(MinigamesLibCompat.class, CompatPlugin.MinigamesLib);
+		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(MinigamesLibCompat.class, CompatPlugin.MinigamesLib);
 		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(MobArenaCompat.class, CompatPlugin.MobArena);
 		mCompatibilityManager.registerPlugin(PVPArenaCompat.class, CompatPlugin.PVPArena);
 		mCompatibilityManager.registerPlugin(BattleArenaCompat.class, CompatPlugin.BattleArena);

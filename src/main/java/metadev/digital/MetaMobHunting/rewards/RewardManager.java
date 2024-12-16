@@ -470,7 +470,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return getPrice(mob,plugin.getConfigManager().creakingMoney);
+				else if (mob instanceof Breeze)
 					return getPrice(mob,plugin.getConfigManager().breezeMoney);
 				else if(mob instanceof Bogged)
 					return getPrice(mob,plugin.getConfigManager().boggedMoney);
@@ -872,7 +874,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return plugin.getConfigManager().creakingCommands;
+				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeCommands;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedCommands;
@@ -1214,7 +1218,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return plugin.getConfigManager().creakingMessage;
+				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeMessage;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMessage;
@@ -1547,7 +1553,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return plugin.getConfigManager().creakingMoneyChance;
+				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeMoneyChance;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMoneyChance;
@@ -1885,7 +1893,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return plugin.getConfigManager().creakingMcMMOSkillRewardChance;
+				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeMcMMOSkillRewardChance;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMcMMOSkillRewardChance;
@@ -2247,7 +2257,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return getMcMMOXP(mob, plugin.getConfigManager().creakingMcMMOSkillRewardAmount);
+				else if (mob instanceof Breeze)
 					return getMcMMOXP(mob, plugin.getConfigManager().breezeMcMMOSkillRewardAmount);
 				else if(mob instanceof Bogged)
 					return getMcMMOXP(mob, plugin.getConfigManager().boggedMcMMOSkillRewardAmount);
@@ -2580,7 +2592,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return plugin.getConfigManager().creakingEnabled;
+				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeEnabled;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedEnabled;
@@ -2924,7 +2938,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return plugin.getConfigManager().creakingHeadDropHead;
+				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeHeadDropHead;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadDropHead;
@@ -3270,7 +3286,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return plugin.getConfigManager().creakingHeadDropChance;
+				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeHeadDropChance;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadDropChance;
@@ -3615,7 +3633,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return plugin.getConfigManager().creakingHeadMessage;
+				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeHeadMessage;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadMessage;
@@ -3961,7 +3981,9 @@ public class RewardManager {
 
 		} else {
 			if (Servers.isMC121OrNewer()){
-				if (mob instanceof Breeze)
+				if (mob instanceof Creaking)
+					return getPrice(mob, plugin.getConfigManager().creakingHeadPrize);
+				else if (mob instanceof Breeze)
 					return getPrice(mob, plugin.getConfigManager().breezeHeadPrize);
 				else if(mob instanceof Bogged)
 					return getPrice(mob, plugin.getConfigManager().boggedHeadPrize);
