@@ -11,9 +11,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import mc.alk.arena.events.players.ArenaPlayerJoinEvent;
-import mc.alk.arena.events.players.ArenaPlayerLeaveEvent;
-import mc.alk.arena.objects.ArenaPlayer;
+import org.battleplugins.arena.event.player.ArenaJoinEvent;
+import org.battleplugins.arena.event.player.ArenaLeaveEvent;
+import org.battleplugins.arena.ArenaPlayer;
+
 import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
 import metadev.digital.MetaMobHunting.MobHunting;
 
@@ -72,17 +73,16 @@ public class BattleArenaCompat implements Listener {
 	 * @param arenaPlayer
 	 */
 	public static void startPlayingBattleArena(ArenaPlayer arenaPlayer) {
-		playersPlayingBattleArena.add(arenaPlayer.getID());
+		playersPlayingBattleArena.add(arenaPlayer.getPlayer().getUniqueId());
 	}
-
 	/**
 	 * Remove the player from list of active BattleArena players
 	 * 
 	 * @param arenaPlayer
 	 */
 	public static void stopPlayingBattleArena(ArenaPlayer arenaPlayer) {
-		if (!playersPlayingBattleArena.remove(arenaPlayer.getID())) {
-			MobHunting.getInstance().getMessages().debug("Player: %s is not a the BattleArena", arenaPlayer.getName());
+		if (!playersPlayingBattleArena.remove(arenaPlayer.getPlayer().getUniqueId())) {
+			MobHunting.getInstance().getMessages().debug("Player: %s is not a the BattleArena", arenaPlayer.getPlayer().getName());
 		}
 	}
 
@@ -90,15 +90,15 @@ public class BattleArenaCompat implements Listener {
 	// EVENTS
 	// **************************************************************************
 	@EventHandler(priority = EventPriority.NORMAL)
-	private void onArenaPlayerJoinEvent(ArenaPlayerJoinEvent event) {
+	private void onArenaPlayerJoinEvent(ArenaJoinEvent event) {
 		MobHunting.getInstance().getMessages().debug("BattleArenaCompat.StartEvent s%", event.getEventName());
-		startPlayingBattleArena(event.getPlayer());
+		startPlayingBattleArena(event.getArenaPlayer());
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
-	private void onArenaPlayerLeaveEvent(ArenaPlayerLeaveEvent event) {
+	private void onArenaPlayerLeaveEvent(ArenaLeaveEvent event) {
 		MobHunting.getInstance().getMessages().debug("BattleArenaCompat.StartEvent %s", event.getEventName());
-		stopPlayingBattleArena(event.getPlayer());
+		stopPlayingBattleArena(event.getArenaPlayer());
 	}
 
 }
