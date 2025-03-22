@@ -2,84 +2,9 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
-      <option name="id" value="bstats1.2" />
-      <option name="name" value="bstats1.2" />
-      <option name="url" value="https://mvnrepository.com/artifact/org.bstats/bstats-bukkit" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="dmulloy2-repo" />
-      <option name="name" value="dmulloy2-repo" />
-      <option name="url" value="https://repo.dmulloy2.net/content/groups/public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="codemc-repo" />
-      <option name="name" value="codemc-repo" />
-      <option name="url" value="https://repo.codemc.io/repository/maven-public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="de.hellfirepvp" />
-      <option name="name" value="de.hellfirepvp" />
-      <option name="url" value="https://maven.hellfiredev.net/hellfirepvp/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="bstats1.2" />
-      <option name="name" value="bstats1.2" />
-      <option name="url" value="https://repo.bstats.org/content/repositories/releases" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="sk89q-repo" />
-      <option name="name" value="sk89q-repo" />
-      <option name="url" value="https://maven.enginehub.org/repo/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="residence" />
-      <option name="name" value="residence" />
-      <option name="url" value="https://zrips.net/Residence/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="essentials-releases" />
-      <option name="name" value="essentials-releases" />
-      <option name="url" value="https://repo.essentialsx.net/releases/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="com.kiwifisher.mobstacker.MobStacker" />
-      <option name="name" value="com.kiwifisher.mobstacker.MobStacker" />
-      <option name="url" value="https://maven.addstar.com.au/artifactory/all-snapshot/com/kiwifisher/mobstacker/MobStacker/MobStacker/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="inventive-repo" />
-      <option name="name" value="inventive-repo" />
-      <option name="url" value="https://repo.inventivetalent.org/repository/public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="jboss.community" />
-      <option name="name" value="JBoss Community repository" />
-      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="minecraft-repo" />
-      <option name="name" value="minecraft-repo" />
-      <option name="url" value="https://libraries.minecraft.net/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="local-maven-repo" />
-      <option name="name" value="local-maven-repo" />
-      <option name="url" value="file:///C:\repos\Meta MobHunting/lib" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="local-maven-repo" />
-      <option name="name" value="local-maven-repo" />
-      <option name="url" value="file:///C:\repos\MetaMobHunting/lib" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="nexus" />
-      <option name="name" value="Lumine Releases" />
-      <option name="url" value="https://mvn.lumine.io/repository/maven-public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="mobstacker" />
-      <option name="name" value="mobstacker" />
-      <option name="url" value="https://maven.addstar.com.au/artifactory/all-snapshot/com/kiwifisher/mobstacker/MobStacker/" />
+      <option name="id" value="neetgames" />
+      <option name="name" value="neetgames" />
+      <option name="url" value="https://nexus.neetgames.com/repository/maven-releases/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="reserve-repo" />
@@ -87,19 +12,14 @@
       <option name="url" value="https://repo.codemc.io/repository/maven-public/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="placeholderapi" />
-      <option name="name" value="placeholderapi" />
-      <option name="url" value="https://repo.extendedclip.com/content/repositories/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="jitpack.io" />
-      <option name="name" value="jitpack.io" />
-      <option name="url" value="https://jitpack.io/com/github/MinecraftWars/Gringotts" />
+      <option name="id" value="battleplugins-snapshots" />
+      <option name="name" value="BattlePlugins Snapshots" />
+      <option name="url" value="https://repo.battleplugins.org/snapshots" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
@@ -107,14 +27,14 @@
       <option name="url" value="https://repo1.maven.org/maven2" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="mypet" />
-      <option name="name" value="mypet" />
-      <option name="url" value="https://repo.spaceio.xyz/repository/maven-public/" />
+      <option name="id" value="essentialsx-snapshots" />
+      <option name="name" value="EssentialsX API Repository" />
+      <option name="url" value="https://repo.essentialsx.net/snapshots" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="nexus-public" />
-      <option name="name" value="nexus-public" />
-      <option name="url" value="https://nexus.lindegaard.one/repository/maven-public/" />
+      <option name="id" value="CodeMC" />
+      <option name="name" value="CodeMC" />
+      <option name="url" value="https://repo.codemc.org/repository/maven-public/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="citizens-repo" />
@@ -122,19 +42,14 @@
       <option name="url" value="https://maven.citizensnpcs.co/repo" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="vault-repo" />
-      <option name="name" value="vault-repo" />
+      <option name="id" value="sk89q-repo" />
+      <option name="name" value="sk89q-repo" />
+      <option name="url" value="https://maven.enginehub.org/repo/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jitpack-repo" />
+      <option name="name" value="jitpack-repo" />
       <option name="url" value="https://jitpack.io" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="mypet-repo1" />
-      <option name="name" value="mypet-repo1" />
-      <option name="url" value="https://repo.mypet-plugin.de" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="mobstacker" />
-      <option name="name" value="mobstacker" />
-      <option name="url" value="https://maven.addstar.com.au/artifactory/all-snapshot/com/kiwifisher/mobstacker/MobStacker/MobStacker/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="spigot-repo" />
@@ -142,59 +57,19 @@
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="md5-repo" />
-      <option name="name" value="md5-repo" />
-      <option name="url" value="https://repo.md-5.net/content/repositories/public/" />
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="com.blueskullgames.horserpg.HorseRPG" />
-      <option name="name" value="com.blueskullgames.horserpg.HorseRPG" />
-      <option name="url" value="https://mvnrepository.com/artifact/com.blueskullgames.horserpg.HorseRPG" />
+      <option name="id" value="battleplugins-releases" />
+      <option name="name" value="BattlePlugins Releases" />
+      <option name="url" value="https://repo.battleplugins.org/releases" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="paper-repo" />
-      <option name="name" value="paper-repo" />
-      <option name="url" value="https://papermc.io/repo/repository/maven-public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="pvparena" />
-      <option name="name" value="pvparena" />
-      <option name="url" value="https://maven.addstar.com.au/artifactory/ext-release-local/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="HolographicDisplays" />
-      <option name="name" value="HolographicDisplays" />
-      <option name="url" value="https://repo.rosewooddev.io/repository/public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="mcMMOHorse" />
-      <option name="name" value="mcMMOHorse" />
-      <option name="url" value="https://mvnrepository.com/artifact/com.blueskullgames.horserpg.HorseRPG/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="au.com.mineauz" />
-      <option name="name" value="au.com.mineauz" />
-      <option name="url" value="https://jenkins.addstar.com.au/job/Minigames/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="com.gmail.filoghost.holographicdisplays" />
-      <option name="name" value="com.gmail.filoghost.holographicdisplays" />
-      <option name="url" value="https://repo.rosewooddev.io/repository/public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="md_5-public" />
-      <option name="name" value="md_5-public" />
-      <option name="url" value="https://repo.md-5.net/content/groups/public/" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="com.blueskullgames" />
-      <option name="name" value="com.blueskullgames" />
-      <option name="url" value="https://mvnrepository.com/artifact/com.blueskullgames.horserpg.HorseRPG" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="CodeMC" />
-      <option name="name" value="CodeMC" />
-      <option name="url" value="https://repo.codemc.org/repository/maven-public" />
+      <option name="id" value="nexus" />
+      <option name="name" value="Lumine Releases" />
+      <option name="url" value="https://mvn.lumine.io/repository/maven-public/" />
     </remote-repository>
   </component>
 </project>

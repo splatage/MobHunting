@@ -6,7 +6,7 @@
 
     <groupId>metadev.digital</groupId>
     <artifactId>MetaMobHunting</artifactId>
-    <version>9.1.4</version>
+    <version>9.2.0</version>
     <name>MobHunting</name>
     <url>https://github.com/Metadev-Digital/MobHunting</url>
     <description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -28,53 +28,10 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
 
-        <!-- Jitpack (Vault, TitleAPI, ActionBarAPI, CustomItemsLib, BossbarAPI) -->
-        <repository>
-            <id>vault-repo</id>
-            <url>https://jitpack.io</url>
-        </repository>
-
-        <!-- ProtocolLib -->
-        <repository>
-            <id>dmulloy2-repo</id>
-            <url>https://repo.dmulloy2.net/content/groups/public/</url>
-        </repository>
-
-        <!-- Mojang -->
-        <repository>
-            <id>minecraft-repo</id>
-            <url>https://libraries.minecraft.net/</url>
-        </repository>
-
         <!-- Reserve -->
         <repository>
             <id>reserve-repo</id>
             <url>https://repo.codemc.io/repository/maven-public/</url>
-        </repository>
-
-        <!-- Placeholder API -->
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/</url>
-        </repository>
-
-        <!-- Add imported jar files to main project-->
-        <!-- Uses: ActionAnnouncer -->
-        <repository>
-            <id>local-maven-repo</id>
-            <url>file:///${project.basedir}/lib</url>
-        </repository>
-
-        <!-- Rocologo repository -->
-        <repository>
-            <id>nexus-public</id>
-            <url>https://nexus.lindegaard.one/repository/maven-public/</url>
-        </repository>
-
-        <!-- Inventive Repo / SpigetUpdater / BossBarAPI -->
-        <repository>
-            <id>inventive-repo</id>
-            <url>https://repo.inventivetalent.org/repository/public/</url>
         </repository>
 
         <!-- citizens repository -->
@@ -84,27 +41,11 @@
             <url>https://maven.citizensnpcs.co/repo</url>
         </repository>
 
-        <!-- EssentialsX repo-->
+        <!-- Essentialsx -->
         <repository>
-            <id>essentials-releases</id>
-            <url>https://repo.essentialsx.net/releases/</url>
-        </repository>
-        <repository>
-            <id>paper-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
-        </repository>
-
-        <!-- CodeMC - Open Source Minecraft projects repository -->
-        <!-- Used by bStats -->
-        <repository>
-            <id>CodeMC</id>
-            <url>https://repo.codemc.org/repository/maven-public</url>
-        </repository>
-
-        <!-- Used by Gringotts, I think -->
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io/com/github/MinecraftWars/Gringotts</url>
+            <id>essentialsx-snapshots</id>
+            <name>EssentialsX API Repository</name>
+            <url>https://repo.essentialsx.net/snapshots</url>
         </repository>
 
         <!-- sk89q WorldGuard WorldEdit repositories -->
@@ -113,54 +54,42 @@
             <url>https://maven.enginehub.org/repo/</url>
         </repository>
 
-        <!-- md5 repository -->
-        <!-- mcMMO - old versions -->
+        <!-- BattleArena Repository -->
         <repository>
-            <id>md5-repo</id>
-            <url>https://repo.md-5.net/content/repositories/public/</url>
+            <id>battleplugins-releases</id>
+            <name>BattlePlugins Releases</name>
+            <url>https://repo.battleplugins.org/releases</url>
         </repository>
         <repository>
-            <id>md_5-public</id>
-            <url>https://repo.md-5.net/content/groups/public/</url>
-        </repository>
-
-        <!-- Minigames -->
-        <repository>
-            <id>au.com.mineauz</id>
-            <url>https://jenkins.addstar.com.au/job/Minigames/</url>
+            <id>battleplugins-snapshots</id>
+            <name>BattlePlugins Snapshots</name>
+            <url>https://repo.battleplugins.org/snapshots</url>
         </repository>
 
-        <!-- MythicMobs Repo -->
+        <!-- MCMMO -->
+        <repository>
+            <id>neetgames</id>
+            <url>https://nexus.neetgames.com/repository/maven-releases/</url>
+        </repository>
+
+        <!-- StackMob-5 -->
+        <repository>
+            <id>CodeMC</id>
+            <url>https://repo.codemc.org/repository/maven-public/</url>
+        </repository>
+
+        <!-- Mythic Mobs -->
         <repository>
             <id>nexus</id>
             <name>Lumine Releases</name>
             <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
 
-        <!-- Holographic Displays -->
+        <!-- Jitpack (Vault) -->
         <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.io/repository/maven-public/</url>
+            <id>jitpack-repo</id>
+            <url>https://jitpack.io</url>
         </repository>
-
-        <!-- PVPArena -->
-        <repository>
-            <id>pvparena</id>
-            <url>https://maven.addstar.com.au/artifactory/ext-release-local/</url>
-        </repository>
-
-        <!-- Mobstacker | Deprecated
-        <repository>
-            <id>com.kiwifisher.mobstacker.MobStacker</id>
-            <url>https://maven.addstar.com.au/artifactory/all-snapshot/com/kiwifisher/mobstacker/MobStacker/MobStacker/</url>
-        </repository> -->
-
-        <!-- MyPet -->
-        <repository>
-            <id>mypet-repo1</id>
-            <url>https://repo.mypet-plugin.de</url>
-        </repository>
-
     </repositories>
 
     <!-- ********************************************************************** -->
@@ -241,14 +170,18 @@
         <dependency>
             <groupId>metadev.digital</groupId>
             <artifactId>MetaCustomItemsLib</artifactId>
-            <version>2.1.5</version>
+            <version>2.2.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/MetaCustomItemsLib-2.2.0.jar</systemPath>
         </dependency>
 
         <!-- Meta BagOfGold -->
         <dependency>
             <groupId>metadev.digital</groupId>
             <artifactId>MetaBagOfGold</artifactId>
-            <version>4.5.9-SNAPSHOT</version>
+            <version>4.5.10-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/MetaBagOfGold-4.5.10-SNAPSHOT.jar</systemPath>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
@@ -261,11 +194,11 @@
         <dependency>
             <groupId>com.github.MilkBowl</groupId>
             <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
+            <version>1.7.1</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Reserve -->
+        <!-- Reserve --> <!-- TODO: Replace with https://bstats.org/plugin/bukkit/VaultUnlocked/22252 ex: https://github.com/TownyAdvanced/Towny/blob/d382a5d5b614ac5e2032b9e94bc861f2f313bf4c/Towny/src/main/java/com/palmergames/bukkit/towny/TownyEconomyHandler.java#L168 -->
         <dependency>
             <groupId>net.tnemc</groupId>
             <artifactId>Reserve</artifactId>
@@ -286,374 +219,166 @@
             </exclusions>
         </dependency>
 
-
-        <!-- BossBarAPI -->
-        <dependency>
-            <groupId>com.github.InventivetalentDev</groupId>
-            <artifactId>BossBarAPI</artifactId>
-            <version>2.4.3-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>metrics-lite</artifactId>
-                    <groupId>org.mcstats.bukkit</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- BarAPI -->
-        <dependency>
-            <groupId>me.confuser</groupId>
-            <artifactId>BarAPI</artifactId>
-            <version>3.5</version>
-        </dependency>
-
-        <!-- TitleManager -->
-
-        <dependency>
+        <!-- Title Manager // TODO: Replace with an exported version of this from CustomItemsLib -->
+        <!--<dependency>
             <groupId>io.puharesource.mc</groupId>
             <artifactId>TitleManager</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-
-        <!-- TitleAPI, ActionBarAPI -->
-        <dependency>
-            <groupId>com.github.ConnorLinfoot</groupId>
-            <artifactId>TitleAPI</artifactId>
-            <version>1.8.1</version>
-        </dependency>
+            <version>2.3.6</version>
+            <scope>system</scope>
+            <systemPath>${basedir}\lib\TitleManager-2.3.6.jar</systemPath>
+        </dependency>-->
 
         <!-- Essentials -->
         <dependency>
             <groupId>net.essentialsx</groupId>
             <artifactId>EssentialsX</artifactId>
-            <version>2.19.4</version>
+            <version>2.21.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/EssentialsX-2.21.0-dev+190-b4a97ab.jar</systemPath>
         </dependency>
 
-        <!-- ActionAnnouncer | Possibly Deprecated -->
-        <!--<dependency>
-            <groupId>me.clip.actionannouncer</groupId>
-            <artifactId>ActionAnnouncer</artifactId>
-            <version>1.16.4</version>
-        </dependency>-->
-
-        <!-- bStats.org -->
+        <!-- Bstats -->
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.2</version>
+            <version>3.1.0</version>
         </dependency>
-
-        <!-- Placeholder API -->
         <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>2.11.6</version>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-base</artifactId>
+            <version>3.1.0</version>
         </dependency>
 
-        <!-- BossShop -->
+        <!-- Genesis Custom GUI (Formerly BossShop) TODO: replace with https://www.spigotmc.org/resources/genesis-custom-gui-and-shop-creator-by-magemonkey-studio-formerly-bossshoppro.104824/ -->
         <dependency>
             <groupId>org.black_ixx</groupId>
             <artifactId>BossShop</artifactId>
-            <version>1.9.8</version>
-        </dependency>
-
-        <!-- SpigetUpdate -->
-        <dependency>
-            <groupId>org.inventivetalent.spiget-update</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.4.5-SNAPSHOT</version>
-            <scope>compile</scope>
+            <scope>system</scope>
+            <version>1.0</version>
+            <systemPath>${basedir}/lib/BossShopPro.jar</systemPath>
         </dependency>
 
         <!-- Gringotts -->
         <dependency>
             <groupId>org.gestern.gringotts</groupId>
             <artifactId>Gringotts</artifactId>
-            <version>2.11.1</version>
+            <version>2.12.5</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/gringotts-2.12.5.jar</systemPath>
         </dependency>
 
         <!-- WorldEdit -->
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-            <version>7.2.8</version>
-        </dependency>
-
-        <!-- LibsDisguises -->
-        <dependency>
-            <groupId>me.libraryaddict.disguise.LibsDisguises</groupId>
-            <artifactId>LibsDisguises</artifactId>
-            <version>10.0.28</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- McMMO -->
-        <dependency>
-            <groupId>com.gmail.nossr50.mcMMO</groupId>
-            <artifactId>mcMMO</artifactId>
-            <version>2.1.211</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-        <!-- McMMO Classic -->
-        <dependency>
-            <groupId>com.gmail.nossr50</groupId>
-            <artifactId>mcMMO</artifactId>
-            <version>1.6.0</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- McMMOHorses -->
-        <dependency>
-            <groupId>com.blueskullgames.horserpg.HorseRPG</groupId>
-            <artifactId>mcMMOHorse</artifactId>
-            <version>4.3.55</version>
+            <version>7.3.10</version>
         </dependency>
 
         <!-- Worldguard -->
         <dependency>
             <groupId>com.sk89q.worldguard</groupId>
             <artifactId>worldguard-bukkit</artifactId>
-            <version>7.0.7</version>
+            <version>7.0.13</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- PreciousStones | Deprecated
+        <!-- LibsDisguises -->
         <dependency>
-            <groupId>net.sacredlabyrinth.Phaed</groupId>
-            <artifactId>PreciousStones</artifactId>
-            <version>10.7.2</version>
-        </dependency> -->
-
-        <!-- BattleArena -->
-        <dependency>
-            <groupId>mc.alk.arena</groupId>
-            <artifactId>BattleArena</artifactId>
-            <version>3.9.16.4</version>
+            <groupId>me.libraryaddict.disguise.LibsDisguises</groupId>
+            <artifactId>LibsDisguises</artifactId>
+            <version>11.0.3</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/LibsDisguises-11.0.3.jar</systemPath>
         </dependency>
 
-        <!-- TARDISWeepingangels | Deprecated
+        <!-- McMMO -->
         <dependency>
-            <groupId>me.eccentric_nz.tardisweepingangels</groupId>
-            <artifactId>TARDISWeepingAngels</artifactId>
-            <version>2.4</version>
-        </dependency> -->
+            <groupId>com.gmail.nossr50.mcMMO</groupId>
+            <artifactId>mcMMO</artifactId>
+            <version>2.2.034-SNAPSHOT</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
 
-        <!-- ConquestiaMobs | Deprecated
+        <!-- BattleArena TODO: Update references to move from mc.alk.arena to new  -->
         <dependency>
-            <groupId>CqMobs</groupId>
-            <artifactId>CqMobs</artifactId>
-            <version>3.3.3</version>
-        </dependency>-->
-
-        <!-- LorinthsRpgMobs -->
-        <dependency>
-            <groupId>me.lorinth.rpgmobs</groupId>
-            <artifactId>LorinthsRpgMobs</artifactId>
-            <version>1.6.8</version>
+            <groupId>org.battleplugins.arena.BattleArena</groupId>
+            <artifactId>BattleArena</artifactId>
+            <version>4.0.2</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/BattleArena.jar</systemPath>
         </dependency>
 
         <!-- LevelledMobs -->
         <dependency>
-            <groupId>com.github.lokka30</groupId>
+            <groupId>io.github.arcaneplugins</groupId>
             <artifactId>LevelledMobs</artifactId>
-            <version>3.4.1</version>
+            <version>4.3.0.1.b109</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/LevelledMobs-4.3.0.1.b109.jar</systemPath>
         </dependency>
 
         <!-- StackMob -->
         <dependency>
             <groupId>uk.antiperson.stackmob</groupId>
             <artifactId>StackMob</artifactId>
-            <version>5.6.2</version>
+            <version>5.9.2</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/StackMob-5.9.2.jar</systemPath>
         </dependency>
-
-        <!-- MysteriousHalloween | Depreciated
-        <dependency>
-            <groupId>me.F_o_F_1092.MysteriousHalloween</groupId>
-            <artifactId>MysteriousHalloween</artifactId>
-            <version>1.3.5</version>
-        </dependency> -->
 
         <!-- EliteMobs -->
         <dependency>
             <groupId>com.magmaguy</groupId>
             <artifactId>EliteMobs</artifactId>
-            <version>6.5.0</version>
+            <version>9.3.2</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/EliteMobs.jar</systemPath>
         </dependency>
-
-        <!-- SmartGiants | Deprecated
-        <dependency>
-            <groupId>me.jjm_223.smartgiants</groupId>
-            <artifactId>SmartGiants</artifactId>
-            <version>2.3.6</version>
-        </dependency>-->
-
-        <!-- Herobrine -->
-        <dependency>
-            <groupId>net.theprogrammersworld.herobrine.Herobrine</groupId>
-            <artifactId>Herobrine</artifactId>
-            <version>2.1.1</version>
-        </dependency>
-
-        <!-- Boss -->
-        <dependency>
-            <groupId>org.mineacademy.boss</groupId>
-            <artifactId>Boss</artifactId>
-            <version>4.1.9</version>
-        </dependency>
-
-        <!-- iDisguise | Deprecated
-        <dependency>
-            <groupId>iDisguise</groupId>
-            <artifactId>iDisguise</artifactId>
-            <version>5.5.5</version>
-        </dependency>-->
-
-        <!-- DisguiseCraft | Deprecated
-        <dependency>
-            <groupId>pgDev</groupId>
-            <artifactId>DisguiseCraft</artifactId>
-            <version>5.1</version>
-        </dependency> -->
 
         <!-- PvpArena -->
         <dependency>
             <groupId>net.slipcor</groupId>
             <artifactId>pvparena</artifactId>
-            <version>1.3.1.44</version>
-        </dependency>
-
-        <!-- MinigamesLib  | Deprecated
-        <dependency>
-            <groupId>com.comze_instancelabs.minigamesapi.MinigamesAPI</groupId>
-            <artifactId>MinigamesLib</artifactId>
-            <version>1.14.17</version>
-        </dependency>-->
-
-        <!-- VanishNoPacket -->
-        <dependency>
-            <groupId>org.kitteh.vanish</groupId>
-            <artifactId>VanishNoPacket</artifactId>
-            <version>3.22</version>
-        </dependency>
-
-        <!-- MobStacker | Deprecated
-        <dependency>
-            <groupId>com.kiwifisher.mobstacker.MobStacker</groupId>
-            <artifactId>MobStacker</artifactId>
             <version>2.0.0</version>
-        </dependency>-->
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/pvparena-2.0.0.jar</systemPath>
+        </dependency>
 
         <!-- MythicMobs -->
         <dependency>
             <groupId>io.lumine</groupId>
             <artifactId>Mythic-Dist</artifactId>
-            <version>5.1.0</version>
+            <version>5.6.1</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- CustomMobs | Deprecated
+        <!-- RIP Factions. Replace with one of these two, ImprovedFactions or Saber Factions
+        ImprovedFactions (RIP Factions) https://www.spigotmc.org/resources/improved-factions.95617/
         <dependency>
-            <groupId>de.hellfirepvp</groupId>
-            <artifactId>CustomMobs</artifactId>
-            <version>4.16</version>
-        </dependency>-->
-
-        <!-- InfernalMobs -->
-        <dependency>
-            <groupId>io.hotmail.com.jacob_vejvoda.infernal_mobs.infernal_mobs</groupId>
-            <artifactId>InfernalMobs</artifactId>
-            <version>6.7.6</version>
+            <groupId>io.github.toberocat</groupId>
+            <artifactId>ImprovedFactions</artifactId>
+            <scope>system</scope>
+            <version>2.2.0</version>
+            <systemPath>${basedir}/lib/ImprovedFactions-2.2.0.jar</systemPath>
         </dependency>
 
-        <!-- MobArena | Possibly Deprecated
+        Saber Factions (RIP FACTIONS) https://www.spigotmc.org/resources/saberfactions-1-8-1-21-x-discord-gg-saber-the-complete-factions-solution.69771/
         <dependency>
-            <groupId>com.github.garbagemule</groupId>
-            <artifactId>MobArena</artifactId>
-            <version>0.103</version>
+            <groupId>com.github.SaberLLC</groupId>
+            <artifactId>Saber-Factions</artifactId>
+            <version>4.1.6-BETA</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/SaberFactions.jar</systemPath>
         </dependency> -->
-
-        <!-- Holograms -->
-        <dependency>
-            <groupId>com.sainttx.holograms</groupId>
-            <artifactId>holograms</artifactId>
-            <version>2.13</version>
-        </dependency>
-
-        <!-- HologramDisplays -->
-        <dependency>
-            <groupId>com.gmail.filoghost.holographicdisplays</groupId>
-            <artifactId>holographicdisplays-legacy</artifactId>
-            <version>2.4.2</version>
-        </dependency>
-
-        <!--<dependency>
-            <groupId>me.filoghost.holographicdisplays</groupId>
-            <artifactId>holographicdisplays-api</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
-        </dependency>-->
-
-        <!-- CMI Holograms -->
-        <dependency>
-            <groupId>com.Zrips</groupId>
-            <artifactId>CMI</artifactId>
-            <version>9.0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.Zrips</groupId>
-            <artifactId>CMILib</artifactId>
-            <version>1.0.2.11</version>
-        </dependency>
-
-        <!-- Minigames TODO: Cannot find
-        <dependency>
-            <groupId>au.com.mineauz</groupId>
-            <artifactId>Minigames</artifactId>
-            <version>1.9.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.bukkit</groupId>
-                    <artifactId>bukkit</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.bukkit</groupId>
-                    <artifactId>craftbukkit</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
-
-        <!-- MassiveCore / Factions -->
-        <dependency>
-            <groupId>com.massivecraft.massivecore</groupId>
-            <artifactId>MassiveCore</artifactId>
-            <version>2.14.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.massivecraft.factions</groupId>
-            <artifactId>Factions</artifactId>
-            <version>2.14.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.massivecraft.factions.P</groupId>
-            <artifactId>Factions</artifactId>
-            <version>1.6.9.5</version>
-            <classifier>B130</classifier>
-        </dependency>
-
-        <!-- Towny | Change to towny advanced
-        <dependency>
-            <groupId>Towny</groupId>
-            <artifactId>Towny</artifactId>
-            <version>0.91.4.2</version>
-        </dependency>-->
 
         <!-- Residence -->
         <dependency>
             <groupId>com.bekvon.bukkit.residence.ResidenceCommandListener</groupId>
             <artifactId>Residence</artifactId>
-            <version>4.7.0.1</version>
+            <version>5.1.7.2</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/Residence5.1.7.2.jar</systemPath>
         </dependency>
 
         <!-- CrackShot -->
@@ -661,33 +386,53 @@
             <groupId>CrackShot</groupId>
             <artifactId>CrackShot</artifactId>
             <version>0.98.11</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/CrackShot.jar</systemPath>
         </dependency>
 
         <!-- WeaponMechanics -->
         <dependency>
-            <groupId>me.deecaad.weaponmechanics</groupId>
-            <artifactId>WeaponMechanics</artifactId>
-            <version>1.11.10</version>
+            <groupId>com.cjcrafter</groupId>
+            <artifactId>weaponmechanics</artifactId>
+            <version>4.0.5</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/WeaponMechanics-4.0.5.jar</systemPath>
         </dependency>
 
         <!-- ExtraHardMode -->
         <dependency>
             <groupId>com.extrahardmode</groupId>
             <artifactId>ExtraHardMode</artifactId>
-            <version>3.14.2</version>
+            <version>3.15.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/ExtraHardMode.jar</systemPath>
         </dependency>
 
+        <!-- Google GSON -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.1</version>
-            <scope>provided</scope>
+            <version>2.11.0</version>
         </dependency>
 
+        <!-- My Pet -->
         <dependency>
             <groupId>de.keyle</groupId>
             <artifactId>mypet</artifactId>
             <version>3.12-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Mysql -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>9.2.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.protobuf</groupId>
+                    <artifactId>protobuf-java</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 </project>
