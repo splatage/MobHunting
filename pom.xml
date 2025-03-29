@@ -233,7 +233,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>1.21.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -241,14 +241,14 @@
         <dependency>
             <groupId>metadev.digital</groupId>
             <artifactId>MetaCustomItemsLib</artifactId>
-            <version>2.1.5</version>
+            <version>2.1.6</version>
         </dependency>
 
         <!-- Meta BagOfGold -->
         <dependency>
             <groupId>metadev.digital</groupId>
             <artifactId>MetaBagOfGold</artifactId>
-            <version>4.5.9-SNAPSHOT</version>
+            <version>4.5.11-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
