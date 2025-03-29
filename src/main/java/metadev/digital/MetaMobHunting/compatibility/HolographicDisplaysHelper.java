@@ -1,5 +1,7 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+// TODO: REMOVE
+
 import org.bukkit.inventory.ItemStack;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;

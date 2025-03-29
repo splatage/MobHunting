@@ -6,8 +6,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import me.lokka30.levelledmobs.LevelInterface;
-import me.lokka30.levelledmobs.LevelledMobs;
+import io.github.arcaneplugins.levelledmobs.LevelInterface;
+import io.github.arcaneplugins.levelledmobs.LevelledMobs;
+
 import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
 import metadev.digital.MetaMobHunting.MobHunting;
 
@@ -51,7 +52,7 @@ public class LevelledMobsCompat implements Listener {
 	}
 
 	private static final LevelInterface getLevelInterfac() {
-		return ((LevelledMobs) getLevelledMobs()).levelInterface;
+		return ((LevelledMobs) getLevelledMobs()).getLevelInterface();
 	}
 
 	public static boolean isLevelledMobs(Entity entity) {

@@ -1,5 +1,5 @@
 package metadev.digital.MetaMobHunting.compatibility;
-
+/**
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -130,3 +130,4 @@ public class FactionsHelperCompat {
 	}
 
 }
+*/

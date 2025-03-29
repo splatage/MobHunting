@@ -1,5 +1,5 @@
 package metadev.digital.MetaMobHunting.compatibility;
-
+// TODO: REMOVE
 import com.gmail.nossr50.datatypes.skills.SkillType;
 import metadev.digital.metacustomitemslib.materials.Materials;
 import metadev.digital.MetaMobHunting.DamageInformation;

@@ -1,0 +1,20 @@
+Removed:
+    MinigamesLib
+    mcMMO Classic
+    mcMMOHorses
+    InfernalMobs
+    Holograms
+    Factions
+    BossBarAPI
+    BarAPI
+    TitleAPI
+    ActionAnnouncer
+    SpigetUpdate
+    TARDISWeepangels
+    ConquestiaMobs
+    LorinthsRPGMobs
+    MyseriousHalloween
+    SmartGiants
+    Herobrine
+    VanishNoPacket
+    MobStacker
