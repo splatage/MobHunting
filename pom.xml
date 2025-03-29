@@ -162,7 +162,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.21.4-R0.1-SNAPSHOT</version>
+            <version>1.21.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -179,9 +179,9 @@
         <dependency>
             <groupId>metadev.digital</groupId>
             <artifactId>MetaBagOfGold</artifactId>
-            <version>4.5.10-SNAPSHOT</version>
+            <version>4.5.11-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/MetaBagOfGold-4.5.10-SNAPSHOT.jar</systemPath>
+            <systemPath>${basedir}/lib/MetaBagOfGold-4.5.11-SNAPSHOT.jar</systemPath>
             <exclusions>
                 <exclusion>
                     <groupId>*</groupId>
