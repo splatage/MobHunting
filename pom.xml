@@ -90,6 +90,12 @@
             <id>jitpack-repo</id>
             <url>https://jitpack.io</url>
         </repository>
+
+        <!-- Placeholder API -->
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/releases/</url>
+        </repository>
     </repositories>
 
     <!-- ********************************************************************** -->
@@ -300,7 +306,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- BattleArena TODO: Update references to move from mc.alk.arena to new  -->
+        <!-- BattleArena -->
         <dependency>
             <groupId>org.battleplugins.arena.BattleArena</groupId>
             <artifactId>BattleArena</artifactId>
@@ -311,11 +317,11 @@
 
         <!-- LevelledMobs -->
         <dependency>
-            <groupId>io.github.arcaneplugins</groupId>
+            <groupId>io.github.arcaneplugins.levelledmobs</groupId>
             <artifactId>LevelledMobs</artifactId>
-            <version>4.3.0.1.b109</version>
+            <version>4.3.1 b112</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/LevelledMobs-4.3.0.1.b109.jar</systemPath>
+            <systemPath>${basedir}/lib/LevelledMobs-4.3.1.b112.jar</systemPath>
         </dependency>
 
         <!-- StackMob -->
@@ -422,6 +428,30 @@
             <version>3.12-SNAPSHOT</version>
         </dependency>
 
+        <!-- PlaceholderAPI -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- CMI -->
+        <dependency>
+            <groupId>com.Zrips</groupId>
+            <artifactId>CMI</artifactId>
+            <version>9.7.4.1</version>
+            <scope>system</scope>
+            <systemPath>${basedir}\lib\CMIAPI-9.7.4.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.Zrips</groupId>
+            <artifactId>CMILib</artifactId>
+            <version>1.5.3.5</version>
+            <scope>system</scope>
+            <systemPath>${basedir}\lib\CMILib1.5.3.5.jar</systemPath>
+        </dependency>
+
         <!-- Mysql -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -433,6 +463,13 @@
                     <artifactId>protobuf-java</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- MultiHashMaps and such from Google cause the built-ins weren't cool enough for last developer /s -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>33.4.6-jre</version>
         </dependency>
     </dependencies>
 </project>
