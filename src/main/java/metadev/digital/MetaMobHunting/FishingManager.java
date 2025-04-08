@@ -32,12 +32,11 @@ import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
-import metadev.digital.MetaMobHunting.compatibility.FactionsHelperCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
 import metadev.digital.MetaMobHunting.events.MobHuntFishingEvent;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.modifier.DifficultyBonus;
-import metadev.digital.MetaMobHunting.modifier.FactionWarZoneBonus;
+// TODO: Update with new factions import metadev.digital.MetaMobHunting.modifier.FactionWarZoneBonus;
 import metadev.digital.MetaMobHunting.modifier.HappyHourBonus;
 import metadev.digital.MetaMobHunting.modifier.IModifier;
 import metadev.digital.MetaMobHunting.modifier.RankBonus;
@@ -61,8 +60,6 @@ public class FishingManager implements Listener {
 		mFishingModifiers.add(new WorldBonus());
 		mFishingModifiers.add(new HappyHourBonus());
 		mFishingModifiers.add(new RankBonus());
-		if (FactionsHelperCompat.isSupported())
-			mFishingModifiers.add(new FactionWarZoneBonus());
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)

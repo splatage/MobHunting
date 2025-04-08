@@ -1,3 +1,5 @@
+/**
+ * TODO: Update to new Factions
 package metadev.digital.MetaMobHunting.modifier;
 
 import org.bukkit.entity.Entity;
@@ -7,7 +9,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.HuntData;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.FactionsHelperCompat;
 
 public class FactionWarZoneBonus implements IModifier {
 
@@ -28,4 +29,4 @@ public class FactionWarZoneBonus implements IModifier {
 		return FactionsHelperCompat.isInWarZone(killer);
 	}
 
-}
+}*/
