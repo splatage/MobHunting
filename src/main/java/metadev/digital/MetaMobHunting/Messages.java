@@ -24,11 +24,7 @@ import org.bukkit.entity.Player;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Strings;
 import metadev.digital.metacustomitemslib.Tools;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.metacustomitemslib.compatibility.ActionAnnouncerCompat;
-import metadev.digital.metacustomitemslib.compatibility.ActionBarAPICompat;
 import metadev.digital.metacustomitemslib.compatibility.ActionbarCompat;
-import metadev.digital.metacustomitemslib.compatibility.BarAPICompat;
-import metadev.digital.metacustomitemslib.compatibility.BossBarAPICompat;
 import metadev.digital.metacustomitemslib.compatibility.CMICompat;
 import metadev.digital.metacustomitemslib.messages.MessageType;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
@@ -59,7 +55,6 @@ public class Messages {
 		for (String source : sources) {
 			File dest = new File(folder, source);
 			if (!dest.exists()) {
-				// if (plugin.getResource("lang/" + source) != null) {
 				Bukkit.getServer().getConsoleSender()
 						.sendMessage(PREFIX + " Creating language file " + source + " from JAR.");
 				plugin.saveResource("lang/" + source, false);
@@ -69,7 +64,6 @@ public class Messages {
 					plugin.saveResource("lang/" + source, true);
 				}
 			}
-			//mTranslationTable = loadLang(dest);
 		}
 	}
 
@@ -488,11 +482,7 @@ public class Messages {
 	 */
 	public void debug(String message, Object... args) {
 		if (MobHunting.getInstance().getConfigManager().killDebug) {
-			if (PlaceholderAPICompat.isSupported())
-				Bukkit.getServer().getConsoleSender().sendMessage(
-						PREFIX + " [Debug] " + PlaceholderAPI.setPlaceholders(null, String.format(message, args)));
-			else
-				Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "[Debug] " + String.format(message, args));
+			Bukkit.getServer().getConsoleSender().sendMessage(PREFIX + "[Debug] " + String.format(message, args));
 		}
 	}
 
@@ -553,83 +543,20 @@ public class Messages {
 
 		message = Strings.convertColors(PlaceholderAPICompat.setPlaceholders(player, message));
 
-		if (BossBarAPICompat.isSupported()) {
-			BossBarAPICompat.addBar(player, String.format(message, args));
-		} else if (BarAPICompat.isSupported()) {
-			BarAPICompat.setMessageTime(player, String.format(message, args), 5);
-		} else if (CMICompat.isSupported()) {
+		if (CMICompat.isSupported()) {
 			CMICompat.sendBossBarMessage(player, String.format(message, args));
 		} else {
 			player.sendMessage(
-					ChatColor.AQUA + getString("mobhunting.learn.prefix") + " " + String.format(message, args));
+			ChatColor.AQUA + getString("mobhunting.learn.prefix") + " " + String.format(message, args));
 		}
 	}
-
-	HashMap<Player, Long> lastMessage = new HashMap<Player, Long>();
 
 	public void playerActionBarMessageQueue(Player player, String message) {
 		if (isEmpty(message))
 			return;
 
 		final String final_message = PlaceholderAPICompat.setPlaceholders(player, message);
-
-		if (isActionBarSupported()) {
-			long last = 0L;
-			long time_between_messages = 80L;
-			long delay = 1L, now = System.currentTimeMillis();
-			if (lastMessage.containsKey(player)) {
-				last = lastMessage.get(player);
-				if (now > last + time_between_messages) {
-					delay = 1L;
-				} else if (now > last)
-					delay = time_between_messages - (now - last);
-				else
-					delay = (last - now) + time_between_messages;
-			}
-			lastMessage.put(player, now + delay);
-
-			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-
-				@Override
-				public void run() {
-					playerActionBarMessageNow(player, final_message);
-				}
-			}, delay);
-		} else {
-			player.sendMessage(final_message);
-		}
-	}
-
-	/**
-	 * Show message to the player using the ActionBar
-	 * 
-	 * @param player
-	 * @param message
-	 */
-	private void playerActionBarMessageNow(Player player, String message) {
-		if (isEmpty(message))
-			return;
-		message = PlaceholderAPICompat.setPlaceholders(player, message);
-		/** // TODO: POSSIBLY DEPRECATED  if (TitleManagerCompat.isSupported()) {
-			TitleManagerCompat.setActionBar(player, message);
-		} else */if (ActionbarCompat.isSupported()) {
-			ActionbarCompat.setMessage(player, message);
-		} /** // TODO: POSSIBLY DEPRECATED else if (ActionAnnouncerCompat.isSupported()) {
-			ActionAnnouncerCompat.setMessage(player, message);
-		}*/ else if (ActionBarAPICompat.isSupported()) {
-			ActionBarAPICompat.setMessage(player, message);
-		} else if (CMICompat.isSupported()) {
-			CMICompat.sendActionBarMessage(player, message);
-		} else {
-			if (!isEmpty(message))
-				player.sendMessage(message);
-		}
-	}
-
-	private boolean isActionBarSupported() {
-		/** TODO: POSSIBLY DEPRECATED return TitleManagerCompat.isSupported() || ActionbarCompat.isSupported() || ActionAnnouncerCompat.isSupported()
-				|| ActionBarAPICompat.isSupported() || CMICompat.isSupported(); */
-		return false;
+		player.sendMessage(final_message);
 	}
 
 	public void playerSendMessage(Player player, String message) {
@@ -675,9 +602,6 @@ public class Messages {
 			break;
 		case ActionBar:
 			playerActionBarMessageQueue(player, message);
-			break;
-		case BossBar:
-			playerBossbarMessage(player, message);
 			break;
 		case Title:
 			playerSendTitlesMessage(player, message, "", 10, 50, 10);

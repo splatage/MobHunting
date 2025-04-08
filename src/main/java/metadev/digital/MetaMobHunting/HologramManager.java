@@ -11,16 +11,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.Zrips.CMI.Modules.Holograms.CMIHologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.sainttx.holograms.api.Hologram;
-
 import metadev.digital.metacustomitemslib.compatibility.CMICompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.metacustomitemslib.compatibility.CMIHologramsHelper;
-import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HologramsHelper;
-import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
-import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysHelper;
+import metadev.digital.MetaMobHunting.compatibility.CMIHologramsHelper;
 import metadev.digital.MetaMobHunting.leaderboard.HologramLeaderboard;
 
 public class HologramManager {
@@ -39,38 +31,24 @@ public class HologramManager {
 
 	public void createHologramLeaderboard(HologramLeaderboard hologramLeaderboard) {
 		holograms.put(hologramLeaderboard.getHologramName(), hologramLeaderboard);
-		if (HologramsCompat.isSupported())
-			HologramsHelper.createHologram(hologramLeaderboard);
-		else if (HolographicDisplaysCompat.isSupported())
-			HolographicDisplaysHelper.createHologram(hologramLeaderboard);
-		/** else if (CMICompat.isSupported()) {
-			CMIHologramsHelper.createHologram(hologramLeaderboard);
-		}*/
+
+		if (CMICompat.isSupported()) {
+			CMIHologramsHelper.createHologramFromLeaderboard(hologramLeaderboard);
+		}
+
 		hologramLeaderboard.update();
 	}
 
 	public void deleteHolographicLeaderboard(String hologramName) {
-		if (HologramsCompat.isSupported()) {
-			Hologram hologram = HologramsCompat.getHologramManager().getHologram(hologramName);
-			HologramsCompat.getHologramManager().deleteHologram(hologram);
-		} else if (HolographicDisplaysCompat.isSupported()) {
-			for (com.gmail.filoghost.holographicdisplays.api.Hologram hologram : HologramsAPI.getHolograms(plugin)) {
-				if (hologram.getLocation().equals(holograms.get(hologramName).getLocation())) {
-					HolographicDisplaysHelper.deleteHologram(hologram);
-					break;
-				}
-			}
-		} /** // TODO: POSSIBLY DEPRECATED else if (CMICompat.isSupported()) {
-			CMIHologram hologram = CMICompat.getHologramManager().getByName(hologramName);
-			CMIHologramsHelper.deleteHologram(hologram);
-		} */
+		 if (CMICompat.isSupported()) {
+			 CMIHologramsHelper.deleteHologramByName(hologramName);
+		}
 		holograms.remove(hologramName);
 	}
 
 	public String listHolographicLeaderboard() {
 		String str = "";
-		if (HologramsCompat.isSupported() || HolographicDisplaysCompat.isSupported()
-				|| CMICompat.isSupported()) {
+		if (CMICompat.isSupported()) {
 			if (holograms.size() == 0) {
 				str = plugin.getMessages().getString("mobhunting.holograms.no-holograms");
 			} else {
@@ -85,8 +63,7 @@ public class HologramManager {
 	}
 
 	public void updateHolographicLeaderboard(String hologramName) {
-		if (HologramsCompat.isSupported() || HolographicDisplaysCompat.isSupported()
-				|| CMICompat.isSupported()) {
+		if (CMICompat.isSupported()) {
 			holograms.get(hologramName).update();
 		}
 	}

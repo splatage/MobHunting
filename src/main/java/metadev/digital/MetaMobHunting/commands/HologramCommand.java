@@ -26,12 +26,6 @@ public class HologramCommand implements ICommand, Listener {
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
 
-	// Used case (???)
-	// /mh hologram create hologramName <stat type> <period> <number>
-	// /mh hologram remove hologramName
-	// /mh hologram update hologramName
-	// /mh hologram list
-
 	@Override
 	public String getName() {
 		return "hologram";

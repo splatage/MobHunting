@@ -35,16 +35,14 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.Zrips.CMI.CMI;
 import com.google.common.collect.HashMultimap;
 
 import metadev.digital.metacustomitemslib.materials.Materials;
+import metadev.digital.metacustomitemslib.compatibility.CMICompat;
+
 import metadev.digital.MetaMobHunting.HologramManager;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
-import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
 import metadev.digital.MetaMobHunting.storage.StatStore;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
 
@@ -99,8 +97,7 @@ public class LeaderboardManager implements Listener {
 						mLegacyLeaderboards.size() + mLeaderboards.size());
 			}
 
-			if (HologramsCompat.isSupported() || HolographicDisplaysCompat.isSupported()
-					|| (CMICompat.isSupported()) && CMI.getInstance() != null && CMI.getInstance().isFullyLoaded()) {
+			if (CMICompat.isSupported() && CMICompat.isFullyLoaded()) {
 				for (HologramLeaderboard board : hologramManager.getHolograms().values())
 					board.update();
 				plugin.getMessages().debug("Refreshed %s holograms.", hologramManager.getHolograms().size());
