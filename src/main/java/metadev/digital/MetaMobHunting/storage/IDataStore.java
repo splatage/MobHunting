@@ -136,35 +136,10 @@ public interface IDataStore {
 
 	void insertCitizensMobs(String mob);
 
-	/** // TODO: POSSIBLY DEPRECATED void insertTARDISWeepingAngelsMobs();
-
-	void insertTARDISWeepingAngelsMobs(String mob);
-
-	void insertMysteriousHalloweenMobs();
-
-	void insertMysteriousHalloweenMobs(String mob);
-
-	void insertSmartGiants();
-
-	void insertSmartGiants(String mob);
-
-	void insertCustomMobs();
-
-	void insertCustomMobs(String mob); */
-
-	void insertInfernalMobs();
-
-	void insertHerobrineMobs();
-
-	void insertHerobrineMob(String mob);
-
 	void insertEliteMobs();
 
 	void insertEliteMobs(String mob);
 
-	void insertBossMobs();
-
-	void insertBossMobs(String mob);
 
 	/**
 	 * Delete expired or cancelled bounties from database;

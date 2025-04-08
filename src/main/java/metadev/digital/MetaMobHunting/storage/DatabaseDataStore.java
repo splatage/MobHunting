@@ -16,15 +16,9 @@ import metadev.digital.metacustomitemslib.storage.UserNotFoundException;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
-import metadev.digital.MetaMobHunting.compatibility.BossCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
 import metadev.digital.MetaMobHunting.mobs.MobPluginManager;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
@@ -866,226 +860,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 			}
 	}
 
-	/** // TODO: POSSIBLY DEPRECATED @Override
-	 public void insertTARDISWeepingAngelsMobs() {
-		int n = 0;
-		try {
-			Connection mConnection = setupConnection();
-			Statement statement = mConnection.createStatement();
-			for (String mob : TARDISWeepingAngelsCompat.getMobRewardData().keySet())
-				if (getMobIdFromExtendedMobType(mob, MobPlugin.TARDISWeepingAngels) == 0) {
-					statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (3,'" + mob + "')");
-					n++;
-				}
-			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n
-						+ " TARDISWeepingAngel mobs was inserted to mh_Mobs");
-			statement.close();
-			mConnection.commit();
-			mConnection.close();
-		} catch (SQLException | DataStoreException e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	/** // TODO: POSSIBLY DEPRECATED @Override
-	public void insertTARDISWeepingAngelsMobs(String mob) {
-		if (getMobIdFromExtendedMobType(mob, MobPlugin.TARDISWeepingAngels) == 0)
-			try {
-				Connection mConnection = setupConnection();
-				Statement statement = mConnection.createStatement();
-				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (3,'" + mob + "')");
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "TARDISWeepingAngel MobType " + mob + " was inserted to mh_Mobs");
-				statement.close();
-				mConnection.commit();
-				mConnection.close();
-			} catch (SQLException | DataStoreException e) {
-				e.printStackTrace();
-			}
-	} */
-
-	/** // TODO: POSSIBLY DEPRECATED @Override
-	public void insertCustomMobs() {
-		int n = 0;
-		try {
-			Connection mConnection = setupConnection();
-			Statement statement = mConnection.createStatement();
-			for (String mob : CustomMobsCompat.getMobRewardData().keySet())
-				if (plugin.getExtendedMobManager().getMobIdFromMobTypeAndPluginID(mob, MobPlugin.CustomMobs) == 0) {
-					statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (4,'" + mob + "')");
-					n++;
-				}
-			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(
-						ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n + " CustomMobs was inserted to mh_Mobs");
-			statement.close();
-			mConnection.commit();
-			mConnection.close();
-		} catch (SQLException | DataStoreException e) {
-			e.printStackTrace();
-		}
-	} */
-
-	/** // TODO: POSSIBLY DEPRECATED @Override
-	public void insertCustomMobs(String mob) {
-		if (getMobIdFromExtendedMobType(mob, MobPlugin.CustomMobs) == 0)
-			try {
-				Connection mConnection = setupConnection();
-				Statement statement = mConnection.createStatement();
-				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (4,'" + mob + "')");
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "CustomMobs MobType " + mob + " was inserted to mh_Mobs");
-				statement.close();
-				mConnection.commit();
-				mConnection.close();
-			} catch (SQLException | DataStoreException e) {
-				e.printStackTrace();
-			}
-	} */
-
-	/** // TODO: POSSIBLY DEPRECATED @Override
-	public void insertMysteriousHalloweenMobs() {
-		int n = 0;
-		try {
-			Connection mConnection = setupConnection();
-			Statement statement = mConnection.createStatement();
-			for (String mob : MysteriousHalloweenCompat.getMobRewardData().keySet())
-				if (getMobIdFromExtendedMobType(mob, MobPlugin.MysteriousHalloween) == 0) {
-					statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (5,'" + mob + "')");
-					n++;
-				}
-			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n
-						+ " MysteriousHalloween mobs was inserted to mh_Mobs");
-			statement.close();
-			mConnection.commit();
-			mConnection.close();
-		} catch (SQLException | DataStoreException e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	/** // TODO: POSSIBLY DEPRECATED @Override
-	public void insertMysteriousHalloweenMobs(String mob) {
-		if (getMobIdFromExtendedMobType(mob, MobPlugin.MysteriousHalloween) == 0)
-			try {
-				Connection mConnection = setupConnection();
-				Statement statement = mConnection.createStatement();
-				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (5,'" + mob + "')");
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "MysteriousHalloween MobType " + mob + " was inserted to mh_Mobs");
-				statement.close();
-				mConnection.commit();
-				mConnection.close();
-			} catch (SQLException | DataStoreException e) {
-				e.printStackTrace();
-			}
-	} */
-
-	/** // TODO: POSSIBLY DEPRECATED @Override
-	public void insertSmartGiants() {
-		int n = 0;
-		try {
-			Connection mConnection = setupConnection();
-			Statement statement = mConnection.createStatement();
-			for (String mob : SmartGiantsCompat.getMobRewardData().keySet())
-				if (SmartGiantsCompat.isSmartGiants(mob)
-						&& getMobIdFromExtendedMobType(mob, MobPlugin.SmartGiants) == 0) {
-					statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (6,'" + mob + "')");
-					n++;
-				}
-			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n
-						+ " SmartGiants was inserted to mh_Mobs");
-			statement.close();
-			mConnection.commit();
-			mConnection.close();
-		} catch (SQLException | DataStoreException e) {
-			e.printStackTrace();
-		}
-	} */
-
-	/** // TODO: POSSIBLY DEPRECATED @Override
-	public void insertSmartGiants(String mob) {
-		if (getMobIdFromExtendedMobType(mob, MobPlugin.SmartGiants) == 0)
-			try {
-				Connection mConnection = setupConnection();
-				Statement statement = mConnection.createStatement();
-				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (6,'" + mob + "')");
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "SmartGiants MobType " + mob + " was inserted to mh_Mobs");
-				statement.close();
-				mConnection.commit();
-				mConnection.close();
-			} catch (SQLException | DataStoreException e) {
-				e.printStackTrace();
-			}
-	} */
-
-	@Override
-	public void insertInfernalMobs() {
-		Connection connection;
-		try {
-			connection = setupConnection();
-			int n = 0;
-			Statement statement = connection.createStatement();
-			for (MobType mob : MobType.values())
-				if (getMobIdFromExtendedMobType(mob.name(), MobPlugin.InfernalMobs) == 0) {
-					statement
-							.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES ( 7,'" + mob.name() + "')");
-					n++;
-				}
-			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n
-						+ " InfernalMobs was inserted to mh_Mobs");
-			statement.close();
-			connection.commit();
-			connection.close();
-		} catch (SQLException | DataStoreException e1) {
-			e1.printStackTrace();
-		}
-	}
-
-	@Override
-	public void insertHerobrineMobs() {
-		int n = 0;
-		try {
-			Connection mConnection = setupConnection();
-			Statement statement = mConnection.createStatement();
-			for (String mob : HerobrineCompat.getMobRewardData().keySet())
-				if (HerobrineCompat.isHerobrineMob(mob) && getMobIdFromExtendedMobType(mob, MobPlugin.Herobrine) == 0) {
-					statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (8,'" + mob + "')");
-					n++;
-				}
-			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n
-						+ " Herobrine Mobs was inserted to mh_Mobs");
-			statement.close();
-			mConnection.commit();
-			mConnection.close();
-		} catch (SQLException | DataStoreException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void insertHerobrineMob(String mob) {
-		if (HerobrineCompat.isHerobrineMob(mob) && getMobIdFromExtendedMobType(mob, MobPlugin.Herobrine) == 0)
-			try {
-				Connection mConnection = setupConnection();
-				Statement statement = mConnection.createStatement();
-				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (8,'" + mob + "')");
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Herobrine Mobs MobType " + mob + " was inserted to mh_Mobs");
-				statement.close();
-				mConnection.commit();
-				mConnection.close();
-			} catch (SQLException | DataStoreException e) {
-				e.printStackTrace();
-			}
-	}
-
 	@Override
 	public void insertEliteMobs() {
 		int n = 0;
@@ -1117,45 +891,6 @@ public abstract class DatabaseDataStore implements IDataStore {
 				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (9,'" + mob + "')");
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
 						+ "EliteMob MobType " + mob + " was inserted to mh_Mobs");
-				statement.close();
-				mConnection.commit();
-				mConnection.close();
-			} catch (SQLException | DataStoreException e) {
-				e.printStackTrace();
-			}
-	}
-
-	@Override
-	public void insertBossMobs() {
-		int n = 0;
-		try {
-			Connection mConnection = setupConnection();
-			Statement statement = mConnection.createStatement();
-			for (String mob : BossCompat.getMobRewardData().keySet())
-				if (getMobIdFromExtendedMobType(mob, MobPlugin.Boss) == 0) {
-					statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (10,'" + mob + "')");
-					n++;
-				}
-			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(
-						ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n + " Boss mobs was inserted to mh_Mobs");
-			statement.close();
-			mConnection.commit();
-			mConnection.close();
-		} catch (SQLException | DataStoreException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void insertBossMobs(String mob) {
-		if (getMobIdFromExtendedMobType(mob, MobPlugin.Boss) == 0)
-			try {
-				Connection mConnection = setupConnection();
-				Statement statement = mConnection.createStatement();
-				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (10,'" + mob + "')");
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Boss MobType " + mob + " was inserted to mh_Mobs");
 				statement.close();
 				mConnection.commit();
 				mConnection.close();
@@ -1229,7 +964,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 	/**
 	 * loadAchievements - loading the achievements for one player into memory
 	 * 
-	 * @param OfflinePlayer :
+	 * @param player : Player entity as OfflinePlayer
 	 * @throws DataStoreException
 	 */
 	@Override
@@ -1325,35 +1060,12 @@ public abstract class DatabaseDataStore implements IDataStore {
 					if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig())
 						continue;
 					break;
-				/** // TODO: POSSIBLY DEPRECATED case CustomMobs:
-					if (!CustomMobsCompat.isSupported() || !CustomMobsCompat.isEnabledInConfig())
-						continue;
-					break; */
 				case MythicMobs:
 					if (!MythicMobsCompat.isSupported() || !MythicMobsCompat.isEnabledInConfig())
 						continue;
 					break;
-				/** // TODO: POSSIBLY DEPRECATED case TARDISWeepingAngels:
-					if (!TARDISWeepingAngelsCompat.isSupported() || !TARDISWeepingAngelsCompat.isEnabledInConfig())
-						continue;
-					break;
-				case MysteriousHalloween:
-					if (!MysteriousHalloweenCompat.isSupported() || !MysteriousHalloweenCompat.isEnabledInConfig())
-						continue;
-					break;
-				case SmartGiants:
-					if (!SmartGiantsCompat.isSupported() || !SmartGiantsCompat.isEnabledInConfig())
-						continue;
-					break; */
-				case Herobrine:
-					if (!HerobrineCompat.isSupported() || !HerobrineCompat.isEnabledInConfig())
-						continue;
-					break;
 				case EliteMobs:
 					if (!EliteMobsCompat.isSupported() || !EliteMobsCompat.isEnabledInConfig())
-						continue;
-				case Boss:
-					if (!BossCompat.isSupported() || !BossCompat.isEnabledInConfig())
 						continue;
 				case Minecraft:
 					break;

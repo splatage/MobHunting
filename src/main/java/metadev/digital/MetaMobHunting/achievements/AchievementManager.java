@@ -24,12 +24,7 @@ import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.metacustomitemslib.storage.UserNotFoundException;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.InfernalMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.storage.AchievementStore;
@@ -124,8 +119,6 @@ public class AchievementManager implements Listener {
 		registerAchievement(new WolfKillAchievement(plugin));
 		if (Servers.isMC113OrNewer())
 			registerAchievement(new Neptune(plugin));
-		/** // TODO: POSSIBLY DEPRECATED if (SmartGiantsCompat.isSupported())
-			registerAchievement(new DavidAndGoliath(plugin)); */
 
 		for (MobType type : MobType.values()) {
 			ExtendedMob extendedMob = new ExtendedMob(MobPlugin.Minecraft, type.name());
@@ -164,71 +157,6 @@ public class AchievementManager implements Listener {
 				registerAchievement(new SeventhHuntAchievement(plugin, extendedMob));
 				registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
 			}
-
-		/** // TODO: POSSIBLY DEPRECATED if (MysteriousHalloweenCompat.isSupported())
-			for (String type : MysteriousHalloweenCompat.getMobRewardData().keySet()) {
-				ExtendedMob extendedMob = new ExtendedMob(MobPlugin.MysteriousHalloween, type);
-				registerAchievement(new BasicHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SecondHuntAchievement(plugin, extendedMob));
-				registerAchievement(new ThirdHuntAchievement(plugin, extendedMob));
-				registerAchievement(new FourthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new FifthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SixthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SeventhHuntAchievement(plugin, extendedMob));
-				registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
-			}
-
-		if (CustomMobsCompat.isSupported())
-			for (String type : CustomMobsCompat.getMobRewardData().keySet()) {
-				ExtendedMob extendedMob = new ExtendedMob(MobPlugin.CustomMobs, type);
-				registerAchievement(new BasicHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SecondHuntAchievement(plugin, extendedMob));
-				registerAchievement(new ThirdHuntAchievement(plugin, extendedMob));
-				registerAchievement(new FourthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new FifthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SixthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SeventhHuntAchievement(plugin, extendedMob));
-				registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
-			}
-
-		if (TARDISWeepingAngelsCompat.isSupported())
-			for (String type : TARDISWeepingAngelsCompat.getMobRewardData().keySet()) {
-				ExtendedMob extendedMob = new ExtendedMob(MobPlugin.TARDISWeepingAngels, type);
-				registerAchievement(new BasicHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SecondHuntAchievement(plugin, extendedMob));
-				registerAchievement(new ThirdHuntAchievement(plugin, extendedMob));
-				registerAchievement(new FourthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new FifthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SixthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SeventhHuntAchievement(plugin, extendedMob));
-				registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
-			}
-
-		if (SmartGiantsCompat.isSupported()) {
-			ExtendedMob extendedMob = new ExtendedMob(MobPlugin.SmartGiants, SmartGiantsCompat.MONSTER_NAME);
-			registerAchievement(new BasicHuntAchievement(plugin, extendedMob));
-			registerAchievement(new SecondHuntAchievement(plugin, extendedMob));
-			registerAchievement(new ThirdHuntAchievement(plugin, extendedMob));
-			registerAchievement(new FourthHuntAchievement(plugin, extendedMob));
-			registerAchievement(new FifthHuntAchievement(plugin, extendedMob));
-			registerAchievement(new SixthHuntAchievement(plugin, extendedMob));
-			registerAchievement(new SeventhHuntAchievement(plugin, extendedMob));
-			registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
-		} */
-
-		if (InfernalMobsCompat.isSupported()) {
-			for (MobType type : MobType.values()) {
-				ExtendedMob extendedMob = new ExtendedMob(MobPlugin.InfernalMobs, type.name());
-				registerAchievement(new BasicHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SecondHuntAchievement(plugin, extendedMob));
-				registerAchievement(new ThirdHuntAchievement(plugin, extendedMob));
-				registerAchievement(new FourthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new FifthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SixthHuntAchievement(plugin, extendedMob));
-				registerAchievement(new SeventhHuntAchievement(plugin, extendedMob));
-				registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
-			}
-		}
 	}
 
 	public boolean hasAchievement(String achievement, OfflinePlayer player) {

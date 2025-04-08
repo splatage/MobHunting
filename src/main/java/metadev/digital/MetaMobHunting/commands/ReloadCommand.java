@@ -8,14 +8,10 @@ import org.bukkit.entity.Player;
 
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.MetaMobHunting.Messages;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.BossCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+
 
 public class ReloadCommand implements ICommand {
 
@@ -92,16 +88,8 @@ public class ReloadCommand implements ICommand {
 
 			if (MythicMobsCompat.isSupported())
 				MythicMobsCompat.loadMythicMobsData();
-			/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isSupported())
-				TARDISWeepingAngelsCompat.loadTARDISWeepingAngelsMobsData();
-			if (CustomMobsCompat.isSupported())
-				CustomMobsCompat.loadCustomMobsData();
-			if (MysteriousHalloweenCompat.isSupported())
-				MysteriousHalloweenCompat.loadMysteriousHalloweenMobsData(); */
 			if (CitizensCompat.isSupported())
 				CitizensCompat.loadCitizensData();
-			if (BossCompat.isSupported())
-				BossCompat.loadBossMobsData();
 
 			plugin.getMessages().senderSendMessage(sender,
 					ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.reload.reload-complete"));

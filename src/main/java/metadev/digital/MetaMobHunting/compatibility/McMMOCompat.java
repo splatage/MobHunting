@@ -93,12 +93,12 @@ public class McMMOCompat implements Listener {
 		return MobHunting.getInstance().getConfigManager().enableIntegrationMcMMO;
 	}
 
+	//TODO: Remove calls to MCMMOClassic
 	public static String getSkilltypeName(DamageInformation info) {
 		switch (mMcMMOVersion) {
 		case McMMO:
 			return McMMOCompatHelper.getSKillTypeName(info);
-		case McMMO_CLASSIC:
-			return McMMOClassicCompatHelper.getSKillTypeName(info);
+
 		default:
 			return "";
 		}

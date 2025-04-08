@@ -1,5 +1,5 @@
 package metadev.digital.MetaMobHunting.compatibility;
-// TODO: REMOVE
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -29,7 +29,7 @@ public class PlaceholderAPICompat {
 					MobHunting.PREFIX_WARNING + "Compatibility with PlaceholderAPI is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.PlaceholderAPI.getName());
-			if (mPlugin.getDescription().getVersion().compareTo("2.11.1") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo("2.11.6") >= 0) {
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with PlaceholderAPI ("
 						+ mPlugin.getDescription().getVersion() + ").");
 				new MobHuntingPlaceholderExpansion().register();
