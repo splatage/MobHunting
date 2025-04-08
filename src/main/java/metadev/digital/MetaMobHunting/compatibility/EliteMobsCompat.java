@@ -19,12 +19,15 @@ import org.bukkit.plugin.Plugin;
 
 import com.magmaguy.elitemobs.EliteMobs;
 import com.magmaguy.elitemobs.MetadataHandler;
+import com.magmaguy.elitemobs.entitytracker.EntityTracker;
+import com.magmaguy.elitemobs.mobconstructor.EliteEntity;
 
 import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMobRewardData;
 
+// TODO: Some of this functionality was originally written for a version of EliteMobs ~~~IN 2014~~~. Audit and improve.
 public class EliteMobsCompat implements Listener {
 
 	// https://www.spigotmc.org/resources/%E2%9A%94elitemobs%E2%9A%94.40090/
@@ -75,50 +78,12 @@ public class EliteMobsCompat implements Listener {
 
 	public static boolean isEliteMobs(Entity entity) {
 		if (isSupported())
-			return entity.hasMetadata(MetadataHandler.ELITE_MOB_MD);
-		return false;
-	}
-
-	public static boolean isEliteMobs_Kraken(Entity entity) {
-		if (isSupported())
-			return entity.hasMetadata(MetadataHandler.KRAKEN);
-		return false;
-	}
-
-	public static boolean isEliteMobs_Balrog(Entity entity) {
-		if (isSupported())
-			return entity.hasMetadata(MetadataHandler.BALROG);
-		return false;
-	}
-
-	public static boolean isEliteMobs_Fae(Entity entity) {
-		if (isSupported())
-			return entity.hasMetadata(MetadataHandler.FAE);
-		return false;
-	}
-
-	public static boolean isEliteMobs_TheReturned(Entity entity) {
-		if (isSupported())
-			return entity.hasMetadata(MetadataHandler.THE_RETURNED);
-		return false;
-	}
-
-	public static boolean isEliteMobs_TreasureGoblin(Entity entity) {
-		if (isSupported())
-			return entity.hasMetadata(MetadataHandler.TREASURE_GOBLIN);
-		return false;
-	}
-
-	public static boolean isEliteMobs_ZombieKing(Entity entity) {
-		if (isSupported())
-			return entity.hasMetadata(MetadataHandler.ZOMBIE_KING);
+			return EntityTracker.isEliteMob(entity);
 		return false;
 	}
 
 	public static enum Mobs {
-		Kraken(MetadataHandler.KRAKEN), Balrog(MetadataHandler.BALROG), Fae(MetadataHandler.FAE),
-		TheReturned(MetadataHandler.THE_RETURNED), TreasureGoblin(MetadataHandler.TREASURE_GOBLIN),
-		Custom(MetadataHandler.ELITE_MOB_MD);
+		Custom(MetadataHandler.ELITE_MOBS);
 
 		private String name;
 
@@ -132,38 +97,18 @@ public class EliteMobsCompat implements Listener {
 	};
 
 	public static Mobs getEliteMobsType(Entity entity) {
-		if (isEliteMobs_Kraken(entity))
-			return Mobs.Kraken;
-		else if (isEliteMobs_Balrog(entity))
-			return Mobs.Balrog;
-		else if (isEliteMobs_Fae(entity))
-			return Mobs.Fae;
-		else if (isEliteMobs_TheReturned(entity))
-			return Mobs.TheReturned;
-		else if (isEliteMobs_TreasureGoblin(entity))
-			return Mobs.TreasureGoblin;
-		else
-			return Mobs.Custom;
+		return Mobs.Custom;
 	}
 
 	public static String getName(Entity entity) {
-		if (isEliteMobs_Kraken(entity))
-			return MobHunting.getInstance().getMessages().getString("mobs.EliteMobs.kraken");
-		else if (isEliteMobs_Balrog(entity))
-			return MobHunting.getInstance().getMessages().getString("mobs.EliteMobs.balrog");
-		else if (isEliteMobs_Fae(entity))
-			return MobHunting.getInstance().getMessages().getString("mobs.EliteMobs.fae");
-		else if (isEliteMobs_TheReturned(entity))
-			return MobHunting.getInstance().getMessages().getString("mobs.EliteMobs.the_returned");
-		else if (isEliteMobs_TreasureGoblin(entity))
-			return MobHunting.getInstance().getMessages().getString("mobs.EliteMobs.treasure_goblin");
-		else
-			return MobHunting.getInstance().getMessages().getString("mobs.EliteMobs.elitemob");
+		return MobHunting.getInstance().getMessages().getString("mobs.EliteMobs.elitemob");
 	}
 
 	public static int getEliteMobsLevel(Entity entity) {
-		if (isEliteMobs(entity))
-			return entity.getMetadata(MetadataHandler.ELITE_MOB_MD).get(0).asInt();
+		if (isEliteMobs(entity)){
+			EliteEntity eliteEntity = EntityTracker.getEliteMobEntity(entity);
+			return eliteEntity != null ? eliteEntity.getLevel() : 1;
+		}
 		return 0;
 	}
 
@@ -282,7 +227,7 @@ public class EliteMobsCompat implements Listener {
 
 		Entity entity = event.getEntity();
 
-		if (event.getEntity().hasMetadata(MetadataHandler.ELITE_MOB_MD)) {
+		if (isEliteMobs(entity)) {
 
 			Mobs monster = getEliteMobsType(entity);
 
