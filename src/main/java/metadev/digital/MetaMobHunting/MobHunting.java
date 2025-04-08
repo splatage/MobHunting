@@ -37,44 +37,22 @@ import metadev.digital.MetaMobHunting.commands.VersionCommand;
 import metadev.digital.MetaMobHunting.commands.WhitelistAreaCommand;
 import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.BattleArenaCompat;
-import metadev.digital.MetaMobHunting.compatibility.BossCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.CompatibilityManager;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.ConquestiaMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.DisguiseCraftCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.ExtraHardModeCompat;
-import metadev.digital.MetaMobHunting.compatibility.FactionsHelperCompat;
 import metadev.digital.MetaMobHunting.compatibility.GringottsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
-import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.IDisguiseCompat;
-import metadev.digital.MetaMobHunting.compatibility.InfernalMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.LibsDisguisesCompat;
-import metadev.digital.MetaMobHunting.compatibility.LorinthsRpgMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
-import metadev.digital.MetaMobHunting.compatibility.McMMOHorses;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MinigamesCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MinigamesLibCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobStackerCompat;
 import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.PVPArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.PreciousStonesCompat;
 import metadev.digital.MetaMobHunting.compatibility.ResidenceCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TownyCompat;
-import metadev.digital.MetaMobHunting.compatibility.VanishNoPacketCompat;
 import metadev.digital.MetaMobHunting.compatibility.WeaponMechanicsCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldEditCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldGuardCompat;
@@ -248,56 +226,31 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(WorldEditCompat.class, CompatPlugin.WorldEdit);
 		mCompatibilityManager.registerPlugin(WorldGuardCompat.class, CompatPlugin.WorldGuard);
 
-		mCompatibilityManager.registerPlugin(HologramsCompat.class, CompatPlugin.Holograms);
-		mCompatibilityManager.registerPlugin(HolographicDisplaysCompat.class, CompatPlugin.HolographicDisplays);
 		mCompatibilityManager.registerPlugin(CMICompat.class, CompatPlugin.CMI);
 		mCompatibilityManager.registerPlugin(CMICompat.class, CompatPlugin.CMILib);
-		mCompatibilityManager.registerPlugin(FactionsHelperCompat.class, CompatPlugin.Factions);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(TownyCompat.class, CompatPlugin.Towny);
 		mCompatibilityManager.registerPlugin(ResidenceCompat.class, CompatPlugin.Residence);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(PreciousStonesCompat.class, CompatPlugin.PreciousStones);
-
 		// Other plugins
 		mCompatibilityManager.registerPlugin(McMMOCompat.class, CompatPlugin.mcMMO);
 		mCompatibilityManager.registerPlugin(MyPetCompat.class, CompatPlugin.MyPet);
-		mCompatibilityManager.registerPlugin(McMMOHorses.class, CompatPlugin.McMMOHorses);
-		// mCompatibilityManager.registerPlugin(BossShopCompat.class,
-		// CompatPlugin.BossShop);
 
 		// Minigame plugins
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(MinigamesCompat.class, CompatPlugin.Minigames);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(MinigamesLibCompat.class, CompatPlugin.MinigamesLib);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(MobArenaCompat.class, CompatPlugin.MobArena);
 		mCompatibilityManager.registerPlugin(PVPArenaCompat.class, CompatPlugin.PVPArena);
 		mCompatibilityManager.registerPlugin(BattleArenaCompat.class, CompatPlugin.BattleArena);
 
 		// Disguise and Vanish plugins
 		mCompatibilityManager.registerPlugin(LibsDisguisesCompat.class, CompatPlugin.LibsDisguises);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(DisguiseCraftCompat.class, CompatPlugin.DisguiseCraft);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(IDisguiseCompat.class, CompatPlugin.iDisguise);
-		mCompatibilityManager.registerPlugin(VanishNoPacketCompat.class, CompatPlugin.VanishNoPacket);
 
 		// Plugin PlaceholderAPI
 		mCompatibilityManager.registerPlugin(PlaceholderAPICompat.class, CompatPlugin.PlaceholderAPI);
 
 		// Plugins where the reward is a multiplier
 		mCompatibilityManager.registerPlugin(StackMobCompat.class, CompatPlugin.StackMob);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(MobStackerCompat.class, CompatPlugin.MobStacker);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(ConquestiaMobsCompat.class, CompatPlugin.ConquestiaMobs);
-		mCompatibilityManager.registerPlugin(LorinthsRpgMobsCompat.class, CompatPlugin.LorinthsRpgMobs);
 		mCompatibilityManager.registerPlugin(EliteMobsCompat.class, CompatPlugin.EliteMobs);
-		mCompatibilityManager.registerPlugin(BossCompat.class, CompatPlugin.Boss);
 		mCompatibilityManager.registerPlugin(LevelledMobsCompat.class, CompatPlugin.LevelledMobs);
 
 		// ExtendedMob Plugins where special mobs are created
 		mCompatibilityManager.registerPlugin(MythicMobsCompat.class, CompatPlugin.MythicMobs);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(TARDISWeepingAngelsCompat.class, CompatPlugin.TARDISWeepingAngels);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(CustomMobsCompat.class, CompatPlugin.CustomMobs);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(MysteriousHalloweenCompat.class, CompatPlugin.MysteriousHalloween);
 		mCompatibilityManager.registerPlugin(CitizensCompat.class, CompatPlugin.Citizens);
-		// TODO: POSSIBLY DEPRECATED mCompatibilityManager.registerPlugin(SmartGiantsCompat.class, CompatPlugin.SmartGiants);
-		mCompatibilityManager.registerPlugin(InfernalMobsCompat.class, CompatPlugin.InfernalMobs);
-		mCompatibilityManager.registerPlugin(HerobrineCompat.class, CompatPlugin.Herobrine);
 
 		mCompatibilityManager.registerPlugin(ExtraHardModeCompat.class, CompatPlugin.ExtraHardMode);
 		mCompatibilityManager.registerPlugin(CrackShotCompat.class, CompatPlugin.CrackShot);
@@ -317,16 +270,9 @@ public class MobHunting extends JavaPlugin {
 		mCommandDispatcher.registerCommand(new DatabaseCommand(this));
 		mCommandDispatcher.registerCommand(new HeadCommand(this));
 		mCommandDispatcher.registerCommand(new LeaderboardCommand(this));
-		// if (HolographicDisplaysCompat.isSupported() || HologramsCompat.isSupported()
-		// || CMICompat.isSupported())
 		mCommandDispatcher.registerCommand(new HologramCommand(this));
-		// else
-		// getMessages().debug("/mh Hologram command not supported. No Hologram plugin
-		// was found.");
 		mCommandDispatcher.registerCommand(new LearnCommand(this));
 		mCommandDispatcher.registerCommand(new MuteCommand(this));
-		// moved to CitizensCompat
-		// mCommandDispatcher.registerCommand(new NpcCommand(this));
 		mCommandDispatcher.registerCommand(new ReloadCommand(this));
 		if (WorldGuardCompat.isSupported())
 			mCommandDispatcher.registerCommand(new RegionCommand(this));
