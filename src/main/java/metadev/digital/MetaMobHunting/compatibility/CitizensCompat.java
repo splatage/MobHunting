@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.CitizensPlugin;
-import net.citizensnpcs.api.event.CitizensDisableEvent;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
@@ -286,12 +285,6 @@ public class CitizensCompat implements Listener {
 		MobHunting.getInstance().getCommandDispatcher().registerCommand(new NpcCommand(MobHunting.getInstance()));
 
 		saveCitizensData();
-	}
-
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	private void onCitizensDisableEvent(CitizensDisableEvent event) {
-		// MobHunting.getInstance().getMessages().debug("CitizensDisableEvent -
-		// saving");
 	}
 
 }
