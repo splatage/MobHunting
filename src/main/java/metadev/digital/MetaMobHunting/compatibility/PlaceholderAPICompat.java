@@ -19,6 +19,7 @@ public class PlaceholderAPICompat {
 	private static Plugin mPlugin;
 	private static boolean supported = false;
 	private static PlaceHolderManager mPlaceHolderManager;
+	private final String latestSupported = "2.11.6";
 
 	// https://www.spigotmc.org/resources/placeholderapi.6245/
 	// https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/PlaceholderExpansion#without-external-plugin
@@ -29,7 +30,7 @@ public class PlaceholderAPICompat {
 					MobHunting.PREFIX_WARNING + "Compatibility with PlaceholderAPI is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.PlaceholderAPI.getName());
-			if (mPlugin.getDescription().getVersion().compareTo("2.11.6") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with PlaceholderAPI ("
 						+ mPlugin.getDescription().getVersion() + ").");
 				new MobHuntingPlaceholderExpansion().register();
@@ -39,7 +40,7 @@ public class PlaceholderAPICompat {
 				Bukkit.getConsoleSender()
 						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of PlaceholderAPI ("
 								+ mPlugin.getDescription().getVersion()
-								+ ") is not supported by MobHunting, please upgrade to 2.11.1 or newer.");
+								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
 		}
 	}

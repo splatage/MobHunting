@@ -16,6 +16,7 @@ public class LevelledMobsCompat {
 
 	private static boolean supported = false;
 	private static LevelledMobs levelledMobs;
+	private final String latestSupported = "4.3.1";
 
 	public LevelledMobsCompat() {
 		if (!isEnabledInConfig()) {
@@ -27,14 +28,14 @@ public class LevelledMobsCompat {
 			if(levelledMobs == null)
 				return;
 
-            if ( levelledMobs.getDescription().getVersion().compareTo("4.3.1") >= 0) {
+            if ( levelledMobs.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with LevelledMobs ("
 						+ getLevelledMobs().getDescription().getVersion() + ")");
 				supported = true;
 			} else {
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
 						+ "Your current version of LevelledMobs (" + levelledMobs.getDescription().getVersion()
-						+ ") is not supported by MobHunting. Please update LevelledMobs to version 4.3.1 or newer.");
+						+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
 		}
 

@@ -11,6 +11,8 @@ import metadev.digital.MetaMobHunting.MobHunting;
 public class WorldEditCompat {
 	private static WorldEditPlugin mPlugin;
 	private static boolean supported = false;
+	private final String latestSupported = "7.0.0";
+	private final String earliestSupported = "6.1.0";
 
 	public WorldEditCompat() {
 		if (!isEnabledInConfig()) {
@@ -19,7 +21,7 @@ public class WorldEditCompat {
 		} else {
 			mPlugin = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.WorldEdit.getName());
 			if (Servers.isMC113OrNewer()) {
-				if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
+				if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldEdit ("
 							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
@@ -31,17 +33,17 @@ public class WorldEditCompat {
 				} else {
 					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
 							+ "Your current version of WorldEdit (" + mPlugin.getDescription().getVersion()
-							+ ") is not supported by MobHunting. Mobhunting 6.x does only support 7.0.0 and newer.");
+							+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 				}
 			} else {
-				if (mPlugin.getDescription().getVersion().compareTo("6.1.0") >= 0) {
+				if (mPlugin.getDescription().getVersion().compareTo(earliestSupported) >= 0) {
 					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldEdit ("
 							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else {
 					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
 							+ "Your current version of WorldEdit (" + mPlugin.getDescription().getVersion()
-							+ ") is not supported by MobHunting. Mobhunting does only support 6.1.0 and newer.");
+							+ ") is not supported by MobHunting. Please upgrade to " + earliestSupported + " or newer.");
 				}
 			}
 		}

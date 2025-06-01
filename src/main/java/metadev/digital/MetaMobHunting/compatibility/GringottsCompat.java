@@ -13,6 +13,7 @@ public class GringottsCompat {
 
 	private static boolean supported = false;
 	private static Gringotts mPlugin;
+	private final String latestSupported = "2.11";
 
 	public GringottsCompat() {
 		if (!isEnabledInConfig()) {
@@ -21,7 +22,7 @@ public class GringottsCompat {
 		} else {
 			mPlugin = (Gringotts) Bukkit.getPluginManager().getPlugin(CompatPlugin.Gringotts.getName());
 
-			if (mPlugin.getDescription().getVersion().compareTo("2.11") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with Gringotts ("
 						+ getGringotts().getDescription().getVersion() + ")");
@@ -31,7 +32,7 @@ public class GringottsCompat {
 				Bukkit.getConsoleSender()
 						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of Gringotts ("
 								+ mPlugin.getDescription().getVersion()
-								+ ") has no API implemented. Please update to V2.11 or newer.");
+								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
 		}
 	}

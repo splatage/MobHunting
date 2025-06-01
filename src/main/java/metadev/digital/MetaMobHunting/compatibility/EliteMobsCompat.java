@@ -38,6 +38,7 @@ public class EliteMobsCompat implements Listener {
 	private static File file = new File(MobHunting.getInstance().getDataFolder(), "EliteMobs-rewards.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	public static final String MH_ELITEMOBS = "MH:ELITEMOBS";
+	private final String latestSupported = "6.5.0";
 
 	public EliteMobsCompat() {
 		if (!isEnabledInConfig()) {
@@ -46,7 +47,7 @@ public class EliteMobsCompat implements Listener {
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.EliteMobs.getName());
 
-			if (mPlugin.getDescription().getVersion().compareTo("6.5.0") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with EliteMobs ("
 						+ getEliteMobs().getDescription().getVersion() + ")");
@@ -59,7 +60,7 @@ public class EliteMobsCompat implements Listener {
 			} else {
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Your current version of EliteMobs ("
 						+ mPlugin.getDescription().getVersion()
-						+ ") is not supported by MobHunting. Please update EliteMobs to version 6.5.0 or newer.");
+						+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
 		}
 

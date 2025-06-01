@@ -28,6 +28,7 @@ public class MythicMobsCompat {
 	private static YamlConfiguration config = new YamlConfiguration();
 
 	public static final String MH_MYTHICMOBS = "MH:MYTHICMOBS";
+	private final String latestSupported = "5.0.0";
 
 	public enum MythicMobVersion {
 		NOT_DETECTED, MYTHICMOBS_V251, MYTHICMOBS_V400, MYTHICMOBS_V500
@@ -41,7 +42,7 @@ public class MythicMobsCompat {
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MythicMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.MythicMobs.getName());
-			if (mPlugin.getDescription().getVersion().compareTo("5.0.0") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MythicMobs ("
 						+ mPlugin.getDescription().getVersion() + ")");
@@ -49,25 +50,12 @@ public class MythicMobsCompat {
 				supported = true;
 				Bukkit.getPluginManager().registerEvents(new MythicMobsV500Compat(), MobHunting.getInstance());
 
-			} /** // TODO: POSSIBLY DEPRECATED else if (mPlugin.getDescription().getVersion().compareTo("4.0.0") >= 0) {
-
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MythicMobs ("
-						+ mPlugin.getDescription().getVersion() + ")");
-				mmVersion = MythicMobVersion.MYTHICMOBS_V400;
-				supported = true;
-				Bukkit.getPluginManager().registerEvents(new MythicMobsV400Compat(), MobHunting.getInstance());
-
-			} else if (mPlugin.getDescription().getVersion().compareTo("2.5.1") >= 0) {
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MythicMobs ("
-						+ mPlugin.getDescription().getVersion() + ")");
-				mmVersion = MythicMobVersion.MYTHICMOBS_V251;
-				supported = true;
-				Bukkit.getPluginManager().registerEvents(new MythicMobsV251Compat(), MobHunting.getInstance());
-
-			} */else {
+			}
+			else {
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-				console.sendMessage(MobHunting.PREFIX_WARNING
-						+ "MythicMobs is outdated. Please update to V5.0.0 or newer. Integration will be disabled");
+				console.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of MythicMobs ("
+						+ mPlugin.getDescription().getVersion()
+						+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 				return;
 			}
 			MythicMobsCompat.loadMythicMobsData();

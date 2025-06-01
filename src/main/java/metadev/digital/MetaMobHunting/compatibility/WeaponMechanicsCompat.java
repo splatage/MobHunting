@@ -23,6 +23,7 @@ public class WeaponMechanicsCompat implements Listener {
 
 	private static Plugin mPlugin;
 	private static boolean supported = false;
+	private final String latestSupported = "1.11";
 
 	public WeaponMechanicsCompat() {
 		if (!isEnabledInConfig()) {
@@ -31,7 +32,7 @@ public class WeaponMechanicsCompat implements Listener {
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.WeaponMechanics.getName());
 
-			if (mPlugin.getDescription().getVersion().compareTo("1.11") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 
 				Bukkit.getConsoleSender()
 						.sendMessage(MobHunting.PREFIX + "Enabling compatibility with WeaponMechanics ("
@@ -45,7 +46,7 @@ public class WeaponMechanicsCompat implements Listener {
 				Bukkit.getConsoleSender()
 						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of WeaponMechanics ("
 								+ mPlugin.getDescription().getVersion()
-								+ ") has no API implemented. Please update to V1.11 or newer.");
+								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
 		}
 	}

@@ -14,11 +14,12 @@ public class BagOfGoldCompat {
 
 	private BagOfGold mPlugin;
 	private static boolean supported = false;
+	private final String latestSupported = "4.5.7";
 
 	public BagOfGoldCompat() {
 		mPlugin = (BagOfGold) Bukkit.getPluginManager().getPlugin(CompatPlugin.BagOfGold.getName());
 
-		if (mPlugin.getDescription().getVersion().compareTo("4.5.1") >= 0) {
+		if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 			Bukkit.getServer().getConsoleSender()
 					.sendMessage(MobHunting.PREFIX + "Enabling compatibility with BagOfGold ("
 							+ getBagOfGoldAPI().getDescription().getVersion() + ")");
@@ -27,7 +28,7 @@ public class BagOfGoldCompat {
 			Bukkit.getServer().getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of BagOfGold ("
 							+ mPlugin.getDescription().getVersion()
-							+ ") is outdated. Please upgrade to 4.5.1 or newer.");
+							+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			Bukkit.getPluginManager().disablePlugin(mPlugin);
 		}
 

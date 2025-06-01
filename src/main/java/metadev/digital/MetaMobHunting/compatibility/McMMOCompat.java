@@ -25,6 +25,7 @@ public class McMMOCompat implements Listener {
 	private static boolean supported = false;
 	private static Plugin mPlugin;
 	public static final String MH_MCMMO = "MH:MCMMO";
+	private final String latestSupported = "2.0";
 
 	public enum McMMO_Version {
 		NOT_DETECTED, McMMO, McMMO_CLASSIC
@@ -38,7 +39,7 @@ public class McMMOCompat implements Listener {
 					MobHunting.PREFIX_WARNING + "Compatibility with McMMO / McMMO Classic is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.mcMMO.getName());
-			if (mPlugin.getDescription().getVersion().compareTo("2.0") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with McMMO ("
 						+ getMcMmoAPI().getDescription().getVersion() + ")");
@@ -48,7 +49,7 @@ public class McMMOCompat implements Listener {
 										: "disabled"));
 				mMcMMOVersion = McMMO_Version.McMMO;
 				supported = true;
-			} else if (mPlugin.getDescription().getVersion().compareTo("1.5.00") >= 0) {
+			} else if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with McMMO Classic ("
 						+ getMcMmoAPI().getDescription().getVersion() + ")");
@@ -62,7 +63,7 @@ public class McMMOCompat implements Listener {
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 				console.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of McMMO ("
 						+ mPlugin.getDescription().getVersion()
-						+ ") is not supported by MobHunting. Please update McMMO / McMMO Classic to a newer version.");
+						+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
 		}
 

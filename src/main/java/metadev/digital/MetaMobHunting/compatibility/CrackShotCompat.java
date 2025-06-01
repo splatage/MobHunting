@@ -21,6 +21,7 @@ public class CrackShotCompat implements Listener {
 
 	private static Plugin mPlugin;
 	private static boolean supported = false;
+	private final String latestSupported = "0.98.5";
 	// https://dev.bukkit.org/projects/crackshot
 	// API: https://github.com/Shampaggon/CrackShot/wiki/Hooking-into-CrackShot
 
@@ -31,7 +32,7 @@ public class CrackShotCompat implements Listener {
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.CrackShot.getName());
 
-			if (mPlugin.getDescription().getVersion().compareTo("0.98.5") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with CrackShot ("
 						+ mPlugin.getDescription().getVersion() + ")");
@@ -44,7 +45,7 @@ public class CrackShotCompat implements Listener {
 				Bukkit.getConsoleSender()
 						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of CrackShot ("
 								+ mPlugin.getDescription().getVersion()
-								+ ") has no API implemented. Please update to V0.98.5 or newer.");
+								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
 		}
 	}

@@ -15,6 +15,9 @@ public class WorldGuardCompat {
 	private static boolean supported = false;
 	private static WorldGuardPlugin mPlugin;
 
+	private final String latestSupported = "7.0.0";
+	private final String earliestSupported = "6.0.0";
+
 	public WorldGuardCompat() {
 		if (!isEnabledInConfig()) {
 			Bukkit.getConsoleSender()
@@ -22,7 +25,7 @@ public class WorldGuardCompat {
 		} else {
 			mPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.WorldGuard.getName());
 			if (Servers.isMC113OrNewer()) {
-				if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
+				if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldGuard ("
 							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
@@ -34,10 +37,10 @@ public class WorldGuardCompat {
 				} else {
 					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
 							+ "Your current version of WorldGuard (" + mPlugin.getDescription().getVersion()
-							+ ") is not supported by MobHunting. Mobhunting 6.x does only support 7.0.0 beta 1 and newer.");
+							+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 				}
 			} else {
-				if (mPlugin.getDescription().getVersion().compareTo("6.0.0") >= 0) {
+				if (mPlugin.getDescription().getVersion().compareTo(earliestSupported) >= 0) {
 					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldGuard ("
 							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
@@ -45,7 +48,7 @@ public class WorldGuardCompat {
 					Bukkit.getConsoleSender()
 							.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of WorldGuard ("
 									+ mPlugin.getDescription().getVersion()
-									+ ") is not supported by MobHunting. Mobhunting does only support 6.0.0 newer.");
+									+ ") is not supported by MobHunting. Please upgrade to " + earliestSupported + " or newer.");
 				}
 			}
 

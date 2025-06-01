@@ -13,6 +13,7 @@ public class StackMobCompat implements Listener {
 
 	private static boolean supported = false;
 	private static Plugin mPlugin;
+	private final String latestSupported = "2.0.9";
 
 	public StackMobCompat() {
 		if (!isEnabledInConfig()) {
@@ -20,7 +21,7 @@ public class StackMobCompat implements Listener {
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with StackMob is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.StackMob.getName());
-			if (mPlugin.getDescription().getVersion().compareTo("2.0.9") >= 0) {
+			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with StackMob ("
 						+ mPlugin.getDescription().getVersion() + ").");
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
@@ -29,7 +30,7 @@ public class StackMobCompat implements Listener {
 				Bukkit.getServer().getConsoleSender()
 						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of StackMob ("
 								+ mPlugin.getDescription().getVersion()
-								+ ") is not supported by MobHunting, please upgrade to 2.0.9 or newer.");
+								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
 		}
 	}
