@@ -5116,7 +5116,8 @@ public class ConfigManager extends AutoConfig {
 		File backupFile = new File(mFile.toString());
 		int count = 0;
 		while (backupFile.exists() && count++ < 1000) {
-			backupFile = new File("plugins/MobHunting/backup/" + mFile.getName() + ".bak" + count);
+
+			backupFile = new File(plugin.getDataFolder().getPath() + "/backup/" + mFile.getName() + ".bak" + count);
 		}
 		if (mFile.exists())
 			try {
@@ -5128,7 +5129,7 @@ public class ConfigManager extends AutoConfig {
 						+ " Config.yml was backed up to " + backupFile.getPath());
 			} catch (IOException e1) {
 				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-						+ "[ERROR] - Could not backup config.yml file to plugins/MobHunting/config.yml. Delete some old backups");
+						+ "[ERROR] - Could not backup config.yml file to " +plugin.getDataFolder().getPath() + "backup/config.yml. Delete some old backups");
 				e1.printStackTrace();
 			}
 	}

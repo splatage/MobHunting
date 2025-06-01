@@ -3,6 +3,8 @@ package metadev.digital.MetaMobHunting;
 import java.io.File;
 import java.util.Random;
 
+import metadev.digital.MetaMobHunting.config.Migrator;
+import metadev.digital.MetaMobHunting.config.MigratorException;
 import metadev.digital.MetaMobHunting.update.UpdateManager;
 import metadev.digital.metacustomitemslib.server.Servers;
 import metadev.digital.metacustomitemslib.storage.DataStoreException;
@@ -117,6 +119,27 @@ public class MobHunting extends JavaPlugin {
 
 	@Override
 	public void onLoad() {
+		// Verify user is not running old Rocologo version and Meta version
+		if (Bukkit.getPluginManager().getPlugin("MobHunting") != null) {
+			throw new RuntimeException("[MobHunting] Detected two versions of MobHunting running. Please remove the MobHunting jar if you wish to use MetaMobHunting.");
+		}
+
+		if (Bukkit.getPluginManager().getPlugin("CustomItemsLib") != null) {
+			throw new RuntimeException("[MobHunting] Detected a non-Meta or outdated version of MetaCustomItemsLib is running. Please validate your MetaCustomItemsLib " +
+					"version is compatible if you wish to use MetaMobHunting.");
+		}
+
+		// Standup fresh config or migrate if old version exists
+		if (!mFile.exists()) {
+			File mFileOldConfigDir = new File(getDataFolder().getParent(), "MobHunting");
+			try {
+				Migrator.moveLegacyConfiguration(mFileOldConfigDir, getDataFolder());
+			}
+			catch (MigratorException e) {
+				mFile.mkdir();
+			}
+		}
+
 		instance = this;
 		mMessages = new Messages(this);
 
