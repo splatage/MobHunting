@@ -15,7 +15,7 @@ import metadev.digital.metacustomitemslib.compatibility.CMICompat;
 import metadev.digital.MetaMobHunting.compatibility.CMIHologramsHelper;
 import metadev.digital.MetaMobHunting.leaderboard.HologramLeaderboard;
 
-public class HologramManager {
+public class HologramManager { //TODO: Need additional hologram manager beyond CMI
 
 	private MobHunting plugin;
 
