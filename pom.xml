@@ -438,10 +438,10 @@
             <systemPath>${basedir}/lib/PlaceholderAPI-2.11.7-DEV-207.jar</systemPath>
         </dependency>
 
-        <!-- CMI -->
+        <!-- CMI TODO: Replace API with premium version of CMI and retest-->
         <dependency>
             <groupId>com.Zrips</groupId>
-            <artifactId>CMI</artifactId>
+            <artifactId>CMI-API</artifactId>
             <version>9.7.4.1</version>
             <scope>system</scope>
             <systemPath>${basedir}\lib\CMIAPI-9.7.4.1.jar</systemPath>

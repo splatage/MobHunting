@@ -10,7 +10,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginEnableEvent;
 
-import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
 import metadev.digital.MetaMobHunting.MobHunting;
 

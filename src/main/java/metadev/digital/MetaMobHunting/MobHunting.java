@@ -250,7 +250,6 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(WorldGuardCompat.class, CompatPlugin.WorldGuard);
 
 		mCompatibilityManager.registerPlugin(CMICompat.class, CompatPlugin.CMI);
-		mCompatibilityManager.registerPlugin(CMICompat.class, CompatPlugin.CMILib);
 		mCompatibilityManager.registerPlugin(ResidenceCompat.class, CompatPlugin.Residence);
 		// Other plugins
 		mCompatibilityManager.registerPlugin(McMMOCompat.class, CompatPlugin.mcMMO);
