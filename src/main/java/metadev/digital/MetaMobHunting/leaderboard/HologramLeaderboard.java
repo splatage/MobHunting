@@ -17,8 +17,8 @@ import org.bukkit.util.Vector;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
-import metadev.digital.MetaMobHunting.compatibility.CMIHologramsHelper;
+import metadev.digital.metacustomitemslib.compatibility.addons.CMICompat;
+import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
 import metadev.digital.MetaMobHunting.storage.StatStore;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
 
@@ -111,7 +111,7 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 	}
 
 	public void refresh() {
-		if (CMICompat.isSupported()) {
+		if (CMIHelper.isCMILoaded()) {
 			for (CMIHologram hologram: CMICompat.getHologramManager().getHolograms().values()) {
 				if (hologram.getName().equalsIgnoreCase(plugin.getLeaderboardManager().getHologramManager()
 						.getHolograms().get(mHologramName).getHologramName())) {
@@ -121,12 +121,12 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 
 					for (int n = 0; n < mHeight && n < mData.size(); n++) {
 						if (getStatType().getDBColumn().endsWith("_cash"))
-							CMIHologramsHelper.editTextLine(hologram,
+							CMIHelper.editTextLine(hologram,
 									String.format(mRow_format_money, n + 1, mData.get(n).getPlayer().getName(),
 											plugin.getRewardManager().format(mData.get(n).getCash())),
 									n + 1);
 						else
-							CMIHologramsHelper.editTextLine(hologram, String.format(mRow_format_integer, n + 1,
+							CMIHelper.editTextLine(hologram, String.format(mRow_format_integer, n + 1,
 									mData.get(n).getPlayer().getName(), mData.get(n).getAmount()), n + 1);
 					}
 					hologram.enable();

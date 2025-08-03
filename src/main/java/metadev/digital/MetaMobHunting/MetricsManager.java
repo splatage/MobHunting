@@ -14,9 +14,8 @@ import org.bukkit.Bukkit;
 
 import metadev.digital.metacustomitemslib.HttpTools;
 import metadev.digital.metacustomitemslib.HttpTools.httpCallback;
-import metadev.digital.metacustomitemslib.compatibility.ActionbarCompat;
 import metadev.digital.MetaMobHunting.compatibility.BattleArenaCompat;
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
+import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
@@ -145,7 +144,7 @@ public class MetricsManager {
 						valueMap.put("WorldEdit", WorldEditCompat.isSupported() ? 1 : 0);
 						valueMap.put("ExtraHardMode", ExtraHardModeCompat.isSupported() ? 1 : 0);
 						valueMap.put("CrackShot", CrackShotCompat.isSupported() ? 1 : 0);
-						valueMap.put("CMI", CMICompat.isSupported() ? 1 : 0);
+						valueMap.put("CMI", CMIHelper.isCMILoaded() ? 1 : 0);
 						return valueMap;
 					}
 
@@ -168,8 +167,7 @@ public class MetricsManager {
 			@Override
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> valueMap = new HashMap<>();
-				valueMap.put("ActionBar", ActionbarCompat.isSupported() ? 1 : 0);
-				valueMap.put("CMIHolograms", CMICompat.isSupported() ? 1 : 0);
+				valueMap.put("CMIHolograms", CMIHelper.isCMILoaded() ? 1 : 0);
 				return valueMap;
 			}
 		}));

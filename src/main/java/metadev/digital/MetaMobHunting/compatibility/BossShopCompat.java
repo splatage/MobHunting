@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import metadev.digital.metacustomitemslib.Core;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
@@ -33,7 +33,7 @@ public class BossShopCompat {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with BossShop is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.BossShop.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BossShop.getName());
 			bs = (BossShop) mPlugin;
 			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with BossShopPro ("
 					+ bs.getDescription().getVersion() + ").");

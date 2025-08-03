@@ -9,7 +9,7 @@ import metadev.digital.metacustomitemslib.materials.Materials;
 import metadev.digital.metacustomitemslib.messages.MessageType;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
 import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
@@ -423,7 +423,7 @@ public class MobHuntingManager implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onTriodentShoot(ProjectileLaunchEvent event) {
-		if (!Servers.isMC113OrNewer())
+		if (!Server.isMC113OrNewer())
 			return;
 
 		if (event.getEntity() instanceof Trident) {
@@ -520,7 +520,7 @@ public class MobHuntingManager implements Listener {
 		}
 
 		if (weapon == null && cause != null) {
-			if (Servers.isMC19OrNewer() && projectile) {
+			if (Server.isMC19OrNewer() && projectile) {
 				PlayerInventory pi = cause.getInventory();
 				if (pi.getItemInMainHand().getType() == Material.BOW)
 					weapon = pi.getItemInMainHand();

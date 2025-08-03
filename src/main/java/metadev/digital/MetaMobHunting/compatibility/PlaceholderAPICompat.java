@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.placeholder.MobHuntingPlaceholderExpansion;
 import metadev.digital.MetaMobHunting.placeholder.PlaceHolderData;
@@ -29,7 +29,7 @@ public class PlaceholderAPICompat {
 			Bukkit.getConsoleSender().sendMessage(
 					MobHunting.PREFIX_WARNING + "Compatibility with PlaceholderAPI is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.PlaceholderAPI.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.PlaceholderAPI.getName());
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with PlaceholderAPI ("
 						+ mPlugin.getDescription().getVersion() + ").");

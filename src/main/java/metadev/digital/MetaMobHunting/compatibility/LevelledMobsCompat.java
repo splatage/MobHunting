@@ -7,7 +7,7 @@ import org.bukkit.entity.LivingEntity;
 import io.github.arcaneplugins.levelledmobs.LevelInterface2;
 import io.github.arcaneplugins.levelledmobs.LevelledMobs;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class LevelledMobsCompat {
@@ -23,7 +23,7 @@ public class LevelledMobsCompat {
 			Bukkit.getConsoleSender().sendMessage(
 					MobHunting.PREFIX_WARNING + "Compatibility with LevelledMobs is disabled in config.yml");
 		} else {
-			levelledMobs = (LevelledMobs) Bukkit.getPluginManager().getPlugin(CompatPlugin.LevelledMobs.getName());
+			levelledMobs = (LevelledMobs) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.LevelledMobs.getName());
 
 			if(levelledMobs == null)
 				return;

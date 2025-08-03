@@ -15,7 +15,7 @@ import org.battleplugins.arena.event.player.ArenaJoinEvent;
 import org.battleplugins.arena.event.player.ArenaLeaveEvent;
 import org.battleplugins.arena.ArenaPlayer;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class BattleArenaCompat implements Listener {
@@ -29,7 +29,7 @@ public class BattleArenaCompat implements Listener {
 			Bukkit.getConsoleSender().sendMessage(
 					MobHunting.PREFIX_WARNING + "Compatibility with BattleArena is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.BattleArena.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BattleArena.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 

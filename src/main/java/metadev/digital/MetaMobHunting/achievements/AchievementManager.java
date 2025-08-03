@@ -19,7 +19,7 @@ import java.util.WeakHashMap;
 
 
 import metadev.digital.metacustomitemslib.mobs.MobType;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.metacustomitemslib.storage.UserNotFoundException;
 import metadev.digital.MetaMobHunting.MobHunting;
@@ -117,7 +117,7 @@ public class AchievementManager implements Listener {
 		registerAchievement(new MasterSniper(plugin));
 		registerAchievement(new JustInTime(plugin));
 		registerAchievement(new WolfKillAchievement(plugin));
-		if (Servers.isMC113OrNewer())
+		if (Server.isMC113OrNewer())
 			registerAchievement(new Neptune(plugin));
 
 		for (MobType type : MobType.values()) {
@@ -330,8 +330,8 @@ public class AchievementManager implements Listener {
 			}
 
 		// TODO: maybe Advancements API does not work on Paper?
-		if (Servers.isSpigotServer() && !plugin.getConfigManager().disableMobHuntingAdvancements
-				&& Servers.isMC112OrNewer())
+		if (Server.isSpigotServer() && !plugin.getConfigManager().disableMobHuntingAdvancements
+				&& Server.isMC112OrNewer())
 			plugin.getAdvancementManager().grantAdvancement(player, achievement);
 
 		PlayerStorage storage = mStorage.get(player.getUniqueId());
@@ -393,7 +393,7 @@ public class AchievementManager implements Listener {
 									.replaceAll("\\{monstertype\\}", mob.getMobName()));
 		}
 
-		if (Servers.isMC19OrNewer())
+		if (Server.isMC19OrNewer())
 			player.getWorld().playSound(player.getLocation(), Sound.valueOf("ENTITY_PLAYER_LEVELUP"), 1.0f, 1.0f);
 		else
 			player.getWorld().playSound(player.getLocation(), Sound.valueOf("LEVEL_UP"), 1.0f, 1.0f);
@@ -588,8 +588,8 @@ public class AchievementManager implements Listener {
 						mStorage.put(p.getUniqueId(), storage);
 
 						// Advancements is not supported on older servers and on PaperSpigot.
-						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Servers.isMC113OrNewer()
-								&& !Servers.isPaperServer())
+						if (!plugin.getConfigManager().disableMobHuntingAdvancements && Server.isMC113OrNewer()
+								&& !Server.isPaperServer())
 							plugin.getAdvancementManager().updatePlayerAdvancements(player);
 
 					}

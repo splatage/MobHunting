@@ -13,7 +13,7 @@ import org.bukkit.plugin.Plugin;
 import com.shampaggon.crackshot.CSUtility;
 import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.MobHunting;
 
@@ -30,7 +30,7 @@ public class CrackShotCompat implements Listener {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with CrackShot is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.CrackShot.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 

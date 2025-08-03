@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class ResidenceCompat {
@@ -19,7 +19,7 @@ public class ResidenceCompat {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Residence is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.Residence.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Residence.getName());
 
 			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with Residence ("
 					+ mPlugin.getDescription().getVersion() + ").");

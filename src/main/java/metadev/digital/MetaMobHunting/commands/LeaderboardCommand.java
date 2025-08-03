@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.Sign;
 
 import metadev.digital.metacustomitemslib.materials.Materials;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
 import metadev.digital.MetaMobHunting.leaderboard.WorldLeaderboard;
@@ -350,7 +350,7 @@ public class LeaderboardCommand implements ICommand, Listener {
 
 		if (state.create) {
 			BlockFace face;
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				face = ((org.bukkit.block.data.type.WallSign) event.getClickedBlock().getState().getBlockData()).getFacing();
 			else
 				face = ((Sign) event.getClickedBlock().getState().getData()).getFacing();

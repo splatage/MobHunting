@@ -6,7 +6,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import metadev.digital.metacustomitemslib.server.Servers;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
 
@@ -64,9 +63,6 @@ public class JustInTime implements Achievement, Listener {
 
 	@Override
 	public ItemStack getSymbol() {
-		if (Servers.isMC113OrNewer())
-			return new ItemStack(Material.CLOCK);
-		else
-			return new ItemStack(Material.matchMaterial("WATCH"));
+		return new ItemStack(Material.CLOCK);
 	}
 }

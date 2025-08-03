@@ -3,7 +3,7 @@ package metadev.digital.MetaMobHunting.npc;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class MasterMobHunterRedstoneWire {
@@ -12,7 +12,7 @@ public class MasterMobHunterRedstoneWire {
 	}
 
 	public static void setPowerOnRedstoneWire(Block block, byte power) {
-		if (Servers.isMC113OrNewer()) {
+		if (Server.isMC113OrNewer()) {
 			MasterMobHunterRedstoneWire1_13.setPowerOnRedstoneWire(block, power);
 		} else {
 
@@ -28,11 +28,11 @@ public class MasterMobHunterRedstoneWire {
 	}
 
 	public static void removePowerFromRedstoneWire(Block block) {
-		if (Servers.isMC113OrNewer()) {
+		if (Server.isMC113OrNewer()) {
 			MasterMobHunterRedstoneWire1_13.removePowerFromRedstoneWire(block);
 		} else {
 			
-			// this current doesn't work on servers older than mc 1.13.
+			// this current doesn't work on Server older than mc 1.13.
 			MobHunting.getInstance().getMessages().debug("Remove power on RedStone");
 			block.setType(Material.REDSTONE_WIRE);
 			block.getState().setRawData((byte) 0);

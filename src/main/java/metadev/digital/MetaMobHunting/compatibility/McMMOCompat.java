@@ -16,7 +16,7 @@ import com.gmail.nossr50.events.skills.fishing.McMMOPlayerFishingTreasureEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerMagicHunterEvent;
 import com.gmail.nossr50.events.skills.fishing.McMMOPlayerShakeEvent;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.MobHunting;
 
@@ -38,7 +38,7 @@ public class McMMOCompat implements Listener {
 			Bukkit.getConsoleSender().sendMessage(
 					MobHunting.PREFIX_WARNING + "Compatibility with McMMO / McMMO Classic is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.mcMMO.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName());
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with McMMO ("

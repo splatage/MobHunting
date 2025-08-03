@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class StackMobCompat implements Listener {
@@ -20,7 +20,7 @@ public class StackMobCompat implements Listener {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with StackMob is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.StackMob.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.StackMob.getName());
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with StackMob ("
 						+ mPlugin.getDescription().getVersion() + ").");

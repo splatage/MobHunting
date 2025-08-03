@@ -6,8 +6,8 @@ import org.bukkit.entity.Entity;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 
-import metadev.digital.metacustomitemslib.server.Servers;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.server.Server;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class WorldGuardCompat {
@@ -23,8 +23,8 @@ public class WorldGuardCompat {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with WorldGuard is disabled in config.yml");
 		} else {
-			mPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.WorldGuard.getName());
-			if (Servers.isMC113OrNewer()) {
+			mPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName());
+			if (Server.isMC113OrNewer()) {
 				if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldGuard ("
 							+ mPlugin.getDescription().getVersion() + ")");
@@ -81,7 +81,7 @@ public class WorldGuardCompat {
 	}
 
 	public static void registerFlag() {
-		mPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.WorldGuard.getName());
+		mPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName());
 		if (mPlugin.getDescription().getVersion().compareTo("7.0.0") >= 0) {
 			WorldGuard7Helper.registerFlag2();
 		} else {

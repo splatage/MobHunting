@@ -9,7 +9,7 @@ import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.materials.Materials;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import org.bukkit.Bukkit;
@@ -372,7 +372,7 @@ public class MasterMobHunterSign implements Listener {
 	public static boolean isMHSign(Block block) {
 		if (Materials.isSign(block)) {
 			org.bukkit.block.Sign sign;
-			if (Servers.isMC113OrNewer()) {
+			if (Server.isMC113OrNewer()) {
 				sign = (org.bukkit.block.Sign) block.getState();
 			} else {
 				if (block.getState() instanceof org.bukkit.block.Sign) {

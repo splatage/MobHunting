@@ -25,7 +25,7 @@ import net.citizensnpcs.api.npc.NPCRegistry;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.mobs.MobType;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
@@ -52,7 +52,7 @@ public class RewardManager {
 			if (!BagOfGoldCompat.isSupported())
 				Bukkit.getPluginManager().registerEvents(new MoneyMergeEventListener(plugin), plugin);
 			
-			if (Servers.isMC112OrNewer() && eventDoesExists())
+			if (Server.isMC112OrNewer() && eventDoesExists())
 				Bukkit.getPluginManager().registerEvents(new EntityPickupItemEventListener(pickupRewards), plugin);
 			else
 				Bukkit.getPluginManager().registerEvents(new PlayerPickupItemEventListener(pickupRewards), plugin);
@@ -399,7 +399,7 @@ public class RewardManager {
 			return 0;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return getPrice(mob,plugin.getConfigManager().creakingMoney);
 				else if (mob instanceof Breeze)
@@ -407,7 +407,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return getPrice(mob,plugin.getConfigManager().boggedMoney);
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return getPrice(mob,plugin.getConfigManager().armadilloMoney);
 				else if (mob instanceof Sniffer)
@@ -415,7 +415,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return getPrice(mob,plugin.getConfigManager().camelMoney);
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return getPrice(mob, plugin.getConfigManager().allayMoney);
 				else if (mob instanceof Frog)
@@ -425,7 +425,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return getPrice(mob, plugin.getConfigManager().wardenMoney);
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return getPrice(mob, plugin.getConfigManager().axolotlMoney);
 				else if (mob instanceof Goat)
@@ -433,11 +433,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return getPrice(mob, plugin.getConfigManager().glowsquidMoney);
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getPrice(mob, plugin.getConfigManager().piglinBruteMoney);
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getPrice(mob, plugin.getConfigManager().hoglinMoney);
 				else if (mob instanceof Piglin)
@@ -447,11 +447,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return getPrice(mob, plugin.getConfigManager().zoglinMoney);
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getPrice(mob, plugin.getConfigManager().beeMoney);
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getPrice(mob, plugin.getConfigManager().catMoney);
 				else if (mob instanceof Fox)
@@ -502,7 +502,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return getPrice(mob, plugin.getConfigManager().weaponsmithMoney);
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getPrice(mob, plugin.getConfigManager().dolphinMoney);
 				else if (mob instanceof Drowned)
@@ -521,13 +521,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return getPrice(mob, plugin.getConfigManager().turtleMoney);
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return getPrice(mob, plugin.getConfigManager().parrotMoney);
 				else if (mob instanceof Illusioner)
 					return getPrice(mob, plugin.getConfigManager().illusionerMoney);
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return getPrice(mob, plugin.getConfigManager().llamaMoney);
 				else if (mob instanceof Vex)
@@ -553,14 +553,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return getPrice(mob, plugin.getConfigManager().nitwitMoney);
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return getPrice(mob, plugin.getConfigManager().polarBearMoney);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getPrice(mob, plugin.getConfigManager().strayMoney);
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return getPrice(mob, plugin.getConfigManager().huskMoney);
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
@@ -577,7 +577,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("FARMER"))
 					return getPrice(mob, plugin.getConfigManager().farmerMoney);
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return getPrice(mob, plugin.getConfigManager().shulkerMoney);
 
@@ -758,7 +758,7 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCommands;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingCommands;
 				else if (mob instanceof Breeze)
@@ -766,7 +766,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedCommands;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloCommands;
 				else if (mob instanceof Sniffer)
@@ -774,7 +774,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelCommands;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayCommands;
 				else if (mob instanceof Frog)
@@ -784,7 +784,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenCommands;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlCommands;
 				else if (mob instanceof Goat)
@@ -792,11 +792,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidCommands;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteCommands;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinCommands;
 				else if (mob instanceof Piglin)
@@ -806,11 +806,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinCommands;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeCommands;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catCommands;
 				else if (mob instanceof Fox)
@@ -861,7 +861,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithCommands;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinCommands;
 				else if (mob instanceof Drowned)
@@ -879,13 +879,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleCommands;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotCommands;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerCommands;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaCommands;
 				else if (mob instanceof Vex)
@@ -911,14 +911,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitCommands;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearCommands;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayCommands;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskCommands;
@@ -936,7 +936,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("FARMER"))
 					return plugin.getConfigManager().farmerCommands;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerCommands;
 
@@ -1065,7 +1065,7 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMessage;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingMessage;
 				else if (mob instanceof Breeze)
@@ -1073,7 +1073,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMessage;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloMessage;
 				else if (mob instanceof Sniffer)
@@ -1081,7 +1081,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelMessage;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayMessage;
 				else if (mob instanceof Frog)
@@ -1091,7 +1091,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenMessage;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlMessage;
 				else if (mob instanceof Goat)
@@ -1099,11 +1099,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidMessage;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMessage;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMessage;
 				else if (mob instanceof Piglin)
@@ -1113,11 +1113,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinMessage;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMessage;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMessage;
 				else if (mob instanceof Fox)
@@ -1168,7 +1168,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithMessage;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMessage;
 				else if (mob instanceof Drowned)
@@ -1186,13 +1186,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleMessage;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotMessage;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerMessage;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaMessage;
 				else if (mob instanceof Vex)
@@ -1218,13 +1218,13 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitMessage;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMessage;
 
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMessage;
@@ -1242,7 +1242,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerMessage;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerMessage;
 
@@ -1365,7 +1365,7 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfCmdRunChance;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingMoneyChance;
 				else if (mob instanceof Breeze)
@@ -1373,7 +1373,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMoneyChance;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloMoneyChance;
 				else if (mob instanceof Sniffer)
@@ -1381,7 +1381,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelMoneyChance;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayMoneyChance;
 				else if (mob instanceof Frog)
@@ -1391,7 +1391,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenMoneyChance;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlMoneyChance;
 				else if (mob instanceof Goat)
@@ -1399,11 +1399,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidMoneyChance;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMoneyChance;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMoneyChance;
 				else if (mob instanceof Piglin)
@@ -1413,11 +1413,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinMoneyChance;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMoneyChance;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMoneyChance;
 				else if (mob instanceof Fox)
@@ -1468,7 +1468,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithMoneyChance;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMoneyChance;
 				else if (mob instanceof Drowned)
@@ -1486,13 +1486,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleMoneyChance;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotMoneyChance;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerMoneyChance;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaMoneyChance;
 				else if (mob instanceof Vex)
@@ -1518,14 +1518,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitMoneyChance;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearMoneyChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMoneyChance;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMoneyChance;
@@ -1543,7 +1543,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerMoneyChance;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerMoneyChance;
 
@@ -1666,7 +1666,7 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfMcMMOSkillRewardChance;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingMcMMOSkillRewardChance;
 				else if (mob instanceof Breeze)
@@ -1674,7 +1674,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMcMMOSkillRewardChance;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloMcMMOSkillRewardChance;
 				else if (mob instanceof Sniffer)
@@ -1682,7 +1682,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelMcMMOSkillRewardChance;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayMcMMOSkillRewardChance;
 				else if (mob instanceof Frog)
@@ -1692,7 +1692,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenMcMMOSkillRewardChance;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlMcMMOSkillRewardChance;
 				else if (mob instanceof Goat)
@@ -1700,11 +1700,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidMcMMOSkillRewardChance;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMcMMOSkillRewardChance;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMcMMOSkillRewardChance;
 				else if (mob instanceof Piglin)
@@ -1714,11 +1714,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinMcMMOSkillRewardChance;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMcMMOSkillRewardChance;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMcMMOSkillRewardChance;
 				else if (mob instanceof Fox)
@@ -1769,7 +1769,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithMcMMOSkillRewardChance;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMcMMOSkillRewardChance;
 				else if (mob instanceof Drowned)
@@ -1787,13 +1787,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleMcMMOSkillRewardChance;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotMcMMOSkillRewardChance;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerMcMMOSkillRewardChance;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaMcMMOSkillRewardChance;
 				else if (mob instanceof Vex)
@@ -1819,14 +1819,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitMcMMOSkillRewardChance;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearMcMMOSkillRewardChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMcMMOSkillRewardChance;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMcMMOSkillRewardChance;
@@ -1844,7 +1844,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerMcMMOSkillRewardChance;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerMcMMOSkillRewardChance;
 
@@ -1991,7 +1991,7 @@ public class RewardManager {
 			return getMcMMOXP(mob, plugin.getConfigManager().wolfMcMMOSkillRewardAmount);
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return getMcMMOXP(mob, plugin.getConfigManager().creakingMcMMOSkillRewardAmount);
 				else if (mob instanceof Breeze)
@@ -1999,7 +1999,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return getMcMMOXP(mob, plugin.getConfigManager().boggedMcMMOSkillRewardAmount);
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return getMcMMOXP(mob, plugin.getConfigManager().armadilloMcMMOSkillRewardAmount);
 				else if (mob instanceof Sniffer)
@@ -2007,7 +2007,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return getMcMMOXP(mob, plugin.getConfigManager().camelMcMMOSkillRewardAmount);
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return getMcMMOXP(mob, plugin.getConfigManager().allayMcMMOSkillRewardAmount);
 				else if (mob instanceof Frog)
@@ -2017,7 +2017,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return getMcMMOXP(mob, plugin.getConfigManager().wardenMcMMOSkillRewardAmount);
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return getMcMMOXP(mob, plugin.getConfigManager().axolotlMcMMOSkillRewardAmount);
 				else if (mob instanceof Goat)
@@ -2025,11 +2025,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return getMcMMOXP(mob, plugin.getConfigManager().glowsquidMcMMOSkillRewardAmount);
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getMcMMOXP(mob, plugin.getConfigManager().piglinBruteMcMMOSkillRewardAmount);
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getMcMMOXP(mob, plugin.getConfigManager().hoglinMcMMOSkillRewardAmount);
 				else if (mob instanceof Piglin)
@@ -2039,11 +2039,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return getMcMMOXP(mob, plugin.getConfigManager().zoglinMcMMOSkillRewardAmount);
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getMcMMOXP(mob, plugin.getConfigManager().beeMcMMOSkillRewardAmount);
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getMcMMOXP(mob, plugin.getConfigManager().catMcMMOSkillRewardAmount);
 				else if (mob instanceof Fox)
@@ -2094,7 +2094,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return getMcMMOXP(mob, plugin.getConfigManager().weaponsmithMcMMOSkillRewardAmount);
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getMcMMOXP(mob, plugin.getConfigManager().dolphinMcMMOSkillRewardAmount);
 				else if (mob instanceof Drowned)
@@ -2112,13 +2112,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return getMcMMOXP(mob, plugin.getConfigManager().turtleMcMMOSkillRewardAmount);
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return getMcMMOXP(mob, plugin.getConfigManager().parrotMcMMOSkillRewardAmount);
 				else if (mob instanceof Illusioner)
 					return getMcMMOXP(mob, plugin.getConfigManager().illusionerMcMMOSkillRewardAmount);
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return getMcMMOXP(mob, plugin.getConfigManager().llamaMcMMOSkillRewardAmount);
 				else if (mob instanceof Vex)
@@ -2144,14 +2144,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return getMcMMOXP(mob, plugin.getConfigManager().nitwitMcMMOSkillRewardAmount);
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return getMcMMOXP(mob, plugin.getConfigManager().polarBearMcMMOSkillRewardAmount);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getMcMMOXP(mob, plugin.getConfigManager().strayMcMMOSkillRewardAmount);
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return getMcMMOXP(mob, plugin.getConfigManager().huskMcMMOSkillRewardAmount);
@@ -2169,7 +2169,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return getMcMMOXP(mob, plugin.getConfigManager().farmerMcMMOSkillRewardAmount);
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return getMcMMOXP(mob, plugin.getConfigManager().shulkerMcMMOSkillRewardAmount);
 
@@ -2291,7 +2291,7 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfEnabled;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingEnabled;
 				else if (mob instanceof Breeze)
@@ -2299,7 +2299,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedEnabled;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloEnabled;
 				else if (mob instanceof Sniffer)
@@ -2307,7 +2307,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelEnabled;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayEnabled;
 				else if (mob instanceof Frog)
@@ -2317,7 +2317,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenEnabled;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlEnabled;
 				else if (mob instanceof Goat)
@@ -2325,11 +2325,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidEnabled;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteEnabled;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinEnabled;
 				else if (mob instanceof Piglin)
@@ -2339,11 +2339,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinEnabled;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeEnabled;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catEnabled;
 				else if (mob instanceof Fox)
@@ -2394,7 +2394,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithEnabled;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinEnabled;
 				else if (mob instanceof Drowned)
@@ -2412,13 +2412,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleEnabled;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotEnabled;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerEnabled;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaEnabled;
 				else if (mob instanceof Vex)
@@ -2444,14 +2444,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitEnabled;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearEnabled;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayEnabled;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskEnabled;
 
@@ -2469,7 +2469,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerEnabled;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerEnabled;
 
@@ -2594,7 +2594,7 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropHead;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingHeadDropHead;
 				else if (mob instanceof Breeze)
@@ -2602,7 +2602,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadDropHead;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloHeadDropHead;
 				else if (mob instanceof Sniffer)
@@ -2610,7 +2610,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelHeadDropHead;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayHeadDropHead;
 				else if (mob instanceof Frog)
@@ -2620,7 +2620,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenHeadDropHead;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlHeadDropHead;
 				else if (mob instanceof Goat)
@@ -2628,11 +2628,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidHeadDropHead;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadDropHead;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadDropHead;
 				else if (mob instanceof Piglin)
@@ -2642,11 +2642,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinHeadDropHead;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadDropHead;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadDropHead;
 				else if (mob instanceof Fox)
@@ -2697,7 +2697,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithHeadDropHead;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadDropHead;
 				else if (mob instanceof Drowned)
@@ -2715,13 +2715,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleHeadDropHead;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotHeadDropHead;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerHeadDropHead;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaHeadDropHead;
 				else if (mob instanceof Vex)
@@ -2747,14 +2747,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitHeadDropHead;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearHeadDropHead;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadDropHead;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskHeadDropHead;
@@ -2772,7 +2772,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerHeadDropHead;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerHeadDropHead;
 
@@ -2899,7 +2899,7 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropChance;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingHeadDropChance;
 				else if (mob instanceof Breeze)
@@ -2907,7 +2907,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadDropChance;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloHeadDropChance;
 				else if (mob instanceof Sniffer)
@@ -2915,7 +2915,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelHeadDropChance;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayHeadDropChance;
 				else if (mob instanceof Frog)
@@ -2925,7 +2925,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenHeadDropChance;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlHeadDropChance;
 				else if (mob instanceof Goat)
@@ -2933,11 +2933,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidHeadDropChance;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadDropChance;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadDropChance;
 				else if (mob instanceof Piglin)
@@ -2947,11 +2947,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinHeadDropChance;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadDropChance;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadDropChance;
 				else if (mob instanceof Fox)
@@ -3002,7 +3002,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithHeadDropChance;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadDropChance;
 				else if (mob instanceof Drowned)
@@ -3020,13 +3020,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleHeadDropChance;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotHeadDropChance;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerHeadDropChance;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaHeadDropChance;
 				else if (mob instanceof Vex)
@@ -3052,13 +3052,13 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitHeadDropChance;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearHeadDropChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadDropChance;
 
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskHeadDropChance;
@@ -3076,7 +3076,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerHeadDropChance;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerHeadDropChance;
 
@@ -3203,7 +3203,7 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadMessage;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingHeadMessage;
 				else if (mob instanceof Breeze)
@@ -3211,7 +3211,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadMessage;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloHeadMessage;
 				else if (mob instanceof Sniffer)
@@ -3219,7 +3219,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelHeadMessage;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayHeadMessage;
 				else if (mob instanceof Frog)
@@ -3229,7 +3229,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenHeadMessage;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlHeadMessage;
 				else if (mob instanceof Goat)
@@ -3237,11 +3237,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidHeadMessage;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadMessage;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadMessage;
 				else if (mob instanceof Piglin)
@@ -3251,11 +3251,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinHeadMessage;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadMessage;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadMessage;
 				else if (mob instanceof Fox)
@@ -3306,7 +3306,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithHeadMessage;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadMessage;
 				else if (mob instanceof Drowned)
@@ -3324,13 +3324,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleHeadMessage;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotHeadMessage;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerHeadMessage;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaHeadMessage;
 				else if (mob instanceof Vex)
@@ -3356,14 +3356,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitHeadMessage;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearHeadMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadMessage;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskHeadMessage;
@@ -3381,7 +3381,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerHeadMessage;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerHeadMessage;
 
@@ -3508,7 +3508,7 @@ public class RewardManager {
 			return getPrice(mob, plugin.getConfigManager().wolfHeadPrize);
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return getPrice(mob, plugin.getConfigManager().creakingHeadPrize);
 				else if (mob instanceof Breeze)
@@ -3516,7 +3516,7 @@ public class RewardManager {
 				else if(mob instanceof Bogged)
 					return getPrice(mob, plugin.getConfigManager().boggedHeadPrize);
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return getPrice(mob, plugin.getConfigManager().armadilloHeadPrize);
 				else if (mob instanceof Sniffer)
@@ -3524,7 +3524,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return getPrice(mob, plugin.getConfigManager().camelHeadPrize);
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return getPrice(mob, plugin.getConfigManager().allayHeadPrize);
 				else if (mob instanceof Frog)
@@ -3534,7 +3534,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return getPrice(mob, plugin.getConfigManager().wardenHeadPrize);
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return getPrice(mob, plugin.getConfigManager().axolotlHeadPrize);
 				else if (mob instanceof Goat)
@@ -3542,11 +3542,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return getPrice(mob, plugin.getConfigManager().glowsquidHeadPrize);
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getPrice(mob, plugin.getConfigManager().piglinBruteHeadPrize);
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getPrice(mob, plugin.getConfigManager().hoglinHeadPrize);
 				else if (mob instanceof Piglin)
@@ -3556,11 +3556,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return getPrice(mob, plugin.getConfigManager().zoglinHeadPrize);
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getPrice(mob, plugin.getConfigManager().beeHeadPrize);
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getPrice(mob, plugin.getConfigManager().catHeadPrize);
 				else if (mob instanceof Fox)
@@ -3611,7 +3611,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return getPrice(mob, plugin.getConfigManager().weaponsmithHeadPrize);
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getPrice(mob, plugin.getConfigManager().dolphinHeadPrize);
 				else if (mob instanceof Drowned)
@@ -3629,13 +3629,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return getPrice(mob, plugin.getConfigManager().turtleHeadPrize);
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return getPrice(mob, plugin.getConfigManager().parrotHeadPrize);
 				else if (mob instanceof Illusioner)
 					return getPrice(mob, plugin.getConfigManager().illusionerHeadPrize);
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return getPrice(mob, plugin.getConfigManager().llamaHeadPrize);
 				else if (mob instanceof Vex)
@@ -3661,14 +3661,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return getPrice(mob, plugin.getConfigManager().nitwitHeadPrize);
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return getPrice(mob, plugin.getConfigManager().polarBearHeadPrize);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getPrice(mob, plugin.getConfigManager().strayHeadPrize);
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return getPrice(mob, plugin.getConfigManager().huskHeadPrize);
@@ -3686,7 +3686,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return getPrice(mob, plugin.getConfigManager().farmerHeadPrize);
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return getPrice(mob, plugin.getConfigManager().shulkerHeadPrize);
 

@@ -11,8 +11,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
-import metadev.digital.MetaMobHunting.compatibility.CMIHologramsHelper;
+import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
 import metadev.digital.MetaMobHunting.leaderboard.HologramLeaderboard;
 
 public class HologramManager { //TODO: Need additional hologram manager beyond CMI
@@ -32,23 +31,23 @@ public class HologramManager { //TODO: Need additional hologram manager beyond C
 	public void createHologramLeaderboard(HologramLeaderboard hologramLeaderboard) {
 		holograms.put(hologramLeaderboard.getHologramName(), hologramLeaderboard);
 
-		if (CMICompat.isSupported()) {
-			CMIHologramsHelper.createHologramFromLeaderboard(hologramLeaderboard);
+		if (CMIHelper.isCMILoaded()) {
+			CMIHelper.createHologramFromLeaderboard(hologramLeaderboard);
 		}
 
 		hologramLeaderboard.update();
 	}
 
 	public void deleteHolographicLeaderboard(String hologramName) {
-		 if (CMICompat.isSupported()) {
-			 CMIHologramsHelper.deleteHologramByName(hologramName);
+		 if (CMIHelper.isCMILoaded()) {
+			 CMIHelper.deleteHologramByName(hologramName);
 		}
 		holograms.remove(hologramName);
 	}
 
 	public String listHolographicLeaderboard() {
 		String str = "";
-		if (CMICompat.isSupported()) {
+		if (CMIHelper.isCMILoaded()) {
 			if (holograms.size() == 0) {
 				str = plugin.getMessages().getString("mobhunting.holograms.no-holograms");
 			} else {
@@ -63,7 +62,7 @@ public class HologramManager { //TODO: Need additional hologram manager beyond C
 	}
 
 	public void updateHolographicLeaderboard(String hologramName) {
-		if (CMICompat.isSupported()) {
+		if (CMIHelper.isCMILoaded()) {
 			holograms.get(hologramName).update();
 		}
 	}

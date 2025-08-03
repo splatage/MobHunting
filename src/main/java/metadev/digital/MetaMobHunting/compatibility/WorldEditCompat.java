@@ -4,8 +4,8 @@ import org.bukkit.Bukkit;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import metadev.digital.metacustomitemslib.server.Servers;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.server.Server;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class WorldEditCompat {
@@ -19,8 +19,8 @@ public class WorldEditCompat {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX + "Compatibility with WorldEdit is disabled in config.yml");
 		} else {
-			mPlugin = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.WorldEdit.getName());
-			if (Servers.isMC113OrNewer()) {
+			mPlugin = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldEdit.getName());
+			if (Server.isMC113OrNewer()) {
 				if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldEdit ("
 							+ mPlugin.getDescription().getVersion() + ")");

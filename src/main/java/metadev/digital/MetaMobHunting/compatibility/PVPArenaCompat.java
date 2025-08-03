@@ -4,7 +4,7 @@ import net.slipcor.pvparena.events.PADeathEvent;
 import net.slipcor.pvparena.events.PAExitEvent;
 import net.slipcor.pvparena.events.PAJoinEvent;
 import net.slipcor.pvparena.events.PALeaveEvent;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class PVPArenaCompat implements Listener {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with PvpArena is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.PVPArena.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.PVPArena.getName());
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with PVPArena ("
 					+ mPlugin.getDescription().getVersion() + ")");

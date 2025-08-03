@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import metadev.digital.metacustomitemslib.server.Servers;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.server.Server;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 import org.bukkit.Bukkit;
@@ -34,7 +34,7 @@ public class LibsDisguisesCompat implements Listener {
 
 	public LibsDisguisesCompat() {
 		if (MobHunting.getInstance().getConfigManager().enableIntegrationLibsDisguises) {
-			mPlugin = Bukkit.getServer().getPluginManager().getPlugin(CompatPlugin.LibsDisguises.getName());
+			mPlugin = Bukkit.getServer().getPluginManager().getPlugin(SupportedPluginEntities.LibsDisguises.getName());
 			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with LibsDisguises ("
 					+ getLibsDisguises().getDescription().getVersion() + ")");
 
@@ -48,16 +48,16 @@ public class LibsDisguisesCompat implements Listener {
 
 	static {
 		int n = 0;
-		if (Servers.isMC111OrNewer()) {
+		if (Server.isMC111OrNewer()) {
 			aggresiveList[n++] = DisguiseType.VEX;
 			aggresiveList[n++] = DisguiseType.EVOKER;
 			aggresiveList[n++] = DisguiseType.VINDICATOR;
 		}
-		if (Servers.isMC111OrNewer()) {
+		if (Server.isMC111OrNewer()) {
 			aggresiveList[n++] = DisguiseType.HUSK;
 			aggresiveList[n++] = DisguiseType.STRAY;
 		}
-		if (Servers.isMC19OrNewer()) {
+		if (Server.isMC19OrNewer()) {
 			aggresiveList[n++] = DisguiseType.SHULKER;
 		}
 		aggresiveList[n++] = DisguiseType.GUARDIAN;
@@ -85,10 +85,10 @@ public class LibsDisguisesCompat implements Listener {
 
 	static {
 		int n2 = 0;
-		if (Servers.isMC111OrNewer()) {
+		if (Server.isMC111OrNewer()) {
 			passiveList[n2++] = DisguiseType.LLAMA;
 		}
-		if (Servers.isMC110OrNewer()) {
+		if (Server.isMC110OrNewer()) {
 			passiveList[n2++] = DisguiseType.POLAR_BEAR;
 		}
 		passiveList[n2++] = DisguiseType.BAT;

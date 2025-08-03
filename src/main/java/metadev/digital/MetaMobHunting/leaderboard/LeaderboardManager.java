@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -38,7 +39,7 @@ import org.bukkit.scheduler.BukkitTask;
 import com.google.common.collect.HashMultimap;
 
 import metadev.digital.metacustomitemslib.materials.Materials;
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
+import metadev.digital.metacustomitemslib.compatibility.addons.CMICompat;
 
 import metadev.digital.MetaMobHunting.HologramManager;
 import metadev.digital.MetaMobHunting.MobHunting;
@@ -97,7 +98,7 @@ public class LeaderboardManager implements Listener {
 						mLegacyLeaderboards.size() + mLeaderboards.size());
 			}
 
-			if (CMICompat.isSupported() && CMICompat.isFullyLoaded()) {
+			if (CMIHelper.isCMILoaded() && CMICompat.isFullyLoaded()) {
 				for (HologramLeaderboard board : hologramManager.getHolograms().values())
 					board.update();
 				plugin.getMessages().debug("Refreshed %s holograms.", hologramManager.getHolograms().size());

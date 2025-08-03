@@ -14,7 +14,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMobRewardData;
@@ -41,7 +41,7 @@ public class MythicMobsCompat {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MythicMobs is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.MythicMobs.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName());
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 
 				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MythicMobs ("

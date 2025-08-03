@@ -22,7 +22,7 @@ import org.bukkit.util.Vector;
 
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.materials.Materials;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
@@ -160,9 +160,9 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 	public void setSignBlock(Block signBlock) {
 
 		if (signBlock.getChunk().isLoaded())
-			if (Servers.isMC114OrNewer()) {
+			if (Server.isMC114OrNewer()) {
 				WorldLeaderBoardHelper.setWallSign1_14(signBlock, mFacing);
-			} else if (Servers.isMC113OrNewer()) {
+			} else if (Server.isMC113OrNewer()) {
 				signBlock.setType(Material.matchMaterial("WALL_SIGN"));
 				BlockState state = signBlock.getState();
 				org.bukkit.material.Sign wallSign = (org.bukkit.material.Sign) state.getData();

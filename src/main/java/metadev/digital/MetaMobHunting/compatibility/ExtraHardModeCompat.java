@@ -8,7 +8,7 @@ import org.bukkit.plugin.Plugin;
 import com.extrahardmode.ExtraHardMode;
 import com.extrahardmode.config.RootConfig;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class ExtraHardModeCompat implements Listener {
@@ -23,7 +23,7 @@ public class ExtraHardModeCompat implements Listener {
 			Bukkit.getConsoleSender().sendMessage(
 					MobHunting.PREFIX_WARNING + "Compatibility with ExtraHardMode is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.ExtraHardMode.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.ExtraHardMode.getName());
 
 			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with ExtraHardMode ("
 					+ mPlugin.getDescription().getVersion() + ").");

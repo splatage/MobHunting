@@ -5,15 +5,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import metadev.digital.metacustomitemslib.server.Servers;
 import metadev.digital.MetaMobHunting.MobHunting;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
 
 public class DavidAndGoliath implements Achievement, Listener {
 
 	private MobHunting plugin;
 
+	// TODO: Achievement is deprecated with removal of SmartGiant support
 	public DavidAndGoliath(MobHunting plugin) {
 		this.plugin = plugin;
 	}
@@ -60,10 +59,7 @@ public class DavidAndGoliath implements Achievement, Listener {
 
 	@Override
 	public ItemStack getSymbol() {
-		if (Servers.isMC113OrNewer())
-			return new ItemStack(Material.PLAYER_HEAD);
-		else
-			return new ItemStack(Material.matchMaterial("SKULL_ITEM"), 1, (short) 3);
+		return new ItemStack(Material.PLAYER_HEAD);
 	}
 
 }

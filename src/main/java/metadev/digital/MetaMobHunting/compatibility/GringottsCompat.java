@@ -3,7 +3,7 @@ package metadev.digital.MetaMobHunting.compatibility;
 import org.bukkit.Bukkit;
 import org.gestern.gringotts.Gringotts;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class GringottsCompat {
@@ -20,7 +20,7 @@ public class GringottsCompat {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Gringotts is disabled in config.yml");
 		} else {
-			mPlugin = (Gringotts) Bukkit.getPluginManager().getPlugin(CompatPlugin.Gringotts.getName());
+			mPlugin = (Gringotts) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Gringotts.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 

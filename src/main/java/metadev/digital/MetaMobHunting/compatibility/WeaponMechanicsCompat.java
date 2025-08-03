@@ -15,7 +15,7 @@ import me.deecaad.weaponmechanics.weapon.weaponevents.WeaponAssistEvent;
 import me.deecaad.weaponmechanics.weapon.weaponevents.WeaponDamageEntityEvent;
 import me.deecaad.weaponmechanics.weapon.weaponevents.WeaponKillEntityEvent;
 import metadev.digital.metacustomitemslib.Core;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.MobHunting;
 
@@ -30,7 +30,7 @@ public class WeaponMechanicsCompat implements Listener {
 			Bukkit.getConsoleSender().sendMessage(
 					MobHunting.PREFIX_WARNING + "Compatibility with WeaponMechanics is disabled in config.yml");
 		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(CompatPlugin.WeaponMechanics.getName());
+			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WeaponMechanics.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 

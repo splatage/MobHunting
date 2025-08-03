@@ -12,7 +12,7 @@ import net.citizensnpcs.api.event.CitizensEnableEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.TraitInfo;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.commands.NpcCommand;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
@@ -47,7 +47,7 @@ public class CitizensCompat implements Listener {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Citizens2 is disabled in config.yml");
 		} else {
-			citizensAPI = (CitizensPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.Citizens.getName());
+			citizensAPI = (CitizensPlugin) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName());
 			if (citizensAPI == null)
 				return;
 

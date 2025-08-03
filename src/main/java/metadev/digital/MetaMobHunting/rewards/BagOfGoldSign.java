@@ -6,7 +6,7 @@ import metadev.digital.metacustomitemslib.materials.Materials;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
 
@@ -48,7 +48,7 @@ public class BagOfGoldSign implements Listener {
 		if (event.isCancelled())
 			return;
 
-		if (Servers.isMC19OrNewer() && (event.getHand() == null || event.getHand().equals(EquipmentSlot.OFF_HAND)))
+		if (Server.isMC19OrNewer() && (event.getHand() == null || event.getHand().equals(EquipmentSlot.OFF_HAND)))
 			return;
 
 		Block clickedBlock = event.getClickedBlock();
@@ -100,7 +100,7 @@ public class BagOfGoldSign implements Listener {
 						}
 						plugin.getEconomyManager().depositPlayer(player, money);
 						if (moneyInHand <= moneyOnSign) {
-							if (Servers.isMC19OrNewer()) {
+							if (Server.isMC19OrNewer()) {
 								event.getItem().setAmount(0);
 								event.getItem().setItemMeta(null);
 								event.getItem().setType(Material.AIR);

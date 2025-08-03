@@ -7,7 +7,7 @@ import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metabagofgold.bank.BankManager;
 import metadev.digital.metabagofgold.storage.DataStoreManager;
 import metadev.digital.metacustomitemslib.Core;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class BagOfGoldCompat {
@@ -17,7 +17,7 @@ public class BagOfGoldCompat {
 	private final String latestSupported = "4.5.7";
 
 	public BagOfGoldCompat() {
-		mPlugin = (BagOfGold) Bukkit.getPluginManager().getPlugin(CompatPlugin.BagOfGold.getName());
+		mPlugin = (BagOfGold) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName());
 
 		if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 			Bukkit.getServer().getConsoleSender()

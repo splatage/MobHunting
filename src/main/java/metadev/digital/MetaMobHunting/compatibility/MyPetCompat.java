@@ -18,7 +18,7 @@ import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent;
 import de.Keyle.MyPet.api.event.MyPetInventoryActionEvent.Action;
 import de.Keyle.MyPet.api.event.MyPetPickupItemEvent;
 import metadev.digital.metacustomitemslib.Core;
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.MetaMobHunting.MobHunting;
 
@@ -31,7 +31,7 @@ public class MyPetCompat implements Listener {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MyPet is disabled in config.yml");
 		} else {
-			mPlugin = (MyPetPlugin) Bukkit.getPluginManager().getPlugin(CompatPlugin.MyPet.getName());
+			mPlugin = (MyPetPlugin) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MyPet.getName());
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MyPet ("
 					+ getMyPetPlugin().getDescription().getVersion() + ")");

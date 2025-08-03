@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -24,8 +25,8 @@ import org.bukkit.entity.Player;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Strings;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.metacustomitemslib.compatibility.ActionbarCompat;
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
+import metadev.digital.metacustomitemslib.compatibility.addons.ActionBarHelper;
+import metadev.digital.metacustomitemslib.compatibility.addons.CMILibCompat;
 import metadev.digital.metacustomitemslib.messages.MessageType;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
@@ -33,7 +34,7 @@ import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 
 public class Messages {
-
+	// TODO: Include handling for ActionBar Helper instead of CMILib only
 	private MobHunting plugin;
 
 	public Messages(MobHunting plugin) {
@@ -543,8 +544,8 @@ public class Messages {
 
 		message = Strings.convertColors(PlaceholderAPICompat.setPlaceholders(player, message));
 
-		if (CMICompat.isSupported()) {
-			CMICompat.sendBossBarMessage(player, String.format(message, args));
+		if (CMIHelper.isCMILibLoaded()) {
+			CMILibCompat.sendBossBarMessage(player, String.format(message, args));
 		} else {
 			player.sendMessage(
 			ChatColor.AQUA + getString("mobhunting.learn.prefix") + " " + String.format(message, args));

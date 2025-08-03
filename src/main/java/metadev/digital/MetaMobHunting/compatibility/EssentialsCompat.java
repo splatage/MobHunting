@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 
-import metadev.digital.metacustomitemslib.compatibility.CompatPlugin;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class EssentialsCompat {
@@ -25,7 +25,7 @@ public class EssentialsCompat {
 			Bukkit.getConsoleSender()
 					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Essentials is disabled in config.yml");
 		} else {
-			mPlugin = (Essentials) Bukkit.getPluginManager().getPlugin(CompatPlugin.Essentials.getName());
+			mPlugin = (Essentials) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Essentials.getName());
 
 			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with Essentials ("
 					+ getEssentials().getDescription().getVersion() + ")");
