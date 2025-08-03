@@ -393,10 +393,7 @@ public class AchievementManager implements Listener {
 									.replaceAll("\\{monstertype\\}", mob.getMobName()));
 		}
 
-		if (Server.isMC19OrNewer())
-			player.getWorld().playSound(player.getLocation(), Sound.valueOf("ENTITY_PLAYER_LEVELUP"), 1.0f, 1.0f);
-		else
-			player.getWorld().playSound(player.getLocation(), Sound.valueOf("LEVEL_UP"), 1.0f, 1.0f);
+		player.getWorld().playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 
 		FireworkEffect effect = FireworkEffect.builder().withColor(Color.ORANGE, Color.YELLOW).flicker(true)
 				.trail(false).build();
