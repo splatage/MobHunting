@@ -30,7 +30,7 @@ import metadev.digital.MetaMobHunting.compatibility.WeaponMechanicsCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldGuardMobHuntingFlag;
 import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldGuardCompat;
-import metadev.digital.MetaMobHunting.compatibility.PVPArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PVPArenaCompat;
 import metadev.digital.MetaMobHunting.events.BountyKillEvent;
 import metadev.digital.MetaMobHunting.events.MobHuntEnableCheckEvent;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
