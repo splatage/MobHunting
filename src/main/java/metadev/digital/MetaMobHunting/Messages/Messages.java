@@ -28,7 +28,7 @@ import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.compatibility.addons.CMILibCompat;
 import metadev.digital.metacustomitemslib.messages.MessageType;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 

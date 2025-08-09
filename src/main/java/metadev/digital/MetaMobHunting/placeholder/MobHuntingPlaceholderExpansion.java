@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
 
 public class MobHuntingPlaceholderExpansion extends PlaceholderExpansion implements Listener {
 	
