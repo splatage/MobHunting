@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -19,7 +20,7 @@ public static boolean isAllowedByWorldGuard2(Entity damager, Entity damaged, Sta
 			boolean defaultValue) {
 		Player checkedPlayer = null;
 
-		if (MyPetCompat.isMyPet(damager)) 
+		if (MyPetCompat.isMyPet(damager))
 			checkedPlayer = MyPetCompat.getMyPetOwner(damager);
 		else if (damager instanceof Player)
 			checkedPlayer = (Player) damager;

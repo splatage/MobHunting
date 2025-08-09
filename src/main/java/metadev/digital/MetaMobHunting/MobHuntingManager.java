@@ -24,7 +24,7 @@ import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobHelper;
 import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.DisguisesHelper;
 import metadev.digital.MetaMobHunting.compatibility.WeaponMechanicsCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldGuardMobHuntingFlag;
