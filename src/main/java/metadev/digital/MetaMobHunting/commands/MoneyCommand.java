@@ -4,11 +4,11 @@ import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.BossShopCompat;
 
 import org.bukkit.Bukkit;
@@ -307,7 +307,7 @@ public class MoneyCommand implements ICommand {
 					return true;
 				}
 
-				if (BagOfGoldCompat.isSupported()) {
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName()))) {
 					if (allPlayers)
 						for (Player player2 : Tools.getOnlinePlayers())
 							BagOfGold.getAPI().depositPlayer(player2, amount);
@@ -396,7 +396,7 @@ public class MoneyCommand implements ICommand {
 				}
 
 				double taken = 0;
-				if (BagOfGoldCompat.isSupported()) {
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName()))) {
 					if (allPlayers)
 						for (Player player : Tools.getOnlinePlayers())
 							BagOfGold.getAPI().withdrawPlayer(player, rest);
@@ -479,7 +479,7 @@ public class MoneyCommand implements ICommand {
 					ItemStack is = player.getItemInHand();
 					if (Reward.isReward(is)) {
 						Reward reward = Reward.getReward(is);
-						if (BagOfGoldCompat.isSupported() && reward.isBagOfGoldReward()) {
+						if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())) && reward.isBagOfGoldReward()) {
 							plugin.getMessages().playerSendMessage(player,
 									plugin.getMessages().getString("mobhunting.money.you_cant_sell_and_buy_bagofgold",
 											"itemname", reward.getDisplayName()));
@@ -559,7 +559,7 @@ public class MoneyCommand implements ICommand {
 			// /mh money buy <amount>
 			Player player = (Player) sender;
 			if (sender.hasPermission("mobhunting.money.buy") || sender.hasPermission("mobhunting.money.*")) {
-				if (BagOfGoldCompat.isSupported()) {
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName()))) {
 					plugin.getMessages().playerSendMessage(player,
 							plugin.getMessages().getString("mobhunting.money.you_cant_sell_and_buy_bagofgold",
 									"itemname", Core.getConfigManager().bagOfGoldName));

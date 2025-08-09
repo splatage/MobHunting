@@ -6,6 +6,7 @@ import metadev.digital.metabagofgold.PlayerBalance;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Strings;
 import metadev.digital.metacustomitemslib.Tools;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.metacustomitemslib.materials.Materials;
 import metadev.digital.metacustomitemslib.messages.MessageType;
 import metadev.digital.metacustomitemslib.mobs.MobType;
@@ -13,7 +14,6 @@ import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
-import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
@@ -334,7 +334,7 @@ public class MobHuntingManager implements Listener {
 
 			} else
 
-			if (killer != null && BagOfGoldCompat.isSupported()) {
+			if (killer != null && MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName()))) {
 				PlayerBalance ps = BagOfGold.getInstance().getPlayerBalanceManager().getPlayerBalance(killed);
 				double balance = ps.getBalance() + ps.getBalanceChanges();
 				if (balance != 0) {

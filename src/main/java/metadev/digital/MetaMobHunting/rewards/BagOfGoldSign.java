@@ -3,13 +3,13 @@ package metadev.digital.MetaMobHunting.rewards;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.metacustomitemslib.materials.Materials;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
 import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
 
 import java.util.UUID;
 
@@ -67,7 +67,7 @@ public class BagOfGoldSign implements Listener {
 					if (Reward.isReward(player.getItemInHand())) {
 						Reward reward = Reward.getReward(player.getItemInHand());
 
-						if (BagOfGoldCompat.isSupported() && reward.isBagOfGoldReward()) {
+						if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())) && reward.isBagOfGoldReward()) {
 							plugin.getMessages().playerSendMessage(player,
 									plugin.getMessages().getString("mobhunting.money.you_cant_sell_and_buy_bagofgold",
 											"itemname", reward.getDisplayName()));
@@ -133,7 +133,7 @@ public class BagOfGoldSign implements Listener {
 					// BUY BagOfGold Sign
 				} else if (signType
 						.equalsIgnoreCase(plugin.getMessages().getString("mobhunting.bagofgoldsign.line2.buy"))) {
-					if (BagOfGoldCompat.isSupported()) {
+					if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName()))) {
 						plugin.getMessages().playerSendMessage(player,
 								plugin.getMessages().getString("mobhunting.money.you_cant_sell_and_buy_bagofgold",
 										"itemname", ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
@@ -209,7 +209,7 @@ public class BagOfGoldSign implements Listener {
 					}
 				} else if (signType
 						.equalsIgnoreCase(plugin.getMessages().getString("mobhunting.bagofgoldsign.line2.balance"))) {
-					if (BagOfGoldCompat.isSupported() || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
+					if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())) || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
 						if (plugin.getEconomyManager().isBankOwner(player.getUniqueId().toString(), player)) {
 							plugin.getMessages().playerActionBarMessageQueue(player,
 									plugin.getMessages().getString("mobhunting.bagofgoldsign.balance2", "balance",
