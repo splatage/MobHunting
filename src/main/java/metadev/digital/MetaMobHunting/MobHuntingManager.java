@@ -456,7 +456,7 @@ public class MobHuntingManager implements Listener {
 		if (CitizensCompat.isNPC(damaged) && !CitizensCompat.isSentryOrSentinelOrSentries(damaged))
 			return;
 
-		if (WorldGuardCompat.isSupported() && !WorldGuardCompat.isAllowedByWorldGuard(damager, damaged,
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName()))&& !WorldGuardCompat.isAllowedByWorldGuard(damager, damaged,
 				WorldGuardMobHuntingFlag.getMobDamageFlag(), true)) {
 			return;
 		}
@@ -843,7 +843,7 @@ public class MobHuntingManager implements Listener {
 		}
 
 		// WorldGuard Compatibility
-		if (WorldGuardCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName()))) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)) {
 				if (!WorldGuardCompat.isAllowedByWorldGuard(killer, killed, WorldGuardMobHuntingFlag.getMobDamageFlag(),
 						true)) {
@@ -923,7 +923,7 @@ public class MobHuntingManager implements Listener {
 
 		// Check if MobHunting is Disabled in World
 		if (!isHuntEnabledInWorld(event.getEntity().getWorld())) {
-			if (WorldGuardCompat.isSupported()) {
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName()))) {
 				if (!CitizensCompat.isNPC(killer) && !MyPetCompat.isKilledByMyPet(killed)) {
 					if (WorldGuardCompat.isAllowedByWorldGuard(killer, killed,
 							WorldGuardMobHuntingFlag.getMobHuntingFlag(), false)) {
