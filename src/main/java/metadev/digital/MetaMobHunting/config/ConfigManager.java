@@ -5021,7 +5021,7 @@ public class ConfigManager extends AutoConfig {
 	public String[] disabledInWorlds = { "worldname", "worldname2" };
 
 	@ConfigField(name = "language", category = "general", comment = "The language (file) to use. You can put the name of the language file as the language code "
-			+ "\n(eg. en_US, de_DE, fr_FR, ru_RU, pl_PL ect.) or you can specify the name of a custom file without the .lang\nPlease check the lang/ folder for a list of all available translations.")
+			+ "\n(eg. en_US, fr_FR, hu_HU, nl_NL, pl_PL, pt_BR, ru_RU, zh_CN) or you can specify the name of a custom file without the .lang\nPlease check the lang/ folder for a list of all available translations.")
 	public String language = "en_US";
 
 	@ConfigField(name = "disable_mobhunting_advancements", category = "general", comment = "As of V 5.0.0 MobHunting utilizises the Advancement system (L key) to to show which"
