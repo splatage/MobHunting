@@ -1,5 +1,4 @@
 /**
- * TODO: Migrate to Towny Advanced
 
 package metadev.digital.MetaMobHunting.compatibility;
 

@@ -305,7 +305,6 @@ mobhunting.learn.huntdisabled=§bAdmin a désactivé MetaMobHunting.
 mobhunting.learn.killedcreative=§bAucune récompense MetaMobHunting pour avoir tué un joueur en mode Créatif.
 mobhunting.learn.mcmmohorses-not-own-horses=§bIl n'y a aucune récompense pour avoir tué vos propres RPGHorses.
 mobhunting.learn.mcmmohorses-not-permanent-death=§bIl n'y a aucune récompense pour tuer des RPGHorses.
-mobhunting.learn.minigameslib=§bVous n'obtenez pas de récompenses en jouant aux mini-jeux
 mobhunting.learn.mob-damage-flag=§bAucune récompense : vous êtes dans une région protégée avec mob-damage=DENY
 mobhunting.learn.mob-disabled=§bLes récompenses pour avoir tué ${killed-mob} sont désactivées par l'administrateur.
 mobhunting.learn.mobarena=§bVous n'obtenez pas de récompenses en jouant à MobArena

@@ -496,17 +496,6 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("plugins.mypet", "########################################################################"
 				+ "\nMyPet" + "\n########################################################################");
 
-		setCategoryComment("plugins.mcmmohorses",
-				"########################################################################" + "\nMcMMOHorses"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.minigames",
-				"########################################################################" + "\nMinigames"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.minigameslib",
-				"########################################################################" + "\nMinigamesLib"
-						+ "\n########################################################################");
 
 		setCategoryComment("plugins.worldguard",
 				"########################################################################" + "\nWorldguard"
@@ -538,10 +527,6 @@ public class ConfigManager extends AutoConfig {
 
 		setCategoryComment("plugins.mysterious_halloween",
 				"########################################################################" + "\nMysterousHalloween"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.smartgiants",
-				"########################################################################" + "\nSmartGiants"
 						+ "\n########################################################################");
 
 		setCategoryComment("plugins.placeholderapi",
@@ -4118,16 +4103,10 @@ public class ConfigManager extends AutoConfig {
 	// #####################################################################################
 	// Stacked Mobs Settings
 	// #####################################################################################
-	@ConfigField(name = "mobstacker.enable_integration_mobstacker", category = "plugins.stackedmobs", comment = "Enable/disable integration with MobStacker."
-			+ "\nhttps://www.spigotmc.org/resources/mobstacker.15596/")
-	public boolean enableIntegrationMobStacker = true;
 
 	@ConfigField(name = "stackmob.enable_integration_stackmob", category = "plugins.stackedmobs", comment = "Enable/disable integration with StackMob."
 			+ "\nhttps://www.spigotmc.org/resources/stackmob.29999/")
 	public boolean enableIntegrationStackMob = true;
-
-	@ConfigField(name = "get_reward_from_stacked_mobs", category = "plugins.stackedmobs", comment = "Set to true if you want stacked mobs to pay a reward.")
-	public boolean getRewardFromStackedMobs = true;
 
 
 	// #####################################################################################
@@ -4884,17 +4863,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "mypet.enable_integration_mypet", category = "plugins", comment = "Enable/Disable integration with MyPet")
 	public boolean enableIntegrationMyPet = true;
 
-	@ConfigField(name = "mcmmohorses.enable_integration_mcmmohorses", category = "plugins", comment = "Enable/Disable integration with McMMOHorses."
-			+ "\nhttps://www.spigotmc.org/resources/mcmmohorses.46301/")
-	public boolean enableIntegrationMcMMOHorses = true;
-
-	@ConfigField(name = "minigames.enable_integration_minigames", category = "plugins", comment = "Enable/Disable integration with MiniGames")
-	public boolean enableIntegrationMinigames = true;
-
-	@ConfigField(name = "minigameslib.enable_integration_minigameslib", category = "plugins", comment = "Enable/Disable integration with MiniGamesLib"
-			+ "\nhttps://www.spigotmc.org/resources/minigameslib.23844/")
-	public boolean enableIntegrationMinigamesLib = true;
-
 	@ConfigField(name = "worldguard.enable_integration_worldguard", category = "plugins", comment = "Enable/Disable integration with WorldGuard")
 	public boolean enableIntegrationWorldGuard = true;
 
@@ -4927,9 +4895,6 @@ public class ConfigManager extends AutoConfig {
 			+ "\nhttps://www.spigotmc.org/resources/mysterioushalloween.13059/")
 	public boolean enableIntegrationMysteriousHalloween = true;
 
-	@ConfigField(name = "smartgiants.enable_integration_smartgiants", category = "plugins", comment = "Enable/Disable integration with SmartGiants."
-			+ "\nhttps://www.spigotmc.org/threads/smartgiants.55208/")
-	public boolean enableIntegrationSmartGiants = true;
 
 	@ConfigField(name = "placeholderapi.enable_integration_placeholderapi", category = "plugins", comment = "Enable/Disable integration with PlaceholderAPI."
 			+ "\nhttps://www.spigotmc.org/resources/placeholderapi.6245/")
@@ -4959,9 +4924,6 @@ public class ConfigManager extends AutoConfig {
 			+ "\nhttps://dev.bukkit.org/projects/holographic_displays")
 	public boolean enableIntegrationHolographicDisplays = true;
 
-	@ConfigField(name = "precious_stones.enable_integration_preciousstones", category = "plugins", comment = "Enable/Disable integration with PreciousStones."
-			+ "\nhttps://www.spigotmc.org/resources/preciousstones.5270/")
-	public boolean enableIntegrationPreciousStones = true;
 
 	// #####################################################################################
 	// DropMoneyOnGround settings - for servers without the BagOfGold plugin

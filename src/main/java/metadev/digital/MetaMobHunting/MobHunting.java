@@ -122,6 +122,8 @@ public class MobHunting extends JavaPlugin {
     // PLUGIN COMPATIBILITIES
     // TODO: AUDIT AND FULLY IMPLEMENT BOSSSHOP
     // TODO: AUDIT AND REIMPLEMENT ELITEMOBS
+    // TODO: AUDIT TARDISWeepingAngels and add in support for the other mobs https://github.com/eccentricdevotion/TARDIS
+    // TODO: Migrate to https://github.com/TownyAdvanced/Towny
 
 
     @Override

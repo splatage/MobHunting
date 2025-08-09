@@ -306,7 +306,6 @@ mobhunting.learn.huntdisabled=§bАдмин выключил MetaMobHunting.
 mobhunting.learn.killedcreative=§bНикаких MetaMobHunting наград за убийство игрока в режиме креатива.
 mobhunting.learn.mcmmohorses-not-own-horses=§bНикаких наград за убийство собственных RPGHorses.
 mobhunting.learn.mcmmohorses-not-permanent-death=§bНикаких наград за убийство RPGHorses.
-mobhunting.learn.minigameslib=§bВы не получаете наград пока играете MiniGames
 mobhunting.learn.mob-damage-flag=§bБез награды: Вы в регионе с флагом mob-damage=DENY
 mobhunting.learn.mob-disabled=§bНаграды за убийство ${killed-mob} выключены Админом.
 mobhunting.learn.mobarena=§bВы не получаете наград пока играете на MobArena

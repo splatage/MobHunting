@@ -305,7 +305,6 @@ mobhunting.learn.huntdisabled=§bAdmin has disabled MetaMobHunting.
 mobhunting.learn.killedcreative=§bNo MetaMobHunting reward for killing a player who is in Creative mode.
 mobhunting.learn.mcmmohorses-not-own-horses=§bThere is no reward for killing your own RPGHorses.
 mobhunting.learn.mcmmohorses-not-permanent-death=§bThere is no reward for killing RPGHorses.
-mobhunting.learn.minigameslib=§bYou don't get rewards while playing MiniGames
 mobhunting.learn.mob-damage-flag=§bNo reward: You are in a protected region with mob-damage=DENY
 mobhunting.learn.mob-disabled=§bRewards for killing ${killed-mob} is disabled by Admin.
 mobhunting.learn.mobarena=§bYou don't get rewards while playing MobArena

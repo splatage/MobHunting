@@ -306,7 +306,6 @@ mobhunting.learn.huntdisabled=§bEl administrador ha deshabilitado la Caza de Mo
 mobhunting.learn.killedcreative=§bNo hay recompensa de Caza de Mobs por matar a un jugador en modo Creativo.
 mobhunting.learn.mcmmohorses-not-own-horses=§bNo hay recompensa por matar a tus propios Caballos de Rol.
 mobhunting.learn.mcmmohorses-not-permanent-death=§bNo hay recompensa por matar Caballos de Rol.
-mobhunting.learn.minigameslib=§bNo obtienes recompensas al jugar Minijuegos.
 mobhunting.learn.mob-damage-flag=§bSin recompensa: Estás en una región protegida con mob-damage=DENY.
 mobhunting.learn.mob-disabled=§bLas recompensas por matar a ${killed-mob} están deshabilitadas por el administrador.
 mobhunting.learn.mobarena=§bNo obtienes recompensas al jugar MobArena.

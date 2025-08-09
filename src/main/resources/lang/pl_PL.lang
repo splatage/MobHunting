@@ -305,7 +305,6 @@ mobhunting.learn.huntdisabled=§bAdmin wylaczyl MetaMobHunting.
 mobhunting.learn.killedcreative=§bNie ma nagrod za zabicie gracza ktory jest w trybie kreatywnym.
 mobhunting.learn.mcmmohorses-not-own-horses=§bNie ma nagrody za zabijanie wlasnych Koni.
 mobhunting.learn.mcmmohorses-not-permanent-death=§bNie na nagrody za zabijanie Koni.
-mobhunting.learn.minigameslib=§bNie dostajesz nagrod podczas grania MiniGier
 mobhunting.learn.mob-damage-flag=§bNo reward: Jestes na chronionym obszarze z  mob-damage=WYLACZONE
 mobhunting.learn.mob-disabled=§bNagrody za zabijanie ${killed-mob} jest wylaczona przez Admina.
 mobhunting.learn.mobarena=§bNie dostajesz nagrod poczas grania MobArena

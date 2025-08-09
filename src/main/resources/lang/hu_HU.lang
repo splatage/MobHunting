@@ -305,7 +305,6 @@ mobhunting.learn.huntdisabled=§bAz adminisztrátor letiltotta a MetaMobHunting-
 mobhunting.learn.killedcreative=§bNincs MetaMobHunting jutalom a kreatív módban lévő játékos megöléséért.
 mobhunting.learn.mcmmohorses-not-own-horses=§bNincs jutalom a saját RPGHorses megöléséért.
 mobhunting.learn.mcmmohorses-not-permanent-death=§bAz RPGHorses meggyilkolásáért nincs jutalom.
-mobhunting.learn.minigameslib=§bNem kapsz jutalmat MiniGames játék közben
 mobhunting.learn.mob-damage-flag=§bNincs jutalom: egy védett régióban vagy mob-damage=DENY
 mobhunting.learn.mob-disabled=§bRewards for killing ${killed-mob}§b is disabled by Admin.
 mobhunting.learn.mobarena=§bA MobArena játék közben nem kapsz jutalmat

@@ -983,7 +983,6 @@ public class MobHuntingManager implements Listener {
 				MessageHelper.debug("======================= kill ended (15)=====================");
 				return;
 
-				// MiniGamesLib
 			} else if (killer != null) {
 				if (killed.equals(killer)) {
 					// Suicide

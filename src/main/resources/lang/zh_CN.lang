@@ -305,7 +305,6 @@ mobhunting.learn.huntdisabled=§b管理员关闭了 MetaMobHunting.
 mobhunting.learn.killedcreative=§b当你在创造模式下杀死一名玩家是没有奖励的.
 mobhunting.learn.mcmmohorses-not-own-horses=§b杀死自己的 RPGHorses 是没有奖励的.
 mobhunting.learn.mcmmohorses-not-permanent-death=§b击杀 RPGHorses 是没有奖励的.
-mobhunting.learn.minigameslib=§b你在玩 MiniGames 的时候不会获得奖励
 mobhunting.learn.mob-damage-flag=§b没有奖励: 你在受保护的区域 mob-damage=DENY
 mobhunting.learn.mob-disabled=§b击杀奖励 ${killed-mob} 被管理员关闭.
 mobhunting.learn.mobarena=§b你在玩 MobArena 的时候不会获得奖励

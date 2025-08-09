@@ -305,7 +305,6 @@ mobhunting.learn.huntdisabled=§bDe beheerder heeft MetaMobHunting uitgeschakeld
 mobhunting.learn.killedcreative=§bGeen MetaMobHunting-beloning voor het doden van een speler die zich in de creatieve modus bevindt.
 mobhunting.learn.mcmmohorses-not-own-horses=§bEr is geen beloning voor het doden van je eigen RPGHorses.
 mobhunting.learn.mcmmohorses-not-permanent-death=§bEr is geen beloning voor het doden van RPGHorses.
-mobhunting.learn.minigameslib=§bJe krijgt geen beloningen tijdens het spelen van MiniGames.
 mobhunting.learn.mob-damage-flag=§bGeen beloning: Je bevindt je in een beschermd gebied met mob-damage=WEIGEREN.
 mobhunting.learn.mob-disabled=§bBeloningen voor het doden van ${killed-mob} zijn uitgeschakeld door de beheerder.
 mobhunting.learn.mobarena=§bJe krijgt geen beloningen tijdens het spelen van MobArena
