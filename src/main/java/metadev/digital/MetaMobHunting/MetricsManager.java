@@ -117,7 +117,7 @@ public class MetricsManager {
 						try {
 							@SuppressWarnings({ "rawtypes", "unused" })
 							Class cls = Class.forName("me.libraryaddict.disguise.disguisetypes.DisguiseType");
-							valueMap.put("LibsDisguises", LibsDisguisesCompat.isSupported() ? 1 : 0);
+							valueMap.put("LibsDisguises", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.LibsDisguises.getName()))  ? 1 : 0);
 						} catch (ClassNotFoundException e) {
 						}
 						valueMap.put("Essentials", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Essentials.getName())) ? 1 : 0);
