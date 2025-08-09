@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
-import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

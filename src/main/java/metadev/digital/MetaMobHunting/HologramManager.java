@@ -12,7 +12,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import metadev.digital.MetaMobHunting.leaderboard.HologramLeaderboard;
 
 public class HologramManager { //TODO: Need additional hologram manager beyond CMI

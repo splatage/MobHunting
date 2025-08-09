@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.compatibility;
+package metadev.digital.MetaMobHunting.compatibility.addons;
 
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
 import metadev.digital.MetaMobHunting.leaderboard.HologramLeaderboard;
