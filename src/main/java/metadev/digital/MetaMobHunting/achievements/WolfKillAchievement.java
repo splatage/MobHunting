@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MobArenaCompat;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;

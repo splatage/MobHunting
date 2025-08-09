@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MobArenaCompat;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
 
 public class Creepercide extends AbstractSkullAchievement implements Listener {
