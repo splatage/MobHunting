@@ -9,7 +9,7 @@ import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.BossShopCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.BossShopCompat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
