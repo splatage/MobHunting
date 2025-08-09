@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.achievements;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.MobHunting;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.MobArenaCompat;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
 
 public class Creepercide extends AbstractSkullAchievement implements Listener {
@@ -75,12 +76,12 @@ public class Creepercide extends AbstractSkullAchievement implements Listener {
 
 			if (initiator != null && plugin.getMobHuntingManager().isHuntEnabled(initiator)) {
 				// Check if player (initiator) is playing MobArena.
-				/** // TODO: POSSIBLY DEPRECATED if (MobArenaCompat.isPlayingMobArena((Player) initiator)
+				if (MobArenaCompat.isPlayingMobArena((Player) initiator)
 						&& !plugin.getConfigManager().mobarenaGetRewards) {
-					plugin.getMessages().debug("AchiveBlocked: CreeperCide was achieved while %s was playing MobArena.",
+					MessageHelper.debug("AchiveBlocked: CreeperCide was achieved while %s was playing MobArena.",
 							initiator.getName());
 					plugin.getMessages().learn(initiator, plugin.getMessages().getString("mobhunting.learn.mobarena"));
-				} else */
+				} else
 					plugin.getAchievementManager().awardAchievement("creepercide", initiator,
 							plugin.getExtendedMobManager().getExtendedMobFromEntity(event.getKilledEntity()));
 			}

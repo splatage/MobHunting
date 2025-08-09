@@ -352,6 +352,15 @@
             <systemPath>${basedir}/lib/pvparena-2.0.0.jar</systemPath>
         </dependency>
 
+        <!-- MobArena -->
+        <dependency>
+            <groupId>com.garbagemule.MobArena</groupId>
+            <artifactId>MobArena</artifactId>
+            <version>0.109</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/MobArena-0.109.jar</systemPath>
+        </dependency>
+
         <!-- MythicMobs -->
         <dependency>
             <groupId>io.lumine</groupId>

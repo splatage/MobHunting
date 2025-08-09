@@ -120,6 +120,9 @@ public class MobHunting extends JavaPlugin {
     // TODO: ADD UNIT TESTS VIA MOCKBUKKIT
 
     // PLUGIN COMPATIBILITIES
+    // NEW
+    // TODO: DiscordSRV
+    // OLD
     // TODO: AUDIT AND FULLY IMPLEMENT BOSSSHOP
     // TODO: AUDIT AND REIMPLEMENT ELITEMOBS
     // TODO: AUDIT TARDISWeepingAngels and add in support for the other mobs https://github.com/eccentricdevotion/TARDIS
