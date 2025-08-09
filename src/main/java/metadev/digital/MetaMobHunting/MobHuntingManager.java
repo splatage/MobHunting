@@ -1519,7 +1519,7 @@ public class MobHuntingManager implements Listener {
 		if ((cash >= Core.getConfigManager().minimumReward && cash != 0)
 				|| (cash <= -Core.getConfigManager().minimumReward && cash != 0)
 				|| !plugin.getRewardManager().getKillCommands(killed).isEmpty()
-				|| (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards)
+				|| (killer != null && MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName())) && plugin.getConfigManager().enableMcMMOLevelRewards)
 				|| plugin.getRewardManager().getHeadDropHead(killed)) {
 
 			// Remember: Handle MobHuntKillEvent and Record Hunt Achievement is
@@ -1744,7 +1744,7 @@ public class MobHuntingManager implements Listener {
 					player.getName(), Core.getConfigManager().minimumReward, extraString);
 
 		// McMMO Level rewards
-		if (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards
+		if (killer != null && MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName())) && plugin.getConfigManager().enableMcMMOLevelRewards
 				&& data.getDampenedKills() < 10 && !CrackShotCompat.isCrackShotUsed(killed)
 				&& !WeaponMechanicsCompat.isWeaponMechanicsWeaponUsed(killed)) {
 

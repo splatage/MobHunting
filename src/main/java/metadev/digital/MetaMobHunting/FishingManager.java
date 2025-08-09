@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -280,7 +281,7 @@ public class FishingManager implements Listener {
 					}
 
 				// McMMO Experience rewards
-				if (McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards) {
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName())) && plugin.getConfigManager().enableMcMMOLevelRewards) {
 					double chance = plugin.mRand.nextDouble();
 					int level = plugin.getRewardManager().getMcMMOLevel(fish);
 					MessageHelper.debug("If %s<%s %s will get a McMMO Level for fishing", chance,
