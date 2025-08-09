@@ -1,6 +1,7 @@
 package metadev.digital.MetaMobHunting;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.*;
 import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metabagofgold.PlayerBalance;
 import metadev.digital.metacustomitemslib.Core;
@@ -14,23 +15,6 @@ import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
-import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.StackMobCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.DisguisesHelper;
-import metadev.digital.MetaMobHunting.compatibility.addons.WeaponMechanicsCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardMobHuntingFlag;
-import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.PVPArenaCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.TownyCompat;
 import metadev.digital.MetaMobHunting.events.BountyKillEvent;
 import metadev.digital.MetaMobHunting.events.MobHuntEnableCheckEvent;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
@@ -301,11 +285,15 @@ public class MobHuntingManager implements Listener {
 					&& !plugin.getConfigManager().pvparenaGetRewards) {
 				MessageHelper.debug("KillBlocked: %s was killed while playing PvpArena.", killed.getName());
 				return;
-				// BattleArena
+            // BattleArena
 			} else if (BattleArenaCompat.isPlayingBattleArena((Player) killed)) {
-				MessageHelper.debug("KillBlocked: %s was killed while playing BattleArena.", killed.getName());
-				return;
-			}
+                MessageHelper.debug("KillBlocked: %s was killed while playing BattleArena.", killed.getName());
+                return;
+            // MobArena
+            } else if(MobArenaCompat.isPlayingMobArena((Player) killed) && !plugin.getConfigManager().mobarenaGetRewards) {
+                MessageHelper.debug("KillBlocked: %s was killed while playing MobArena.", killed.getName());
+                return;
+            }
 
 			if (mob != null) {
 				double playerKilledByMobPenalty = 0;
@@ -1001,14 +989,21 @@ public class MobHuntingManager implements Listener {
 				MessageHelper.debug("======================= kill ended (14)=====================");
 				return;
 
-				// BattleArena
+            // BattleArena
 			} else if (BattleArenaCompat.isPlayingBattleArena((Player) killed)) {
 				MessageHelper.debug("KillBlocked: %s was killed while playing BattleArena.", mob.getMobName());
 				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.battlearena"));
 				MessageHelper.debug("======================= kill ended (15)=====================");
 				return;
 
-			} else if (killer != null) {
+			} else if (MobArenaCompat.isPlayingMobArena((Player) killed) && !plugin.getConfigManager().mobarenaGetRewards) {
+                MessageHelper.debug("KillBlocked: %s was killed while playing MobArena.", mob.getMobName());
+                plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.mobarena"));
+                MessageHelper.debug("======================= kill ended (13)=====================");
+                return;
+
+                // PVPArena
+            } else if (killer != null) {
 				if (killed.equals(killer)) {
 					// Suicide
 					plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.suiside"));
@@ -1038,7 +1033,12 @@ public class MobHuntingManager implements Listener {
 			plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.pvparena"));
 			MessageHelper.debug("======================= kill ended (20)=====================");
 			return;
-		} else if (BattleArenaCompat.isPlayingBattleArena(player)) {
+		} else if (MobArenaCompat.isPlayingMobArena(player) && !plugin.getConfigManager().mobarenaGetRewards) {
+            MessageHelper.debug("KillBlocked: %s is currently playing MobArena.", player.getName());
+            plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.mobarena"));
+            MessageHelper.debug("======================= kill ended (19)=====================");
+            return;
+        } else if (BattleArenaCompat.isPlayingBattleArena(player)) {
 			MessageHelper.debug("KillBlocked: %s is currently playing BattleArena.", player.getName());
 			plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.battlearena"));
 			MessageHelper.debug("======================= kill ended (21)=====================");

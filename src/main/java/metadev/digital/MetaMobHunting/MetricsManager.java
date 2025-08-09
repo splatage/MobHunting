@@ -94,6 +94,7 @@ public class MetricsManager {
 						Map<String, Integer> valueMap = new HashMap<>();
 						valueMap.put("PVPArena", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.PVPArena.getName()))? 1 : 0);
 						valueMap.put("BattleArena", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BattleArena.getName())) ? 1 : 0);
+                        valueMap.put("MobArena", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MobArena.getName())) ? 1 : 0);
 						return valueMap;
 					}
 

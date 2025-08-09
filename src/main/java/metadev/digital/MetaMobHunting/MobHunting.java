@@ -39,10 +39,10 @@ import metadev.digital.MetaMobHunting.commands.TopCommand;
 import metadev.digital.MetaMobHunting.commands.UpdateCommand;
 import metadev.digital.MetaMobHunting.commands.VersionCommand;
 import metadev.digital.MetaMobHunting.commands.WhitelistAreaCommand;
+import metadev.digital.MetaMobHunting.compatibility.CompatibilityManager;
 import metadev.digital.MetaMobHunting.compatibility.addons.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.CompatibilityManager;
 import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
@@ -52,6 +52,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LibsDisguisesCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MobArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.PVPArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
@@ -127,6 +128,7 @@ public class MobHunting extends JavaPlugin {
     // TODO: AUDIT AND FULLY IMPLEMENT BOSSSHOP
     // TODO: AUDIT AND REIMPLEMENT ELITEMOBS
     // TODO: AUDIT TARDISWeepingAngels and add in support for the other mobs https://github.com/eccentricdevotion/TARDIS
+    // TODO: AUDIT, PURCHASE, AND REIMPLEMENT BOSS https://mineacademy.org/boss  https://builtbybit.com/resources/boss-unbelievable-custom-monsters.21619/
 
 
     @Override
@@ -266,6 +268,7 @@ public class MobHunting extends JavaPlugin {
 
 		// Minigame plugins
 		mCompatibilityManager.registerPlugin(PVPArenaCompat.class, SupportedPluginEntities.PVPArena);
+        mCompatibilityManager.registerPlugin(MobArenaCompat.class, SupportedPluginEntities.MobArena);
 		mCompatibilityManager.registerPlugin(BattleArenaCompat.class, SupportedPluginEntities.BattleArena);
 
 		// Disguise and Vanish plugins
