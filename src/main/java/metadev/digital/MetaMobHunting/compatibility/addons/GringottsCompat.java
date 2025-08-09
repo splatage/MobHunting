@@ -1,10 +1,6 @@
-package metadev.digital.MetaMobHunting.compatibility;
+package metadev.digital.MetaMobHunting.compatibility.addons;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
-import metadev.digital.metabagofgold.BagOfGold;
-import metadev.digital.metabagofgold.bank.BankManager;
-import metadev.digital.metabagofgold.storage.DataStoreManager;
-import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
 import metadev.digital.metacustomitemslib.compatibility.ICompat;
@@ -13,7 +9,6 @@ import metadev.digital.metacustomitemslib.compatibility.enums.BoundIdentifierEnu
 import metadev.digital.metacustomitemslib.compatibility.enums.VersionSetIdentifierEnum;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.FeatureNotFoundException;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
-import net.citizensnpcs.api.CitizensAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.gestern.gringotts.Gringotts;
