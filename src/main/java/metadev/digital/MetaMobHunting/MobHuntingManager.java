@@ -1940,7 +1940,7 @@ public class MobHuntingManager implements Listener {
 		if (killer != null)
 			return killer;
 
-		if (MyPetCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MyPet.getName()))) {
 			Player owner = MyPetCompat.getMyPetOwner(killed);
 			if (owner != null)
 				return owner;

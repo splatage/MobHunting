@@ -130,7 +130,7 @@ public class MetricsManager {
 						Map<String, Integer> valueMap = new HashMap<>();
 						valueMap.put("Citizens", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())) ? 1 : 0);
 						valueMap.put("Gringotts", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Gringotts.getName())) ? 1 : 0);
-						valueMap.put("MyPet", MyPetCompat.isSupported() ? 1 : 0);
+						valueMap.put("MyPet", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MyPet.getName())) ? 1 : 0);
 						valueMap.put("McMMO", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName())) ? 1 : 0);
 						valueMap.put("WorldEdit", WorldEditCompat.isSupported() ? 1 : 0);
 						valueMap.put("ExtraHardMode", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())) ? 1 : 0);
