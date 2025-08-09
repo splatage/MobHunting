@@ -121,6 +121,7 @@ public class MobHunting extends JavaPlugin {
 
     // PLUGIN COMPATIBILITIES
     // TODO: AUDIT AND FULLY IMPLEMENT BOSSSHOP
+    // TODO: AUDIT AND REIMPLEMENT ELITEMOBS
 
 
     @Override

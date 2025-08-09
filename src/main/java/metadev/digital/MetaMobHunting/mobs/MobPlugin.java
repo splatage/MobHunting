@@ -49,7 +49,7 @@ public enum MobPlugin {
 		case MythicMobs:
 			return MythicMobsCompat.isSupported();
 		case EliteMobs:
-			return EliteMobsCompat.isSupported();
+			return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName()));
 		default:
 			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 			console.sendMessage(ChatColor.RED + "[MobHunting] Missing pluginType '" + this.name() + "' in MobPlugin");

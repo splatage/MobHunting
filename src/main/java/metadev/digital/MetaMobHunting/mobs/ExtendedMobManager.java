@@ -36,7 +36,7 @@ public class ExtendedMobManager {
 			plugin.getStoreManager().insertMissingCitizensMobs();
 		if (MythicMobsCompat.isSupported())
 			plugin.getStoreManager().insertMissingMythicMobs();
-		if (EliteMobsCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 			plugin.getStoreManager().insertEliteMobs();
 
 		Set<ExtendedMob> set = new HashSet<ExtendedMob>();
@@ -66,7 +66,7 @@ public class ExtendedMobManager {
 				break;
 
 			case EliteMobs:
-				if (!EliteMobsCompat.isSupported() || !EliteMobsCompat.isEnabledInConfig())
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 					continue;
 				break;
 

@@ -1062,7 +1062,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 						continue;
 					break;
 				case EliteMobs:
-					if (!EliteMobsCompat.isSupported() || !EliteMobsCompat.isEnabledInConfig())
+					if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 						continue;
 				case Minecraft:
 					break;

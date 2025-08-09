@@ -6,6 +6,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.Feature;
+import metadev.digital.metacustomitemslib.compatibility.FeatureList;
+import metadev.digital.metacustomitemslib.compatibility.ICompat;
+import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
+import metadev.digital.metacustomitemslib.compatibility.enums.BoundIdentifierEnum;
+import metadev.digital.metacustomitemslib.compatibility.enums.VersionSetIdentifierEnum;
+import metadev.digital.metacustomitemslib.compatibility.exceptions.FeatureNotFoundException;
+import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -29,224 +37,326 @@ import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMobRewardData;
 
 // TODO: Some of this functionality was originally written for a version of EliteMobs ~~~IN 2014~~~. Audit and improve.
-public class EliteMobsCompat implements Listener {
+public class EliteMobsCompat implements Listener, ICompat, IFeatureHolder {
 
 	// https://www.spigotmc.org/resources/%E2%9A%94elitemobs%E2%9A%94.40090/
 
-	private static boolean supported = false;
-	private static Plugin mPlugin;
+    // ****** Standard ******
+    private Plugin compatPlugin;
+    private static boolean enabled = false, supported = false, loaded = false;
+    private static String sMin, sMax, pMin = "6.5.0", pMax;
+    private static FeatureList features;
+
+    // ****** Plugin Specific ******
 	private static HashMap<String, ExtendedMobRewardData> mMobRewardData = new HashMap<String, ExtendedMobRewardData>();
 	private static File file = new File(MobHunting.getInstance().getDataFolder(), "EliteMobs-rewards.yml");
 	private static YamlConfiguration config = new YamlConfiguration();
 	public static final String MH_ELITEMOBS = "MH:ELITEMOBS";
-	private final String latestSupported = "6.5.0";
 
 	public EliteMobsCompat() {
-		if (!isEnabledInConfig()) {
-			MessageHelper.warning("Compatibility with EliteMobs is disabled in config.yml");
-		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName());
+        compatPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName());
 
-			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
-				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-				MessageHelper.notice("Enabling Compatibility with EliteMobs ("
-						+ getEliteMobs().getDescription().getVersion() + ")");
+        if(compatPlugin != null) {
+            try {
+                start();
+            } catch (SpinupShutdownException e) {
+                Bukkit.getPluginManager().disablePlugin(compatPlugin);
+            }
+        }
+    }
 
-				supported = true;
+    // ****** ICompat ******
 
-				loadEliteMobsMobsData();
-				saveEliteMobsData();
+    @Override
+    public void start() throws SpinupShutdownException {
+        detectedMessage();
+        registerFeatures();
 
-			} else {
-				MessageHelper.warning("Your current version of EliteMobs ("
-						+ mPlugin.getDescription().getVersion()
-						+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
-			}
-		}
+        if (isActive()) {
+            Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
+            loadEliteMobsMobsData();
+            saveEliteMobsData();
+            successfullyLoadedMessage();
+            loaded = true;
+        } else if (enabled && !supported) {
+            Feature base = getFeature("base");
+            if(base != null) unsupportedMessage(base);
+            else pluginError("Plugin is enabled but not supported, and failed to understand the reasoning out of the base " +
+                    "feature. Likely caused by a corrupt / incorrect construction of the base feature.");
+            throw new SpinupShutdownException();
+        }
+    }
 
-	}
+    @Override
+    public void shutdown() throws SpinupShutdownException {
+        if (isActive() && loaded) {
+            successfullyShutdownMessage();
+            loaded = false;
+        }
+    }
 
-	// **************************************************************************
-	// OTHER FUNCTIONS
-	// **************************************************************************
-	public EliteMobs getEliteMobs() {
-		return (EliteMobs) mPlugin;
-	}
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	public static boolean isSupported() {
-		return supported;
-	}
+    @Override
+    public boolean isSupported() {
+        return supported;
+    }
 
-	public static boolean isEliteMobs(Entity entity) {
-		if (isSupported())
-			return EntityTracker.isEliteMob(entity);
-		return false;
-	}
+    @Override
+    public boolean isActive() {
+        return enabled && supported;
+    }
 
-	public static enum Mobs {
-		Custom(MetadataHandler.ELITE_MOBS);
+    @Override
+    public boolean isLoaded() {
+        return loaded;
+    }
 
-		private String name;
+    @Override
+    public Plugin getPluginInstance() {
+        return compatPlugin;
+    }
 
-		private Mobs(String name) {
-			this.name = name;
-		}
+    @Override
+    public String getPluginName() {
+        return compatPlugin.getName();
+    }
 
-		public String getName() {
-			return name;
-		}
-	};
+    @Override
+    public String getPluginVersion() {
+        return compatPlugin.getDescription().getVersion();
+    }
 
-	public static Mobs getEliteMobsType(Entity entity) {
-		return Mobs.Custom;
-	}
+    // ****** IFeatureHolder ******
 
-	public static String getName(Entity entity) {
-		return MobHunting.getInstance().getMessages().getString("mobs.EliteMobs.elitemob");
-	}
+    @Override
+    public void registerFeatures() {
+        features = new FeatureList(getPluginVersion());
 
-	public static int getEliteMobsLevel(Entity entity) {
-		if (isEliteMobs(entity)){
-			EliteEntity eliteEntity = EntityTracker.getEliteMobEntity(entity);
-			return eliteEntity != null ? eliteEntity.getLevel() : 1;
-		}
-		return 0;
-	}
+        // Base plugin
+        enabled = MobHunting.getInstance().getConfigManager().enableIntegrationEliteMobs;
+        features.addFeature("base", pMin, BoundIdentifierEnum.FLOOR, VersionSetIdentifierEnum.PLUGIN, enabled);
+        supported = isFeatureSupported("base");
 
-	public static boolean isEnabledInConfig() {
-		return MobHunting.getInstance().getConfigManager().enableIntegrationEliteMobs;
-	}
+        // Other features
+    }
 
-	public static HashMap<String, ExtendedMobRewardData> getMobRewardData() {
-		return mMobRewardData;
-	}
+    @Override
+    public boolean isFeatureEnabled(String name) {
+        boolean featureEnabled = false;
+        try {
+            featureEnabled = features.isFeatureEnabled(name);
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return enable flag of the feature " + name + " in the " + compatPlugin.getName() +" compat class." );
+        }
 
-	public static int getProgressAchievementLevel1(String mobtype) {
-		return mMobRewardData.get(mobtype).getAchivementLevel1();
-	}
+        return featureEnabled;
+    }
 
-	// **************************************************************************
-	// LOAD & SAVE
-	// **************************************************************************
-	public static void loadEliteMobsMobsData() {
-		try {
-			if (!file.exists()) {
-				for (Mobs monster : Mobs.values()) {
-					mMobRewardData.put(monster.name(),
-							new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true,
-									"10:20", 1, "You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1,
-									0.02));
-					saveEliteMobsData(monster.name());
-					MobHunting.getInstance().getStoreManager().insertEliteMobs(monster.name());
-				}
-				// MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
-				return;
-			}
+    @Override
+    public boolean isFeatureSupported(String name) {
+        boolean featureSupported = false;
+        try {
+            featureSupported = features.isFeatureSupported(name);
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return supported flag of the feature " + name + " in the " + compatPlugin.getName() +" compat class." );
+        }
 
-			config.load(file);
-			for (String key : config.getKeys(false)) {
-				ConfigurationSection section = config.getConfigurationSection(key);
-				ExtendedMobRewardData mob = new ExtendedMobRewardData();
-				mob.read(section);
-				mob.setMobType(key);
-				mMobRewardData.put(key, mob);
-				MobHunting.getInstance().getStoreManager().insertEliteMobs(key);
-			}
-			MessageHelper.debug("Loaded %s EliteMobs", mMobRewardData.size());
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InvalidConfigurationException e) {
-			e.printStackTrace();
-		}
+        return featureSupported;
+    }
 
-	}
+    @Override
+    public boolean isFeatureActive(String name) {
+        boolean featureActive = false;
+        try {
+            featureActive = features.isFeatureActive(name);
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return active flag of the feature " + name + " in the " + compatPlugin.getName() +" compat class." );
+        }
 
-	public static void loadEliteMobsData(String key) {
-		try {
-			if (!file.exists()) {
-				return;
-			}
+        return featureActive;
+    }
 
-			config.load(file);
-			ConfigurationSection section = config.getConfigurationSection(key);
-			ExtendedMobRewardData mob = new ExtendedMobRewardData();
-			mob.read(section);
-			mob.setMobType(key);
-			mMobRewardData.put(key, mob);
-			MobHunting.getInstance().getStoreManager().insertEliteMobs(key);
-		} catch (IOException | InvalidConfigurationException e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public Feature getFeature(String name) {
+        Feature feature;
+        try {
+            feature = features.getFeature(name);
+            return feature;
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return the feature " + name + " in the " + compatPlugin.getName() +" compat class." );
+        }
+        return null;
+    }
 
-	public static void saveEliteMobsData() {
-		try {
-			config.options().header("This a extra MobHunting config data for the EliteMobs on your server.");
+    // ****** Listener ******
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    private void onEliteMobsSpawnEvent(EntitySpawnEvent event) {
 
-			if (mMobRewardData.size() > 0) {
+        Entity entity = event.getEntity();
 
-				int n = 0;
-				for (String str : mMobRewardData.keySet()) {
-					ConfigurationSection section = config.createSection(str);
-					mMobRewardData.get(str).save(section);
-					n++;
-				}
+        if (isEliteMobs(entity)) {
 
-				if (n != 0) {
-					MessageHelper.debug("Saving Mobhunting extra EliteMobs data.");
-					config.save(file);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+            Mobs monster = getEliteMobsType(entity);
 
-	public static void saveEliteMobsData(String key) {
-		try {
-			if (mMobRewardData.containsKey(key)) {
-				ConfigurationSection section = config.createSection(key);
-				mMobRewardData.get(key).save(section);
-				MessageHelper.debug("Saving extra EliteMobs data for mob=%s (%s)", key,
-						mMobRewardData.get(key).getMobName());
-				config.save(file);
-			} else {
-				MessageHelper.debug("ERROR! EliteMobs ID (%s) is not found in mMobRewardData",
-						key);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+            if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
+                MessageHelper.debug("New EliteMob found=%s", monster.name());
+                mMobRewardData.put(monster.name(),
+                        new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "40:60",
+                                1, "You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
+                saveEliteMobsData(monster.name());
+                MobHunting.getInstance().getStoreManager().insertEliteMobs(monster.name());
+                // Update mob loaded into memory
+                MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
+                MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+            }
 
-	// **************************************************************************
-	// EVENTS
-	// **************************************************************************
+            event.getEntity().setMetadata(MH_ELITEMOBS,
+                    new FixedMetadataValue(compatPlugin, mMobRewardData.get(monster.name())));
+        }
+    }
 
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	private void onEliteMobsSpawnEvent(EntitySpawnEvent event) {
+    // ****** Plugin Specific ******
+    public static void loadEliteMobsMobsData() {
+        try {
+            if (!file.exists()) {
+                for (Mobs monster : Mobs.values()) {
+                    mMobRewardData.put(monster.name(),
+                            new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true,
+                                    "10:20", 1, "You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1,
+                                    0.02));
+                    saveEliteMobsData(monster.name());
+                    MobHunting.getInstance().getStoreManager().insertEliteMobs(monster.name());
+                }
+                // MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
+                return;
+            }
 
-		Entity entity = event.getEntity();
+            config.load(file);
+            for (String key : config.getKeys(false)) {
+                ConfigurationSection section = config.getConfigurationSection(key);
+                ExtendedMobRewardData mob = new ExtendedMobRewardData();
+                mob.read(section);
+                mob.setMobType(key);
+                mMobRewardData.put(key, mob);
+                MobHunting.getInstance().getStoreManager().insertEliteMobs(key);
+            }
+            MessageHelper.debug("Loaded %s EliteMobs", mMobRewardData.size());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
 
-		if (isEliteMobs(entity)) {
+    }
 
-			Mobs monster = getEliteMobsType(entity);
+    public static void loadEliteMobsData(String key) {
+        try {
+            if (!file.exists()) {
+                return;
+            }
 
-			if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
-				MessageHelper.debug("New EliteMob found=%s", monster.name());
-				mMobRewardData.put(monster.name(),
-						new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "40:60",
-								1, "You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));
-				saveEliteMobsData(monster.name());
-				MobHunting.getInstance().getStoreManager().insertEliteMobs(monster.name());
-				// Update mob loaded into memory
-				MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
-				MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
-			}
+            config.load(file);
+            ConfigurationSection section = config.getConfigurationSection(key);
+            ExtendedMobRewardData mob = new ExtendedMobRewardData();
+            mob.read(section);
+            mob.setMobType(key);
+            mMobRewardData.put(key, mob);
+            MobHunting.getInstance().getStoreManager().insertEliteMobs(key);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
 
-			event.getEntity().setMetadata(MH_ELITEMOBS,
-					new FixedMetadataValue(mPlugin, mMobRewardData.get(monster.name())));
-		}
-	}
+    public static void saveEliteMobsData() {
+        try {
+            config.options().header("This a extra MobHunting config data for the EliteMobs on your server.");
+
+            if (mMobRewardData.size() > 0) {
+
+                int n = 0;
+                for (String str : mMobRewardData.keySet()) {
+                    ConfigurationSection section = config.createSection(str);
+                    mMobRewardData.get(str).save(section);
+                    n++;
+                }
+
+                if (n != 0) {
+                    MessageHelper.debug("Saving Mobhunting extra EliteMobs data.");
+                    config.save(file);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveEliteMobsData(String key) {
+        try {
+            if (mMobRewardData.containsKey(key)) {
+                ConfigurationSection section = config.createSection(key);
+                mMobRewardData.get(key).save(section);
+                MessageHelper.debug("Saving extra EliteMobs data for mob=%s (%s)", key,
+                        mMobRewardData.get(key).getMobName());
+                config.save(file);
+            } else {
+                MessageHelper.debug("ERROR! EliteMobs ID (%s) is not found in mMobRewardData",
+                        key);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public EliteMobs getEliteMobs() {
+        return (EliteMobs) compatPlugin;
+    }
+
+    public static boolean isEliteMobs(Entity entity) {
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
+            return EntityTracker.isEliteMob(entity);
+        return false;
+    }
+
+    public static enum Mobs {
+        Custom(MetadataHandler.ELITE_MOBS);
+
+        private String name;
+
+        private Mobs(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    };
+
+    public static Mobs getEliteMobsType(Entity entity) {
+        return Mobs.Custom;
+    }
+
+    public static String getName(Entity entity) {
+        return MobHunting.getInstance().getMessages().getString("mobs.EliteMobs.elitemob");
+    }
+
+    public static int getEliteMobsLevel(Entity entity) {
+        if (isEliteMobs(entity)){
+            EliteEntity eliteEntity = EntityTracker.getEliteMobEntity(entity);
+            return eliteEntity != null ? eliteEntity.getLevel() : 1;
+        }
+        return 0;
+    }
+
+    public static HashMap<String, ExtendedMobRewardData> getMobRewardData() {
+        return mMobRewardData;
+    }
+
+    public static int getProgressAchievementLevel1(String mobtype) {
+        return mMobRewardData.get(mobtype).getAchivementLevel1();
+    }
 
 }
