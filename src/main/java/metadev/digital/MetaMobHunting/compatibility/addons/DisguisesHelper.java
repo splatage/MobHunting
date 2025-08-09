@@ -1,6 +1,5 @@
 package metadev.digital.MetaMobHunting.compatibility.addons;
 
-import metadev.digital.MetaMobHunting.compatibility.LibsDisguisesCompat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 

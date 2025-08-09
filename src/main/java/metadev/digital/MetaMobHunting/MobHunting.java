@@ -49,7 +49,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.ExtraHardModeCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.GringottsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LevelledMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.LibsDisguisesCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.LibsDisguisesCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;

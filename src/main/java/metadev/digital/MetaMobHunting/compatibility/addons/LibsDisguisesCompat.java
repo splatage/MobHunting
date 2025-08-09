@@ -1,10 +1,9 @@
-package metadev.digital.MetaMobHunting.compatibility;
+package metadev.digital.MetaMobHunting.compatibility.addons;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import me.libraryaddict.disguise.LibsDisguises;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
