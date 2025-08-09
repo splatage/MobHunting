@@ -21,7 +21,6 @@ import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
-import metadev.digital.MetaMobHunting.compatibility.StackMobHelper;
 import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
@@ -184,7 +183,7 @@ public class MobHuntingManager implements Listener {
 		mHuntingModifiers.add(new ShoveBonus());
 		mHuntingModifiers.add(new SneakyBonus());
 		mHuntingModifiers.add(new SniperBonus());
-		if (StackMobCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.StackMob.getName())))
 			mHuntingModifiers.add(new StackedMobBonus());
 		mHuntingModifiers.add(new Undercover());
 		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName())))
@@ -1278,7 +1277,7 @@ public class MobHuntingManager implements Listener {
 					if (plugin.getGrindingManager().isWhitelisted(loc)) {
 						MessageHelper.debug("This Area is whitelisted. Area grinding not detected.");
 
-					} else if (StackMobHelper.isGrindingStackedMobsAllowed() && StackMobHelper.isStackedMob(killed)) {
+					} else if (StackMobCompat.isGrindingStackedMobsAllowed() && StackMobCompat.isStackedMob(killed)) {
 						MessageHelper.debug(
 								"The killed mob was a Stacked Mob and Grinding is allowed in config.yml. Area grinding and speed grinding is not deteted.");
 
