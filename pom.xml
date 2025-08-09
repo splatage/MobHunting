@@ -293,9 +293,9 @@
         <dependency>
             <groupId>me.libraryaddict.disguise.LibsDisguises</groupId>
             <artifactId>LibsDisguises</artifactId>
-            <version>11.0.6</version>
+            <version>11.0.7</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/LibsDisguises-11.0.6.jar</systemPath>
+            <systemPath>${basedir}/lib/LibsDisguises-11.0.7.jar</systemPath>
         </dependency>
 
         <!-- McMMO -->
@@ -383,9 +383,9 @@
         <dependency>
             <groupId>com.bekvon.bukkit.residence.ResidenceCommandListener</groupId>
             <artifactId>Residence</artifactId>
-            <version>5.1.7.6</version>
+            <version>5.1.7.7</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/Residence5.1.7.6.jar</systemPath>
+            <systemPath>${basedir}/lib/Residence5.1.7.7.jar</systemPath>
         </dependency>
 
         <!-- CrackShot -->
@@ -415,13 +415,6 @@
             <systemPath>${basedir}/lib/ExtraHardMode.jar</systemPath>
         </dependency>
 
-        <!-- Google GSON -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.13.1</version>
-        </dependency>
-
         <!-- My Pet  https://wiki.mypet-plugin.de/ -->
         <dependency>
             <groupId>de.keyle</groupId>
@@ -442,23 +435,30 @@
         <dependency>
             <groupId>com.Zrips</groupId>
             <artifactId>CMI</artifactId>
-            <version>9.7.15.5</version>
+            <version>9.8.0.2</version>
             <scope>system</scope>
-            <systemPath>${basedir}\lib\CMI-9.7.15.5.jar</systemPath>
+            <systemPath>${basedir}\lib\CMI-9.8.0.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.Zrips</groupId>
             <artifactId>CMILib</artifactId>
-            <version>1.5.5.9</version>
+            <version>1.5.6.2</version>
             <scope>system</scope>
-            <systemPath>${basedir}\lib\CMILib1.5.5.9.jar</systemPath>
+            <systemPath>${basedir}\lib\CMILib1.5.6.2.jar</systemPath>
+        </dependency>
+
+        <!-- Google GSON -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.13.1</version>
         </dependency>
 
         <!-- Mysql -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>9.3.0</version>
+            <version>9.4.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.protobuf</groupId>
