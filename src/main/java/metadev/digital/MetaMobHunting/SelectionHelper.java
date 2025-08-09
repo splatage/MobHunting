@@ -4,7 +4,7 @@ import java.util.AbstractMap;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
 
-import metadev.digital.MetaMobHunting.compatibility.WorldEditCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WorldEditCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

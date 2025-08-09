@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.compatibility;
+package metadev.digital.MetaMobHunting.compatibility.addons;
 
 import com.sk89q.worldedit.IncompleteRegionException;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -17,7 +17,6 @@ import org.bukkit.Bukkit;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
-import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 import org.bukkit.entity.Player;

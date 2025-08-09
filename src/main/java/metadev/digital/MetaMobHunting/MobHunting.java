@@ -58,7 +58,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.StackMobCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.WeaponMechanicsCompat;
-import metadev.digital.MetaMobHunting.compatibility.WorldEditCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WorldEditCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldGuardCompat;
 import metadev.digital.MetaMobHunting.config.ConfigManager;
 import metadev.digital.MetaMobHunting.grinding.GrindingManager;
