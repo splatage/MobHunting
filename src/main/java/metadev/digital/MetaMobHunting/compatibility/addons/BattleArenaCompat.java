@@ -32,7 +32,7 @@ public class BattleArenaCompat implements Listener, ICompat, IFeatureHolder {
     // ****** Standard ******
 	private Plugin compatPlugin;
     private static boolean enabled = false, supported = false, loaded = false;
-    private static String sMin, sMax, pMin = "4.5.7", pMax;
+    private static String sMin, sMax, pMin, pMax;
     private static FeatureList features;
 
     // ****** Plugin Specific ******
@@ -121,7 +121,7 @@ public class BattleArenaCompat implements Listener, ICompat, IFeatureHolder {
 
         // Base plugin
         enabled = MobHunting.getInstance().getConfigManager().enableIntegrationBattleArena;
-        features.addFeature("base", pMin, BoundIdentifierEnum.FLOOR, VersionSetIdentifierEnum.PLUGIN, enabled);
+        features.addFeature("base", enabled);
         supported = isFeatureSupported("base");
 
         // Other features
