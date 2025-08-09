@@ -1,6 +1,7 @@
 package metadev.digital.MetaMobHunting;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.compatibility.TownyCompat;
 import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metabagofgold.PlayerBalance;
 import metadev.digital.metacustomitemslib.Core;
@@ -903,6 +904,30 @@ public class MobHuntingManager implements Listener {
 				}
 			}
 		}*/
+
+        // Towny Compatibility - no reward when player are in a protected town
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Towny.getName()))) {
+            if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)
+                    && !(killed instanceof Player)) {
+                if (plugin.getConfigManager().disableRewardsInHomeTown && TownyCompat.isInHomeTown(player)) {
+                    MessageHelper.debug("KillBlocked: %s is hiding in his home town", player.getName());
+                    plugin.getMessages().learn(player,
+                            plugin.getMessages().getString("mobhunting.learn.towny-no-rewards-in-home-town"));
+                    cancelDrops(event, plugin.getConfigManager().disableNaturallyRewardsInHomeTown,
+                            plugin.getConfigManager().disableNaturallyRewardsInHomeTown);
+                    MessageHelper.debug("======================= kill ended (8a)======================");
+                    return;
+                } else if (plugin.getConfigManager().disableRewardsInAnyTown && TownyCompat.isInAnyTown(player)) {
+                    MessageHelper.debug("KillBlocked: %s is hiding in a town", player.getName());
+                    plugin.getMessages().learn(player,
+                            plugin.getMessages().getString("mobhunting.learn.towny-no-rewards-in-any-town"));
+                    cancelDrops(event, plugin.getConfigManager().disableNaturallyRewardsInHomeTown,
+                            plugin.getConfigManager().disableNaturallyRewardsInHomeTown);
+                    MessageHelper.debug("======================= kill ended (8b)======================");
+                    return;
+                }
+            }
+        }
 
 		// Residence Compatibility - no reward when player are in a protected
 		// residence

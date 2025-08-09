@@ -5,6 +5,7 @@ import java.util.Random;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.Messages.Messages;
+import metadev.digital.MetaMobHunting.compatibility.TownyCompat;
 import metadev.digital.MetaMobHunting.config.Migrator;
 import metadev.digital.MetaMobHunting.config.MigratorException;
 import metadev.digital.MetaMobHunting.update.UpdateManager;
@@ -126,7 +127,6 @@ public class MobHunting extends JavaPlugin {
     // TODO: AUDIT AND FULLY IMPLEMENT BOSSSHOP
     // TODO: AUDIT AND REIMPLEMENT ELITEMOBS
     // TODO: AUDIT TARDISWeepingAngels and add in support for the other mobs https://github.com/eccentricdevotion/TARDIS
-    // TODO: Migrate to https://github.com/TownyAdvanced/Towny
 
 
     @Override
@@ -258,6 +258,8 @@ public class MobHunting extends JavaPlugin {
 
 		mCompatibilityManager.registerPlugin(CMICompat.class, SupportedPluginEntities.CMI);
 		mCompatibilityManager.registerPlugin(ResidenceCompat.class, SupportedPluginEntities.Residence);
+        mCompatibilityManager.registerPlugin(TownyCompat.class, SupportedPluginEntities.Towny);
+
 		// Other plugins
 		mCompatibilityManager.registerPlugin(McMMOCompat.class, SupportedPluginEntities.mcMMO);
 		mCompatibilityManager.registerPlugin(MyPetCompat.class, SupportedPluginEntities.MyPet);
