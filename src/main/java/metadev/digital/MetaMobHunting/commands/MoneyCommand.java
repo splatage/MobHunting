@@ -187,7 +187,7 @@ public class MoneyCommand implements ICommand {
 
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
-				if (BossShopCompat.isSupported()) {
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BossShop.getName()))) {
 					if (player.hasPermission("mobhunting.money.shop") || sender.hasPermission("mobhunting.money.*")) {
 						BossShopCompat.openShop(plugin, player);
 						return true;

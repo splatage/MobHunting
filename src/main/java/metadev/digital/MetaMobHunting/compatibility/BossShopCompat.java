@@ -3,6 +3,12 @@ package metadev.digital.MetaMobHunting.compatibility;
 import java.util.UUID;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.Feature;
+import metadev.digital.metacustomitemslib.compatibility.FeatureList;
+import metadev.digital.metacustomitemslib.compatibility.ICompat;
+import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
+import metadev.digital.metacustomitemslib.compatibility.exceptions.FeatureNotFoundException;
+import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
 import org.black_ixx.bossshop.BossShop;
 import org.black_ixx.bossshop.api.BossShopAPI;
 import org.black_ixx.bossshop.core.BSBuy;
@@ -21,74 +27,186 @@ import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
 import metadev.digital.MetaMobHunting.MobHunting;
 
-public class BossShopCompat {
+public class BossShopCompat implements ICompat, IFeatureHolder {
 
-	private Plugin mPlugin;
-	private static boolean supported = false;
-	private static BossShop bs;
+    // ****** Standard ******
+    private Plugin compatPlugin;
+    private static boolean enabled = false, supported = false, loaded = false;
+    private static String sMin, sMax, pMin, pMax;
+    private static FeatureList features;
 
-	// https://www.spigotmc.org/resources/bossshop-powerful-and-playerfriendly-chest-gui-shop-menu-plugin.222/
+    // ****** Plugin Specific ******
+    private static BossShop bs;
 
-	public BossShopCompat() {
-		if (!isEnabledInConfig()) {
-			MessageHelper.warning("Compatibility with BossShop is disabled in config.yml");
-		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BossShop.getName());
-			bs = (BossShop) mPlugin;
-			MessageHelper.notice("Enabling compatibility with BossShopPro ("
-					+ bs.getDescription().getVersion() + ").");
-			supported = true;
-		}
-	}
+    // https://www.spigotmc.org/resources/bossshop-powerful-and-playerfriendly-chest-gui-shop-menu-plugin.222/
 
-	// **************************************************************************
-	// OTHER
-	// **************************************************************************
+    public BossShopCompat() {
+        compatPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BossShop.getName());
 
-	public BossShop getBossShop() {
-		return bs;
-	}
+        if (compatPlugin != null) {
+            try {
+                start();
+            } catch (SpinupShutdownException e) {
+                Bukkit.getPluginManager().disablePlugin(compatPlugin);
+            }
+        }
+    }
 
-	public static BossShopAPI getAPI() {
-		return bs.getAPI();
-	}
+    // ****** ICompat ******
 
-	public static boolean isSupported() {
-		return supported;
-	}
+    @Override
+    public void start() throws SpinupShutdownException {
+        detectedMessage();
+        registerFeatures();
 
-	public boolean isEnabledInConfig() {
-		return MobHunting.getInstance().getConfigManager().enableIntegrationBossShop;
-	}
+        if (isActive()) {
+            bs = (BossShop) compatPlugin;
+            successfullyLoadedMessage();
+            loaded = true;
+        } else if (enabled && !supported) {
+            Feature base = getFeature("base");
+            if (base != null) unsupportedMessage(base);
+            else
+                pluginError("Plugin is enabled but not supported, and failed to understand the reasoning out of the base " +
+                        "feature. Likely caused by a corrupt / incorrect construction of the base feature.");
+            throw new SpinupShutdownException();
+        }
+    }
 
-	public static void openShop(MobHunting plugin, Player p) {
+    @Override
+    public void shutdown() throws SpinupShutdownException {
+        if (isActive() && loaded) {
+            successfullyShutdownMessage();
+            loaded = false;
+        }
+    }
 
-		MessageHelper.debug("test1");
-		BSShop shop = bs.getAPI().getShop("mobhunting");
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-		MessageHelper.debug("test2");
-		BSBuy buy = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, "item_shop", null, null, 1,
-				"OpenShop.Item_Shop");
+    @Override
+    public boolean isSupported() {
+        return supported;
+    }
 
-		MessageHelper.debug("test3");
-		BSBuy sell = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, 1, 10, "bought bag of gold", 4, null);
+    @Override
+    public boolean isActive() {
+        return enabled && supported;
+    }
 
-		ItemStack is = CoreCustomItems.getCustomTexture(
-				new Reward(Core.getConfigManager().bagOfGoldName.trim(), 10, RewardType.BAGOFGOLD,
-						UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
-				Core.getConfigManager().skullTextureURL);
+    @Override
+    public boolean isLoaded() {
+        return loaded;
+    }
 
-		MessageHelper.debug("test4");
-		getAPI().addItemToShop(is, buy, shop);
+    @Override
+    public Plugin getPluginInstance() {
+        return compatPlugin;
+    }
 
-		MessageHelper.debug("test5");
-		getAPI().addItemToShop(is, sell, shop);
+    @Override
+    public String getPluginName() {
+        return compatPlugin.getName();
+    }
 
-		MessageHelper.debug("test6");
-		getAPI().finishedAddingItemsToShop(shop);
+    @Override
+    public String getPluginVersion() {
+        return compatPlugin.getDescription().getVersion();
+    }
 
-		MessageHelper.debug("test7");
-		getAPI().openShop(p, "mobhunting");
-	}
+    // ****** IFeatureHolder ******
 
+    @Override
+    public void registerFeatures() {
+        features = new FeatureList(getPluginVersion());
+
+        // Base plugin
+        enabled = MobHunting.getInstance().getConfigManager().enableIntegrationBossShop;
+        features.addFeature("base", enabled);
+        supported = isFeatureSupported("base");
+
+        // Other features
+    }
+
+    @Override
+    public boolean isFeatureEnabled(String name) {
+        boolean featureEnabled = false;
+        try {
+            featureEnabled = features.isFeatureEnabled(name);
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return enable flag of the feature " + name + " in the " + compatPlugin.getName() + " compat class.");
+        }
+
+        return featureEnabled;
+    }
+
+    @Override
+    public boolean isFeatureSupported(String name) {
+        boolean featureSupported = false;
+        try {
+            featureSupported = features.isFeatureSupported(name);
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return supported flag of the feature " + name + " in the " + compatPlugin.getName() + " compat class.");
+        }
+
+        return featureSupported;
+    }
+
+    @Override
+    public boolean isFeatureActive(String name) {
+        boolean featureActive = false;
+        try {
+            featureActive = features.isFeatureActive(name);
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return active flag of the feature " + name + " in the " + compatPlugin.getName() + " compat class.");
+        }
+
+        return featureActive;
+    }
+
+    @Override
+    public Feature getFeature(String name) {
+        Feature feature;
+        try {
+            feature = features.getFeature(name);
+            return feature;
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return the feature " + name + " in the " + compatPlugin.getName() + " compat class.");
+        }
+        return null;
+    }
+
+    // ****** Plugin Specific ******
+    public BossShop getBossShop() {
+        return bs;
+    }
+
+    public static BossShopAPI getAPI() {
+        return bs.getAPI();
+    }
+
+    public static void openShop(MobHunting plugin, Player p) {
+
+        BSShop shop = bs.getAPI().getShop("mobhunting");
+
+        BSBuy buy = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, "item_shop", null, null, 1,
+                "OpenShop.Item_Shop");
+
+        BSBuy sell = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, 1, 10, "bought bag of gold", 4, null);
+
+        ItemStack is = CoreCustomItems.getCustomTexture(
+                new Reward(Core.getConfigManager().bagOfGoldName.trim(), 10, RewardType.BAGOFGOLD,
+                        UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
+                Core.getConfigManager().skullTextureURL);
+
+        getAPI().addItemToShop(is, buy, shop);
+
+        getAPI().addItemToShop(is, sell, shop);
+
+        getAPI().finishedAddingItemsToShop(shop);
+
+        getAPI().openShop(p, "mobhunting");
+    }
 }

@@ -110,7 +110,19 @@ public class MobHunting extends JavaPlugin {
 	private boolean mInitialized = false;
 	public boolean disabling = false;
 
-	@Override
+    // TODO: FINISH REMOVING DEPRECATED SERVER VERSION CALLS
+
+    // PROJECT HEALTH REMAINING OBJECTIVES
+    // TODO: REWORK MOB ENTITY IF STATEMENT TREE HANDLING
+    // TODO: ADD TRANSLATIONS FOR NEW COMPAT FEATURE CONSOLE MESSAGES & CONFIG MIGRATION PROCESS
+    // TODO: AUDIT CONFIG AND APPLY A NEW VERSION
+    // TODO: ADD UNIT TESTS VIA MOCKBUKKIT
+
+    // PLUGIN COMPATIBILITIES
+    // TODO: AUDIT AND FULLY IMPLEMENT BOSSSHOP
+
+
+    @Override
 	public void onLoad() {
 		// Verify user is not running old Rocologo version and Meta version
 		if (Bukkit.getPluginManager().getPlugin("MobHunting") != null) {
