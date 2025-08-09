@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -42,14 +43,13 @@ public class EliteMobsCompat implements Listener {
 
 	public EliteMobsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with EliteMobs is disabled in config.yml");
+			MessageHelper.warning("Compatibility with EliteMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with EliteMobs ("
+				MessageHelper.notice("Enabling Compatibility with EliteMobs ("
 						+ getEliteMobs().getDescription().getVersion() + ")");
 
 				supported = true;
@@ -58,7 +58,7 @@ public class EliteMobsCompat implements Listener {
 				saveEliteMobsData();
 
 			} else {
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Your current version of EliteMobs ("
+				MessageHelper.warning("Your current version of EliteMobs ("
 						+ mPlugin.getDescription().getVersion()
 						+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
@@ -152,7 +152,7 @@ public class EliteMobsCompat implements Listener {
 				mMobRewardData.put(key, mob);
 				MobHunting.getInstance().getStoreManager().insertEliteMobs(key);
 			}
-			MobHunting.getInstance().getMessages().debug("Loaded %s EliteMobs", mMobRewardData.size());
+			MessageHelper.debug("Loaded %s EliteMobs", mMobRewardData.size());
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InvalidConfigurationException e) {
@@ -193,7 +193,7 @@ public class EliteMobsCompat implements Listener {
 				}
 
 				if (n != 0) {
-					MobHunting.getInstance().getMessages().debug("Saving Mobhunting extra EliteMobs data.");
+					MessageHelper.debug("Saving Mobhunting extra EliteMobs data.");
 					config.save(file);
 				}
 			}
@@ -207,11 +207,11 @@ public class EliteMobsCompat implements Listener {
 			if (mMobRewardData.containsKey(key)) {
 				ConfigurationSection section = config.createSection(key);
 				mMobRewardData.get(key).save(section);
-				MobHunting.getInstance().getMessages().debug("Saving extra EliteMobs data for mob=%s (%s)", key,
+				MessageHelper.debug("Saving extra EliteMobs data for mob=%s (%s)", key,
 						mMobRewardData.get(key).getMobName());
 				config.save(file);
 			} else {
-				MobHunting.getInstance().getMessages().debug("ERROR! EliteMobs ID (%s) is not found in mMobRewardData",
+				MessageHelper.debug("ERROR! EliteMobs ID (%s) is not found in mMobRewardData",
 						key);
 			}
 		} catch (IOException e) {
@@ -233,7 +233,7 @@ public class EliteMobsCompat implements Listener {
 			Mobs monster = getEliteMobsType(entity);
 
 			if (mMobRewardData != null && !mMobRewardData.containsKey(monster.name())) {
-				MobHunting.getInstance().getMessages().debug("New EliteMob found=%s", monster.name());
+				MessageHelper.debug("New EliteMob found=%s", monster.name());
 				mMobRewardData.put(monster.name(),
 						new ExtendedMobRewardData(MobPlugin.EliteMobs, monster.name(), monster.getName(), true, "40:60",
 								1, "You killed an EliteMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));

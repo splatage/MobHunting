@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.CitizensPlugin;
 import net.citizensnpcs.api.event.CitizensEnableEvent;
@@ -44,8 +45,7 @@ public class CitizensCompat implements Listener {
 
 	public CitizensCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Citizens2 is disabled in config.yml");
+			MessageHelper.warning("Compatibility with Citizens2 is disabled in config.yml");
 		} else {
 			citizensAPI = (CitizensPlugin) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName());
 			if (citizensAPI == null)
@@ -53,7 +53,7 @@ public class CitizensCompat implements Listener {
 
 			TraitInfo trait = TraitInfo.create(MasterMobHunterTrait.class).withName("MasterMobHunter");
 			citizensAPI.getTraitFactory().registerTrait(trait);
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with Citizens2 ("
+			MessageHelper.notice("Enabling compatibility with Citizens2 ("
 					+ getCitizensPlugin().getDescription().getVersion() + ")");
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
@@ -82,12 +82,12 @@ public class CitizensCompat implements Listener {
 					MobHunting.getInstance().getStoreManager().insertCitizensMobs(key);
 					n++;
 				} else {
-					MobHunting.getInstance().getMessages().debug("The mob=%s can't be found in Citizens saves.yml file",
+					MessageHelper.debug("The mob=%s can't be found in Citizens saves.yml file",
 							key);
 				}
 			}
 			if (n > 0)
-				MobHunting.getInstance().getMessages().debug("Loaded %s MobRewards Citizens2.", n);
+				MessageHelper.debug("Loaded %s MobRewards Citizens2.", n);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InvalidConfigurationException e) {
@@ -110,7 +110,7 @@ public class CitizensCompat implements Listener {
 				}
 
 				if (n > 0) {
-					MobHunting.getInstance().getMessages().debug("Saving %s MobRewards for Citizens2 to file.",
+					MessageHelper.debug("Saving %s MobRewards for Citizens2 to file.",
 							mMobRewardData.size());
 					config.save(fileMobRewardData);
 				}
@@ -125,11 +125,10 @@ public class CitizensCompat implements Listener {
 			if (mMobRewardData.containsKey(key)) {
 				ConfigurationSection section = config.createSection(key);
 				mMobRewardData.get(key).save(section);
-				MobHunting.getInstance().getMessages().debug("Saving MobRewardData for Citizens2: ID=%s.", key);
+				MessageHelper.debug("Saving MobRewardData for Citizens2: ID=%s.", key);
 				config.save(fileMobRewardData);
 			} else {
-				MobHunting.getInstance().getMessages()
-						.debug("ERROR! Sentry/Sentinel ID (%s) is not found in mMobRewardData", key);
+				MessageHelper.debug("ERROR! Sentry/Sentinel ID (%s) is not found in mMobRewardData", key);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -238,7 +237,7 @@ public class CitizensCompat implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onCitizensEnableEvent(CitizensEnableEvent event) {
-		MobHunting.getInstance().getMessages().debug("Citizens2 was enabled");
+		MessageHelper.debug("Citizens2 was enabled");
 
 		supported = true;
 
@@ -252,7 +251,7 @@ public class CitizensCompat implements Listener {
 			NPC npc = npcList.next();
 			if (isSentryOrSentinelOrSentries(npc.getEntity())) {
 				if (mMobRewardData != null && !mMobRewardData.containsKey(String.valueOf(npc.getId()))) {
-					MobHunting.getInstance().getMessages().debug("A new Sentinel or Sentry NPC was found. ID=%s,%s",
+					MessageHelper.debug("A new Sentinel or Sentry NPC was found. ID=%s,%s",
 							npc.getId(), npc.getName());
 					mMobRewardData.put(String.valueOf(npc.getId()),
 							new ExtendedMobRewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true, "10", 1,

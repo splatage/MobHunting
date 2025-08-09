@@ -2,6 +2,7 @@ package metadev.digital.MetaMobHunting.compatibility;
 
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.black_ixx.bossshop.BossShop;
 import org.black_ixx.bossshop.api.BossShopAPI;
 import org.black_ixx.bossshop.core.BSBuy;
@@ -30,12 +31,11 @@ public class BossShopCompat {
 
 	public BossShopCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with BossShop is disabled in config.yml");
+			MessageHelper.warning("Compatibility with BossShop is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BossShop.getName());
 			bs = (BossShop) mPlugin;
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with BossShopPro ("
+			MessageHelper.notice("Enabling compatibility with BossShopPro ("
 					+ bs.getDescription().getVersion() + ").");
 			supported = true;
 		}
@@ -63,14 +63,14 @@ public class BossShopCompat {
 
 	public static void openShop(MobHunting plugin, Player p) {
 
-		plugin.getMessages().debug("test1");
+		MessageHelper.debug("test1");
 		BSShop shop = bs.getAPI().getShop("mobhunting");
 
-		plugin.getMessages().debug("test2");
+		MessageHelper.debug("test2");
 		BSBuy buy = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, "item_shop", null, null, 1,
 				"OpenShop.Item_Shop");
 
-		plugin.getMessages().debug("test3");
+		MessageHelper.debug("test3");
 		BSBuy sell = getAPI().createBSBuy(BSRewardType.Shop, BSPriceType.Nothing, 1, 10, "bought bag of gold", 4, null);
 
 		ItemStack is = CoreCustomItems.getCustomTexture(
@@ -78,16 +78,16 @@ public class BossShopCompat {
 						UUID.fromString(RewardType.BAGOFGOLD.getUUID())),
 				Core.getConfigManager().skullTextureURL);
 
-		plugin.getMessages().debug("test4");
+		MessageHelper.debug("test4");
 		getAPI().addItemToShop(is, buy, shop);
 
-		plugin.getMessages().debug("test5");
+		MessageHelper.debug("test5");
 		getAPI().addItemToShop(is, sell, shop);
 
-		plugin.getMessages().debug("test6");
+		MessageHelper.debug("test6");
 		getAPI().finishedAddingItemsToShop(shop);
 
-		plugin.getMessages().debug("test7");
+		MessageHelper.debug("test7");
 		getAPI().openShop(p, "mobhunting");
 	}
 

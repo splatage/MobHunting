@@ -3,6 +3,7 @@ package metadev.digital.MetaMobHunting.compatibility;
 import java.util.HashMap;
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -26,19 +27,17 @@ public class PlaceholderAPICompat {
 
 	public PlaceholderAPICompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(
-					MobHunting.PREFIX_WARNING + "Compatibility with PlaceholderAPI is disabled in config.yml");
+			MessageHelper.warning("Compatibility with PlaceholderAPI is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.PlaceholderAPI.getName());
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with PlaceholderAPI ("
+				MessageHelper.notice("Enabling compatibility with PlaceholderAPI ("
 						+ mPlugin.getDescription().getVersion() + ").");
 				new MobHuntingPlaceholderExpansion().register();
 				mPlaceHolderManager = new PlaceHolderManager(MobHunting.getInstance());
 				supported = true;
 			} else {
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of PlaceholderAPI ("
+				MessageHelper.warning("Your current version of PlaceholderAPI ("
 								+ mPlugin.getDescription().getVersion()
 								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}

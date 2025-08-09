@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.rewards;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.materials.Materials;
@@ -90,7 +91,7 @@ public class BagOfGoldSign implements Listener {
 								moneyOnSign = Double.valueOf(sign.getLine(2));
 								money = moneyInHand <= moneyOnSign ? moneyInHand : moneyOnSign;
 							} catch (NumberFormatException e) {
-								plugin.getMessages().debug("Line no. 3 is not a number");
+								MessageHelper.debug("Line no. 3 is not a number");
 								plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
 										"mobhunting.bagofgoldsign.line3.not_a_number", "number", sign.getLine(2),
 										"everything",
@@ -112,7 +113,7 @@ public class BagOfGoldSign implements Listener {
 							ItemStack is = Reward.setDisplayNameAndHiddenLores(event.getItem().clone(), reward);
 							event.getItem().setItemMeta(is.getItemMeta());
 						}
-						plugin.getMessages().debug("%s sold his %s for %s", player.getName(), reward.getDisplayName(),
+						MessageHelper.debug("%s sold his %s for %s", player.getName(), reward.getDisplayName(),
 								plugin.getEconomyManager().format(money));
 						plugin.getMessages().playerSendMessage(player,
 								plugin.getMessages().getString("mobhunting.bagofgoldsign.sold", "money",
@@ -122,7 +123,7 @@ public class BagOfGoldSign implements Listener {
 														? Core.getConfigManager().bagOfGoldName.trim()
 														: reward.getDisplayName())));
 					} else {
-						plugin.getMessages().debug("Player does not hold a bag of gold in his hand");
+						MessageHelper.debug("Player does not hold a bag of gold in his hand");
 						plugin.getMessages().playerSendMessage(player,
 								plugin.getMessages().getString("mobhunting.bagofgoldsign.hold_reward_in_hand",
 										"rewardname", ChatColor.valueOf(Core.getConfigManager().rewardTextColor)
@@ -142,7 +143,7 @@ public class BagOfGoldSign implements Listener {
 					try {
 						moneyOnSign = Double.valueOf(sign.getLine(2));
 					} catch (NumberFormatException e) {
-						plugin.getMessages().debug("Line no. 3 is not a number");
+						MessageHelper.debug("Line no. 3 is not a number");
 						plugin.getMessages().playerSendMessage(player,
 								plugin.getMessages().getString("mobhunting.bagofgoldsign.line3.not_a_number", "number",
 										sign.getLine(2), "everything",
@@ -161,7 +162,7 @@ public class BagOfGoldSign implements Listener {
 									reward.setMoney(reward.getMoney() + moneyOnSign);
 									is = Reward.setDisplayNameAndHiddenLores(is, reward);
 									event.setCancelled(true);
-									plugin.getMessages().debug("Added %s to item in slot %s, new value is %s",
+									MessageHelper.debug("Added %s to item in slot %s, new value is %s",
 											moneyOnSign, slot, plugin.getRewardManager().format(reward.getMoney()));
 									found = true;
 									break;
@@ -286,10 +287,10 @@ public class BagOfGoldSign implements Listener {
 
 						try {
 							if (Double.valueOf(event.getLine(2)) > 0) {
-								plugin.getMessages().debug("%s created a BagOfGold Sign", event.getPlayer().getName());
+								MessageHelper.debug("%s created a BagOfGold Sign", event.getPlayer().getName());
 							}
 						} catch (NumberFormatException e) {
-							plugin.getMessages().debug("Line no. 3 is not positive a number");
+							MessageHelper.debug("Line no. 3 is not positive a number");
 							plugin.getMessages().playerSendMessage(player, plugin.getMessages().getString(
 									"mobhunting.bagofgoldsign.line3.not_a_number", "number", event.getLine(2),
 									"everything",
@@ -322,9 +323,9 @@ public class BagOfGoldSign implements Listener {
 		Block b = event.getBlock();
 		if (isBagOfGoldSign(b)) {
 			if (event.getPlayer().hasPermission("mobhunting.bagofgoldsign.destroy")) {
-				plugin.getMessages().debug("%s destroyed a BagOfGold sign", event.getPlayer().getName());
+				MessageHelper.debug("%s destroyed a BagOfGold sign", event.getPlayer().getName());
 			} else {
-				plugin.getMessages().debug("%s tried to destroy a BagOfGold sign without permission",
+				MessageHelper.debug("%s tried to destroy a BagOfGold sign without permission",
 						event.getPlayer().getName());
 				event.getPlayer().sendMessage(plugin.getMessages().getString("mobhunting.bagofgoldsign.no_permission",
 						Core.PH_PERMISSION, "mobhunting.bagofgoldsign.destroy"));

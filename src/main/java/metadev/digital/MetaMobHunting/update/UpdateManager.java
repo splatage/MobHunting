@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.update;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.MobHunting;
 import java.util.concurrent.ExecutionException;
 
@@ -18,16 +19,16 @@ public class UpdateManager {
 
     public void isInitialized() {
         if(UpdateChecker.isInitialized()){
-            plugin.getMessages().debug("Update checker has been properly initialized");
+            MessageHelper.debug("Update checker has been properly initialized");
         }
         else{
-            plugin.getMessages().error(plugin.getMessages().getString("mobhunting.commands.update.fail"));
+            MessageHelper.error(plugin.getMessages().getString("mobhunting.commands.update.fail"));
         }
     }
 
     private UpdateChecker.UpdateResult handleUpdateCheck() {
         if (UpdateChecker.isInitialized()){
-            plugin.getMessages().notice("Checking SpigotMc.org for available updates...");
+            MessageHelper.notice("Checking SpigotMc.org for available updates...");
             UpdateChecker.UpdateResult lastRanResult = pluginUpdateChecker.getLastResult();
 
             // If it hasn't been run, or it gave an unsatisfactory answer last time it was called, ping the API again
@@ -43,7 +44,7 @@ public class UpdateManager {
                     return pluginUpdateChecker.requestUpdateCheck().get();
                 }
                 catch (ExecutionException | InterruptedException e) {
-                    plugin.getMessages().debug("UpdateManager threw Exception or was Interrupted when pinging Spigot API");
+                    MessageHelper.debug("UpdateManager threw Exception or was Interrupted when pinging Spigot API");
                 }
             }
         }
@@ -56,41 +57,41 @@ public class UpdateManager {
         if(lastResult != null){
             switch (lastResult.getReason()){
                 case NEW_UPDATE:
-                    plugin.getMessages().warning("===============================================");
-                    plugin.getMessages().warning("====      " + plugin.getMessages().getString("mobhunting.commands.update.header_update_available") + "    ====");
-                    plugin.getMessages().warning("===============================================");
-                    plugin.getMessages().warning(plugin.getMessages().getString("mobhunting.commands.update.new_update", "newversion", lastResult.getNewestVersion()));
+                    MessageHelper.warning("===============================================");
+                    MessageHelper.warning("====      " + plugin.getMessages().getString("mobhunting.commands.update.header_update_available") + "    ====");
+                    MessageHelper.warning("===============================================");
+                    MessageHelper.warning(plugin.getMessages().getString("mobhunting.commands.update.new_update", "newversion", lastResult.getNewestVersion()));
                     break;
                 case COULD_NOT_CONNECT:
-                    plugin.getMessages().warning("===============================================");
-                    plugin.getMessages().warning("====      " + plugin.getMessages().getString("mobhunting.commands.update.header") + "    ====");
-                    plugin.getMessages().warning("===============================================");
-                    plugin.getMessages().warning(plugin.getMessages().getString("mobhunting.commands.update.could-not-connect"));
+                    MessageHelper.warning("===============================================");
+                    MessageHelper.warning("====      " + plugin.getMessages().getString("mobhunting.commands.update.header") + "    ====");
+                    MessageHelper.warning("===============================================");
+                    MessageHelper.warning(plugin.getMessages().getString("mobhunting.commands.update.could-not-connect"));
                 case INVALID_JSON:
-                    plugin.getMessages().error("===============================================");
-                    plugin.getMessages().error("====      " + plugin.getMessages().getString("mobhunting.commands.update.header") + "    ====");
-                    plugin.getMessages().error("===============================================");
-                    plugin.getMessages().error(plugin.getMessages().getString("mobhunting.commands.update.invalid"));
+                    MessageHelper.error("===============================================");
+                    MessageHelper.error("====      " + plugin.getMessages().getString("mobhunting.commands.update.header") + "    ====");
+                    MessageHelper.error("===============================================");
+                    MessageHelper.error(plugin.getMessages().getString("mobhunting.commands.update.invalid"));
                 case UNAUTHORIZED_QUERY:
-                    plugin.getMessages().error("===============================================");
-                    plugin.getMessages().error("====      " + plugin.getMessages().getString("mobhunting.commands.update.header") + "    ====");
-                    plugin.getMessages().error("===============================================");
-                    plugin.getMessages().error(plugin.getMessages().getString("mobhunting.commands.update.unauthorized"));
+                    MessageHelper.error("===============================================");
+                    MessageHelper.error("====      " + plugin.getMessages().getString("mobhunting.commands.update.header") + "    ====");
+                    MessageHelper.error("===============================================");
+                    MessageHelper.error(plugin.getMessages().getString("mobhunting.commands.update.unauthorized"));
                     break;
                 case UNRELEASED_VERSION:
-                    plugin.getMessages().notice("===============================================");
-                    plugin.getMessages().notice("====      " + plugin.getMessages().getString("mobhunting.commands.update.header_development") + "    ====");
-                    plugin.getMessages().notice("===============================================");
-                    plugin.getMessages().notice(plugin.getMessages().getString("mobhunting.commands.update.development", "currentversion", lastResult.getNewestVersion()));
+                    MessageHelper.notice("===============================================");
+                    MessageHelper.notice("====      " + plugin.getMessages().getString("mobhunting.commands.update.header_development") + "    ====");
+                    MessageHelper.notice("===============================================");
+                    MessageHelper.notice(plugin.getMessages().getString("mobhunting.commands.update.development", "currentversion", lastResult.getNewestVersion()));
                     break;
                 case UNKNOWN_ERROR, UNSUPPORTED_VERSION_SCHEME:
-                    plugin.getMessages().error("===============================================");
-                    plugin.getMessages().error("====      " + plugin.getMessages().getString("mobhunting.commands.update.header") + "    ====");
-                    plugin.getMessages().error("===============================================");
-                    plugin.getMessages().error(plugin.getMessages().getString("mobhunting.commands.update.unknown"));
+                    MessageHelper.error("===============================================");
+                    MessageHelper.error("====      " + plugin.getMessages().getString("mobhunting.commands.update.header") + "    ====");
+                    MessageHelper.error("===============================================");
+                    MessageHelper.error(plugin.getMessages().getString("mobhunting.commands.update.unknown"));
                     break;
                 case UP_TO_DATE:
-                    plugin.getMessages().notice(plugin.getMessages().getString("mobhunting.commands.update.no_update"));
+                    MessageHelper.notice(plugin.getMessages().getString("mobhunting.commands.update.no_update"));
                     break;
             }
         }

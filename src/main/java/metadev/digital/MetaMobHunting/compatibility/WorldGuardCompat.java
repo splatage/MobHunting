@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 
@@ -20,33 +21,29 @@ public class WorldGuardCompat {
 
 	public WorldGuardCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with WorldGuard is disabled in config.yml");
+			MessageHelper.warning("Compatibility with WorldGuard is disabled in config.yml");
 		} else {
 			mPlugin = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName());
 			if (Server.isMC113OrNewer()) {
 				if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
-					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldGuard ("
+					MessageHelper.notice("Enabling compatibility with WorldGuard ("
 							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else if (mPlugin.getDescription().getVersion().compareTo("1.16") >= 0) {
-					Bukkit.getConsoleSender()
-							.sendMessage(MobHunting.PREFIX + "Enabling compatibility with FastAsyncWorldGuard ("
+					MessageHelper.notice("Enabling compatibility with FastAsyncWorldGuard ("
 									+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else {
-					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
-							+ "Your current version of WorldGuard (" + mPlugin.getDescription().getVersion()
+					MessageHelper.warning("Your current version of WorldGuard (" + mPlugin.getDescription().getVersion()
 							+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 				}
 			} else {
 				if (mPlugin.getDescription().getVersion().compareTo(earliestSupported) >= 0) {
-					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldGuard ("
+					MessageHelper.notice("Enabling compatibility with WorldGuard ("
 							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else {
-					Bukkit.getConsoleSender()
-							.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of WorldGuard ("
+					MessageHelper.warning("Your current version of WorldGuard ("
 									+ mPlugin.getDescription().getVersion()
 									+ ") is not supported by MobHunting. Please upgrade to " + earliestSupported + " or newer.");
 				}

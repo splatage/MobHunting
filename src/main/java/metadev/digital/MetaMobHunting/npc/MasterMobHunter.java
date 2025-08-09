@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import metadev.digital.metacustomitemslib.Tools;
@@ -12,7 +13,6 @@ import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-//import metadev.digital.MetaMobHunting.storage.IDataCallback;
 import metadev.digital.MetaMobHunting.storage.StatStore;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
 
@@ -50,12 +50,12 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 		this.plugin = plugin;
 		this.npc = npc;
 		if (StatType.fromColumnName(npc.getTrait(MasterMobHunterTrait.class).stattype) == null) {
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "NPC ID=" + npc.getId()
+			MessageHelper.warning("NPC ID=" + npc.getId()
 					+ " has an invalid StatType. Resetting to " + StatType.KillsTotal.getDBColumn());
 			setStatType(StatType.KillsTotal);
 		}
 		if (TimePeriod.fromColumnName(npc.getTrait(MasterMobHunterTrait.class).period) == null) {
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "NPC ID=" + npc.getId()
+			MessageHelper.warning("NPC ID=" + npc.getId()
 					+ " has an invalid TimePeriod. Resetting to " + TimePeriod.AllTime.getDBColumn());
 			setPeriod(TimePeriod.AllTime);
 		}
@@ -109,7 +109,7 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 
 	public void putSignLocation(Location location) {
 		if (!npc.getTrait(MasterMobHunterTrait.class).signLocations.contains(location)) {
-			MobHunting.getInstance().getMessages().debug("put signLocation into npc=%s", npc.getId());
+			MessageHelper.debug("put signLocation into npc=%s", npc.getId());
 			npc.getTrait(MasterMobHunterTrait.class).signLocations.add(location);
 		}
 	}
@@ -126,7 +126,7 @@ public class MasterMobHunter implements IDataCallback<List<StatStore>> {
 	}
 
 	public void setHome(Location location) {
-		MobHunting.getInstance().getMessages().debug("Set NPC ID=%s home = %s", npc.getId(), location);
+		MessageHelper.debug("Set NPC ID=%s home = %s", npc.getId(), location);
 		npc.getTrait(MasterMobHunterTrait.class).home = location;
 	}
 

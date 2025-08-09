@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.commands;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
@@ -230,7 +231,7 @@ public class MoneyCommand implements ICommand {
 											+ plugin.getMessages().getString("mobhunting.commands.money.to_big_number",
 													"number", args[1], "maximum", money));
 						}
-						plugin.getMessages().debug("The BagOfGold was dropped at %s", location);
+						MessageHelper.debug("The BagOfGold was dropped at %s", location);
 						plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null, location, money);
 						plugin.getMessages().playerActionBarMessageQueue(player,
 								plugin.getMessages().getString("mobhunting.moneydrop", "rewardname",
@@ -249,7 +250,7 @@ public class MoneyCommand implements ICommand {
 												"mobhunting.commands.money.to_big_number", "number", args[2], "maximum",
 												money));
 							}
-							plugin.getMessages().debug("The BagOfGold was dropped at %s", location);
+							MessageHelper.debug("The BagOfGold was dropped at %s", location);
 							plugin.getRewardManager().dropMoneyOnGround_RewardManager(player, null, location, money);
 							plugin.getMessages().playerActionBarMessageQueue(player,
 									plugin.getMessages().getString("mobhunting.moneydrop", "rewardname",
@@ -312,7 +313,7 @@ public class MoneyCommand implements ICommand {
 							BagOfGold.getAPI().depositPlayer(player2, amount);
 					else
 						BagOfGold.getAPI().depositPlayer(offlinePlayer, amount);
-					plugin.getMessages().debug("BagOfGold supported, using depositPlayer");
+					MessageHelper.debug("BagOfGold supported, using depositPlayer");
 					return true;
 				}
 
@@ -401,7 +402,7 @@ public class MoneyCommand implements ICommand {
 							BagOfGold.getAPI().withdrawPlayer(player, rest);
 					else
 						BagOfGold.getAPI().withdrawPlayer(offlinePlayer, rest);
-					plugin.getMessages().debug("BagOfGold supported, using withdrawPlayer");
+					MessageHelper.debug("BagOfGold supported, using withdrawPlayer");
 					return true;
 				}
 

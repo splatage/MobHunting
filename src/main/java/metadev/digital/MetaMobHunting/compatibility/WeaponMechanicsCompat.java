@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -27,15 +28,13 @@ public class WeaponMechanicsCompat implements Listener {
 
 	public WeaponMechanicsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(
-					MobHunting.PREFIX_WARNING + "Compatibility with WeaponMechanics is disabled in config.yml");
+			MessageHelper.warning("Compatibility with WeaponMechanics is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WeaponMechanics.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX + "Enabling compatibility with WeaponMechanics ("
+				MessageHelper.notice("Enabling compatibility with WeaponMechanics ("
 								+ mPlugin.getDescription().getVersion() + ")");
 
 				supported = true;
@@ -43,8 +42,7 @@ public class WeaponMechanicsCompat implements Listener {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
 			} else {
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of WeaponMechanics ("
+				MessageHelper.warning("Your current version of WeaponMechanics ("
 								+ mPlugin.getDescription().getVersion()
 								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}

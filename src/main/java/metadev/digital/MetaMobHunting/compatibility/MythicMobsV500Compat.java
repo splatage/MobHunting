@@ -3,6 +3,7 @@ package metadev.digital.MetaMobHunting.compatibility;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -58,7 +59,7 @@ public class MythicMobsV500Compat implements Listener {
 		String mobtype = event.getMobType().getInternalName();
 
 		if (!MythicMobsCompat.getMobRewardData().containsKey(mobtype)) {
-			MobHunting.getInstance().getMessages().debug("New MythicMobType found=%s", mobtype);
+			MessageHelper.debug("New MythicMobType found=%s", mobtype);
 			MythicMobsCompat.getMobRewardData().put(mobtype,
 					new ExtendedMobRewardData(MobPlugin.MythicMobs, mobtype, mobtype, true, "10", 1,
 							"You killed a MythicMob", new ArrayList<HashMap<String, String>>(), 1, 0.02));

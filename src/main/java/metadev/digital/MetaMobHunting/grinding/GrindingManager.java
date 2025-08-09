@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.Map.Entry;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -54,11 +55,11 @@ public class GrindingManager implements Listener {
 
 	public void saveData() {
 		if (saveWhitelist) {
-			plugin.getMessages().debug("Saving whitelisted areas to disk.");
+			MessageHelper.debug("Saving whitelisted areas to disk.");
 			saveWhitelist();
 		}
 		if (saveBlacklist) {
-			plugin.getMessages().debug("Saving blacklisted areas to disk.");
+			MessageHelper.debug("Saving blacklisted areas to disk.");
 			saveBlacklist();
 		}
 	}
@@ -119,7 +120,7 @@ public class GrindingManager implements Listener {
 		for (int i : to_be_deleted) {
 			killed_mobs.remove(i);
 		}
-		plugin.getMessages().debug(
+		MessageHelper.debug(
 				"%s has killed %s %s in %s seconds. Avg.kill time %s must greater than %s when %s mobs is killed.",
 				killer.getName(), n, mob.getMobName(), timeframe, avg_time,
 				plugin.getConfigManager().speedGrindingTimeFrame / plugin.getConfigManager().speedGrindingNoOfMobs,
@@ -166,14 +167,14 @@ public class GrindingManager implements Listener {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
 									if (killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
 										n++;
-										// plugin.getMessages().debug("This was
+										// MessageHelper.debug("This was
 										// not a Nether
 										// Gold XP Farm (%s sec.)",
 										// new Date(now -
 										// gi.getTimeOfDeath()).getSeconds());
 									}
 								} else {
-									// plugin.getMessages().debug("Removing old
+									// MessageHelper.debug("Removing old
 									// kill.
 									// (Killed %s seconds ago).",
 									// Math.round((now - gi.getTimeOfDeath()) /
@@ -182,7 +183,7 @@ public class GrindingManager implements Listener {
 								}
 							} else {
 								Area area = new Area(killed.getLocation(), killRadius, numberOfDeaths);
-								plugin.getMessages().debug("New Nether Gold XP Farm detected at (%s,%s,%s,%s)",
+								MessageHelper.debug("New Nether Gold XP Farm detected at (%s,%s,%s,%s)",
 										area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
 										area.getCenter().getBlockY(), area.getCenter().getBlockZ());
 								registerKnownGrindingSpot(area);
@@ -192,7 +193,7 @@ public class GrindingManager implements Listener {
 					}
 				} else {
 					if (!silent)
-						plugin.getMessages().debug("This is a known grinding area: (%s,%s,%s,%s)",
+						MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
 								detectedGrindingArea.getCenter().getWorld().getName(),
 								detectedGrindingArea.getCenter().getBlockX(),
 								detectedGrindingArea.getCenter().getBlockY(),
@@ -202,7 +203,7 @@ public class GrindingManager implements Listener {
 			}
 		}
 		if (!silent)
-			plugin.getMessages().debug(
+			MessageHelper.debug(
 					"Farm detection: This was not a Nether Gold XP Farm (%s of %s mobs with last %s sec.)", n,
 					numberOfDeaths, seconds);
 		return false;
@@ -252,7 +253,7 @@ public class GrindingManager implements Listener {
 								}
 							} else {
 								Area area = new Area(killed.getLocation(), killRadius, numberOfDeaths);
-								plugin.getMessages().debug("New Enderman Farm detected at (%s,%s,%s,%s)",
+								MessageHelper.debug("New Enderman Farm detected at (%s,%s,%s,%s)",
 										area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
 										area.getCenter().getBlockY(), area.getCenter().getBlockZ());
 								registerKnownGrindingSpot(area);
@@ -262,7 +263,7 @@ public class GrindingManager implements Listener {
 					}
 				} else {
 					if (!silent)
-						plugin.getMessages().debug("This is a known Enderman Farm area: (%s,%s,%s,%s)",
+						MessageHelper.debug("This is a known Enderman Farm area: (%s,%s,%s,%s)",
 								detectedGrindingArea.getCenter().getWorld().getName(),
 								detectedGrindingArea.getCenter().getBlockX(),
 								detectedGrindingArea.getCenter().getBlockY(),
@@ -272,7 +273,7 @@ public class GrindingManager implements Listener {
 			}
 		}
 		if (!silent)
-			plugin.getMessages().debug(
+			MessageHelper.debug(
 					"Farm detection: This was not an Enderman Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
 					n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
 					killed.getLocation().getY(), killed.getLocation().getZ());
@@ -309,7 +310,7 @@ public class GrindingManager implements Listener {
 							} else {
 								Area area = new Area(killed.getLocation(), killRadius, numberOfDeaths);
 								if (!silent)
-									plugin.getMessages().debug("New Generic / Other Farm detected at (%s,%s,%s,%s)",
+									MessageHelper.debug("New Generic / Other Farm detected at (%s,%s,%s,%s)",
 											area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
 											area.getCenter().getBlockY(), area.getCenter().getBlockZ());
 								registerKnownGrindingSpot(area);
@@ -319,7 +320,7 @@ public class GrindingManager implements Listener {
 					}
 				} else {
 					if (!silent)
-						plugin.getMessages().debug("This is a known grinding area: (%s,%s,%s,%s)",
+						MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
 								detectedGrindingArea.getCenter().getWorld().getName(),
 								detectedGrindingArea.getCenter().getBlockX(),
 								detectedGrindingArea.getCenter().getBlockY(),
@@ -329,7 +330,7 @@ public class GrindingManager implements Listener {
 			}
 		}
 		if (!silent)
-			plugin.getMessages().debug(
+			MessageHelper.debug(
 					"Farm detection: This was not an genric / other Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
 					n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
 					killed.getLocation().getY(), killed.getLocation().getZ());

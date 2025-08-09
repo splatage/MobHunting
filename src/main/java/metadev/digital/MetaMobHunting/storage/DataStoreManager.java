@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
@@ -52,7 +53,7 @@ public class DataStoreManager {
 		int savePeriod = Core.getConfigManager().savePeriod;
 		if (savePeriod < 1200) {
 			savePeriod = 1200;
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING	+ "save-period in your config.yml is too low. Please raise it to 1200 or higher");
+			MessageHelper.error("save-period in your config.yml is too low. Please raise it to 1200 or higher");
 		}
 		mStoreThread = new StoreThread(savePeriod);
 	}
@@ -156,7 +157,7 @@ public class DataStoreManager {
 	 */
 	public void flush() {
 		if (mWaiting.size() != 0) {
-			plugin.getMessages().debug("Force saving waiting %s data to database...", mWaiting.size());
+			MessageHelper.debug("Force saving waiting %s data to database...", mWaiting.size());
 			mTaskThread.addTask(new StoreTask(mWaiting), null);
 		}
 	}
@@ -217,7 +218,7 @@ public class DataStoreManager {
 		@Override
 		public void run() {
 
-			plugin.getMessages().debug("Saving MobHunting data");
+			MessageHelper.debug("Saving MobHunting data");
 			
 			MobHunting.getInstance().getGrindingManager().saveData();
 
@@ -233,7 +234,7 @@ public class DataStoreManager {
 					Thread.sleep(mSaveInterval * 50);
 				}
 			} catch (InterruptedException e) {
-				plugin.getMessages().debug("StoreThread was interrupted");
+				MessageHelper.debug("StoreThread was interrupted");
 			}
 		}
 	}
@@ -289,7 +290,7 @@ public class DataStoreManager {
 				return;
 
 			synchronized (mSignal) {
-				plugin.getMessages().debug(
+				MessageHelper.debug(
 						"waitForEmptyQueue: Waiting for %s+%s tasks to finish before closing connections.",
 						mQueue.size(), mWaiting.size());
 				while (!mQueue.isEmpty())
@@ -334,7 +335,7 @@ public class DataStoreManager {
 									new CallbackCaller((IDataCallback<Object>) task.callback, result, true));
 
 					} catch (DataStoreException e) {
-						plugin.getMessages().debug("DataStoreManager: TaskThread.run() failed!!!!!!!");
+						MessageHelper.debug("DataStoreManager: TaskThread.run() failed!!!!!!!");
 						if (task.callback != null)
 							Bukkit.getScheduler().runTask(MobHunting.getInstance(),
 									new CallbackCaller((IDataCallback<Object>) task.callback, e, false));
@@ -344,7 +345,7 @@ public class DataStoreManager {
 				}
 
 			} catch (InterruptedException e) {
-				plugin.getMessages().debug(" TaskThread was interrupted");
+				MessageHelper.debug(" TaskThread was interrupted");
 			}
 		}
 	}

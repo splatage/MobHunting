@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.rewards.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -142,7 +143,7 @@ public class RewardManager {
 							player.getInventory().clear(slot);
 						else
 							is = Reward.setDisplayNameAndHiddenLores(is, rewardInSlot);
-						plugin.getMessages().debug("Added %s to %s's item in slot %s, new value is %s", format(amount),
+						MessageHelper.debug("Added %s to %s's item in slot %s, new value is %s", format(amount),
 								player.getName(), slot, format(rewardInSlot.getMoney()));
 						if (moneyLeftToGive <= 0) {
 							found = true;
@@ -274,7 +275,7 @@ public class RewardManager {
 			item.setCustomNameVisible(Core.getConfigManager().showCustomDisplayname);
 		}
 		if (item != null)
-			plugin.getMessages().debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
+			MessageHelper.debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
 					Core.getConfigManager().rewardItemtype, Core.getCoreRewardManager().getDroppedMoney().size());
 	}
 
@@ -329,7 +330,7 @@ public class RewardManager {
 			double balance = 0;
 			if (BagOfGoldCompat.isSupported()) {
 				for (ItemStack is : droplist) {
-					plugin.getMessages().debug("Dropped item: %s", is.getType());
+					MessageHelper.debug("Dropped item: %s", is.getType());
 					if (Reward.isReward(is)) {
 						Reward reward = Reward.getReward(is);
 						if (reward.isBagOfGoldReward() || reward.isItemReward())
@@ -374,7 +375,7 @@ public class RewardManager {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return getPrice(mob, MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getRewardPrize());
-			plugin.getMessages().debug("MythicMob %s has no reward data", MythicMobsCompat.getMythicMobType(mob));
+			MessageHelper.debug("MythicMob %s has no reward data", MythicMobsCompat.getMythicMobType(mob));
 			return 0;
 
 		} else if (CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
@@ -383,11 +384,11 @@ public class RewardManager {
 			if (CitizensCompat.getMobRewardData().containsKey(key)) {
 				return getPrice(mob, CitizensCompat.getMobRewardData().get(key).getRewardPrize());
 			}
-			plugin.getMessages().debug("Citizens mob %s has no reward data", npc.getName());
+			MessageHelper.debug("Citizens mob %s has no reward data", npc.getName());
 			return 0;
 
 		} else if (MyPetCompat.isMyPet(mob)) {
-			plugin.getMessages().debug("Tried to find a prize for a MyPet: %s (Owner=%s)", MyPetCompat.getMyPet(mob),
+			MessageHelper.debug("Tried to find a prize for a MyPet: %s (Owner=%s)", MyPetCompat.getMyPet(mob),
 					MyPetCompat.getMyPetOwner(mob));
 			return getPrice(mob, plugin.getConfigManager().wolfMoney);
 
@@ -395,7 +396,7 @@ public class RewardManager {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return getPrice(mob, EliteMobsCompat.getMobRewardData()
 						.get(EliteMobsCompat.getEliteMobsType(mob).getName()).getRewardPrize());
-			plugin.getMessages().debug("EliteMob %s has no reward data", EliteMobsCompat.getEliteMobsType(mob));
+			MessageHelper.debug("EliteMob %s has no reward data", EliteMobsCompat.getEliteMobsType(mob));
 			return 0;
 
 		} else {

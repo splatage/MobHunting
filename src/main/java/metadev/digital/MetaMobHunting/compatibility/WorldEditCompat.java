@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -16,33 +17,29 @@ public class WorldEditCompat {
 
 	public WorldEditCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX + "Compatibility with WorldEdit is disabled in config.yml");
+			MessageHelper.notice("Compatibility with WorldEdit is disabled in config.yml");
 		} else {
 			mPlugin = (WorldEditPlugin) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldEdit.getName());
 			if (Server.isMC113OrNewer()) {
 				if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
-					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldEdit ("
+					MessageHelper.notice("Enabling compatibility with WorldEdit ("
 							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else if (mPlugin.getDescription().getVersion().compareTo("1.16") >= 0) {
-					Bukkit.getConsoleSender()
-							.sendMessage(MobHunting.PREFIX + "Enabling compatibility with FastAsyncWorldEdit ("
+					MessageHelper.notice("Enabling compatibility with FastAsyncWorldEdit ("
 									+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else {
-					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
-							+ "Your current version of WorldEdit (" + mPlugin.getDescription().getVersion()
+					MessageHelper.warning("Your current version of WorldEdit (" + mPlugin.getDescription().getVersion()
 							+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 				}
 			} else {
 				if (mPlugin.getDescription().getVersion().compareTo(earliestSupported) >= 0) {
-					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with WorldEdit ("
+					MessageHelper.notice("Enabling compatibility with WorldEdit ("
 							+ mPlugin.getDescription().getVersion() + ")");
 					supported = true;
 				} else {
-					Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
-							+ "Your current version of WorldEdit (" + mPlugin.getDescription().getVersion()
+					MessageHelper.warning("Your current version of WorldEdit (" + mPlugin.getDescription().getVersion()
 							+ ") is not supported by MobHunting. Please upgrade to " + earliestSupported + " or newer.");
 				}
 			}

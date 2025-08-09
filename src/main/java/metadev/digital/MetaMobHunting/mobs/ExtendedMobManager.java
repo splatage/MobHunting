@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 
@@ -43,7 +43,7 @@ public class ExtendedMobManager {
 		try {
 			set = (HashSet<ExtendedMob>) plugin.getStoreManager().loadMobs();
 		} catch (DataStoreException e) {
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Could not load data from mh_Mobs");
+			MessageHelper.error("Could not load data from mh_Mobs");
 			e.printStackTrace();
 		}
 
@@ -74,7 +74,7 @@ public class ExtendedMobManager {
 
 			default:
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-				console.sendMessage(ChatColor.RED + "[MobHunting] Missing PluginType: " + mob.getMobPlugin().getName()
+				MessageHelper.error("Missing PluginType: " + mob.getMobPlugin().getName()
 						+ " in ExtendedMobManager.");
 				continue;
 			}
@@ -83,7 +83,7 @@ public class ExtendedMobManager {
 				mobs.put(mob.getMob_id(), mob);
 			}
 		}
-		plugin.getMessages().debug("%s mobs was loaded into memory. Total mobs=%s", n, mobs.size());
+		MessageHelper.debug("%s mobs was loaded into memory. Total mobs=%s", n, mobs.size());
 
 		MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 

@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 
 import net.citizensnpcs.api.CitizensAPI;
@@ -20,13 +21,11 @@ public class BagOfGoldCompat {
 		mPlugin = (BagOfGold) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName());
 
 		if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(MobHunting.PREFIX + "Enabling compatibility with BagOfGold ("
+			MessageHelper.notice("Enabling compatibility with BagOfGold ("
 							+ getBagOfGoldAPI().getDescription().getVersion() + ")");
 			supported = true;
 		} else {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of BagOfGold ("
+			MessageHelper.warning("Your current version of BagOfGold ("
 							+ mPlugin.getDescription().getVersion()
 							+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			Bukkit.getPluginManager().disablePlugin(mPlugin);

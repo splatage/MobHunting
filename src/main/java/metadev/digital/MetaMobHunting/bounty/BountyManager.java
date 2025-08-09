@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.bounty;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
@@ -47,7 +48,7 @@ public class BountyManager implements Listener {
 					if (bounty.getEndDate() < System.currentTimeMillis() && bounty.isOpen()) {
 						bounty.setStatus(BountyStatus.expired);
 						plugin.getDataStoreManager().updateBounty(bounty);
-						plugin.getMessages().debug("BountyManager: Expired Bounty %s", bounty.toString());
+						MessageHelper.debug("BountyManager: Expired Bounty %s", bounty.toString());
 						mOpenBounties.remove(bounty);
 					}
 				}
@@ -214,7 +215,7 @@ public class BountyManager implements Listener {
 		}
 		if (n > 0) {
 			mOpenBounties.removeAll(toBeRemoved);
-			plugin.getMessages().debug("%s bounties on %s was removed when player quit", n,
+			MessageHelper.debug("%s bounties on %s was removed when player quit", n,
 					event.getPlayer().getName());
 		}
 	}
@@ -250,7 +251,7 @@ public class BountyManager implements Listener {
 							mOpenBounties.add(bounty);
 							n++;
 						} else {
-							plugin.getMessages().debug("BountyManager: Expired onLoad Bounty %s", bounty.toString());
+							MessageHelper.debug("BountyManager: Expired onLoad Bounty %s", bounty.toString());
 							bounty.setStatus(BountyStatus.expired);
 							bounty.setPrize(0);
 							plugin.getDataStoreManager().updateBounty(bounty);
@@ -261,7 +262,7 @@ public class BountyManager implements Listener {
 				}
 				if (sort)
 					sort();
-				plugin.getMessages().debug("%s bounties for %s was loaded.", n, player.getName());
+				MessageHelper.debug("%s bounties for %s was loaded.", n, player.getName());
 				if (n > 0 && hasOpenBounties(player)) {
 					plugin.getMessages().playerSendMessage(player,
 							plugin.getMessages().getString("mobhunting.bounty.youarewanted"));
@@ -296,14 +297,14 @@ public class BountyManager implements Listener {
 	 */
 	public void save(Bounty bounty) {
 		if (hasOpenBounty(bounty)) {
-			plugin.getMessages().debug("adding bounty %s+%s", getOpenBounty(bounty).getPrize(), bounty.getPrize());
+			MessageHelper.debug("adding bounty %s+%s", getOpenBounty(bounty).getPrize(), bounty.getPrize());
 			getOpenBounty(bounty).setPrize(getOpenBounty(bounty).getPrize() + bounty.getPrize());
 			getOpenBounty(bounty).setMessage(bounty.getMessage());
 			plugin.getDataStoreManager().updateBounty(getOpenBounty(bounty));
 		} else {
 			mOpenBounties.add(bounty);
 			plugin.getDataStoreManager().updateBounty(bounty);
-			plugin.getMessages().debug("adding bounty %s", getOpenBounty(bounty).getPrize());
+			MessageHelper.debug("adding bounty %s", getOpenBounty(bounty).getPrize());
 		}
 	}
 

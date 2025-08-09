@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -27,14 +28,13 @@ public class CrackShotCompat implements Listener {
 
 	public CrackShotCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with CrackShot is disabled in config.yml");
+			MessageHelper.warning("Compatibility with CrackShot is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName());
 
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with CrackShot ("
+				MessageHelper.notice("Enabling compatibility with CrackShot ("
 						+ mPlugin.getDescription().getVersion() + ")");
 
 				supported = true;
@@ -42,8 +42,7 @@ public class CrackShotCompat implements Listener {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
 			} else {
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of CrackShot ("
+				MessageHelper.warning("Your current version of CrackShot ("
 								+ mPlugin.getDescription().getVersion()
 								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}

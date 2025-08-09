@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -16,12 +17,11 @@ public class ResidenceCompat {
 
 	public ResidenceCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Residence is disabled in config.yml");
+			MessageHelper.warning("Compatibility with Residence is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Residence.getName());
 
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with Residence ("
+			MessageHelper.notice("Enabling compatibility with Residence ("
 					+ mPlugin.getDescription().getVersion() + ").");
 			supported = true;
 		}

@@ -18,6 +18,7 @@ import java.util.UUID;
 import java.util.WeakHashMap;
 
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
@@ -315,7 +316,7 @@ public class AchievementManager implements Listener {
 	 */
 	public void awardAchievement(Achievement achievement, Player player, ExtendedMob mob) {
 		if (!achievementsEnabledFor(player)) {
-			plugin.getMessages().debug("[AchievementBlocked] Achievements is disabled for player %s", player.getName());
+			MessageHelper.debug("[AchievementBlocked] Achievements is disabled for player %s", player.getName());
 			return;
 		}
 
@@ -325,7 +326,7 @@ public class AchievementManager implements Listener {
 
 		for (String world : plugin.getConfigManager().disableAchievementsInWorlds)
 			if (world.equalsIgnoreCase(player.getWorld().getName())) {
-				plugin.getMessages().debug("[AchievementBlocked] Achievements is disabled in world:%s", world);
+				MessageHelper.debug("[AchievementBlocked] Achievements is disabled in world:%s", world);
 				return;
 			}
 
@@ -340,7 +341,7 @@ public class AchievementManager implements Listener {
 			storage.enableAchievements = true;
 		}
 
-		plugin.getMessages().debug("RecordAchievement: %s achieved.", achievement.getID());
+		MessageHelper.debug("RecordAchievement: %s achieved.", achievement.getID());
 		plugin.getDataStoreManager().recordAchievement(player, achievement, mob);
 		storage.gainedAchievements.add(achievement.getID());
 		mStorage.put(player.getUniqueId(), storage);
@@ -374,7 +375,7 @@ public class AchievementManager implements Listener {
 				.replaceAll("\\{monstertype\\}", mob.getMobName());
 
 		if (!achievement.getPrizeCmd().equals("")) {
-			plugin.getMessages().debug("Command to be run:" + prizeCommand);
+			MessageHelper.debug("Command to be run:" + prizeCommand);
 			String str = prizeCommand;
 			do {
 				if (str.contains("|")) {
@@ -418,12 +419,12 @@ public class AchievementManager implements Listener {
 
 		for (String world : plugin.getConfigManager().disableAchievementsInWorlds)
 			if (world.equalsIgnoreCase(player.getWorld().getName())) {
-				plugin.getMessages().debug("[AchievementBlocked] Achievements is disabled in world:%s", world);
+				MessageHelper.debug("[AchievementBlocked] Achievements is disabled in world:%s", world);
 				return;
 			}
 
 		if (achievement.getExtendedMob().getProgressAchievementLevel1() == 0) {
-			plugin.getMessages().debug(
+			MessageHelper.debug(
 					"[AchievementBlocked] ProgressAchievement for killing a %s is disabled (%s_level1 is 0 in config.yml)",
 					achievement.getExtendedMob().getMobtype().toLowerCase(),
 					achievement.getExtendedMob().getMobtype().toLowerCase());
@@ -460,7 +461,7 @@ public class AchievementManager implements Listener {
 		else {
 			storage.progressAchievements.put(achievement.getID(), nextProgress);
 
-			plugin.getMessages().debug("RecordAchievement: %s has %s kills", achievement.getID(), nextProgress);
+			MessageHelper.debug("RecordAchievement: %s has %s kills", achievement.getID(), nextProgress);
 			plugin.getDataStoreManager().recordAchievementProgress(player, achievement, nextProgress);
 
 			int segment = Math.min(25, maxProgress / 2);
@@ -483,7 +484,7 @@ public class AchievementManager implements Listener {
 		if (!file.exists())
 			return false;
 
-		Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Upgrading old awards.yml file");
+		MessageHelper.notice("Upgrading old awards.yml file");
 
 		YamlConfiguration config = new YamlConfiguration();
 		try {
@@ -539,7 +540,7 @@ public class AchievementManager implements Listener {
 
 					@Override
 					public void onCompleted(Set<AchievementStore> data) {
-						plugin.getMessages().debug("Loaded %s Achievements for %s.", data.size(), player.getName());
+						MessageHelper.debug("Loaded %s Achievements for %s.", data.size(), player.getName());
 						for (AchievementStore achievementStore : data) {
 							if (achievementStore.progress == -1)
 								storage.gainedAchievements.add(achievementStore.id);
@@ -562,7 +563,7 @@ public class AchievementManager implements Listener {
 										if (as.id.equalsIgnoreCase(
 												((ProgressAchievement) getAchievement(achievementStore.id))
 														.nextLevelId())) {
-											plugin.getMessages().debug(
+											MessageHelper.debug(
 													"Error in mh_Achievements: %s=%s. Changing status to completed. ",
 													achievementStore.id, achievementStore.progress);
 											plugin.getDataStoreManager().recordAchievementProgress(player,
@@ -592,16 +593,16 @@ public class AchievementManager implements Listener {
 					}
 				});
 			} else {
-				plugin.getMessages().debug("Using cached achievements for %s", player.getName());
+				MessageHelper.debug("Using cached achievements for %s", player.getName());
 				PlayerStorage storage = mStorage.get(player.getUniqueId());
 				if (!storage.enableAchievements) {
-					plugin.getMessages().debug("Enabling achievements in cache for %s.", player.getName());
+					MessageHelper.debug("Enabling achievements in cache for %s.", player.getName());
 					storage.enableAchievements = true;
 					mStorage.put(player.getUniqueId(), storage);
 				}
 			}
 		} else {
-			plugin.getMessages().debug(
+			MessageHelper.debug(
 					"achievements is disabled with permission 'mobhunting.achievements.disabled' for player %s",
 					player.getName());
 		}
@@ -742,13 +743,13 @@ public class AchievementManager implements Listener {
 								}
 								n++;
 							} else {
-								plugin.getMessages().debug("No room for more Achievements");
+								MessageHelper.debug("No room for more Achievements");
 								break for_loop;
 							}
 					} else {
 						if (achievement.getKey() instanceof ProgressAchievement && hasAchievement(
 								(((ProgressAchievement) achievement.getKey()).nextLevelId()), player)) {
-							plugin.getMessages().debug("Error in DB %s is not done, but %s is... skipping",
+							MessageHelper.debug("Error in DB %s is not done, but %s is... skipping",
 									achievement.getKey().getID(),
 									((ProgressAchievement) achievement.getKey()).nextLevelId());
 						} else
@@ -796,7 +797,7 @@ public class AchievementManager implements Listener {
 																		.getNextLevel() });
 										n++;
 									} else {
-										plugin.getMessages().debug("No room for more achievements");
+										MessageHelper.debug("No room for more achievements");
 										break for_loop;
 									}
 							}
@@ -822,7 +823,7 @@ public class AchievementManager implements Listener {
 
 										m++;
 									} else {
-										plugin.getMessages().debug("No room for achievement: %s",
+										MessageHelper.debug("No room for achievement: %s",
 												achievement.getName());
 										break for_loop;
 									}
@@ -852,7 +853,7 @@ public class AchievementManager implements Listener {
 
 										m++;
 									} else {
-										plugin.getMessages().debug("No room for achievement: %s",
+										MessageHelper.debug("No room for achievement: %s",
 												achievement.getName());
 										break for_loop;
 									}

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import metadev.digital.metacustomitemslib.Tools;
@@ -201,7 +202,7 @@ public class MasterMobHunterSign implements Listener {
 			}
 
 			if (supportedmats.contains(clickedblock.getType()))
-				MobHunting.getInstance().getMessages().debug("%s hasMeta(MH_POWERED)=%s, power=%s",
+				MessageHelper.debug("%s hasMeta(MH_POWERED)=%s, power=%s",
 						clickedblock.getType(), clickedblock.hasMetadata(MH_POWERED), power);
 
 			BlockState blockstate = clickedblock.getState();
@@ -342,7 +343,7 @@ public class MasterMobHunterSign implements Listener {
 					event.setLine(3, "");
 				}
 			} else {
-				MobHunting.getInstance().getMessages().debug("The sign does not have a valid NPC id!(%s)", id);
+				MessageHelper.debug("The sign does not have a valid NPC id!(%s)", id);
 			}
 		}
 

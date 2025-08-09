@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -94,14 +95,14 @@ public class LeaderboardManager implements Listener {
 			if (!mLeaderboards.isEmpty()) {
 				for (WorldLeaderboard board : mLeaderboards.values())
 					board.update();
-				plugin.getMessages().debug("Refreshed %s leaderboards.",
+				MessageHelper.debug("Refreshed %s leaderboards.",
 						mLegacyLeaderboards.size() + mLeaderboards.size());
 			}
 
 			if (CMIHelper.isCMILoaded() && CMICompat.isFullyLoaded()) {
 				for (HologramLeaderboard board : hologramManager.getHolograms().values())
 					board.update();
-				plugin.getMessages().debug("Refreshed %s holograms.", hologramManager.getHolograms().size());
+				MessageHelper.debug("Refreshed %s holograms.", hologramManager.getHolograms().size());
 			}
 
 		}
@@ -257,7 +258,7 @@ public class LeaderboardManager implements Listener {
 		}
 
 		if (mLeaderboards.size() > 0)
-			plugin.getMessages().debug("%s Leaderboards in '%s' loaded from file: %s!", mLeaderboards.size(),
+			MessageHelper.debug("%s Leaderboards in '%s' loaded from file: %s!", mLeaderboards.size(),
 					world.getName(), plugin.getDataFolder(), "boards-" + world.getName() + ".yml");
 
 	}
@@ -273,7 +274,7 @@ public class LeaderboardManager implements Listener {
 			ConfigurationSection section = config.createSection(String.valueOf(i++));
 			board.save(section);
 		}
-		plugin.getMessages().debug("Leaderboards saved to file: %s!", plugin.getDataFolder(),
+		MessageHelper.debug("Leaderboards saved to file: %s!", plugin.getDataFolder(),
 				"boards-" + world.getName() + ".yml");
 
 		try {
@@ -395,7 +396,7 @@ public class LeaderboardManager implements Listener {
 				board.removeSigns();
 				mLeaderboards.remove(block.getWorld(), board);
 				saveWorld(board.getWorld());
-				plugin.getMessages().debug("Leaderboard removed: %s", block.getLocation().toString());
+				MessageHelper.debug("Leaderboard removed: %s", block.getLocation().toString());
 				plugin.getMessages().playerActionBarMessageQueue(event.getPlayer(), "The leaderboard was removed.");
 				return;
 			}

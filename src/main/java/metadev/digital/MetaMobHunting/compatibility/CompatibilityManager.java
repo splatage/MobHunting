@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -28,8 +29,7 @@ public class CompatibilityManager implements Listener {
 		try {
 			register(c, pluginName);
 		} catch (Exception e) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_ERROR + "MobHunting could not register with [" + pluginName
+			MessageHelper.error("MetaMobHunting could not register with [" + pluginName
 							+ "] please check if [" + pluginName + "] is compatible with the server ["
 							+ Bukkit.getServer().getBukkitVersion() + "]");
 			if (plugin.getConfigManager().killDebug)

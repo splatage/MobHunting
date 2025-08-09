@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.modifier;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -29,11 +30,11 @@ public class StackedMobBonus implements IModifier {
 					MobStackerCompat.getStackSize(entity));
 			return MobStackerCompat.getStackSize(entity);
 		} else */if (StackMobCompat.isSupported() && StackMobHelper.killHoleStackOnDeath(entity)) {
-			MobHunting.getInstance().getMessages().debug("StackedMobBonus: Pay reward for no %s mob",
+			MessageHelper.debug("StackedMobBonus: Pay reward for no %s mob",
 					StackMobHelper.getStackSize((LivingEntity) entity));
 			return StackMobHelper.getStackSize((LivingEntity) entity);
 		} else {
-			MobHunting.getInstance().getMessages().debug("StackedMobBonus: Pay reward for one mob");
+			MessageHelper.debug("StackedMobBonus: Pay reward for one mob");
 			return 1;
 		}
 	}

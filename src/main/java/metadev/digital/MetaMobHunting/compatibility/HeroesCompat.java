@@ -1,13 +1,11 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
-import org.bukkit.Bukkit;
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.event.Listener;
-
-import metadev.digital.MetaMobHunting.MobHunting;
 
 public class HeroesCompat implements Listener {
 	public HeroesCompat() {
-		Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Heroes Compatibility");
+		MessageHelper.notice("Enabling Heroes Compatibility");
 	}
 
 }

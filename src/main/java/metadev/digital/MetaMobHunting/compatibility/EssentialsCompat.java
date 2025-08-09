@@ -3,6 +3,7 @@ package metadev.digital.MetaMobHunting.compatibility;
 import java.io.File;
 import java.io.IOException;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -22,12 +23,11 @@ public class EssentialsCompat {
 
 	public EssentialsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with Essentials is disabled in config.yml");
+			MessageHelper.warning("Compatibility with Essentials is disabled in config.yml");
 		} else {
 			mPlugin = (Essentials) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Essentials.getName());
 
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with Essentials ("
+			MessageHelper.notice("Enabling compatibility with Essentials ("
 					+ getEssentials().getDescription().getVersion() + ")");
 			supported = true;
 		}
@@ -107,7 +107,7 @@ public class EssentialsCompat {
 						config.load(configfile);
 						config.set("money", String.valueOf(amount));
 						config.save(configfile);
-						MobHunting.getInstance().getMessages().debug("updated essentials balance to %s", amount);
+						MessageHelper.debug("updated essentials balance to %s", amount);
 					} catch (IOException | InvalidConfigurationException e) {
 						e.printStackTrace();
 						return;

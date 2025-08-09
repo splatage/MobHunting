@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -20,8 +21,7 @@ public class LevelledMobsCompat {
 
 	public LevelledMobsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(
-					MobHunting.PREFIX_WARNING + "Compatibility with LevelledMobs is disabled in config.yml");
+			MessageHelper.warning("Compatibility with LevelledMobs is disabled in config.yml");
 		} else {
 			levelledMobs = (LevelledMobs) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.LevelledMobs.getName());
 
@@ -29,12 +29,11 @@ public class LevelledMobsCompat {
 				return;
 
             if ( levelledMobs.getDescription().getVersion().compareTo(latestSupported) >= 0) {
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with LevelledMobs ("
+				MessageHelper.notice("Enabling Compatibility with LevelledMobs ("
 						+ getLevelledMobs().getDescription().getVersion() + ")");
 				supported = true;
 			} else {
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING
-						+ "Your current version of LevelledMobs (" + levelledMobs.getDescription().getVersion()
+				MessageHelper.warning("Your current version of LevelledMobs (" + levelledMobs.getDescription().getVersion()
 						+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
 		}

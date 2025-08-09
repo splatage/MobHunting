@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
@@ -28,12 +29,11 @@ public class MyPetCompat implements Listener {
 
 	public MyPetCompat() {
 		if (!MobHunting.getInstance().getConfigManager().enableIntegrationMyPet) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MyPet is disabled in config.yml");
+			MessageHelper.warning("Compatibility with MyPet is disabled in config.yml");
 		} else {
 			mPlugin = (MyPetPlugin) Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MyPet.getName());
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MyPet ("
+			MessageHelper.notice("Enabling compatibility with MyPet ("
 					+ getMyPetPlugin().getDescription().getVersion() + ")");
 			supported = true;
 		}
@@ -129,7 +129,7 @@ public class MyPetCompat implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = false)
 	private void onMyPetInventoryActionEvent(MyPetInventoryActionEvent event) {
 		if (event.getAction() == Action.Pickup)
-			MobHunting.getInstance().getMessages().debug("MyPetInventoryActionEvent=%s", event.getAction().name());
+			MessageHelper.debug("MyPetInventoryActionEvent=%s", event.getAction().name());
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
@@ -148,7 +148,7 @@ public class MyPetCompat implements Listener {
 							ChatColor.valueOf(Core.getConfigManager().rewardTextColor) + reward.getDisplayName(),
 							"petname", pet.getPetName(), "money",
 							MobHunting.getInstance().getEconomyManager().format(reward.getMoney())));
-			MobHunting.getInstance().getMessages().debug("%s owned by %s picked up %s %s.", pet.getPetName(),
+			MessageHelper.debug("%s owned by %s picked up %s %s.", pet.getPetName(),
 					player.getName(), MobHunting.getInstance().getEconomyManager().format(reward.getMoney()),
 					reward.getDisplayName());
 			if (reward.isBagOfGoldReward() || reward.isItemReward()) {

@@ -3,6 +3,8 @@ package metadev.digital.MetaMobHunting;
 import java.io.File;
 import java.util.Random;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.Messages.Messages;
 import metadev.digital.MetaMobHunting.config.Migrator;
 import metadev.digital.MetaMobHunting.config.MigratorException;
 import metadev.digital.MetaMobHunting.update.UpdateManager;
@@ -79,9 +81,6 @@ import io.chazza.advancementapi.AdvancementManager;
 
 public class MobHunting extends JavaPlugin {
 
-	// Constants
-	private final static String pluginName = "mobhunting";
-
 	public final static boolean disableAdvancements = true;
 
 	private static MobHunting instance;
@@ -110,12 +109,6 @@ public class MobHunting extends JavaPlugin {
 
 	private boolean mInitialized = false;
 	public boolean disabling = false;
-
-	//TODO Move Prefix and messages to Messages
-	public static final String PREFIX = ChatColor.GOLD + "[MetaMobHunting] " + ChatColor.RESET;
-	public static final String PREFIX_DEBUG = ChatColor.GOLD + "[MetaMobHunting][Debug] " + ChatColor.RESET;
-	public static final String PREFIX_WARNING = ChatColor.GOLD + "[MetaMobHunting][Warning] " + ChatColor.RED;
-	public static final String PREFIX_ERROR = ChatColor.GOLD + "[MetaMobHunting][Error] " + ChatColor.RED;
 
 	@Override
 	public void onLoad() {
@@ -180,26 +173,21 @@ public class MobHunting extends JavaPlugin {
 				if (mConfig.backup)
 					mConfig.backupConfig(mFile);
 			} else
-				throw new RuntimeException(getMessages().getString(pluginName + ".config.fail"));
+				throw new RuntimeException(getMessages().getString("mobhunting.config.fail"));
 			break;
 		}
 		mConfig.saveConfig();
 
 		if (isbStatsEnabled())
-			getMessages().debug("bStat is enabled");
+			MessageHelper.debug("bStat is enabled");
 		else {
-			Bukkit.getConsoleSender()
-					.sendMessage(PREFIX_WARNING + "=====================WARNING=============================");
-			Bukkit.getConsoleSender()
-					.sendMessage(PREFIX_WARNING + "The statistics collection is disabled. As developer I need the");
-			Bukkit.getConsoleSender()
-					.sendMessage(PREFIX_WARNING + "statistics from bStats.org. The statistics is 100% anonymous.");
-			Bukkit.getConsoleSender().sendMessage(PREFIX_WARNING + "https://bstats.org/plugin/bukkit/MobHunting");
-			Bukkit.getConsoleSender().sendMessage(
-					PREFIX_WARNING + "Please enable this in /plugins/bStats/config.yml and get rid of this");
-			Bukkit.getConsoleSender().sendMessage(PREFIX_WARNING + "message. Loading will continue in 15 sec.");
-			Bukkit.getConsoleSender()
-					.sendMessage(PREFIX_WARNING + "=========================================================");
+			MessageHelper.warning("=====================WARNING=============================");
+			MessageHelper.warning("The statistics collection is disabled. As developer I need the");
+			MessageHelper.warning("statistics from bStats.org. The statistics is 100% anonymous.");
+			MessageHelper.warning("https://bstats.org/plugin/bukkit/MobHunting");
+			MessageHelper.warning("Please enable this in /plugins/bStats/config.yml and get rid of this");
+			MessageHelper.warning("message. Loading will continue in 15 sec.");
+			MessageHelper.warning("=========================================================");
 			long now = System.currentTimeMillis();
 			while (System.currentTimeMillis() < now + 15000L) {
 				try {
@@ -322,7 +310,7 @@ public class MobHunting extends JavaPlugin {
 			mBountyManager = new BountyManager(this);
 
 		if (!getConfigManager().disableMobHuntingAdvancements) {
-			getMessages().debug("Updating advancements");
+			MessageHelper.debug("Updating advancements");
 			mAdvancementManager = new AdvancementManager(this);
 			if (!disableAdvancements)
 				mAdvancementManager.getAdvancementsFromAchivements();
@@ -335,7 +323,7 @@ public class MobHunting extends JavaPlugin {
 
 		// Handle online players when server admin do a /reload or /mh reload
 		if (Tools.getOnlinePlayersAmount() > 0) {
-			getMessages().debug("Reloading %s player settings from the database", Tools.getOnlinePlayersAmount());
+			MessageHelper.debug("Reloading %s player settings from the database", Tools.getOnlinePlayersAmount());
 			for (Player player : Tools.getOnlinePlayers()) {
 				Core.getPlayerSettingsManager().load(player);
 				mAchievementManager.load(player);
@@ -361,17 +349,17 @@ public class MobHunting extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		getMessages().debug("Disabling MobHunting.");
+		MessageHelper.debug("Disabling MobHunting.");
 		disabling = true;
 
 		if (!mInitialized)
 			return;
 
-		getMessages().debug("Shutdown LeaderBoardManager");
+		MessageHelper.debug("Shutdown LeaderBoardManager");
 		mLeaderboardManager.shutdown();
 		mGrindingManager.saveData();
 		if (PlaceholderAPICompat.isSupported()) {
-			getMessages().debug("Shutdown PlaceHolderManager");
+			MessageHelper.debug("Shutdown PlaceHolderManager");
 			PlaceholderAPICompat.shutdown();
 		}
 		getMobHuntingManager().getHuntingModifiers().clear();
@@ -379,17 +367,17 @@ public class MobHunting extends JavaPlugin {
 			getFishingManager().getFishingModifiers().clear();
 
 		try {
-			getMessages().debug("Shutdown StoreManager");
+			MessageHelper.debug("Shutdown StoreManager");
 			mStoreManager.shutdown();
-			getMessages().debug("Shutdown Store");
+			MessageHelper.debug("Shutdown Store");
 			mStore.shutdown();
 		} catch (DataStoreException e) {
 			e.printStackTrace();
 		}
-		getMessages().debug("Shutdown CitizensCompat");
+		MessageHelper.debug("Shutdown CitizensCompat");
 		CitizensCompat.shutdown();
 
-		Bukkit.getConsoleSender().sendMessage(PREFIX + "MobHunting disabled.");
+		MessageHelper.debug("MobHunting disabled.");
 	}
 
 	private boolean isbStatsEnabled() {

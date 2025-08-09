@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -29,7 +30,7 @@ public class PlaceHolderManager implements Listener, IDataCallback<List<StatStor
 		Bukkit.getServer().getPluginManager().registerEvents(this, plugin);
 		mUpdater = Bukkit.getScheduler().runTaskTimer(plugin, new Updater(), 120L,
 				plugin.getConfigManager().leaderboardUpdatePeriod);
-		plugin.getMessages().debug("PlaceHolderManager started");
+		MessageHelper.debug("PlaceHolderManager started");
 	}
 
 	public HashMap<UUID, PlaceHolderData> getPlaceHolders() {
@@ -80,7 +81,7 @@ public class PlaceHolderManager implements Listener, IDataCallback<List<StatStor
 			}
 		}
 		if (!placeHolders.isEmpty())
-			plugin.getMessages().debug("Refreshed %s ranks.", placeHolders.size());
+			MessageHelper.debug("Refreshed %s ranks.", placeHolders.size());
 	}
 
 	@Override

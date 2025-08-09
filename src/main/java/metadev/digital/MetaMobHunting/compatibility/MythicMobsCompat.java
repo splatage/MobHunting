@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -38,13 +39,12 @@ public class MythicMobsCompat {
 
 	public MythicMobsCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with MythicMobs is disabled in config.yml");
+			MessageHelper.warning("Compatibility with MythicMobs is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName());
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with MythicMobs ("
+				MessageHelper.notice("Enabling compatibility with MythicMobs ("
 						+ mPlugin.getDescription().getVersion() + ")");
 				mmVersion = MythicMobVersion.MYTHICMOBS_V500;
 				supported = true;
@@ -53,7 +53,7 @@ public class MythicMobsCompat {
 			}
 			else {
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-				console.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of MythicMobs ("
+				MessageHelper.warning("Your current version of MythicMobs ("
 						+ mPlugin.getDescription().getVersion()
 						+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 				return;
@@ -142,7 +142,7 @@ public class MythicMobsCompat {
 			if (!file.exists())
 				return;
 
-			MobHunting.getInstance().getMessages().debug("Loading extra MobRewards for MythicMobs mobs.");
+			MessageHelper.debug("Loading extra MobRewards for MythicMobs mobs.");
 
 			config.load(file);
 			int n = 0;
@@ -156,11 +156,10 @@ public class MythicMobsCompat {
 					MobHunting.getInstance().getStoreManager().insertMissingMythicMobs(key);
 					n++;
 				} else {
-					MobHunting.getInstance().getMessages()
-							.debug("The mob=%s can't be found in MythicMobs configuration files", key);
+					MessageHelper.debug("The mob=%s can't be found in MythicMobs configuration files", key);
 				}
 			}
-			MobHunting.getInstance().getMessages().debug("Loaded %s MythicMobs", n);
+			MessageHelper.debug("Loaded %s MythicMobs", n);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InvalidConfigurationException e) {
@@ -186,8 +185,7 @@ public class MythicMobsCompat {
 				StatType.values()[n + 2] = new StatType(mob.getMobType() + "_assist", mob.getMobName());
 				MobHunting.getInstance().getStoreManager().insertMissingMythicMobs(key);
 			} else {
-				MobHunting.getInstance().getMessages()
-						.debug("The mob=%s can't be found in MythicMobs configuration files", key);
+				MessageHelper.debug("The mob=%s can't be found in MythicMobs configuration files", key);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -210,14 +208,14 @@ public class MythicMobsCompat {
 				}
 
 				if (n != 0) {
-					MobHunting.getInstance().getMessages().debug("Saving Mobhunting extra MythicMobs data.");
+					MessageHelper.debug("Saving Mobhunting extra MythicMobs data.");
 					config.save(file);
 				}
 			} else {
-				MobHunting.getInstance().getMessages().debug("No Mythicmobs");
+				MessageHelper.debug("No Mythicmobs");
 			}
 		} catch (IOException e) {
-			MobHunting.getInstance().getMessages().debug("Could not save extra MythicMobs data.");
+			MessageHelper.debug("Could not save extra MythicMobs data.");
 			e.printStackTrace();
 		}
 	}
@@ -227,10 +225,10 @@ public class MythicMobsCompat {
 			if (mMobRewardData.containsKey(key)) {
 				ConfigurationSection section = config.createSection(key);
 				mMobRewardData.get(key).save(section);
-				MobHunting.getInstance().getMessages().debug("Saving Mobhunting extra MythicMobs data.");
+				MessageHelper.debug("Saving Mobhunting extra MythicMobs data.");
 				config.save(file);
 			} else {
-				MobHunting.getInstance().getMessages().debug("ERROR! MythicMobs ID (%s) is not found in mMobRewardData",
+				MessageHelper.debug("ERROR! MythicMobs ID (%s) is not found in mMobRewardData",
 						key);
 			}
 		} catch (IOException e) {

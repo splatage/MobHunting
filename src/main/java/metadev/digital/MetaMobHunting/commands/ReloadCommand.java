@@ -2,6 +2,7 @@ package metadev.digital.MetaMobHunting.commands;
 
 import java.util.List;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -65,7 +66,7 @@ public class ReloadCommand implements ICommand {
 		int i = 1;
 		while (plugin.getDataStoreManager().isRunning() && (starttime + 10000 > System.currentTimeMillis())) {
 			if (((int) (System.currentTimeMillis() - starttime)) / 1000 == i) {
-				plugin.getMessages().debug("saving data (%s)");
+				MessageHelper.debug("saving data (%s)");
 				i++;
 			}
 		}
@@ -73,7 +74,7 @@ public class ReloadCommand implements ICommand {
 		if (Core.getConfigManager().loadConfig() || plugin.getConfigManager().loadConfig()) {
 			int n = Tools.getOnlinePlayersAmount();
 			if (n > 0) {
-				plugin.getMessages().debug("Reloading %s online playerSettings from the database", n);
+				MessageHelper.debug("Reloading %s online playerSettings from the database", n);
 				// reload player settings
 				for (Player player : Tools.getOnlinePlayers())
 					Core.getPlayerSettingsManager().load(player);

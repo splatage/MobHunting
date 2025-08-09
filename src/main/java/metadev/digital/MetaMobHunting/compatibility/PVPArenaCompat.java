@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import net.slipcor.pvparena.events.PADeathEvent;
 import net.slipcor.pvparena.events.PAExitEvent;
 import net.slipcor.pvparena.events.PAJoinEvent;
@@ -26,12 +27,11 @@ public class PVPArenaCompat implements Listener {
 
 	public PVPArenaCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with PvpArena is disabled in config.yml");
+			MessageHelper.warning("Compatibility with PvpArena is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.PVPArena.getName());
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling Compatibility with PVPArena ("
+			MessageHelper.notice("Enabling Compatibility with PVPArena ("
 					+ mPlugin.getDescription().getVersion() + ")");
 			supported = true;
 		}
@@ -76,7 +76,7 @@ public class PVPArenaCompat implements Listener {
 	 */
 	public static void stopPlayingPVPArena(Player player) {
 		if (!playersPlayingPVPArena.remove(player.getUniqueId())) {
-			MobHunting.getInstance().getMessages().debug("Player: %s is not in PVPArena", player.getName());
+			MessageHelper.debug("Player: %s is not in PVPArena", player.getName());
 		}
 	}
 
@@ -85,28 +85,28 @@ public class PVPArenaCompat implements Listener {
 	// **************************************************************************
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPvpPlayerJoin(PAJoinEvent event) {
-		MobHunting.getInstance().getMessages().debug("[MH]Player %s joined PVPArena: %s", event.getPlayer().getName(),
+		MessageHelper.debug("[MH]Player %s joined PVPArena: %s", event.getPlayer().getName(),
 				event.getArena());
 		startPlayingPVPArena(event.getPlayer());
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPvpPlayerDeath(PADeathEvent event) {
-		MobHunting.getInstance().getMessages().debug("[MH]Player %s died in PVPArena: %s", event.getPlayer().getName(),
+		MessageHelper.debug("[MH]Player %s died in PVPArena: %s", event.getPlayer().getName(),
 				event.getArena());
 		// startPlayingPVPArena(event.getPlayer());
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPvpPlayerLeave(PALeaveEvent event) {
-		MobHunting.getInstance().getMessages().debug("[MH]Player %s left PVPArena: %s", event.getPlayer().getName(),
+		MessageHelper.debug("[MH]Player %s left PVPArena: %s", event.getPlayer().getName(),
 				event.getArena());
 		stopPlayingPVPArena(event.getPlayer());
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPAExit(PAExitEvent event) {
-		MobHunting.getInstance().getMessages().debug("[MH]Player %s exit PVPArena: %s", event.getPlayer().getName(),
+		MessageHelper.debug("[MH]Player %s exit PVPArena: %s", event.getPlayer().getName(),
 				event.getArena());
 		stopPlayingPVPArena(event.getPlayer());
 	}

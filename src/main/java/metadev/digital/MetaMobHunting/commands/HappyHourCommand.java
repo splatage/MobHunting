@@ -3,6 +3,7 @@ package metadev.digital.MetaMobHunting.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -105,7 +106,7 @@ public class HappyHourCommand implements ICommand, Listener {
 				else
 					plugin.getMessages().senderSendMessage(sender, plugin.getMessages().getString(
 							"mobhunting.commands.happyhour.ongoing", "multiplier", multiplier, "minutes", minutesLeft));
-				plugin.getMessages().debug("The happy hour ends in %s minutes", minutesLeft);
+				MessageHelper.debug("The happy hour ends in %s minutes", minutesLeft);
 
 			} else {
 				plugin.getMessages().senderSendMessage(sender,
@@ -130,7 +131,7 @@ public class HappyHourCommand implements ICommand, Listener {
 						minutesToRun = 0;
 						minutesLeft = 0;
 						multiplier = 1;
-						plugin.getMessages().debug("Happy hour was cancelled");
+						MessageHelper.debug("Happy hour was cancelled");
 						for (Player player : Tools.getOnlinePlayers()) {
 							plugin.getMessages().playerSendTitlesMessage(player,
 									plugin.getMessages().getString("mobhunting.commands.happyhour.cancelled_title"),
@@ -165,9 +166,9 @@ public class HappyHourCommand implements ICommand, Listener {
 						|| Bukkit.getScheduler().isQueued(happyhourevent.getTaskId()))) {
 					happyhourevent.cancel();
 					happyhoureventStop.cancel();
-					plugin.getMessages().debug("Happy hour restarted, minutes left:%s", minutesLeft);
+					MessageHelper.debug("Happy hour restarted, minutes left:%s", minutesLeft);
 				} else {
-					plugin.getMessages().debug("Happy hour started, minutes left:%s", minutesLeft);
+					MessageHelper.debug("Happy hour started, minutes left:%s", minutesLeft);
 				}
 
 				for (Player player : Tools.getOnlinePlayers()) {
@@ -181,7 +182,7 @@ public class HappyHourCommand implements ICommand, Listener {
 				happyhourevent = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
 					minutesLeft = minutesToRun - ((int) (System.currentTimeMillis() - starttime) / (1000 * 60));
 					if (minutesLeft > 0)
-						plugin.getMessages().debug("The happy hour ends in %s minutes", minutesLeft);
+						MessageHelper.debug("The happy hour ends in %s minutes", minutesLeft);
 				}, 18000, 18000);
 
 				happyhoureventStop = Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -189,7 +190,7 @@ public class HappyHourCommand implements ICommand, Listener {
 					minutesToRun = 0;
 					multiplier = 1;
 					happyhourevent.cancel();
-					plugin.getMessages().debug("Happy hour ended");
+					MessageHelper.debug("Happy hour ended");
 					for (Player player : Tools.getOnlinePlayers()) {
 						plugin.getMessages().playerSendTitlesMessage(player,
 								plugin.getMessages().getString("mobhunting.commands.happyhour.ended_title"),

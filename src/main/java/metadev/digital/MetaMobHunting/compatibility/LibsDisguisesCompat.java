@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
@@ -35,14 +36,13 @@ public class LibsDisguisesCompat implements Listener {
 	public LibsDisguisesCompat() {
 		if (MobHunting.getInstance().getConfigManager().enableIntegrationLibsDisguises) {
 			mPlugin = Bukkit.getServer().getPluginManager().getPlugin(SupportedPluginEntities.LibsDisguises.getName());
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with LibsDisguises ("
+			MessageHelper.notice("Enabling compatibility with LibsDisguises ("
 					+ getLibsDisguises().getDescription().getVersion() + ")");
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 			supported = true;
 		} else {
-			Bukkit.getConsoleSender().sendMessage(
-					MobHunting.PREFIX_WARNING + "Compatibility with LibsDisguises is disabled in config.yml");
+			MessageHelper.warning("Compatibility with LibsDisguises is disabled in config.yml");
 		}
 	}
 

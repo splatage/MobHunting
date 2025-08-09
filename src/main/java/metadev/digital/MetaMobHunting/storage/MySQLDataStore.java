@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -227,7 +228,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 							: "AMOUNT")
 					+ " DESC LIMIT " + count;
 			
-			//plugin.getMessages().debug("Load str=%s",str);
+			//MessageHelper.debug("Load str=%s",str);
 
 			ResultSet results = statement.executeQuery(str);
 			while (results.next()) {
@@ -240,7 +241,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 						list.add(new StatStore(type, offlinePlayer, results.getInt("amount"),
 								results.getDouble("cash")));
 					else {
-						plugin.getMessages().debug("PLAYER_ID: %s was not found.", player_id);
+						MessageHelper.debug("PLAYER_ID: %s was not found.", player_id);
 					}
 				} else {					
 					list.add(new StatStore(type, offlinePlayer, results.getInt("amount"), results.getDouble("cash")));
@@ -259,7 +260,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 	public void savePlayerStats(Set<StatStore> stats) throws DataStoreException {
 		Connection mConnection = setupConnection();
 		try {
-			plugin.getMessages().debug("Saving PlayerStats to Database.");
+			MessageHelper.debug("Saving PlayerStats to Database.");
 			Statement statement = mConnection.createStatement();
 			for (StatStore stat : stats) {
 				String column = "";
@@ -284,7 +285,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
-			plugin.getMessages().debug("Saved.");
+			MessageHelper.debug("Saved.");
 		} catch (SQLException e) {
 			rollback(mConnection);
 			throw new DataStoreException(e);
@@ -303,7 +304,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				openPreparedStatements(mConnection, PreparedConnectionType.INSERT_BOUNTY);
 				for (Bounty bounty : bountyDataSet) {
 					if (bounty.getBountyOwner() == null)
-						plugin.getMessages().debug("RandomBounty to be inserted: %s", bounty.toString());
+						MessageHelper.debug("RandomBounty to be inserted: %s", bounty.toString());
 					int bountyOwnerId = Core.getDataStoreManager().getPlayerId(bounty.getBountyOwner());
 					int wantedPlayerId = Core.getDataStoreManager().getPlayerId(bounty.getWantedPlayer());
 					mInsertBounty.setString(1, bounty.getMobtype());
@@ -1135,7 +1136,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		insertMissingVanillaMobs();
 
-		plugin.getMessages().debug("MobHunting V3 Database created/updated.");
+		MessageHelper.debug("MobHunting V3 Database created/updated.");
 	}
 
 	@Override
@@ -1639,19 +1640,19 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		try {
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP PRIMARY KEY");
-			plugin.getMessages().debug("MySQLDatastore: Primary key on mh_Bounties deleted");
+			MessageHelper.debug("MySQLDatastore: Primary key on mh_Bounties deleted");
 		} catch (Exception e) {
 		}
 		try {
 			// CONSTRAINT can't be used when I use 'INSERT ... ON DUPLICATE KEY'
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP CONSTRAINT mh_Bounties_Player_Id_1");
-			plugin.getMessages().debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_1");
+			MessageHelper.debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_1");
 		} catch (Exception e) {
 		}
 		try {
 			// CONSTRAINT can't be used when I use 'INSERT ... ON DUPLICATE KEY'
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP CONSTRAINT mh_Bounties_Player_Id_2");
-			plugin.getMessages().debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_2");
+			MessageHelper.debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_2");
 		} catch (Exception e) {
 		}
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Bounties ("//
@@ -1677,7 +1678,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 		try {
 			create.executeUpdate(
 					"ALTER TABLE mh_Bounties ADD CONTRAINT mh_Bounties_Unique UNIQUE (WORLDGROUP, WANTEDPLAYER_ID, BOUNTYOWNER_ID)");
-			plugin.getMessages().debug("MySQLDatastore: UNIQUE key on mh_Bounties added");
+			MessageHelper.debug("MySQLDatastore: UNIQUE key on mh_Bounties added");
 		} catch (Exception e) {
 		}
 
@@ -1782,19 +1783,19 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		try {
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP PRIMARY KEY");
-			plugin.getMessages().debug("MySQLDatastore: Primary key on mh_Bounties deleted");
+			MessageHelper.debug("MySQLDatastore: Primary key on mh_Bounties deleted");
 		} catch (Exception e) {
 		}
 		try {
 			// CONSTRAINT can't be used when I use 'INSERT ... ON DUPLICATE KEY'
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP CONSTRAINT mh_Bounties_Player_Id_1");
-			plugin.getMessages().debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_1");
+			MessageHelper.debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_1");
 		} catch (Exception e) {
 		}
 		try {
 			// CONSTRAINT can't be used when I use 'INSERT ... ON DUPLICATE KEY'
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP CONSTRAINT mh_Bounties_Player_Id_2");
-			plugin.getMessages().debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_2");
+			MessageHelper.debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_2");
 		} catch (Exception e) {
 		}
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Bounties ("//
@@ -1820,7 +1821,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 		try {
 			create.executeUpdate(
 					"ALTER TABLE mh_Bounties ADD CONTRAINT mh_Bounties_Unique UNIQUE (WORLDGROUP, WANTEDPLAYER_ID, BOUNTYOWNER_ID)");
-			plugin.getMessages().debug("MySQLDatastore: UNIQUE key on mh_Bounties added");
+			MessageHelper.debug("MySQLDatastore: UNIQUE key on mh_Bounties added");
 		} catch (Exception e) {
 		}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,14 +27,13 @@ public class BattleArenaCompat implements Listener {
 
 	public BattleArenaCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(
-					MobHunting.PREFIX_WARNING + "Compatibility with BattleArena is disabled in config.yml");
+			MessageHelper.warning("Compatibility with BattleArena is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BattleArena.getName());
 
 			Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with BattleArena ("
+			MessageHelper.notice("Enabling compatibility with BattleArena ("
 					+ getBattleArena().getDescription().getVersion() + ")");
 			supported = true;
 		}
@@ -82,7 +82,7 @@ public class BattleArenaCompat implements Listener {
 	 */
 	public static void stopPlayingBattleArena(ArenaPlayer arenaPlayer) {
 		if (!playersPlayingBattleArena.remove(arenaPlayer.getPlayer().getUniqueId())) {
-			MobHunting.getInstance().getMessages().debug("Player: %s is not a the BattleArena", arenaPlayer.getPlayer().getName());
+			MessageHelper.debug("Player: %s is not a the BattleArena", arenaPlayer.getPlayer().getName());
 		}
 	}
 
@@ -91,13 +91,13 @@ public class BattleArenaCompat implements Listener {
 	// **************************************************************************
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onArenaPlayerJoinEvent(ArenaJoinEvent event) {
-		MobHunting.getInstance().getMessages().debug("BattleArenaCompat.StartEvent s%", event.getEventName());
+		MessageHelper.debug("BattleArenaCompat.StartEvent s%", event.getEventName());
 		startPlayingBattleArena(event.getArenaPlayer());
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onArenaPlayerLeaveEvent(ArenaLeaveEvent event) {
-		MobHunting.getInstance().getMessages().debug("BattleArenaCompat.StartEvent %s", event.getEventName());
+		MessageHelper.debug("BattleArenaCompat.StartEvent %s", event.getEventName());
 		stopPlayingBattleArena(event.getArenaPlayer());
 	}
 

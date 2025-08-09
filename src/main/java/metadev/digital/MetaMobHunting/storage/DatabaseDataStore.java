@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -351,26 +352,26 @@ public abstract class DatabaseDataStore implements IDataStore {
 			Connection mConnection = setupConnection();
 			Statement statement = mConnection.createStatement();
 
-			plugin.getMessages().debug("Beginning cleaning of database");
+			MessageHelper.debug("Beginning cleaning of database");
 			int result;
 			result = statement.executeUpdate("DELETE FROM mh_Achievements WHERE PLAYER_ID NOT IN "
 					+ "(SELECT PLAYER_ID FROM mh_Players " + "where mh_Achievements.PLAYER_ID=mh_Players.PLAYER_ID);");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Achievements", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Achievements", result);
 			result = statement.executeUpdate("DELETE FROM mh_AllTime WHERE PLAYER_ID NOT IN "
 					+ "(SELECT PLAYER_ID FROM mh_Players " + "where mh_AllTime.PLAYER_ID=mh_Players.PLAYER_ID);");
-			plugin.getMessages().debug("%s rows was deleted from Mh_AllTime", result);
+			MessageHelper.debug("%s rows was deleted from Mh_AllTime", result);
 			result = statement.executeUpdate("DELETE FROM mh_Daily WHERE PLAYER_ID NOT IN "
 					+ "(SELECT PLAYER_ID FROM mh_Players " + "where mh_Daily.PLAYER_ID=mh_Players.PLAYER_ID);");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Daily", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Daily", result);
 			result = statement.executeUpdate("DELETE FROM mh_Monthly WHERE PLAYER_ID NOT IN "
 					+ "(SELECT PLAYER_ID FROM mh_Players " + "where mh_Monthly.PLAYER_ID=mh_Players.PLAYER_ID);");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Monthly", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Monthly", result);
 			result = statement.executeUpdate("DELETE FROM mh_Weekly WHERE PLAYER_ID NOT IN "
 					+ "(SELECT PLAYER_ID FROM mh_Players " + "where mh_Weekly.PLAYER_ID=mh_Players.PLAYER_ID);");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Weekly", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Weekly", result);
 			result = statement.executeUpdate("DELETE FROM mh_Yearly WHERE PLAYER_ID NOT IN "
 					+ "(SELECT PLAYER_ID FROM mh_Players " + "where mh_Yearly.PLAYER_ID=mh_Players.PLAYER_ID);");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Yearly", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Yearly", result);
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
@@ -391,10 +392,10 @@ public abstract class DatabaseDataStore implements IDataStore {
 			Connection mConnection = setupConnection();
 			Statement statement = mConnection.createStatement();
 
-			plugin.getMessages().debug("Deleting achievements data from the database");
+			MessageHelper.debug("Deleting achievements data from the database");
 			int result;
 			result = statement.executeUpdate("DELETE FROM mh_Achievements;");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Achievements", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Achievements", result);
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
@@ -409,18 +410,18 @@ public abstract class DatabaseDataStore implements IDataStore {
 			Connection mConnection = setupConnection();
 			Statement statement = mConnection.createStatement();
 
-			plugin.getMessages().debug("Deleting statistics data from the database");
+			MessageHelper.debug("Deleting statistics data from the database");
 			int result;
 			result = statement.executeUpdate("DELETE FROM mh_AllTime;");
-			plugin.getMessages().debug("%s rows was deleted from Mh_AllTime", result);
+			MessageHelper.debug("%s rows was deleted from Mh_AllTime", result);
 			result = statement.executeUpdate("DELETE FROM mh_Daily;");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Daily", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Daily", result);
 			result = statement.executeUpdate("DELETE FROM mh_Monthly;");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Monthly", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Monthly", result);
 			result = statement.executeUpdate("DELETE FROM mh_Weekly;");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Weekly", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Weekly", result);
 			result = statement.executeUpdate("DELETE FROM mh_Yearly;");
-			plugin.getMessages().debug("%s rows was deleted from Mh_Yearly", result);
+			MessageHelper.debug("%s rows was deleted from Mh_Yearly", result);
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
@@ -434,10 +435,10 @@ public abstract class DatabaseDataStore implements IDataStore {
 		try {
 			Connection mConnection = setupConnection();
 			Statement statement = mConnection.createStatement();
-			plugin.getMessages().debug("Deleting bounties from the database");
+			MessageHelper.debug("Deleting bounties from the database");
 			int result;
 			result = statement.executeUpdate("DELETE FROM mh_Bounties;");
-			plugin.getMessages().debug("%s rows was deleted from mh_Bounties", result);
+			MessageHelper.debug("%s rows was deleted from mh_Bounties", result);
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
@@ -451,10 +452,10 @@ public abstract class DatabaseDataStore implements IDataStore {
 		try {
 			Connection mConnection = setupConnection();
 			Statement statement = mConnection.createStatement();
-			plugin.getMessages().debug("Deleting bounties from the database");
+			MessageHelper.debug("Deleting bounties from the database");
 			int result;
 			result = statement.executeUpdate("DELETE FROM mh_Bounties where STATUS!=0;");
-			plugin.getMessages().debug("%s rows was deleted from mh_Bounties", result);
+			MessageHelper.debug("%s rows was deleted from mh_Bounties", result);
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
@@ -470,7 +471,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 
 	// Migrate from DatabaseLayout from V2 to V3
 	public void migrateDatabaseLayoutFromV2toV3(Connection connection) throws SQLException {
-		Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "DATAMIGRATION FROM DATABASE LAYOUT V2 TO V3.");
+		MessageHelper.notice("DATAMIGRATION FROM DATABASE LAYOUT V2 TO V3.");
 
 		// rename old tables
 		Statement create = connection.createStatement();
@@ -504,7 +505,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			}
 			rs.close();
 		} catch (Exception e) {
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_ERROR + "while fetching Vanilla Mobs from mh_Mobs");
+			MessageHelper.error("while fetching Vanilla Mobs from mh_Mobs");
 			e.printStackTrace();
 		}
 
@@ -536,10 +537,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 				connection.commit();
 			}
 			rs.close();
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Migrated " + n + " records into mh_Daily.");
+			MessageHelper.notice("Migrated " + n + " records into mh_Daily.");
 		} catch (SQLException e) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_ERROR + "Error while inserting data to new mh_Daily");
+			MessageHelper.error("Error while inserting data to new mh_Daily");
 			e.printStackTrace();
 		}
 
@@ -572,10 +572,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 				connection.commit();
 			}
 			rs.close();
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Migrated " + n + " records into mh_Weekly.");
+			MessageHelper.notice("Migrated " + n + " records into mh_Weekly.");
 		} catch (SQLException e) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_ERROR + "Error while inserting data to new mh_Weekly");
+			MessageHelper.error("Error while inserting data to new mh_Weekly");
 			e.printStackTrace();
 		}
 
@@ -608,9 +607,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 				connection.commit();
 			}
 			rs.close();
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Migrated " + n + " records into mh_Monthly.");
+			MessageHelper.notice("Migrated " + n + " records into mh_Monthly.");
 		} catch (SQLException e) {
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Error while inserting data to new mh_Monthly");
+			MessageHelper.error("Error while inserting data to new mh_Monthly");
 			e.printStackTrace();
 		}
 
@@ -643,10 +642,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 				connection.commit();
 			}
 			rs.close();
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Migrated " + n + " records into mh_Yearly.");
+			MessageHelper.notice("Migrated " + n + " records into mh_Yearly.");
 		} catch (SQLException e) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_ERROR + "Error while inserting data to new mh_Yearly");
+			MessageHelper.error("Error while inserting data to new mh_Yearly");
 			e.printStackTrace();
 		}
 
@@ -678,10 +676,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 				connection.commit();
 			}
 			rs.close();
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Migrated " + n + " records into mh_AllTime.");
+			MessageHelper.notice("Migrated " + n + " records into mh_AllTime.");
 		} catch (SQLException e) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_ERROR + "Error while inserting data to new mh_AllTime");
+			MessageHelper.error("Error while inserting data to new mh_AllTime");
 			e.printStackTrace();
 		}
 
@@ -748,8 +745,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			statement.close();
 			mConnection.close();
 		} catch (SQLException e) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "The ExtendedMobType " + mobtype + " was not found");
+			MessageHelper.error("The ExtendedMobType " + mobtype + " was not found");
 			e.printStackTrace();
 		} catch (DataStoreException e) {
 			e.printStackTrace();
@@ -1156,7 +1152,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 		} catch (SQLException e) {
 			// Tables are V2 => rename table and migrate data
 			migrateData = true;
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Rename mh_Players to mh_PlayersV2.");
+			MessageHelper.warning("Rename mh_Players to mh_PlayersV2.");
 			statement.executeUpdate("ALTER TABLE mh_Players RENAME TO mh_PlayersV2");
 		}
 
@@ -1170,11 +1166,9 @@ public abstract class DatabaseDataStore implements IDataStore {
 						+ "SELECT UUID,NAME,PLAYER_ID,LEARNING_MODE,MUTE_MODE FROM mh_PlayersV2";
 				int n = statement.executeUpdate(insertStr);
 				if (n > 0)
-					Bukkit.getConsoleSender()
-							.sendMessage(MobHunting.PREFIX + "Migrated " + n + " players into the new mh_Players.");
+					MessageHelper.notice("Migrated " + n + " players into the new mh_Players.");
 			} catch (SQLException e) {
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX_ERROR + "Error while inserting data to new mh_Players");
+				MessageHelper.error("Error while inserting data to new mh_Players");
 				e.printStackTrace();
 			}
 		}
@@ -1187,8 +1181,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				statement.executeUpdate("ALTER TABLE mh_Yearly DROP FOREIGN KEY mh_Yearly_ibfk_1;");
 				statement.executeUpdate("ALTER TABLE mh_AllTime DROP FOREIGN KEY mh_AllTime_ibfk_1;");
 
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX + "Dropped foreign keys on mh_Players.PLAYER_ID");
+				MessageHelper.notice("Dropped foreign keys on mh_Players.PLAYER_ID");
 				statement.executeUpdate(
 						"ALTER TABLE mh_Daily ADD CONSTRAINT mh_Daily_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE;");
 				statement.executeUpdate(
@@ -1199,15 +1192,14 @@ public abstract class DatabaseDataStore implements IDataStore {
 						"ALTER TABLE mh_Yearly ADD CONSTRAINT mh_Yearly_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE;");
 				statement.executeUpdate(
 						"ALTER TABLE mh_AllTime ADD CONSTRAINT mh_AllTime_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE;");
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Added constraints on mh_Players.PLAYER_ID");
+				MessageHelper.notice("Added constraints on mh_Players.PLAYER_ID");
 			} catch (SQLException e) {
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX_WARNING + "Moving constraints is already done.");
+				MessageHelper.warning("Moving constraints is already done.");
 			}
 
 			try {
 				statement.executeUpdate("ALTER TABLE mh_Achievements DROP FOREIGN KEY mh_Achievements_ibfk_1;");
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Dropped constraints on mh_Achievements");
+				MessageHelper.notice("Dropped constraints on mh_Achievements");
 			} catch (SQLException e) {
 			}
 
@@ -1215,7 +1207,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				statement.executeUpdate(
 						"ALTER TABLE mh_Achievements ADD CONSTRAINT mh_Achievements_Player_Id FOREIGN KEY(PLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE;");
 
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Added constraints on mh_Achievements");
+				MessageHelper.notice("Added constraints on mh_Achievements");
 			} catch (SQLException e) {
 			}
 
@@ -1223,7 +1215,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				statement.executeUpdate("ALTER TABLE mh_Bounties DROP FOREIGN KEY mh_Bounties_ibfk_1;");
 				statement.executeUpdate("ALTER TABLE mh_Bounties DROP FOREIGN KEY mh_Bounties_ibfk_2;");
 
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Dropped constraints on mh_Bounties");
+				MessageHelper.notice("Dropped constraints on mh_Bounties");
 			} catch (SQLException e) {
 			}
 
@@ -1233,7 +1225,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				statement.executeUpdate(
 						"ALTER TABLE mh_Bounties ADD CONSTRAINT mh_Bounties_Player_Id_2 FOREIGN KEY(WANTEDPLAYER_ID) REFERENCES mh_Players(PLAYER_ID) ON DELETE CASCADE;");
 
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Added constraints on mh_Bounties");
+				MessageHelper.notice("Added constraints on mh_Bounties");
 			} catch (SQLException e) {
 			}
 
@@ -1278,7 +1270,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 
 	@Override
 	public void databaseDeleteOldPlayers() {
-		plugin.getMessages().debug("Deleting players not known on this server.");
+		MessageHelper.debug("Deleting players not known on this server.");
 		int n = 0;
 		try {
 			Connection mConnection = setupConnection();
@@ -1288,7 +1280,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				String uuid = rs.getString("UUID");
 				int playerId = rs.getInt("PLAYER_ID");
 				if (!Bukkit.getOfflinePlayer(UUID.fromString(uuid)).hasPlayedBefore()) {
-					plugin.getMessages().debug("Deleting ID:%s (%s) from MobHunting tables.", playerId, uuid);
+					MessageHelper.debug("Deleting ID:%s (%s) from MobHunting tables.", playerId, uuid);
 					statement.executeUpdate("DELETE FROM mh_Players WHERE UUID='" + uuid + "'");
 					statement.executeUpdate("DELETE FROM mh_Achievements WHERE ID='" + playerId + "'");
 					statement.executeUpdate("DELETE FROM mh_Bounties WHERE ID='" + playerId + "'");

@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -17,18 +18,16 @@ public class StackMobCompat implements Listener {
 
 	public StackMobCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX_WARNING + "Compatibility with StackMob is disabled in config.yml");
+			MessageHelper.warning("Compatibility with StackMob is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.StackMob.getName());
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with StackMob ("
+				MessageHelper.notice("Enabling compatibility with StackMob ("
 						+ mPlugin.getDescription().getVersion() + ").");
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
 				supported = true;
 			} else {
-				Bukkit.getServer().getConsoleSender()
-						.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of StackMob ("
+				MessageHelper.warning("Your current version of StackMob ("
 								+ mPlugin.getDescription().getVersion()
 								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}

@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.Listener;
@@ -20,16 +21,15 @@ public class ExtraHardModeCompat implements Listener {
 
 	public ExtraHardModeCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(
-					MobHunting.PREFIX_WARNING + "Compatibility with ExtraHardMode is disabled in config.yml");
+			MessageHelper.warning("Compatibility with ExtraHardMode is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.ExtraHardMode.getName());
 
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with ExtraHardMode ("
+			MessageHelper.notice("Enabling compatibility with ExtraHardMode ("
 					+ mPlugin.getDescription().getVersion() + ").");
 			if (!MobHunting.getInstance().getConfigManager().difficultyMultiplier
 					.containsKey("difficulty.multiplier.extrahard")) {
-				MobHunting.getInstance().getMessages().debug("Adding extrahard difficulty to config.yml");
+				MessageHelper.debug("Adding extrahard difficulty to config.yml");
 				MobHunting.getInstance().getConfigManager().difficultyMultiplier.put("difficulty.multiplier.extrahard",
 						"2.5");
 				MobHunting.getInstance().getConfigManager().saveConfig();

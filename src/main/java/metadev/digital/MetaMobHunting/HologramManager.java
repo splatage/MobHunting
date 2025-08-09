@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -150,7 +151,7 @@ public class HologramManager { //TODO: Need additional hologram manager beyond C
 		}
 
 		if (getHolograms().size() > 0)
-			plugin.getMessages().debug("%s Holographic Leaderboards loaded", getHolograms().size());
+			MessageHelper.debug("%s Holographic Leaderboards loaded", getHolograms().size());
 
 	}
 
@@ -177,7 +178,7 @@ public class HologramManager { //TODO: Need additional hologram manager beyond C
 			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + e.getMessage());
 		}
 
-		plugin.getMessages().debug("The Holographic Leaderboard '%s' was loaded from file.", hologramName);
+		MessageHelper.debug("The Holographic Leaderboard '%s' was loaded from file.", hologramName);
 
 	}
 

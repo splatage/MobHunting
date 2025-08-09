@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
@@ -35,33 +36,30 @@ public class McMMOCompat implements Listener {
 
 	public McMMOCompat() {
 		if (!isEnabledInConfig()) {
-			Bukkit.getConsoleSender().sendMessage(
-					MobHunting.PREFIX_WARNING + "Compatibility with McMMO / McMMO Classic is disabled in config.yml");
+			MessageHelper.warning("Compatibility with McMMO / McMMO Classic is disabled in config.yml");
 		} else {
 			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName());
 			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with McMMO ("
+				MessageHelper.notice("Enabling compatibility with McMMO ("
 						+ getMcMmoAPI().getDescription().getVersion() + ")");
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX + "McMMO Level rewards is "
+				MessageHelper.notice( "McMMO Level rewards is "
 								+ (MobHunting.getInstance().getConfigManager().enableMcMMOLevelRewards ? "enabled"
 										: "disabled"));
 				mMcMMOVersion = McMMO_Version.McMMO;
 				supported = true;
 			} else if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
 				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Enabling compatibility with McMMO Classic ("
+				MessageHelper.notice("Enabling compatibility with McMMO Classic ("
 						+ getMcMmoAPI().getDescription().getVersion() + ")");
-				Bukkit.getConsoleSender()
-						.sendMessage(MobHunting.PREFIX + "McMMO Classic Level rewards is "
+				MessageHelper.notice("McMMO Classic Level rewards is "
 								+ (MobHunting.getInstance().getConfigManager().enableMcMMOLevelRewards ? "enabled"
 										: "disabled"));
 				mMcMMOVersion = McMMO_Version.McMMO_CLASSIC;
 				supported = true;
 			} else {
 				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-				console.sendMessage(MobHunting.PREFIX_WARNING + "Your current version of McMMO ("
+				MessageHelper.warning("Your current version of McMMO ("
 						+ mPlugin.getDescription().getVersion()
 						+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
 			}
@@ -121,20 +119,20 @@ public class McMMOCompat implements Listener {
 	public void Fish2(McMMOPlayerFishingTreasureEvent event) {
 		Player p = event.getPlayer();
 		ItemStack s = event.getTreasure();
-		MobHunting.getInstance().getMessages().debug("McMMO-FishingEvent1: %s caught a %s", p.getName(), s.getType());
+		MessageHelper.debug("McMMO-FishingEvent1: %s caught a %s", p.getName(), s.getType());
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
 	public void Fish3(McMMOPlayerFishingEvent event) {
 		Player p = event.getPlayer();
-		MobHunting.getInstance().getMessages().debug("McMMO-FishingEvent2: %s is fishing", p.getName());
+		MessageHelper.debug("McMMO-FishingEvent2: %s is fishing", p.getName());
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
 	public void Fish4(McMMOPlayerMagicHunterEvent event) {
 		Player p = event.getPlayer();
 		ItemStack is = event.getTreasure();
-		MobHunting.getInstance().getMessages().debug("McMMO-FishingEvent3: %s, Treasure = %s", p.getName(),
+		MessageHelper.debug("McMMO-FishingEvent3: %s, Treasure = %s", p.getName(),
 				is.getType());
 	}
 
@@ -142,7 +140,7 @@ public class McMMOCompat implements Listener {
 	public void Fish5(McMMOPlayerShakeEvent event) {
 		Player p = event.getPlayer();
 		ItemStack is = event.getDrop();
-		MobHunting.getInstance().getMessages().debug("McMMO-FishingEvent4: %s, Drop = %s", p.getName(), is.getType());
+		MessageHelper.debug("McMMO-FishingEvent4: %s, Drop = %s", p.getName(), is.getType());
 	}
 
 }

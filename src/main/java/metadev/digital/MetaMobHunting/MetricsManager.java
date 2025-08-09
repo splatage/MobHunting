@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bstats.charts.DrilldownPie;
@@ -52,20 +53,20 @@ public class MetricsManager {
 					// make a URL to MCStats.org
 					URL url = new URL("https://bstats.org/");
 					if (!started) {
-						plugin.getMessages().debug("check if home page can be reached");
+						MessageHelper.debug("check if home page can be reached");
 						HttpTools.isHomePageReachable(url, new httpCallback() {
 						
 						@Override
 						public void onSuccess() {
 							startBStatsMetrics();
-							plugin.getMessages().debug("Metrics reporting to Https://bstats.org has started.");
+							MessageHelper.debug("Metrics reporting to Https://bstats.org has started.");
 							started = true;
 						}
 						
 						@Override
 						public void onError() {
 							started=false;
-							plugin.getMessages().debug("https://bstats.org/ seems to be down");
+							MessageHelper.debug("https://bstats.org/ seems to be down");
 						}
 					});
 					}

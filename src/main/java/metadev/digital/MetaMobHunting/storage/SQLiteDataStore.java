@@ -12,6 +12,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -206,7 +207,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 							: "AMOUNT")
 					+ " DESC LIMIT " + count;
 
-			// plugin.getMessages().debug("Load str=%s",exestr);
+			// MessageHelper.debug("Load str=%s",exestr);
 
 			ResultSet results = statement.executeQuery(exestr);
 			while (results.next()) {
@@ -219,7 +220,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 						list.add(new StatStore(type, offlinePlayer, results.getInt("amount"),
 								results.getDouble("cash")));
 					else {
-						plugin.getMessages().debug("PLAYER_ID: %s was not found.", player_id);
+						MessageHelper.debug("PLAYER_ID: %s was not found.", player_id);
 					}
 				} else {
 					list.add(new StatStore(type, offlinePlayer, results.getInt("amount"), results.getDouble("cash")));
@@ -238,7 +239,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 	public void savePlayerStats(Set<StatStore> stats) throws DataStoreException {
 		Connection mConnection = setupConnection();
 		try {
-			plugin.getMessages().debug("Saving PlayerStats to Database.");
+			MessageHelper.debug("Saving PlayerStats to Database.");
 			openPreparedStatements(mConnection, PreparedConnectionType.SAVE_PLAYER_STATS);
 			mSavePlayerStats.clearBatch();
 			for (StatStore st : stats) {
@@ -276,14 +277,14 @@ public class SQLiteDataStore extends DatabaseDataStore {
 						"UPDATE mh_Daily SET %1$s = %1$s + %2$d, %5$s = %5$s + %6$f WHERE ID = strftime(\"%%Y%%j\",\"now\")"
 								+ " AND MOB_ID=%3$d AND PLAYER_ID = %4$d;",
 						column, amount, mob_id, player_id, column2, cash);
-				// plugin.getMessages().debug("Save Str=%s", str);
+				// MessageHelper.debug("Save Str=%s", str);
 				statement.addBatch(str);
 			}
 			statement.executeBatch();
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
-			plugin.getMessages().debug("Saved.");
+			MessageHelper.debug("Saved.");
 		} catch (SQLException | UserNotFoundException e) {
 			rollback(mConnection);
 			throw new DataStoreException(e);
@@ -299,7 +300,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				openPreparedStatements(mConnection, PreparedConnectionType.INSERT_BOUNTY);
 				for (Bounty bounty : bountyDataSet) {
 					if (bounty.getBountyOwner() == null)
-						plugin.getMessages().debug("RandomBounty to be inserted: %s", bounty.toString());
+						MessageHelper.debug("RandomBounty to be inserted: %s", bounty.toString());
 					int bountyOwnerId = Core.getDataStoreManager().getPlayerId(bounty.getBountyOwner());
 					int wantedPlayerId = Core.getDataStoreManager().getPlayerId(bounty.getWantedPlayer());
 					mInsertBounty.setString(1, bounty.getMobtype());
@@ -1033,7 +1034,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate("alter table `mh_Players` add column `MUTE_MODE` INTEGER NOT NULL DEFAULT 0");
 		}
 
-		plugin.getMessages().debug("Updating database triggers.");
+		MessageHelper.debug("Updating database triggers.");
 		statement.executeUpdate("DROP TRIGGER IF EXISTS `mh_DailyInsert`");
 		statement.executeUpdate("DROP TRIGGER IF EXISTS `mh_DailyUpdate`");
 
@@ -1123,7 +1124,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 
 		insertMissingVanillaMobs();
 
-		plugin.getMessages().debug("MobHunting V3 Database created.");
+		MessageHelper.debug("MobHunting V3 Database created.");
 
 	}
 
@@ -1189,7 +1190,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 		create.close();
 		connection.commit();
 
-		plugin.getMessages().debug("Database trigger updated.");
+		MessageHelper.debug("Database trigger updated.");
 	}
 
 	// *******************************************************************************
@@ -1357,7 +1358,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 		create.close();
 		connection.commit();
 
-		plugin.getMessages().debug("Database trigger updated.");
+		MessageHelper.debug("Database trigger updated.");
 	}
 
 	// *******************************************************************************
