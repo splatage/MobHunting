@@ -29,7 +29,7 @@ import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
 import metadev.digital.MetaMobHunting.compatibility.DisguisesHelper;
 import metadev.digital.MetaMobHunting.compatibility.WeaponMechanicsCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldGuardMobHuntingFlag;
-import metadev.digital.MetaMobHunting.compatibility.BattleArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldGuardCompat;
 import metadev.digital.MetaMobHunting.compatibility.PVPArenaCompat;
 import metadev.digital.MetaMobHunting.events.BountyKillEvent;
