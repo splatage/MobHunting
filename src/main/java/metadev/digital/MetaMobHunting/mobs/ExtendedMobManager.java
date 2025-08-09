@@ -16,7 +16,7 @@ import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.storage.DataStoreException;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
 
 public class ExtendedMobManager {

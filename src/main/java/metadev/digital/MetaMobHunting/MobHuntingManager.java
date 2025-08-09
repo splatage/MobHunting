@@ -23,7 +23,7 @@ import metadev.digital.MetaMobHunting.compatibility.ResidenceCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobHelper;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.DisguisesHelper;

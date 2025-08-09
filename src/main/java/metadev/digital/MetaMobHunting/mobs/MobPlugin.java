@@ -6,7 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
 
 public enum MobPlugin {
