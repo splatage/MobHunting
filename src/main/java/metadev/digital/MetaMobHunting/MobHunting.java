@@ -5,7 +5,6 @@ import java.util.Random;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.Messages.Messages;
-import metadev.digital.MetaMobHunting.compatibility.TownyCompat;
 import metadev.digital.MetaMobHunting.config.Migrator;
 import metadev.digital.MetaMobHunting.config.MigratorException;
 import metadev.digital.MetaMobHunting.update.UpdateManager;
@@ -58,6 +57,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.PVPArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.StackMobCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.TownyCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.WeaponMechanicsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.WorldEditCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardCompat;

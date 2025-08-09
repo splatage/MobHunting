@@ -1,7 +1,6 @@
 package metadev.digital.MetaMobHunting;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
-import metadev.digital.MetaMobHunting.compatibility.TownyCompat;
 import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metabagofgold.PlayerBalance;
 import metadev.digital.metacustomitemslib.Core;
@@ -31,6 +30,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardMobHuntingF
 import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.PVPArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.TownyCompat;
 import metadev.digital.MetaMobHunting.events.BountyKillEvent;
 import metadev.digital.MetaMobHunting.events.MobHuntEnableCheckEvent;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
