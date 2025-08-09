@@ -93,6 +93,7 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("mobs.giant", "### Giant settings ###");
 		setCategoryComment("mobs.iron_golem", "### Iron Golem settings ###");
 		setCategoryComment("mobs.guardian", "### Guardian settings ###");
+        setCategoryComment("mobs.happyghast", "### Happy Ghast settings ###");
 		setCategoryComment("mobs.hoglin", "### Hoglin settings ###");
 		setCategoryComment("mobs.husk", "### Husk settings ###");
 		setCategoryComment("mobs.killer_rabbit", "### Killer Rabbit settings ###");
@@ -1047,7 +1048,33 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "guardian.head.message", category = "mobs")
 	public String guardianHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
 
-	// =====Hoglin============================================
+    // =====Happy Ghast============================================
+    @ConfigField(name = "happyghast.enabled", category = "mobs")
+    public boolean happyghastEnabled = true;
+    @ConfigField(name = "happyghast.message", category = "mobs")
+    public String happyghastMessge = "You killed a §7{killed}";
+    @ConfigField(name = "happyghast.money.amount", category = "mobs")
+    public String happyghastMoney = "0";
+    @ConfigField(name = "happyghast.money.chance", category = "mobs")
+    public double happyghastMoneyChance = 1;
+    @ConfigField(name = "happyghast.commands", category = "mobs")
+    public List<HashMap<String, String>> happyghastCommands = new ArrayList<HashMap<String, String>>();
+    {
+        HashMap<String, String> values1 = new HashMap<String, String>();
+        values1.put("cmd", "give {player} iron_ingot 1");
+        values1.put("chance", "0.1");
+        happyghastCommands.add(values1);
+    }
+    @ConfigField(name = "happyghast.head.drophead", category = "mobs")
+    public boolean happyghastHeadDropHead = true;
+    @ConfigField(name = "happyghast.head.value", category = "mobs")
+    public String happyghastHeadPrize = "0";
+    @ConfigField(name = "happyghast.head.chance", category = "mobs")
+    public double happyghastHeadDropChance = 0.05;
+    @ConfigField(name = "happyghast.head.message", category = "mobs")
+    public String happyghastHeadMessage = "§aThe §7{killed} §adropped a skull on the ground";
+
+    // =====Hoglin============================================
 	@ConfigField(name = "hoglin.enabled", category = "mobs")
 	public boolean hoglinEnabled = true;
 	@ConfigField(name = "hoglin.message", category = "mobs")
@@ -3626,6 +3653,9 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "guardian_level1", category = "achievements.hunter.mob_level")
 	public int guardianLevel1 = 100;
 
+    @ConfigField(name = "happyghast_level1", category = "achievements.hunter.mob_level")
+    public int happyghastLevel1 = 100;
+
 	@ConfigField(name = "horse_level1", category = "achievements.hunter.mob_level")
 	public int horseLevel1 = 100;
 
@@ -4460,6 +4490,11 @@ public class ConfigManager extends AutoConfig {
 	public double guardianMcMMOSkillRewardChance = 0.05;
 	// Hostile mob, normal (because of the terrain and beam attack)
 
+    @ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.happyghast")
+    public String happyghastMcMMOSkillRewardAmount = "1:2";
+    @ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.happyghast")
+    public double happyghastMcMMOSkillRewardChance = 0.1;
+
 	@ConfigField(name = "skillreward_amount", category = "plugins.mcmmo.mobs.hoglin")
 	public String hoglinMcMMOSkillRewardAmount = "1";
 	@ConfigField(name = "skillreward_chance", category = "plugins.mcmmo.mobs.hoglin")
@@ -5196,6 +5231,8 @@ public class ConfigManager extends AutoConfig {
 			return glowSquidLevel1;
 		case Guardian:
 			return guardianLevel1;
+        case HappyGhast:
+            return happyghastLevel1;
 		case Horse:
 			return horseLevel1;
 		case Husk:
@@ -5399,6 +5436,8 @@ public class ConfigManager extends AutoConfig {
 			return getPrice(mob, giantHeadPrize);
 		case Guardian:
 			return getPrice(mob, guardianHeadPrize);
+        case HappyGhast:
+            return getPrice(mob, happyghastHeadPrize);
 		case Horse:
 			return getPrice(mob, horseHeadPrize);
 		case Husk:

@@ -407,6 +407,8 @@ public class RewardManager {
 					return getPrice(mob,plugin.getConfigManager().breezeMoney);
 				else if(mob instanceof Bogged)
 					return getPrice(mob,plugin.getConfigManager().boggedMoney);
+                else if(mob instanceof HappyGhast)
+                    return getPrice(mob, plugin.getConfigManager().happyghastMoney);
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -766,6 +768,8 @@ public class RewardManager {
 					return plugin.getConfigManager().breezeCommands;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedCommands;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastCommands;
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -1073,6 +1077,8 @@ public class RewardManager {
 					return plugin.getConfigManager().breezeMessage;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMessage;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastMessge;
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -1373,6 +1379,8 @@ public class RewardManager {
 					return plugin.getConfigManager().breezeMoneyChance;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMoneyChance;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastMoneyChance;
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -1674,6 +1682,8 @@ public class RewardManager {
 					return plugin.getConfigManager().breezeMcMMOSkillRewardChance;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMcMMOSkillRewardChance;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastMcMMOSkillRewardChance;
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -1999,6 +2009,8 @@ public class RewardManager {
 					return getMcMMOXP(mob, plugin.getConfigManager().breezeMcMMOSkillRewardAmount);
 				else if(mob instanceof Bogged)
 					return getMcMMOXP(mob, plugin.getConfigManager().boggedMcMMOSkillRewardAmount);
+                else if(mob instanceof HappyGhast)
+                    return getMcMMOXP(mob, plugin.getConfigManager().happyghastMcMMOSkillRewardAmount);
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -2299,6 +2311,8 @@ public class RewardManager {
 					return plugin.getConfigManager().breezeEnabled;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedEnabled;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastEnabled;
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -2602,6 +2616,8 @@ public class RewardManager {
 					return plugin.getConfigManager().breezeHeadDropHead;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadDropHead;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastHeadDropHead;
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -2907,6 +2923,8 @@ public class RewardManager {
 					return plugin.getConfigManager().breezeHeadDropChance;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadDropChance;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastHeadDropChance;
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -3211,6 +3229,8 @@ public class RewardManager {
 					return plugin.getConfigManager().breezeHeadMessage;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadMessage;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastHeadMessage;
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
@@ -3516,6 +3536,8 @@ public class RewardManager {
 					return getPrice(mob, plugin.getConfigManager().breezeHeadPrize);
 				else if(mob instanceof Bogged)
 					return getPrice(mob, plugin.getConfigManager().boggedHeadPrize);
+                else if(mob instanceof HappyGhast)
+                    return getPrice(mob, plugin.getConfigManager().happyghastHeadPrize);
 			}
 			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
