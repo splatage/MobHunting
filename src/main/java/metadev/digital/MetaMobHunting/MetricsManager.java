@@ -124,7 +124,7 @@ public class MetricsManager {
 							valueMap.put("LibsDisguises", LibsDisguisesCompat.isSupported() ? 1 : 0);
 						} catch (ClassNotFoundException e) {
 						}
-						valueMap.put("Essentials", EssentialsCompat.isSupported() ? 1 : 0);
+						valueMap.put("Essentials", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Essentials.getName())) ? 1 : 0);
 						return valueMap;
 					}
 
