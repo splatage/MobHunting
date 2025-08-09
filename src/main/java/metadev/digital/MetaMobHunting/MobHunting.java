@@ -300,7 +300,7 @@ public class MobHunting extends JavaPlugin {
 		mCommandDispatcher.registerCommand(new ReloadCommand(this));
 		if (WorldGuardCompat.isSupported())
 			mCommandDispatcher.registerCommand(new RegionCommand(this));
-		if (WorldEditCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldEdit.getName())))
 			mCommandDispatcher.registerCommand(new SelectCommand(this));
 		mCommandDispatcher.registerCommand(new TopCommand(this));
 		mCommandDispatcher.registerCommand(new WhitelistAreaCommand(this));

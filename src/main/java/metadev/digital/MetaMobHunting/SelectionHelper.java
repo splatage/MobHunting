@@ -4,11 +4,10 @@ import java.util.AbstractMap;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
 
+import metadev.digital.MetaMobHunting.compatibility.WorldEditCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-
-import metadev.digital.MetaMobHunting.compatibility.WorldEditHelper;
 
 public class SelectionHelper {
 	private static WeakHashMap<Player, Entry<Location, Location>> mPoints = new WeakHashMap<Player, Entry<Location, Location>>();
@@ -26,8 +25,8 @@ public class SelectionHelper {
 
 			return existing.getKey();
 		} else
-			return new Location(player.getWorld(), WorldEditHelper.getPointA(player).getX(),
-					WorldEditHelper.getPointA(player).getY(), WorldEditHelper.getPointA(player).getZ());
+			return new Location(player.getWorld(), WorldEditCompat.getPointA(player).x(),
+					WorldEditCompat.getPointA(player).y(), WorldEditCompat.getPointA(player).z());
 	}
 
 	public static Location getPointB(Player player) throws IllegalArgumentException {
@@ -43,8 +42,8 @@ public class SelectionHelper {
 
 			return existing.getValue();
 		} else
-			return new Location(player.getWorld(), WorldEditHelper.getPointB(player).getX(),
-					WorldEditHelper.getPointB(player).getY(), WorldEditHelper.getPointB(player).getZ());
+			return new Location(player.getWorld(), WorldEditCompat.getPointB(player).x(),
+                    WorldEditCompat.getPointB(player).y(), WorldEditCompat.getPointB(player).z());
 	}
 
 	public static boolean needsCommands() {
