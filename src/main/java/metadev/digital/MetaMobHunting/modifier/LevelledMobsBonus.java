@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.HuntData;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.LevelledMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.LevelledMobsCompat;
 
 public class LevelledMobsBonus implements IModifier {
 

@@ -18,7 +18,6 @@ import metadev.digital.metacustomitemslib.HttpTools;
 import metadev.digital.metacustomitemslib.HttpTools.httpCallback;
 import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.LibsDisguisesCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.McMMOCompat.McMMO_Version;
