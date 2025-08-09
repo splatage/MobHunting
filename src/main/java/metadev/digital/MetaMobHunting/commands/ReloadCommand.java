@@ -13,7 +13,7 @@ import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
 
 
 public class ReloadCommand implements ICommand {

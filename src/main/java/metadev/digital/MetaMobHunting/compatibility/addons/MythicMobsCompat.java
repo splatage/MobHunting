@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.compatibility;
+package metadev.digital.MetaMobHunting.compatibility.addons;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,6 @@ import metadev.digital.metacustomitemslib.compatibility.enums.VersionSetIdentifi
 import metadev.digital.metacustomitemslib.compatibility.exceptions.FeatureNotFoundException;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;

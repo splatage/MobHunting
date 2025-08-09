@@ -2,11 +2,11 @@ package metadev.digital.MetaMobHunting.mobs;
 
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
 import net.citizensnpcs.api.npc.NPC;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

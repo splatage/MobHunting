@@ -52,7 +52,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LibsDisguisesCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.PVPArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
 import metadev.digital.MetaMobHunting.compatibility.ResidenceCompat;

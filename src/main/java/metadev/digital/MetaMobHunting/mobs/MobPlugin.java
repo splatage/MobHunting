@@ -6,8 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-
 public enum MobPlugin {
 	Minecraft("Minecraft", 0), MythicMobs("MythicMobs", 1), Citizens("Citizens", 2), InfernalMobs("InfernalMobs", 7), Herobrine("Herobrine",8), EliteMobs("EliteMobs",9), Boss("Boss",10);
 
