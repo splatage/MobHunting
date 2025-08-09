@@ -16,7 +16,7 @@ import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.StackMobCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;

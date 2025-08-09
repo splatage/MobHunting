@@ -13,7 +13,7 @@ import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.HuntData;
 import metadev.digital.MetaMobHunting.MobHunting;
 // TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MobStackerCompat;
-import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.StackMobCompat;
 
 public class StackedMobBonus implements IModifier {
 

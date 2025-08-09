@@ -18,7 +18,6 @@ import metadev.digital.metacustomitemslib.HttpTools;
 import metadev.digital.metacustomitemslib.HttpTools.httpCallback;
 import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldEditCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldGuardCompat;
 
