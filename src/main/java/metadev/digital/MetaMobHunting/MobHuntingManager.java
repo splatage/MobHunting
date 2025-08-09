@@ -907,7 +907,7 @@ public class MobHuntingManager implements Listener {
 
 		// Residence Compatibility - no reward when player are in a protected
 		// residence
-		if (ResidenceCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Residence.getName()))) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)
 					&& !(killed instanceof Player)) {
 				if (plugin.getConfigManager().disableRewardsInHomeResidence && ResidenceCompat.isProtected(player)) {

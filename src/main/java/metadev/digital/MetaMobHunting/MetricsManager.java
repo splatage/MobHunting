@@ -84,7 +84,7 @@ public class MetricsManager {
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
 						valueMap.put("WorldGuard", Integer.valueOf(WorldGuardCompat.isSupported() ? 1 : 0));
-						valueMap.put("Residence", Integer.valueOf(ResidenceCompat.isSupported() ? 1 : 0));
+						valueMap.put("Residence", Integer.valueOf(MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Residence.getName())) ? 1 : 0));
 						return valueMap;
 					}
 
