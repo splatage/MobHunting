@@ -89,7 +89,7 @@ public class ReloadCommand implements ICommand {
 					MobHunting.getInstance().getAchievementManager().load(player);
 			}
 
-			if (MythicMobsCompat.isSupported())
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 				MythicMobsCompat.loadMythicMobsData();
 			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 				CitizensCompat.loadCitizensData();

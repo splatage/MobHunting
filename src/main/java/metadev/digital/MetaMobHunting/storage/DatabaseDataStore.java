@@ -1058,7 +1058,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 						continue;
 					break;
 				case MythicMobs:
-					if (!MythicMobsCompat.isSupported() || !MythicMobsCompat.isEnabledInConfig())
+					if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 						continue;
 					break;
 				case EliteMobs:

@@ -134,7 +134,7 @@ public class AchievementManager implements Listener {
 			registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
 		}
 
-		if (MythicMobsCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 			for (String type : MythicMobsCompat.getMobRewardData().keySet()) {
 				ExtendedMob extendedMob = new ExtendedMob(MobPlugin.MythicMobs, type);
 				registerAchievement(new BasicHuntAchievement(plugin, extendedMob));

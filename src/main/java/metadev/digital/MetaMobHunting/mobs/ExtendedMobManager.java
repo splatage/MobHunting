@@ -34,7 +34,7 @@ public class ExtendedMobManager {
 		plugin.getStoreManager().insertMissingVanillaMobs();
 		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 			plugin.getStoreManager().insertMissingCitizensMobs();
-		if (MythicMobsCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 			plugin.getStoreManager().insertMissingMythicMobs();
 		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 			plugin.getStoreManager().insertEliteMobs();
@@ -54,7 +54,7 @@ public class ExtendedMobManager {
 			ExtendedMob mob = (ExtendedMob) mobset.next();
 			switch (mob.getMobPlugin()) {
 			case MythicMobs:
-				if (!MythicMobsCompat.isSupported() || !MythicMobsCompat.isEnabledInConfig()
+				if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName()))
 						|| !MythicMobsCompat.isMythicMob(mob.getMobtype()))
 					continue;
 				break;
