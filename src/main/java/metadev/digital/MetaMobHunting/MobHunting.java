@@ -39,7 +39,7 @@ import metadev.digital.MetaMobHunting.commands.TopCommand;
 import metadev.digital.MetaMobHunting.commands.UpdateCommand;
 import metadev.digital.MetaMobHunting.commands.VersionCommand;
 import metadev.digital.MetaMobHunting.commands.WhitelistAreaCommand;
-import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.BattleArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.CompatibilityManager;
