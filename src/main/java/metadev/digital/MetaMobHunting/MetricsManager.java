@@ -96,7 +96,7 @@ public class MetricsManager {
 					@Override
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
-						valueMap.put("PVPArena", PVPArenaCompat.isSupported() ? 1 : 0);
+						valueMap.put("PVPArena", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.PVPArena.getName()))? 1 : 0);
 						valueMap.put("BattleArena", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BattleArena.getName())) ? 1 : 0);
 						return valueMap;
 					}
