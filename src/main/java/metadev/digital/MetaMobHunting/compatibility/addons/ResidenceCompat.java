@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.compatibility;
+package metadev.digital.MetaMobHunting.compatibility.addons;
 
 import com.bekvon.bukkit.residence.api.ResidenceApi;
 import com.bekvon.bukkit.residence.containers.ResidencePlayer;

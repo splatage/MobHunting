@@ -55,7 +55,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.PVPArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
-import metadev.digital.MetaMobHunting.compatibility.ResidenceCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
 import metadev.digital.MetaMobHunting.compatibility.WeaponMechanicsCompat;
 import metadev.digital.MetaMobHunting.compatibility.WorldEditCompat;

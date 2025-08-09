@@ -18,7 +18,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
-import metadev.digital.MetaMobHunting.compatibility.ResidenceCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobHelper;
