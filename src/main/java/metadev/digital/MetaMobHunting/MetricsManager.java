@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.AdvancedPie;
 import org.bstats.charts.DrilldownPie;
@@ -15,7 +16,6 @@ import org.bukkit.Bukkit;
 
 import metadev.digital.metacustomitemslib.HttpTools;
 import metadev.digital.metacustomitemslib.HttpTools.httpCallback;
-import metadev.digital.MetaMobHunting.compatibility.BattleArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
 import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
@@ -108,7 +108,7 @@ public class MetricsManager {
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
 						valueMap.put("PVPArena", PVPArenaCompat.isSupported() ? 1 : 0);
-						valueMap.put("BattleArena", BattleArenaCompat.isSupported() ? 1 : 0);
+						valueMap.put("BattleArena", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BattleArena.getName())) ? 1 : 0);
 						return valueMap;
 					}
 
