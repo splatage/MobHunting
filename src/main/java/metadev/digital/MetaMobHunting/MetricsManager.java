@@ -18,7 +18,6 @@ import metadev.digital.metacustomitemslib.HttpTools;
 import metadev.digital.metacustomitemslib.HttpTools.httpCallback;
 import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.ExtraHardModeCompat;
@@ -144,7 +143,7 @@ public class MetricsManager {
 						valueMap.put("McMMO Classic", McMMOCompat.getMcMMOVersion()==McMMO_Version.McMMO_CLASSIC ? 1 : 0);
 						valueMap.put("WorldEdit", WorldEditCompat.isSupported() ? 1 : 0);
 						valueMap.put("ExtraHardMode", ExtraHardModeCompat.isSupported() ? 1 : 0);
-						valueMap.put("CrackShot", CrackShotCompat.isSupported() ? 1 : 0);
+						valueMap.put("CrackShot", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName())) ? 1 : 0);
 						valueMap.put("CMI", CMIHelper.isCMILoaded() ? 1 : 0);
 						return valueMap;
 					}

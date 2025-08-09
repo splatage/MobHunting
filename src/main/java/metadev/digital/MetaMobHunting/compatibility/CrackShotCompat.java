@@ -1,6 +1,14 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.Feature;
+import metadev.digital.metacustomitemslib.compatibility.FeatureList;
+import metadev.digital.metacustomitemslib.compatibility.ICompat;
+import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
+import metadev.digital.metacustomitemslib.compatibility.enums.BoundIdentifierEnum;
+import metadev.digital.metacustomitemslib.compatibility.enums.VersionSetIdentifierEnum;
+import metadev.digital.metacustomitemslib.compatibility.exceptions.FeatureNotFoundException;
+import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -18,114 +26,214 @@ import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEnt
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.MobHunting;
 
-public class CrackShotCompat implements Listener {
+public class CrackShotCompat implements Listener, ICompat, IFeatureHolder {
 
-	private static Plugin mPlugin;
-	private static boolean supported = false;
-	private final String latestSupported = "0.98.5";
+    // ****** Standard ******
+    private Plugin compatPlugin;
+    private static boolean enabled = false, supported = false, loaded = false;
+    private static String sMin, sMax, pMin = "0.98.5", pMax;
+    private static FeatureList features;
+
+    // ****** Plugin Specific ******
+
 	// https://dev.bukkit.org/projects/crackshot
 	// API: https://github.com/Shampaggon/CrackShot/wiki/Hooking-into-CrackShot
 
 	public CrackShotCompat() {
-		if (!isEnabledInConfig()) {
-			MessageHelper.warning("Compatibility with CrackShot is disabled in config.yml");
-		} else {
-			mPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName());
+        compatPlugin = Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName());
 
-			if (mPlugin.getDescription().getVersion().compareTo(latestSupported) >= 0) {
+        if(compatPlugin != null) {
+            try {
+                start();
+            } catch (SpinupShutdownException e) {
+                Bukkit.getPluginManager().disablePlugin(compatPlugin);
+            }
+        }
+    }
 
-				MessageHelper.notice("Enabling compatibility with CrackShot ("
-						+ mPlugin.getDescription().getVersion() + ")");
+    // ****** ICompat ******
 
-				supported = true;
+    @Override
+    public void start() throws SpinupShutdownException {
+        detectedMessage();
+        registerFeatures();
 
-				Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
+        if (isActive()) {
+            Bukkit.getPluginManager().registerEvents(this, MobHunting.getInstance());
+            successfullyLoadedMessage();
+            loaded = true;
+        } else if (enabled && !supported) {
+            Feature base = getFeature("base");
+            if(base != null) unsupportedMessage(base);
+            else pluginError("Plugin is enabled but not supported, and failed to understand the reasoning out of the base " +
+                    "feature. Likely caused by a corrupt / incorrect construction of the base feature.");
+            throw new SpinupShutdownException();
+        }
+    }
 
-			} else {
-				MessageHelper.warning("Your current version of CrackShot ("
-								+ mPlugin.getDescription().getVersion()
-								+ ") is not supported by MobHunting. Please upgrade to " + latestSupported + " or newer.");
-			}
-		}
-	}
+    @Override
+    public void shutdown() throws SpinupShutdownException {
+        if (isActive() && loaded) {
+            successfullyShutdownMessage();
+            loaded = false;
+        }
+    }
 
-	// **************************************************************************
-	// OTHER
-	// **************************************************************************
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 
-	public Plugin getPlugin() {
-		return mPlugin;
-	}
+    @Override
+    public boolean isSupported() {
+        return supported;
+    }
 
-	public static boolean isSupported() {
-		return supported;
-	}
+    @Override
+    public boolean isActive() {
+        return enabled && supported;
+    }
 
-	public static boolean isEnabledInConfig() {
-		return MobHunting.getInstance().getConfigManager().enableIntegrationCrackShot;
-	}
+    @Override
+    public boolean isLoaded() {
+        return loaded;
+    }
 
-	public static boolean isCrackShotWeapon(ItemStack itemStack) {
-		if (isSupported()) {
-			CSUtility cs = new CSUtility();
-			return cs.getWeaponTitle(itemStack) != null;
-		}
-		return false;
-	}
+    @Override
+    public Plugin getPluginInstance() {
+        return compatPlugin;
+    }
 
-	public static String getCrackShotWeapon(ItemStack itemStack) {
-		if (isSupported()) {
-			CSUtility cs = new CSUtility();
-			return cs.getWeaponTitle(itemStack);
-		}
-		return null;
-	}
+    @Override
+    public String getPluginName() {
+        return compatPlugin.getName();
+    }
 
-	public static boolean isCrackShotProjectile(Projectile Projectile) {
-		if (isSupported()) {
-			CSUtility cs = new CSUtility();
-			return cs.getWeaponTitle(Projectile) != null;
-		}
-		return false;
-	}
+    @Override
+    public String getPluginVersion() {
+        return compatPlugin.getDescription().getVersion();
+    }
 
-	public static String getCrackShotWeapon(Projectile Projectile) {
-		if (isSupported()) {
-			CSUtility cs = new CSUtility();
-			return cs.getWeaponTitle(Projectile);
-		}
-		return null;
-	}
+    // ****** IFeatureHolder ******
 
-	public static boolean isCrackShotUsed(Entity entity) {
-		if (MobHunting.getInstance().getMobHuntingManager().getDamageHistory().containsKey(entity))
-			return MobHunting.getInstance().getMobHuntingManager().getDamageHistory().get(entity)
-					.getCrackShotWeaponUsed() != null
-					&& !MobHunting.getInstance().getMobHuntingManager().getDamageHistory().get(entity)
-							.getCrackShotWeaponUsed().isEmpty();
-		return false;
-	}
+    @Override
+    public void registerFeatures() {
+        features = new FeatureList(getPluginVersion());
 
-	// **************************************************************************
-	// EVENTS
-	// **************************************************************************
+        // Base plugin
+        enabled = MobHunting.getInstance().getConfigManager().enableIntegrationCrackShot;
+        features.addFeature("base", pMin, BoundIdentifierEnum.FLOOR, VersionSetIdentifierEnum.PLUGIN, enabled);
+        supported = isFeatureSupported("base");
 
-	@SuppressWarnings("deprecation")
-	@EventHandler(priority = EventPriority.LOW)
-	public void onWeaponDamageEntityEvent(WeaponDamageEntityEvent event) {
-		if (event.getVictim() instanceof LivingEntity) {
-			DamageInformation info = MobHunting.getInstance().getMobHuntingManager().getDamageHistory()
-					.get(event.getVictim());
-			if (info == null)
-				info = new DamageInformation();
-			info.setTime(System.currentTimeMillis());
-			info.setAttacker(event.getPlayer());
-			info.setAttackerPosition(event.getPlayer().getLocation().clone());
-			info.setCrackShotWeapon(getCrackShotWeapon(event.getPlayer().getItemInHand()));
-			info.setWeaponUser(event.getPlayer());
-			MobHunting.getInstance().getMobHuntingManager().getDamageHistory().put((LivingEntity) event.getVictim(),
-					info);
-		}
-	}
+        // Other features
+    }
 
+    @Override
+    public boolean isFeatureEnabled(String name) {
+        boolean featureEnabled = false;
+        try {
+            featureEnabled = features.isFeatureEnabled(name);
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return enable flag of the feature " + name + " in the " + compatPlugin.getName() +" compat class." );
+        }
+
+        return featureEnabled;
+    }
+
+    @Override
+    public boolean isFeatureSupported(String name) {
+        boolean featureSupported = false;
+        try {
+            featureSupported = features.isFeatureSupported(name);
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return supported flag of the feature " + name + " in the " + compatPlugin.getName() +" compat class." );
+        }
+
+        return featureSupported;
+    }
+
+    @Override
+    public boolean isFeatureActive(String name) {
+        boolean featureActive = false;
+        try {
+            featureActive = features.isFeatureActive(name);
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return active flag of the feature " + name + " in the " + compatPlugin.getName() +" compat class." );
+        }
+
+        return featureActive;
+    }
+
+    @Override
+    public Feature getFeature(String name) {
+        Feature feature;
+        try {
+            feature = features.getFeature(name);
+            return feature;
+        } catch (FeatureNotFoundException e) {
+            MessageHelper.debug("Triggered a FeatureNotFoundException when trying to return the feature " + name + " in the " + compatPlugin.getName() +" compat class." );
+        }
+        return null;
+    }
+
+    // ****** Listener ******
+    @SuppressWarnings("deprecation")
+    @EventHandler(priority = EventPriority.LOW)
+    public void onWeaponDamageEntityEvent(WeaponDamageEntityEvent event) {
+        if (event.getVictim() instanceof LivingEntity) {
+            DamageInformation info = MobHunting.getInstance().getMobHuntingManager().getDamageHistory()
+                    .get(event.getVictim());
+            if (info == null)
+                info = new DamageInformation();
+            info.setTime(System.currentTimeMillis());
+            info.setAttacker(event.getPlayer());
+            info.setAttackerPosition(event.getPlayer().getLocation().clone());
+            info.setCrackShotWeapon(getCrackShotWeapon(event.getPlayer().getItemInHand()));
+            info.setWeaponUser(event.getPlayer());
+            MobHunting.getInstance().getMobHuntingManager().getDamageHistory().put((LivingEntity) event.getVictim(),
+                    info);
+        }
+    }
+
+    // ****** Plugin Specific ******
+    public static boolean isCrackShotWeapon(ItemStack itemStack) {
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName()))) {
+            CSUtility cs = new CSUtility();
+            return cs.getWeaponTitle(itemStack) != null;
+        }
+        return false;
+    }
+
+    public static String getCrackShotWeapon(ItemStack itemStack) {
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName()))) {
+            CSUtility cs = new CSUtility();
+            return cs.getWeaponTitle(itemStack);
+        }
+        return null;
+    }
+
+    public static boolean isCrackShotProjectile(Projectile Projectile) {
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName()))) {
+            CSUtility cs = new CSUtility();
+            return cs.getWeaponTitle(Projectile) != null;
+        }
+        return false;
+    }
+
+    public static String getCrackShotWeapon(Projectile Projectile) {
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName()))) {
+            CSUtility cs = new CSUtility();
+            return cs.getWeaponTitle(Projectile);
+        }
+        return null;
+    }
+
+    public static boolean isCrackShotUsed(Entity entity) {
+        if (MobHunting.getInstance().getMobHuntingManager().getDamageHistory().containsKey(entity))
+            return MobHunting.getInstance().getMobHuntingManager().getDamageHistory().get(entity)
+                    .getCrackShotWeaponUsed() != null
+                    && !MobHunting.getInstance().getMobHuntingManager().getDamageHistory().get(entity)
+                    .getCrackShotWeaponUsed().isEmpty();
+        return false;
+    }
 }

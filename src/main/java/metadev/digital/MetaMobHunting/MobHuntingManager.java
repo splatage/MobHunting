@@ -188,7 +188,7 @@ public class MobHuntingManager implements Listener {
 		if (StackMobCompat.isSupported())
 			mHuntingModifiers.add(new StackedMobBonus());
 		mHuntingModifiers.add(new Undercover());
-		if (CrackShotCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName())))
 			mHuntingModifiers.add(new CrackShotPenalty());
 		if (WeaponMechanicsCompat.isSupported())
 			mHuntingModifiers.add(new WeaponMechanicsPenalty());
@@ -463,7 +463,7 @@ public class MobHuntingManager implements Listener {
 			return;
 		}
 
-		if (CrackShotCompat.isSupported() && CrackShotCompat.isCrackShotUsed(damaged)) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName())) && CrackShotCompat.isCrackShotUsed(damaged)) {
 			return;
 		}
 
