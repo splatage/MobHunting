@@ -140,7 +140,7 @@ public class MetricsManager {
 						valueMap.put("McMMO", McMMOCompat.getMcMMOVersion()==McMMO_Version.McMMO ? 1 : 0);
 						valueMap.put("McMMO Classic", McMMOCompat.getMcMMOVersion()==McMMO_Version.McMMO_CLASSIC ? 1 : 0);
 						valueMap.put("WorldEdit", WorldEditCompat.isSupported() ? 1 : 0);
-						valueMap.put("ExtraHardMode", ExtraHardModeCompat.isSupported() ? 1 : 0);
+						valueMap.put("ExtraHardMode", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())) ? 1 : 0);
 						valueMap.put("CrackShot", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName())) ? 1 : 0);
 						valueMap.put("CMI", CMIHelper.isCMILoaded() ? 1 : 0);
 						return valueMap;
