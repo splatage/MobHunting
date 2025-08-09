@@ -188,7 +188,7 @@ public class MobHuntingManager implements Listener {
 		mHuntingModifiers.add(new Undercover());
 		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName())))
 			mHuntingModifiers.add(new CrackShotPenalty());
-		if (WeaponMechanicsCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WeaponMechanics.getName())))
 			mHuntingModifiers.add(new WeaponMechanicsPenalty());
 	}
 
@@ -465,7 +465,7 @@ public class MobHuntingManager implements Listener {
 			return;
 		}
 
-		if (WeaponMechanicsCompat.isSupported() && WeaponMechanicsCompat.isWeaponMechanicsWeaponUsed(damaged)) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WeaponMechanics.getName())) && WeaponMechanicsCompat.isWeaponMechanicsWeaponUsed(damaged)) {
 			return;
 		}
 
