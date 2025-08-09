@@ -17,7 +17,7 @@ import org.bukkit.Bukkit;
 import metadev.digital.metacustomitemslib.HttpTools;
 import metadev.digital.metacustomitemslib.HttpTools.httpCallback;
 import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EssentialsCompat;

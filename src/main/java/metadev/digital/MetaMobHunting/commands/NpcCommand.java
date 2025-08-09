@@ -11,7 +11,7 @@ import net.citizensnpcs.api.npc.NPCRegistry;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.npc.MasterMobHunter;
 import metadev.digital.MetaMobHunting.npc.MasterMobHunterTrait;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;

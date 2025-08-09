@@ -14,7 +14,7 @@ import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;

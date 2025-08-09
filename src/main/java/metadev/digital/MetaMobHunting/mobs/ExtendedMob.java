@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.mobs;
 
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import net.citizensnpcs.api.npc.NPC;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
