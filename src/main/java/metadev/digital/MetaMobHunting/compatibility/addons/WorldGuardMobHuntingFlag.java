@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.compatibility;
+package metadev.digital.MetaMobHunting.compatibility.addons;
 
 import java.util.Iterator;
 import java.util.Map;

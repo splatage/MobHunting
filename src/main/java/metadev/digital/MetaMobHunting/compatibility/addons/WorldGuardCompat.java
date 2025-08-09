@@ -1,4 +1,4 @@
-package metadev.digital.MetaMobHunting.compatibility;
+package metadev.digital.MetaMobHunting.compatibility.addons;
 
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
@@ -7,7 +7,6 @@ import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
-import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
 import metadev.digital.metacustomitemslib.compatibility.ICompat;
@@ -22,7 +21,6 @@ import org.bukkit.entity.Entity;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 
-import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 import org.bukkit.entity.Player;
