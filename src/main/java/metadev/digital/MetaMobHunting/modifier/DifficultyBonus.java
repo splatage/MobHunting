@@ -14,7 +14,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.HuntData;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.ExtraHardModeCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.ExtraHardModeCompat;
 
 public class DifficultyBonus implements IModifier {
 
