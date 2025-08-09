@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.HuntData;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
 
 public class CrackShotPenalty implements IModifier {
 

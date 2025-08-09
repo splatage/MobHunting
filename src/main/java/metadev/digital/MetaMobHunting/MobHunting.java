@@ -43,7 +43,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.CompatibilityManager;
-import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.ExtraHardModeCompat;
