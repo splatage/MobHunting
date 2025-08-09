@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
@@ -31,7 +32,7 @@ public class ExtendedMobManager {
 
 	public void updateExtendedMobs() {
 		plugin.getStoreManager().insertMissingVanillaMobs();
-		if (CitizensCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 			plugin.getStoreManager().insertMissingCitizensMobs();
 		if (MythicMobsCompat.isSupported())
 			plugin.getStoreManager().insertMissingMythicMobs();
@@ -59,7 +60,7 @@ public class ExtendedMobManager {
 				break;
 
 			case Citizens:
-				if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig()
+				if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName()))
 						|| !CitizensCompat.isSentryOrSentinelOrSentries(mob.getMobtype()))
 					continue;
 				break;

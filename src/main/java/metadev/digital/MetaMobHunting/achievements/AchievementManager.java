@@ -19,6 +19,7 @@ import java.util.WeakHashMap;
 
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
@@ -146,7 +147,7 @@ public class AchievementManager implements Listener {
 				registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
 			}
 
-		if (CitizensCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 			for (String type : CitizensCompat.getMobRewardData().keySet()) {
 				ExtendedMob extendedMob = new ExtendedMob(MobPlugin.Citizens, type);
 				registerAchievement(new BasicHuntAchievement(plugin, extendedMob));

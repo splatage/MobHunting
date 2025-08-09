@@ -7,6 +7,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -1053,7 +1054,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				MobPlugin mp = MobPluginManager.valueOf(set.getInt("PLUGIN_ID"));
 				switch (mp) {
 				case Citizens:
-					if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig())
+					if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 						continue;
 					break;
 				case MythicMobs:

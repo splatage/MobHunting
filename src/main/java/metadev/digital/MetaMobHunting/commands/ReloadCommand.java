@@ -3,6 +3,8 @@ package metadev.digital.MetaMobHunting.commands;
 import java.util.List;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -89,7 +91,7 @@ public class ReloadCommand implements ICommand {
 
 			if (MythicMobsCompat.isSupported())
 				MythicMobsCompat.loadMythicMobsData();
-			if (CitizensCompat.isSupported())
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 				CitizensCompat.loadCitizensData();
 
 			plugin.getMessages().senderSendMessage(sender,

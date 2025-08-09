@@ -137,7 +137,7 @@ public class MetricsManager {
 					@Override
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
-						valueMap.put("Citizens", CitizensCompat.isSupported() ? 1 : 0);
+						valueMap.put("Citizens", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())) ? 1 : 0);
 						valueMap.put("Gringotts", GringottsCompat.isSupported() ? 1 : 0);
 						valueMap.put("MyPet", MyPetCompat.isSupported() ? 1 : 0);
 						valueMap.put("McMMO", McMMOCompat.getMcMMOVersion()==McMMO_Version.McMMO ? 1 : 0);
@@ -180,7 +180,7 @@ public class MetricsManager {
 				valueMap.put("Leaderboards", plugin.getLeaderboardManager().getWorldLeaderBoards().size());
 				valueMap.put("Holographic Leaderboards",
 						plugin.getLeaderboardManager().getHologramManager().getHolograms().size());
-				if (CitizensCompat.isSupported())
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 					valueMap.put("MasterMobHunters", CitizensCompat.getMasterMobHunterManager().getAll().size());
 				valueMap.put("PlayerBounties",
 						plugin.getConfigManager().enablePlayerBounties

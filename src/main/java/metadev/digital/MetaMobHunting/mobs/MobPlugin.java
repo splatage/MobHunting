@@ -1,10 +1,11 @@
 package metadev.digital.MetaMobHunting.mobs;
 
+import metadev.digital.MetaMobHunting.MobHunting;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
 
@@ -44,7 +45,7 @@ public enum MobPlugin {
 		case Minecraft:
 			return true;
 		case Citizens:
-			return CitizensCompat.isSupported();
+			return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName()));
 		case MythicMobs:
 			return MythicMobsCompat.isSupported();
 		case EliteMobs:

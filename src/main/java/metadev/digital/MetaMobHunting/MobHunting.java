@@ -113,6 +113,7 @@ public class MobHunting extends JavaPlugin {
     // TODO: FINISH REMOVING DEPRECATED SERVER VERSION CALLS
 
     // PROJECT HEALTH REMAINING OBJECTIVES
+    // TODO: ADD PLUGIN SHUTDOWN/SPINUP LOGIC MIRRORING MCIL
     // TODO: REWORK MOB ENTITY IF STATEMENT TREE HANDLING
     // TODO: ADD TRANSLATIONS FOR NEW COMPAT FEATURE CONSOLE MESSAGES & CONFIG MIGRATION PROCESS
     // TODO: AUDIT CONFIG AND APPLY A NEW VERSION
@@ -386,8 +387,6 @@ public class MobHunting extends JavaPlugin {
 		} catch (DataStoreException e) {
 			e.printStackTrace();
 		}
-		MessageHelper.debug("Shutdown CitizensCompat");
-		CitizensCompat.shutdown();
 
 		MessageHelper.debug("MobHunting disabled.");
 	}
