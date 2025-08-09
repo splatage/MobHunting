@@ -1866,7 +1866,7 @@ public class MobHuntingManager implements Listener {
 			}
 
 			// Update PlaceHolderData
-			if (PlaceholderAPICompat.isSupported()) {
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.PlaceholderAPI.getName()))) {
 				if (info.getAssister() == null) {
 					PlaceHolderData p = PlaceholderAPICompat.getPlaceHolders().get(player.getUniqueId());
 					if (p != null) {

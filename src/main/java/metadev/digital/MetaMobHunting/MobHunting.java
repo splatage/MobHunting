@@ -372,10 +372,7 @@ public class MobHunting extends JavaPlugin {
 		MessageHelper.debug("Shutdown LeaderBoardManager");
 		mLeaderboardManager.shutdown();
 		mGrindingManager.saveData();
-		if (PlaceholderAPICompat.isSupported()) {
-			MessageHelper.debug("Shutdown PlaceHolderManager");
-			PlaceholderAPICompat.shutdown();
-		}
+
 		getMobHuntingManager().getHuntingModifiers().clear();
 		if (mConfig.enableFishingRewards)
 			getFishingManager().getFishingModifiers().clear();
