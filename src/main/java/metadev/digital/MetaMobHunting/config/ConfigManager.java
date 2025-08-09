@@ -4128,6 +4128,12 @@ public class ConfigManager extends AutoConfig {
 			+ "\nbecause of database lockings.")
 	public int masterMobHuntercheckEvery = 300;
 
+    // #####################################################################################
+    // BagOfGold settings - for servers with the BagOfGold plugin
+    // #####################################################################################
+    @ConfigField(name = "enable_integration_bagofgold", category = "plugins.bagofgold", comment = "Enable/disable integration with BagOfGold")
+    public boolean enableIntegrationBagOfGold = false;
+
 	// #####################################################################################
 	// Stacked Mobs Settings
 	// #####################################################################################
