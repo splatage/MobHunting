@@ -225,7 +225,7 @@ public class RewardManager {
 	public void dropMoneyOnGround_RewardManager(Player player, Entity killedEntity, Location location, double money) {
 		Item item = null;
 		money = Tools.ceil(money);
-		if (GringottsCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Gringotts.getName()))) {
 			List<Denomination> denoms = Configuration.CONF.getCurrency().getDenominations();
 			int unit = Configuration.CONF.getCurrency().getUnit();
 			double rest = money;
