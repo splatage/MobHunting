@@ -151,7 +151,7 @@ public class MetricsManager {
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> valueMap = new HashMap<>();
 				valueMap.put("MythicMobs", MythicMobsCompat.isSupported() ? 1 : 0);
-				valueMap.put("Levelled Mobs", LevelledMobsCompat.isSupported() ? 1 : 0);
+				valueMap.put("Levelled Mobs", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.LevelledMobs.getName())) ? 1 : 0);
 				valueMap.put("StackMob", StackMobCompat.isSupported() ? 1 : 0);
 				valueMap.put("EliteMobs", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())) ? 1 : 0);
 				return valueMap;
