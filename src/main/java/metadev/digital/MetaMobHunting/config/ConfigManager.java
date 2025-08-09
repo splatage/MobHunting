@@ -429,15 +429,8 @@ public class ConfigManager extends AutoConfig {
 
 		setCategoryComment("plugins.levelmobs",
 				"########################################################################"
-						+ "\nLevel Mob Settings (Conquestian / LorinthsRPGMobs / LevelledMobs"
+						+ "\nLevel Mob Settings (LorinthsRPGMobs / LevelledMobs"
 						+ "\n########################################################################");
-
-		setCategoryComment("plugins.levelmobs.conquestiamobs",
-				"########################################################################"
-						+ "\nConquestia Mobs settings"
-						+ "\n########################################################################"
-						+ "\nHere you can chance the behavior of ConquestiaMobs Integration, or you can disable"
-						+ "\nintegration completely." + "\nhttps://www.spigotmc.org/resources/conquesita_mobs.21307/");
 
 		setCategoryComment("plugins.levelmobs.lorinthsrpgmobs",
 				"########################################################################" + "\nLorinthsRPGMobs"
@@ -4178,15 +4171,8 @@ public class ConfigManager extends AutoConfig {
 	public double elitemobMultiplier = 2;
 
 	// #####################################################################################
-	// ConquestiaMobs / LorinthsRpgMobs / LevelledMobs Settings
+	// LorinthsRpgMobs / LevelledMobs Settings
 	// #####################################################################################
-	@ConfigField(name = "enable_integration_conquestiamobs", category = "plugins.levelmobs.conquestia", comment = "Enable/disable integration with ConquestiaMobs"
-			+ "\nhttps://www.spigotmc.org/resources/conquesita_mobs.21307/")
-	public boolean enableIntegrationConquestiaMobs = true;
-
-	@ConfigField(name = "enable_integration_lorinthsrpgmobs", category = "plugins.levelmobs.lorinthsrpgmobs")
-	public boolean enableIntegrationLorinthsRpgMobs = true;
-
 	@ConfigField(name = "enable_integration_levelledmobs", category = "plugins.levelmobs.levelledmobs")
 	public boolean enableIntegrationLevelledMobs = true;
 
