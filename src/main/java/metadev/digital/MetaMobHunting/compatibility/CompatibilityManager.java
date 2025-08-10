@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
-import metadev.digital.metacustomitemslib.compatibility.ICompat;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
 import metadev.digital.metacustomitemslib.server.Server;
 import org.bukkit.Bukkit;
