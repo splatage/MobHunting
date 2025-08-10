@@ -47,7 +47,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.ExtraHardModeCompat;
-import metadev.digital.MetaMobHunting.compatibility.FactionsUUIDCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.FactionsUUIDCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.GringottsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LibsDisguisesCompat;

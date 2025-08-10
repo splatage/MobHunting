@@ -1,7 +1,7 @@
 package metadev.digital.MetaMobHunting;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
-import metadev.digital.MetaMobHunting.compatibility.FactionsUUIDCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.FactionsUUIDCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.*;
 import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metabagofgold.PlayerBalance;

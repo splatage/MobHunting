@@ -1,7 +1,7 @@
 
 package metadev.digital.MetaMobHunting.modifier;
 
-import metadev.digital.MetaMobHunting.compatibility.FactionsUUIDCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.FactionsUUIDCompat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
