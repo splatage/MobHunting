@@ -107,13 +107,9 @@ public class MetricsManager {
 					public Map<String, Integer> call() throws Exception {
 						Map<String, Integer> valueMap = new HashMap<>();
 
-						try {
-							@SuppressWarnings({ "rawtypes", "unused" })
-							Class cls = Class.forName("me.libraryaddict.disguise.disguisetypes.DisguiseType");
-							valueMap.put("LibsDisguises", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.LibsDisguises.getName()))  ? 1 : 0);
-						} catch (ClassNotFoundException e) {
-						}
-						valueMap.put("Essentials", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Essentials.getName())) ? 1 : 0);
+                        valueMap.put("LibsDisguises", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.LibsDisguises.getName()))  ? 1 : 0);
+						valueMap.put("VanishNoPacket", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.VanishNoPacket.getName())) ? 1 : 0);
+                        valueMap.put("Essentials", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Essentials.getName())) ? 1 : 0);
 						return valueMap;
 					}
 

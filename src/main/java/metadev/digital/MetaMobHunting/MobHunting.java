@@ -60,6 +60,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.StackMobCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.TownyCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.VanishNoPacketCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.WeaponMechanicsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.WorldEditCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardCompat;
@@ -131,6 +132,7 @@ public class MobHunting extends JavaPlugin {
     // TODO: AUDIT AND REIMPLEMENT ELITEMOBS
     // TODO: AUDIT TARDISWeepingAngels and add in support for the other mobs https://github.com/eccentricdevotion/TARDIS
     // TODO: AUDIT, PURCHASE, AND REIMPLEMENT BOSS https://mineacademy.org/boss  https://builtbybit.com/resources/boss-unbelievable-custom-monsters.21619/
+    // TODO: TODO: Replace Reserve with https://bstats.org/plugin/bukkit/VaultUnlocked/22252 ex: https://github.com/TownyAdvanced/Towny/blob/d382a5d5b614ac5e2032b9e94bc861f2f313bf4c/Towny/src/main/java/com/palmergames/bukkit/towny/TownyEconomyHandler.java#L168
 
 
 
@@ -277,6 +279,7 @@ public class MobHunting extends JavaPlugin {
 
 		// Disguise and Vanish plugins
 		mCompatibilityManager.registerPlugin(LibsDisguisesCompat.class, SupportedPluginEntities.LibsDisguises);
+        mCompatibilityManager.registerPlugin(VanishNoPacketCompat.class, SupportedPluginEntities.VanishNoPacket);
 
 		// Plugin PlaceholderAPI
 		mCompatibilityManager.registerPlugin(PlaceholderAPICompat.class, SupportedPluginEntities.PlaceholderAPI);

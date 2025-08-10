@@ -301,6 +301,15 @@
             <systemPath>${basedir}/lib/LibsDisguises-11.0.7.jar</systemPath>
         </dependency>
 
+        <!-- VanishNoPacket -->
+        <dependency>
+            <groupId>org.kitteh.vanish.VanishPlugin</groupId>
+            <artifactId>VanishNoPacket</artifactId>
+            <version>3.20.2-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/VanishNoPacket-3.20.2-SNAPSHOT.jar</systemPath>
+        </dependency>
+
         <!-- McMMO -->
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>

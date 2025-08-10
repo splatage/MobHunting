@@ -8,6 +8,7 @@ import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.achievements.AchievementManager;
 import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LibsDisguisesCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.VanishNoPacketCompat;
 import metadev.digital.metacustomitemslib.storage.DataStoreManager;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.metacustomitemslib.storage.UserNotFoundException;
@@ -266,7 +267,7 @@ public class BountyManager implements Listener {
 				if (n > 0 && hasOpenBounties(player)) {
 					plugin.getMessages().playerSendMessage(player,
 							plugin.getMessages().getString("mobhunting.bounty.youarewanted"));
-					if (!EssentialsCompat.isVanishedModeEnabled(player) && !LibsDisguisesCompat.isPlayerDisguise(player))
+					if (!EssentialsCompat.isVanishedModeEnabled(player) && !LibsDisguisesCompat.isPlayerDisguise(player) && !VanishNoPacketCompat.isVanishedModeEnabled(player))
 						plugin.getMessages().broadcast(plugin.getMessages()
 								.getString("mobhunting.bounty.playeriswanted", "playername", player.getName()), player);
 				}
@@ -482,7 +483,7 @@ public class BountyManager implements Listener {
 			int noOfPlayers = Tools.getOnlinePlayersAmount();
 			int noOfPlayersNotVanished = noOfPlayers;
 			for (Player player : Tools.getOnlinePlayers()) {
-				if (EssentialsCompat.isVanishedModeEnabled(player) || LibsDisguisesCompat.isPlayerDisguise(player)
+				if (EssentialsCompat.isVanishedModeEnabled(player) || LibsDisguisesCompat.isPlayerDisguise(player) || VanishNoPacketCompat.isVanishedModeEnabled(player)
 						|| player.hasPermission("mobhunting.bounty.randombounty.exempt"))
 					noOfPlayersNotVanished--;
 			}
@@ -494,6 +495,7 @@ public class BountyManager implements Listener {
 				for (Player player : Tools.getOnlinePlayers()) {
 					if (n == random && !EssentialsCompat.isVanishedModeEnabled(player)
 							&& !LibsDisguisesCompat.isPlayerDisguise(player)
+                            && !VanishNoPacketCompat.isVanishedModeEnabled(player)
 							&& !player.hasPermission("mobhunting.bounty.randombounty.exempt")) {
 						randomPlayer = player;
 						break;
