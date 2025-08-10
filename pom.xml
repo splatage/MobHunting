@@ -6,7 +6,7 @@
 
     <groupId>metadev.digital</groupId>
     <artifactId>MetaMobHunting</artifactId>
-    <version>9.2.0</version>
+    <version>10.0.0</version>
     <name>MobHunting</name>
     <url>https://github.com/Metadev-Digital/MobHunting</url>
     <description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
