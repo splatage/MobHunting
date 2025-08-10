@@ -386,6 +386,8 @@ public class MobHunting extends JavaPlugin {
 		if (!mInitialized)
 			return;
 
+        MessageHelper.debug("Shutting down compatibilities.");
+        mCompatibilityManager.triggerSoftShutdown();
 		MessageHelper.debug("Shutdown LeaderBoardManager");
 		mLeaderboardManager.shutdown();
 		mGrindingManager.saveData();
