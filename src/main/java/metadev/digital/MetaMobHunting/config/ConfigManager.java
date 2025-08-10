@@ -7,6 +7,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.config.AutoConfig;
 import metadev.digital.metacustomitemslib.config.ConfigField;
@@ -5093,11 +5095,9 @@ public class ConfigManager extends AutoConfig {
 					backupFile.mkdirs();
 				Files.copy(mFile.toPath(), backupFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES,
 						StandardCopyOption.REPLACE_EXISTING);
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RESET
-						+ " Config.yml was backed up to " + backupFile.getPath());
+                MessageHelper.notice("Config.yml was backed up to " + backupFile.getPath());
 			} catch (IOException e1) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-						+ "[ERROR] - Could not backup config.yml file to " +plugin.getDataFolder().getPath() + "backup/config.yml. Delete some old backups");
+                MessageHelper.error("Could not backup config.yml file to " +plugin.getDataFolder().getPath() + "backup/config.yml. Delete some old backups");
 				e1.printStackTrace();
 			}
 	}

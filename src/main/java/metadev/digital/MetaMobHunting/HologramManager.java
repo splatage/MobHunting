@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -131,8 +129,7 @@ public class HologramManager { //TODO: Need additional hologram manager beyond C
 		try {
 			hologramConfig.load(hologramFile);
 		} catch (IOException | InvalidConfigurationException e) {
-			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.RED + "Could not read Hologram Leaderboard file: hologram-leaderboards.yml");
+			MessageHelper.error("Could not read Hologram Leaderboard file: hologram-leaderboards.yml");
 			if (plugin.getConfigManager().killDebug)
 				e.printStackTrace();
 		}
@@ -146,7 +143,7 @@ public class HologramManager { //TODO: Need additional hologram manager beyond C
 				board.read(section);
 				createHologramLeaderboard(board);
 			} catch (InvalidConfigurationException e) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.RED + e.getMessage());
+                MessageHelper.error(e.getMessage());
 			}
 		}
 
@@ -163,8 +160,7 @@ public class HologramManager { //TODO: Need additional hologram manager beyond C
 		try {
 			hologramConfig.load(hologramFile);
 		} catch (IOException | InvalidConfigurationException e) {
-			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.RED + "Could not read Hologram Leaderboard file: hologram-leaderboards.yml");
+            MessageHelper.error("Could not read Hologram Leaderboard file: hologram-leaderboards.yml");
 			if (plugin.getConfigManager().killDebug)
 				e.printStackTrace();
 		}
@@ -175,7 +171,7 @@ public class HologramManager { //TODO: Need additional hologram manager beyond C
 			board.read(section);
 			createHologramLeaderboard(board);
 		} catch (InvalidConfigurationException e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + e.getMessage());
+            MessageHelper.error(e.getMessage());
 		}
 
 		MessageHelper.debug("The Holographic Leaderboard '%s' was loaded from file.", hologramName);

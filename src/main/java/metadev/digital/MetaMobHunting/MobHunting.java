@@ -13,7 +13,6 @@ import metadev.digital.metacustomitemslib.storage.DataStoreException;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
-import metadev.digital.metacustomitemslib.compatibility.addons.CMICompat;
 import metadev.digital.MetaMobHunting.Api.MobHuntingAPI;
 import metadev.digital.MetaMobHunting.achievements.*;
 import metadev.digital.MetaMobHunting.bounty.BountyManager;
@@ -122,6 +121,8 @@ public class MobHunting extends JavaPlugin {
     // TODO: ADD TRANSLATIONS FOR NEW COMPAT FEATURE CONSOLE MESSAGES & CONFIG MIGRATION PROCESS
     // TODO: AUDIT CONFIG AND APPLY A NEW VERSION
     // TODO: ADD UNIT TESTS VIA MOCKBUKKIT
+    // TODO: RETEST CMI COMPAT NOW THAT THE CLASS HAS BEEN REMOVED FROM STARTUP IN MOBHUNTING
+    // TODO: REMOVE THE REST OF THE Bukkit.getConsoleSender() AND MIGRATE TO MESSAGEHELPER
 
     // PLUGIN COMPATIBILITIES
     // NEW
@@ -263,7 +264,6 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(WorldEditCompat.class, SupportedPluginEntities.WorldEdit);
 		mCompatibilityManager.registerPlugin(WorldGuardCompat.class, SupportedPluginEntities.WorldGuard);
 
-		mCompatibilityManager.registerPlugin(CMICompat.class, SupportedPluginEntities.CMI);
 		mCompatibilityManager.registerPlugin(ResidenceCompat.class, SupportedPluginEntities.Residence);
         mCompatibilityManager.registerPlugin(TownyCompat.class, SupportedPluginEntities.Towny);
         mCompatibilityManager.registerPlugin(FactionsUUIDCompat.class, SupportedPluginEntities.Factions);
