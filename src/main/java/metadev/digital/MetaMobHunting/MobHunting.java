@@ -386,8 +386,7 @@ public class MobHunting extends JavaPlugin {
 		if (!mInitialized)
 			return;
 
-        MessageHelper.debug("Shutting down compatibilities.");
-        mCompatibilityManager.triggerSoftShutdown();
+
 		MessageHelper.debug("Shutdown LeaderBoardManager");
 		mLeaderboardManager.shutdown();
 		mGrindingManager.saveData();
@@ -395,6 +394,9 @@ public class MobHunting extends JavaPlugin {
 		getMobHuntingManager().getHuntingModifiers().clear();
 		if (mConfig.enableFishingRewards)
 			getFishingManager().getFishingModifiers().clear();
+
+        MessageHelper.debug("Shutting down compatibilities.");
+        mCompatibilityManager.triggerSoftShutdown();
 
 		try {
 			MessageHelper.debug("Shutdown StoreManager");
