@@ -124,11 +124,13 @@ public class MobHunting extends JavaPlugin {
     // PLUGIN COMPATIBILITIES
     // NEW
     // TODO: DiscordSRV
+    // TODO: Finish integrating ImprovedFactions
     // OLD
     // TODO: AUDIT AND FULLY IMPLEMENT BOSSSHOP
     // TODO: AUDIT AND REIMPLEMENT ELITEMOBS
     // TODO: AUDIT TARDISWeepingAngels and add in support for the other mobs https://github.com/eccentricdevotion/TARDIS
     // TODO: AUDIT, PURCHASE, AND REIMPLEMENT BOSS https://mineacademy.org/boss  https://builtbybit.com/resources/boss-unbelievable-custom-monsters.21619/
+
 
 
     @Override

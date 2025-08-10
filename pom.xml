@@ -85,7 +85,7 @@
             <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
 
-        <!-- Jitpack (Vault) -->
+        <!-- Jitpack (Vault & ImprovedFactions)  -->
         <repository>
             <id>jitpack-repo</id>
             <url>https://jitpack.io</url>
@@ -366,24 +366,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- RIP Factions. Replace with one of these two, ImprovedFactions or Saber Factions
-        ImprovedFactions (RIP Factions) https://www.spigotmc.org/resources/improved-factions.95617/
+        <!-- ImprovedFactions https://www.spigotmc.org/resources/improved-factions.95617/ -->
         <dependency>
-            <groupId>io.github.toberocat</groupId>
+            <groupId>com.github.ToberoCat</groupId>
             <artifactId>ImprovedFactions</artifactId>
-            <scope>system</scope>
-            <version>2.2.0</version>
-            <systemPath>${basedir}/lib/ImprovedFactions-2.2.0.jar</systemPath>
+            <scope>provided</scope>
+            <version>v2.3.0.234</version>
         </dependency>
 
-        Saber Factions (RIP FACTIONS) https://www.spigotmc.org/resources/saberfactions-1-8-1-21-x-discord-gg-saber-the-complete-factions-solution.69771/
-        <dependency>
-            <groupId>com.github.SaberLLC</groupId>
-            <artifactId>Saber-Factions</artifactId>
-            <version>4.1.6-BETA</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/SaberFactions.jar</systemPath>
-        </dependency> -->
 
         <!-- Residence -->
         <dependency>
