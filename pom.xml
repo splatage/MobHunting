@@ -102,6 +102,12 @@
             <id>glaremasters repo</id>
             <url>https://repo.glaremasters.me/repository/towny/</url>
         </repository>
+
+        <!-- FactionsUUID -->
+        <repository>
+            <id>dev.kitteh</id>
+            <url>https://dependency.download/releases</url>
+        </repository>
     </repositories>
 
     <!-- ********************************************************************** -->
@@ -366,14 +372,21 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- ImprovedFactions https://www.spigotmc.org/resources/improved-factions.95617/ -->
+        <!-- ImprovedFactions https://www.spigotmc.org/resources/improved-factions.95617/
         <dependency>
             <groupId>com.github.ToberoCat</groupId>
             <artifactId>ImprovedFactions</artifactId>
             <scope>provided</scope>
             <version>v2.3.0.234</version>
-        </dependency>
+        </dependency>-->
 
+        <!-- Factions UUID https://factions.support/  https://www.spigotmc.org/resources/factionsuuid.1035/ -->
+        <dependency>
+            <groupId>dev.kitteh</groupId>
+            <artifactId>factionsuuid</artifactId>
+            <scope>provided</scope>
+            <version>0.7.0</version>
+        </dependency>
 
         <!-- Residence -->
         <dependency>

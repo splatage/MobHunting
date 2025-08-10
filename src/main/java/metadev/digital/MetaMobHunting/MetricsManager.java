@@ -82,6 +82,7 @@ public class MetricsManager {
 						valueMap.put("WorldGuard", Integer.valueOf(MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName())) ? 1 : 0));
                         valueMap.put("Towny", Integer.valueOf(MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Towny.getName())) ? 1 : 0));
 						valueMap.put("Residence", Integer.valueOf(MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Residence.getName())) ? 1 : 0));
+                        valueMap.put("Factions", Integer.valueOf(MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Factions.getName())) ? 1 : 0));
 						return valueMap;
 					}
 

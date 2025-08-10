@@ -47,6 +47,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.ExtraHardModeCompat;
+import metadev.digital.MetaMobHunting.compatibility.FactionsUUIDCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.GringottsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LibsDisguisesCompat;
@@ -263,6 +264,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(CMICompat.class, SupportedPluginEntities.CMI);
 		mCompatibilityManager.registerPlugin(ResidenceCompat.class, SupportedPluginEntities.Residence);
         mCompatibilityManager.registerPlugin(TownyCompat.class, SupportedPluginEntities.Towny);
+        mCompatibilityManager.registerPlugin(FactionsUUIDCompat.class, SupportedPluginEntities.Factions);
 
 		// Other plugins
 		mCompatibilityManager.registerPlugin(McMMOCompat.class, SupportedPluginEntities.mcMMO);

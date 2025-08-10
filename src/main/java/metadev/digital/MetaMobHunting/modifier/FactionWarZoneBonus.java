@@ -1,7 +1,7 @@
-/**
- * TODO: Update to new Factions
+
 package metadev.digital.MetaMobHunting.modifier;
 
+import metadev.digital.MetaMobHunting.compatibility.FactionsUUIDCompat;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -26,7 +26,7 @@ public class FactionWarZoneBonus implements IModifier {
 	@Override
 	public boolean doesApply(Entity deadEntity, Player killer, HuntData data, DamageInformation extraInfo,
 			EntityDamageByEntityEvent lastDamageCause) {
-		return FactionsHelperCompat.isInWarZone(killer);
+		return FactionsUUIDCompat.isInWarZone(killer);
 	}
 
-}*/
+}

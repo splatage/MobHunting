@@ -1,6 +1,7 @@
 package metadev.digital.MetaMobHunting;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.compatibility.FactionsUUIDCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.*;
 import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metabagofgold.PlayerBalance;
@@ -153,8 +154,8 @@ public class MobHuntingManager implements Listener {
 		mHuntingModifiers.add(new CriticalModifier());
 		mHuntingModifiers.add(new DifficultyBonus());
 		mHuntingModifiers.add(new WorldBonus());
-		/* TODO: Replace with new factions if (FactionsHelperCompat.isSupported())
-			mHuntingModifiers.add(new FactionWarZoneBonus()); */
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Factions.getName())))
+			mHuntingModifiers.add(new FactionWarZoneBonus());
 		mHuntingModifiers.add(new FlyingPenalty());
 		mHuntingModifiers.add(new FriendleFireBonus());
 		if (plugin.getConfigManager().areaGrindingDetectionEnabled
@@ -868,11 +869,10 @@ public class MobHuntingManager implements Listener {
 			}
 		}
 
-		/** TODO: Replace with new Factions
 		// Factions Compatibility - no reward when player are in SafeZone
-		if (FactionsHelperCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Factions.getName()))) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)) {
-				if (FactionsHelperCompat.isInHomeZoneAndPeaceful(player)) {
+				if (FactionsUUIDCompat.isInHomeZoneAndPeaceful(player)) {
 					MessageHelper.debug("KillBlocked: %s is hiding in his Factions Home SafeZone",
 							player.getName());
 					plugin.getMessages().learn(player,
@@ -881,7 +881,7 @@ public class MobHuntingManager implements Listener {
 							plugin.getConfigManager().disableNatualXPDrops);
 					MessageHelper.debug("======================= kill ended (7)======================");
 					return;
-				} else if (FactionsHelperCompat.isInSafeZoneAndPeaceful(player)) {
+				} else if (FactionsUUIDCompat.isInSafeZoneAndPeaceful(player)) {
 					MessageHelper.debug("KillBlocked: %s is hiding in Factions SafeZone", player.getName());
 					plugin.getMessages().learn(player,
 							plugin.getMessages().getString("mobhunting.learn.factions-no-rewards-in-safezone"));
@@ -891,7 +891,7 @@ public class MobHuntingManager implements Listener {
 					return;
 				}
 			}
-		}*/
+		}
 
         // Towny Compatibility - no reward when player are in a protected town
         if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Towny.getName()))) {
