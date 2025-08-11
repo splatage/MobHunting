@@ -8,7 +8,7 @@ import java.util.HashMap;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
 import metadev.digital.metacustomitemslib.compatibility.enums.BoundIdentifierEnum;
 import metadev.digital.metacustomitemslib.compatibility.enums.VersionSetIdentifierEnum;
@@ -37,7 +37,7 @@ import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMobRewardData;
 
 // TODO: Some of this functionality was originally written for a version of EliteMobs ~~~IN 2014~~~. Audit and improve.
-public class EliteMobsCompat implements Listener, ICompat, IFeatureHolder {
+public class EliteMobsCompat implements Listener, IMobHuntCompat, IFeatureHolder {
 
 	// https://www.spigotmc.org/resources/%E2%9A%94elitemobs%E2%9A%94.40090/
 

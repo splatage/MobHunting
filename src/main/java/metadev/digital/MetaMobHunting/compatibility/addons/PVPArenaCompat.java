@@ -3,7 +3,7 @@ package metadev.digital.MetaMobHunting.compatibility.addons;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.FeatureNotFoundException;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
@@ -25,7 +25,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
-public class PVPArenaCompat implements Listener, ICompat, IFeatureHolder {
+public class PVPArenaCompat implements Listener, IMobHuntCompat, IFeatureHolder {
 
     // ****** Standard ******
     private Plugin compatPlugin;

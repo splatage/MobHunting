@@ -3,7 +3,7 @@ package metadev.digital.MetaMobHunting.compatibility.addons;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
 import metadev.digital.metacustomitemslib.compatibility.enums.BoundIdentifierEnum;
 import metadev.digital.metacustomitemslib.compatibility.enums.VersionSetIdentifierEnum;
@@ -16,7 +16,7 @@ import org.gestern.gringotts.Gringotts;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
-public class GringottsCompat implements ICompat, IFeatureHolder {
+public class GringottsCompat implements IMobHuntCompat, IFeatureHolder {
 
 
     // ****** Standard ******

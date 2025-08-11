@@ -6,7 +6,7 @@ import java.io.IOException;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.FeatureNotFoundException;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
@@ -23,7 +23,7 @@ import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEnt
 import metadev.digital.MetaMobHunting.MobHunting;
 import org.bukkit.plugin.Plugin;
 
-public class EssentialsCompat implements ICompat, IFeatureHolder {
+public class EssentialsCompat implements IMobHuntCompat, IFeatureHolder {
 
     // ****** Standard ******
     private static Plugin compatPlugin;

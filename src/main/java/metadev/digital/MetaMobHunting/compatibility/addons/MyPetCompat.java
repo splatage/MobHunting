@@ -3,7 +3,7 @@ package metadev.digital.MetaMobHunting.compatibility.addons;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.FeatureNotFoundException;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
@@ -30,7 +30,7 @@ import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.MetaMobHunting.MobHunting;
 import org.bukkit.plugin.Plugin;
 
-public class MyPetCompat implements Listener, ICompat, IFeatureHolder {
+public class MyPetCompat implements Listener, IMobHuntCompat, IFeatureHolder {
 
 
     // ****** Standard ******

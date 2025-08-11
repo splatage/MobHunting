@@ -6,7 +6,7 @@ import java.util.UUID;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
 import metadev.digital.metacustomitemslib.compatibility.enums.BoundIdentifierEnum;
 import metadev.digital.metacustomitemslib.compatibility.enums.VersionSetIdentifierEnum;
@@ -23,7 +23,7 @@ import metadev.digital.MetaMobHunting.placeholder.MobHuntingPlaceholderExpansion
 import metadev.digital.MetaMobHunting.placeholder.PlaceHolderData;
 import metadev.digital.MetaMobHunting.placeholder.PlaceHolderManager;
 
-public class PlaceholderAPICompat implements ICompat, IFeatureHolder {
+public class PlaceholderAPICompat implements IMobHuntCompat, IFeatureHolder {
 
     // ****** Standard ******
     private Plugin compatPlugin;

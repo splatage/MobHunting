@@ -5,7 +5,7 @@ import java.util.UUID;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.FeatureNotFoundException;
 import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
@@ -27,7 +27,7 @@ import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
 import metadev.digital.MetaMobHunting.MobHunting;
 
-public class BossShopCompat implements ICompat, IFeatureHolder {
+public class BossShopCompat implements IMobHuntCompat, IFeatureHolder {
 
     // ****** Standard ******
     private Plugin compatPlugin;

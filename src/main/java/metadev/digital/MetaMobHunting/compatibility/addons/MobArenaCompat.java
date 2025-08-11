@@ -7,7 +7,7 @@ import java.util.UUID;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
 import metadev.digital.metacustomitemslib.compatibility.enums.BoundIdentifierEnum;
 import metadev.digital.metacustomitemslib.compatibility.enums.VersionSetIdentifierEnum;
@@ -34,7 +34,7 @@ import com.garbagemule.MobArena.events.NewWaveEvent;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
 
-public class MobArenaCompat implements Listener, ICompat, IFeatureHolder {
+public class MobArenaCompat implements Listener, IMobHuntCompat, IFeatureHolder {
 
     // ****** Standard ******
     private Plugin compatPlugin;

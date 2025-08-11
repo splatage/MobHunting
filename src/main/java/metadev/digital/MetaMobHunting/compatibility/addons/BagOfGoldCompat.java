@@ -4,7 +4,7 @@ import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
 import metadev.digital.metacustomitemslib.compatibility.enums.BoundIdentifierEnum;
 import metadev.digital.metacustomitemslib.compatibility.enums.VersionSetIdentifierEnum;
@@ -20,7 +20,7 @@ import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.plugin.Plugin;
 
-public class BagOfGoldCompat implements ICompat, IFeatureHolder {
+public class BagOfGoldCompat implements IMobHuntCompat, IFeatureHolder {
 
     // ****** Standard ******
     private Plugin compatPlugin;

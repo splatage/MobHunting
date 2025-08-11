@@ -1,21 +1,11 @@
 package metadev.digital.MetaMobHunting.compatibility;
 
 import metadev.digital.metacustomitemslib.compatibility.Feature;
-import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
+import metadev.digital.metacustomitemslib.compatibility.ICompat;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.Messages.constants.Prefixes;
-import org.bukkit.plugin.Plugin;
 
-public interface ICompat {
-    void start() throws SpinupShutdownException;
-    void shutdown() throws SpinupShutdownException;
-    boolean isEnabled();
-    boolean isSupported();
-    boolean isActive();
-    boolean isLoaded();
-    String getPluginName();
-    String getPluginVersion();
-    Plugin getPluginInstance();
+public interface IMobHuntCompat extends ICompat {
 
     /***
      * Standardized server debug messaging for enabling a plugin compatibility

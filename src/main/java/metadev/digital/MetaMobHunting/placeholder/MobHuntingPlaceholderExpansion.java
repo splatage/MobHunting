@@ -1,7 +1,5 @@
 package metadev.digital.MetaMobHunting.placeholder;
 
-//TODO: REMOVE
-
 import org.bukkit.OfflinePlayer;
 import org.bukkit.event.Listener;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -86,7 +84,7 @@ public class MobHuntingPlaceholderExpansion extends PlaceholderExpansion impleme
 
 	@Override
 	public String getAuthor() {
-		return "Rocologo";
+		return "JebusChrystler";
 	}
 
 	@Override
@@ -96,7 +94,7 @@ public class MobHuntingPlaceholderExpansion extends PlaceholderExpansion impleme
 
 	@Override
 	public String getVersion() {
-		return "1.0.0";
+		return "10.0.0";
 	}
 
 }

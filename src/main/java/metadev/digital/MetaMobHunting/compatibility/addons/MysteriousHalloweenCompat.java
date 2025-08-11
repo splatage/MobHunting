@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
-import metadev.digital.MetaMobHunting.compatibility.ICompat;
+import metadev.digital.MetaMobHunting.compatibility.IMobHuntCompat;
 import metadev.digital.metacustomitemslib.compatibility.Feature;
 import metadev.digital.metacustomitemslib.compatibility.FeatureList;
 import metadev.digital.metacustomitemslib.compatibility.IFeatureHolder;
@@ -34,7 +34,7 @@ import metadev.digital.MetaMobHunting.mobs.ExtendedMobRewardData;
 import de.fof1092.MysteriousHalloweenAPI;
 import de.fof1092.MysteriousHalloweenAPI.MobType;
 
-public class MysteriousHalloweenCompat implements Listener, ICompat, IFeatureHolder {
+public class MysteriousHalloweenCompat implements Listener, IMobHuntCompat, IFeatureHolder {
 
     // ****** Standard ******
     private Plugin compatPlugin;
