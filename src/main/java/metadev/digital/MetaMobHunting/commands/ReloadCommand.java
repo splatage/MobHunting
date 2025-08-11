@@ -14,6 +14,7 @@ import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
 
 
 public class ReloadCommand implements ICommand {
@@ -91,6 +92,8 @@ public class ReloadCommand implements ICommand {
 
 			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 				MythicMobsCompat.loadMythicMobsData();
+            if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+                MysteriousHalloweenCompat.loadMysteriousHalloweenMobsData();
 			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 				CitizensCompat.loadCitizensData();
 

@@ -138,6 +138,7 @@ public class MetricsManager {
 			public Map<String, Integer> call() throws Exception {
 				Map<String, Integer> valueMap = new HashMap<>();
 				valueMap.put("MythicMobs", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())) ? 1 : 0);
+                valueMap.put("MysteriousHalloween", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())) ? 1 : 0);
 				valueMap.put("Levelled Mobs", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.LevelledMobs.getName())) ? 1 : 0);
 				valueMap.put("StackMob", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.StackMob.getName())) ? 1 : 0);
 				valueMap.put("EliteMobs", MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())) ? 1 : 0);

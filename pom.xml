@@ -381,6 +381,15 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- MysteriousHalloween -->
+        <dependency>
+            <groupId>de.fof1092</groupId>
+            <artifactId>MysteriousHalloween</artifactId>
+            <version>4.8.4</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/MysteriousHalloweenPlus-4.8.4.jar</systemPath>
+        </dependency>
+
         <!-- ImprovedFactions https://www.spigotmc.org/resources/improved-factions.95617/
         <dependency>
             <groupId>com.github.ToberoCat</groupId>

@@ -132,6 +132,10 @@ public interface IDataStore {
 
 	void insertMissingMythicMobs(String mob);
 
+    void insertMysteriousHalloweenMobs();
+
+    void insertMysteriousHalloweenMobs(String mob);
+
 	void insertMissingCitizensMobs();
 
 	void insertCitizensMobs(String mob);

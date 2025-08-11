@@ -4,13 +4,15 @@ import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.ConsoleCommandSender;
 
 public enum MobPlugin {
-	Minecraft("Minecraft", 0),
+    Minecraft("Minecraft", 0),
     MythicMobs("MythicMobs", 1),
     Citizens("Citizens", 2),
+    //TARDISWeepingAngels("TARDISWeepingAngels", 3),
+    //CustomMobs("CustomMobs", 4),
+    MysteriousHalloween("MysteriousHalloween", 5),
+    //SmartGiants("SmartGiants", 6),
     //InfernalMobs("InfernalMobs", 7),
     //Herobrine("Herobrine",8),
     EliteMobs("EliteMobs",9);
@@ -50,6 +52,8 @@ public enum MobPlugin {
 			return true;
 		case Citizens:
 			return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName()));
+        case MysteriousHalloween:
+            return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName()));
 		case MythicMobs:
 			return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName()));
 		case EliteMobs:

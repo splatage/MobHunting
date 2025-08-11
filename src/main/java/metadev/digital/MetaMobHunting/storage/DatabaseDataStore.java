@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
-import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -18,9 +17,11 @@ import metadev.digital.metacustomitemslib.storage.UserNotFoundException;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.mobs.MobPluginManager;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
@@ -857,7 +858,47 @@ public abstract class DatabaseDataStore implements IDataStore {
 			}
 	}
 
-	@Override
+    @Override
+    public void insertMysteriousHalloweenMobs() {
+        int n = 0;
+        try {
+            Connection mConnection = setupConnection();
+            Statement statement = mConnection.createStatement();
+            for (String mob : MysteriousHalloweenCompat.getMobRewardData().keySet())
+                if (getMobIdFromExtendedMobType(mob, MobPlugin.MysteriousHalloween) == 0) {
+                    statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (5,'" + mob + "')");
+                    n++;
+                }
+            if (n > 0)
+                Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n
+                        + " MysteriousHalloween mobs was inserted to mh_Mobs");
+            statement.close();
+            mConnection.commit();
+            mConnection.close();
+        } catch (SQLException | DataStoreException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void insertMysteriousHalloweenMobs(String mob) {
+        if (getMobIdFromExtendedMobType(mob, MobPlugin.MysteriousHalloween) == 0)
+            try {
+                Connection mConnection = setupConnection();
+                Statement statement = mConnection.createStatement();
+                statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (5,'" + mob + "')");
+                Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
+                        + "MysteriousHalloween MobType " + mob + " was inserted to mh_Mobs");
+                statement.close();
+                mConnection.commit();
+                mConnection.close();
+            } catch (SQLException | DataStoreException e) {
+                e.printStackTrace();
+            }
+    }
+
+
+    @Override
 	public void insertEliteMobs() {
 		int n = 0;
 		try {
@@ -1061,6 +1102,10 @@ public abstract class DatabaseDataStore implements IDataStore {
 					if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 						continue;
 					break;
+                case MysteriousHalloween:
+                    if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+                        continue;
+                    break;
 				case EliteMobs:
 					if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 						continue;

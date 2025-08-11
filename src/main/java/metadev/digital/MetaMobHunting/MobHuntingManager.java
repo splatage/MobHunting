@@ -1,14 +1,32 @@
 package metadev.digital.MetaMobHunting;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
+import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.DisguisesHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.FactionsUUIDCompat;
-import metadev.digital.MetaMobHunting.compatibility.addons.*;
+import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MobArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PVPArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.StackMobCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.TownyCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WeaponMechanicsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardMobHuntingFlag;
 import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metabagofgold.PlayerBalance;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Strings;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.metacustomitemslib.materials.Materials;
 import metadev.digital.metacustomitemslib.messages.MessageType;
 import metadev.digital.metacustomitemslib.mobs.MobType;
@@ -209,8 +227,7 @@ public class MobHuntingManager implements Listener {
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
 			else {
-				MessageHelper
-						.debug("Permission mobhunting.mobs." + permission_postfix + " not set, defaulting to True.");
+				MessageHelper.debug("Permission mobhunting.mobs." + permission_postfix + " not set, defaulting to True.");
 				return true;
 			}
 		} else if (CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
@@ -218,17 +235,23 @@ public class MobHuntingManager implements Listener {
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
 			else {
-				MessageHelper
-						.debug("Permission mobhunting.mobs.'" + permission_postfix + "' not set, defaulting to True.");
+				MessageHelper.debug("Permission mobhunting.mobs.'" + permission_postfix + "' not set, defaulting to True.");
 				return true;
 			}
-		} else {
+		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            permission_postfix = "npc-" + MysteriousHalloweenCompat.getMysteriousHalloweenType(mob);
+            if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
+                return player.hasPermission("mobhunting.mobs." + permission_postfix);
+            else {
+                MessageHelper.debug("Permission mobhunting.mobs.'" + permission_postfix + "' not set, defaulting to True.");
+                return true;
+            }
+        } else {
 			permission_postfix = mob.getType().toString();
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
 			else {
-				MessageHelper.debug("Permission 'mobhunting.mobs.*' or 'mobhunting.mobs." + permission_postfix
-						+ "' not set, defaulting to True.");
+				MessageHelper.debug("Permission 'mobhunting.mobs.*' or 'mobhunting.mobs." + permission_postfix + "' not set, defaulting to True.");
 				return true;
 			}
 		}

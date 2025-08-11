@@ -27,6 +27,7 @@ import metadev.digital.metacustomitemslib.storage.UserNotFoundException;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.storage.AchievementStore;
@@ -159,7 +160,21 @@ public class AchievementManager implements Listener {
 				registerAchievement(new SeventhHuntAchievement(plugin, extendedMob));
 				registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
 			}
-	}
+
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+            for (String type : MysteriousHalloweenCompat.getMobRewardData().keySet()) {
+                ExtendedMob extendedMob = new ExtendedMob(MobPlugin.MysteriousHalloween, type);
+                registerAchievement(new BasicHuntAchievement(plugin, extendedMob));
+                registerAchievement(new SecondHuntAchievement(plugin, extendedMob));
+                registerAchievement(new ThirdHuntAchievement(plugin, extendedMob));
+                registerAchievement(new FourthHuntAchievement(plugin, extendedMob));
+                registerAchievement(new FifthHuntAchievement(plugin, extendedMob));
+                registerAchievement(new SixthHuntAchievement(plugin, extendedMob));
+                registerAchievement(new SeventhHuntAchievement(plugin, extendedMob));
+                registerAchievement(new EighthHuntAchievement(plugin, extendedMob));
+            }
+
+    }
 
 	public boolean hasAchievement(String achievement, OfflinePlayer player) {
 		return hasAchievement(getAchievement(achievement), player);

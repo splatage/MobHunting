@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
@@ -36,6 +37,8 @@ public class ExtendedMobManager {
 			plugin.getStoreManager().insertMissingCitizensMobs();
 		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 			plugin.getStoreManager().insertMissingMythicMobs();
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+            plugin.getStoreManager().insertMysteriousHalloweenMobs();
 		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 			plugin.getStoreManager().insertEliteMobs();
 
@@ -69,6 +72,11 @@ public class ExtendedMobManager {
 				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 					continue;
 				break;
+
+            case MysteriousHalloween:
+                if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+                    continue;
+                break;
 
 			case Minecraft:
 				break;
@@ -130,7 +138,13 @@ public class ExtendedMobManager {
 		} else if (CitizensCompat.isNPC(entity)) {
 			mobPlugin = MobPlugin.Citizens;
 			mobtype = String.valueOf(CitizensCompat.getNPCId(entity));
-		} else if (EliteMobsCompat.isEliteMobs(entity)) {
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(entity)) {
+            mobPlugin = MobPlugin.MysteriousHalloween;
+            if (MysteriousHalloweenCompat.getMysteriousHalloweenType(entity) != null)
+                mobtype = MysteriousHalloweenCompat.getMysteriousHalloweenType(entity).name();
+            else
+                mobtype = "unknown";
+        } else if (EliteMobsCompat.isEliteMobs(entity)) {
 			mobPlugin = MobPlugin.EliteMobs;
 			mobtype = EliteMobsCompat.getEliteMobsType(entity).name();
 		} else {
