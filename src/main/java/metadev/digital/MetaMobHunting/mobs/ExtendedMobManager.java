@@ -10,7 +10,6 @@ import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 
 import metadev.digital.metacustomitemslib.mobs.MobType;
@@ -82,7 +81,6 @@ public class ExtendedMobManager {
 				break;
 
 			default:
-				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 				MessageHelper.error("Missing PluginType: " + mob.getMobPlugin().getName()
 						+ " in ExtendedMobManager.");
 				continue;

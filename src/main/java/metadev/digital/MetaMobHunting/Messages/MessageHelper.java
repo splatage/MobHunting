@@ -14,7 +14,7 @@ public class MessageHelper {
      */
     public static void debug(String message, Object... args) {
         if (MobHunting.getInstance().getConfigManager().killDebug) {
-            Bukkit.getServer().getConsoleSender().sendMessage(Prefixes.PREFIX + "[Debug] " + String.format(message, args));
+            Bukkit.getServer().getConsoleSender().sendMessage(Prefixes.PREFIX_DEBUG + String.format(message, args));
         }
     }
 

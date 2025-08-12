@@ -1,7 +1,6 @@
 package metadev.digital.MetaMobHunting.modifier;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -40,8 +39,7 @@ public class WorldBonus implements IModifier {
 				return Double.valueOf(MobHunting.getInstance().getConfigManager().worldMultiplier
 						.get(killer.getWorld().getName())) != 1;
 			} catch (Exception e) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting " + ChatColor.RED
-						+ "Error in World multiplier for word:" + killer.getWorld().getName());
+                MessageHelper.error("Error in World multiplier for world:" + killer.getWorld().getName());
 
 				return false;
 			}

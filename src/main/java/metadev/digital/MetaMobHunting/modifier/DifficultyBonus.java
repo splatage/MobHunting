@@ -3,10 +3,8 @@ package metadev.digital.MetaMobHunting.modifier;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Difficulty;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -47,9 +45,7 @@ public class DifficultyBonus implements IModifier {
 						break;
 					}
 				} catch (Exception e) {
-					ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-					console.sendMessage(ChatColor.RED
-							+ "[MobHunting] The difficulty section in your config.yml could not be read. Check the section for errors. Make sure that you have surrounded the number with a '. Ex.: '1.1'");
+                    MessageHelper.error("The difficulty section in your config.yml could not be read. Check the section for errors. Make sure that you have surrounded the number with a '. Ex.: '1.1'");
 				}
 			}
 		}

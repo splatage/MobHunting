@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.mobs;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
@@ -8,10 +9,8 @@ import net.citizensnpcs.api.npc.NPC;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.MetaMobHunting.MobHunting;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
@@ -107,9 +106,7 @@ public class ExtendedMob {
             else
                 return mobtype;
 		default:
-			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-			console.sendMessage(
-					ChatColor.RED + "[MobHunting] Missing pluginType '" + mobPlugin.name() + "' in ExtendeMob.");
+            MessageHelper.error("Missing pluginType '" + mobPlugin.name() + "' in ExtendeMob.");
 		}
 		return null;
 	}
@@ -148,9 +145,7 @@ public class ExtendedMob {
         case MysteriousHalloween:
             return MysteriousHalloweenCompat.getProgressAchievementLevel1(mobtype);
 		default:
-			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-			console.sendMessage(
-					ChatColor.RED + "[MobHunting] Missing pluginType '" + mobPlugin.name() + "' in ExtendeMob.");
+			MessageHelper.error("Missing pluginType '" + mobPlugin.name() + "' in ExtendeMob.");
 		}
 		return 0;
 	}

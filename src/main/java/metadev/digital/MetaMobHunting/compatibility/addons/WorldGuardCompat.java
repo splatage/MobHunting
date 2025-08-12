@@ -218,7 +218,7 @@ public class WorldGuardCompat implements IMobHuntCompat, IFeatureHolder {
                     WorldGuard.getInstance().getFlagRegistry().register(WorldGuardMobHuntingFlag.getMobHuntingFlag());
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
-                    Bukkit.getConsoleSender().sendMessage("[MobHunting] Could not register MobHunting flag in WorldGuard 7.");
+                    MessageHelper.error("Could not register MobHunting flag in WorldGuard 7.");
                 }
 
                 // wg6.x

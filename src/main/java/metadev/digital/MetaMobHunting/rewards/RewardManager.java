@@ -308,8 +308,7 @@ public class RewardManager {
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-					+ "Unhandled reward type in RewardManager (DropRewardOnGround).");
+            MessageHelper.error("Unhandled reward type in RewardManager (DropRewardOnGround).");
 		}
 	}
 
@@ -352,8 +351,7 @@ public class RewardManager {
 
 	public double getRandomPrice(String str) {
 		if (str == null || str.equals("") || str.isEmpty()) {
-			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-					+ " The random_bounty_prize is not set in config.yml. Please set the prize to 0 or a positive number.");
+            MessageHelper.error("The random_bounty_prize is not set in config.yml. Please set the prize to 0 or a positive number.");
 			return 0;
 		} else if (str.contains(":")) {
 			String[] str1 = str.split(":");
@@ -710,14 +708,11 @@ public class RewardManager {
 	private double getPrice(Entity mob, String str) {
 		try {
 			if (str == null || str.equals("") || str.isEmpty()) {
-				Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]"
-						+ ChatColor.RESET + " The prize for killing a " + mob.getName()
+                MessageHelper.error("The prize for killing a " + mob.getName()
 						+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
 				return 0;
 			} else if (str.startsWith(":")) {
-				Bukkit.getServer().getConsoleSender()
-						.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-								+ " The prize for killing a " + mob.getName()
+                MessageHelper.error("The prize for killing a " + mob.getName()
 								+ " in config.yml has a wrong format. The prize can't start with \":\"");
 				if (str.length() > 1)
 					return getPrice(mob, str.substring(1, str.length()));
@@ -731,8 +726,7 @@ public class RewardManager {
 			} else
 				return Double.valueOf(str);
 		} catch (NumberFormatException e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-					+ " The prize for killing a " + mob.getName() + " has an unknown format in config.yml.");
+            MessageHelper.error("The prize for killing a " + mob.getName() + " has an unknown format in config.yml.");
 			// e.printStackTrace();
 			return 0;
 		}
@@ -1992,15 +1986,11 @@ public class RewardManager {
 
 	private int getMcMMOXP(Entity mob, String str) {
 		if (str == null || str.equals("") || str.isEmpty()) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-							+ " The McMMO XP for killing a " + mob.getName()
+            MessageHelper.error("The McMMO XP for killing a " + mob.getName()
 							+ " is not set in config.yml. Please set the McMMO XP to 0 or a positive number.");
 			return 0;
 		} else if (str.startsWith(":")) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-							+ " The McMMO XP for killing a " + mob.getName()
+            MessageHelper.error("The McMMO XP for killing a " + mob.getName()
 							+ " in config.yml has a wrong format. The prize can't start with \":\"");
 			if (str.length() > 1)
 				return getMcMMOXP(mob, str.substring(1, str.length()));

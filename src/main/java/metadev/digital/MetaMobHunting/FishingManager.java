@@ -310,9 +310,7 @@ public class FishingManager implements Listener {
 						try {
 							chance = Double.valueOf(cmd.get("chance"));
 						} catch (Exception e) {
-							Bukkit.getConsoleSender()
-									.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-											+ " The chance to run a command when catching a " + fish.getName()
+							MessageHelper.error("The chance to run a command when catching a " + fish.getName()
 											+ " must be formatted as a string ex. chance: '0.5'");
 						}
 						if (randomNumber < chance) {

@@ -405,7 +405,7 @@ public class BountyManager implements Listener {
 						"wantedplayer", wantedPlayer.getName()));
 			}
 		} else {
-			sender.sendMessage("[MobHunting] You cant use this command in the console");
+            MessageHelper.error("You cant use this command in the console");
 		}
 	}
 
@@ -469,7 +469,7 @@ public class BountyManager implements Listener {
 				sender.sendMessage(plugin.getMessages().getString("mobhunting.commands.bounty.no-bounties"));
 			}
 		} else {
-			sender.sendMessage("[MobHunting] You cant use this command in the console");
+            MessageHelper.error("You cant use this command in the console");
 		}
 	}
 

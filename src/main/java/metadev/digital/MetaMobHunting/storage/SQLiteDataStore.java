@@ -14,9 +14,7 @@ import java.util.UUID;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.ConsoleCommandSender;
 
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.PlayerSettings;
@@ -336,8 +334,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 
 	@Override
 	public void databaseConvertToUtf8(String database_name) throws DataStoreException {
-		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-		console.sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED + " This command is only for MySQL");
+        MessageHelper.warning( "This command is only for MySQL");
 	}
 
 	// *******************************************************************************
@@ -534,7 +531,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			performTableMigrateFromV1ToV2(connection);
 		}
 
-		System.out.println("[MobHunting] Migrating MobHunting Database User ID to User UUID.");
+		MessageHelper.notice("Migrating MobHunting Database User ID to User UUID.");
 
 		// Add missing columns
 		performTableMigrateFromV1ToV2(connection);
@@ -567,14 +564,14 @@ public class SQLiteDataStore extends DatabaseDataStore {
 		UUIDHelper.clearCache();
 
 		if (failCount > 0) {
-			System.err.println("[MobHunting] " + failCount + " accounts failed to convert:");
-			System.err.println("[MobHunting] " + failString.toString());
+			MessageHelper.error(failCount + " accounts failed to convert:");
+            MessageHelper.error(failString.toString());
 		}
 
 		insert.executeBatch();
 		insert.close();
 
-		System.out.println("[MobHunting] Player UUID migration complete.");
+        MessageHelper.notice("Player UUID migration complete.");
 
 		statement.close();
 		connection.commit();
@@ -589,7 +586,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding Passive Mobs to MobHunting Database.");
+            MessageHelper.notice("Adding Passive Mobs to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `Bat_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `Bat_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -755,7 +752,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate("alter table `mh_AllTime` add column `Wolf_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_AllTime` add column `Wolf_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding passive mobs complete.");
+            MessageHelper.notice("Adding passive mobs complete.");
 
 		}
 
@@ -764,7 +761,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding EnderDragon to MobHunting Database.");
+            MessageHelper.notice("Adding EnderDragon to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `EnderDragon_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate(
@@ -786,14 +783,14 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `EnderDragon_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding EnderDragon complete.");
+            MessageHelper.notice("Adding EnderDragon complete.");
 		}
 		try {
 			ResultSet rs = statement.executeQuery("SELECT IronGolem_kill from mh_Daily LIMIT 0");
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding IronGolem to MobHunting Database ");
+            MessageHelper.notice("Adding IronGolem to MobHunting Database ");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `IronGolem_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `IronGolem_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -810,14 +807,14 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `IronGolem_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding IronGolem complete.");
+            MessageHelper.notice("Adding IronGolem complete.");
 		}
 		try {
 			ResultSet rs = statement.executeQuery("SELECT PvpPlayer_kill from mh_Daily LIMIT 0");
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new PvpPlayer to MobHunting Database.");
+            MessageHelper.notice("Adding new PvpPlayer to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `PvpPlayer_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `PvpPlayer_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -834,7 +831,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `PvpPlayer_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new PvpPlayer complete.");
+            MessageHelper.notice("Adding new PvpPlayer complete.");
 		}
 
 		try {
@@ -842,7 +839,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new Mobs to MobHunting Database.");
+            MessageHelper.notice("Adding new Mobs to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `Endermite_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `Endermite_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -904,7 +901,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `KillerRabbit_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new Mobs complete.");
+            MessageHelper.notice("Adding new Mobs complete.");
 		}
 
 		try {
@@ -912,7 +909,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new 1.9 Mobs (Shulker) to MobHunting Database.");
+            MessageHelper.notice("Adding new 1.9 Mobs (Shulker) to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `Shulker_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `Shulker_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -925,7 +922,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate("alter table `mh_AllTime` add column `Shulker_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_AllTime` add column `Shulker_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new 1.9 Mobs (Shulker) complete.");
+            MessageHelper.notice("Adding new 1.9 Mobs (Shulker) complete.");
 		}
 
 		try {
@@ -933,7 +930,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new 1.10 Mobs (Polar Bear) to MobHunting Database.");
+            MessageHelper.notice("Adding new 1.10 Mobs (Polar Bear) to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `PolarBear_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `PolarBear_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -950,7 +947,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `PolarBear_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new 1.10 Mobs (Polar Bear) complete.");
+            MessageHelper.notice("Adding new 1.10 Mobs (Polar Bear) complete.");
 		}
 
 		try {
@@ -958,7 +955,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new 1.10 Mobs (Stray + Husk) to MobHunting Database.");
+            MessageHelper.notice("Adding new 1.10 Mobs (Stray + Husk) to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `Stray_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `Stray_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -982,7 +979,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate("alter table `mh_AllTime` add column `Husk_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_AllTime` add column `Husk_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new 1.10 Mobs (Stray + Husk) complete.");
+            MessageHelper.notice("Adding new 1.10 Mobs (Stray + Husk) complete.");
 		}
 
 		try {
@@ -990,7 +987,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding 1.8 Mob (Elder Guardian) to MobHunting Database.");
+            MessageHelper.notice("Adding 1.8 Mob (Elder Guardian) to MobHunting Database.");
 
 			statement.executeUpdate(
 					"alter table `mh_Daily` add column `ElderGuardian_kill`  INTEGER NOT NULL DEFAULT 0");
@@ -1013,14 +1010,14 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `ElderGuardian_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding 1.8 Mob (Elder Guardian) complete.");
+            MessageHelper.notice("Adding 1.8 Mob (Elder Guardian) complete.");
 		}
 
 		try {
 			ResultSet rs = statement.executeQuery("SELECT LEARNING_MODE from mh_Players LIMIT 0");
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println("[MobHunting] Adding new Player leaning mode to MobHunting Database.");
+            MessageHelper.notice("Adding new Player leaning mode to MobHunting Database.");
 			String lm = plugin.getConfigManager().learningMode ? "1" : "0";
 			statement.executeUpdate(
 					"alter table `mh_Players` add column `LEARNING_MODE` INTEGER NOT NULL DEFAULT " + lm);
@@ -1030,7 +1027,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 			ResultSet rs = statement.executeQuery("SELECT MUTE_MODE from mh_Players LIMIT 0");
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println("[MobHunting] Adding new Player mute mode to MobHunting Database.");
+            MessageHelper.notice("Adding new Player mute mode to MobHunting Database.");
 			statement.executeUpdate("alter table `mh_Players` add column `MUTE_MODE` INTEGER NOT NULL DEFAULT 0");
 		}
 
@@ -1692,14 +1689,14 @@ public class SQLiteDataStore extends DatabaseDataStore {
 				rs.close();
 			} catch (SQLException e) {
 				statement.executeUpdate("alter table `mh_Players` add column `TEXTURE` TEXT");
-				System.out.println("[MobHunting] TEXTURE added to mh_Players.");
+                MessageHelper.notice("TEXTURE added to mh_Players.");
 			}
 			try {
 				ResultSet rs = statement.executeQuery("SELECT SIGNATURE from mh_Players LIMIT 0");
 				rs.close();
 			} catch (SQLException e) {
 				statement.executeUpdate("alter table `mh_Players` add column `SIGNATURE` TEXT");
-				System.out.println("[MobHunting] SIGNATURE added to mh_Players.");
+                MessageHelper.notice("SIGNATURE added to mh_Players.");
 			}
 			statement.close();
 			mConnection.commit();
@@ -1716,8 +1713,7 @@ public class SQLiteDataStore extends DatabaseDataStore {
 		Statement statement;
 		try {
 			statement = mConnection.createStatement();
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.GREEN
-					+ "Copying players from MobHunting til BagOfGoldCore database");
+            MessageHelper.notice("Copying players from MobHunting til BagOfGoldCore database");
 			ResultSet result = statement.executeQuery("select * from mh_Players");
 			while (result.next()) {
 				String uuid = result.getString("UUID");

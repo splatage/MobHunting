@@ -118,13 +118,11 @@ public class MobHunting extends JavaPlugin {
     // TODO: FINISH REMOVING DEPRECATED SERVER VERSION CALLS
 
     // PROJECT HEALTH REMAINING OBJECTIVES
-    // TODO: ADD PLUGIN SHUTDOWN/SPINUP LOGIC MIRRORING MCIL
     // TODO: REWORK MOB ENTITY IF STATEMENT TREE HANDLING
     // TODO: ADD TRANSLATIONS FOR NEW COMPAT FEATURE CONSOLE MESSAGES & CONFIG MIGRATION PROCESS
     // TODO: AUDIT CONFIG AND APPLY A NEW VERSION
     // TODO: ADD UNIT TESTS VIA MOCKBUKKIT
     // TODO: RETEST CMI COMPAT NOW THAT THE CLASS HAS BEEN REMOVED FROM STARTUP IN MOBHUNTING
-    // TODO: REMOVE THE REST OF THE Bukkit.getConsoleSender() AND MIGRATE TO MESSAGEHELPER
 
     // PLUGIN COMPATIBILITIES
     // NEW
@@ -179,26 +177,21 @@ public class MobHunting extends JavaPlugin {
 		disabling = false;
 
 		int config_version = ConfigManager.getConfigVersion(mFile);
-		Bukkit.getConsoleSender().sendMessage(
-				ChatColor.GOLD + "[MetaMobHunting] " + ChatColor.RESET + "Your config version is " + config_version);
+        MessageHelper.notice("Your config version is " + config_version);
 		switch (config_version) {
 		case 0: // 0 was the old version number before MobHunting V5.0.0
 		case -2:
-			Bukkit.getConsoleSender().sendMessage(
-					ChatColor.GOLD + "[MetaMobHunting] " + ChatColor.RESET + "Defect config.yml file. Deleted.");
+			MessageHelper.warning("Defect config.yml file. Deleted.");
 		case -1:
 			mConfig = new ConfigManager(this, mFile);
 			if (!mConfig.loadConfig())
-				Bukkit.getConsoleSender().sendMessage(
-						ChatColor.GOLD + "[MetaMobHunting] " + ChatColor.RESET + "Error could not load config.yml");
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Creating new config.yml, version=" + mConfig.configVersion);
+				MessageHelper.warning("Error could not load config.yml");
+            MessageHelper.warning("Creating new config.yml, version=" + mConfig.configVersion);
 			break;
 		default:
 			mConfig = new ConfigManager(this, mFile);
 			if (mConfig.loadConfig()) {
-				Bukkit.getConsoleSender().sendMessage(
-						ChatColor.GOLD + "[MetaMobHunting] " + ChatColor.RESET + "Existing config.yml loaded.");
+				MessageHelper.notice("Existing config.yml loaded.");
 				if (mConfig.backup)
 					mConfig.backupConfig(mFile);
 			} else

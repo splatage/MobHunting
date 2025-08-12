@@ -580,11 +580,11 @@ public class MobHuntingManager implements Listener {
 			if (!info.isPlayerUndercover())
 				if (DisguisesHelper.isDisguised(cause)) {
 					if (DisguisesHelper.isDisguisedAsAgresiveMob(cause)) {
-						MessageHelper.debug("[MobHunting] %s was under cover - diguised as an agressive mob",
+						MessageHelper.debug("%s was under cover - diguised as an agressive mob",
 								cause.getName());
 						info.setPlayerUndercover(true);
 					} else
-						MessageHelper.debug("[MobHunting] %s was under cover - diguised as an passive mob",
+						MessageHelper.debug("%s was under cover - diguised as an passive mob",
 								cause.getName());
 					if (plugin.getConfigManager().removeDisguiseWhenAttacking) {
 						DisguisesHelper.undisguiseEntity(cause);
@@ -602,11 +602,11 @@ public class MobHuntingManager implements Listener {
 			if (!info.isMobCoverBlown())
 				if (DisguisesHelper.isDisguised(damaged)) {
 					if (DisguisesHelper.isDisguisedAsAgresiveMob(damaged)) {
-						MessageHelper.debug("[MobHunting] %s Cover blown, diguised as an agressive mob",
+						MessageHelper.debug("%s Cover blown, diguised as an agressive mob",
 								damaged.getName());
 						info.setMobCoverBlown(true);
 					} else
-						MessageHelper.debug("[MobHunting] %s Cover Blown, diguised as an passive mob",
+						MessageHelper.debug("%s Cover Blown, diguised as an passive mob",
 								damaged.getName());
 					if (plugin.getConfigManager().removeDisguiseWhenAttacked) {
 						DisguisesHelper.undisguiseEntity(damaged);
@@ -1824,9 +1824,7 @@ public class MobHuntingManager implements Listener {
 					try {
 						chance = Double.valueOf(cmd.get("chance"));
 					} catch (Exception e) {
-						Bukkit.getConsoleSender()
-								.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-										+ "The chance to run a command when killing a " + killed.getName()
+						MessageHelper.error("The chance to run a command when killing a " + killed.getName()
 										+ " must be formatted as a string. Ex. chance: '0.5'");
 					}
 					if (randomNumber < chance) {
@@ -1862,13 +1860,10 @@ public class MobHuntingManager implements Listener {
 											Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(),
 													str.substring(0, n));
 										} catch (CommandException e) {
-											Bukkit.getConsoleSender()
-													.sendMessage(ChatColor.RED
-															+ "[MobHunting][ERROR] Could not run cmd:\""
+											MessageHelper.error("Could not run cmd:\""
 															+ str.substring(0, n) + "\" when Mob:" + mob.getMobName()
 															+ " was killed by " + player.getName());
-											Bukkit.getConsoleSender()
-													.sendMessage(ChatColor.RED + "Command:" + str.substring(0, n));
+                                            MessageHelper.error("Command:" + str.substring(0, n));
 										}
 										str = str.substring(n + 1, str.length());
 									}
@@ -1876,11 +1871,10 @@ public class MobHuntingManager implements Listener {
 								try {
 									Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), str);
 								} catch (CommandException e) {
-									Bukkit.getConsoleSender()
-											.sendMessage(ChatColor.RED + "[MobHunting][ERROR] Could not run cmd:\""
+                                    MessageHelper.error("Could not run cmd:\""
 													+ str + "\" when Mob:" + mob.getMobName() + " was killed by "
 													+ player.getName());
-									Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Command:" + str);
+                                    MessageHelper.error("Command:" + str);
 								}
 							}
 						}

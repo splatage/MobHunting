@@ -15,7 +15,6 @@ import metadev.digital.metacustomitemslib.config.ConfigField;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.MetaMobHunting.MobHunting;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -5527,14 +5526,12 @@ public class ConfigManager extends AutoConfig {
 
 	private double getPrice(MobType mob, String str) {
 		if (str == null || str.equals("") || str.isEmpty()) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
+            MessageHelper.error("The prize for killing a "
 							+ mob.getEntityName()
 							+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
 			return 0;
 		} else if (str.startsWith(":")) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
+            MessageHelper.error("The prize for killing a "
 							+ mob.getEntityName()
 							+ " in config.yml has a wrong format. The prize can't start with \":\"");
 			if (str.length() > 1)
