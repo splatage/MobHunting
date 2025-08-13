@@ -76,7 +76,6 @@ import metadev.digital.MetaMobHunting.storage.MySQLDataStore;
 import metadev.digital.MetaMobHunting.storage.SQLiteDataStore;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.plugin.Plugin;
@@ -123,6 +122,7 @@ public class MobHunting extends JavaPlugin {
     // TODO: AUDIT CONFIG AND APPLY A NEW VERSION
     // TODO: ADD UNIT TESTS VIA MOCKBUKKIT
     // TODO: RETEST CMI COMPAT NOW THAT THE CLASS HAS BEEN REMOVED FROM STARTUP IN MOBHUNTING
+    // TODO: ADD IMPROVED FACTIONS TO THE SupportedPluginEntities
 
     // PLUGIN COMPATIBILITIES
     // NEW

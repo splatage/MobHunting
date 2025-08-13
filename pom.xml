@@ -103,7 +103,7 @@
             <url>https://repo.glaremasters.me/repository/towny/</url>
         </repository>
 
-        <!-- FactionsUUID -->
+        <!-- FactionsUUID VanishNoPacket -->
         <repository>
             <id>dev.kitteh</id>
             <url>https://dependency.download/releases</url>
@@ -303,7 +303,7 @@
 
         <!-- VanishNoPacket -->
         <dependency>
-            <groupId>org.kitteh.vanish.VanishPlugin</groupId>
+            <groupId>org.kitteh</groupId>
             <artifactId>VanishNoPacket</artifactId>
             <version>3.20.2-SNAPSHOT</version>
             <scope>system</scope>
@@ -390,13 +390,14 @@
             <systemPath>${basedir}/lib/MysteriousHalloweenPlus-4.8.4.jar</systemPath>
         </dependency>
 
-        <!-- ImprovedFactions https://www.spigotmc.org/resources/improved-factions.95617/
+        <!-- ImprovedFactions https://www.spigotmc.org/resources/improved-factions.95617/ temporarially use local due to bug wit jitpack version import -->
         <dependency>
             <groupId>com.github.ToberoCat</groupId>
             <artifactId>ImprovedFactions</artifactId>
-            <scope>provided</scope>
             <version>v2.3.0.234</version>
-        </dependency>-->
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/ImprovedFactions-v2.3.0.234.jar</systemPath>
+        </dependency>
 
         <!-- Factions UUID https://factions.support/  https://www.spigotmc.org/resources/factionsuuid.1035/ -->
         <dependency>
