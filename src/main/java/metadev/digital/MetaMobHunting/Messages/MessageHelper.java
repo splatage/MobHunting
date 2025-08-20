@@ -25,7 +25,7 @@ public class MessageHelper {
      * @param args
      */
     public static void notice(String message, Object... args) {
-        Bukkit.getServer().getConsoleSender().sendMessage(Prefixes.PREFIX  + " " + String.format(message, args));
+        Bukkit.getServer().getConsoleSender().sendMessage(Prefixes.PREFIX + String.format(message, args));
     }
 
     /**
@@ -35,7 +35,7 @@ public class MessageHelper {
      * @param args
      */
     public static void warning(String message, Object... args) {
-        Bukkit.getServer().getConsoleSender().sendMessage(Prefixes.PREFIX_WARNING + " " + String.format(message, args));
+        Bukkit.getServer().getConsoleSender().sendMessage(Prefixes.PREFIX_WARNING + String.format(message, args));
     }
 
     /**
@@ -45,6 +45,6 @@ public class MessageHelper {
      * @param args
      */
     public static void error(String message, Object... args) {
-        Bukkit.getServer().getConsoleSender().sendMessage(Prefixes.PREFIX_ERROR  + " " + String.format(message, args));
+        Bukkit.getServer().getConsoleSender().sendMessage(Prefixes.PREFIX_ERROR + String.format(message, args));
     }
 }
