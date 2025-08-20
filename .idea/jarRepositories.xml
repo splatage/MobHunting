@@ -12,6 +12,11 @@
       <option name="url" value="https://repo.codemc.io/repository/maven-public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="dev.kitteh" />
+      <option name="name" value="dev.kitteh" />
+      <option name="url" value="https://dependency.download/releases" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
@@ -55,6 +60,11 @@
       <option name="id" value="spigot-repo" />
       <option name="name" value="spigot-repo" />
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="glaremasters repo" />
+      <option name="name" value="glaremasters repo" />
+      <option name="url" value="https://repo.glaremasters.me/repository/towny/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="placeholderapi" />

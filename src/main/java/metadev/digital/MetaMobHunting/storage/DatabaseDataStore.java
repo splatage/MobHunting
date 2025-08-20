@@ -17,9 +17,11 @@ import metadev.digital.metacustomitemslib.storage.UserNotFoundException;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
 import metadev.digital.MetaMobHunting.mobs.MobPluginManager;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
@@ -228,24 +230,21 @@ public abstract class DatabaseDataStore implements IDataStore {
 			switch (plugin.getConfigManager().databaseVersion) {
 			case 1:
 				// create new V2 tables and migrate data.
-				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Database version "
+                MessageHelper.notice("Database version "
 								+ plugin.getConfigManager().databaseVersion + " detected. Migrating to V2");
 				setupV2Tables(mConnection);
 				plugin.getConfigManager().databaseVersion = 2;
 				plugin.getConfigManager().saveConfig();
 			case 2:
 				// Create new V3 tables and migrate data;
-				Bukkit.getConsoleSender()
-						.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Database version "
+                MessageHelper.notice("Database version "
 								+ plugin.getConfigManager().databaseVersion + " detected. Migrating to V3");
 				migrateDatabaseLayoutFromV2toV3(mConnection);
 				migrate_mh_PlayersFromV2ToV3(mConnection);
 				plugin.getConfigManager().databaseVersion = 3;
 				plugin.getConfigManager().saveConfig();
 			case 3:
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
+				MessageHelper.notice( "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				// DATABASE IS UPTODATE or NOT created => create new database
 				setupV3Tables(mConnection);
 				migrate_mh_PlayersFromV2ToV3(mConnection);
@@ -253,29 +252,25 @@ public abstract class DatabaseDataStore implements IDataStore {
 				plugin.getConfigManager().databaseVersion = 4;
 				plugin.getConfigManager().saveConfig();
 			case 4:
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
+                MessageHelper.notice( "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV4Tables(mConnection);
 				migrateDatabaseLayoutFromV3ToV4(mConnection);
 				plugin.getConfigManager().databaseVersion = 5;
 				plugin.getConfigManager().saveConfig();
 			case 5:
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
+                MessageHelper.notice( "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV5Tables(mConnection);
 				migrateDatabaseLayoutFromV5ToV6(mConnection);
 				plugin.getConfigManager().databaseVersion = 6;
 				plugin.getConfigManager().saveConfig();
 			case 6:
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
+                MessageHelper.notice( "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV6Tables(mConnection);
 				migrateDatabaseLayoutFromV6ToV7(mConnection);
 				plugin.getConfigManager().databaseVersion = 7;
 				plugin.getConfigManager().saveConfig();
 			case 7:
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
+                MessageHelper.notice( "Database version " + plugin.getConfigManager().databaseVersion + " detected.");
 				setupV6Tables(mConnection);
 				setupTriggerV4andV5(mConnection);
 				if (migrateDatabaseLayoutFromV7ToV8(mConnection))
@@ -335,8 +330,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			}
 			n++;
 		} while (plugin.getDataStoreManager().isRunning() && n < 40);
-		Bukkit.getConsoleSender()
-				.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "Closing database connection.");
+        MessageHelper.notice( "Closing database connection.");
 	}
 
 	/**
@@ -375,8 +369,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
-			Bukkit.getConsoleSender().sendMessage(
-					ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + "MobHunting Database was cleaned");
+			MessageHelper.debug("Database was cleaned successfully");
 		} catch (SQLException | DataStoreException e) {
 			throw new DataStoreException(e);
 		}
@@ -460,8 +453,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			mConnection.commit();
 			mConnection.close();
 		} catch (SQLException | DataStoreException e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "[Error]: Could not delete expired records from bounty database.");
+            MessageHelper.error("Could not delete expired records from bounty database.");
 		}
 	}
 
@@ -695,35 +687,35 @@ public abstract class DatabaseDataStore implements IDataStore {
 				rs.close();
 			} catch (SQLException e) {
 				statement.executeUpdate("alter table `mh_Daily` add column `TOTAL_CASH` REAL NOT NULL DEFAULT 0");
-				System.out.println("[MobHunting] TOTAL_CASH added to mh_Daily.");
+                MessageHelper.notice("TOTAL_CASH added to mh_Daily.");
 			}
 			try {
 				ResultSet rs = statement.executeQuery("SELECT TOTAL_CASH from mh_Weekly LIMIT 0");
 				rs.close();
 			} catch (SQLException e) {
 				statement.executeUpdate("alter table `mh_Weekly` add column `TOTAL_CASH` REAL NOT NULL DEFAULT 0");
-				System.out.println("[MobHunting] TOTAL_CASH added to mh_Weekly.");
+                MessageHelper.notice("TOTAL_CASH added to mh_Weekly.");
 			}
 			try {
 				ResultSet rs = statement.executeQuery("SELECT TOTAL_CASH from mh_Monthly LIMIT 0");
 				rs.close();
 			} catch (SQLException e) {
 				statement.executeUpdate("alter table `mh_Monthly` add column `TOTAL_CASH` REAL NOT NULL DEFAULT 0");
-				System.out.println("[MobHunting] TOTAL_CASH added to mh_Monthly.");
+                MessageHelper.notice("TOTAL_CASH added to mh_Monthly.");
 			}
 			try {
 				ResultSet rs = statement.executeQuery("SELECT TOTAL_CASH from mh_Yearly LIMIT 0");
 				rs.close();
 			} catch (SQLException e) {
 				statement.executeUpdate("alter table `mh_Yearly` add column `TOTAL_CASH` REAL NOT NULL DEFAULT 0");
-				System.out.println("[MobHunting] TOTAL_CASH added to mh_Yearly.");
+                MessageHelper.notice("TOTAL_CASH added to mh_Yearly.");
 			}
 			try {
 				ResultSet rs = statement.executeQuery("SELECT TOTAL_CASH from mh_AllTime LIMIT 0");
 				rs.close();
 			} catch (SQLException e) {
 				statement.executeUpdate("alter table `mh_AllTime` add column `TOTAL_CASH` REAL NOT NULL DEFAULT 0");
-				System.out.println("[MobHunting] TOTAL_CASH added to mh_AllTime.");
+                MessageHelper.notice("TOTAL_CASH added to mh_AllTime.");
 			}
 			statement.close();
 			mConnection.commit();
@@ -767,8 +759,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 					n++;
 				}
 			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n
-						+ " Minecraft Vanilla Mobs was inserted to mh_Mobs");
+                MessageHelper.notice(n+ " Minecraft Vanilla Mobs was inserted to mh_Mobs");
 			statement.close();
 			connection.commit();
 			connection.close();
@@ -789,8 +780,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 					n++;
 				}
 			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(
-						ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n + " MythicMobs was inserted to mh_Mobs");
+                MessageHelper.notice(n + " MythicMobs was inserted to mh_Mobs");
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
@@ -806,8 +796,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				Connection mConnection = setupConnection();
 				Statement statement = mConnection.createStatement();
 				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (1,'" + mob + "')");
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "MythicMobs MobType " + mob + " was inserted to mh_Mobs");
+                MessageHelper.notice("MythicMobs MobType " + mob + " was inserted to mh_Mobs");
 				statement.close();
 				mConnection.commit();
 				mConnection.close();
@@ -829,7 +818,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 					n++;
 				}
 			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n
+                MessageHelper.notice(n
 						+ " Citizens NPC's was inserted to mh_Mobs");
 			statement.close();
 			mConnection.commit();
@@ -846,8 +835,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				Connection mConnection = setupConnection();
 				Statement statement = mConnection.createStatement();
 				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (2,'" + mob + "')");
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "Citizens MobType " + mob + " was inserted to mh_Mobs");
+                MessageHelper.notice("Citizens MobType " + mob + " was inserted to mh_Mobs");
 				statement.close();
 				mConnection.commit();
 				mConnection.close();
@@ -856,7 +844,46 @@ public abstract class DatabaseDataStore implements IDataStore {
 			}
 	}
 
-	@Override
+    @Override
+    public void insertMysteriousHalloweenMobs() {
+        int n = 0;
+        try {
+            Connection mConnection = setupConnection();
+            Statement statement = mConnection.createStatement();
+            for (String mob : MysteriousHalloweenCompat.getMobRewardData().keySet())
+                if (getMobIdFromExtendedMobType(mob, MobPlugin.MysteriousHalloween) == 0) {
+                    statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (5,'" + mob + "')");
+                    n++;
+                }
+            if (n > 0)
+                MessageHelper.notice(n
+                        + " MysteriousHalloween mobs was inserted to mh_Mobs");
+            statement.close();
+            mConnection.commit();
+            mConnection.close();
+        } catch (SQLException | DataStoreException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void insertMysteriousHalloweenMobs(String mob) {
+        if (getMobIdFromExtendedMobType(mob, MobPlugin.MysteriousHalloween) == 0)
+            try {
+                Connection mConnection = setupConnection();
+                Statement statement = mConnection.createStatement();
+                statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (5,'" + mob + "')");
+                MessageHelper.notice("MysteriousHalloween MobType " + mob + " was inserted to mh_Mobs");
+                statement.close();
+                mConnection.commit();
+                mConnection.close();
+            } catch (SQLException | DataStoreException e) {
+                e.printStackTrace();
+            }
+    }
+
+
+    @Override
 	public void insertEliteMobs() {
 		int n = 0;
 		try {
@@ -868,8 +895,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 					n++;
 				}
 			if (n > 0)
-				Bukkit.getConsoleSender().sendMessage(
-						ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET + n + " EliteMobs was inserted to mh_Mobs");
+                MessageHelper.notice(n + " EliteMobs was inserted to mh_Mobs");
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
@@ -885,8 +911,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 				Connection mConnection = setupConnection();
 				Statement statement = mConnection.createStatement();
 				statement.executeUpdate("INSERT INTO mh_Mobs (PLUGIN_ID, MOBTYPE) VALUES (9,'" + mob + "')");
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-						+ "EliteMob MobType " + mob + " was inserted to mh_Mobs");
+                MessageHelper.notice("EliteMob MobType " + mob + " was inserted to mh_Mobs");
 				statement.close();
 				mConnection.commit();
 				mConnection.close();
@@ -1053,15 +1078,19 @@ public abstract class DatabaseDataStore implements IDataStore {
 				MobPlugin mp = MobPluginManager.valueOf(set.getInt("PLUGIN_ID"));
 				switch (mp) {
 				case Citizens:
-					if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig())
+					if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 						continue;
 					break;
 				case MythicMobs:
-					if (!MythicMobsCompat.isSupported() || !MythicMobsCompat.isEnabledInConfig())
+					if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 						continue;
 					break;
+                case MysteriousHalloween:
+                    if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+                        continue;
+                    break;
 				case EliteMobs:
-					if (!EliteMobsCompat.isSupported() || !EliteMobsCompat.isEnabledInConfig())
+					if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 						continue;
 				case Minecraft:
 					break;
@@ -1295,7 +1324,7 @@ public abstract class DatabaseDataStore implements IDataStore {
 			rs.close();
 			statement.close();
 			mConnection.close();
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.WHITE + n
+            MessageHelper.notice(n
 					+ " players was deleted from the MobHunting database.");
 		} catch (Exception e) {
 			e.printStackTrace();

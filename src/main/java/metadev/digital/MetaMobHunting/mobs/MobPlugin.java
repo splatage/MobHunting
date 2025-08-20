@@ -1,15 +1,22 @@
 package metadev.digital.MetaMobHunting.mobs;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.MobHunting;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.ConsoleCommandSender;
-
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
 
 public enum MobPlugin {
-	Minecraft("Minecraft", 0), MythicMobs("MythicMobs", 1), Citizens("Citizens", 2), InfernalMobs("InfernalMobs", 7), Herobrine("Herobrine",8), EliteMobs("EliteMobs",9), Boss("Boss",10);
+    Minecraft("Minecraft", 0),
+    MythicMobs("MythicMobs", 1),
+    Citizens("Citizens", 2),
+    //TARDISWeepingAngels("TARDISWeepingAngels", 3),
+    //CustomMobs("CustomMobs", 4),
+    MysteriousHalloween("MysteriousHalloween", 5),
+    //SmartGiants("SmartGiants", 6),
+    //InfernalMobs("InfernalMobs", 7),
+    //Herobrine("Herobrine",8),
+    EliteMobs("EliteMobs",9);
+    //Boss("Boss",10);
 
 	private final String name;
 	private final Integer id;
@@ -44,14 +51,15 @@ public enum MobPlugin {
 		case Minecraft:
 			return true;
 		case Citizens:
-			return CitizensCompat.isSupported();
+			return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName()));
+        case MysteriousHalloween:
+            return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName()));
 		case MythicMobs:
-			return MythicMobsCompat.isSupported();
+			return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName()));
 		case EliteMobs:
-			return EliteMobsCompat.isSupported();
+			return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName()));
 		default:
-			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-			console.sendMessage(ChatColor.RED + "[MobHunting] Missing pluginType '" + this.name() + "' in MobPlugin");
+			MessageHelper.error("Missing pluginType '" + this.name() + "' in MobPlugin");
 		}
 		return false;
 	}

@@ -1,6 +1,27 @@
 package metadev.digital.MetaMobHunting;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
+import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.DisguisesHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.FactionsUUIDCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MobArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PVPArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.StackMobCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.TownyCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WeaponMechanicsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardMobHuntingFlag;
 import metadev.digital.metabagofgold.BagOfGold;
 import metadev.digital.metabagofgold.PlayerBalance;
 import metadev.digital.metacustomitemslib.Core;
@@ -13,25 +34,6 @@ import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.bounty.Bounty;
 import metadev.digital.MetaMobHunting.bounty.BountyStatus;
-import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.LevelledMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
-import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
-import metadev.digital.MetaMobHunting.compatibility.ResidenceCompat;
-import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
-import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
-import metadev.digital.MetaMobHunting.compatibility.StackMobHelper;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.EssentialsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
-import metadev.digital.MetaMobHunting.compatibility.DisguisesHelper;
-import metadev.digital.MetaMobHunting.compatibility.WeaponMechanicsCompat;
-import metadev.digital.MetaMobHunting.compatibility.WorldGuardMobHuntingFlag;
-import metadev.digital.MetaMobHunting.compatibility.BattleArenaCompat;
-import metadev.digital.MetaMobHunting.compatibility.WorldGuardCompat;
-import metadev.digital.MetaMobHunting.compatibility.PVPArenaCompat;
 import metadev.digital.MetaMobHunting.events.BountyKillEvent;
 import metadev.digital.MetaMobHunting.events.MobHuntEnableCheckEvent;
 import metadev.digital.MetaMobHunting.events.MobHuntKillEvent;
@@ -164,14 +166,14 @@ public class MobHuntingManager implements Listener {
 	private void registerHuntingModifiers() {
 		mHuntingModifiers.add(new BonusMobBonus());
 		mHuntingModifiers.add(new BrawlerBonus());
-		if (LevelledMobsCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.LevelledMobs.getName())))
 			mHuntingModifiers.add(new LevelledMobsBonus());
 		mHuntingModifiers.add(new CoverBlown());
 		mHuntingModifiers.add(new CriticalModifier());
 		mHuntingModifiers.add(new DifficultyBonus());
 		mHuntingModifiers.add(new WorldBonus());
-		/* TODO: Replace with new factions if (FactionsHelperCompat.isSupported())
-			mHuntingModifiers.add(new FactionWarZoneBonus()); */
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Factions.getName())))
+			mHuntingModifiers.add(new FactionWarZoneBonus());
 		mHuntingModifiers.add(new FlyingPenalty());
 		mHuntingModifiers.add(new FriendleFireBonus());
 		if (plugin.getConfigManager().areaGrindingDetectionEnabled
@@ -185,12 +187,12 @@ public class MobHuntingManager implements Listener {
 		mHuntingModifiers.add(new ShoveBonus());
 		mHuntingModifiers.add(new SneakyBonus());
 		mHuntingModifiers.add(new SniperBonus());
-		if (StackMobCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.StackMob.getName())))
 			mHuntingModifiers.add(new StackedMobBonus());
 		mHuntingModifiers.add(new Undercover());
-		if (CrackShotCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName())))
 			mHuntingModifiers.add(new CrackShotPenalty());
-		if (WeaponMechanicsCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WeaponMechanics.getName())))
 			mHuntingModifiers.add(new WeaponMechanicsPenalty());
 	}
 
@@ -225,8 +227,7 @@ public class MobHuntingManager implements Listener {
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
 			else {
-				MessageHelper
-						.debug("Permission mobhunting.mobs." + permission_postfix + " not set, defaulting to True.");
+				MessageHelper.debug("Permission mobhunting.mobs." + permission_postfix + " not set, defaulting to True.");
 				return true;
 			}
 		} else if (CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
@@ -234,17 +235,23 @@ public class MobHuntingManager implements Listener {
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
 			else {
-				MessageHelper
-						.debug("Permission mobhunting.mobs.'" + permission_postfix + "' not set, defaulting to True.");
+				MessageHelper.debug("Permission mobhunting.mobs.'" + permission_postfix + "' not set, defaulting to True.");
 				return true;
 			}
-		} else {
+		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            permission_postfix = "npc-" + MysteriousHalloweenCompat.getMysteriousHalloweenType(mob);
+            if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
+                return player.hasPermission("mobhunting.mobs." + permission_postfix);
+            else {
+                MessageHelper.debug("Permission mobhunting.mobs.'" + permission_postfix + "' not set, defaulting to True.");
+                return true;
+            }
+        } else {
 			permission_postfix = mob.getType().toString();
 			if (player.isPermissionSet("mobhunting.mobs." + permission_postfix))
 				return player.hasPermission("mobhunting.mobs." + permission_postfix);
 			else {
-				MessageHelper.debug("Permission 'mobhunting.mobs.*' or 'mobhunting.mobs." + permission_postfix
-						+ "' not set, defaulting to True.");
+				MessageHelper.debug("Permission 'mobhunting.mobs.*' or 'mobhunting.mobs." + permission_postfix + "' not set, defaulting to True.");
 				return true;
 			}
 		}
@@ -302,11 +309,15 @@ public class MobHuntingManager implements Listener {
 					&& !plugin.getConfigManager().pvparenaGetRewards) {
 				MessageHelper.debug("KillBlocked: %s was killed while playing PvpArena.", killed.getName());
 				return;
-				// BattleArena
+            // BattleArena
 			} else if (BattleArenaCompat.isPlayingBattleArena((Player) killed)) {
-				MessageHelper.debug("KillBlocked: %s was killed while playing BattleArena.", killed.getName());
-				return;
-			}
+                MessageHelper.debug("KillBlocked: %s was killed while playing BattleArena.", killed.getName());
+                return;
+            // MobArena
+            } else if(MobArenaCompat.isPlayingMobArena((Player) killed) && !plugin.getConfigManager().mobarenaGetRewards) {
+                MessageHelper.debug("KillBlocked: %s was killed while playing MobArena.", killed.getName());
+                return;
+            }
 
 			if (mob != null) {
 				double playerKilledByMobPenalty = 0;
@@ -334,7 +345,7 @@ public class MobHuntingManager implements Listener {
 
 			} else
 
-			if (killer != null && BagOfGoldCompat.isSupported()) {
+			if (killer != null && MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName()))) {
 				PlayerBalance ps = BagOfGold.getInstance().getPlayerBalanceManager().getPlayerBalance(killed);
 				double balance = ps.getBalance() + ps.getBalanceChanges();
 				if (balance != 0) {
@@ -458,16 +469,16 @@ public class MobHuntingManager implements Listener {
 		if (CitizensCompat.isNPC(damaged) && !CitizensCompat.isSentryOrSentinelOrSentries(damaged))
 			return;
 
-		if (WorldGuardCompat.isSupported() && !WorldGuardCompat.isAllowedByWorldGuard(damager, damaged,
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName()))&& !WorldGuardCompat.isAllowedByWorldGuard(damager, damaged,
 				WorldGuardMobHuntingFlag.getMobDamageFlag(), true)) {
 			return;
 		}
 
-		if (CrackShotCompat.isSupported() && CrackShotCompat.isCrackShotUsed(damaged)) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.CrackShot.getName())) && CrackShotCompat.isCrackShotUsed(damaged)) {
 			return;
 		}
 
-		if (WeaponMechanicsCompat.isSupported() && WeaponMechanicsCompat.isWeaponMechanicsWeaponUsed(damaged)) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WeaponMechanics.getName())) && WeaponMechanicsCompat.isWeaponMechanicsWeaponUsed(damaged)) {
 			return;
 		}
 
@@ -569,11 +580,11 @@ public class MobHuntingManager implements Listener {
 			if (!info.isPlayerUndercover())
 				if (DisguisesHelper.isDisguised(cause)) {
 					if (DisguisesHelper.isDisguisedAsAgresiveMob(cause)) {
-						MessageHelper.debug("[MobHunting] %s was under cover - diguised as an agressive mob",
+						MessageHelper.debug("%s was under cover - diguised as an agressive mob",
 								cause.getName());
 						info.setPlayerUndercover(true);
 					} else
-						MessageHelper.debug("[MobHunting] %s was under cover - diguised as an passive mob",
+						MessageHelper.debug("%s was under cover - diguised as an passive mob",
 								cause.getName());
 					if (plugin.getConfigManager().removeDisguiseWhenAttacking) {
 						DisguisesHelper.undisguiseEntity(cause);
@@ -591,11 +602,11 @@ public class MobHuntingManager implements Listener {
 			if (!info.isMobCoverBlown())
 				if (DisguisesHelper.isDisguised(damaged)) {
 					if (DisguisesHelper.isDisguisedAsAgresiveMob(damaged)) {
-						MessageHelper.debug("[MobHunting] %s Cover blown, diguised as an agressive mob",
+						MessageHelper.debug("%s Cover blown, diguised as an agressive mob",
 								damaged.getName());
 						info.setMobCoverBlown(true);
 					} else
-						MessageHelper.debug("[MobHunting] %s Cover Blown, diguised as an passive mob",
+						MessageHelper.debug("%s Cover Blown, diguised as an passive mob",
 								damaged.getName());
 					if (plugin.getConfigManager().removeDisguiseWhenAttacked) {
 						DisguisesHelper.undisguiseEntity(damaged);
@@ -845,7 +856,7 @@ public class MobHuntingManager implements Listener {
 		}
 
 		// WorldGuard Compatibility
-		if (WorldGuardCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName()))) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)) {
 				if (!WorldGuardCompat.isAllowedByWorldGuard(killer, killed, WorldGuardMobHuntingFlag.getMobDamageFlag(),
 						true)) {
@@ -881,11 +892,10 @@ public class MobHuntingManager implements Listener {
 			}
 		}
 
-		/** TODO: Replace with new Factions
 		// Factions Compatibility - no reward when player are in SafeZone
-		if (FactionsHelperCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Factions.getName()))) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)) {
-				if (FactionsHelperCompat.isInHomeZoneAndPeaceful(player)) {
+				if (FactionsUUIDCompat.isInHomeZoneAndPeaceful(player)) {
 					MessageHelper.debug("KillBlocked: %s is hiding in his Factions Home SafeZone",
 							player.getName());
 					plugin.getMessages().learn(player,
@@ -894,7 +904,7 @@ public class MobHuntingManager implements Listener {
 							plugin.getConfigManager().disableNatualXPDrops);
 					MessageHelper.debug("======================= kill ended (7)======================");
 					return;
-				} else if (FactionsHelperCompat.isInSafeZoneAndPeaceful(player)) {
+				} else if (FactionsUUIDCompat.isInSafeZoneAndPeaceful(player)) {
 					MessageHelper.debug("KillBlocked: %s is hiding in Factions SafeZone", player.getName());
 					plugin.getMessages().learn(player,
 							plugin.getMessages().getString("mobhunting.learn.factions-no-rewards-in-safezone"));
@@ -904,11 +914,35 @@ public class MobHuntingManager implements Listener {
 					return;
 				}
 			}
-		}*/
+		}
+
+        // Towny Compatibility - no reward when player are in a protected town
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Towny.getName()))) {
+            if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)
+                    && !(killed instanceof Player)) {
+                if (plugin.getConfigManager().disableRewardsInHomeTown && TownyCompat.isInHomeTown(player)) {
+                    MessageHelper.debug("KillBlocked: %s is hiding in his home town", player.getName());
+                    plugin.getMessages().learn(player,
+                            plugin.getMessages().getString("mobhunting.learn.towny-no-rewards-in-home-town"));
+                    cancelDrops(event, plugin.getConfigManager().disableNaturallyRewardsInHomeTown,
+                            plugin.getConfigManager().disableNaturallyRewardsInHomeTown);
+                    MessageHelper.debug("======================= kill ended (8a)======================");
+                    return;
+                } else if (plugin.getConfigManager().disableRewardsInAnyTown && TownyCompat.isInAnyTown(player)) {
+                    MessageHelper.debug("KillBlocked: %s is hiding in a town", player.getName());
+                    plugin.getMessages().learn(player,
+                            plugin.getMessages().getString("mobhunting.learn.towny-no-rewards-in-any-town"));
+                    cancelDrops(event, plugin.getConfigManager().disableNaturallyRewardsInHomeTown,
+                            plugin.getConfigManager().disableNaturallyRewardsInHomeTown);
+                    MessageHelper.debug("======================= kill ended (8b)======================");
+                    return;
+                }
+            }
+        }
 
 		// Residence Compatibility - no reward when player are in a protected
 		// residence
-		if (ResidenceCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Residence.getName()))) {
 			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)
 					&& !(killed instanceof Player)) {
 				if (plugin.getConfigManager().disableRewardsInHomeResidence && ResidenceCompat.isProtected(player)) {
@@ -925,7 +959,7 @@ public class MobHuntingManager implements Listener {
 
 		// Check if MobHunting is Disabled in World
 		if (!isHuntEnabledInWorld(event.getEntity().getWorld())) {
-			if (WorldGuardCompat.isSupported()) {
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName()))) {
 				if (!CitizensCompat.isNPC(killer) && !MyPetCompat.isKilledByMyPet(killed)) {
 					if (WorldGuardCompat.isAllowedByWorldGuard(killer, killed,
 							WorldGuardMobHuntingFlag.getMobHuntingFlag(), false)) {
@@ -978,15 +1012,21 @@ public class MobHuntingManager implements Listener {
 				MessageHelper.debug("======================= kill ended (14)=====================");
 				return;
 
-				// BattleArena
+            // BattleArena
 			} else if (BattleArenaCompat.isPlayingBattleArena((Player) killed)) {
 				MessageHelper.debug("KillBlocked: %s was killed while playing BattleArena.", mob.getMobName());
 				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.battlearena"));
 				MessageHelper.debug("======================= kill ended (15)=====================");
 				return;
 
-				// MiniGamesLib
-			} else if (killer != null) {
+			} else if (MobArenaCompat.isPlayingMobArena((Player) killed) && !plugin.getConfigManager().mobarenaGetRewards) {
+                MessageHelper.debug("KillBlocked: %s was killed while playing MobArena.", mob.getMobName());
+                plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.mobarena"));
+                MessageHelper.debug("======================= kill ended (13)=====================");
+                return;
+
+                // PVPArena
+            } else if (killer != null) {
 				if (killed.equals(killer)) {
 					// Suicide
 					plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.suiside"));
@@ -1016,7 +1056,12 @@ public class MobHuntingManager implements Listener {
 			plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.pvparena"));
 			MessageHelper.debug("======================= kill ended (20)=====================");
 			return;
-		} else if (BattleArenaCompat.isPlayingBattleArena(player)) {
+		} else if (MobArenaCompat.isPlayingMobArena(player) && !plugin.getConfigManager().mobarenaGetRewards) {
+            MessageHelper.debug("KillBlocked: %s is currently playing MobArena.", player.getName());
+            plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.mobarena"));
+            MessageHelper.debug("======================= kill ended (19)=====================");
+            return;
+        } else if (BattleArenaCompat.isPlayingBattleArena(player)) {
 			MessageHelper.debug("KillBlocked: %s is currently playing BattleArena.", player.getName());
 			plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.battlearena"));
 			MessageHelper.debug("======================= kill ended (21)=====================");
@@ -1279,7 +1324,7 @@ public class MobHuntingManager implements Listener {
 					if (plugin.getGrindingManager().isWhitelisted(loc)) {
 						MessageHelper.debug("This Area is whitelisted. Area grinding not detected.");
 
-					} else if (StackMobHelper.isGrindingStackedMobsAllowed() && StackMobHelper.isStackedMob(killed)) {
+					} else if (StackMobCompat.isGrindingStackedMobsAllowed() && StackMobCompat.isStackedMob(killed)) {
 						MessageHelper.debug(
 								"The killed mob was a Stacked Mob and Grinding is allowed in config.yml. Area grinding and speed grinding is not deteted.");
 
@@ -1520,7 +1565,7 @@ public class MobHuntingManager implements Listener {
 		if ((cash >= Core.getConfigManager().minimumReward && cash != 0)
 				|| (cash <= -Core.getConfigManager().minimumReward && cash != 0)
 				|| !plugin.getRewardManager().getKillCommands(killed).isEmpty()
-				|| (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards)
+				|| (killer != null && MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName())) && plugin.getConfigManager().enableMcMMOLevelRewards)
 				|| plugin.getRewardManager().getHeadDropHead(killed)) {
 
 			// Remember: Handle MobHuntKillEvent and Record Hunt Achievement is
@@ -1745,7 +1790,7 @@ public class MobHuntingManager implements Listener {
 					player.getName(), Core.getConfigManager().minimumReward, extraString);
 
 		// McMMO Level rewards
-		if (killer != null && McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards
+		if (killer != null && MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName())) && plugin.getConfigManager().enableMcMMOLevelRewards
 				&& data.getDampenedKills() < 10 && !CrackShotCompat.isCrackShotUsed(killed)
 				&& !WeaponMechanicsCompat.isWeaponMechanicsWeaponUsed(killed)) {
 
@@ -1779,9 +1824,7 @@ public class MobHuntingManager implements Listener {
 					try {
 						chance = Double.valueOf(cmd.get("chance"));
 					} catch (Exception e) {
-						Bukkit.getConsoleSender()
-								.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-										+ "The chance to run a command when killing a " + killed.getName()
+						MessageHelper.error("The chance to run a command when killing a " + killed.getName()
 										+ " must be formatted as a string. Ex. chance: '0.5'");
 					}
 					if (randomNumber < chance) {
@@ -1817,13 +1860,10 @@ public class MobHuntingManager implements Listener {
 											Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(),
 													str.substring(0, n));
 										} catch (CommandException e) {
-											Bukkit.getConsoleSender()
-													.sendMessage(ChatColor.RED
-															+ "[MobHunting][ERROR] Could not run cmd:\""
+											MessageHelper.error("Could not run cmd:\""
 															+ str.substring(0, n) + "\" when Mob:" + mob.getMobName()
 															+ " was killed by " + player.getName());
-											Bukkit.getConsoleSender()
-													.sendMessage(ChatColor.RED + "Command:" + str.substring(0, n));
+                                            MessageHelper.error("Command:" + str.substring(0, n));
 										}
 										str = str.substring(n + 1, str.length());
 									}
@@ -1831,11 +1871,10 @@ public class MobHuntingManager implements Listener {
 								try {
 									Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), str);
 								} catch (CommandException e) {
-									Bukkit.getConsoleSender()
-											.sendMessage(ChatColor.RED + "[MobHunting][ERROR] Could not run cmd:\""
+                                    MessageHelper.error("Could not run cmd:\""
 													+ str + "\" when Mob:" + mob.getMobName() + " was killed by "
 													+ player.getName());
-									Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "Command:" + str);
+                                    MessageHelper.error("Command:" + str);
 								}
 							}
 						}
@@ -1867,7 +1906,7 @@ public class MobHuntingManager implements Listener {
 			}
 
 			// Update PlaceHolderData
-			if (PlaceholderAPICompat.isSupported()) {
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.PlaceholderAPI.getName()))) {
 				if (info.getAssister() == null) {
 					PlaceHolderData p = PlaceholderAPICompat.getPlaceHolders().get(player.getUniqueId());
 					if (p != null) {
@@ -1941,7 +1980,7 @@ public class MobHuntingManager implements Listener {
 		if (killer != null)
 			return killer;
 
-		if (MyPetCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MyPet.getName()))) {
 			Player owner = MyPetCompat.getMyPetOwner(killed);
 			if (owner != null)
 				return owner;

@@ -2,9 +2,11 @@ package metadev.digital.MetaMobHunting.compatibility;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.ICompat;
+import metadev.digital.metacustomitemslib.compatibility.exceptions.SpinupShutdownException;
+import metadev.digital.metacustomitemslib.server.Server;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,6 +15,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.MobHunting;
+import org.bukkit.plugin.Plugin;
 
 public class CompatibilityManager implements Listener {
 
@@ -29,9 +32,9 @@ public class CompatibilityManager implements Listener {
 		try {
 			register(c, pluginName);
 		} catch (Exception e) {
-			MessageHelper.error("MetaMobHunting could not register with [" + pluginName
+			MessageHelper.error("Could not register with [" + pluginName
 							+ "] please check if [" + pluginName + "] is compatible with the server ["
-							+ Bukkit.getServer().getBukkitVersion() + "]");
+							+ Server.getServerVersion() + "]");
 			if (plugin.getConfigManager().killDebug)
 				e.printStackTrace();
 		}
@@ -46,7 +49,7 @@ public class CompatibilityManager implements Listener {
 	private void register(Class<?> compatibilityHandler, SupportedPluginEntities pluginName) {
 		if (Bukkit.getPluginManager().isPluginEnabled(pluginName.getName())) {
 			try {
-				mCompatClasses.add(compatibilityHandler.newInstance());
+				mCompatClasses.add(compatibilityHandler.getDeclaredConstructor().newInstance());
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -61,21 +64,42 @@ public class CompatibilityManager implements Listener {
 	 * @return true if loaded.
 	 */
 	public boolean isPluginLoaded(Class<?> class1) {
-		Iterator<Object> i = mCompatClasses.iterator();
-		while (i.hasNext()) {
-			Class<?> c = i.next().getClass();
-			if (c.getName().equalsIgnoreCase(class1.getName()))
-				return true;
-		}
+        for (Object mCompatClass : mCompatClasses) {
+            Class<?> c = mCompatClass.getClass();
+            if (c.getName().equalsIgnoreCase(class1.getName()))
+                return true;
+        }
 		return false;
 	}
 
+    public boolean isCompatibilityLoaded(Plugin enableCheck) {
+        for (Object compatClass : mCompatClasses) {
+            if(compatClass.getClass().isAssignableFrom(ICompat.class) && compatClass.getClass().getName().equalsIgnoreCase(enableCheck.getClass().getName())){
+                return ((ICompat) compatClass).isLoaded();
+            }
+        }
+
+        return false;
+    }
+
+    public void triggerSoftShutdown() {
+        for (Object compatClass : mCompatClasses) {
+            if(compatClass.getClass().isAssignableFrom(ICompat.class)){
+                try{
+                    if(((ICompat) compatClass).isLoaded()) ((ICompat) compatClass).shutdown();
+                } catch (SpinupShutdownException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
 	@EventHandler(priority = EventPriority.NORMAL)
 	private void onPluginEnabled(PluginEnableEvent event) {
-		SupportedPluginEntities compatPlugin = SupportedPluginEntities.getSupportedPlugin(event.getPlugin().getName());
-		if (mWaitingCompatClasses.containsKey(compatPlugin)) {
-			registerPlugin(mWaitingCompatClasses.get(compatPlugin), compatPlugin);
-			mWaitingCompatClasses.remove(compatPlugin);
+		SupportedPluginEntities supportedPlugin = SupportedPluginEntities.getSupportedPlugin(event.getPlugin().getName());
+		if (mWaitingCompatClasses.containsKey(supportedPlugin)) {
+			registerPlugin(mWaitingCompatClasses.get(supportedPlugin), supportedPlugin);
+			mWaitingCompatClasses.remove(supportedPlugin);
 		}
 	}
 

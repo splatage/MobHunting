@@ -7,16 +7,17 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.storage.DataStoreException;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
 
 public class ExtendedMobManager {
 
@@ -31,11 +32,13 @@ public class ExtendedMobManager {
 
 	public void updateExtendedMobs() {
 		plugin.getStoreManager().insertMissingVanillaMobs();
-		if (CitizensCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 			plugin.getStoreManager().insertMissingCitizensMobs();
-		if (MythicMobsCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 			plugin.getStoreManager().insertMissingMythicMobs();
-		if (EliteMobsCompat.isSupported())
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+            plugin.getStoreManager().insertMysteriousHalloweenMobs();
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 			plugin.getStoreManager().insertEliteMobs();
 
 		Set<ExtendedMob> set = new HashSet<ExtendedMob>();
@@ -53,27 +56,31 @@ public class ExtendedMobManager {
 			ExtendedMob mob = (ExtendedMob) mobset.next();
 			switch (mob.getMobPlugin()) {
 			case MythicMobs:
-				if (!MythicMobsCompat.isSupported() || !MythicMobsCompat.isEnabledInConfig()
+				if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName()))
 						|| !MythicMobsCompat.isMythicMob(mob.getMobtype()))
 					continue;
 				break;
 
 			case Citizens:
-				if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig()
+				if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName()))
 						|| !CitizensCompat.isSentryOrSentinelOrSentries(mob.getMobtype()))
 					continue;
 				break;
 
 			case EliteMobs:
-				if (!EliteMobsCompat.isSupported() || !EliteMobsCompat.isEnabledInConfig())
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 					continue;
 				break;
+
+            case MysteriousHalloween:
+                if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+                    continue;
+                break;
 
 			case Minecraft:
 				break;
 
 			default:
-				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
 				MessageHelper.error("Missing PluginType: " + mob.getMobPlugin().getName()
 						+ " in ExtendedMobManager.");
 				continue;
@@ -129,7 +136,13 @@ public class ExtendedMobManager {
 		} else if (CitizensCompat.isNPC(entity)) {
 			mobPlugin = MobPlugin.Citizens;
 			mobtype = String.valueOf(CitizensCompat.getNPCId(entity));
-		} else if (EliteMobsCompat.isEliteMobs(entity)) {
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(entity)) {
+            mobPlugin = MobPlugin.MysteriousHalloween;
+            if (MysteriousHalloweenCompat.getMysteriousHalloweenType(entity) != null)
+                mobtype = MysteriousHalloweenCompat.getMysteriousHalloweenType(entity).name();
+            else
+                mobtype = "unknown";
+        } else if (EliteMobsCompat.isEliteMobs(entity)) {
 			mobPlugin = MobPlugin.EliteMobs;
 			mobtype = EliteMobsCompat.getEliteMobsType(entity).name();
 		} else {

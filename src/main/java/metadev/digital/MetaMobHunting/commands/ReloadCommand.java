@@ -3,6 +3,8 @@ package metadev.digital.MetaMobHunting.commands;
 import java.util.List;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,8 +12,9 @@ import org.bukkit.entity.Player;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
 
 
 public class ReloadCommand implements ICommand {
@@ -87,9 +90,11 @@ public class ReloadCommand implements ICommand {
 					MobHunting.getInstance().getAchievementManager().load(player);
 			}
 
-			if (MythicMobsCompat.isSupported())
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 				MythicMobsCompat.loadMythicMobsData();
-			if (CitizensCompat.isSupported())
+            if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+                MysteriousHalloweenCompat.loadMysteriousHalloweenMobsData();
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 				CitizensCompat.loadCitizensData();
 
 			plugin.getMessages().senderSendMessage(sender,

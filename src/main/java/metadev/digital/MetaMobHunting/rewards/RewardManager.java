@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.metacustomitemslib.rewards.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,12 +29,11 @@ import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.GringottsCompat;
-import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
 
 
 public class RewardManager {
@@ -59,7 +59,7 @@ public class RewardManager {
 				Bukkit.getPluginManager().registerEvents(new PlayerPickupItemEventListener(pickupRewards), plugin);
 
 		} */
-		if (BagOfGoldCompat.isSupported() || plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())) || plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
 			new BagOfGoldSign(plugin);
 	}
 
@@ -89,14 +89,14 @@ public class RewardManager {
 	}
 
 	public String format(double amount) {
-		if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency && !BagOfGoldCompat.isSupported())
+		if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency && !MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())))
 			return Tools.format(amount);
 		else
 			return plugin.getEconomyManager().getFormattedBalance(amount);
 	}
 
 	public double getBalance(OfflinePlayer offlinePlayer) {
-		if (BagOfGoldCompat.isSupported() || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())) || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
 			return plugin.getEconomyManager().getBalance(offlinePlayer);
 		else if (offlinePlayer.isOnline()) {
 			return getAmountInInventory((Player) offlinePlayer);
@@ -225,7 +225,7 @@ public class RewardManager {
 	public void dropMoneyOnGround_RewardManager(Player player, Entity killedEntity, Location location, double money) {
 		Item item = null;
 		money = Tools.ceil(money);
-		if (GringottsCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Gringotts.getName()))) {
 			List<Denomination> denoms = Configuration.CONF.getCurrency().getDenominations();
 			int unit = Configuration.CONF.getCurrency().getUnit();
 			double rest = money;
@@ -308,8 +308,7 @@ public class RewardManager {
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-					+ "Unhandled reward type in RewardManager (DropRewardOnGround).");
+            MessageHelper.error("Unhandled reward type in RewardManager (DropRewardOnGround).");
 		}
 	}
 
@@ -328,7 +327,7 @@ public class RewardManager {
 		} else if (plugin.getConfigManager().mobKillsPlayerPenalty.trim().endsWith("%")) {
 			double penalty = 0;
 			double balance = 0;
-			if (BagOfGoldCompat.isSupported()) {
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName()))) {
 				for (ItemStack is : droplist) {
 					MessageHelper.debug("Dropped item: %s", is.getType());
 					if (Reward.isReward(is)) {
@@ -352,8 +351,7 @@ public class RewardManager {
 
 	public double getRandomPrice(String str) {
 		if (str == null || str.equals("") || str.isEmpty()) {
-			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-					+ " The random_bounty_prize is not set in config.yml. Please set the prize to 0 or a positive number.");
+            MessageHelper.error("The random_bounty_prize is not set in config.yml. Please set the prize to 0 or a positive number.");
 			return 0;
 		} else if (str.contains(":")) {
 			String[] str1 = str.split(":");
@@ -371,23 +369,32 @@ public class RewardManager {
 	 * @return value
 	 */
 	public double getBaseKillPrize(Entity mob) {
-		if (MythicMobsCompat.isMythicMob(mob)) {
-			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
-				return getPrice(mob, MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
-						.getRewardPrize());
-			MessageHelper.debug("MythicMob %s has no reward data", MythicMobsCompat.getMythicMobType(mob));
-			return 0;
+        if (MythicMobsCompat.isMythicMob(mob)) {
+            if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
+                return getPrice(mob, MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
+                        .getRewardPrize());
+            MessageHelper.debug("MythicMob %s has no reward data", MythicMobsCompat.getMythicMobType(mob));
+            return 0;
 
-		} else if (CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
-			NPC npc = CitizensAPI.getNPCRegistry().getNPC(mob);
-			String key = String.valueOf(npc.getId());
-			if (CitizensCompat.getMobRewardData().containsKey(key)) {
-				return getPrice(mob, CitizensCompat.getMobRewardData().get(key).getRewardPrize());
-			}
-			MessageHelper.debug("Citizens mob %s has no reward data", npc.getName());
-			return 0;
+        } else if (CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
+            NPC npc = CitizensAPI.getNPCRegistry().getNPC(mob);
+            String key = String.valueOf(npc.getId());
+            if (CitizensCompat.getMobRewardData().containsKey(key)) {
+                return getPrice(mob, CitizensCompat.getMobRewardData().get(key).getRewardPrize());
+            }
+            MessageHelper.debug("Citizens mob %s has no reward data", npc.getName());
+            return 0;
 
-		} else if (MyPetCompat.isMyPet(mob)) {
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return getPrice(mob, MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getRewardPrize());
+            MessageHelper.debug("MysteriousHalloween %s has no reward data",
+                    MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name());
+            return 0;
+
+        } else if (MyPetCompat.isMyPet(mob)) {
 			MessageHelper.debug("Tried to find a prize for a MyPet: %s (Owner=%s)", MyPetCompat.getMyPet(mob),
 					MyPetCompat.getMyPetOwner(mob));
 			return getPrice(mob, plugin.getConfigManager().wolfMoney);
@@ -701,14 +708,11 @@ public class RewardManager {
 	private double getPrice(Entity mob, String str) {
 		try {
 			if (str == null || str.equals("") || str.isEmpty()) {
-				Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]"
-						+ ChatColor.RESET + " The prize for killing a " + mob.getName()
+                MessageHelper.error("The prize for killing a " + mob.getName()
 						+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
 				return 0;
 			} else if (str.startsWith(":")) {
-				Bukkit.getServer().getConsoleSender()
-						.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-								+ " The prize for killing a " + mob.getName()
+                MessageHelper.error("The prize for killing a " + mob.getName()
 								+ " in config.yml has a wrong format. The prize can't start with \":\"");
 				if (str.length() > 1)
 					return getPrice(mob, str.substring(1, str.length()));
@@ -722,8 +726,7 @@ public class RewardManager {
 			} else
 				return Double.valueOf(str);
 		} catch (NumberFormatException e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-					+ " The prize for killing a " + mob.getName() + " has an unknown format in config.yml.");
+            MessageHelper.error("The prize for killing a " + mob.getName() + " has an unknown format in config.yml.");
 			// e.printStackTrace();
 			return 0;
 		}
@@ -744,14 +747,21 @@ public class RewardManager {
 			return new ArrayList<>();
 
 		} else if (CitizensCompat.isNPC(mob) && CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
-			NPC npc = CitizensAPI.getNPCRegistry().getNPC(mob);
-			String key = String.valueOf(npc.getId());
-			if (CitizensCompat.getMobRewardData().containsKey(key)) {
-				return CitizensCompat.getMobRewardData().get(key).getConsoleRunCommand();
-			}
-			return new ArrayList<>();
+            NPC npc = CitizensAPI.getNPCRegistry().getNPC(mob);
+            String key = String.valueOf(npc.getId());
+            if (CitizensCompat.getMobRewardData().containsKey(key)) {
+                return CitizensCompat.getMobRewardData().get(key).getConsoleRunCommand();
+            }
+            return new ArrayList<>();
 
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getConsoleRunCommand();
+            return new ArrayList<>();
+
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.getConsoleRunCommand();
@@ -1060,7 +1070,14 @@ public class RewardManager {
 			}
 			return "";
 
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getRewardDescription();
+            return "";
+
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.getRewardDescription();
@@ -1361,6 +1378,13 @@ public class RewardManager {
 				return CitizensCompat.getMobRewardData().get(key).getChance();
 			}
 			return 0;
+
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getChance();
+            return 0;
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
@@ -1665,6 +1689,14 @@ public class RewardManager {
 			}
 			return 0;
 
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name())
+                        .getMcMMOSkillRewardChance();
+            return 0;
+
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
@@ -1954,15 +1986,11 @@ public class RewardManager {
 
 	private int getMcMMOXP(Entity mob, String str) {
 		if (str == null || str.equals("") || str.isEmpty()) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-							+ " The McMMO XP for killing a " + mob.getName()
+            MessageHelper.error("The McMMO XP for killing a " + mob.getName()
 							+ " is not set in config.yml. Please set the McMMO XP to 0 or a positive number.");
 			return 0;
 		} else if (str.startsWith(":")) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-							+ " The McMMO XP for killing a " + mob.getName()
+            MessageHelper.error("The McMMO XP for killing a " + mob.getName()
 							+ " in config.yml has a wrong format. The prize can't start with \":\"");
 			if (str.length() > 1)
 				return getMcMMOXP(mob, str.substring(1, str.length()));
@@ -1992,7 +2020,16 @@ public class RewardManager {
 			}
 			return 0;
 
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name())
+                        .getMcMMOSkillRewardAmount();
+            return 0;
+
+
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.getMcMMOSkillRewardAmount();
@@ -2294,7 +2331,14 @@ public class RewardManager {
 			}
 			return false;
 
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).isMobEnabled();
+            return false;
+
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.isMobEnabled();
@@ -2599,6 +2643,14 @@ public class RewardManager {
 				// CitizensCompat.getMobRewardData().get(key).isMobEnabled();
 			}
 			return false;
+
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return false;
+            // return MysteriousHalloweenCompat.getMobRewardData()
+            // .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
+            return false;
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
@@ -2905,7 +2957,16 @@ public class RewardManager {
 			}
 			return 0;
 
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return 0;
+            // return MysteriousHalloweenCompat.getMobRewardData()
+            // .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
+            return 0;
+
+
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return 0;
 			// return
@@ -3210,6 +3271,14 @@ public class RewardManager {
 				// CitizensCompat.getMobRewardData().get(key).isMobEnabled();
 			}
 			return "";
+
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return "";
+            // return MysteriousHalloweenCompat.getMobRewardData()
+            // .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
+            return "";
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
@@ -3517,6 +3586,14 @@ public class RewardManager {
 				// CitizensCompat.getMobRewardData().get(key).isMobEnabled();
 			}
 			return 0;
+
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return 0;
+            // return MysteriousHalloweenCompat.getMobRewardData()
+            // .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
+            return 0;
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))

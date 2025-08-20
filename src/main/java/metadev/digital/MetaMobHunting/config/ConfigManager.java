@@ -7,13 +7,14 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.config.AutoConfig;
 import metadev.digital.metacustomitemslib.config.ConfigField;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.MetaMobHunting.MobHunting;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -408,12 +409,6 @@ public class ConfigManager extends AutoConfig {
 						+ "\nHere you can chance the behavior of stacked mobs integration, or you can disable"
 						+ "\nintegration completely.");
 
-		setCategoryComment("plugins.custommobs",
-				"########################################################################" + "\nCustomMob settings"
-						+ "\n########################################################################"
-						+ "\nHere you can chance the behavior of CustomMobs Integration, or you can disable"
-						+ "\nintegration completely." + "\nhttps://www.spigotmc.org/resources/custommobs.7339/");
-
 		setCategoryComment("plugins.infernalmobs",
 				"########################################################################" + "\nInfernalMobs settings"
 						+ "\n########################################################################"
@@ -429,15 +424,8 @@ public class ConfigManager extends AutoConfig {
 
 		setCategoryComment("plugins.levelmobs",
 				"########################################################################"
-						+ "\nLevel Mob Settings (Conquestian / LorinthsRPGMobs / LevelledMobs"
+						+ "\nLevel Mob Settings (LorinthsRPGMobs / LevelledMobs"
 						+ "\n########################################################################");
-
-		setCategoryComment("plugins.levelmobs.conquestiamobs",
-				"########################################################################"
-						+ "\nConquestia Mobs settings"
-						+ "\n########################################################################"
-						+ "\nHere you can chance the behavior of ConquestiaMobs Integration, or you can disable"
-						+ "\nintegration completely." + "\nhttps://www.spigotmc.org/resources/conquesita_mobs.21307/");
 
 		setCategoryComment("plugins.levelmobs.lorinthsrpgmobs",
 				"########################################################################" + "\nLorinthsRPGMobs"
@@ -509,17 +497,6 @@ public class ConfigManager extends AutoConfig {
 		setCategoryComment("plugins.mypet", "########################################################################"
 				+ "\nMyPet" + "\n########################################################################");
 
-		setCategoryComment("plugins.mcmmohorses",
-				"########################################################################" + "\nMcMMOHorses"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.minigames",
-				"########################################################################" + "\nMinigames"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.minigameslib",
-				"########################################################################" + "\nMinigamesLib"
-						+ "\n########################################################################");
 
 		setCategoryComment("plugins.worldguard",
 				"########################################################################" + "\nWorldguard"
@@ -551,10 +528,6 @@ public class ConfigManager extends AutoConfig {
 
 		setCategoryComment("plugins.mysterious_halloween",
 				"########################################################################" + "\nMysterousHalloween"
-						+ "\n########################################################################");
-
-		setCategoryComment("plugins.smartgiants",
-				"########################################################################" + "\nSmartGiants"
 						+ "\n########################################################################");
 
 		setCategoryComment("plugins.placeholderapi",
@@ -4093,12 +4066,6 @@ public class ConfigManager extends AutoConfig {
 	// #####################################################################################
 	// Disguises
 	// #####################################################################################
-	@ConfigField(name = "enable_integration_i_disguise", category = "plugins.disguises", comment = "Enable/disable integration with iDisguise")
-	public boolean enableIntegrationIDisguise = true;
-
-	@ConfigField(name = "enable_integration_disguisecraft", category = "plugins.disguises", comment = "Enable/disable integration with DisguiseCcraft")
-	public boolean enableIntegrationDisguiseCraft = true;
-
 	@ConfigField(name = "enable_integration_libsdisguises", category = "plugins.disguises", comment = "Enable/disable integration with LibsDisguises")
 	public boolean enableIntegrationLibsDisguises = true;
 
@@ -4128,29 +4095,20 @@ public class ConfigManager extends AutoConfig {
 			+ "\nbecause of database lockings.")
 	public int masterMobHuntercheckEvery = 300;
 
+    // #####################################################################################
+    // BagOfGold settings - for servers with the BagOfGold plugin
+    // #####################################################################################
+    @ConfigField(name = "enable_integration_bagofgold", category = "plugins.bagofgold", comment = "Enable/disable integration with BagOfGold")
+    public boolean enableIntegrationBagOfGold = false;
+
 	// #####################################################################################
 	// Stacked Mobs Settings
 	// #####################################################################################
-	@ConfigField(name = "mobstacker.enable_integration_mobstacker", category = "plugins.stackedmobs", comment = "Enable/disable integration with MobStacker."
-			+ "\nhttps://www.spigotmc.org/resources/mobstacker.15596/")
-	public boolean enableIntegrationMobStacker = true;
 
 	@ConfigField(name = "stackmob.enable_integration_stackmob", category = "plugins.stackedmobs", comment = "Enable/disable integration with StackMob."
 			+ "\nhttps://www.spigotmc.org/resources/stackmob.29999/")
 	public boolean enableIntegrationStackMob = true;
 
-	@ConfigField(name = "get_reward_from_stacked_mobs", category = "plugins.stackedmobs", comment = "Set to true if you want stacked mobs to pay a reward.")
-	public boolean getRewardFromStackedMobs = true;
-
-	// #####################################################################################
-	// CustomMobs Settings
-	// #####################################################################################
-	@ConfigField(name = "enable_integration_custommobs", category = "plugins.custommobs", comment = "Enable/disable integration with CustomMobs"
-			+ "\nhttps://dev.bukkit.org/bukkit_plugins/custom_mobs/")
-	public boolean enableIntegrationCustomMobs = true;
-
-	@ConfigField(name = "allow_custom_mobspawners_and_eggs", category = "plugins.custommobs", comment = "Can the players earn money on mobs spawned from CustomMobs Spawners and eggs?")
-	public boolean allowCustomMobsSpawners = false;
 
 	// #####################################################################################
 	// InfernalMobs Settings
@@ -4172,15 +4130,8 @@ public class ConfigManager extends AutoConfig {
 	public double elitemobMultiplier = 2;
 
 	// #####################################################################################
-	// ConquestiaMobs / LorinthsRpgMobs / LevelledMobs Settings
+	// LorinthsRpgMobs / LevelledMobs Settings
 	// #####################################################################################
-	@ConfigField(name = "enable_integration_conquestiamobs", category = "plugins.levelmobs.conquestia", comment = "Enable/disable integration with ConquestiaMobs"
-			+ "\nhttps://www.spigotmc.org/resources/conquesita_mobs.21307/")
-	public boolean enableIntegrationConquestiaMobs = true;
-
-	@ConfigField(name = "enable_integration_lorinthsrpgmobs", category = "plugins.levelmobs.lorinthsrpgmobs")
-	public boolean enableIntegrationLorinthsRpgMobs = true;
-
 	@ConfigField(name = "enable_integration_levelledmobs", category = "plugins.levelmobs.levelledmobs")
 	public boolean enableIntegrationLevelledMobs = true;
 
@@ -4913,17 +4864,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "mypet.enable_integration_mypet", category = "plugins", comment = "Enable/Disable integration with MyPet")
 	public boolean enableIntegrationMyPet = true;
 
-	@ConfigField(name = "mcmmohorses.enable_integration_mcmmohorses", category = "plugins", comment = "Enable/Disable integration with McMMOHorses."
-			+ "\nhttps://www.spigotmc.org/resources/mcmmohorses.46301/")
-	public boolean enableIntegrationMcMMOHorses = true;
-
-	@ConfigField(name = "minigames.enable_integration_minigames", category = "plugins", comment = "Enable/Disable integration with MiniGames")
-	public boolean enableIntegrationMinigames = true;
-
-	@ConfigField(name = "minigameslib.enable_integration_minigameslib", category = "plugins", comment = "Enable/Disable integration with MiniGamesLib"
-			+ "\nhttps://www.spigotmc.org/resources/minigameslib.23844/")
-	public boolean enableIntegrationMinigamesLib = true;
-
 	@ConfigField(name = "worldguard.enable_integration_worldguard", category = "plugins", comment = "Enable/Disable integration with WorldGuard")
 	public boolean enableIntegrationWorldGuard = true;
 
@@ -4956,9 +4896,6 @@ public class ConfigManager extends AutoConfig {
 			+ "\nhttps://www.spigotmc.org/resources/mysterioushalloween.13059/")
 	public boolean enableIntegrationMysteriousHalloween = true;
 
-	@ConfigField(name = "smartgiants.enable_integration_smartgiants", category = "plugins", comment = "Enable/Disable integration with SmartGiants."
-			+ "\nhttps://www.spigotmc.org/threads/smartgiants.55208/")
-	public boolean enableIntegrationSmartGiants = true;
 
 	@ConfigField(name = "placeholderapi.enable_integration_placeholderapi", category = "plugins", comment = "Enable/Disable integration with PlaceholderAPI."
 			+ "\nhttps://www.spigotmc.org/resources/placeholderapi.6245/")
@@ -4988,9 +4925,6 @@ public class ConfigManager extends AutoConfig {
 			+ "\nhttps://dev.bukkit.org/projects/holographic_displays")
 	public boolean enableIntegrationHolographicDisplays = true;
 
-	@ConfigField(name = "precious_stones.enable_integration_preciousstones", category = "plugins", comment = "Enable/Disable integration with PreciousStones."
-			+ "\nhttps://www.spigotmc.org/resources/preciousstones.5270/")
-	public boolean enableIntegrationPreciousStones = true;
 
 	// #####################################################################################
 	// DropMoneyOnGround settings - for servers without the BagOfGold plugin
@@ -5160,11 +5094,9 @@ public class ConfigManager extends AutoConfig {
 					backupFile.mkdirs();
 				Files.copy(mFile.toPath(), backupFile.toPath(), StandardCopyOption.COPY_ATTRIBUTES,
 						StandardCopyOption.REPLACE_EXISTING);
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RESET
-						+ " Config.yml was backed up to " + backupFile.getPath());
+                MessageHelper.notice("Config.yml was backed up to " + backupFile.getPath());
 			} catch (IOException e1) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-						+ "[ERROR] - Could not backup config.yml file to " +plugin.getDataFolder().getPath() + "backup/config.yml. Delete some old backups");
+                MessageHelper.error("Could not backup config.yml file to " +plugin.getDataFolder().getPath() + "backup/config.yml. Delete some old backups");
 				e1.printStackTrace();
 			}
 	}
@@ -5594,14 +5526,12 @@ public class ConfigManager extends AutoConfig {
 
 	private double getPrice(MobType mob, String str) {
 		if (str == null || str.equals("") || str.isEmpty()) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
+            MessageHelper.error("The prize for killing a "
 							+ mob.getEntityName()
 							+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
 			return 0;
 		} else if (str.startsWith(":")) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting][WARNING]" + ChatColor.RESET + " The prize for killing a "
+            MessageHelper.error("The prize for killing a "
 							+ mob.getEntityName()
 							+ " in config.yml has a wrong format. The prize can't start with \":\"");
 			if (str.length() > 1)

@@ -12,7 +12,7 @@ import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.storage.StatStore;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
 

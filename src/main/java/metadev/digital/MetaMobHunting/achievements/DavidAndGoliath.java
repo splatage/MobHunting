@@ -12,7 +12,6 @@ public class DavidAndGoliath implements Achievement, Listener {
 
 	private MobHunting plugin;
 
-	// TODO: Achievement is deprecated with removal of SmartGiant support
 	public DavidAndGoliath(MobHunting plugin) {
 		this.plugin = plugin;
 	}
@@ -39,12 +38,7 @@ public class DavidAndGoliath implements Achievement, Listener {
 
 	@EventHandler
 	public void onKill(MobHuntKillEvent event) {
-		/** if (SmartGiantsCompat.isSmartGiants(event.getKilledEntity())
-				&& event.getDamageInfo().getWeapon().getType() == Material.STONE_BUTTON
-				&& !(plugin.getRewardManager().getBaseKillPrize(event.getKilledEntity()) == 0
-						&& plugin.getRewardManager().getKillCommands(event.getKilledEntity()).isEmpty()))
-			plugin.getAchievementManager().awardAchievement(this, event.getPlayer(),
-					plugin.getExtendedMobManager().getExtendedMobFromEntity(event.getKilledEntity())); */
+        // TODO: The base plugin for this achievement is kil. Rework this to be something new?
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.Messages.constants.Prefixes;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import org.bukkit.Bukkit;
@@ -82,7 +84,7 @@ public class AdvancementAPI {
 
             try (FileWriter writer = new FileWriter(file)) {
                 writer.write(getJSON());
-                Bukkit.getLogger().info("[MobHunting/AdvancementAPI] Created " + id.toString());
+                Bukkit.getLogger().info("["+ Prefixes.PLUGIN +"/AdvancementAPI] Created " + id.toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -181,7 +183,7 @@ public class AdvancementAPI {
             Bukkit.getUnsafe().loadAdvancement(id, getJSON());
             //Bukkit.getLogger().info("Successfully registered advancement.");
         } catch (IllegalArgumentException e) {
-            //MobHunting.getInstance().getMessages().debug("[MobHunting][Warning] Error registering advancement "+getId()+". It seems to already exist!");
+            MessageHelper.debug("Error registering advancement "+getId()+". It seems to already exist!");
         }
         return this;
     }

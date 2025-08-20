@@ -5,6 +5,33 @@ import java.util.Random;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.Messages.Messages;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
+import metadev.digital.MetaMobHunting.compatibility.addons.BagOfGoldCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
+// import metadev.digital.MetaMobHunting.compatibility.addons.BossShopCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CrackShotCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.ExtraHardModeCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.FactionsUUIDCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.GringottsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.LevelledMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.LibsDisguisesCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MobArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PVPArenaCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.ResidenceCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.StackMobCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.TownyCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.VanishNoPacketCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WeaponMechanicsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WorldEditCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WorldGuardCompat;
 import metadev.digital.MetaMobHunting.config.Migrator;
 import metadev.digital.MetaMobHunting.config.MigratorException;
 import metadev.digital.MetaMobHunting.update.UpdateManager;
@@ -12,8 +39,6 @@ import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.metacustomitemslib.storage.DataStoreException;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
-import metadev.digital.metacustomitemslib.compatibility.addons.CMICompat;
 import metadev.digital.MetaMobHunting.Api.MobHuntingAPI;
 import metadev.digital.MetaMobHunting.achievements.*;
 import metadev.digital.MetaMobHunting.bounty.BountyManager;
@@ -39,27 +64,7 @@ import metadev.digital.MetaMobHunting.commands.TopCommand;
 import metadev.digital.MetaMobHunting.commands.UpdateCommand;
 import metadev.digital.MetaMobHunting.commands.VersionCommand;
 import metadev.digital.MetaMobHunting.commands.WhitelistAreaCommand;
-import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
-import metadev.digital.MetaMobHunting.compatibility.BattleArenaCompat;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
 import metadev.digital.MetaMobHunting.compatibility.CompatibilityManager;
-import metadev.digital.MetaMobHunting.compatibility.CrackShotCompat;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.EssentialsCompat;
-import metadev.digital.MetaMobHunting.compatibility.ExtraHardModeCompat;
-import metadev.digital.MetaMobHunting.compatibility.GringottsCompat;
-import metadev.digital.MetaMobHunting.compatibility.LevelledMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.LibsDisguisesCompat;
-import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
-import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.PVPArenaCompat;
-import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
-import metadev.digital.MetaMobHunting.compatibility.ResidenceCompat;
-import metadev.digital.MetaMobHunting.compatibility.StackMobCompat;
-import metadev.digital.MetaMobHunting.compatibility.WeaponMechanicsCompat;
-import metadev.digital.MetaMobHunting.compatibility.WorldEditCompat;
-import metadev.digital.MetaMobHunting.compatibility.WorldGuardCompat;
 import metadev.digital.MetaMobHunting.config.ConfigManager;
 import metadev.digital.MetaMobHunting.grinding.GrindingManager;
 import metadev.digital.MetaMobHunting.leaderboard.LeaderboardManager;
@@ -71,7 +76,6 @@ import metadev.digital.MetaMobHunting.storage.MySQLDataStore;
 import metadev.digital.MetaMobHunting.storage.SQLiteDataStore;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.plugin.Plugin;
@@ -110,7 +114,30 @@ public class MobHunting extends JavaPlugin {
 	private boolean mInitialized = false;
 	public boolean disabling = false;
 
-	@Override
+    // TODO: FINISH REMOVING DEPRECATED SERVER VERSION CALLS
+
+    // PROJECT HEALTH REMAINING OBJECTIVES
+    // TODO: REWORK MOB ENTITY IF STATEMENT TREE HANDLING
+    // TODO: ADD TRANSLATIONS FOR NEW COMPAT FEATURE CONSOLE MESSAGES & CONFIG MIGRATION PROCESS
+    // TODO: AUDIT CONFIG AND APPLY A NEW VERSION
+    // TODO: ADD UNIT TESTS VIA MOCKBUKKIT
+    // TODO: RETEST CMI COMPAT NOW THAT THE CLASS HAS BEEN REMOVED FROM STARTUP IN MOBHUNTING
+    // TODO: ADD IMPROVED FACTIONS TO THE SupportedPluginEntities
+
+    // PLUGIN COMPATIBILITIES
+    // NEW
+    // TODO: DiscordSRV
+    // TODO: Finish integrating ImprovedFactions
+    // OLD
+    // TODO: AUDIT AND FULLY IMPLEMENT BOSSSHOP
+    // TODO: AUDIT AND REIMPLEMENT ELITEMOBS
+    // TODO: AUDIT TARDISWeepingAngels and add in support for the other mobs https://github.com/eccentricdevotion/TARDIS
+    // TODO: AUDIT, PURCHASE, AND REIMPLEMENT BOSS https://mineacademy.org/boss  https://builtbybit.com/resources/boss-unbelievable-custom-monsters.21619/
+    // TODO: TODO: Replace Reserve with https://bstats.org/plugin/bukkit/VaultUnlocked/22252 ex: https://github.com/TownyAdvanced/Towny/blob/d382a5d5b614ac5e2032b9e94bc861f2f313bf4c/Towny/src/main/java/com/palmergames/bukkit/towny/TownyEconomyHandler.java#L168
+    // TODO: Add VanishNoPacket and Essentials disguises to DisguisesHelper
+
+
+    @Override
 	public void onLoad() {
 		// Verify user is not running old Rocologo version and Meta version
 		if (Bukkit.getPluginManager().getPlugin("MobHunting") != null) {
@@ -150,26 +177,21 @@ public class MobHunting extends JavaPlugin {
 		disabling = false;
 
 		int config_version = ConfigManager.getConfigVersion(mFile);
-		Bukkit.getConsoleSender().sendMessage(
-				ChatColor.GOLD + "[MetaMobHunting] " + ChatColor.RESET + "Your config version is " + config_version);
+        MessageHelper.notice("Your config version is " + config_version);
 		switch (config_version) {
 		case 0: // 0 was the old version number before MobHunting V5.0.0
 		case -2:
-			Bukkit.getConsoleSender().sendMessage(
-					ChatColor.GOLD + "[MetaMobHunting] " + ChatColor.RESET + "Defect config.yml file. Deleted.");
+			MessageHelper.warning("Defect config.yml file. Deleted.");
 		case -1:
 			mConfig = new ConfigManager(this, mFile);
 			if (!mConfig.loadConfig())
-				Bukkit.getConsoleSender().sendMessage(
-						ChatColor.GOLD + "[MetaMobHunting] " + ChatColor.RESET + "Error could not load config.yml");
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RESET
-					+ "Creating new config.yml, version=" + mConfig.configVersion);
+				MessageHelper.warning("Error could not load config.yml");
+            MessageHelper.warning("Creating new config.yml, version=" + mConfig.configVersion);
 			break;
 		default:
 			mConfig = new ConfigManager(this, mFile);
 			if (mConfig.loadConfig()) {
-				Bukkit.getConsoleSender().sendMessage(
-						ChatColor.GOLD + "[MetaMobHunting] " + ChatColor.RESET + "Existing config.yml loaded.");
+				MessageHelper.notice("Existing config.yml loaded.");
 				if (mConfig.backup)
 					mConfig.backupConfig(mFile);
 			} else
@@ -237,18 +259,22 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(WorldEditCompat.class, SupportedPluginEntities.WorldEdit);
 		mCompatibilityManager.registerPlugin(WorldGuardCompat.class, SupportedPluginEntities.WorldGuard);
 
-		mCompatibilityManager.registerPlugin(CMICompat.class, SupportedPluginEntities.CMI);
 		mCompatibilityManager.registerPlugin(ResidenceCompat.class, SupportedPluginEntities.Residence);
+        mCompatibilityManager.registerPlugin(TownyCompat.class, SupportedPluginEntities.Towny);
+        mCompatibilityManager.registerPlugin(FactionsUUIDCompat.class, SupportedPluginEntities.Factions);
+
 		// Other plugins
 		mCompatibilityManager.registerPlugin(McMMOCompat.class, SupportedPluginEntities.mcMMO);
 		mCompatibilityManager.registerPlugin(MyPetCompat.class, SupportedPluginEntities.MyPet);
 
 		// Minigame plugins
 		mCompatibilityManager.registerPlugin(PVPArenaCompat.class, SupportedPluginEntities.PVPArena);
+        mCompatibilityManager.registerPlugin(MobArenaCompat.class, SupportedPluginEntities.MobArena);
 		mCompatibilityManager.registerPlugin(BattleArenaCompat.class, SupportedPluginEntities.BattleArena);
 
 		// Disguise and Vanish plugins
 		mCompatibilityManager.registerPlugin(LibsDisguisesCompat.class, SupportedPluginEntities.LibsDisguises);
+        mCompatibilityManager.registerPlugin(VanishNoPacketCompat.class, SupportedPluginEntities.VanishNoPacket);
 
 		// Plugin PlaceholderAPI
 		mCompatibilityManager.registerPlugin(PlaceholderAPICompat.class, SupportedPluginEntities.PlaceholderAPI);
@@ -261,6 +287,7 @@ public class MobHunting extends JavaPlugin {
 		// ExtendedMob Plugins where special mobs are created
 		mCompatibilityManager.registerPlugin(MythicMobsCompat.class, SupportedPluginEntities.MythicMobs);
 		mCompatibilityManager.registerPlugin(CitizensCompat.class, SupportedPluginEntities.Citizens);
+        mCompatibilityManager.registerPlugin(MysteriousHalloweenCompat.class, SupportedPluginEntities.MysteriousHalloween);
 
 		mCompatibilityManager.registerPlugin(ExtraHardModeCompat.class, SupportedPluginEntities.ExtraHardMode);
 		mCompatibilityManager.registerPlugin(CrackShotCompat.class, SupportedPluginEntities.CrackShot);
@@ -284,9 +311,9 @@ public class MobHunting extends JavaPlugin {
 		mCommandDispatcher.registerCommand(new LearnCommand(this));
 		mCommandDispatcher.registerCommand(new MuteCommand(this));
 		mCommandDispatcher.registerCommand(new ReloadCommand(this));
-		if (WorldGuardCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName())))
 			mCommandDispatcher.registerCommand(new RegionCommand(this));
-		if (WorldEditCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldEdit.getName())))
 			mCommandDispatcher.registerCommand(new SelectCommand(this));
 		mCommandDispatcher.registerCommand(new TopCommand(this));
 		mCommandDispatcher.registerCommand(new WhitelistAreaCommand(this));
@@ -355,16 +382,17 @@ public class MobHunting extends JavaPlugin {
 		if (!mInitialized)
 			return;
 
+
 		MessageHelper.debug("Shutdown LeaderBoardManager");
 		mLeaderboardManager.shutdown();
 		mGrindingManager.saveData();
-		if (PlaceholderAPICompat.isSupported()) {
-			MessageHelper.debug("Shutdown PlaceHolderManager");
-			PlaceholderAPICompat.shutdown();
-		}
+
 		getMobHuntingManager().getHuntingModifiers().clear();
 		if (mConfig.enableFishingRewards)
 			getFishingManager().getFishingModifiers().clear();
+
+        MessageHelper.debug("Shutting down compatibilities.");
+        mCompatibilityManager.triggerSoftShutdown();
 
 		try {
 			MessageHelper.debug("Shutdown StoreManager");
@@ -374,8 +402,6 @@ public class MobHunting extends JavaPlugin {
 		} catch (DataStoreException e) {
 			e.printStackTrace();
 		}
-		MessageHelper.debug("Shutdown CitizensCompat");
-		CitizensCompat.shutdown();
 
 		MessageHelper.debug("MobHunting disabled.");
 	}

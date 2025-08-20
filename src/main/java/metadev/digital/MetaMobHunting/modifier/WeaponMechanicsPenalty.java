@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import metadev.digital.MetaMobHunting.DamageInformation;
 import metadev.digital.MetaMobHunting.HuntData;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.WeaponMechanicsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.WeaponMechanicsCompat;
 
 public class WeaponMechanicsPenalty implements IModifier {
 

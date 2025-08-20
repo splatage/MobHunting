@@ -6,7 +6,7 @@
 
     <groupId>metadev.digital</groupId>
     <artifactId>MetaMobHunting</artifactId>
-    <version>9.2.0</version>
+    <version>10.0.0</version>
     <name>MobHunting</name>
     <url>https://github.com/Metadev-Digital/MobHunting</url>
     <description>MobHunting adds a new level of fun to hunting monsters. Now you can get money from kills, get bonuses for skilled and creative kills, and get special achievements!</description>
@@ -85,7 +85,7 @@
             <url>https://mvn.lumine.io/repository/maven-public/</url>
         </repository>
 
-        <!-- Jitpack (Vault) -->
+        <!-- Jitpack (Vault & ImprovedFactions)  -->
         <repository>
             <id>jitpack-repo</id>
             <url>https://jitpack.io</url>
@@ -95,6 +95,18 @@
         <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/releases/</url>
+        </repository>
+
+        <!-- Towny -->
+        <repository>
+            <id>glaremasters repo</id>
+            <url>https://repo.glaremasters.me/repository/towny/</url>
+        </repository>
+
+        <!-- FactionsUUID VanishNoPacket -->
+        <repository>
+            <id>dev.kitteh</id>
+            <url>https://dependency.download/releases</url>
         </repository>
     </repositories>
 
@@ -226,15 +238,6 @@
             </exclusions>
         </dependency>
 
-        <!-- Title Manager // TODO: Replace with an exported version of this from CustomItemsLib -->
-        <!--<dependency>
-            <groupId>io.puharesource.mc</groupId>
-            <artifactId>TitleManager</artifactId>
-            <version>2.3.6</version>
-            <scope>system</scope>
-            <systemPath>${basedir}\lib\TitleManager-2.3.6.jar</systemPath>
-        </dependency>-->
-
         <!-- Essentials -->
         <dependency>
             <groupId>net.essentialsx</groupId>
@@ -298,6 +301,15 @@
             <systemPath>${basedir}/lib/LibsDisguises-11.0.7.jar</systemPath>
         </dependency>
 
+        <!-- VanishNoPacket -->
+        <dependency>
+            <groupId>org.kitteh</groupId>
+            <artifactId>VanishNoPacket</artifactId>
+            <version>3.20.2-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/VanishNoPacket-3.20.2-SNAPSHOT.jar</systemPath>
+        </dependency>
+
         <!-- McMMO -->
         <dependency>
             <groupId>com.gmail.nossr50.mcMMO</groupId>
@@ -352,6 +364,15 @@
             <systemPath>${basedir}/lib/pvparena-2.0.0.jar</systemPath>
         </dependency>
 
+        <!-- MobArena -->
+        <dependency>
+            <groupId>com.garbagemule.MobArena</groupId>
+            <artifactId>MobArena</artifactId>
+            <version>0.109</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/MobArena-0.109.jar</systemPath>
+        </dependency>
+
         <!-- MythicMobs -->
         <dependency>
             <groupId>io.lumine</groupId>
@@ -360,24 +381,31 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- RIP Factions. Replace with one of these two, ImprovedFactions or Saber Factions
-        ImprovedFactions (RIP Factions) https://www.spigotmc.org/resources/improved-factions.95617/
+        <!-- MysteriousHalloween -->
         <dependency>
-            <groupId>io.github.toberocat</groupId>
-            <artifactId>ImprovedFactions</artifactId>
+            <groupId>de.fof1092</groupId>
+            <artifactId>MysteriousHalloween</artifactId>
+            <version>4.8.4</version>
             <scope>system</scope>
-            <version>2.2.0</version>
-            <systemPath>${basedir}/lib/ImprovedFactions-2.2.0.jar</systemPath>
+            <systemPath>${basedir}/lib/MysteriousHalloweenPlus-4.8.4.jar</systemPath>
         </dependency>
 
-        Saber Factions (RIP FACTIONS) https://www.spigotmc.org/resources/saberfactions-1-8-1-21-x-discord-gg-saber-the-complete-factions-solution.69771/
+        <!-- ImprovedFactions https://www.spigotmc.org/resources/improved-factions.95617/ temporarially use local due to bug wit jitpack version import -->
         <dependency>
-            <groupId>com.github.SaberLLC</groupId>
-            <artifactId>Saber-Factions</artifactId>
-            <version>4.1.6-BETA</version>
+            <groupId>com.github.ToberoCat</groupId>
+            <artifactId>ImprovedFactions</artifactId>
+            <version>v2.3.0.234</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/SaberFactions.jar</systemPath>
-        </dependency> -->
+            <systemPath>${basedir}/lib/ImprovedFactions-v2.3.0.234.jar</systemPath>
+        </dependency>
+
+        <!-- Factions UUID https://factions.support/  https://www.spigotmc.org/resources/factionsuuid.1035/ -->
+        <dependency>
+            <groupId>dev.kitteh</groupId>
+            <artifactId>factionsuuid</artifactId>
+            <scope>provided</scope>
+            <version>0.7.0</version>
+        </dependency>
 
         <!-- Residence -->
         <dependency>
@@ -386,6 +414,14 @@
             <version>5.1.7.7</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/Residence5.1.7.7.jar</systemPath>
+        </dependency>
+
+        <!-- Towny -->
+        <dependency>
+            <groupId>com.palmergames.bukkit.towny</groupId>
+            <artifactId>towny</artifactId>
+            <version>0.101.2.0</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- CrackShot -->

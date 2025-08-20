@@ -7,7 +7,7 @@ import java.util.List;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.leaderboard.HologramLeaderboard;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
 

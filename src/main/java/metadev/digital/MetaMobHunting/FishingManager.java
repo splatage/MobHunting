@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -33,11 +34,11 @@ import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
-import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
 import metadev.digital.MetaMobHunting.events.MobHuntFishingEvent;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.modifier.DifficultyBonus;
-// TODO: Update with new factions import metadev.digital.MetaMobHunting.modifier.FactionWarZoneBonus;
+import metadev.digital.MetaMobHunting.modifier.FactionWarZoneBonus;
 import metadev.digital.MetaMobHunting.modifier.HappyHourBonus;
 import metadev.digital.MetaMobHunting.modifier.IModifier;
 import metadev.digital.MetaMobHunting.modifier.RankBonus;
@@ -61,6 +62,8 @@ public class FishingManager implements Listener {
 		mFishingModifiers.add(new WorldBonus());
 		mFishingModifiers.add(new HappyHourBonus());
 		mFishingModifiers.add(new RankBonus());
+        if(MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Factions.getName())))
+            mFishingModifiers.add(new FactionWarZoneBonus());
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
@@ -280,7 +283,7 @@ public class FishingManager implements Listener {
 					}
 
 				// McMMO Experience rewards
-				if (McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards) {
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName())) && plugin.getConfigManager().enableMcMMOLevelRewards) {
 					double chance = plugin.mRand.nextDouble();
 					int level = plugin.getRewardManager().getMcMMOLevel(fish);
 					MessageHelper.debug("If %s<%s %s will get a McMMO Level for fishing", chance,
@@ -307,9 +310,7 @@ public class FishingManager implements Listener {
 						try {
 							chance = Double.valueOf(cmd.get("chance"));
 						} catch (Exception e) {
-							Bukkit.getConsoleSender()
-									.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-											+ " The chance to run a command when catching a " + fish.getName()
+							MessageHelper.error("The chance to run a command when catching a " + fish.getName()
 											+ " must be formatted as a string ex. chance: '0.5'");
 						}
 						if (randomNumber < chance) {

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.Zrips.CMI.Modules.Holograms.CMIHologram;
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.Messages.constants.Prefixes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,7 +20,7 @@ import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
 import metadev.digital.metacustomitemslib.compatibility.addons.CMICompat;
-import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import metadev.digital.MetaMobHunting.storage.StatStore;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
 
@@ -105,7 +107,7 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 			}
 			plugin.getDataStoreManager().requestStats(getStatType(), getPeriod(), mHeight * 2, this);
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting][WARNING] The leaderboard at "
+            MessageHelper.warning("The leaderboard at "
 					+ mLocation.toString() + " has no StatType");
 		}
 	}
@@ -231,24 +233,24 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 		mHeight = section.getInt("height");
 
 		if (periods == null)
-			throw new InvalidConfigurationException(
-					"Error on Hologram Leaderboard " + section.getName() + ":Error in time period list");
+			throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                    "Error on Hologram Leaderboard " + section.getName() + ":Error in time period list");
 		if (stats == null)
-			throw new InvalidConfigurationException(
-					"Error on Hologram Leaderboard " + section.getName() + ":Error in stat type list");
+			throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                    "Error on Hologram Leaderboard " + section.getName() + ":Error in stat type list");
 		if (pos == null)
-			throw new InvalidConfigurationException(
-					"Error on Hologram Leaderboard " + section.getName() + ":Error in position");
+			throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                    "Error on Hologram Leaderboard " + section.getName() + ":Error in position");
 
 		if (mHeight < 1)
-			throw new InvalidConfigurationException(
-					"Error on Hologram Leaderboard " + section.getName() + ":Invalid height");
+			throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                    "Error on Hologram Leaderboard " + section.getName() + ":Invalid height");
 
 		mPeriod = new TimePeriod[periods.size()];
 		for (int i = 0; i < periods.size(); ++i) {
 			mPeriod[i] = TimePeriod.valueOf(periods.get(i));
 			if (mPeriod[i] == null)
-				throw new InvalidConfigurationException("Error on Hologram Leaderboard " + section.getName()
+				throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR + "Error on Hologram Leaderboard " + section.getName()
 						+ ":Invalid time period " + periods.get(i));
 		}
 
@@ -259,8 +261,8 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 		for (int i = 0; i < stats.size(); ++i) {
 			mType[i] = StatType.fromColumnName(stats.get(i));
 			if (mType[i] == null)
-				throw new InvalidConfigurationException(
-						"Error on Hologram Leaderboard " + section.getName() + ":Invalid stat type " + stats.get(i));
+				throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                        "Error on Hologram Leaderboard " + section.getName() + ":Invalid stat type " + stats.get(i));
 		}
 		mFormat_title = section.getString("format_title", FORMAT_TITLE);
 		mRow_format_integer = section.getString("format_integer", FORMAT_INTEGER);

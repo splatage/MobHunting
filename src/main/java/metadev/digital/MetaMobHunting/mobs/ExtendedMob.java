@@ -1,14 +1,16 @@
 package metadev.digital.MetaMobHunting.mobs;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
 import net.citizensnpcs.api.npc.NPC;
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.*;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
@@ -88,20 +90,23 @@ public class ExtendedMob {
 				return npc.getFullName();
 			else
 				return "Unknown";
+        case EliteMobs:
+            if (EliteMobsCompat.getMobRewardData().containsKey(mobtype))
+                return EliteMobsCompat.getMobRewardData().get(mobtype).getMobName();
+            else
+                return mobtype;
 		case MythicMobs:
 			if (MythicMobsCompat.getMobRewardData().containsKey(mobtype))
 				return MythicMobsCompat.getMobRewardData().get(mobtype).getMobName();
 			else
 				return MythicMobsCompat.getMythicMobName(mobtype);
-		case EliteMobs:
-			if (EliteMobsCompat.getMobRewardData().containsKey(mobtype))
-				return EliteMobsCompat.getMobRewardData().get(mobtype).getMobName();
-			else
-				return mobtype;
+        case MysteriousHalloween:
+            if (MysteriousHalloweenCompat.getMobRewardData().containsKey(mobtype))
+                return MysteriousHalloweenCompat.getMobRewardData().get(mobtype).getMobName();
+            else
+                return mobtype;
 		default:
-			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-			console.sendMessage(
-					ChatColor.RED + "[MobHunting] Missing pluginType '" + mobPlugin.name() + "' in ExtendeMob.");
+            MessageHelper.error("Missing pluginType '" + mobPlugin.name() + "' in ExtendeMob.");
 		}
 		return null;
 	}
@@ -131,16 +136,16 @@ public class ExtendedMob {
 		case Minecraft:
 			MobType mob = MobType.getMobType(mobtype);
 			return MobHunting.getInstance().getConfigManager().getProgressAchievementLevel1(mob);
-		case MythicMobs:
-			return MythicMobsCompat.getProgressAchievementLevel1(mobtype);
 		case Citizens:
 			return CitizensCompat.getProgressAchievementLevel1(mobtype);
 		case EliteMobs:
 			return EliteMobsCompat.getProgressAchievementLevel1(mobtype);
+        case MythicMobs:
+            return MythicMobsCompat.getProgressAchievementLevel1(mobtype);
+        case MysteriousHalloween:
+            return MysteriousHalloweenCompat.getProgressAchievementLevel1(mobtype);
 		default:
-			ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-			console.sendMessage(
-					ChatColor.RED + "[MobHunting] Missing pluginType '" + mobPlugin.name() + "' in ExtendeMob.");
+			MessageHelper.error("Missing pluginType '" + mobPlugin.name() + "' in ExtendeMob.");
 		}
 		return 0;
 	}

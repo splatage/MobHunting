@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.CMIHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,8 +27,8 @@ import metadev.digital.metacustomitemslib.Strings;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.compatibility.addons.CMILibCompat;
 import metadev.digital.metacustomitemslib.messages.MessageType;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.PlaceholderAPICompat;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 
