@@ -199,7 +199,7 @@ public class BattleArenaCompat implements Listener, IMobHuntCompat, IFeatureHold
      * @return Returns true when the player is in game.
      */
     public static boolean isPlayingBattleArena(Player player) {
-        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())))
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BattleArena.getName())))
             return playersPlayingBattleArena.contains(player.getUniqueId());
         return false;
     }
