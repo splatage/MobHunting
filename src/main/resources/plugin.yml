@@ -10,9 +10,43 @@ depend:
   - MetaCustomItemsLib
 softdepend:
   - CustomItemsLib
-  - ProtocolLib
+  - MobHunting
+  - Actionbar
+  - BarAPI
+  - BattleArena
+  - BossShopPro
+  - Citizens
+  - CrackShot
+  - Essentials
+  - ExtraHardMode
+  - Factions
+  - Gringotts
+  - InfernalMobs
+  - LibsDisguises
   - mcMMO
+  - MobArena
+  - MyPet
+  - MysteriousHalloween
+  - MythicMobs
+  - PlaceholderAPI
+  - ProtocolLib
+  - PVPArena
   - Residence
+  - StackMob
+  - TARDISWeepingAngels
+  - TitleManager
+  - Towny
+  - VanishNoPacket
+  - War
+  - WorldEdit
+  - WorldGuard
+  - CMI
+  - EliteMobs
+  - Boss
+  - CMILib
+  - LevelledMobs
+  - WeaponMechanics
+  - ImprovedFactions
 api-version: 1.21.8
 commands:
   mobhunt:

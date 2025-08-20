@@ -9,6 +9,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.DisguisesHelper;
 import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.FactionsUUIDCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.ImprovedFactionsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MobArenaCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
@@ -905,6 +906,30 @@ public class MobHuntingManager implements Listener {
 					MessageHelper.debug("======================= kill ended (7)======================");
 					return;
 				} else if (FactionsUUIDCompat.isInSafeZoneAndPeaceful(player)) {
+					MessageHelper.debug("KillBlocked: %s is hiding in Factions SafeZone", player.getName());
+					plugin.getMessages().learn(player,
+							plugin.getMessages().getString("mobhunting.learn.factions-no-rewards-in-safezone"));
+					cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
+							plugin.getConfigManager().disableNatualXPDrops);
+					MessageHelper.debug("======================= kill ended (7.5)======================");
+					return;
+				}
+			}
+		}
+
+		// ImprovedFactions Compatibility - no reward when player are in SafeZone
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.ImprovedFactions.getName()))) {
+			if ((killer != null || MyPetCompat.isMyPet(killer)) && !CitizensCompat.isNPC(killer)) {
+				if (ImprovedFactionsCompat.isInHomeZoneAndPeaceful(player)) {
+					MessageHelper.debug("KillBlocked: %s is hiding in his Factions Home SafeZone",
+							player.getName());
+					plugin.getMessages().learn(player,
+							plugin.getMessages().getString("mobhunting.learn.factions-no-rewards-in-safezone"));
+					cancelDrops(event, plugin.getConfigManager().disableNaturalItemDrops,
+							plugin.getConfigManager().disableNatualXPDrops);
+					MessageHelper.debug("======================= kill ended (7)======================");
+					return;
+				} else if (ImprovedFactionsCompat.isInSafeZoneAndPeaceful(player)) {
 					MessageHelper.debug("KillBlocked: %s is hiding in Factions SafeZone", player.getName());
 					plugin.getMessages().learn(player,
 							plugin.getMessages().getString("mobhunting.learn.factions-no-rewards-in-safezone"));

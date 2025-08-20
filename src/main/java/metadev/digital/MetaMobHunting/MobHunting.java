@@ -16,6 +16,7 @@ import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.ExtraHardModeCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.FactionsUUIDCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.GringottsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.ImprovedFactionsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LevelledMobsCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.LibsDisguisesCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
@@ -121,13 +122,11 @@ public class MobHunting extends JavaPlugin {
     // TODO: ADD TRANSLATIONS FOR NEW COMPAT FEATURE CONSOLE MESSAGES & CONFIG MIGRATION PROCESS
     // TODO: AUDIT CONFIG AND APPLY A NEW VERSION
     // TODO: ADD UNIT TESTS VIA MOCKBUKKIT
-    // TODO: RETEST CMI COMPAT NOW THAT THE CLASS HAS BEEN REMOVED FROM STARTUP IN MOBHUNTING
     // TODO: ADD IMPROVED FACTIONS TO THE SupportedPluginEntities
 
     // PLUGIN COMPATIBILITIES
     // NEW
     // TODO: DiscordSRV
-    // TODO: Finish integrating ImprovedFactions
     // OLD
     // TODO: AUDIT AND FULLY IMPLEMENT BOSSSHOP
     // TODO: AUDIT AND REIMPLEMENT ELITEMOBS
@@ -135,6 +134,7 @@ public class MobHunting extends JavaPlugin {
     // TODO: AUDIT, PURCHASE, AND REIMPLEMENT BOSS https://mineacademy.org/boss  https://builtbybit.com/resources/boss-unbelievable-custom-monsters.21619/
     // TODO: TODO: Replace Reserve with https://bstats.org/plugin/bukkit/VaultUnlocked/22252 ex: https://github.com/TownyAdvanced/Towny/blob/d382a5d5b614ac5e2032b9e94bc861f2f313bf4c/Towny/src/main/java/com/palmergames/bukkit/towny/TownyEconomyHandler.java#L168
     // TODO: Add VanishNoPacket and Essentials disguises to DisguisesHelper
+    // TODO: Handle cases where both FactionsUUID and ImprovedFactions are loaded, for some reason.
 
 
     @Override
@@ -262,6 +262,7 @@ public class MobHunting extends JavaPlugin {
 		mCompatibilityManager.registerPlugin(ResidenceCompat.class, SupportedPluginEntities.Residence);
         mCompatibilityManager.registerPlugin(TownyCompat.class, SupportedPluginEntities.Towny);
         mCompatibilityManager.registerPlugin(FactionsUUIDCompat.class, SupportedPluginEntities.Factions);
+		mCompatibilityManager.registerPlugin(ImprovedFactionsCompat.class, SupportedPluginEntities.ImprovedFactions);
 
 		// Other plugins
 		mCompatibilityManager.registerPlugin(McMMOCompat.class, SupportedPluginEntities.mcMMO);
