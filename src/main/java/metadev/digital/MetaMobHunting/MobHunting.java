@@ -136,6 +136,9 @@ public class MobHunting extends JavaPlugin {
     // TODO: TODO: Replace Reserve with https://bstats.org/plugin/bukkit/VaultUnlocked/22252 ex: https://github.com/TownyAdvanced/Towny/blob/d382a5d5b614ac5e2032b9e94bc861f2f313bf4c/Towny/src/main/java/com/palmergames/bukkit/towny/TownyEconomyHandler.java#L168
     // TODO: Add VanishNoPacket and Essentials disguises to DisguisesHelper
     // TODO: Handle cases where both FactionsUUID and ImprovedFactions are loaded, for some reason.
+	// TODO: Test Mythic Mobs against 1.21.8 when it is supported (or buy it)
+	// TODO: Test MyPet 1.21.8 when it is supported
+	// TODO: MobPlugin array should be handled better, currently cannot remove something from this list as the values are stored in the DB somewhere
 
 
     @Override
@@ -161,7 +164,11 @@ public class MobHunting extends JavaPlugin {
 			}
 		}
 
-		WorldGuardCompat.registerFlag();
+		Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
+		if(wg != null) {
+			WorldGuardCompat.registerFlag();
+		}
+
 		instance = this;
 		mMessages = new Messages(this);
 	}
