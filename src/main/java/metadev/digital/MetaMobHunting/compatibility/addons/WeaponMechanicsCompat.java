@@ -34,7 +34,7 @@ public class WeaponMechanicsCompat implements Listener, IMobHuntCompat, IFeature
     // ****** Standard ******
     private Plugin compatPlugin;
     private static boolean enabled = false, supported = false, loaded = false;
-    private static String sMin, sMax, pMin = "1.11", pMax;
+    private static String sMin, sMax, pMin = "4.1.5", pMax;
     private static FeatureList features;
 
     // ****** Plugin Specific ******
@@ -180,38 +180,40 @@ public class WeaponMechanicsCompat implements Listener, IMobHuntCompat, IFeature
 
     @EventHandler(priority = EventPriority.LOW)
     public void onWeaponDamageEntityEvent(WeaponDamageEntityEvent event) {
-        if (event.getVictim() instanceof LivingEntity) {
-            DamageInformation info = MobHunting.getInstance().getMobHuntingManager().getDamageHistory()
-                    .get(event.getVictim());
-            if (info == null)
-                info = new DamageInformation();
-            info.setTime(System.currentTimeMillis());
-            info.setAttacker((Player) event.getShooter());
-            info.setAttackerPosition(event.getShooter().getLocation().clone());
-            info.setCrackShotWeapon(getWeaponMechanicsWeapon(((Player) event.getShooter()).getItemInHand()));
-            info.setWeaponUser((Player) event.getShooter());
-            MobHunting.getInstance().getMobHuntingManager().getDamageHistory().put(event.getVictim(), info);
-        }
+        event.getVictim();
+        DamageInformation info = MobHunting.getInstance().getMobHuntingManager().getDamageHistory()
+                .get(event.getVictim());
+        if (info == null)
+            info = new DamageInformation();
+        info.setTime(System.currentTimeMillis());
+        info.setAttacker((Player) event.getShooter());
+        info.setAttackerPosition(event.getShooter().getLocation().clone());
+        info.setCrackShotWeapon(getWeaponMechanicsWeapon(((Player) event.getShooter()).getInventory().getItemInMainHand()));
+        info.setWeaponUser((Player) event.getShooter());
+        MobHunting.getInstance().getMobHuntingManager().getDamageHistory().put(event.getVictim(), info);
     }
 
-    @EventHandler(priority = EventPriority.LOW)
-    public void onWeaponKillEntityEvent(WeaponKillEntityEvent event) {
-        // TESTING
-        LivingEntity victim = event.getVictim();
-        Player player = (Player) event.getShooter();
-    }
-
-    @EventHandler(priority = EventPriority.LOW)
-    public void onWeaponAssistEvent(WeaponAssistEvent event) {
-        // TESTING
-        LivingEntity victim = event.getKilled();
-        // Player player = (Player) event.getAssistInfo().;
-    }
+//    @EventHandler(priority = EventPriority.LOW)
+//    public void onWeaponKillEntityEvent(WeaponKillEntityEvent event) {
+//        // TESTING
+//        LivingEntity victim = event.getVictim();
+//        Player player = (Player) event.getShooter();
+//    }
+//
+//    @EventHandler(priority = EventPriority.LOW)
+//    public void onWeaponAssistEvent(WeaponAssistEvent event) {
+//        // TESTING
+//        LivingEntity victim = event.getKilled();
+//        // Player player = (Player) event.getAssistInfo().;
+//    }
 
     // ****** Plugin Specific ******
 
     public static String getWeaponMechanicsWeapon(ItemStack itemStack) {
-        return WeaponMechanicsAPI.getWeaponTitle(itemStack);
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WeaponMechanics.getName()))) {
+            return WeaponMechanicsAPI.getWeaponTitle(itemStack);
+        }
+        return "";
     }
 
     public static boolean isWeaponMechanicsWeapon(ItemStack itemStack) {
