@@ -3,7 +3,6 @@ package metadev.digital.MetaMobHunting.compatibility.addons;
 import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.flags.registry.FlagConflictException;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import com.sk89q.worldguard.protection.regions.RegionQuery;
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
@@ -56,7 +55,6 @@ public class WorldGuardCompat implements IMobHuntCompat, IFeatureHolder {
         registerFeatures();
 
         if (isActive()) {
-            registerFlag();
             successfullyLoadedMessage();
             loaded = true;
         } else if (enabled && !supported) {
@@ -208,30 +206,15 @@ public class WorldGuardCompat implements IMobHuntCompat, IFeatureHolder {
     }
 
     public static void registerFlag() {
-        //Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
         try {
-            // register MobHuting flag with the WorlsGuard Flag registry
-
-            // wg7.x
-
-            try {
+            Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
+            if(wg != null){
                 WorldGuard.getInstance().getFlagRegistry().register(WorldGuardMobHuntingFlag.getMobHuntingFlag());
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                MessageHelper.error("Could not register MobHunting flag in WorldGuard 7.");
+                MessageHelper.notice("Registered 'mobhunting' flag with WorldGuard");
             }
 
-            // wg6.x
-            // ((WorldGuardPlugin)
-            // wg).getFlagRegistry().register(WorldGuardHelper.getMobHuntingFlag());
-        } catch (FlagConflictException e) {
-
-            // some other plugin registered a flag by the same name already.
-            // you may want to re-register with a different name, but this
-            // could cause issues with saved flags in region files. it's
-            // better
-            // to print a message to let the server admin know of the
-            // conflict
+        } catch (Exception e) {
+            MessageHelper.error("Could not register MobHunting flag in WorldGuard 7.");
         }
     }
 }

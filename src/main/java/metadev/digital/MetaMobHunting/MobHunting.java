@@ -5,6 +5,7 @@ import java.util.Random;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.Messages.Messages;
+import metadev.digital.MetaMobHunting.Messages.constants.Prefixes;
 import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.MetaMobHunting.compatibility.addons.BagOfGoldCompat;
 import metadev.digital.MetaMobHunting.compatibility.addons.BattleArenaCompat;
@@ -141,11 +142,11 @@ public class MobHunting extends JavaPlugin {
 	public void onLoad() {
 		// Verify user is not running old Rocologo version and Meta version
 		if (Bukkit.getPluginManager().getPlugin("MobHunting") != null) {
-			throw new RuntimeException("[MetaMobHunting] Detected two versions of MobHunting running. Please remove the MobHunting jar if you wish to use MetaMobHunting.");
+			throw new RuntimeException(Prefixes.PREFIX + "Detected two versions of MobHunting running. Please remove the MobHunting jar if you wish to use MetaMobHunting.");
 		}
 
 		if (Bukkit.getPluginManager().getPlugin("CustomItemsLib") != null) {
-			throw new RuntimeException("[MetaMobHunting] Detected a non-Meta or outdated version of MetaCustomItemsLib is running. Please validate your MetaCustomItemsLib " +
+			throw new RuntimeException(Prefixes.PREFIX + "Detected a non-Meta or outdated version of MetaCustomItemsLib is running. Please validate your MetaCustomItemsLib " +
 					"version is compatible if you wish to use MetaMobHunting.");
 		}
 
@@ -160,6 +161,7 @@ public class MobHunting extends JavaPlugin {
 			}
 		}
 
+		WorldGuardCompat.registerFlag();
 		instance = this;
 		mMessages = new Messages(this);
 	}

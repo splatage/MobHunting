@@ -39,7 +39,6 @@ softdepend:
   - VanishNoPacket
   - War
   - WorldEdit
-  - WorldGuard
   - CMI
   - EliteMobs
   - Boss
@@ -47,6 +46,8 @@ softdepend:
   - LevelledMobs
   - WeaponMechanics
   - ImprovedFactions
+loadbefore:
+  - WorldGuard
 api-version: 1.21.8
 commands:
   mobhunt:
