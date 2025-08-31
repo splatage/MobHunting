@@ -76,22 +76,17 @@ public class MasterMobHunterManager implements Listener {
 	private class Updater implements Runnable {
 		@Override
 		public void run() {
-			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName()))) {
-				int n = 0;
-				for (Iterator<NPC> npcList = CitizensAPI.getNPCRegistry().iterator(); npcList.hasNext();) {
-					NPC npc = npcList.next();
-					if (isMasterMobHunter(npc.getEntity())) {
-						update(npc);
-						n++;
-					}
+			int n = 0;
+			for (NPC npc : CitizensAPI.getNPCRegistry()) {
+				if (isMasterMobHunter(npc.getEntity())) {
+					update(npc);
+					n++;
 				}
-				if (n > 0)
-					MessageHelper.debug("Refreshed %s MasterMobHunters", n);
-				else
-					MessageHelper.debug("No MasterMobHunters ???");
-			} else {
-				MessageHelper.debug("MasterMobHunterManager: Citizens is disabled.");
 			}
+			if (n > 0)
+				MessageHelper.debug("Refreshed %s MasterMobHunters", n);
+			else
+				MessageHelper.debug("No MasterMobHunters ???");
 		}
 	}
 
@@ -319,28 +314,26 @@ public class MasterMobHunterManager implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onNPCSpawnEvent(NPCSpawnEvent event) {
-		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName()))) {
-			NPC npc = event.getNPC();
-			if (npc.getId() == event.getNPC().getId()) {
-				if (CitizensCompat.getMasterMobHunterManager().isMasterMobHunter(npc.getEntity())) {
-					// MessageHelper.debug("MasterMobHunterTrait - NPCSpawnEvent: %s
-					// spawned", npc.getName());
-					if (!CitizensCompat.getMasterMobHunterManager().contains(npc.getId())) {
-						// MessageHelper.debug("MasterMobHunter NPC was detected.
-						// ID=%s,%s n=%s", npc.getId(),
-						// npc.getName(),plugin.getMasterMobHunterManager().getAll().size());
-						MasterMobHunter masterMobHunter = new MasterMobHunter(plugin, npc);
-						CitizensCompat.getMasterMobHunterManager().put(npc.getId(), masterMobHunter);
-						ExtendedMobRewardData rewardData = new ExtendedMobRewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true,"0",1,"You killed a Citizen",
-								new ArrayList<HashMap<String,String>>(), 1, 0.02);
-						CitizensCompat.getMobRewardData().put(String.valueOf(npc.getId()), rewardData);
-						npc.getEntity().setMetadata(CitizensCompat.MH_CITIZENS,
-								new FixedMetadataValue(plugin, rewardData));
-						CitizensCompat.saveCitizensData();
-						plugin.getStoreManager().insertCitizensMobs(String.valueOf(npc.getId()));
-						MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
-						MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
-					}
+		NPC npc = event.getNPC();
+		if (npc.getId() == event.getNPC().getId()) {
+			if (CitizensCompat.getMasterMobHunterManager().isMasterMobHunter(npc.getEntity())) {
+				// MessageHelper.debug("MasterMobHunterTrait - NPCSpawnEvent: %s
+				// spawned", npc.getName());
+				if (!CitizensCompat.getMasterMobHunterManager().contains(npc.getId())) {
+					// MessageHelper.debug("MasterMobHunter NPC was detected.
+					// ID=%s,%s n=%s", npc.getId(),
+					// npc.getName(),plugin.getMasterMobHunterManager().getAll().size());
+					MasterMobHunter masterMobHunter = new MasterMobHunter(plugin, npc);
+					CitizensCompat.getMasterMobHunterManager().put(npc.getId(), masterMobHunter);
+					ExtendedMobRewardData rewardData = new ExtendedMobRewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true,"0",1,"You killed a Citizen",
+							new ArrayList<HashMap<String,String>>(), 1, 0.02);
+					CitizensCompat.getMobRewardData().put(String.valueOf(npc.getId()), rewardData);
+					npc.getEntity().setMetadata(CitizensCompat.MH_CITIZENS,
+							new FixedMetadataValue(plugin, rewardData));
+					CitizensCompat.saveCitizensData();
+					plugin.getStoreManager().insertCitizensMobs(String.valueOf(npc.getId()));
+					MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
+					MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 				}
 			}
 		}
