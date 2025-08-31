@@ -162,13 +162,6 @@ public class MobHunting extends JavaPlugin {
 
 		instance = this;
 		mMessages = new Messages(this);
-
-		// Check what happen if WorldGuard is installed and register MobHuting
-		// Flag
-		Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
-		if (wg != null)
-			WorldGuardCompat.registerFlag();
-
 	}
 
 	@Override

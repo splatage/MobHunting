@@ -56,6 +56,7 @@ public class WorldGuardCompat implements IMobHuntCompat, IFeatureHolder {
         registerFeatures();
 
         if (isActive()) {
+            registerFlag();
             successfullyLoadedMessage();
             loaded = true;
         } else if (enabled && !supported) {
@@ -207,32 +208,30 @@ public class WorldGuardCompat implements IMobHuntCompat, IFeatureHolder {
     }
 
     public static void registerFlag() {
-        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.WorldGuard.getName()))) {
-            //Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
+        //Plugin wg = Bukkit.getPluginManager().getPlugin("WorldGuard");
+        try {
+            // register MobHuting flag with the WorlsGuard Flag registry
+
+            // wg7.x
+
             try {
-                // register MobHuting flag with the WorlsGuard Flag registry
-
-                // wg7.x
-
-                try {
-                    WorldGuard.getInstance().getFlagRegistry().register(WorldGuardMobHuntingFlag.getMobHuntingFlag());
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    MessageHelper.error("Could not register MobHunting flag in WorldGuard 7.");
-                }
-
-                // wg6.x
-                // ((WorldGuardPlugin)
-                // wg).getFlagRegistry().register(WorldGuardHelper.getMobHuntingFlag());
-            } catch (FlagConflictException e) {
-
-                // some other plugin registered a flag by the same name already.
-                // you may want to re-register with a different name, but this
-                // could cause issues with saved flags in region files. it's
-                // better
-                // to print a message to let the server admin know of the
-                // conflict
+                WorldGuard.getInstance().getFlagRegistry().register(WorldGuardMobHuntingFlag.getMobHuntingFlag());
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                MessageHelper.error("Could not register MobHunting flag in WorldGuard 7.");
             }
+
+            // wg6.x
+            // ((WorldGuardPlugin)
+            // wg).getFlagRegistry().register(WorldGuardHelper.getMobHuntingFlag());
+        } catch (FlagConflictException e) {
+
+            // some other plugin registered a flag by the same name already.
+            // you may want to re-register with a different name, but this
+            // could cause issues with saved flags in region files. it's
+            // better
+            // to print a message to let the server admin know of the
+            // conflict
         }
     }
 }
