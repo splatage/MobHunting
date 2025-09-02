@@ -370,8 +370,10 @@ public class MobHunting extends JavaPlugin {
 		}, 20 * 5);
 
 		// Check for new updates
-		mUpdateManager = new UpdateManager(instance);
-		mUpdateManager.processCheckResultInConsole();
+        if(mConfig.updateCheck){
+            mUpdateManager = new UpdateManager(instance);
+            mUpdateManager.processCheckResultInConsole();
+        }
 
 		mInitialized = true;
 

@@ -4975,14 +4975,6 @@ public class ConfigManager extends AutoConfig {
 	@ConfigField(name = "update_check", category = "updates", comment = "Check if there is a new version of the plugin available.")
 	public boolean updateCheck = true;
 
-	@ConfigField(name = "check_every", category = "updates", comment = "Set the number of seconds between each check. Recommended setting is"
-			+ "\ncheck_every: 7200 ~ to check every second hour.")
-	public int checkEvery = 7200;
-
-	@ConfigField(name = "autoupdate", category = "updates", comment = "Set 'autoupdate: true' if you want new updates downloaded and installed."
-			+ "\nYou will still have to reboot the server manually.")
-	public boolean autoupdate = false;
-
 	// #####################################################################################
 	// Generel settings
 	// #####################################################################################
