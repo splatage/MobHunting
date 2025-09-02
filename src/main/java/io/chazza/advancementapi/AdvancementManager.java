@@ -1,5 +1,6 @@
 package io.chazza.advancementapi;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.achievements.Achievement;
 import metadev.digital.MetaMobHunting.achievements.ProgressAchievement;
@@ -152,10 +153,10 @@ public class AdvancementManager {
         NamespacedKey nsk = new NamespacedKey(MobHunting.getInstance(), "hunter/"   + adv);
         Advancement a = Bukkit.getServer().getAdvancement(nsk);
         if (a != null) {
-            plugin.getMessages().debug("Advancement 'mobhunting:hunter/" + adv + "' exists :)");
+            MessageHelper.debug("Advancement 'mobhunting:hunter/" + adv + "' exists :)");
             return true;
         } else {
-        	plugin.getMessages().debug("There is no advancement with that key, try reloading - /minecraft:reload");
+			MessageHelper.debug("There is no advancement with that key, try reloading - /minecraft:reload");
             return false;
         }
 	}

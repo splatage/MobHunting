@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.materials.Materials;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -201,7 +202,7 @@ public class MasterMobHunterSign implements Listener {
 			}
 
 			if (supportedmats.contains(clickedblock.getType()))
-				MobHunting.getInstance().getMessages().debug("%s hasMeta(MH_POWERED)=%s, power=%s",
+				MessageHelper.debug("%s hasMeta(MH_POWERED)=%s, power=%s",
 						clickedblock.getType(), clickedblock.hasMetadata(MH_POWERED), power);
 
 			BlockState blockstate = clickedblock.getState();
@@ -342,7 +343,7 @@ public class MasterMobHunterSign implements Listener {
 					event.setLine(3, "");
 				}
 			} else {
-				MobHunting.getInstance().getMessages().debug("The sign does not have a valid NPC id!(%s)", id);
+				MessageHelper.debug("The sign does not have a valid NPC id!(%s)", id);
 			}
 		}
 
@@ -372,7 +373,7 @@ public class MasterMobHunterSign implements Listener {
 	public static boolean isMHSign(Block block) {
 		if (Materials.isSign(block)) {
 			org.bukkit.block.Sign sign;
-			if (Servers.isMC113OrNewer()) {
+			if (Server.isMC113OrNewer()) {
 				sign = (org.bukkit.block.Sign) block.getState();
 			} else {
 				if (block.getState() instanceof org.bukkit.block.Sign) {

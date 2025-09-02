@@ -15,7 +15,7 @@ import org.bukkit.event.block.Action;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.materials.Materials;
 import metadev.digital.metacustomitemslib.rewards.Reward;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
 
 public class RewardListeners implements Listener {
@@ -37,7 +37,7 @@ public class RewardListeners implements Listener {
 		if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
 			return;
 
-		if (Servers.isMC19OrNewer() && event.getHand() != EquipmentSlot.HAND)
+		if (Server.isMC19OrNewer() && event.getHand() != EquipmentSlot.HAND)
 			return;
 
 		Player player = event.getPlayer();
@@ -56,7 +56,7 @@ public class RewardListeners implements Listener {
 										? plugin.getRewardManager().format(reward.getMoney())
 										: reward.getDisplayName() + " ("
 												+ plugin.getRewardManager().format(reward.getMoney()) + ")"));
-		} else if (Servers.isMC113OrNewer()
+		} else if (Server.isMC113OrNewer()
 				&& (block.getType() == Material.PLAYER_HEAD || block.getType() == Material.PLAYER_WALL_HEAD)) {
 			Skull skullState = (Skull) block.getState();
 			OfflinePlayer owner = skullState.getOwningPlayer();
@@ -67,7 +67,7 @@ public class RewardListeners implements Listener {
 			Skull skullState = (Skull) block.getState();
 			switch (skullState.getSkullType()) {
 			case PLAYER:
-				if (Servers.isMC19OrNewer()) {
+				if (Server.isMC19OrNewer()) {
 					OfflinePlayer owner = skullState.getOwningPlayer();
 					if (owner != null && owner.getName() != null) {
 						plugin.getMessages().playerActionBarMessageQueue(player,

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -35,16 +37,14 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.Zrips.CMI.CMI;
 import com.google.common.collect.HashMultimap;
 
 import metadev.digital.metacustomitemslib.materials.Materials;
+import metadev.digital.metacustomitemslib.compatibility.addons.CMICompat;
+
 import metadev.digital.MetaMobHunting.HologramManager;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
-import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
 import metadev.digital.MetaMobHunting.storage.StatStore;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
 
@@ -62,8 +62,7 @@ public class LeaderboardManager implements Listener {
 		int leaderboardUpdatePeriod = plugin.getConfigManager().leaderboardUpdatePeriod;
 		if (leaderboardUpdatePeriod < 1200) {
 			leaderboardUpdatePeriod = 1200;
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "[Warning] leaderboard-update-period: in your config.yml is too low. Please raise it to 1200 or higher. Reccommended is 6000. ");
+            MessageHelper.error("leaderboard-update-period: in your config.yml is too low. Please raise it to 1200 or higher. Reccommended is 6000. ");
 			plugin.getConfigManager().leaderboardUpdatePeriod = 1200;
 			plugin.getConfigManager().saveConfig();
 		}
@@ -95,15 +94,14 @@ public class LeaderboardManager implements Listener {
 			if (!mLeaderboards.isEmpty()) {
 				for (WorldLeaderboard board : mLeaderboards.values())
 					board.update();
-				plugin.getMessages().debug("Refreshed %s leaderboards.",
+				MessageHelper.debug("Refreshed %s leaderboards.",
 						mLegacyLeaderboards.size() + mLeaderboards.size());
 			}
 
-			if (HologramsCompat.isSupported() || HolographicDisplaysCompat.isSupported()
-					|| (CMICompat.isSupported()) && CMI.getInstance() != null && CMI.getInstance().isFullyLoaded()) {
+			if (CMIHelper.isCMILoaded() && CMICompat.isFullyLoaded()) {
 				for (HologramLeaderboard board : hologramManager.getHolograms().values())
 					board.update();
-				plugin.getMessages().debug("Refreshed %s holograms.", hologramManager.getHolograms().size());
+				MessageHelper.debug("Refreshed %s holograms.", hologramManager.getHolograms().size());
 			}
 
 		}
@@ -237,8 +235,7 @@ public class LeaderboardManager implements Listener {
 		try {
 			config.load(file);
 		} catch (IOException | InvalidConfigurationException e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "Could not read world leaderboard file: boards-" + world.getName() + ".yml");
+            MessageHelper.error("Could not read world leaderboard file: boards-" + world.getName() + ".yml");
 			if (plugin.getConfigManager().killDebug)
 				e.printStackTrace();
 		}
@@ -254,12 +251,12 @@ public class LeaderboardManager implements Listener {
 				board.refresh();
 				mLeaderboards.put(world, board);
 			} catch (InvalidConfigurationException e) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.RED + e.getMessage());
+                MessageHelper.error(e.getMessage());
 			}
 		}
 
 		if (mLeaderboards.size() > 0)
-			plugin.getMessages().debug("%s Leaderboards in '%s' loaded from file: %s!", mLeaderboards.size(),
+			MessageHelper.debug("%s Leaderboards in '%s' loaded from file: %s!", mLeaderboards.size(),
 					world.getName(), plugin.getDataFolder(), "boards-" + world.getName() + ".yml");
 
 	}
@@ -275,7 +272,7 @@ public class LeaderboardManager implements Listener {
 			ConfigurationSection section = config.createSection(String.valueOf(i++));
 			board.save(section);
 		}
-		plugin.getMessages().debug("Leaderboards saved to file: %s!", plugin.getDataFolder(),
+		MessageHelper.debug("Leaderboards saved to file: %s!", plugin.getDataFolder(),
 				"boards-" + world.getName() + ".yml");
 
 		try {
@@ -397,7 +394,7 @@ public class LeaderboardManager implements Listener {
 				board.removeSigns();
 				mLeaderboards.remove(block.getWorld(), board);
 				saveWorld(board.getWorld());
-				plugin.getMessages().debug("Leaderboard removed: %s", block.getLocation().toString());
+				MessageHelper.debug("Leaderboard removed: %s", block.getLocation().toString());
 				plugin.getMessages().playerActionBarMessageQueue(event.getPlayer(), "The leaderboard was removed.");
 				return;
 			}

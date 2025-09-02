@@ -2,6 +2,8 @@ package metadev.digital.MetaMobHunting.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -215,7 +217,7 @@ public class BountyCommand implements ICommand {
 							plugin.getRewardManager().format(prize), "money", plugin.getRewardManager().format(prize),
 							"daysleft", (bounty.getEndDate() - System.currentTimeMillis()) / (86400000L)), null);
 
-				plugin.getMessages().debug("%s has put %s on %s with the message %s", bountyOwner.getName(),
+				MessageHelper.debug("%s has put %s on %s with the message %s", bountyOwner.getName(),
 						plugin.getRewardManager().format(prize), wantedPlayer.getName(), message);
 				return true;
 			} else {
@@ -260,7 +262,7 @@ public class BountyCommand implements ICommand {
 								((Player) wantedPlayer).sendMessage(
 										plugin.getMessages().getString("mobhunting.bounty.randombounty.removed.player",
 												"adminname", sender.getName()));
-							plugin.getMessages().debug("%s removed the Random Bounty from %s", sender.getName(),
+							MessageHelper.debug("%s removed the Random Bounty from %s", sender.getName(),
 									wantedPlayer.getName());
 							return true;
 						} else {

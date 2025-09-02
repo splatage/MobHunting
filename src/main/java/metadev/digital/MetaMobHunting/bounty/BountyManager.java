@@ -1,12 +1,14 @@
 package metadev.digital.MetaMobHunting.bounty;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.achievements.AchievementManager;
-import metadev.digital.MetaMobHunting.compatibility.EssentialsCompat;
-import metadev.digital.MetaMobHunting.compatibility.VanishNoPacketCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EssentialsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.LibsDisguisesCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.VanishNoPacketCompat;
 import metadev.digital.metacustomitemslib.storage.DataStoreManager;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.metacustomitemslib.storage.UserNotFoundException;
@@ -47,7 +49,7 @@ public class BountyManager implements Listener {
 					if (bounty.getEndDate() < System.currentTimeMillis() && bounty.isOpen()) {
 						bounty.setStatus(BountyStatus.expired);
 						plugin.getDataStoreManager().updateBounty(bounty);
-						plugin.getMessages().debug("BountyManager: Expired Bounty %s", bounty.toString());
+						MessageHelper.debug("BountyManager: Expired Bounty %s", bounty.toString());
 						mOpenBounties.remove(bounty);
 					}
 				}
@@ -214,7 +216,7 @@ public class BountyManager implements Listener {
 		}
 		if (n > 0) {
 			mOpenBounties.removeAll(toBeRemoved);
-			plugin.getMessages().debug("%s bounties on %s was removed when player quit", n,
+			MessageHelper.debug("%s bounties on %s was removed when player quit", n,
 					event.getPlayer().getName());
 		}
 	}
@@ -250,7 +252,7 @@ public class BountyManager implements Listener {
 							mOpenBounties.add(bounty);
 							n++;
 						} else {
-							plugin.getMessages().debug("BountyManager: Expired onLoad Bounty %s", bounty.toString());
+							MessageHelper.debug("BountyManager: Expired onLoad Bounty %s", bounty.toString());
 							bounty.setStatus(BountyStatus.expired);
 							bounty.setPrize(0);
 							plugin.getDataStoreManager().updateBounty(bounty);
@@ -261,12 +263,11 @@ public class BountyManager implements Listener {
 				}
 				if (sort)
 					sort();
-				plugin.getMessages().debug("%s bounties for %s was loaded.", n, player.getName());
+				MessageHelper.debug("%s bounties for %s was loaded.", n, player.getName());
 				if (n > 0 && hasOpenBounties(player)) {
 					plugin.getMessages().playerSendMessage(player,
 							plugin.getMessages().getString("mobhunting.bounty.youarewanted"));
-					if (!EssentialsCompat.isVanishedModeEnabled(player)
-							&& !VanishNoPacketCompat.isVanishedModeEnabled(player))
+					if (!EssentialsCompat.isVanishedModeEnabled(player) && !LibsDisguisesCompat.isPlayerDisguise(player) && !VanishNoPacketCompat.isVanishedModeEnabled(player))
 						plugin.getMessages().broadcast(plugin.getMessages()
 								.getString("mobhunting.bounty.playeriswanted", "playername", player.getName()), player);
 				}
@@ -297,14 +298,14 @@ public class BountyManager implements Listener {
 	 */
 	public void save(Bounty bounty) {
 		if (hasOpenBounty(bounty)) {
-			plugin.getMessages().debug("adding bounty %s+%s", getOpenBounty(bounty).getPrize(), bounty.getPrize());
+			MessageHelper.debug("adding bounty %s+%s", getOpenBounty(bounty).getPrize(), bounty.getPrize());
 			getOpenBounty(bounty).setPrize(getOpenBounty(bounty).getPrize() + bounty.getPrize());
 			getOpenBounty(bounty).setMessage(bounty.getMessage());
 			plugin.getDataStoreManager().updateBounty(getOpenBounty(bounty));
 		} else {
 			mOpenBounties.add(bounty);
 			plugin.getDataStoreManager().updateBounty(bounty);
-			plugin.getMessages().debug("adding bounty %s", getOpenBounty(bounty).getPrize());
+			MessageHelper.debug("adding bounty %s", getOpenBounty(bounty).getPrize());
 		}
 	}
 
@@ -404,7 +405,7 @@ public class BountyManager implements Listener {
 						"wantedplayer", wantedPlayer.getName()));
 			}
 		} else {
-			sender.sendMessage("[MobHunting] You cant use this command in the console");
+            MessageHelper.error("You cant use this command in the console");
 		}
 	}
 
@@ -468,7 +469,7 @@ public class BountyManager implements Listener {
 				sender.sendMessage(plugin.getMessages().getString("mobhunting.commands.bounty.no-bounties"));
 			}
 		} else {
-			sender.sendMessage("[MobHunting] You cant use this command in the console");
+            MessageHelper.error("You cant use this command in the console");
 		}
 	}
 
@@ -482,7 +483,7 @@ public class BountyManager implements Listener {
 			int noOfPlayers = Tools.getOnlinePlayersAmount();
 			int noOfPlayersNotVanished = noOfPlayers;
 			for (Player player : Tools.getOnlinePlayers()) {
-				if (EssentialsCompat.isVanishedModeEnabled(player) || VanishNoPacketCompat.isVanishedModeEnabled(player)
+				if (EssentialsCompat.isVanishedModeEnabled(player) || LibsDisguisesCompat.isPlayerDisguise(player) || VanishNoPacketCompat.isVanishedModeEnabled(player)
 						|| player.hasPermission("mobhunting.bounty.randombounty.exempt"))
 					noOfPlayersNotVanished--;
 			}
@@ -493,7 +494,8 @@ public class BountyManager implements Listener {
 				int n = 0;
 				for (Player player : Tools.getOnlinePlayers()) {
 					if (n == random && !EssentialsCompat.isVanishedModeEnabled(player)
-							&& !VanishNoPacketCompat.isVanishedModeEnabled(player)
+							&& !LibsDisguisesCompat.isPlayerDisguise(player)
+                            && !VanishNoPacketCompat.isVanishedModeEnabled(player)
 							&& !player.hasPermission("mobhunting.bounty.randombounty.exempt")) {
 						randomPlayer = player;
 						break;

@@ -2,20 +2,20 @@ package metadev.digital.MetaMobHunting.commands;
 
 import java.util.List;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
-import metadev.digital.MetaMobHunting.Messages;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.BossCompat;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
+
 
 public class ReloadCommand implements ICommand {
 
@@ -69,7 +69,7 @@ public class ReloadCommand implements ICommand {
 		int i = 1;
 		while (plugin.getDataStoreManager().isRunning() && (starttime + 10000 > System.currentTimeMillis())) {
 			if (((int) (System.currentTimeMillis() - starttime)) / 1000 == i) {
-				plugin.getMessages().debug("saving data (%s)");
+				MessageHelper.debug("saving data (%s)");
 				i++;
 			}
 		}
@@ -77,7 +77,7 @@ public class ReloadCommand implements ICommand {
 		if (Core.getConfigManager().loadConfig() || plugin.getConfigManager().loadConfig()) {
 			int n = Tools.getOnlinePlayersAmount();
 			if (n > 0) {
-				plugin.getMessages().debug("Reloading %s online playerSettings from the database", n);
+				MessageHelper.debug("Reloading %s online playerSettings from the database", n);
 				// reload player settings
 				for (Player player : Tools.getOnlinePlayers())
 					Core.getPlayerSettingsManager().load(player);
@@ -90,18 +90,12 @@ public class ReloadCommand implements ICommand {
 					MobHunting.getInstance().getAchievementManager().load(player);
 			}
 
-			if (MythicMobsCompat.isSupported())
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 				MythicMobsCompat.loadMythicMobsData();
-			/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isSupported())
-				TARDISWeepingAngelsCompat.loadTARDISWeepingAngelsMobsData();
-			if (CustomMobsCompat.isSupported())
-				CustomMobsCompat.loadCustomMobsData();
-			if (MysteriousHalloweenCompat.isSupported())
-				MysteriousHalloweenCompat.loadMysteriousHalloweenMobsData(); */
-			if (CitizensCompat.isSupported())
+            if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+                MysteriousHalloweenCompat.loadMysteriousHalloweenMobsData();
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 				CitizensCompat.loadCitizensData();
-			if (BossCompat.isSupported())
-				BossCompat.loadBossMobsData();
 
 			plugin.getMessages().senderSendMessage(sender,
 					ChatColor.GREEN + plugin.getMessages().getString("mobhunting.commands.reload.reload-complete"));

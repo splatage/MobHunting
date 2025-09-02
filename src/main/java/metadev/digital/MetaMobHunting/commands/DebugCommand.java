@@ -2,6 +2,7 @@ package metadev.digital.MetaMobHunting.commands;
 
 import java.util.List;
 
+import metadev.digital.MetaMobHunting.Messages.constants.Prefixes;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -72,10 +73,10 @@ public class DebugCommand implements ICommand {
 		plugin.getConfigManager().killDebug = !debug;
 		if (debug)
 			plugin.getMessages().senderSendMessage(sender,
-					"[MobHunting] " + plugin.getMessages().getString("mobhunting.commands.debug.disabled"));
+                    Prefixes.PREFIX + plugin.getMessages().getString("mobhunting.commands.debug.disabled"));
 		else
 			plugin.getMessages().senderSendMessage(sender,
-					"[MobHunting] " + plugin.getMessages().getString("mobhunting.commands.debug.enabled"));
+					Prefixes.PREFIX + plugin.getMessages().getString("mobhunting.commands.debug.enabled"));
 		plugin.getConfigManager().saveConfig();
 
 	}

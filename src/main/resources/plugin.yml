@@ -1,18 +1,54 @@
-name: MobHunting
+name: MetaMobHunting
 main: metadev.digital.MetaMobHunting.MobHunting
-version: 9.1.5
-description: MobHunting adds a new level of fun to hunting monsters. Now you can
+version: 10.0.0
+description: MetaMobHunting adds a new level of fun to hunting monsters. Now you can
   get money from kills, get bonuses for skilled and creative kills, and get
   special achievements.
 dev-url: https://github.com/Metadev-Digital/MobHunting
 author: JebusChrystler
 depend:
-  - CustomItemsLib
+  - MetaCustomItemsLib
 softdepend:
-  - ProtocolLib
+  - CustomItemsLib
+  - MobHunting
+  - Actionbar
+  - BarAPI
+  - BattleArena
+  - BossShopPro
+  - Citizens
+  - CrackShot
+  - Essentials
+  - ExtraHardMode
+  - Factions
+  - Gringotts
+  - InfernalMobs
+  - LibsDisguises
   - mcMMO
+  - MobArena
+  - MyPet
+  - MysteriousHalloween
+  - MythicMobs
+  - PlaceholderAPI
+  - ProtocolLib
+  - PVPArena
   - Residence
-api-version: 1.21.5
+  - StackMob
+  - TARDISWeepingAngels
+  - TitleManager
+  - Towny
+  - VanishNoPacket
+  - War
+  - WorldEdit
+  - CMI
+  - EliteMobs
+  - Boss
+  - CMILib
+  - LevelledMobs
+  - WeaponMechanics
+  - ImprovedFactions
+loadbefore:
+  - WorldGuard
+api-version: 1.21.8
 commands:
   mobhunt:
     description: Allows you to configure mob hunt

@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -32,8 +34,7 @@ import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.rewards.CoreCustomItems;
 import metadev.digital.metacustomitemslib.rewards.Reward;
 import metadev.digital.metacustomitemslib.rewards.RewardType;
-import metadev.digital.MetaMobHunting.compatibility.FactionsHelperCompat;
-import metadev.digital.MetaMobHunting.compatibility.McMMOCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.McMMOCompat;
 import metadev.digital.MetaMobHunting.events.MobHuntFishingEvent;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 import metadev.digital.MetaMobHunting.modifier.DifficultyBonus;
@@ -61,26 +62,26 @@ public class FishingManager implements Listener {
 		mFishingModifiers.add(new WorldBonus());
 		mFishingModifiers.add(new HappyHourBonus());
 		mFishingModifiers.add(new RankBonus());
-		if (FactionsHelperCompat.isSupported())
-			mFishingModifiers.add(new FactionWarZoneBonus());
+        if(MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Factions.getName())))
+            mFishingModifiers.add(new FactionWarZoneBonus());
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
 	public void Fish(PlayerFishEvent event) {
 
 		if (event.isCancelled()) {
-			plugin.getMessages().debug("FishingEvent: event was cancelled");
+			MessageHelper.debug("FishingEvent: event was cancelled");
 			return;
 		}
 
 		Player player = event.getPlayer();
 		if (player == null) {
-			plugin.getMessages().debug("FishingEvent: player was null");
+			MessageHelper.debug("FishingEvent: player was null");
 			return;
 		}
 
 		if (!plugin.getMobHuntingManager().isHuntEnabled(player)) {
-			plugin.getMessages().debug("FishingEvent %s: Player doesnt have permission mobhunting.enable",
+			MessageHelper.debug("FishingEvent %s: Player doesnt have permission mobhunting.enable",
 					player.getName());
 			return;
 		}
@@ -89,15 +90,15 @@ public class FishingManager implements Listener {
 		Entity fish = event.getCaught();
 
 		if (fish == null || (fish != null && !(fish instanceof Item)))
-			plugin.getMessages().debug("FishingEvent: State=%s", state);
+			MessageHelper.debug("FishingEvent: State=%s", state);
 		else
-			plugin.getMessages().debug("FishingEvent: State=%s, %s caught a %s", state, player.getName(),
+			MessageHelper.debug("FishingEvent: State=%s, %s caught a %s", state, player.getName(),
 					((Item) fish).getItemStack().getType());
 
 		switch (state) {
 		case CAUGHT_ENTITY:
 			// When a player has successfully caught an entity
-			plugin.getMessages().debug("FishingBlocked: %s caught a flowting item in the water, no reward",
+			MessageHelper.debug("FishingBlocked: %s caught a flowting item in the water, no reward",
 					player.getName());
 			break;
 		case CAUGHT_FISH:
@@ -105,7 +106,7 @@ public class FishingManager implements Listener {
 			// in.
 			// break;
 			if (player.getGameMode() != GameMode.SURVIVAL) {
-				plugin.getMessages().debug("FishingBlocked: %s is not in survival mode", player.getName());
+				MessageHelper.debug("FishingBlocked: %s is not in survival mode", player.getName());
 				plugin.getMessages().learn(player, plugin.getMessages().getString("mobhunting.learn.survival"));
 				return;
 			}
@@ -123,38 +124,38 @@ public class FishingManager implements Listener {
 					&& ((Item) fish).getItemStack().getType() != Material.matchMaterial("RAW_SALMON")
 					&& ((Item) fish).getItemStack().getType() != Material.matchMaterial("RAW_FISH")
 					&& ((Item) fish).getItemStack().getType() != Material.matchMaterial("CLOWNFISH"))) {
-				plugin.getMessages().debug("FishingBlocked: %s only get rewards for fish", player.getName());
+				MessageHelper.debug("FishingBlocked: %s only get rewards for fish", player.getName());
 
 				return;
 			}
 
 			Material material_under_hook = fish.getLocation().getBlock().getType();
 			if (!(material_under_hook == Material.WATER)) {
-				plugin.getMessages().debug("FishingBlocked: %s was fishing on %s", player.getName(),
+				MessageHelper.debug("FishingBlocked: %s was fishing on %s", player.getName(),
 						material_under_hook);
 				return;
 			}
 
-			plugin.getMessages().debug("fish id=%s", fish.getEntityId());
+			MessageHelper.debug("fish id=%s", fish.getEntityId());
 
 			if (fish.hasMetadata("MH:FishCaught")) {
 				plugin.getMessages().learn(player,
 						plugin.getMessages().getString("mobhunting.fishcaught.the_same_fish"));
-				plugin.getMessages().debug("FishingBlocked %s: Player caught the same fish again", player.getName());
+				MessageHelper.debug("FishingBlocked %s: Player caught the same fish again", player.getName());
 				return;
 			}
 
 			// Calculate basic the reward
 			ExtendedMob extendedMob = plugin.getExtendedMobManager().getExtendedMobFromEntity(fish);
 			if (extendedMob.getMob_id() == 0) {
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Unknown Mob:"
+				MessageHelper.error("Unknown Mob:"
 						+ extendedMob.getMobName() + " from plugin " + extendedMob.getMobPlugin());
-				Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX_WARNING + "Please report this to developer!");
+				MessageHelper.error("Please report this to developer!");
 				return;
 			}
 			double cash = plugin.getRewardManager().getBaseKillPrize(fish);
 
-			plugin.getMessages().debug("Basic Prize=%s for catching a %s", plugin.getEconomyManager().format(cash),
+			MessageHelper.debug("Basic Prize=%s for catching a %s", plugin.getEconomyManager().format(cash),
 					extendedMob.getMobName());
 
 			// Apply the modifiers to Basic reward
@@ -165,7 +166,7 @@ public class FishingManager implements Listener {
 				if (mod.doesApply(fish, player, null, null, null)) {
 					double amt = mod.getMultiplier(fish, player, null, null, null);
 					if (amt != 1.0) {
-						plugin.getMessages().debug("Multiplier: %s = %s", mod.getName(), amt);
+						MessageHelper.debug("Multiplier: %s = %s", mod.getName(), amt);
 						modifiers.add(mod.getName());
 						multiplierList.put(mod.getName(), amt);
 						multipliers *= amt;
@@ -203,7 +204,7 @@ public class FishingManager implements Listener {
 				MobHuntFishingEvent event2 = new MobHuntFishingEvent(player, fish, cash, multiplierList);
 				Bukkit.getPluginManager().callEvent(event2);
 				if (event2.isCancelled()) {
-					plugin.getMessages().debug("FishingBlocked %s: MobHuntFishingEvent was cancelled by another plugin",
+					MessageHelper.debug("FishingBlocked %s: MobHuntFishingEvent was cancelled by another plugin",
 							player.getName());
 					return;
 				}
@@ -212,11 +213,11 @@ public class FishingManager implements Listener {
 
 				if (cash >= Core.getConfigManager().minimumReward) {
 					plugin.getEconomyManager().depositPlayer(player, cash);
-					plugin.getMessages().debug("%s got a reward (%s)", player.getName(),
+					MessageHelper.debug("%s got a reward (%s)", player.getName(),
 							plugin.getEconomyManager().format(cash));
 				} else if (cash <= -Core.getConfigManager().minimumReward) {
 					plugin.getEconomyManager().withdrawPlayer(player, -cash);
-					plugin.getMessages().debug("%s got a penalty (%s)", player.getName(),
+					MessageHelper.debug("%s got a penalty (%s)", player.getName(),
 							plugin.getEconomyManager().format(cash));
 				}
 
@@ -230,7 +231,7 @@ public class FishingManager implements Listener {
 
 				// Record the kill in the Database
 				if (player != null) {
-					plugin.getMessages().debug("RecordFishing: %s caught a %s (%s)", player.getName(),
+					MessageHelper.debug("RecordFishing: %s caught a %s (%s)", player.getName(),
 							extendedMob.getMobName(), extendedMob.getMobPlugin().name());
 					plugin.getDataStoreManager().recordKill(player, extendedMob, player.hasMetadata("MH:hasBonus"),
 							cash);
@@ -260,7 +261,7 @@ public class FishingManager implements Listener {
 
 					} else {
 						if (cash >= Core.getConfigManager().minimumReward) {
-							plugin.getMessages().debug("Message to send to ActionBar=%s", ChatColor.GREEN + ""
+							MessageHelper.debug("Message to send to ActionBar=%s", ChatColor.GREEN + ""
 									+ ChatColor.ITALIC
 									+ plugin.getMessages().getString("mobhunting.fishcaught.reward.bonuses", "prize",
 											plugin.getEconomyManager().format(cash), "bonuses", extraString.trim(),
@@ -277,19 +278,19 @@ public class FishingManager implements Listener {
 											plugin.getEconomyManager().format(cash), "bonuses", extraString.trim(),
 											"multipliers", plugin.getEconomyManager().format(multipliers)));
 						} else
-							plugin.getMessages().debug("FishingBlocked %s: Reward was less than %s", player.getName(),
+							MessageHelper.debug("FishingBlocked %s: Reward was less than %s", player.getName(),
 									Core.getConfigManager().minimumReward);
 					}
 
 				// McMMO Experience rewards
-				if (McMMOCompat.isSupported() && plugin.getConfigManager().enableMcMMOLevelRewards) {
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.mcMMO.getName())) && plugin.getConfigManager().enableMcMMOLevelRewards) {
 					double chance = plugin.mRand.nextDouble();
 					int level = plugin.getRewardManager().getMcMMOLevel(fish);
-					plugin.getMessages().debug("If %s<%s %s will get a McMMO Level for fishing", chance,
+					MessageHelper.debug("If %s<%s %s will get a McMMO Level for fishing", chance,
 							plugin.getRewardManager().getMcMMOChance(fish), player.getName());
 					if (chance < plugin.getRewardManager().getMcMMOChance(fish)) {
 						McMMOCompat.addLevel(player, PrimarySkillType.FISHING.getName(), level);
-						plugin.getMessages().debug("%s was rewarded with %s McMMO level for Fishing", player.getName(),
+						MessageHelper.debug("%s was rewarded with %s McMMO level for Fishing", player.getName(),
 								level);
 						plugin.getMessages().playerSendMessage(player,
 								plugin.getMessages().getString("mobhunting.mcmmo.fishing_level", "mcmmo_level", level));
@@ -309,9 +310,7 @@ public class FishingManager implements Listener {
 						try {
 							chance = Double.valueOf(cmd.get("chance"));
 						} catch (Exception e) {
-							Bukkit.getConsoleSender()
-									.sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-											+ " The chance to run a command when catching a " + fish.getName()
+							MessageHelper.error("The chance to run a command when catching a " + fish.getName()
 											+ " must be formatted as a string ex. chance: '0.5'");
 						}
 						if (randomNumber < chance) {
@@ -321,7 +320,7 @@ public class FishingManager implements Listener {
 									.replaceAll("\\{prize\\}", plugin.getEconomyManager().format(cash))
 									.replaceAll("\\{killerpos\\}", fishermanPos)
 									.replaceAll("\\{rewardname\\}", Core.getConfigManager().bagOfGoldName.trim());
-							plugin.getMessages().debug("command to be run is:" + prizeCommand);
+							MessageHelper.debug("command to be run is:" + prizeCommand);
 							if (!plugin.getRewardManager().getKillCommands(fish).isEmpty()) {
 								String str = prizeCommand;
 								do {
@@ -353,11 +352,11 @@ public class FishingManager implements Listener {
 							}
 
 						} else
-							plugin.getMessages().debug(
+							MessageHelper.debug(
 									"The command did not run because random number (%s) was bigger than chance (%s)",
 									randomNumber, cmd.get("chance"));
 					} else {
-						plugin.getMessages().debug("%s has not permission (%s) to run command: %s", player.getName(),
+						MessageHelper.debug("%s has not permission (%s) to run command: %s", player.getName(),
 								cmd.get("permission"), cmd.get("cmd"));
 					}
 
@@ -385,7 +384,7 @@ public class FishingManager implements Listener {
 								new Reward(minecraftMob.getEntityName(), plugin.getRewardManager().getHeadValue(fish),
 										RewardType.KILLED, minecraftMob.getSkinUUID()));
 						fish.getWorld().dropItem(fish.getLocation(), head);
-						plugin.getMessages().debug("%s caught a %s and a head was dropped in the water",
+						MessageHelper.debug("%s caught a %s and a head was dropped in the water",
 								player.getName(), fish.getName());
 						if (!plugin.getRewardManager().getHeadDropMessage(fish).isEmpty())
 							plugin.getMessages().playerSendMessage(player,
@@ -399,7 +398,7 @@ public class FishingManager implements Listener {
 											.replaceAll("\\{killedpos\\}", killedpos).replaceAll("\\{rewardname\\}",
 													Core.getConfigManager().bagOfGoldName.trim())));
 					} else {
-						plugin.getMessages().debug("Did not drop a head: random(%s)>chance(%s)", random,
+						MessageHelper.debug("Did not drop a head: random(%s)>chance(%s)", random,
 								plugin.getRewardManager().getHeadDropChance(fish));
 					}
 				}
@@ -418,7 +417,7 @@ public class FishingManager implements Listener {
 			break;
 		case IN_GROUND:
 			// When a bobber is stuck in the ground
-			// plugin.getMessages().debug("State is IN_GROUND");
+			// MessageHelper.debug("State is IN_GROUND");
 			break;
 		// default:
 		// break;

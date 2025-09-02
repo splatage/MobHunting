@@ -12,7 +12,7 @@ import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 
 public class MasterMobHunterEvents implements Listener{
 

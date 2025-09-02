@@ -2,6 +2,8 @@ package metadev.digital.MetaMobHunting.modifier;
 
 import java.util.Iterator;
 import java.util.Map.Entry;
+
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -59,11 +61,11 @@ public class RankBonus implements IModifier {
 			}
 			return hasRank;
 		} else if (MobHunting.getInstance().getConfigManager().rankMultiplier.containsKey("mobhunting.multiplier.op")) {
-			MobHunting.getInstance().getMessages().debug("RankMultiplier Key=mobhunting.multiplier.op Value=%s Player is OP",
+			MessageHelper.debug("RankMultiplier Key=mobhunting.multiplier.op Value=%s Player is OP",
 					MobHunting.getInstance().getConfigManager().rankMultiplier.get("mobhunting.multiplier.op"));
 			return true;
 		}
-		MobHunting.getInstance().getMessages().debug("%s has no Rank Multiplier", killer.getName());
+		MessageHelper.debug("%s has no Rank Multiplier", killer.getName());
 		return false;
 	}
 }

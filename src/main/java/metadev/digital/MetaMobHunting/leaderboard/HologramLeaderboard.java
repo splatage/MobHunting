@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import com.Zrips.CMI.Modules.Holograms.CMIHologram;
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.Messages.constants.Prefixes;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,22 +16,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.util.Vector;
 
-import com.Zrips.CMI.Modules.Holograms.CMIHologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.sainttx.holograms.api.Hologram;
-import com.sainttx.holograms.api.line.HologramLine;
-import com.sainttx.holograms.api.line.TextualHologramLine;
-
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CMIHologramsHelper;
-import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HologramsHelper;
-import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
-import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysHelper;
-import metadev.digital.MetaMobHunting.compatibility.PlaceholderAPICompat;
+import metadev.digital.metacustomitemslib.compatibility.addons.CMICompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import metadev.digital.MetaMobHunting.storage.StatStore;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
 
@@ -115,69 +107,14 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 			}
 			plugin.getDataStoreManager().requestStats(getStatType(), getPeriod(), mHeight * 2, this);
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting][WARNING] The leaderboard at "
+            MessageHelper.warning("The leaderboard at "
 					+ mLocation.toString() + " has no StatType");
 		}
 	}
 
 	public void refresh() {
-		if (HologramsCompat.isSupported()) {
-			Hologram hologram = HologramsCompat.getHologramManager().getHologram(mHologramName);
-			if (hologram.getLines().size() == 0)
-				HologramsHelper.editTextLine(hologram,
-						mFormat_title.replace("[StatType]", mType[mTypeIndex].longTranslateName()).replace("[Period]",
-								mPeriod[mPeriodIndex].translateNameFriendly()),
-						0);
-			for (int n = 0; n < mHeight && n < mData.size(); n++) {
-				if (getStatType().getDBColumn().endsWith("_cash")) {
-					HologramLine line = hologram.getLine(n + 1);
-					if (line != null)
-						((TextualHologramLine) line)
-								.setText(String.format(PlaceholderAPICompat.setPlaceholders(null, mRow_format_money),
-										n + 1, mData.get(n).getPlayer().getName(),
-										plugin.getRewardManager().format(mData.get(n).getCash())));
-					else
-						HologramsHelper.editTextLine(hologram,
-								String.format(mRow_format_money, n + 1, mData.get(n).getPlayer().getName(),
-										plugin.getRewardManager().format(mData.get(n).getCash())),
-								n + 1);
-				} else {
-					HologramLine line = hologram.getLine(n + 1);
-					if (line != null)
-						((TextualHologramLine) line).setText(String.format(mRow_format_integer, n + 1,
-								mData.get(n).getPlayer().getName(), mData.get(n).getAmount()));
-					else
-						HologramsHelper.editTextLine(hologram, String.format(mRow_format_integer, n + 1,
-								mData.get(n).getPlayer().getName(), mData.get(n).getAmount()), n + 1);
-				}
-				// TODO: Figure out what setDirty(BOOLEAN) is supposed to be | hologram.setDirty(true);
-			}
-
-		} else if (HolographicDisplaysCompat.isSupported()) {
-			for (com.gmail.filoghost.holographicdisplays.api.Hologram hologram : HologramsAPI.getHolograms(plugin)) {
-				if (hologram.getLocation().equals(plugin.getLeaderboardManager().getHologramManager().getHolograms()
-						.get(mHologramName).getLocation())) {
-					hologram.clearLines();
-					if (hologram.getHeight() == 0)
-						hologram.insertTextLine(0,
-								mFormat_title.replace("[StatType]", mType[mTypeIndex].longTranslateName())
-										.replace("[Period]", mPeriod[mPeriodIndex].translateNameFriendly()));
-					for (int n = 0; n < mHeight && n < mData.size(); n++) {
-						if (getStatType().getDBColumn().endsWith("_cash"))
-							HolographicDisplaysHelper.editTextLine(hologram,
-									String.format(mRow_format_money, n + 1, mData.get(n).getPlayer().getName(),
-											plugin.getRewardManager().format(mData.get(n).getCash())),
-									n + 1);
-						else
-							HolographicDisplaysHelper.editTextLine(hologram, String.format(mRow_format_integer, n + 1,
-									mData.get(n).getPlayer().getName(), mData.get(n).getAmount()), n + 1);
-
-					}
-				}
-			}
-
-		} /** // TODO: POSSIBLY DEPRECATED else if (CMICompat.isSupported()) {
-			for (CMIHologram hologram : CMICompat.getHologramManager().getHolograms().values()) {
+		if (CMIHelper.isCMILoaded()) {
+			for (CMIHologram hologram: CMICompat.getHologramManager().getHolograms().values()) {
 				if (hologram.getName().equalsIgnoreCase(plugin.getLeaderboardManager().getHologramManager()
 						.getHolograms().get(mHologramName).getHologramName())) {
 					if (hologram.getHeight() == 0)
@@ -186,20 +123,19 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 
 					for (int n = 0; n < mHeight && n < mData.size(); n++) {
 						if (getStatType().getDBColumn().endsWith("_cash"))
-							CMIHologramsHelper.editTextLine(hologram,
+							CMIHelper.editTextLine(hologram,
 									String.format(mRow_format_money, n + 1, mData.get(n).getPlayer().getName(),
 											plugin.getRewardManager().format(mData.get(n).getCash())),
 									n + 1);
 						else
-							CMIHologramsHelper.editTextLine(hologram, String.format(mRow_format_integer, n + 1,
+							CMIHelper.editTextLine(hologram, String.format(mRow_format_integer, n + 1,
 									mData.get(n).getPlayer().getName(), mData.get(n).getAmount()), n + 1);
 					}
 					hologram.enable();
 					hologram.update();
 				}
 			}
-		} */
-
+		}
 	}
 
 	public String getHologramName() {
@@ -297,24 +233,24 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 		mHeight = section.getInt("height");
 
 		if (periods == null)
-			throw new InvalidConfigurationException(
-					"Error on Hologram Leaderboard " + section.getName() + ":Error in time period list");
+			throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                    "Error on Hologram Leaderboard " + section.getName() + ":Error in time period list");
 		if (stats == null)
-			throw new InvalidConfigurationException(
-					"Error on Hologram Leaderboard " + section.getName() + ":Error in stat type list");
+			throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                    "Error on Hologram Leaderboard " + section.getName() + ":Error in stat type list");
 		if (pos == null)
-			throw new InvalidConfigurationException(
-					"Error on Hologram Leaderboard " + section.getName() + ":Error in position");
+			throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                    "Error on Hologram Leaderboard " + section.getName() + ":Error in position");
 
 		if (mHeight < 1)
-			throw new InvalidConfigurationException(
-					"Error on Hologram Leaderboard " + section.getName() + ":Invalid height");
+			throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                    "Error on Hologram Leaderboard " + section.getName() + ":Invalid height");
 
 		mPeriod = new TimePeriod[periods.size()];
 		for (int i = 0; i < periods.size(); ++i) {
 			mPeriod[i] = TimePeriod.valueOf(periods.get(i));
 			if (mPeriod[i] == null)
-				throw new InvalidConfigurationException("Error on Hologram Leaderboard " + section.getName()
+				throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR + "Error on Hologram Leaderboard " + section.getName()
 						+ ":Invalid time period " + periods.get(i));
 		}
 
@@ -325,8 +261,8 @@ public class HologramLeaderboard implements IDataCallback<List<StatStore>> {
 		for (int i = 0; i < stats.size(); ++i) {
 			mType[i] = StatType.fromColumnName(stats.get(i));
 			if (mType[i] == null)
-				throw new InvalidConfigurationException(
-						"Error on Hologram Leaderboard " + section.getName() + ":Invalid stat type " + stats.get(i));
+				throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR +
+                        "Error on Hologram Leaderboard " + section.getName() + ":Invalid stat type " + stats.get(i));
 		}
 		mFormat_title = section.getString("format_title", FORMAT_TITLE);
 		mRow_format_integer = section.getString("format_integer", FORMAT_INTEGER);

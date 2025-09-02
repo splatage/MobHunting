@@ -5,25 +5,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.Zrips.CMI.Modules.Holograms.CMIHologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
-import com.sainttx.holograms.api.Hologram;
-
-import metadev.digital.metacustomitemslib.compatibility.CMICompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.metacustomitemslib.compatibility.CMIHologramsHelper;
-import metadev.digital.MetaMobHunting.compatibility.HologramsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HologramsHelper;
-import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysCompat;
-import metadev.digital.MetaMobHunting.compatibility.HolographicDisplaysHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.CMIHelper;
 import metadev.digital.MetaMobHunting.leaderboard.HologramLeaderboard;
 
-public class HologramManager {
+public class HologramManager { //TODO: Need additional hologram manager beyond CMI
 
 	private MobHunting plugin;
 
@@ -39,38 +29,24 @@ public class HologramManager {
 
 	public void createHologramLeaderboard(HologramLeaderboard hologramLeaderboard) {
 		holograms.put(hologramLeaderboard.getHologramName(), hologramLeaderboard);
-		if (HologramsCompat.isSupported())
-			HologramsHelper.createHologram(hologramLeaderboard);
-		else if (HolographicDisplaysCompat.isSupported())
-			HolographicDisplaysHelper.createHologram(hologramLeaderboard);
-		/** else if (CMICompat.isSupported()) {
-			CMIHologramsHelper.createHologram(hologramLeaderboard);
-		}*/
+
+		if (CMIHelper.isCMILoaded()) {
+			CMIHelper.createHologramFromLeaderboard(hologramLeaderboard);
+		}
+
 		hologramLeaderboard.update();
 	}
 
 	public void deleteHolographicLeaderboard(String hologramName) {
-		if (HologramsCompat.isSupported()) {
-			Hologram hologram = HologramsCompat.getHologramManager().getHologram(hologramName);
-			HologramsCompat.getHologramManager().deleteHologram(hologram);
-		} else if (HolographicDisplaysCompat.isSupported()) {
-			for (com.gmail.filoghost.holographicdisplays.api.Hologram hologram : HologramsAPI.getHolograms(plugin)) {
-				if (hologram.getLocation().equals(holograms.get(hologramName).getLocation())) {
-					HolographicDisplaysHelper.deleteHologram(hologram);
-					break;
-				}
-			}
-		} /** // TODO: POSSIBLY DEPRECATED else if (CMICompat.isSupported()) {
-			CMIHologram hologram = CMICompat.getHologramManager().getByName(hologramName);
-			CMIHologramsHelper.deleteHologram(hologram);
-		} */
+		 if (CMIHelper.isCMILoaded()) {
+			 CMIHelper.deleteHologramByName(hologramName);
+		}
 		holograms.remove(hologramName);
 	}
 
 	public String listHolographicLeaderboard() {
 		String str = "";
-		if (HologramsCompat.isSupported() || HolographicDisplaysCompat.isSupported()
-				|| CMICompat.isSupported()) {
+		if (CMIHelper.isCMILoaded()) {
 			if (holograms.size() == 0) {
 				str = plugin.getMessages().getString("mobhunting.holograms.no-holograms");
 			} else {
@@ -85,8 +61,7 @@ public class HologramManager {
 	}
 
 	public void updateHolographicLeaderboard(String hologramName) {
-		if (HologramsCompat.isSupported() || HolographicDisplaysCompat.isSupported()
-				|| CMICompat.isSupported()) {
+		if (CMIHelper.isCMILoaded()) {
 			holograms.get(hologramName).update();
 		}
 	}
@@ -154,8 +129,7 @@ public class HologramManager {
 		try {
 			hologramConfig.load(hologramFile);
 		} catch (IOException | InvalidConfigurationException e) {
-			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.RED + "Could not read Hologram Leaderboard file: hologram-leaderboards.yml");
+			MessageHelper.error("Could not read Hologram Leaderboard file: hologram-leaderboards.yml");
 			if (plugin.getConfigManager().killDebug)
 				e.printStackTrace();
 		}
@@ -169,12 +143,12 @@ public class HologramManager {
 				board.read(section);
 				createHologramLeaderboard(board);
 			} catch (InvalidConfigurationException e) {
-				Bukkit.getConsoleSender().sendMessage(ChatColor.RED + e.getMessage());
+                MessageHelper.error(e.getMessage());
 			}
 		}
 
 		if (getHolograms().size() > 0)
-			plugin.getMessages().debug("%s Holographic Leaderboards loaded", getHolograms().size());
+			MessageHelper.debug("%s Holographic Leaderboards loaded", getHolograms().size());
 
 	}
 
@@ -186,8 +160,7 @@ public class HologramManager {
 		try {
 			hologramConfig.load(hologramFile);
 		} catch (IOException | InvalidConfigurationException e) {
-			Bukkit.getConsoleSender()
-					.sendMessage(ChatColor.RED + "Could not read Hologram Leaderboard file: hologram-leaderboards.yml");
+            MessageHelper.error("Could not read Hologram Leaderboard file: hologram-leaderboards.yml");
 			if (plugin.getConfigManager().killDebug)
 				e.printStackTrace();
 		}
@@ -198,10 +171,10 @@ public class HologramManager {
 			board.read(section);
 			createHologramLeaderboard(board);
 		} catch (InvalidConfigurationException e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + e.getMessage());
+            MessageHelper.error(e.getMessage());
 		}
 
-		plugin.getMessages().debug("The Holographic Leaderboard '%s' was loaded from file.", hologramName);
+		MessageHelper.debug("The Holographic Leaderboard '%s' was loaded from file.", hologramName);
 
 	}
 

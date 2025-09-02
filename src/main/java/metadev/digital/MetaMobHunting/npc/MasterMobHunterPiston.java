@@ -6,7 +6,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.material.PistonBaseMaterial;
 import org.bukkit.material.PistonExtensionMaterial;
 
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 
 public class MasterMobHunterPiston {
 
@@ -14,7 +14,7 @@ public class MasterMobHunterPiston {
 	}
 
 	public static void setPowerOnPiston(Block block) {
-		if (Servers.isMC113OrNewer()) {
+		if (Server.isMC113OrNewer()) {
 			MasterMobHunterPiston1_13.setPowerOnPiston(block);
 		} else {
 			PistonBaseMaterial pistonData = (PistonBaseMaterial) block.getState().getData();
@@ -36,7 +36,7 @@ public class MasterMobHunterPiston {
 	}
 
 	public static void removePowerOnPiston(Block block) {
-		if (Servers.isMC113OrNewer()) {
+		if (Server.isMC113OrNewer()) {
 			MasterMobHunterPiston1_13.removePowerOnPiston(block);
 		} else {
 			PistonBaseMaterial pistonData = (PistonBaseMaterial) block.getState().getData();

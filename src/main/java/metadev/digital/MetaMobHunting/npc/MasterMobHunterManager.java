@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -38,7 +40,7 @@ import net.citizensnpcs.api.event.PlayerCreateNPCEvent;
 import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.mobs.MobPlugin;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMobRewardData;
 
@@ -74,22 +76,17 @@ public class MasterMobHunterManager implements Listener {
 	private class Updater implements Runnable {
 		@Override
 		public void run() {
-			if (CitizensCompat.isSupported()) {
-				int n = 0;
-				for (Iterator<NPC> npcList = CitizensAPI.getNPCRegistry().iterator(); npcList.hasNext();) {
-					NPC npc = npcList.next();
-					if (isMasterMobHunter(npc.getEntity())) {
-						update(npc);
-						n++;
-					}
+			int n = 0;
+			for (NPC npc : CitizensAPI.getNPCRegistry()) {
+				if (isMasterMobHunter(npc.getEntity())) {
+					update(npc);
+					n++;
 				}
-				if (n > 0)
-					MobHunting.getInstance().getMessages().debug("Refreshed %s MasterMobHunters", n);
-				else
-					MobHunting.getInstance().getMessages().debug("No MasterMobHunters ???");
-			} else {
-				MobHunting.getInstance().getMessages().debug("MasterMobHunterManager: Citizens is disabled.");
 			}
+			if (n > 0)
+				MessageHelper.debug("Refreshed %s MasterMobHunters", n);
+			else
+				MessageHelper.debug("No MasterMobHunters ???");
 		}
 	}
 
@@ -169,9 +166,9 @@ public class MasterMobHunterManager implements Listener {
 					mmh.getHome();
 				}
 			}
-			MobHunting.getInstance().getMessages().debug("The file citizens-MasterMobHunter.yml is not used anymore and can be deleted.");
+			MessageHelper.debug("The file citizens-MasterMobHunter.yml is not used anymore and can be deleted.");
 			if (n > 0)
-				MobHunting.getInstance().getMessages().debug("Loaded %s MasterMobHunter Traits's from file.", n);
+				MessageHelper.debug("Loaded %s MasterMobHunter Traits's from file.", n);
 		} catch (IOException | InvalidConfigurationException e) {
 			e.printStackTrace();
 		}
@@ -218,7 +215,7 @@ public class MasterMobHunterManager implements Listener {
 			final NPC npc1 = npc;
 			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 				public void run() {
-					MobHunting.getInstance().getMessages().debug("NPC %s (ID=%s) killed %s - return to home", npc1.getName(), npc1.getId(),
+					MessageHelper.debug("NPC %s (ID=%s) killed %s - return to home", npc1.getName(), npc1.getId(),
 							player.getName());
 					npc1.teleport(mMasterMobHunter.get(npc1.getId()).getHome(), TeleportCause.PLUGIN);
 				}
@@ -232,7 +229,7 @@ public class MasterMobHunterManager implements Listener {
 		if (isMasterMobHunter(npc)) {
 			if (npc.getStoredLocation() != null && mMasterMobHunter.containsKey(npc.getId())
 					&& npc.getStoredLocation().distance(mMasterMobHunter.get(npc.getId()).getHome()) > 0.2) {
-				MobHunting.getInstance().getMessages().debug("NPC %s (ID=%s) return to home", npc.getName(), npc.getId());
+				MessageHelper.debug("NPC %s (ID=%s) return to home", npc.getName(), npc.getId());
 				final NPC npc1 = npc;
 				Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 					public void run() {
@@ -255,7 +252,7 @@ public class MasterMobHunterManager implements Listener {
 			// npc.addTrait(CitizensAPI.getTraitFactory().getTraitClass("Sentinel"));
 			// trait =
 			// npc.getTrait(CitizensAPI.getTraitFactory().getTraitClass("Sentinel"));
-			// MobHunting.getInstance().getMessages().debug("Sentinel trait added to %s (id=%s)",
+			// MessageHelper.debug("Sentinel trait added to %s (id=%s)",
 			// npc.getName(), npc.getId());
 		}
 		return trait;
@@ -317,28 +314,26 @@ public class MasterMobHunterManager implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onNPCSpawnEvent(NPCSpawnEvent event) {
-		if (CitizensCompat.isSupported()) {
-			NPC npc = event.getNPC();
-			if (npc.getId() == event.getNPC().getId()) {
-				if (CitizensCompat.getMasterMobHunterManager().isMasterMobHunter(npc.getEntity())) {
-					// MobHunting.getInstance().getMessages().debug("MasterMobHunterTrait - NPCSpawnEvent: %s
-					// spawned", npc.getName());
-					if (!CitizensCompat.getMasterMobHunterManager().contains(npc.getId())) {
-						// MobHunting.getInstance().getMessages().debug("MasterMobHunter NPC was detected.
-						// ID=%s,%s n=%s", npc.getId(),
-						// npc.getName(),plugin.getMasterMobHunterManager().getAll().size());
-						MasterMobHunter masterMobHunter = new MasterMobHunter(plugin, npc);
-						CitizensCompat.getMasterMobHunterManager().put(npc.getId(), masterMobHunter);
-						ExtendedMobRewardData rewardData = new ExtendedMobRewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true,"0",1,"You killed a Citizen",
-								new ArrayList<HashMap<String,String>>(), 1, 0.02);
-						CitizensCompat.getMobRewardData().put(String.valueOf(npc.getId()), rewardData);
-						npc.getEntity().setMetadata(CitizensCompat.MH_CITIZENS,
-								new FixedMetadataValue(plugin, rewardData));
-						CitizensCompat.saveCitizensData();
-						plugin.getStoreManager().insertCitizensMobs(String.valueOf(npc.getId()));
-						MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
-						MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
-					}
+		NPC npc = event.getNPC();
+		if (npc.getId() == event.getNPC().getId()) {
+			if (CitizensCompat.getMasterMobHunterManager().isMasterMobHunter(npc.getEntity())) {
+				// MessageHelper.debug("MasterMobHunterTrait - NPCSpawnEvent: %s
+				// spawned", npc.getName());
+				if (!CitizensCompat.getMasterMobHunterManager().contains(npc.getId())) {
+					// MessageHelper.debug("MasterMobHunter NPC was detected.
+					// ID=%s,%s n=%s", npc.getId(),
+					// npc.getName(),plugin.getMasterMobHunterManager().getAll().size());
+					MasterMobHunter masterMobHunter = new MasterMobHunter(plugin, npc);
+					CitizensCompat.getMasterMobHunterManager().put(npc.getId(), masterMobHunter);
+					ExtendedMobRewardData rewardData = new ExtendedMobRewardData(MobPlugin.Citizens, "npc", npc.getFullName(), true,"0",1,"You killed a Citizen",
+							new ArrayList<HashMap<String,String>>(), 1, 0.02);
+					CitizensCompat.getMobRewardData().put(String.valueOf(npc.getId()), rewardData);
+					npc.getEntity().setMetadata(CitizensCompat.MH_CITIZENS,
+							new FixedMetadataValue(plugin, rewardData));
+					CitizensCompat.saveCitizensData();
+					plugin.getStoreManager().insertCitizensMobs(String.valueOf(npc.getId()));
+					MobHunting.getInstance().getExtendedMobManager().updateExtendedMobs();
+					MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 				}
 			}
 		}
@@ -346,17 +341,17 @@ public class MasterMobHunterManager implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onNPCDespawnEvent(NPCDespawnEvent event) {
-		// MobHunting.getInstance().getMessages().debug("NPCDespawnEvent");
+		// MessageHelper.debug("NPCDespawnEvent");
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onPlayerCreateNPCEvent(PlayerCreateNPCEvent event) {
-		// MobHunting.getInstance().getMessages().debug("NPCCreateNPCEvent");
+		// MessageHelper.debug("NPCCreateNPCEvent");
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onCitizensEnableEvent(CitizensEnableEvent event) {
-		// MobHunting.getInstance().getMessages().debug("MasterMobHunterManager-onCitizensEnableEvent:%s",
+		// MessageHelper.debug("MasterMobHunterManager-onCitizensEnableEvent:%s",
 		// event.getEventName());
 		// if (CitizensCompat.isSupported()) {
 		// loadData();

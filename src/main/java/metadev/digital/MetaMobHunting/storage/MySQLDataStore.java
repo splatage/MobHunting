@@ -11,10 +11,9 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.ConsoleCommandSender;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
@@ -227,7 +226,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 							: "AMOUNT")
 					+ " DESC LIMIT " + count;
 			
-			//plugin.getMessages().debug("Load str=%s",str);
+			//MessageHelper.debug("Load str=%s",str);
 
 			ResultSet results = statement.executeQuery(str);
 			while (results.next()) {
@@ -240,7 +239,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 						list.add(new StatStore(type, offlinePlayer, results.getInt("amount"),
 								results.getDouble("cash")));
 					else {
-						plugin.getMessages().debug("PLAYER_ID: %s was not found.", player_id);
+						MessageHelper.debug("PLAYER_ID: %s was not found.", player_id);
 					}
 				} else {					
 					list.add(new StatStore(type, offlinePlayer, results.getInt("amount"), results.getDouble("cash")));
@@ -259,7 +258,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 	public void savePlayerStats(Set<StatStore> stats) throws DataStoreException {
 		Connection mConnection = setupConnection();
 		try {
-			plugin.getMessages().debug("Saving PlayerStats to Database.");
+			MessageHelper.debug("Saving PlayerStats to Database.");
 			Statement statement = mConnection.createStatement();
 			for (StatStore stat : stats) {
 				String column = "";
@@ -284,7 +283,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.close();
 			mConnection.commit();
 			mConnection.close();
-			plugin.getMessages().debug("Saved.");
+			MessageHelper.debug("Saved.");
 		} catch (SQLException e) {
 			rollback(mConnection);
 			throw new DataStoreException(e);
@@ -303,7 +302,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 				openPreparedStatements(mConnection, PreparedConnectionType.INSERT_BOUNTY);
 				for (Bounty bounty : bountyDataSet) {
 					if (bounty.getBountyOwner() == null)
-						plugin.getMessages().debug("RandomBounty to be inserted: %s", bounty.toString());
+						MessageHelper.debug("RandomBounty to be inserted: %s", bounty.toString());
 					int bountyOwnerId = Core.getDataStoreManager().getPlayerId(bounty.getBountyOwner());
 					int wantedPlayerId = Core.getDataStoreManager().getPlayerId(bounty.getWantedPlayer());
 					mInsertBounty.setString(1, bounty.getMobtype());
@@ -348,8 +347,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 		// reference
 		// http://stackoverflow.com/questions/6115612/how-to-convert-an-entire-mysql-database-characterset-and-collation-to-utf-8
 
-		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-		console.sendMessage(ChatColor.GREEN + "[MobHunting] Converting MobHunting Database to UTF8");
+		MessageHelper.notice("Converting MobHunting Database to UTF8");
 
 		Connection connection = setupConnection();
 
@@ -369,10 +367,10 @@ public class MySQLDataStore extends DatabaseDataStore {
 			create.executeUpdate("ALTER TABLE mh_Players CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
 			create.executeUpdate("ALTER TABLE mh_Weekly CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
 			create.executeUpdate("ALTER TABLE mh_Yearly CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
-			console.sendMessage(ChatColor.GREEN + "[MobHunting] Done.");
+			MessageHelper.notice("UTF8 Conversion completed.");
 
 		} catch (SQLException e) {
-			console.sendMessage(ChatColor.RED + "[MobHunting] Something went wrong.");
+            MessageHelper.error("UTF8 Conversion encountered an error.");
 			e.printStackTrace();
 		}
 
@@ -530,7 +528,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 		} catch (SQLException e) {
 		}
 
-		System.out.println("[MobHunting] Migrating MobHunting Database Player ID to Player UUID.");
+        MessageHelper.notice("Migrating MobHunting Database Player ID to Player UUID.");
 
 		// Add missing columns
 		// Statement statement = connection.createStatement();
@@ -565,20 +563,20 @@ public class MySQLDataStore extends DatabaseDataStore {
 		rs.close();
 
 		if (failCount > 0) {
-			System.err.println("[MobHunting] " + failCount + " accounts failed to convert:");
-			System.err.println("[MobHunting] " + failString.toString());
+            MessageHelper.error(failCount + " accounts failed to convert:");
+            MessageHelper.error(failString.toString());
 		}
 
 		insert.executeBatch();
 		insert.close();
 
 		int modified = statement.executeUpdate("delete from `mh_Players` where `UUID`='**UNSPEC**'");
-		System.out.println("[MobHunting]" + modified + " players were removed due to missing UUIDs");
+        MessageHelper.notice(modified + " players were removed due to missing UUIDs");
 
 		statement.executeUpdate("alter table `mh_Players` drop primary key");
 		statement.executeUpdate("alter table `mh_Players` modify `UUID` CHAR(40) NOT NULL PRIMARY KEY first");
 
-		System.out.println("[MobHunting] Player UUID migration complete.");
+        MessageHelper.notice("Player UUID migration complete.");
 
 		connection.commit();
 		statement.close();
@@ -592,7 +590,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding Passive Mobs to MobHunting Database ");
+            MessageHelper.notice("Adding Passive Mobs to MobHunting Database ");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `Bat_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `Bat_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -758,7 +756,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.executeUpdate("alter table `mh_AllTime` add column `Wolf_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_AllTime` add column `Wolf_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding passive mobs complete.");
+            MessageHelper.notice("Adding passive mobs complete.");
 
 		}
 		try {
@@ -766,7 +764,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding EnderDragon to MobHunting Database.");
+            MessageHelper.notice("Adding EnderDragon to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `EnderDragon_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate(
@@ -788,7 +786,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `EnderDragon_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding EnderDragon complete.");
+            MessageHelper.notice("Adding EnderDragon complete.");
 
 		}
 		try {
@@ -796,7 +794,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding IronGolem to MobHunting Database.");
+            MessageHelper.notice("Adding IronGolem to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `IronGolem_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `IronGolem_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -813,7 +811,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `IronGolem_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding IronGolem complete.");
+            MessageHelper.notice("Adding IronGolem complete.");
 
 		}
 		try {
@@ -821,7 +819,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new PvpPlayer to MobHunting Database.");
+            MessageHelper.notice("Adding new PvpPlayer to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `PvpPlayer_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `PvpPlayer_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -838,7 +836,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `PvpPlayer_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new PvpPlayer complete.");
+            MessageHelper.notice("Adding new PvpPlayer complete.");
 
 		}
 		try {
@@ -847,7 +845,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new 1.8 Mobs to MobHunting Database.");
+            MessageHelper.notice("Adding new 1.8 Mobs to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `Endermite_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `Endermite_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -909,7 +907,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `KillerRabbit_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new 1.8 Mobs complete.");
+            MessageHelper.notice("Adding new 1.8 Mobs complete.");
 
 		}
 
@@ -919,7 +917,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new 1.9 Mobs (Shulker) to MobHunting Database.");
+			MessageHelper.notice("Adding new 1.9 Mobs (Shulker) to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `Shulker_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `Shulker_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -932,7 +930,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.executeUpdate("alter table `mh_AllTime` add column `Shulker_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_AllTime` add column `Shulker_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new 1.9 Mobs (Shulker) complete.");
+            MessageHelper.notice("Adding new 1.9 Mobs (Shulker) complete.");
 
 		}
 
@@ -942,7 +940,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new 1.10 Mobs (Polar Bear) to MobHunting Database.");
+			MessageHelper.notice("Adding new 1.10 Mobs (Polar Bear) to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `PolarBear_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `PolarBear_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -959,7 +957,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `PolarBear_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new 1.10 Mobs (Polar Bear) complete.");
+            MessageHelper.notice("Adding new 1.10 Mobs (Polar Bear) complete.");
 
 		}
 
@@ -968,7 +966,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding new 1.10 Mobs (Stray + Husk) to MobHunting Database.");
+            MessageHelper.notice("Adding new 1.10 Mobs (Stray + Husk) to MobHunting Database.");
 
 			statement.executeUpdate("alter table `mh_Daily` add column `Stray_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_Daily` add column `Stray_assist`  INTEGER NOT NULL DEFAULT 0");
@@ -992,7 +990,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.executeUpdate("alter table `mh_AllTime` add column `Husk_kill`  INTEGER NOT NULL DEFAULT 0");
 			statement.executeUpdate("alter table `mh_AllTime` add column `Husk_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding new 1.10 Mobs (Stray + Husk) complete.");
+            MessageHelper.notice("Adding new 1.10 Mobs (Stray + Husk) complete.");
 		}
 
 		try {
@@ -1000,7 +998,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 			rs.close();
 		} catch (SQLException e) {
 
-			System.out.println("[MobHunting] Adding 1.8 Mob (Elder Guardian) to MobHunting Database.");
+            MessageHelper.notice("Adding 1.8 Mob (Elder Guardian) to MobHunting Database.");
 
 			statement.executeUpdate(
 					"alter table `mh_Daily` add column `ElderGuardian_kill`  INTEGER NOT NULL DEFAULT 0");
@@ -1023,14 +1021,14 @@ public class MySQLDataStore extends DatabaseDataStore {
 			statement.executeUpdate(
 					"alter table `mh_AllTime` add column `ElderGuardian_assist`  INTEGER NOT NULL DEFAULT 0");
 
-			System.out.println("[MobHunting] Adding 1.8 Mob (Elder Guardian) complete.");
+            MessageHelper.notice("Adding 1.8 Mob (Elder Guardian) complete.");
 		}
 
 		try {
 			ResultSet rs = statement.executeQuery("SELECT LEARNING_MODE from mh_Players LIMIT 0");
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println("[MobHunting] Adding new Player leaning mode to MobHunting Database.");
+            MessageHelper.notice("Adding new Player leaning mode to MobHunting Database.");
 			String lm = plugin.getConfigManager().learningMode ? "1" : "0";
 			statement.executeUpdate(
 					"alter table `mh_Players` add column `LEARNING_MODE` INTEGER NOT NULL DEFAULT " + lm);
@@ -1040,11 +1038,11 @@ public class MySQLDataStore extends DatabaseDataStore {
 			ResultSet rs = statement.executeQuery("SELECT MUTE_MODE from mh_Players LIMIT 0");
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println("[MobHunting] Adding new Player mute mode to MobHunting Database.");
+            MessageHelper.notice("Adding new Player mute mode to MobHunting Database.");
 			statement.executeUpdate("alter table `mh_Players` add column `MUTE_MODE` INTEGER NOT NULL DEFAULT 0");
 		}
 
-		System.out.println("[MobHunting] Updating database triggers.");
+        MessageHelper.notice("Updating database triggers.");
 		statement.executeUpdate("DROP TRIGGER IF EXISTS `mh_DailyInsert`");
 		statement.executeUpdate("DROP TRIGGER IF EXISTS `mh_DailyUpdate`");
 		statement.close();
@@ -1135,7 +1133,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		insertMissingVanillaMobs();
 
-		plugin.getMessages().debug("MobHunting V3 Database created/updated.");
+		MessageHelper.debug("MobHunting V3 Database created/updated.");
 	}
 
 	@Override
@@ -1639,19 +1637,19 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		try {
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP PRIMARY KEY");
-			plugin.getMessages().debug("MySQLDatastore: Primary key on mh_Bounties deleted");
+			MessageHelper.debug("MySQLDatastore: Primary key on mh_Bounties deleted");
 		} catch (Exception e) {
 		}
 		try {
 			// CONSTRAINT can't be used when I use 'INSERT ... ON DUPLICATE KEY'
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP CONSTRAINT mh_Bounties_Player_Id_1");
-			plugin.getMessages().debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_1");
+			MessageHelper.debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_1");
 		} catch (Exception e) {
 		}
 		try {
 			// CONSTRAINT can't be used when I use 'INSERT ... ON DUPLICATE KEY'
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP CONSTRAINT mh_Bounties_Player_Id_2");
-			plugin.getMessages().debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_2");
+			MessageHelper.debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_2");
 		} catch (Exception e) {
 		}
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Bounties ("//
@@ -1677,7 +1675,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 		try {
 			create.executeUpdate(
 					"ALTER TABLE mh_Bounties ADD CONTRAINT mh_Bounties_Unique UNIQUE (WORLDGROUP, WANTEDPLAYER_ID, BOUNTYOWNER_ID)");
-			plugin.getMessages().debug("MySQLDatastore: UNIQUE key on mh_Bounties added");
+			MessageHelper.debug("MySQLDatastore: UNIQUE key on mh_Bounties added");
 		} catch (Exception e) {
 		}
 
@@ -1782,19 +1780,19 @@ public class MySQLDataStore extends DatabaseDataStore {
 
 		try {
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP PRIMARY KEY");
-			plugin.getMessages().debug("MySQLDatastore: Primary key on mh_Bounties deleted");
+			MessageHelper.debug("MySQLDatastore: Primary key on mh_Bounties deleted");
 		} catch (Exception e) {
 		}
 		try {
 			// CONSTRAINT can't be used when I use 'INSERT ... ON DUPLICATE KEY'
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP CONSTRAINT mh_Bounties_Player_Id_1");
-			plugin.getMessages().debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_1");
+			MessageHelper.debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_1");
 		} catch (Exception e) {
 		}
 		try {
 			// CONSTRAINT can't be used when I use 'INSERT ... ON DUPLICATE KEY'
 			create.executeUpdate("ALTER TABLE mh_Bounties DROP CONSTRAINT mh_Bounties_Player_Id_2");
-			plugin.getMessages().debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_2");
+			MessageHelper.debug("MySQLDatastore: DROP CONSTRAINT mh_Bounties_Player_Id_2");
 		} catch (Exception e) {
 		}
 		create.executeUpdate("CREATE TABLE IF NOT EXISTS mh_Bounties ("//
@@ -1820,7 +1818,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 		try {
 			create.executeUpdate(
 					"ALTER TABLE mh_Bounties ADD CONTRAINT mh_Bounties_Unique UNIQUE (WORLDGROUP, WANTEDPLAYER_ID, BOUNTYOWNER_ID)");
-			plugin.getMessages().debug("MySQLDatastore: UNIQUE key on mh_Bounties added");
+			MessageHelper.debug("MySQLDatastore: UNIQUE key on mh_Bounties added");
 		} catch (Exception e) {
 		}
 
@@ -1841,14 +1839,14 @@ public class MySQLDataStore extends DatabaseDataStore {
 				rs.close();
 			} catch (SQLException e) {
 				statement.executeUpdate("alter table `mh_Players` add column `TEXTURE` VARCHAR(2000)");
-				System.out.println("[MobHunting] TEXTURE added to mh_Players.");
+                MessageHelper.notice("TEXTURE added to mh_Players.");
 			}
 			try {
 				ResultSet rs = statement.executeQuery("SELECT SIGNATURE from mh_Players LIMIT 0");
 				rs.close();
 			} catch (SQLException e) {
 				statement.executeUpdate("alter table `mh_Players` add column `SIGNATURE` VARCHAR(2000)");
-				System.out.println("[MobHunting] SIGNATURE added to mh_Players.");
+                MessageHelper.notice("SIGNATURE added to mh_Players.");
 			}
 			statement.close();
 			mConnection.commit();
@@ -1882,8 +1880,7 @@ public class MySQLDataStore extends DatabaseDataStore {
 		Statement statement;
 		try {
 			statement = mConnection.createStatement();
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.GREEN
-					+ "Copying players from MobHunting til BagOfGoldCore database");
+            MessageHelper.notice("Copying players from MobHunting til BagOfGoldCore database");
 			ResultSet result = statement.executeQuery("select * from mh_Players");
 			while (result.next()) {
 				String uuid = result.getString("UUID");

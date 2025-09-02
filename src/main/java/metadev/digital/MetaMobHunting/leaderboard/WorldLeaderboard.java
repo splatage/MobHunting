@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.Messages.constants.Prefixes;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
@@ -22,7 +24,7 @@ import org.bukkit.util.Vector;
 
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.materials.Materials;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.metacustomitemslib.storage.IDataCallback;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
@@ -160,9 +162,9 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 	public void setSignBlock(Block signBlock) {
 
 		if (signBlock.getChunk().isLoaded())
-			if (Servers.isMC114OrNewer()) {
+			if (Server.isMC114OrNewer()) {
 				WorldLeaderBoardHelper.setWallSign1_14(signBlock, mFacing);
-			} else if (Servers.isMC113OrNewer()) {
+			} else if (Server.isMC113OrNewer()) {
 				signBlock.setType(Material.matchMaterial("WALL_SIGN"));
 				BlockState state = signBlock.getState();
 				org.bukkit.material.Sign wallSign = (org.bukkit.material.Sign) state.getData();
@@ -200,8 +202,7 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 			}
 			plugin.getDataStoreManager().requestStats(getStatType(), getPeriod(), mWidth * mHeight * 2, this);
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting]" + ChatColor.RED
-					+ "[WARNING] The leaderboard at " + mLocation.toString() + " has no StatType");
+            MessageHelper.warning("The leaderboard at " + mLocation.toString() + " has no StatType");
 		}
 	}
 
@@ -496,30 +497,30 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 
 		if (mFacing != BlockFace.NORTH && mFacing != BlockFace.SOUTH && mFacing != BlockFace.WEST
 				&& mFacing != BlockFace.EAST)
-			throw new InvalidConfigurationException("[MobHunting] Error on Leaderboard " + section.getName()
+			throw new InvalidConfigurationException( Prefixes.PREFIX_ERROR + "Error on Leaderboard " + section.getName()
 					+ ":Invalid leaderboard facing " + section.getString("facing"));
 		if (periods == null)
 			throw new InvalidConfigurationException(
-					"[MobHunting] Error on Leaderboard " + section.getName() + ":Error in time period list");
+                    Prefixes.PREFIX_ERROR + "Error on Leaderboard " + section.getName() + ":Error in time period list");
 		if (stats == null)
 			throw new InvalidConfigurationException(
-					"[MobHunting] Error on Leaderboard " + section.getName() + ":Error in stat type list");
+                    Prefixes.PREFIX_ERROR + "Error on Leaderboard " + section.getName() + ":Error in stat type list");
 		if (pos == null)
 			throw new InvalidConfigurationException(
-					"[MobHunting] Error on Leaderboard " + section.getName() + ":Error in position");
+                    Prefixes.PREFIX_ERROR + "Error on Leaderboard " + section.getName() + ":Error in position");
 
 		if (mWidth < 1)
 			throw new InvalidConfigurationException(
-					"[MobHunting] Error on Leaderboard " + section.getName() + ":Invalid width");
+                    Prefixes.PREFIX_ERROR + "Error on Leaderboard " + section.getName() + ":Invalid width");
 		if (mHeight < 1)
 			throw new InvalidConfigurationException(
-					"[MobHunting] Error on Leaderboard " + section.getName() + ":Invalid height");
+                    Prefixes.PREFIX_ERROR + "Error on Leaderboard " + section.getName() + ":Invalid height");
 
 		mPeriod = new TimePeriod[periods.size()];
 		for (int i = 0; i < periods.size(); ++i) {
 			mPeriod[i] = TimePeriod.valueOf(periods.get(i));
 			if (mPeriod[i] == null)
-				throw new InvalidConfigurationException("[MobHunting] Error on Leaderboard " + section.getName()
+				throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR + "Error on Leaderboard " + section.getName()
 						+ ":Invalid time period " + periods.get(i));
 		}
 
@@ -565,12 +566,12 @@ public class WorldLeaderboard implements IDataCallback<List<StatStore>> {
 
 			mType[i] = StatType.fromColumnName(type);
 			if (mType[i] == null)
-				throw new InvalidConfigurationException("[MobHunting] Error on Leaderboard " + section.getName()
+				throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR + "Error on Leaderboard " + section.getName()
 						+ ":Invalid stat type " + stats.get(i));
 		}
 
 		if (!Materials.isSign(mLocation.getBlock())) {
-			throw new InvalidConfigurationException("[MobHunting] Error on Leaderboard " + section.getName()
+			throw new InvalidConfigurationException(Prefixes.PREFIX_ERROR + "Error on Leaderboard " + section.getName()
 					+ ":Leaderboard in world " + mLocation.getWorld().getName() + " at pos (" + mLocation.getBlockX()
 					+ "," + mLocation.getBlockY() + "," + mLocation.getBlockZ() + ") has been deleted from world");
 		}

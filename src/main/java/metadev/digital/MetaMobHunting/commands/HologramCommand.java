@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.StatType;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
 import metadev.digital.MetaMobHunting.leaderboard.HologramLeaderboard;
 import metadev.digital.MetaMobHunting.storage.TimePeriod;
 
@@ -25,12 +26,6 @@ public class HologramCommand implements ICommand, Listener {
 		this.plugin = plugin;
 		Bukkit.getPluginManager().registerEvents(this, plugin);
 	}
-
-	// Used case (???)
-	// /mh hologram create hologramName <stat type> <period> <number>
-	// /mh hologram remove hologramName
-	// /mh hologram update hologramName
-	// /mh hologram list
 
 	@Override
 	public String getName() {
@@ -198,7 +193,7 @@ public class HologramCommand implements ICommand, Listener {
 				plugin.getLeaderboardManager().getHologramManager().saveHologramLeaderboard(hologramName);
 				plugin.getMessages().senderSendMessage(sender,ChatColor.GREEN
 						+ plugin.getMessages().getString("mobhunting.commands.hologram.created", "hologramid", hologramName));
-				plugin.getMessages().debug("Creating Hologram Leaderbard: id=%s,stat=%s,per=%s,rank=%s", hologramName, args[2],
+				MessageHelper.debug("Creating Hologram Leaderbard: id=%s,stat=%s,per=%s,rank=%s", hologramName, args[2],
 						args[3], no_of_lines);
 				return true;
 			} else {

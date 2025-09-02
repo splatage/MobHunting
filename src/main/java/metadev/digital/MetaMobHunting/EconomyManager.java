@@ -2,7 +2,7 @@ package metadev.digital.MetaMobHunting;
 
 import java.math.BigDecimal;
 
-import org.bukkit.Bukkit;
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
@@ -88,8 +88,7 @@ public class EconomyManager {
 				 */
 				vaultEconomy = vaultEcoProvider.getProvider();
 				setVersion(String.format("%s %s", vaultEcoProvider.getProvider().getName(), "via Vault"));
-				Bukkit.getConsoleSender().sendMessage(
-						MobHunting.PREFIX + "MobHunting is using " + getVersion() + " as Economy Provider");
+				MessageHelper.notice("Using " + getVersion() + " as Economy Provider");
 				Type = EcoType.VAULT;
 				return true;
 			}
@@ -106,8 +105,7 @@ public class EconomyManager {
 			 */
 			reserveEconomy = ((Reserve) economyProvider).economy();
 			setVersion(String.format("%s %s", reserveEconomy.name(), "via Reserve"));
-			Bukkit.getConsoleSender()
-					.sendMessage(MobHunting.PREFIX + "MobHunting is using " + getVersion() + " as Economy Provider");
+			MessageHelper.notice("Using " + getVersion() + " as Economy Provider");
 			Type = EcoType.RESERVE;
 			return true;
 		}
@@ -281,7 +279,6 @@ public class EconomyManager {
 	 * 
 	 * @param offlinePlayer
 	 * @param amount
-	 * @param world
 	 * @return true if successful
 	 */
 	public boolean depositPlayer(OfflinePlayer offlinePlayer, Double amount) {

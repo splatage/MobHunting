@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import metadev.digital.metacustomitemslib.rewards.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,7 +18,6 @@ import org.bukkit.entity.Skeleton.SkeletonType;
 import org.bukkit.entity.Villager.Profession;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.gestern.gringotts.Configuration;
 import org.gestern.gringotts.currency.Denomination;
 
@@ -26,21 +27,14 @@ import net.citizensnpcs.api.npc.NPCRegistry;
 import metadev.digital.metacustomitemslib.Core;
 import metadev.digital.metacustomitemslib.Tools;
 import metadev.digital.metacustomitemslib.mobs.MobType;
-import metadev.digital.metacustomitemslib.server.Servers;
+import metadev.digital.metacustomitemslib.server.Server;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.BagOfGoldCompat;
-import metadev.digital.MetaMobHunting.compatibility.BossCompat;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.GringottsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
-import metadev.digital.MetaMobHunting.compatibility.MyPetCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
-import metadev.digital.MetaMobHunting.mobs.ExtendedMobRewardData;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MyPetCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
+
 
 public class RewardManager {
 
@@ -59,13 +53,13 @@ public class RewardManager {
 			if (!BagOfGoldCompat.isSupported())
 				Bukkit.getPluginManager().registerEvents(new MoneyMergeEventListener(plugin), plugin);
 			
-			if (Servers.isMC112OrNewer() && eventDoesExists())
+			if (Server.isMC112OrNewer() && eventDoesExists())
 				Bukkit.getPluginManager().registerEvents(new EntityPickupItemEventListener(pickupRewards), plugin);
 			else
 				Bukkit.getPluginManager().registerEvents(new PlayerPickupItemEventListener(pickupRewards), plugin);
 
 		} */
-		if (BagOfGoldCompat.isSupported() || plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())) || plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
 			new BagOfGoldSign(plugin);
 	}
 
@@ -95,14 +89,14 @@ public class RewardManager {
 	}
 
 	public String format(double amount) {
-		if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency && !BagOfGoldCompat.isSupported())
+		if (plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency && !MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())))
 			return Tools.format(amount);
 		else
 			return plugin.getEconomyManager().getFormattedBalance(amount);
 	}
 
 	public double getBalance(OfflinePlayer offlinePlayer) {
-		if (BagOfGoldCompat.isSupported() || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName())) || !plugin.getConfigManager().dropMoneyOnGroundUseItemAsCurrency)
 			return plugin.getEconomyManager().getBalance(offlinePlayer);
 		else if (offlinePlayer.isOnline()) {
 			return getAmountInInventory((Player) offlinePlayer);
@@ -149,7 +143,7 @@ public class RewardManager {
 							player.getInventory().clear(slot);
 						else
 							is = Reward.setDisplayNameAndHiddenLores(is, rewardInSlot);
-						plugin.getMessages().debug("Added %s to %s's item in slot %s, new value is %s", format(amount),
+						MessageHelper.debug("Added %s to %s's item in slot %s, new value is %s", format(amount),
 								player.getName(), slot, format(rewardInSlot.getMoney()));
 						if (moneyLeftToGive <= 0) {
 							found = true;
@@ -231,7 +225,7 @@ public class RewardManager {
 	public void dropMoneyOnGround_RewardManager(Player player, Entity killedEntity, Location location, double money) {
 		Item item = null;
 		money = Tools.ceil(money);
-		if (GringottsCompat.isSupported()) {
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Gringotts.getName()))) {
 			List<Denomination> denoms = Configuration.CONF.getCurrency().getDenominations();
 			int unit = Configuration.CONF.getCurrency().getUnit();
 			double rest = money;
@@ -281,7 +275,7 @@ public class RewardManager {
 			item.setCustomNameVisible(Core.getConfigManager().showCustomDisplayname);
 		}
 		if (item != null)
-			plugin.getMessages().debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
+			MessageHelper.debug("%s was dropped on the ground as item %s (# of rewards=%s)", format(money),
 					Core.getConfigManager().rewardItemtype, Core.getCoreRewardManager().getDroppedMoney().size());
 	}
 
@@ -314,27 +308,9 @@ public class RewardManager {
 			item.setMetadata(Reward.MH_REWARD_DATA_NEW, new FixedMetadataValue(plugin, new Reward(reward)));
 			Core.getCoreRewardManager().getDroppedMoney().put(item.getEntityId(), reward.getMoney());
 		} else {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD + "[MobHunting] " + ChatColor.RED
-					+ "Unhandled reward type in RewardManager (DropRewardOnGround).");
+            MessageHelper.error("Unhandled reward type in RewardManager (DropRewardOnGround).");
 		}
 	}
-
-// Moved to Core
-//	public boolean canPickupMoney(Player player) {
-//		if (player.getInventory().firstEmpty() != -1)
-//			return true;
-//		for (int slot = 0; slot < player.getInventory().getSize(); slot++) {
-//			ItemStack is = player.getInventory().getItem(slot);
-//			if (Reward.isReward(is)) {
-//				Reward rewardInSlot = Reward.getReward(is);
-//				if (rewardInSlot.isMoney()) {
-//					if (rewardInSlot.getMoney() < Core.getConfigManager().limitPerBag)
-//						return true;
-//				}
-//			}
-//		}
-//		return false;
-//	}
 
 	public double getPlayerKilledByMobPenalty(Player playerToBeRobbed, List<ItemStack> droplist) {
 		if (plugin.getConfigManager().mobKillsPlayerPenalty == null
@@ -351,9 +327,9 @@ public class RewardManager {
 		} else if (plugin.getConfigManager().mobKillsPlayerPenalty.trim().endsWith("%")) {
 			double penalty = 0;
 			double balance = 0;
-			if (BagOfGoldCompat.isSupported()) {
+			if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.BagOfGold.getName()))) {
 				for (ItemStack is : droplist) {
-					plugin.getMessages().debug("Dropped item: %s", is.getType());
+					MessageHelper.debug("Dropped item: %s", is.getType());
 					if (Reward.isReward(is)) {
 						Reward reward = Reward.getReward(is);
 						if (reward.isBagOfGoldReward() || reward.isItemReward())
@@ -375,8 +351,7 @@ public class RewardManager {
 
 	public double getRandomPrice(String str) {
 		if (str == null || str.equals("") || str.isEmpty()) {
-			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-					+ " The random_bounty_prize is not set in config.yml. Please set the prize to 0 or a positive number.");
+            MessageHelper.error("The random_bounty_prize is not set in config.yml. Please set the prize to 0 or a positive number.");
 			return 0;
 		} else if (str.contains(":")) {
 			String[] str1 = str.split(":");
@@ -394,90 +369,55 @@ public class RewardManager {
 	 * @return value
 	 */
 	public double getBaseKillPrize(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return getPrice(mob, TARDISWeepingAngelsCompat.getMobRewardData()
-						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).getRewardPrize());
-			plugin.getMessages().debug("TARDISWeepingAngel %s has no reward data",
-					TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).getName());
-			return 0;
+        if (MythicMobsCompat.isMythicMob(mob)) {
+            if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
+                return getPrice(mob, MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
+                        .getRewardPrize());
+            MessageHelper.debug("MythicMob %s has no reward data", MythicMobsCompat.getMythicMobType(mob));
+            return 0;
 
-		} else */if (MythicMobsCompat.isMythicMob(mob)) {
-			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
-				return getPrice(mob, MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
-						.getRewardPrize());
-			plugin.getMessages().debug("MythicMob %s has no reward data", MythicMobsCompat.getMythicMobType(mob));
-			return 0;
+        } else if (CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
+            NPC npc = CitizensAPI.getNPCRegistry().getNPC(mob);
+            String key = String.valueOf(npc.getId());
+            if (CitizensCompat.getMobRewardData().containsKey(key)) {
+                return getPrice(mob, CitizensCompat.getMobRewardData().get(key).getRewardPrize());
+            }
+            MessageHelper.debug("Citizens mob %s has no reward data", npc.getName());
+            return 0;
 
-		} else if (CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
-			NPC npc = CitizensAPI.getNPCRegistry().getNPC(mob);
-			String key = String.valueOf(npc.getId());
-			if (CitizensCompat.getMobRewardData().containsKey(key)) {
-				return getPrice(mob, CitizensCompat.getMobRewardData().get(key).getRewardPrize());
-			}
-			plugin.getMessages().debug("Citizens mob %s has no reward data", npc.getName());
-			return 0;
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return getPrice(mob, MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getRewardPrize());
+            MessageHelper.debug("MysteriousHalloween %s has no reward data",
+                    MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name());
+            return 0;
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return getPrice(mob, CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
-						.getRewardPrize());
-			plugin.getMessages().debug("CustomMob %s has no reward data", CustomMobsCompat.getCustomMobType(mob));
-			return 0;
-
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return getPrice(mob, MysteriousHalloweenCompat.getMobRewardData()
-						.get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getRewardPrize());
-			plugin.getMessages().debug("MysteriousHalloween %s has no reward data",
-					MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name());
-			return 0;
-
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return getPrice(mob, SmartGiantsCompat.getMobRewardData()
-						.get(SmartGiantsCompat.getSmartGiantsMobType(mob)).getRewardPrize());
-			plugin.getMessages().debug("SmartGiantsS %s has no reward data",
-					SmartGiantsCompat.getSmartGiantsMobType(mob));
-			return 0;
-
-		} */else if (MyPetCompat.isMyPet(mob)) {
-			plugin.getMessages().debug("Tried to find a prize for a MyPet: %s (Owner=%s)", MyPetCompat.getMyPet(mob),
+        } else if (MyPetCompat.isMyPet(mob)) {
+			MessageHelper.debug("Tried to find a prize for a MyPet: %s (Owner=%s)", MyPetCompat.getMyPet(mob),
 					MyPetCompat.getMyPetOwner(mob));
 			return getPrice(mob, plugin.getConfigManager().wolfMoney);
-
-		} else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return getPrice(mob, HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
-						.getRewardPrize());
-			plugin.getMessages().debug("Herobrine mob %s has no reward data", HerobrineCompat.getHerobrineMobType(mob));
-			return 0;
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return getPrice(mob, EliteMobsCompat.getMobRewardData()
 						.get(EliteMobsCompat.getEliteMobsType(mob).getName()).getRewardPrize());
-			plugin.getMessages().debug("EliteMob %s has no reward data", EliteMobsCompat.getEliteMobsType(mob));
-			return 0;
-
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return getPrice(mob, BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getRewardPrize());
-			plugin.getMessages().debug("Boss mob %s has no reward data", BossCompat.getBossType(mob));
+			MessageHelper.debug("EliteMob %s has no reward data", EliteMobsCompat.getEliteMobsType(mob));
 			return 0;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return getPrice(mob,plugin.getConfigManager().creakingMoney);
 				else if (mob instanceof Breeze)
 					return getPrice(mob,plugin.getConfigManager().breezeMoney);
 				else if(mob instanceof Bogged)
 					return getPrice(mob,plugin.getConfigManager().boggedMoney);
+                else if(mob instanceof HappyGhast)
+                    return getPrice(mob, plugin.getConfigManager().happyghastMoney);
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return getPrice(mob,plugin.getConfigManager().armadilloMoney);
 				else if (mob instanceof Sniffer)
@@ -485,7 +425,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return getPrice(mob,plugin.getConfigManager().camelMoney);
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return getPrice(mob, plugin.getConfigManager().allayMoney);
 				else if (mob instanceof Frog)
@@ -495,7 +435,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return getPrice(mob, plugin.getConfigManager().wardenMoney);
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return getPrice(mob, plugin.getConfigManager().axolotlMoney);
 				else if (mob instanceof Goat)
@@ -503,11 +443,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return getPrice(mob, plugin.getConfigManager().glowsquidMoney);
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getPrice(mob, plugin.getConfigManager().piglinBruteMoney);
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getPrice(mob, plugin.getConfigManager().hoglinMoney);
 				else if (mob instanceof Piglin)
@@ -517,11 +457,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return getPrice(mob, plugin.getConfigManager().zoglinMoney);
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getPrice(mob, plugin.getConfigManager().beeMoney);
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getPrice(mob, plugin.getConfigManager().catMoney);
 				else if (mob instanceof Fox)
@@ -572,7 +512,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return getPrice(mob, plugin.getConfigManager().weaponsmithMoney);
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getPrice(mob, plugin.getConfigManager().dolphinMoney);
 				else if (mob instanceof Drowned)
@@ -591,13 +531,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return getPrice(mob, plugin.getConfigManager().turtleMoney);
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return getPrice(mob, plugin.getConfigManager().parrotMoney);
 				else if (mob instanceof Illusioner)
 					return getPrice(mob, plugin.getConfigManager().illusionerMoney);
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return getPrice(mob, plugin.getConfigManager().llamaMoney);
 				else if (mob instanceof Vex)
@@ -623,14 +563,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return getPrice(mob, plugin.getConfigManager().nitwitMoney);
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return getPrice(mob, plugin.getConfigManager().polarBearMoney);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getPrice(mob, plugin.getConfigManager().strayMoney);
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return getPrice(mob, plugin.getConfigManager().huskMoney);
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("NORMAL"))
@@ -647,7 +587,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("FARMER"))
 					return getPrice(mob, plugin.getConfigManager().farmerMoney);
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return getPrice(mob, plugin.getConfigManager().shulkerMoney);
 
@@ -761,24 +701,18 @@ public class RewardManager {
 			else if (mob instanceof Item && ((Item) mob).getItemStack().getType() == Material.PUFFERFISH)
 				return getPrice(mob, plugin.getConfigManager().pufferfishMoney);
 		}
-		// plugin.getMessages().debug("Mobhunting could not find the prize for
-		// killing this
-		// mob: %s (%s)",
-		// ExtendedMobManager.getMobName(mob), mob.getType());
+
 		return 0;
 	}
 
 	private double getPrice(Entity mob, String str) {
 		try {
 			if (str == null || str.equals("") || str.isEmpty()) {
-				Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]"
-						+ ChatColor.RESET + " The prize for killing a " + mob.getName()
+                MessageHelper.error("The prize for killing a " + mob.getName()
 						+ " is not set in config.yml. Please set the prize to 0 or a positive or negative number.");
 				return 0;
 			} else if (str.startsWith(":")) {
-				Bukkit.getServer().getConsoleSender()
-						.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-								+ " The prize for killing a " + mob.getName()
+                MessageHelper.error("The prize for killing a " + mob.getName()
 								+ " in config.yml has a wrong format. The prize can't start with \":\"");
 				if (str.length() > 1)
 					return getPrice(mob, str.substring(1, str.length()));
@@ -792,8 +726,7 @@ public class RewardManager {
 			} else
 				return Double.valueOf(str);
 		} catch (NumberFormatException e) {
-			Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-					+ " The prize for killing a " + mob.getName() + " has an unknown format in config.yml.");
+            MessageHelper.error("The prize for killing a " + mob.getName() + " has an unknown format in config.yml.");
 			// e.printStackTrace();
 			return 0;
 		}
@@ -807,81 +740,48 @@ public class RewardManager {
 	 *         separeted by a "|"
 	 */
 	public List<HashMap<String, String>> getKillCommands(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return TARDISWeepingAngelsCompat.getMobRewardData()
-						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).getConsoleRunCommand();
-			return new ArrayList<>();
-
-		} else*/ if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getConsoleRunCommand();
 			return new ArrayList<>();
 
 		} else if (CitizensCompat.isNPC(mob) && CitizensCompat.isSentryOrSentinelOrSentries(mob)) {
-			NPC npc = CitizensAPI.getNPCRegistry().getNPC(mob);
-			String key = String.valueOf(npc.getId());
-			if (CitizensCompat.getMobRewardData().containsKey(key)) {
-				return CitizensCompat.getMobRewardData().get(key).getConsoleRunCommand();
-			}
-			return new ArrayList<>();
+            NPC npc = CitizensAPI.getNPCRegistry().getNPC(mob);
+            String key = String.valueOf(npc.getId());
+            if (CitizensCompat.getMobRewardData().containsKey(key)) {
+                return CitizensCompat.getMobRewardData().get(key).getConsoleRunCommand();
+            }
+            return new ArrayList<>();
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (mob.hasMetadata(CustomMobsCompat.MH_CUSTOMMOBS)) {
-				List<MetadataValue> data = mob.getMetadata(CustomMobsCompat.MH_CUSTOMMOBS);
-				for (MetadataValue value : data)
-					if (value.value() instanceof ExtendedMobRewardData)
-						return ((ExtendedMobRewardData) value.value()).getConsoleRunCommand();
-			} else if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
-						.getConsoleRunCommand();
-			return new ArrayList<>();
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getConsoleRunCommand();
+            return new ArrayList<>();
 
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return MysteriousHalloweenCompat.getMobRewardData()
-						.get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getConsoleRunCommand();
-			return new ArrayList<>();
-
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(mob))
-						.getConsoleRunCommand();
-			return new ArrayList<>();
-
-		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
-						.getConsoleRunCommand();
-			return new ArrayList<>();
-
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.getConsoleRunCommand();
-			return new ArrayList<>();
-
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getConsoleRunCommand();
 			return new ArrayList<>();
 
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfCommands;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingCommands;
 				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeCommands;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedCommands;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastCommands;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloCommands;
 				else if (mob instanceof Sniffer)
@@ -889,7 +789,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelCommands;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayCommands;
 				else if (mob instanceof Frog)
@@ -899,7 +799,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenCommands;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlCommands;
 				else if (mob instanceof Goat)
@@ -907,11 +807,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidCommands;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteCommands;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinCommands;
 				else if (mob instanceof Piglin)
@@ -921,11 +821,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinCommands;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeCommands;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catCommands;
 				else if (mob instanceof Fox)
@@ -976,7 +876,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithCommands;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinCommands;
 				else if (mob instanceof Drowned)
@@ -994,13 +894,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleCommands;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotCommands;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerCommands;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaCommands;
 				else if (mob instanceof Vex)
@@ -1026,14 +926,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitCommands;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearCommands;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayCommands;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskCommands;
@@ -1051,7 +951,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.valueOf("FARMER"))
 					return plugin.getConfigManager().farmerCommands;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerCommands;
 
@@ -1156,14 +1056,7 @@ public class RewardManager {
 	 * @return String
 	 */
 	public String getKillMessage(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return TARDISWeepingAngelsCompat.getMobRewardData()
-						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).getRewardDescription();
-			return "";
-
-		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getRewardDescription();
@@ -1177,55 +1070,34 @@ public class RewardManager {
 			}
 			return "";
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
-						.getRewardDescription();
-			return "";
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getRewardDescription();
+            return "";
 
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return MysteriousHalloweenCompat.getMobRewardData()
-						.get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getRewardDescription();
-			return "";
-
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(mob))
-						.getRewardDescription();
-			return "";
-
-		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
-						.getRewardDescription();
-			return "";
-
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.getRewardDescription();
-			return "";
-
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getRewardDescription();
 			return "";
 
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfMessage;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingMessage;
 				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeMessage;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMessage;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastMessge;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloMessage;
 				else if (mob instanceof Sniffer)
@@ -1233,7 +1105,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelMessage;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayMessage;
 				else if (mob instanceof Frog)
@@ -1243,7 +1115,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenMessage;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlMessage;
 				else if (mob instanceof Goat)
@@ -1251,11 +1123,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidMessage;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMessage;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMessage;
 				else if (mob instanceof Piglin)
@@ -1265,11 +1137,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinMessage;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMessage;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMessage;
 				else if (mob instanceof Fox)
@@ -1320,7 +1192,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithMessage;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMessage;
 				else if (mob instanceof Drowned)
@@ -1338,13 +1210,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleMessage;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotMessage;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerMessage;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaMessage;
 				else if (mob instanceof Vex)
@@ -1370,13 +1242,13 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitMessage;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMessage;
 
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMessage;
@@ -1394,7 +1266,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerMessage;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerMessage;
 
@@ -1493,14 +1365,7 @@ public class RewardManager {
 	}
 
 	public double getMoneyChance(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return TARDISWeepingAngelsCompat.getMobRewardData()
-						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).getChance();
-			return 0;
-
-		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob)).getChance();
 			return 0;
@@ -1514,28 +1379,12 @@ public class RewardManager {
 			}
 			return 0;
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob)).getChance();
-			return 0;
-
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return MysteriousHalloweenCompat.getMobRewardData()
-						.get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getChance();
-			return 0;
-
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(mob))
-						.getChance();
-			return 0;
-
-		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob)).getChance();
-			return 0;
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).getChance();
+            return 0;
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
@@ -1543,24 +1392,21 @@ public class RewardManager {
 						.getChance();
 			return 0;
 
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getChance();
-			return 0;
-
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfCmdRunChance;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingMoneyChance;
 				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeMoneyChance;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMoneyChance;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastMoneyChance;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloMoneyChance;
 				else if (mob instanceof Sniffer)
@@ -1568,7 +1414,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelMoneyChance;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayMoneyChance;
 				else if (mob instanceof Frog)
@@ -1578,7 +1424,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenMoneyChance;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlMoneyChance;
 				else if (mob instanceof Goat)
@@ -1586,11 +1432,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidMoneyChance;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMoneyChance;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMoneyChance;
 				else if (mob instanceof Piglin)
@@ -1600,11 +1446,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinMoneyChance;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMoneyChance;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMoneyChance;
 				else if (mob instanceof Fox)
@@ -1655,7 +1501,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithMoneyChance;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMoneyChance;
 				else if (mob instanceof Drowned)
@@ -1673,13 +1519,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleMoneyChance;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotMoneyChance;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerMoneyChance;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaMoneyChance;
 				else if (mob instanceof Vex)
@@ -1705,14 +1551,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitMoneyChance;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearMoneyChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMoneyChance;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMoneyChance;
@@ -1730,7 +1576,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerMoneyChance;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerMoneyChance;
 
@@ -1828,15 +1674,7 @@ public class RewardManager {
 	}
 
 	public double getMcMMOChance(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return TARDISWeepingAngelsCompat.getMobRewardData()
-						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name())
-						.getMcMMOSkillRewardChance();
-			return 0;
-
-		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getMcMMOSkillRewardChance();
@@ -1851,31 +1689,13 @@ public class RewardManager {
 			}
 			return 0;
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
-						.getMcMMOSkillRewardChance();
-			return 0;
-
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return MysteriousHalloweenCompat.getMobRewardData()
-						.get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name())
-						.getMcMMOSkillRewardChance();
-			return 0;
-
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(mob))
-						.getMcMMOSkillRewardChance();
-			return 0;
-
-		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
-						.getMcMMOSkillRewardChance();
-			return 0;
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name())
+                        .getMcMMOSkillRewardChance();
+            return 0;
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
@@ -1883,24 +1703,21 @@ public class RewardManager {
 						.getMcMMOSkillRewardChance();
 			return 0;
 
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getMcMMOSkillRewardChance();
-			return 0;
-
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfMcMMOSkillRewardChance;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingMcMMOSkillRewardChance;
 				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeMcMMOSkillRewardChance;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedMcMMOSkillRewardChance;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastMcMMOSkillRewardChance;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloMcMMOSkillRewardChance;
 				else if (mob instanceof Sniffer)
@@ -1908,7 +1725,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelMcMMOSkillRewardChance;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayMcMMOSkillRewardChance;
 				else if (mob instanceof Frog)
@@ -1918,7 +1735,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenMcMMOSkillRewardChance;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlMcMMOSkillRewardChance;
 				else if (mob instanceof Goat)
@@ -1926,11 +1743,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidMcMMOSkillRewardChance;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteMcMMOSkillRewardChance;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinMcMMOSkillRewardChance;
 				else if (mob instanceof Piglin)
@@ -1940,11 +1757,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinMcMMOSkillRewardChance;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeMcMMOSkillRewardChance;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catMcMMOSkillRewardChance;
 				else if (mob instanceof Fox)
@@ -1995,7 +1812,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithMcMMOSkillRewardChance;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinMcMMOSkillRewardChance;
 				else if (mob instanceof Drowned)
@@ -2013,13 +1830,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleMcMMOSkillRewardChance;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotMcMMOSkillRewardChance;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerMcMMOSkillRewardChance;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaMcMMOSkillRewardChance;
 				else if (mob instanceof Vex)
@@ -2045,14 +1862,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitMcMMOSkillRewardChance;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearMcMMOSkillRewardChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayMcMMOSkillRewardChance;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskMcMMOSkillRewardChance;
@@ -2070,7 +1887,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerMcMMOSkillRewardChance;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerMcMMOSkillRewardChance;
 
@@ -2169,15 +1986,11 @@ public class RewardManager {
 
 	private int getMcMMOXP(Entity mob, String str) {
 		if (str == null || str.equals("") || str.isEmpty()) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-							+ " The McMMO XP for killing a " + mob.getName()
+            MessageHelper.error("The McMMO XP for killing a " + mob.getName()
 							+ " is not set in config.yml. Please set the McMMO XP to 0 or a positive number.");
 			return 0;
 		} else if (str.startsWith(":")) {
-			Bukkit.getServer().getConsoleSender()
-					.sendMessage(ChatColor.RED + "[MobHunting] [WARNING]" + ChatColor.RESET
-							+ " The McMMO XP for killing a " + mob.getName()
+            MessageHelper.error("The McMMO XP for killing a " + mob.getName()
 							+ " in config.yml has a wrong format. The prize can't start with \":\"");
 			if (str.length() > 1)
 				return getMcMMOXP(mob, str.substring(1, str.length()));
@@ -2192,15 +2005,7 @@ public class RewardManager {
 	}
 
 	public int getMcMMOLevel(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return TARDISWeepingAngelsCompat.getMobRewardData()
-						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name())
-						.getMcMMOSkillRewardAmount();
-			return 0;
-
-		} else */if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob))
 						.getMcMMOSkillRewardAmount();
@@ -2215,56 +2020,36 @@ public class RewardManager {
 			}
 			return 0;
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob))
-						.getMcMMOSkillRewardAmount();
-			return 0;
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name())
+                        .getMcMMOSkillRewardAmount();
+            return 0;
 
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return MysteriousHalloweenCompat.getMobRewardData()
-						.get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name())
-						.getMcMMOSkillRewardAmount();
-			return 0;
 
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(mob))
-						.getMcMMOSkillRewardAmount();
-			return 0;
-
-		} */ else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob))
-						.getMcMMOSkillRewardAmount();
-			return 0;
-
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.getMcMMOSkillRewardAmount();
-			return 0;
-
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).getMcMMOSkillRewardAmount();
 			return 0;
 
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return getMcMMOXP(mob, plugin.getConfigManager().wolfMcMMOSkillRewardAmount);
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return getMcMMOXP(mob, plugin.getConfigManager().creakingMcMMOSkillRewardAmount);
 				else if (mob instanceof Breeze)
 					return getMcMMOXP(mob, plugin.getConfigManager().breezeMcMMOSkillRewardAmount);
 				else if(mob instanceof Bogged)
 					return getMcMMOXP(mob, plugin.getConfigManager().boggedMcMMOSkillRewardAmount);
+                else if(mob instanceof HappyGhast)
+                    return getMcMMOXP(mob, plugin.getConfigManager().happyghastMcMMOSkillRewardAmount);
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return getMcMMOXP(mob, plugin.getConfigManager().armadilloMcMMOSkillRewardAmount);
 				else if (mob instanceof Sniffer)
@@ -2272,7 +2057,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return getMcMMOXP(mob, plugin.getConfigManager().camelMcMMOSkillRewardAmount);
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return getMcMMOXP(mob, plugin.getConfigManager().allayMcMMOSkillRewardAmount);
 				else if (mob instanceof Frog)
@@ -2282,7 +2067,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return getMcMMOXP(mob, plugin.getConfigManager().wardenMcMMOSkillRewardAmount);
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return getMcMMOXP(mob, plugin.getConfigManager().axolotlMcMMOSkillRewardAmount);
 				else if (mob instanceof Goat)
@@ -2290,11 +2075,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return getMcMMOXP(mob, plugin.getConfigManager().glowsquidMcMMOSkillRewardAmount);
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getMcMMOXP(mob, plugin.getConfigManager().piglinBruteMcMMOSkillRewardAmount);
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getMcMMOXP(mob, plugin.getConfigManager().hoglinMcMMOSkillRewardAmount);
 				else if (mob instanceof Piglin)
@@ -2304,11 +2089,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return getMcMMOXP(mob, plugin.getConfigManager().zoglinMcMMOSkillRewardAmount);
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getMcMMOXP(mob, plugin.getConfigManager().beeMcMMOSkillRewardAmount);
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getMcMMOXP(mob, plugin.getConfigManager().catMcMMOSkillRewardAmount);
 				else if (mob instanceof Fox)
@@ -2359,7 +2144,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return getMcMMOXP(mob, plugin.getConfigManager().weaponsmithMcMMOSkillRewardAmount);
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getMcMMOXP(mob, plugin.getConfigManager().dolphinMcMMOSkillRewardAmount);
 				else if (mob instanceof Drowned)
@@ -2377,13 +2162,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return getMcMMOXP(mob, plugin.getConfigManager().turtleMcMMOSkillRewardAmount);
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return getMcMMOXP(mob, plugin.getConfigManager().parrotMcMMOSkillRewardAmount);
 				else if (mob instanceof Illusioner)
 					return getMcMMOXP(mob, plugin.getConfigManager().illusionerMcMMOSkillRewardAmount);
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return getMcMMOXP(mob, plugin.getConfigManager().llamaMcMMOSkillRewardAmount);
 				else if (mob instanceof Vex)
@@ -2409,14 +2194,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return getMcMMOXP(mob, plugin.getConfigManager().nitwitMcMMOSkillRewardAmount);
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return getMcMMOXP(mob, plugin.getConfigManager().polarBearMcMMOSkillRewardAmount);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getMcMMOXP(mob, plugin.getConfigManager().strayMcMMOSkillRewardAmount);
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return getMcMMOXP(mob, plugin.getConfigManager().huskMcMMOSkillRewardAmount);
@@ -2434,7 +2219,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return getMcMMOXP(mob, plugin.getConfigManager().farmerMcMMOSkillRewardAmount);
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return getMcMMOXP(mob, plugin.getConfigManager().shulkerMcMMOSkillRewardAmount);
 
@@ -2532,14 +2317,7 @@ public class RewardManager {
 	}
 
 	public boolean getMobEnabled(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return TARDISWeepingAngelsCompat.getMobRewardData()
-						.get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()).isMobEnabled();
-			return false;
-
-		} else */if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return MythicMobsCompat.getMobRewardData().get(MythicMobsCompat.getMythicMobType(mob)).isMobEnabled();
 			return false;
@@ -2553,53 +2331,34 @@ public class RewardManager {
 			}
 			return false;
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(mob)).isMobEnabled();
-			return false;
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return MysteriousHalloweenCompat.getMobRewardData()
+                        .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).isMobEnabled();
+            return false;
 
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return MysteriousHalloweenCompat.getMobRewardData()
-						.get(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()).isMobEnabled();
-			return false;
-
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(mob))
-						.isMobEnabled();
-			return false;
-
-		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(mob)).isMobEnabled();
-			return false;
-
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return EliteMobsCompat.getMobRewardData().get(EliteMobsCompat.getEliteMobsType(mob).getName())
 						.isMobEnabled();
-			return false;
-
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return BossCompat.getMobRewardData().get(BossCompat.getBossType(mob)).isMobEnabled();
 			return false;
 
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfEnabled;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingEnabled;
 				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeEnabled;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedEnabled;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastEnabled;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloEnabled;
 				else if (mob instanceof Sniffer)
@@ -2607,7 +2366,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelEnabled;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayEnabled;
 				else if (mob instanceof Frog)
@@ -2617,7 +2376,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenEnabled;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlEnabled;
 				else if (mob instanceof Goat)
@@ -2625,11 +2384,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidEnabled;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteEnabled;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinEnabled;
 				else if (mob instanceof Piglin)
@@ -2639,11 +2398,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinEnabled;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeEnabled;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catEnabled;
 				else if (mob instanceof Fox)
@@ -2694,7 +2453,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithEnabled;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinEnabled;
 				else if (mob instanceof Drowned)
@@ -2712,13 +2471,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleEnabled;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotEnabled;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerEnabled;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaEnabled;
 				else if (mob instanceof Vex)
@@ -2744,14 +2503,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitEnabled;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearEnabled;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayEnabled;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie && ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskEnabled;
 
@@ -2769,7 +2528,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerEnabled;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerEnabled;
 
@@ -2867,15 +2626,7 @@ public class RewardManager {
 	}
 
 	public boolean getHeadDropHead(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return false;
-			// return TARDISWeepingAngelsCompat.getMobRewardData()
-			// .get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(killed).name()).getMobEnabled();
-			return false;
-
-		} else */if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return false;
 			// return
@@ -2893,43 +2644,16 @@ public class RewardManager {
 			}
 			return false;
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return false;
-			// return
-			// CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(killed)).isMobEnabled();
-			return false;
-
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return false;
-			// return MysteriousHalloweenCompat.getMobRewardData()
-			// .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
-			return false;
-
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return false;
-			// return
-			// SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(killed))
-			// .isMobEnabled();
-			return false;
-
-		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return false;
-			// return
-			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
-			return false;
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return false;
+            // return MysteriousHalloweenCompat.getMobRewardData()
+            // .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
+            return false;
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
-				return false;
-			return false;
-
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
 				return false;
 			return false;
 
@@ -2937,15 +2661,17 @@ public class RewardManager {
 			return plugin.getConfigManager().wolfHeadDropHead;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingHeadDropHead;
 				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeHeadDropHead;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadDropHead;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastHeadDropHead;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloHeadDropHead;
 				else if (mob instanceof Sniffer)
@@ -2953,7 +2679,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelHeadDropHead;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayHeadDropHead;
 				else if (mob instanceof Frog)
@@ -2963,7 +2689,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenHeadDropHead;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlHeadDropHead;
 				else if (mob instanceof Goat)
@@ -2971,11 +2697,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidHeadDropHead;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadDropHead;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadDropHead;
 				else if (mob instanceof Piglin)
@@ -2985,11 +2711,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinHeadDropHead;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadDropHead;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadDropHead;
 				else if (mob instanceof Fox)
@@ -3040,7 +2766,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithHeadDropHead;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadDropHead;
 				else if (mob instanceof Drowned)
@@ -3058,13 +2784,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleHeadDropHead;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotHeadDropHead;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerHeadDropHead;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaHeadDropHead;
 				else if (mob instanceof Vex)
@@ -3090,14 +2816,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitHeadDropHead;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearHeadDropHead;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadDropHead;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskHeadDropHead;
@@ -3115,7 +2841,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerHeadDropHead;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerHeadDropHead;
 
@@ -3213,15 +2939,7 @@ public class RewardManager {
 	}
 
 	public double getHeadDropChance(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return 0;
-			// return TARDISWeepingAngelsCompat.getMobRewardData()
-			// .get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(killed).name()).getMobEnabled();
-			return 0;
-
-		} else */if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return 0;
 			// return
@@ -3239,61 +2957,37 @@ public class RewardManager {
 			}
 			return 0;
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return 0;
-			// return
-			// CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(killed)).isMobEnabled();
-			return 0;
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return 0;
+            // return MysteriousHalloweenCompat.getMobRewardData()
+            // .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
+            return 0;
 
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return 0;
-			// return MysteriousHalloweenCompat.getMobRewardData()
-			// .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
-			return 0;
 
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return 0;
-			// return
-			// SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(killed))
-			// .isMobEnabled();
-			return 0;
-
-		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return 0;
-			// return
-			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
-			return 0;
-
-		} else if (EliteMobsCompat.isEliteMobs(mob)) {
+        } else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
 				return 0;
 			// return
 			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
 			return 0;
 
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return 0;
-			return 0;
-
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfHeadDropChance;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingHeadDropChance;
 				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeHeadDropChance;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadDropChance;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastHeadDropChance;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloHeadDropChance;
 				else if (mob instanceof Sniffer)
@@ -3301,7 +2995,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelHeadDropChance;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayHeadDropChance;
 				else if (mob instanceof Frog)
@@ -3311,7 +3005,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenHeadDropChance;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlHeadDropChance;
 				else if (mob instanceof Goat)
@@ -3319,11 +3013,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidHeadDropChance;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadDropChance;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadDropChance;
 				else if (mob instanceof Piglin)
@@ -3333,11 +3027,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinHeadDropChance;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadDropChance;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadDropChance;
 				else if (mob instanceof Fox)
@@ -3388,7 +3082,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithHeadDropChance;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadDropChance;
 				else if (mob instanceof Drowned)
@@ -3406,13 +3100,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleHeadDropChance;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotHeadDropChance;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerHeadDropChance;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaHeadDropChance;
 				else if (mob instanceof Vex)
@@ -3438,13 +3132,13 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitHeadDropChance;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearHeadDropChance;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadDropChance;
 
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskHeadDropChance;
@@ -3462,7 +3156,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerHeadDropChance;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerHeadDropChance;
 
@@ -3560,15 +3254,7 @@ public class RewardManager {
 	}
 
 	public String getHeadDropMessage(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED  if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return "";
-			// return TARDISWeepingAngelsCompat.getMobRewardData()
-			// .get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(killed).name()).getMobEnabled();
-			return "";
-
-		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return "";
 			// return
@@ -3586,35 +3272,13 @@ public class RewardManager {
 			}
 			return "";
 
-		} /** else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return "";
-			// return
-			// CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(killed)).isMobEnabled();
-			return "";
-
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return "";
-			// return MysteriousHalloweenCompat.getMobRewardData()
-			// .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
-			return "";
-
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return "";
-			// return
-			// SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(killed))
-			// .isMobEnabled();
-			return "";
-
-		} */else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return "";
-			// return
-			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
-			return "";
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return "";
+            // return MysteriousHalloweenCompat.getMobRewardData()
+            // .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
+            return "";
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
@@ -3623,24 +3287,21 @@ public class RewardManager {
 			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
 			return "";
 
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return "";
-			return "";
-
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return plugin.getConfigManager().wolfHeadMessage;
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return plugin.getConfigManager().creakingHeadMessage;
 				else if (mob instanceof Breeze)
 					return plugin.getConfigManager().breezeHeadMessage;
 				else if(mob instanceof Bogged)
 					return plugin.getConfigManager().boggedHeadMessage;
+                else if(mob instanceof HappyGhast)
+                    return plugin.getConfigManager().happyghastHeadMessage;
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return plugin.getConfigManager().armadilloHeadMessage;
 				else if (mob instanceof Sniffer)
@@ -3648,7 +3309,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return plugin.getConfigManager().camelHeadMessage;
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return plugin.getConfigManager().allayHeadMessage;
 				else if (mob instanceof Frog)
@@ -3658,7 +3319,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return plugin.getConfigManager().wardenHeadMessage;
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return plugin.getConfigManager().axolotlHeadMessage;
 				else if (mob instanceof Goat)
@@ -3666,11 +3327,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return plugin.getConfigManager().glowsquidHeadMessage;
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return plugin.getConfigManager().piglinBruteHeadMessage;
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return plugin.getConfigManager().hoglinHeadMessage;
 				else if (mob instanceof Piglin)
@@ -3680,11 +3341,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return plugin.getConfigManager().zoglinHeadMessage;
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return plugin.getConfigManager().beeHeadMessage;
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return plugin.getConfigManager().catHeadMessage;
 				else if (mob instanceof Fox)
@@ -3735,7 +3396,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return plugin.getConfigManager().weaponsmithHeadMessage;
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return plugin.getConfigManager().dolphinHeadMessage;
 				else if (mob instanceof Drowned)
@@ -3753,13 +3414,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return plugin.getConfigManager().turtleHeadMessage;
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return plugin.getConfigManager().parrotHeadMessage;
 				else if (mob instanceof Illusioner)
 					return plugin.getConfigManager().illusionerHeadMessage;
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return plugin.getConfigManager().llamaHeadMessage;
 				else if (mob instanceof Vex)
@@ -3785,14 +3446,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return plugin.getConfigManager().nitwitHeadMessage;
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return plugin.getConfigManager().polarBearHeadMessage;
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return plugin.getConfigManager().strayHeadMessage;
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return plugin.getConfigManager().huskHeadMessage;
@@ -3810,7 +3471,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return plugin.getConfigManager().farmerHeadMessage;
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return plugin.getConfigManager().shulkerHeadMessage;
 
@@ -3908,15 +3569,7 @@ public class RewardManager {
 	}
 
 	public double getHeadValue(Entity mob) {
-		/** // TODO: POSSIBLY DEPRECATED if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(mob)) {
-			if (TARDISWeepingAngelsCompat.getMobRewardData()
-					.containsKey(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(mob).name()))
-				return 0;
-			// return TARDISWeepingAngelsCompat.getMobRewardData()
-			// .get(TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(killed).name()).getMobEnabled();
-			return 0;
-
-		} else */ if (MythicMobsCompat.isMythicMob(mob)) {
+		if (MythicMobsCompat.isMythicMob(mob)) {
 			if (MythicMobsCompat.getMobRewardData().containsKey(MythicMobsCompat.getMythicMobType(mob)))
 				return 0;
 			// return
@@ -3934,35 +3587,13 @@ public class RewardManager {
 			}
 			return 0;
 
-		} /** // TODO: POSSIBLY DEPRECATED else if (CustomMobsCompat.isCustomMob(mob)) {
-			if (CustomMobsCompat.getMobRewardData().containsKey(CustomMobsCompat.getCustomMobType(mob)))
-				return 0;
-			// return
-			// CustomMobsCompat.getMobRewardData().get(CustomMobsCompat.getCustomMobType(killed)).isMobEnabled();
-			return 0;
-
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
-			if (MysteriousHalloweenCompat.getMobRewardData()
-					.containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
-				return 0;
-			// return MysteriousHalloweenCompat.getMobRewardData()
-			// .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
-			return 0;
-
-		} else if (SmartGiantsCompat.isSmartGiants(mob)) {
-			if (SmartGiantsCompat.getMobRewardData().containsKey(SmartGiantsCompat.getSmartGiantsMobType(mob)))
-				return 0;
-			// return
-			// SmartGiantsCompat.getMobRewardData().get(SmartGiantsCompat.getSmartGiantsMobType(killed))
-			// .isMobEnabled();
-			return 0;
-
-		} */ else if (HerobrineCompat.isHerobrineMob(mob)) {
-			if (HerobrineCompat.getMobRewardData().containsKey(HerobrineCompat.getHerobrineMobType(mob)))
-				return 0;
-			// return
-			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
-			return 0;
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(mob)) {
+            if (MysteriousHalloweenCompat.getMobRewardData()
+                    .containsKey(MysteriousHalloweenCompat.getMysteriousHalloweenType(mob).name()))
+                return 0;
+            // return MysteriousHalloweenCompat.getMobRewardData()
+            // .get(MysteriousHalloweenCompat.getMysteriousHalloweenType(killed).name()).isMobEnabled();
+            return 0;
 
 		} else if (EliteMobsCompat.isEliteMobs(mob)) {
 			if (EliteMobsCompat.getMobRewardData().containsKey(EliteMobsCompat.getEliteMobsType(mob).getName()))
@@ -3971,24 +3602,21 @@ public class RewardManager {
 			// HerobrineCompat.getMobRewardData().get(HerobrineCompat.getHerobrineMobType(killed)).isMobEnabled();
 			return 0;
 
-		} else if (BossCompat.isBossMob(mob)) {
-			if (BossCompat.getMobRewardData().containsKey(BossCompat.getBossType(mob)))
-				return 0;
-			return 0;
-
 		} else if (MyPetCompat.isMyPet(mob)) {
 			return getPrice(mob, plugin.getConfigManager().wolfHeadPrize);
 
 		} else {
-			if (Servers.isMC121OrNewer()){
+			if (Server.isMC121OrNewer()){
 				if (mob instanceof Creaking)
 					return getPrice(mob, plugin.getConfigManager().creakingHeadPrize);
 				else if (mob instanceof Breeze)
 					return getPrice(mob, plugin.getConfigManager().breezeHeadPrize);
 				else if(mob instanceof Bogged)
 					return getPrice(mob, plugin.getConfigManager().boggedHeadPrize);
+                else if(mob instanceof HappyGhast)
+                    return getPrice(mob, plugin.getConfigManager().happyghastHeadPrize);
 			}
-			if (Servers.isMC120OrNewer()){
+			if (Server.isMC120OrNewer()){
 				if (mob instanceof Armadillo)
 					return getPrice(mob, plugin.getConfigManager().armadilloHeadPrize);
 				else if (mob instanceof Sniffer)
@@ -3996,7 +3624,7 @@ public class RewardManager {
 				else if (mob instanceof Camel)
 					return getPrice(mob, plugin.getConfigManager().camelHeadPrize);
 			}
-			if (Servers.isMC119OrNewer())
+			if (Server.isMC119OrNewer())
 				if (mob instanceof Allay)
 					return getPrice(mob, plugin.getConfigManager().allayHeadPrize);
 				else if (mob instanceof Frog)
@@ -4006,7 +3634,7 @@ public class RewardManager {
 				else if (mob instanceof Warden)
 					return getPrice(mob, plugin.getConfigManager().wardenHeadPrize);
 
-			if (Servers.isMC117OrNewer())
+			if (Server.isMC117OrNewer())
 				if (mob instanceof Axolotl)
 					return getPrice(mob, plugin.getConfigManager().axolotlHeadPrize);
 				else if (mob instanceof Goat)
@@ -4014,11 +3642,11 @@ public class RewardManager {
 				else if (mob instanceof GlowSquid)
 					return getPrice(mob, plugin.getConfigManager().glowsquidHeadPrize);
 
-			if (Servers.isMC1162OrNewer())
+			if (Server.isMC1162OrNewer())
 				if (mob instanceof PiglinBrute)
 					return getPrice(mob, plugin.getConfigManager().piglinBruteHeadPrize);
 
-			if (Servers.isMC116OrNewer())
+			if (Server.isMC116OrNewer())
 				if (mob instanceof Hoglin)
 					return getPrice(mob, plugin.getConfigManager().hoglinHeadPrize);
 				else if (mob instanceof Piglin)
@@ -4028,11 +3656,11 @@ public class RewardManager {
 				else if (mob instanceof Zoglin)
 					return getPrice(mob, plugin.getConfigManager().zoglinHeadPrize);
 
-			if (Servers.isMC115OrNewer())
+			if (Server.isMC115OrNewer())
 				if (mob instanceof Bee)
 					return getPrice(mob, plugin.getConfigManager().beeHeadPrize);
 
-			if (Servers.isMC114OrNewer())
+			if (Server.isMC114OrNewer())
 				if (mob instanceof Cat)
 					return getPrice(mob, plugin.getConfigManager().catHeadPrize);
 				else if (mob instanceof Fox)
@@ -4083,7 +3711,7 @@ public class RewardManager {
 					else if (((Villager) mob).getProfession() == Profession.WEAPONSMITH)
 						return getPrice(mob, plugin.getConfigManager().weaponsmithHeadPrize);
 
-			if (Servers.isMC113OrNewer())
+			if (Server.isMC113OrNewer())
 				if (mob instanceof Dolphin)
 					return getPrice(mob, plugin.getConfigManager().dolphinHeadPrize);
 				else if (mob instanceof Drowned)
@@ -4101,13 +3729,13 @@ public class RewardManager {
 				else if (mob instanceof Turtle)
 					return getPrice(mob, plugin.getConfigManager().turtleHeadPrize);
 
-			if (Servers.isMC112OrNewer())
+			if (Server.isMC112OrNewer())
 				if (mob instanceof Parrot)
 					return getPrice(mob, plugin.getConfigManager().parrotHeadPrize);
 				else if (mob instanceof Illusioner)
 					return getPrice(mob, plugin.getConfigManager().illusionerHeadPrize);
 
-			if (Servers.isMC111OrNewer())
+			if (Server.isMC111OrNewer())
 				if (mob instanceof Llama)
 					return getPrice(mob, plugin.getConfigManager().llamaHeadPrize);
 				else if (mob instanceof Vex)
@@ -4133,14 +3761,14 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.NITWIT)
 					return getPrice(mob, plugin.getConfigManager().nitwitHeadPrize);
 
-			if (Servers.isMC110OrNewer())
+			if (Server.isMC110OrNewer())
 				if (mob instanceof PolarBear)
 					return getPrice(mob, plugin.getConfigManager().polarBearHeadPrize);
 				else if (mob instanceof Skeleton && ((Skeleton) mob).getSkeletonType() == SkeletonType.STRAY)
 					return getPrice(mob, plugin.getConfigManager().strayHeadPrize);
 
 			// Handle old villagers
-			if (Servers.isMC110OrNewer() && !Servers.isMC114OrNewer())
+			if (Server.isMC110OrNewer() && !Server.isMC114OrNewer())
 				if (mob instanceof Zombie
 						&& ((Zombie) mob).getVillagerProfession() == Profession.valueOf("HUSK"))
 					return getPrice(mob, plugin.getConfigManager().huskHeadPrize);
@@ -4158,7 +3786,7 @@ public class RewardManager {
 				else if (mob instanceof Villager && ((Villager) mob).getProfession() == Profession.FARMER)
 					return getPrice(mob, plugin.getConfigManager().farmerHeadPrize);
 
-			if (Servers.isMC19OrNewer())
+			if (Server.isMC19OrNewer())
 				if (mob instanceof Shulker)
 					return getPrice(mob, plugin.getConfigManager().shulkerHeadPrize);
 

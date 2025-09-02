@@ -6,24 +6,18 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import metadev.digital.MetaMobHunting.Messages.MessageHelper;
+import metadev.digital.MetaMobHunting.compatibility.addons.MysteriousHalloweenCompat;
+import metadev.digital.metacustomitemslib.compatibility.enums.SupportedPluginEntities;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 
 import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.metacustomitemslib.storage.DataStoreException;
 import metadev.digital.MetaMobHunting.MobHunting;
-import metadev.digital.MetaMobHunting.compatibility.BossCompat;
-import metadev.digital.MetaMobHunting.compatibility.CitizensCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.CustomMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.EliteMobsCompat;
-import metadev.digital.MetaMobHunting.compatibility.HerobrineCompat;
-import metadev.digital.MetaMobHunting.compatibility.InfernalMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.MysteriousHalloweenCompat;
-import metadev.digital.MetaMobHunting.compatibility.MythicMobsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.SmartGiantsCompat;
-// TODO: POSSIBLY DEPRECATED import metadev.digital.MetaMobHunting.compatibility.TARDISWeepingAngelsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.CitizensCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.EliteMobsCompat;
+import metadev.digital.MetaMobHunting.compatibility.addons.MythicMobsCompat;
 
 public class ExtendedMobManager {
 
@@ -38,35 +32,21 @@ public class ExtendedMobManager {
 
 	public void updateExtendedMobs() {
 		plugin.getStoreManager().insertMissingVanillaMobs();
-		if (CitizensCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName())))
 			plugin.getStoreManager().insertMissingCitizensMobs();
-		if (MythicMobsCompat.isSupported())
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName())))
 			plugin.getStoreManager().insertMissingMythicMobs();
-		/** // TODO: POSSIBLY DEPRECATED if (CustomMobsCompat.isSupported())
-			plugin.getStoreManager().insertCustomMobs();
-		if (TARDISWeepingAngelsCompat.isSupported())
-			plugin.getStoreManager().insertTARDISWeepingAngelsMobs();
-		if (MysteriousHalloweenCompat.isSupported())
-			plugin.getStoreManager().insertMysteriousHalloweenMobs();
-		if (SmartGiantsCompat.isSupported())
-			plugin.getStoreManager().insertSmartGiants();*/
-		if (HerobrineCompat.isSupported())
-			plugin.getStoreManager().insertHerobrineMobs();
-		if (EliteMobsCompat.isSupported())
+        if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+            plugin.getStoreManager().insertMysteriousHalloweenMobs();
+		if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 			plugin.getStoreManager().insertEliteMobs();
-		if (BossCompat.isSupported())
-			plugin.getStoreManager().insertBossMobs();
-
-		// Not needed
-		// if (InfernalMobsCompat.isSupported())
-		// plugin.getStoreManager().insertInfernalMobs();
 
 		Set<ExtendedMob> set = new HashSet<ExtendedMob>();
 
 		try {
 			set = (HashSet<ExtendedMob>) plugin.getStoreManager().loadMobs();
 		} catch (DataStoreException e) {
-			Bukkit.getConsoleSender().sendMessage(MobHunting.PREFIX + "Could not load data from mh_Mobs");
+			MessageHelper.error("Could not load data from mh_Mobs");
 			e.printStackTrace();
 		}
 
@@ -76,63 +56,32 @@ public class ExtendedMobManager {
 			ExtendedMob mob = (ExtendedMob) mobset.next();
 			switch (mob.getMobPlugin()) {
 			case MythicMobs:
-				if (!MythicMobsCompat.isSupported() || !MythicMobsCompat.isEnabledInConfig()
+				if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName()))
 						|| !MythicMobsCompat.isMythicMob(mob.getMobtype()))
 					continue;
 				break;
 
-			/** // TODO: POSSIBLY DEPRECATED case CustomMobs:
-				if (!CustomMobsCompat.isSupported() || !CustomMobsCompat.isEnabledInConfig())
-					continue;
-				break;
-
-			case TARDISWeepingAngels:
-				if (!TARDISWeepingAngelsCompat.isSupported() || !TARDISWeepingAngelsCompat.isEnabledInConfig())
-					continue;
-				break; */
-
 			case Citizens:
-				if (!CitizensCompat.isSupported() || !CitizensCompat.isEnabledInConfig()
+				if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.Citizens.getName()))
 						|| !CitizensCompat.isSentryOrSentinelOrSentries(mob.getMobtype()))
 					continue;
 				break;
 
-			/** // TODO: POSSIBLY DEPRECATED case MysteriousHalloween:
-				if (!MysteriousHalloweenCompat.isSupported() || !MysteriousHalloweenCompat.isEnabledInConfig())
-					continue;
-				break;
-
-			case SmartGiants:
-				if (!SmartGiantsCompat.isSupported() || !SmartGiantsCompat.isEnabledInConfig())
-					continue;
-				break; */
-
-			case InfernalMobs:
-				if (!InfernalMobsCompat.isSupported() || !InfernalMobsCompat.isEnabledInConfig())
-					continue;
-				break;
-
-			case Herobrine:
-				if (!HerobrineCompat.isSupported() || !HerobrineCompat.isEnabledInConfig())
-					continue;
-				break;
-
 			case EliteMobs:
-				if (!EliteMobsCompat.isSupported() || !EliteMobsCompat.isEnabledInConfig())
+				if (MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName())))
 					continue;
 				break;
 
-			case Boss:
-				if (!BossCompat.isSupported() || !BossCompat.isEnabledInConfig())
-					continue;
-				break;
+            case MysteriousHalloween:
+                if (!MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MysteriousHalloween.getName())))
+                    continue;
+                break;
 
 			case Minecraft:
 				break;
 
 			default:
-				ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-				console.sendMessage(ChatColor.RED + "[MobHunting] Missing PluginType: " + mob.getMobPlugin().getName()
+				MessageHelper.error("Missing PluginType: " + mob.getMobPlugin().getName()
 						+ " in ExtendedMobManager.");
 				continue;
 			}
@@ -141,7 +90,7 @@ public class ExtendedMobManager {
 				mobs.put(mob.getMob_id(), mob);
 			}
 		}
-		plugin.getMessages().debug("%s mobs was loaded into memory. Total mobs=%s", n, mobs.size());
+		MessageHelper.debug("%s mobs was loaded into memory. Total mobs=%s", n, mobs.size());
 
 		MobHunting.getInstance().getMessages().injectMissingMobNamesToLangFiles();
 
@@ -187,42 +136,15 @@ public class ExtendedMobManager {
 		} else if (CitizensCompat.isNPC(entity)) {
 			mobPlugin = MobPlugin.Citizens;
 			mobtype = String.valueOf(CitizensCompat.getNPCId(entity));
-		}/** // TODO: POSSIBLY DEPRECATED  else if (TARDISWeepingAngelsCompat.isWeepingAngelMonster(entity)) {
-			mobPlugin = MobPlugin.TARDISWeepingAngels;
-			if (TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(entity) != null)
-				mobtype = TARDISWeepingAngelsCompat.getWeepingAngelMonsterType(entity).name();
-			else
-				mobtype = "unknown";
-		} else if (CustomMobsCompat.isCustomMob(entity)) {
-			mobPlugin = MobPlugin.CustomMobs;
-			mobtype = CustomMobsCompat.getCustomMobType(entity);
-		} else if (MysteriousHalloweenCompat.isMysteriousHalloween(entity)) {
-			mobPlugin = MobPlugin.MysteriousHalloween;
-			if (MysteriousHalloweenCompat.getMysteriousHalloweenType(entity) != null)
-				mobtype = MysteriousHalloweenCompat.getMysteriousHalloweenType(entity).name();
-			else
-				mobtype = "unknown";
-		} else if (SmartGiantsCompat.isSmartGiants(entity)) {
-			mobPlugin = MobPlugin.SmartGiants;
-			mobtype = SmartGiantsCompat.getSmartGiantsMobType(entity);
-		} */else if (InfernalMobsCompat.isInfernalMob(entity)) {
-			mobPlugin = MobPlugin.InfernalMobs;
-			MobType mob = MobType.getMobType(entity);
-			if (mob != null)
-				mobtype = mob.name();
-			else {
-				// plugin.getMessages().debug("unhandled entity %s", entity.getType());
-				mobtype = "";
-			}
-		} else if (HerobrineCompat.isHerobrineMob(entity)) {
-			mobPlugin = MobPlugin.Herobrine;
-			mobtype = HerobrineCompat.getHerobrineMobType(entity);
-		} else if (EliteMobsCompat.isEliteMobs(entity)) {
+        } else if (MysteriousHalloweenCompat.isMysteriousHalloween(entity)) {
+            mobPlugin = MobPlugin.MysteriousHalloween;
+            if (MysteriousHalloweenCompat.getMysteriousHalloweenType(entity) != null)
+                mobtype = MysteriousHalloweenCompat.getMysteriousHalloweenType(entity).name();
+            else
+                mobtype = "unknown";
+        } else if (EliteMobsCompat.isEliteMobs(entity)) {
 			mobPlugin = MobPlugin.EliteMobs;
 			mobtype = EliteMobsCompat.getEliteMobsType(entity).name();
-		} else if (BossCompat.isBossMob(entity)) {
-			mobPlugin = MobPlugin.Boss;
-			mobtype = BossCompat.getBossType(entity);
 		} else {
 			// StatType
 			mobPlugin = MobPlugin.Minecraft;
