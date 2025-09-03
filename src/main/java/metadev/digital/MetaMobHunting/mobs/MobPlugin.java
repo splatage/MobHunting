@@ -58,8 +58,10 @@ public enum MobPlugin {
 			return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.MythicMobs.getName()));
 		case EliteMobs:
 			return MobHunting.getInstance().getCompatibilityManager().isCompatibilityLoaded(Bukkit.getPluginManager().getPlugin(SupportedPluginEntities.EliteMobs.getName()));
-		default:
-			MessageHelper.error("Missing pluginType '" + this.name() + "' in MobPlugin");
+        case TARDISWeepingAngels, CustomMobs, SmartGiants, InfernalMobs, Herobrine, Boss:
+            return false; // No longer supported
+        default:
+			MessageHelper.debug("Missing pluginType '" + this.name() + "' in MobPlugin.");
 		}
 		return false;
 	}
