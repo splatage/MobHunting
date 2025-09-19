@@ -632,7 +632,10 @@ public class MobHuntingManager implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
 	private void onMobDeath(EntityDeathEvent event) {
-
+            if (!Bukkit.isPrimaryThread()) {
+                Bukkit.getScheduler().runTask(plugin, () -> onMobDeath(killed, killer));
+                return;
+            }
 		boolean silent = System.currentTimeMillis() < messageLimiter + 60 * 1000;
 
 		LivingEntity killed = event.getEntity();

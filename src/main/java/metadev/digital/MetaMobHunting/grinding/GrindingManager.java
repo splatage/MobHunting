@@ -41,7 +41,7 @@ public class GrindingManager implements Listener {
 
 	private boolean saveWhitelist = false;
 	private boolean saveBlacklist = false;
-	
+
 	private static final Map<Integer, GrindingInformation> killed_mobs =
     	Collections.synchronizedMap(new LinkedHashMap<>());
 
@@ -85,6 +85,10 @@ public class GrindingManager implements Listener {
 	 * @param killed
 	 */
 	public void registerDeath(LivingEntity killer, LivingEntity killed) {
+            if (!Bukkit.isPrimaryThread()) {
+                Bukkit.getScheduler().runTask(plugin, () -> registerDeath(killer, killed));
+                return;
+            }
 		// Do not track if grinding detection is disabled in this world.
 		if (killed == null || isGrindingDisabledInWorld(killed.getWorld()))
 			return;
@@ -114,7 +118,7 @@ public class GrindingManager implements Listener {
             Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
             while (itr.hasNext()) {
                 GrindingInformation gi = itr.next().getValue();
-    
+
                 if (killer == null) {
                     return false;
                 }
