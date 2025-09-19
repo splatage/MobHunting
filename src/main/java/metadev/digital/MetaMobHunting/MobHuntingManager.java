@@ -630,20 +630,27 @@ public class MobHuntingManager implements Listener {
 
 	long messageLimiter = 0;
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
-	private void onMobDeath(EntityDeathEvent event) {
+        @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
+        private void onMobDeath(EntityDeathEvent event) {
 
-		boolean silent = System.currentTimeMillis() < messageLimiter + 60 * 1000;
+            // If we were called off the main thread, reschedule onto the main thread.
+            if (!Bukkit.isPrimaryThread()) {
+                final EntityDeathEvent ev = event; // capture reference to pass into lambda
+                Bukkit.getScheduler().runTask(plugin, () -> onMobDeath(ev));
+                return;
+            }
 
-		LivingEntity killed = event.getEntity();
+            boolean silent = System.currentTimeMillis() < messageLimiter + 60 * 1000;
 
-		Player killer = event.getEntity().getKiller();
+            LivingEntity killed = event.getEntity();
 
-		ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
-		if (mob.getMob_id() == 0) {
-			MessageHelper.debug("MOB_ID=0");
-			return;
-		}
+            Player killer = event.getEntity().getKiller();
+
+            ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
+            if (mob.getMob_id() == 0) {
+                 MessageHelper.debug("MOB_ID=0");
+                return;
+            }
 
 		// find player from killer or killed
 		Player player = getPlayer(killer, killed);
