@@ -633,13 +633,6 @@ public class MobHuntingManager implements Listener {
         @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
         private void onMobDeath(EntityDeathEvent event) {
 
-            // If we were called off the main thread, reschedule onto the main thread.
-            if (!Bukkit.isPrimaryThread()) {
-                final EntityDeathEvent ev = event; // capture reference to pass into lambda
-                Bukkit.getScheduler().runTask(plugin, () -> onMobDeath(ev));
-                return;
-            }
-
             boolean silent = System.currentTimeMillis() < messageLimiter + 60 * 1000;
 
             LivingEntity killed = event.getEntity();
