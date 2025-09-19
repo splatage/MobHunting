@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.Map.Entry;
-import java.util.Collections; 
-import java.util.Deque;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
@@ -39,18 +37,13 @@ import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 public class GrindingManager implements Listener {
 
 	private MobHunting plugin;
-	
-	// Per-world, time-ordered queue of recent kills (main-thread only)
-    private final Map<UUID, Deque<GrindingInformation>> killsByWorld = new HashMap<>();
 
 	private boolean saveWhitelist = false;
 	private boolean saveBlacklist = false;
-	
-	private static final Map<Integer, GrindingInformation> killed_mobs =
-    	Collections.synchronizedMap(new LinkedHashMap<>());
 
 	private static HashMap<UUID, LinkedList<Area>> mBlacklistedAreas = new HashMap<>();
 	private static HashMap<UUID, LinkedList<Area>> mWhitelistedAreas = new HashMap<>();
+	private static LinkedHashMap<Integer, GrindingInformation> killed_mobs = new LinkedHashMap<>();
 
 	public GrindingManager(MobHunting instance) {
 		this.plugin = instance;
@@ -88,34 +81,17 @@ public class GrindingManager implements Listener {
 	 *
 	 * @param killed
 	 */
-public void registerDeath(LivingEntity killer, LivingEntity killed) {
-	// Fast guards
-	if (killed == null)
-		return;
+	public void registerDeath(LivingEntity killer, LivingEntity killed) {
+		// Do not track if grinding detection is disabled in this world.
+		if (killed == null || isGrindingDisabledInWorld(killed.getWorld()))
+			return;
 
-	final World world = killed.getWorld();
-	if (world == null || isGrindingDisabledInWorld(world))
-		return;
-
-	final Location loc = killed.getLocation();
-	if (loc == null || loc.getWorld() == null)
-		return;
-
-	// Only track if not in a known grinding or whitelisted area
-	if (!isGrindingArea(loc) && !isWhitelisted(loc)) {
-		GrindingInformation gi = new GrindingInformation(
-				(killer != null ? killer.getUniqueId() : null),
+		GrindingInformation grindingInformation = new GrindingInformation(killer != null ? killer.getUniqueId() : null,
 				killed);
-		// Existing map for legacy lookups & purge
-		killed_mobs.put(killed.getEntityId(), gi);
-
-		// NEW: per-world, time-ordered queue for fast same-world scans
-		final UUID wuid = world.getUID();
-        killsByWorld.computeIfAbsent(wuid, __ -> new LinkedList<>()).addLast(gi);
+		if (!isGrindingArea(killed.getLocation()) && !isWhitelisted(killed.getLocation())) {
+			killed_mobs.put(killed.getEntityId(), grindingInformation);
+		}
 	}
-}
-
-
 
 	/**
 	 * Test if the same type of mobs is killed to fast. When players make a farm,
@@ -124,69 +100,59 @@ public void registerDeath(LivingEntity killer, LivingEntity killed) {
 	 * @param killed
 	 * @return
 	 */
-    public boolean isPlayerSpeedGrinding(LivingEntity killer, LivingEntity killed) {
-        long starttime = System.currentTimeMillis();
-        int n = 0;
-        long oldestKill = starttime;
+	public boolean isPlayerSpeedGrinding(LivingEntity killer, LivingEntity killed) {
+		long starttime = System.currentTimeMillis();
+		Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
+		List<Integer> to_be_deleted = new ArrayList<Integer>();
+		int n = 0;
+		long timeframe = 0;
+		long avg_time = 0;
+		long oldestKill = starttime;
+		ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
+		while (itr.hasNext()) {
+			GrindingInformation gi = itr.next().getValue();
+			if (killer == null) {
+				return false;
+			}
+			if (gi == null || gi.getKillerUUID() == null) {
+				continue;
+			}
 
-        ExtendedMob mob = plugin.getExtendedMobManager().getExtendedMobFromEntity(killed);
+			// Purge entries whose entity has already been GC'ed (weak-ref cleared).
+			if (gi.getKilled() == null) {
+				to_be_deleted.add(gi.getEntityId());
+				continue;
+			}
 
-        synchronized (killed_mobs) {
-            Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
-            while (itr.hasNext()) {
-                GrindingInformation gi = itr.next().getValue();
-    
-                if (killer == null) {
-                    return false;
-                }
-                if (gi == null || gi.getKillerUUID() == null) {
-                    continue;
-                }
+			if (!killer.getUniqueId().equals(gi.getKillerUUID()))
+				continue;
 
-                // Purge entries whose entity has already been GC'ed (weak-ref cleared).
-                if (gi.getKilled() == null) {
-                    itr.remove();
-                    continue;
-                }
+			if (starttime > gi.getTimeOfDeath() + (1000L * plugin.getConfigManager().speedGrindingTimeFrame)) {
+				// delete after x min
+				to_be_deleted.add(gi.getEntityId());
+				continue;
+			}
 
-                if (!killer.getUniqueId().equals(gi.getKillerUUID()))
-                    continue;
-
-                if (starttime > gi.getTimeOfDeath() + (1000L * plugin.getConfigManager().speedGrindingTimeFrame)) {
-                    itr.remove();
-                    continue;
-                }
-
-                n++; // No of killed mobs
-                oldestKill = Math.min(oldestKill, gi.getTimeOfDeath());
-            }
-        }
-
-        if (n == 0) {
-            return false;
-        }
-
-        long timeframe = (starttime - oldestKill) / 1000L;
-        long avg_time = timeframe / (long) n; // sec.
-
-        MessageHelper.debug(
-            "%s has killed %s %s in %s seconds. Avg.kill time %s must greater than %s when %s mobs is killed.",
-            killer.getName(), n, mob.getMobName(), timeframe, avg_time,
-            plugin.getConfigManager().speedGrindingTimeFrame / plugin.getConfigManager().speedGrindingNoOfMobs,
-            plugin.getConfigManager().speedGrindingNoOfMobs
-        );
-
-        if (avg_time != 0
-                && n >= plugin.getConfigManager().speedGrindingNoOfMobs
-                && avg_time < plugin.getConfigManager().speedGrindingTimeFrame
-                        / plugin.getConfigManager().speedGrindingNoOfMobs) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-
+			n++; // No of killed mobs
+			oldestKill = Math.min(oldestKill, gi.getTimeOfDeath());
+		}
+		timeframe = (starttime - oldestKill) / 1000L;
+		avg_time = timeframe / (long) n; // sec.
+		for (int i : to_be_deleted) {
+			killed_mobs.remove(i);
+		}
+		MessageHelper.debug(
+				"%s has killed %s %s in %s seconds. Avg.kill time %s must greater than %s when %s mobs is killed.",
+				killer.getName(), n, mob.getMobName(), timeframe, avg_time,
+				plugin.getConfigManager().speedGrindingTimeFrame / plugin.getConfigManager().speedGrindingNoOfMobs,
+				plugin.getConfigManager().speedGrindingNoOfMobs);
+		if (avg_time != 0 && n >= plugin.getConfigManager().speedGrindingNoOfMobs
+				&& avg_time < plugin.getConfigManager().speedGrindingTimeFrame
+						/ plugin.getConfigManager().speedGrindingNoOfMobs) {
+			return true;
+		} else
+			return false;
+	}
 
 	/**
 	 * Test if the killed mob is killed in a NetherGoldXPFarm
@@ -196,74 +162,52 @@ public void registerDeath(LivingEntity killer, LivingEntity killed) {
 	 * @return true if the location is detected as a NetherGoldXPFarm, or if the
 	 *         area is detected as a Grinding Area
 	 */
-public boolean isNetherGoldXPFarm(LivingEntity killed, boolean silent) {
-	int n = 0;
-	long now = System.currentTimeMillis();
-	final long seconds = plugin.getConfigManager().secondsToSearchForGrinding;
-	final double killRadius = plugin.getConfigManager().rangeToSearchForGrinding;
-	final int numberOfDeaths = plugin.getConfigManager().numberOfDeathsWhenSearchingForGringding;
+	public boolean isNetherGoldXPFarm(LivingEntity killed, boolean silent) {
+		int n = 0;
+		long now = System.currentTimeMillis();
+		final long seconds = plugin.getConfigManager().secondsToSearchForGrinding;
+		final double killRadius = plugin.getConfigManager().rangeToSearchForGrinding;
+		final int numberOfDeaths = plugin.getConfigManager().numberOfDeathsWhenSearchingForGringding;
+		if (MobType.getMobType(killed) == MobType.ZombiePigman) {
+			if (killed.getLastDamageCause().getCause() == DamageCause.FALL) {
+				Area detectedGrindingArea = getGrindingArea(killed.getLocation());
+				if (detectedGrindingArea == null) {
+					Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
+					while (itr.hasNext()) {
+						GrindingInformation gi = itr.next().getValue();
 
-	if (killed == null) return false;
+						Entity e = gi != null ? gi.getKilled() : null;
+						if (e == null) {
+							// Remove cleared/invalid entries to keep map tidy.
+							itr.remove();
+							continue;
+						}
 
-	if (MobType.getMobType(killed) == MobType.ZombiePigman) {
-		if (killed.getLastDamageCause() == null) return false;
-		if (killed.getLastDamageCause().getCause() == DamageCause.FALL) {
+						if (!killed.getWorld().equals(e.getWorld()))
+							continue;
 
-			// Quick guard for misconfigured radius.
-			if (killRadius <= 0D) return false;
-
-			final World world = killed.getWorld();
-			if (world == null) return false;
-
-			final Location killedLoc = killed.getLocation();
-			final double radiusSq = killRadius * killRadius;
-			final int killedId = killed.getEntityId();
-			final long cutoff = now - (seconds * 1000L);
-
-			Area detectedGrindingArea = getGrindingArea(killedLoc);
-			if (detectedGrindingArea != null) {
-				if (!silent) {
-					World w = detectedGrindingArea.getCenter().getWorld();
-					MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
-							(w == null ? "<unloaded>" : w.getName()),
-							detectedGrindingArea.getCenter().getBlockX(),
-							detectedGrindingArea.getCenter().getBlockY(),
-							detectedGrindingArea.getCenter().getBlockZ());
-				}
-				return true;
-			}
-
-			// Iterate only recent kills in THIS world, newest->oldest; break at cutoff
-			final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
-			if (dq != null) {
-				// Opportunistic trimming of stale heads (keeps scans short)
-				for (;;) {
-					GrindingInformation head = dq.peekFirst();
-					if (head == null) break;
-					if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
-						dq.pollFirst();
-					} else {
-						break;
-					}
-				}
-				for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
-					GrindingInformation gi = it.next();
-					if (gi == null) continue;
-
-					// Stop scanning once we’re older than the window
-					if (gi.getTimeOfDeath() < cutoff) break;
-
-					Entity e = gi.getKilled();
-					if (e == null) continue; // let purge remove later
-					if (e.getEntityId() == killedId) continue;
-
-					// Match Pigmen (keeps your MobType logic)
-					if (e instanceof LivingEntity && MobType.getMobType((LivingEntity) e) == MobType.ZombiePigman) {
-						Location eLoc = e.getLocation();
-						if (eLoc != null && killedLoc.distanceSquared(eLoc) <= radiusSq) {
-							n++;
-							if (n >= numberOfDeaths) {
-								Area area = new Area(killedLoc, killRadius, numberOfDeaths);
+						if (MobType.getMobType((LivingEntity) e) == MobType.ZombiePigman
+								&& e.getEntityId() != killed.getEntityId()) {
+							if (n < numberOfDeaths) {
+								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
+									if (killed.getLocation().distance(e.getLocation()) < killRadius) {
+										n++;
+										// MessageHelper.debug("This was
+										// not a Nether
+										// Gold XP Farm (%s sec.)",
+										// new Date(now -
+										// gi.getTimeOfDeath()).getSeconds());
+									}
+								} else {
+									// MessageHelper.debug("Removing old
+									// kill.
+									// (Killed %s seconds ago).",
+									// Math.round((now - gi.getTimeOfDeath()) /
+									// 1000L));
+									itr.remove();
+								}
+							} else {
+								Area area = new Area(killed.getLocation(), killRadius, numberOfDeaths);
 								MessageHelper.debug("New Nether Gold XP Farm detected at (%s,%s,%s,%s)",
 										area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
 										area.getCenter().getBlockY(), area.getCenter().getBlockZ());
@@ -272,18 +216,23 @@ public boolean isNetherGoldXPFarm(LivingEntity killed, boolean silent) {
 							}
 						}
 					}
+				} else {
+					if (!silent)
+						MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
+								detectedGrindingArea.getCenter().getWorld().getName(),
+								detectedGrindingArea.getCenter().getBlockX(),
+								detectedGrindingArea.getCenter().getBlockY(),
+								detectedGrindingArea.getCenter().getBlockZ());
+					return true;
 				}
 			}
 		}
+		if (!silent)
+			MessageHelper.debug(
+					"Farm detection: This was not a Nether Gold XP Farm (%s of %s mobs with last %s sec.)", n,
+					numberOfDeaths, seconds);
+		return false;
 	}
-	if (!silent)
-		MessageHelper.debug(
-				"Farm detection: This was not a Nether Gold XP Farm (%s of %s mobs with last %s sec.)", n,
-				numberOfDeaths, seconds);
-	return false;
-}
-
-
 
 	/**
 	 * Test if the killed mob is killed in a EndermanFarm
@@ -293,184 +242,131 @@ public boolean isNetherGoldXPFarm(LivingEntity killed, boolean silent) {
 	 * @return true if the locatnewAreaion is detected as a EndermanFarm, or if the
 	 *         area is detected as a Grinding Area
 	 */
-public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
-	int n = 0;
-	long now = System.currentTimeMillis();
-	final long seconds = plugin.getConfigManager().secondsToSearchForGrindingOnEndermanFarms;
-	final double killRadius = plugin.getConfigManager().rangeToSearchForGrindingOnEndermanFarms;
-	final int numberOfDeaths = plugin.getConfigManager().numberOfDeathsWhenSearchingForGringdingOnEndermanFarms;
+	public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
+		int n = 0;
+		long now = System.currentTimeMillis();
+		final long seconds = plugin.getConfigManager().secondsToSearchForGrindingOnEndermanFarms;
+		final double killRadius = plugin.getConfigManager().rangeToSearchForGrindingOnEndermanFarms;
+		final int numberOfDeaths = plugin.getConfigManager().numberOfDeathsWhenSearchingForGringdingOnEndermanFarms;
+		if (MobType.getMobType(killed) == MobType.Enderman) {
+			if (killed.getLastDamageCause().getCause() == DamageCause.VOID) {
+				Area detectedGrindingArea = getGrindingArea(killed.getLocation());
+				if (detectedGrindingArea == null) {
+					Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
+					while (itr.hasNext()) {
+						GrindingInformation gi = itr.next().getValue();
 
-	if (killed == null) return false;
+						Entity e = gi != null ? gi.getKilled() : null;
+						if (e == null) {
+							itr.remove();
+							continue;
+						}
 
-	if (MobType.getMobType(killed) == MobType.Enderman) {
-		if (killed.getLastDamageCause() == null) return false;
-		if (killed.getLastDamageCause().getCause() == DamageCause.VOID) {
+						if (!killed.getWorld().equals(e.getWorld()))
+							continue;
 
-			// Guard against misconfigured radius.
-			if (killRadius <= 0D) return false;
-
-			final World world = killed.getWorld();
-			if (world == null) return false;
-
-			final Location killedLoc = killed.getLocation();
-			final double radiusSq = killRadius * killRadius;
-			final int killedId = killed.getEntityId();
-			final long cutoff = now - (seconds * 1000L);
-
-			Area detectedGrindingArea = getGrindingArea(killedLoc);
-			if (detectedGrindingArea != null) {
-				if (!silent) {
-					World w = detectedGrindingArea.getCenter().getWorld();
-					MessageHelper.debug("This is a known Enderman Farm area: (%s,%s,%s,%s)",
-							(w == null ? "<unloaded>" : w.getName()),
-							detectedGrindingArea.getCenter().getBlockX(),
-							detectedGrindingArea.getCenter().getBlockY(),
-							detectedGrindingArea.getCenter().getBlockZ());
-				}
-				return true;
-			}
-
-			final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
-			if (dq != null) {
-				// Opportunistic trimming of stale heads
-				for (;;) {
-					GrindingInformation head = dq.peekFirst();
-					if (head == null) break;
-					if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
-						dq.pollFirst();
-					} else {
-						break;
-					}
-				}
-				for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
-					GrindingInformation gi = it.next();
-					if (gi == null) continue;
-					if (gi.getTimeOfDeath() < cutoff) break;
-
-					Entity e = gi.getKilled();
-					if (e == null) continue;
-					if (e.getEntityId() == killedId) continue;
-
-					if (e.getType() == EntityType.ENDERMAN) {
-						Location eLoc = e.getLocation();
-						if (eLoc != null && killedLoc.distanceSquared(eLoc) <= radiusSq) {
-							n++;
-							if (n >= numberOfDeaths) {
-								Area area = new Area(killedLoc, killRadius, numberOfDeaths);
+						if (killed.getType() == EntityType.ENDERMAN && e.getType() == killed.getType()
+								&& e.getEntityId() != killed.getEntityId()) {
+							if (n < numberOfDeaths) {
+								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
+									if (killed.getLocation().distance(e.getLocation()) < killRadius) {
+										n++;
+									}
+								} else {
+									// Removing old kill.
+									itr.remove();
+								}
+							} else {
+								Area area = new Area(killed.getLocation(), killRadius, numberOfDeaths);
 								MessageHelper.debug("New Enderman Farm detected at (%s,%s,%s,%s)",
 										area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
 										area.getCenter().getBlockY(), area.getCenter().getBlockZ());
 								registerKnownGrindingSpot(area);
 								return true;
 							}
-						}
+						} // This was not an Enderman:
 					}
+				} else {
+					if (!silent)
+						MessageHelper.debug("This is a known Enderman Farm area: (%s,%s,%s,%s)",
+								detectedGrindingArea.getCenter().getWorld().getName(),
+								detectedGrindingArea.getCenter().getBlockX(),
+								detectedGrindingArea.getCenter().getBlockY(),
+								detectedGrindingArea.getCenter().getBlockZ());
+					return true;
 				}
 			}
 		}
+		if (!silent)
+			MessageHelper.debug(
+					"Farm detection: This was not an Enderman Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
+					n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
+					killed.getLocation().getY(), killed.getLocation().getZ());
+		return false;
 	}
 
-	if (!silent)
-		MessageHelper.debug(
-				"Farm detection: This was not an Enderman Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
-				n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
-				killed.getLocation().getY(), killed.getLocation().getZ());
-	return false;
-}
+	public boolean isOtherFarm(LivingEntity killed, boolean silent) {
+		int n = 0;
+		long now = System.currentTimeMillis();
+		final long seconds = plugin.getConfigManager().secondsToSearchForGrindingOnOtherFarms;
+		final double killRadius = plugin.getConfigManager().rangeToSearchForGrindingOnOtherFarms;
+		final int numberOfDeaths = plugin.getConfigManager().numberOfDeathsWhenSearchingForGringdingOnOtherFarms;
+		if (MobType.getMobType(killed) == MobType.ZombiePigman) {
+			if (killed.getLastDamageCause().getCause() == DamageCause.FALL) {
+				Area detectedGrindingArea = getGrindingArea(killed.getLocation());
+				if (detectedGrindingArea == null) {
+					Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
+					while (itr.hasNext()) {
+						GrindingInformation gi = itr.next().getValue();
 
+						Entity e = gi != null ? gi.getKilled() : null;
+						if (e == null) {
+							itr.remove();
+							continue;
+						}
 
+						if (!killed.getWorld().equals(e.getWorld()))
+							continue;
 
-
-
-public boolean isOtherFarm(LivingEntity killed, boolean silent) {
-	int n = 0;
-	long now = System.currentTimeMillis();
-	final long seconds = plugin.getConfigManager().secondsToSearchForGrindingOnOtherFarms;
-	final double killRadius = plugin.getConfigManager().rangeToSearchForGrindingOnOtherFarms;
-	final int numberOfDeaths = plugin.getConfigManager().numberOfDeathsWhenSearchingForGringdingOnOtherFarms;
-
-	if (killed == null) return false;
-
-	if (MobType.getMobType(killed) == MobType.ZombiePigman) {
-		if (killed.getLastDamageCause() == null) return false;
-		if (killed.getLastDamageCause().getCause() == DamageCause.FALL) {
-
-			// Guard against misconfiguration
-			if (killRadius <= 0D) return false;
-
-			final World killedWorld = killed.getWorld();
-			if (killedWorld == null) return false;
-
-			final Location killedLoc = killed.getLocation();
-			final int killedId = killed.getEntityId();
-			final double radiusSq = killRadius * killRadius;
-			final long cutoff = now - (seconds * 1000L);
-
-			Area detectedGrindingArea = getGrindingArea(killedLoc);
-			if (detectedGrindingArea != null) {
-				if (!silent)
-					MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
-							detectedGrindingArea.getCenter().getWorld() != null
-									? detectedGrindingArea.getCenter().getWorld().getName()
-									: "<unloaded>",
-							detectedGrindingArea.getCenter().getBlockX(),
-							detectedGrindingArea.getCenter().getBlockY(),
-							detectedGrindingArea.getCenter().getBlockZ());
-				return true;
-			}
-
-			final Deque<GrindingInformation> dq = killsByWorld.get(killedWorld.getUID());
-			if (dq != null) {
-				// Opportunistic trimming of stale heads
-				for (;;) {
-					GrindingInformation head = dq.peekFirst();
-					if (head == null) break;
-					if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
-						dq.pollFirst();
-					} else {
-						break;
-					}
-				}
-				for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
-					GrindingInformation gi = it.next();
-					if (gi == null) continue;
-					if (gi.getTimeOfDeath() < cutoff) break;
-
-					Entity e = gi.getKilled();
-					if (e == null) continue;
-					if (e.getEntityId() == killedId) continue;
-
-					// NOTE: "other farm" logic in your original code did not filter type,
-					// so we keep it that way: any nearby mob death within the window counts.
-					Location eLoc = e.getLocation();
-					if (eLoc != null && killedLoc.distanceSquared(eLoc) <= radiusSq) {
-						n++;
-						if (n >= numberOfDeaths) {
-							Area area = new Area(killedLoc, killRadius, numberOfDeaths);
-							if (!silent)
-								MessageHelper.debug("New Generic / Other Farm detected at (%s,%s,%s,%s)",
-										area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
-										area.getCenter().getBlockY(), area.getCenter().getBlockZ());
-							registerKnownGrindingSpot(area);
-							return true;
+						if (e.getEntityId() != killed.getEntityId()) {
+							if (n < numberOfDeaths) {
+								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
+									if (killed.getLocation().distance(e.getLocation()) < killRadius) {
+										n++;
+									}
+								} else {
+									// Removing old kill.
+									itr.remove();
+								}
+							} else {
+								Area area = new Area(killed.getLocation(), killRadius, numberOfDeaths);
+								if (!silent)
+									MessageHelper.debug("New Generic / Other Farm detected at (%s,%s,%s,%s)",
+											area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
+											area.getCenter().getBlockY(), area.getCenter().getBlockZ());
+								registerKnownGrindingSpot(area);
+								return true;
+							}
 						}
 					}
+				} else {
+					if (!silent)
+						MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
+								detectedGrindingArea.getCenter().getWorld().getName(),
+								detectedGrindingArea.getCenter().getBlockX(),
+								detectedGrindingArea.getCenter().getBlockY(),
+								detectedGrindingArea.getCenter().getBlockZ());
+					return true;
 				}
 			}
 		}
+		if (!silent)
+			MessageHelper.debug(
+					"Farm detection: This was not an genric / other Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
+					n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
+					killed.getLocation().getY(), killed.getLocation().getZ());
+		return false;
 	}
-
-	if (!silent)
-		MessageHelper.debug(
-				"Farm detection: This was not a generic / other Farm (%s of %s mobs with last %s sec.) at (%s,%s,%s,%s)",
-				n, numberOfDeaths, seconds, killed.getWorld(), killed.getLocation().getX(),
-				killed.getLocation().getY(), killed.getLocation().getZ());
-	return false;
-}
-
-
-
-
 
 	// ****************************************************************
 	// Events
@@ -484,81 +380,58 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 		}
 	}
 
-
-    @EventHandler
-    private void onWorldUnLoad(WorldUnloadEvent event) {
-	    List<Area> areas = getWhitelistedAreas(event.getWorld());
-	    if (areas != null) {
-	    	for (Area area : areas)
-	    		area.getCenter().setWorld(null);
-	    }
-	    killsByWorld.remove(event.getWorld().getUID()); // optional cleanup
-    }
+	@EventHandler
+	private void onWorldUnLoad(WorldUnloadEvent event) {
+		List<Area> areas = getWhitelistedAreas(event.getWorld());
+		if (areas != null) {
+			for (Area area : areas)
+				area.getCenter().setWorld(null);
+		}
+	}
 
 	// ****************************************************************
 	// Blacklist
 	// ****************************************************************
 	public LinkedList<Area> getKnownGrindingSpots(Location loc) {
-		if (loc == null) return new LinkedList<>();
-		World w = loc.getWorld();
-		if (w == null) return new LinkedList<>();
-
-		if (mBlacklistedAreas.containsKey(w.getUID()))
-			return mBlacklistedAreas.get(w.getUID());
+		if (mBlacklistedAreas.containsKey(loc.getWorld().getUID()))
+			return mBlacklistedAreas.get(loc.getWorld().getUID());
 		else
 			return new LinkedList<Area>();
 	}
 
-
 	public void addKnownGrindingSpot(Area area) {
-		if (area == null) return;
-		Location c = area.getCenter();
-		if (c == null) return;
-		World w = c.getWorld();
-		if (w == null) return;
-
-		LinkedList<Area> list = getKnownGrindingSpots(c);
+		LinkedList<Area> list = getKnownGrindingSpots(area.getCenter());
 		list.add(area);
-		mBlacklistedAreas.put(w.getUID(), list);
+		mBlacklistedAreas.put(area.getCenter().getWorld().getUID(), list);
 		saveBlacklist = true;
 	}
-
 
 	private boolean saveBlacklist() {
 		YamlConfiguration blacklist = new YamlConfiguration();
 		File file = new File(MobHunting.getInstance().getDataFolder(), "blacklist.yml");
 
-		try {
-			for (Entry<UUID, LinkedList<Area>> entry : mBlacklistedAreas.entrySet()) {
-				ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-				if (entry.getValue() == null) continue;
-
-				for (Area area : entry.getValue()) {
-					if (area == null || area.getCenter() == null) continue;
-
-					HashMap<String, Object> map = new HashMap<String, Object>();
-					map.put("Center", Tools.toMap(area.getCenter()));
-					map.put("Radius", area.getRange());
-					map.put("Counter", area.getCounter());
-					map.put("Time", area.getTime());
-					list.add(map);
-				}
-				blacklist.set(entry.getKey().toString(), list);
+		for (Entry<UUID, LinkedList<Area>> entry : mBlacklistedAreas.entrySet()) {
+			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+			for (Area area : entry.getValue()) {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("Center", Tools.toMap(area.getCenter()));
+				map.put("Radius", area.getRange());
+				map.put("Counter", area.getCounter());
+				map.put("Time", area.getTime());
+				list.add(map);
 			}
+			blacklist.set(entry.getKey().toString(), list);
+		}
 
+		try {
 			blacklist.save(file);
 			saveBlacklist = false;
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
-		} catch (Exception e) {
-			// Defensive: catch any unexpected serialization issue
-			e.printStackTrace();
-			return false;
 		}
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private boolean loadBlacklist(MobHunting instance) {
@@ -577,58 +450,28 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 
 		mBlacklistedAreas.clear();
 
-		try {
-			for (String worldId : blacklist.getKeys(false)) {
-				UUID worldUuid;
-				try {
-					worldUuid = UUID.fromString(worldId);
-				} catch (IllegalArgumentException ex) {
-					// Skip malformed key
-					continue;
-				}
+		for (String worldId : blacklist.getKeys(false)) {
+			UUID world = UUID.fromString(worldId);
+			List<Map<String, Object>> list = (List<Map<String, Object>>) blacklist.getList(worldId);
+			LinkedList<Area> areas = new LinkedList<Area>();
 
-				List<?> rawList = blacklist.getList(worldId);
-				if (rawList == null) continue;
+			if (list == null)
+				continue;
 
-				LinkedList<Area> areas = new LinkedList<Area>();
-				for (Object o : rawList) {
-					if (!(o instanceof Map)) continue;
-					Map<String, Object> map = (Map<String, Object>) o;
+			for (Map<String, Object> map : list) {
+				Area area = new Area(Tools.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
+						(int) map.getOrDefault("Counter", 0),
+						(long) map.getOrDefault("Time", System.currentTimeMillis()));
+				areas.add(area);
+			}
 
-					try {
-						Object centerObj = map.get("Center");
-						if (!(centerObj instanceof Map)) continue;
-						Location center = Tools.fromMap((Map<String, Object>) centerObj);
-						if (center == null) continue;
-
-						Object r = map.get("Radius");
-						double radius = (r instanceof Number) ? ((Number) r).doubleValue() : 0D;
-
-						Object c = map.get("Counter");
-						int counter = (c instanceof Number) ? ((Number) c).intValue() : 0;
-
-						Object t = map.get("Time");
-						long time = (t instanceof Number) ? ((Number) t).longValue() : System.currentTimeMillis();
-
-						areas.add(new Area(center, radius, counter, time));
-					} catch (ClassCastException ex) {
-						// Skip malformed entry, continue loading others
-						continue;
-					}
-				}
-
-				// Only insert for currently loaded worlds (matches original behavior)
-				for (World w : Bukkit.getWorlds()) {
-					if (w.getUID().equals(worldUuid)) {
-						mBlacklistedAreas.put(worldUuid, areas);
-						break;
-					}
+			for (World w : Bukkit.getWorlds()) {
+				if (w.getUID().equals(world)) {
+					mBlacklistedAreas.put(world, areas);
+					break;
 				}
 			}
-		} catch (Exception e) {
-			// Defensive: avoid failing the whole load on a single bad node
-			e.printStackTrace();
-			// still return true so plugin can continue; file might be partially usable
+
 		}
 
 		return true;
@@ -658,103 +501,55 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 	}
 
 	public Area getGrindingArea(Location location) {
-		if (location == null) return null;
-		final World world = location.getWorld();
-		if (world == null) return null;
-
 		LinkedList<Area> areas = getKnownGrindingSpots(location);
-		final double lx = location.getX();
-		final double ly = location.getY();
-		final double lz = location.getZ();
-
 		for (Area area : areas) {
-			final Location c = area.getCenter();
-			final World cw = c.getWorld();
-			if (cw == null || !cw.equals(world)) continue;
-
-			final double dx = c.getX() - lx;
-			final double dy = c.getY() - ly;
-			final double dz = c.getZ() - lz;
-			if ((dx * dx + dy * dy + dz * dz) < (area.getRange() * area.getRange())) {
-				return area;
+			if (area.getCenter().getWorld().equals(location.getWorld())) {
+				if (area.getCenter().distance(location) < area.getRange()) {
+					return area;
+				}
 			}
 		}
+
 		return null;
 	}
 
-
-
 	public boolean isGrindingArea(Location location) {
-		if (location == null) return false;
-		final World world = location.getWorld();
-		if (world == null) return false;
-
-		LinkedList<Area> areas = getKnownGrindingSpots(location);
-		final double lx = location.getX();
-		final double ly = location.getY();
-		final double lz = location.getZ();
-
-		for (Area area : areas) {
-			final Location c = area.getCenter();
-			final World cw = c.getWorld();
-			if (cw == null || !cw.equals(world)) continue;
-
-			final double dx = c.getX() - lx;
-			final double dy = c.getY() - ly;
-			final double dz = c.getZ() - lz;
-			if ((dx * dx + dy * dy + dz * dz) < (area.getRange() * area.getRange())) {
-				return true;
+		if (location != null) {
+			LinkedList<Area> areas = getKnownGrindingSpots(location);
+			for (Area area : areas) {
+				if (area.getCenter().getWorld() != null && area.getCenter().getWorld().equals(location.getWorld())) {
+					if (area.getCenter().distance(location) < area.getRange()) {
+						return true;
+					}
+				}
 			}
 		}
 		return false;
 	}
 
-
-
 	public void clearGrindingArea(Location location) {
-		if (location == null) return;
-		final World world = location.getWorld();
-		if (world == null) return;
-
-		final double lx = location.getX();
-		final double ly = location.getY();
-		final double lz = location.getZ();
-
 		Iterator<Area> it = getKnownGrindingSpots(location).iterator();
 		while (it.hasNext()) {
 			Area area = it.next();
-			final Location c = area.getCenter();
-			final World cw = c.getWorld();
 
-			// If the area's world is null (unloaded) or matches the location's world, consider removal.
-			if (cw == null || cw.equals(world)) {
-				final double dx = c.getX() - lx;
-				final double dy = c.getY() - ly;
-				final double dz = c.getZ() - lz;
-				if ((dx * dx + dy * dy + dz * dz) < (area.getRange() * area.getRange())) {
+			if (area.getCenter().getWorld() == null || area.getCenter().getWorld().equals(location.getWorld())) {
+				if (area.getCenter().distance(location) < area.getRange()) {
 					it.remove();
 				}
 			}
 		}
 	}
 
-
-
 	public void blacklistArea(Area newArea) {
-		if (newArea == null) return;
-		Location c = newArea.getCenter();
-		if (c == null) return;
-		World w = c.getWorld();
-		if (w == null) return;
-
-		LinkedList<Area> areas = mBlacklistedAreas.get(w.getUID());
+		LinkedList<Area> areas = mBlacklistedAreas.get(newArea.getCenter().getWorld().getUID());
 		if (areas == null) {
 			areas = new LinkedList<Area>();
+			mBlacklistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
 		}
 
 		for (Area area : areas) {
-			if (c.getWorld().equals(area.getCenter().getWorld())) {
-				double dist = c.distance(area.getCenter());
+			if (newArea.getCenter().getWorld().equals(area.getCenter().getWorld())) {
+				double dist = newArea.getCenter().distance(area.getCenter());
 
 				double remaining = dist;
 				remaining -= area.getRange();
@@ -765,94 +560,76 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 						area.setRange(dist);
 
 					area.setCounter(newArea.getCounter() + 1);
-					mBlacklistedAreas.put(w.getUID(), areas);
-					saveBlacklist = true;
+
 					return;
 				}
 			}
 		}
 		areas.add(newArea);
-		mBlacklistedAreas.put(w.getUID(), areas);
+		mBlacklistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
 		saveBlacklist = true;
 	}
 
-
 	public void unBlacklistArea(Location location) {
-		if (location == null) return;
-		World w = location.getWorld();
-		if (w == null) return;
+		LinkedList<Area> areas = mBlacklistedAreas.get(location.getWorld().getUID());
 
-		LinkedList<Area> areas = mBlacklistedAreas.get(w.getUID());
-		if (areas == null) return;
+		if (areas == null)
+			return;
 
 		Iterator<Area> it = areas.iterator();
 		while (it.hasNext()) {
 			Area area = it.next();
-			Location c = area.getCenter();
-			if (c == null) continue;
-			World cw = c.getWorld();
-			if (cw != null && !cw.equals(w)) continue;
 
-			if (c.distance(location) < area.getRange()) {
-				it.remove();
+			if (area.getCenter().getWorld().equals(location.getWorld())) {
+				if (area.getCenter().distance(location) < area.getRange()) {
+					it.remove();
+				}
 			}
 		}
 		if (areas.isEmpty())
-			mBlacklistedAreas.remove(w.getUID());
+			mBlacklistedAreas.remove(location.getWorld().getUID());
 		else
-			mBlacklistedAreas.put(w.getUID(), areas);
+			mBlacklistedAreas.put(location.getWorld().getUID(), areas);
 		saveBlacklist = true;
 	}
-
 
 	// ****************************************************************
 	// Whitelisted Areas
 	// ****************************************************************
 
 	public LinkedList<Area> getWhitelistedAreas(World world) {
-		if (world == null) return new LinkedList<>();
 		if (mWhitelistedAreas.containsKey(world.getUID()))
 			return mWhitelistedAreas.get(world.getUID());
 		else
 			return new LinkedList<Area>();
 	}
 
-
 	private boolean saveWhitelist() {
 		YamlConfiguration whitelist = new YamlConfiguration();
 		File file = new File(MobHunting.getInstance().getDataFolder(), "whitelist.yml");
 
-		try {
-			for (Entry<UUID, LinkedList<Area>> entry : mWhitelistedAreas.entrySet()) {
-				ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-				if (entry.getValue() == null) continue;
-
-				for (Area area : entry.getValue()) {
-					if (area == null || area.getCenter() == null) continue;
-
-					HashMap<String, Object> map = new HashMap<String, Object>();
-					map.put("Center", Tools.toMap(area.getCenter()));
-					map.put("Radius", area.getRange());
-					map.put("Counter", area.getCounter());
-					map.put("Time", area.getTime());
-					list.add(map);
-				}
-				whitelist.set(entry.getKey().toString(), list);
+		for (Entry<UUID, LinkedList<Area>> entry : mWhitelistedAreas.entrySet()) {
+			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+			for (Area area : entry.getValue()) {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("Center", Tools.toMap(area.getCenter()));
+				map.put("Radius", area.getRange());
+				map.put("Counter", area.getCounter());
+				map.put("Time", area.getTime());
+				list.add(map);
 			}
+			whitelist.set(entry.getKey().toString(), list);
+		}
 
+		try {
 			whitelist.save(file);
 			saveWhitelist = false;
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
-		} catch (Exception e) {
-			// Defensive: catch any unexpected serialization issue
-			e.printStackTrace();
-			return false;
 		}
 	}
-
 
 	@SuppressWarnings("unchecked")
 	private boolean loadWhitelist(MobHunting instance) {
@@ -874,126 +651,67 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 
 		mWhitelistedAreas.clear();
 
-		try {
-			for (String worldId : whitelist.getKeys(false)) {
-				UUID worldUuid;
-				try {
-					worldUuid = UUID.fromString(worldId);
-				} catch (IllegalArgumentException ex) {
-					// Skip malformed key
-					continue;
-				}
+		for (String worldId : whitelist.getKeys(false)) {
+			UUID world = UUID.fromString(worldId);
+			List<Map<String, Object>> list = (List<Map<String, Object>>) whitelist.getList(worldId);
+			LinkedList<Area> areas = new LinkedList<Area>();
 
-				List<?> rawList = whitelist.getList(worldId);
-				if (rawList == null) continue;
+			if (list == null)
+				continue;
 
-				LinkedList<Area> areas = new LinkedList<Area>();
-				for (Object o : rawList) {
-					if (!(o instanceof Map)) continue;
-					Map<String, Object> map = (Map<String, Object>) o;
+			for (Map<String, Object> map : list) {
+				Area area = new Area(Tools.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
+						(int) map.getOrDefault("Counter", 0),
+						(long) map.getOrDefault("Time", System.currentTimeMillis()));
+				areas.add(area);
+			}
 
-					try {
-						Object centerObj = map.get("Center");
-						if (!(centerObj instanceof Map)) continue;
-						Location center = Tools.fromMap((Map<String, Object>) centerObj);
-						if (center == null) continue;
-
-						Object r = map.get("Radius");
-						double radius = (r instanceof Number) ? ((Number) r).doubleValue() : 0D;
-
-						Object c = map.get("Counter");
-						int counter = (c instanceof Number) ? ((Number) c).intValue() : 0;
-
-						Object t = map.get("Time");
-						long time = (t instanceof Number) ? ((Number) t).longValue() : System.currentTimeMillis();
-
-						areas.add(new Area(center, radius, counter, time));
-					} catch (ClassCastException ex) {
-						// Skip malformed entry, continue with others
-						continue;
-					}
-				}
-
-				// Only insert for currently loaded worlds (preserves original behavior)
-				for (World w : Bukkit.getWorlds()) {
-					if (w.getUID().equals(worldUuid)) {
-						mWhitelistedAreas.put(worldUuid, areas);
-						break;
-					}
+			for (World w : Bukkit.getWorlds()) {
+				if (w.getUID().equals(world)) {
+					mWhitelistedAreas.put(world, areas);
+					break;
 				}
 			}
-		} catch (Exception e) {
-			// Defensive: avoid failing the whole load on a single bad node
-			e.printStackTrace();
-			// still return true; partial lists are better than none
 		}
 
 		return true;
 	}
 
-
 	public boolean isWhitelisted(Location location) {
-		if (location == null) return false;
-		World w = location.getWorld();
-		if (w == null) return false;
-
-		LinkedList<Area> areas = mWhitelistedAreas.get(w.getUID());
-		if (areas == null) return false;
-
+		LinkedList<Area> areas = mWhitelistedAreas.get(location.getWorld().getUID());
+		if (areas == null)
+			return false;
 		for (Area area : areas) {
-			Location c = area.getCenter();
-			if (c == null || c.getWorld() == null || !c.getWorld().equals(w)) continue;
-			if (c.distance(location) < area.getRange()) {
+			if (area.getCenter().distance(location) < area.getRange()) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-
-
 	public Area getWhitelistArea(Location location) {
-		if (location == null) return null;
-		final World world = location.getWorld();
-		if (world == null) return null;
-
-		LinkedList<Area> areas = getWhitelistedAreas(world);
-		final double lx = location.getX();
-		final double ly = location.getY();
-		final double lz = location.getZ();
-
+		LinkedList<Area> areas = getWhitelistedAreas(location.getWorld());
 		for (Area area : areas) {
-			final Location c = area.getCenter();
-			final World cw = c.getWorld();
-			if (cw == null || !cw.equals(world)) continue;
-
-			final double dx = c.getX() - lx;
-			final double dy = c.getY() - ly;
-			final double dz = c.getZ() - lz;
-			if ((dx * dx + dy * dy + dz * dz) < (area.getRange() * area.getRange())) {
-				return area;
+			if (area.getCenter().getWorld() != null && area.getCenter().getWorld().equals(location.getWorld())) {
+				if (area.getCenter().distance(location) < area.getRange()) {
+					return area;
+				}
 			}
 		}
 		return null;
 	}
 
-
 	public void whitelistArea(Area newArea) {
-		if (newArea == null) return;
-		Location c = newArea.getCenter();
-		if (c == null) return;
-		World w = c.getWorld();
-		if (w == null) return;
-
-		LinkedList<Area> areas = mWhitelistedAreas.get(w.getUID());
+		LinkedList<Area> areas = mWhitelistedAreas.get(newArea.getCenter().getWorld().getUID());
 		if (areas == null) {
 			areas = new LinkedList<Area>();
-			mWhitelistedAreas.put(w.getUID(), areas);
+			mWhitelistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
+
 		}
 
 		for (Area area : areas) {
-			if (c.getWorld().equals(area.getCenter().getWorld())) {
-				double dist = c.distance(area.getCenter());
+			if (newArea.getCenter().getWorld().equals(area.getCenter().getWorld())) {
+				double dist = newArea.getCenter().distance(area.getCenter());
 
 				double remaining = dist;
 				remaining -= area.getRange();
@@ -1004,43 +722,37 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 						area.setRange(dist);
 
 					area.setCounter(newArea.getCounter() + 1);
-					saveWhitelist = true;
+
 					return;
 				}
 			}
 		}
 		areas.add(newArea);
-		mWhitelistedAreas.put(w.getUID(), areas);
+		mWhitelistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
 		saveWhitelist = true;
 	}
 
-
 	public void unWhitelistArea(Location location) {
-		if (location == null) return;
-		World w = location.getWorld();
-		if (w == null) return;
+		LinkedList<Area> areas = mWhitelistedAreas.get(location.getWorld().getUID());
 
-		LinkedList<Area> areas = mWhitelistedAreas.get(w.getUID());
-		if (areas == null) return;
+		if (areas == null)
+			return;
 
 		Iterator<Area> it = areas.iterator();
 		while (it.hasNext()) {
 			Area area = it.next();
-			Location c = area.getCenter();
-			if (c == null) continue;
-			World cw = c.getWorld();
-			if (cw != null && !cw.equals(w)) continue;
 
-			if (c.distance(location) < area.getRange())
-				it.remove();
+			if (area.getCenter().getWorld().equals(location.getWorld())) {
+				if (area.getCenter().distance(location) < area.getRange())
+					it.remove();
+			}
 		}
 		if (areas.isEmpty())
-			mWhitelistedAreas.remove(w.getUID());
+			mWhitelistedAreas.remove(location.getWorld().getUID());
 		else
-			mWhitelistedAreas.put(w.getUID(), areas);
+			mWhitelistedAreas.put(location.getWorld().getUID(), areas);
 		saveWhitelist = true;
 	}
-
 
 	/**
 	 * Check if Grindind detection is disabled in world
@@ -1059,103 +771,65 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 
 	public void showGrindingArea(Player player, Area grindingArea, Location killedLocation) {
 
-		// Fast guard: no player or not online.
-		if (player == null || !player.isOnline())
-			return;
-
-		final World playerWorld = player.getWorld();
-
-		// Smoke column at killed location (only if same world as the viewer)
-		if (killedLocation != null && killedLocation.getWorld() == playerWorld) {
-			final double kx = killedLocation.getX();
-			final double kz = killedLocation.getZ();
-			final double kBy = killedLocation.getBlockY(); // int widened to double
-
+		if (killedLocation != null) {
 			for (int n = 0; n < 5; n++) {
-				double y = kBy + 0.2 + 0.4 * n;
-				player.spawnParticle(Particle.SMOKE, kx, y, kz, 5);
+				if (player != null & player.isOnline()) {
+					double y = killedLocation.clone().getBlockY() + 0.2 + 0.4 * n;
+					player.spawnParticle(Particle.SMOKE, killedLocation.getX(), y, killedLocation.getZ(), 5);
+					if (grindingArea != null) {
+						double y2 = grindingArea.getCenter().clone().getBlockY() + 0.2 + n * 0.4;
+						player.spawnParticle(Particle.HEART, grindingArea.getCenter().getX(), y2,
+								grindingArea.getCenter().getZ(), 1);
+					}
+				}
 			}
 		}
 
-		// Grinding Area visuals (only if area is present and in the same world as the viewer)
+		// Grinding Area
 		if (grindingArea != null) {
-			final Location center = grindingArea.getCenter();
-			final World centerWorld = center.getWorld();
-			if (centerWorld == null || centerWorld != playerWorld)
-				return;
-
-			final double cx = center.getX();
-			final double cz = center.getZ();
-			final double cBy = center.getBlockY();
-
-			// Show center of grinding area (hearts up the column)
+			// Show center of grinding area
 			for (int n = 0; n < 5; n++) {
-				double y = cBy + 0.2 + 0.4 * n;
-				player.spawnParticle(Particle.HEART, cx, y, cz, 1);
+				double y = grindingArea.getCenter().clone().getBlockY() + 0.2 + 0.4 * n;
+				player.spawnParticle(Particle.HEART, grindingArea.getCenter().getX(), y,
+						grindingArea.getCenter().getZ(), 1);
 			}
 
 			// Circle around the grinding area
-			double range = plugin.getConfigManager().grindingDetectionRange;
-			if (range <= 0)
-				return; // guard against bad config
-
-			// Ensure a positive angular step (degrees), proportional to range like before
-			int stepDeg = Math.max(1, (int) (45 / range));
-
-			final double baseX = center.getBlockX() + 0.5;
-			final double baseZ = center.getBlockZ() + 0.5;
-			final double y = cBy + 0.2;
-
-			for (int deg = 0; deg < 360; deg += stepDeg) {
-				double rad = Math.toRadians(deg); // Java trig uses radians
-				double x = baseX + Math.cos(rad) * range;
-				double z = baseZ + Math.sin(rad) * range;
+			for (int n = 0; n < 360; n = n + (int) (45 / plugin.getConfigManager().grindingDetectionRange)) {
+				double x = grindingArea.getCenter().clone().getBlockX() + 0.5
+						+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange;
+				double y = grindingArea.getCenter().clone().getBlockY() + 0.2;
+				double z = grindingArea.getCenter().clone().getBlockZ() + 0.5
+						+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange;
 				player.spawnParticle(Particle.HEART, x, y, z, 1);
 			}
 		}
-	}
 
+	}
 
 	// ---------------------------------------------------------------------
 	// Internal maintenance
 	// ---------------------------------------------------------------------
-    private void purgeOldKills() {
-    	long now = System.currentTimeMillis();
-    	long windowSec = Math.max(
-    			Math.max(plugin.getConfigManager().secondsToSearchForGrindingOnOtherFarms,
-    					plugin.getConfigManager().secondsToSearchForGrindingOnEndermanFarms),
-    			plugin.getConfigManager().secondsToSearchForGrinding);
-    	windowSec = Math.max(windowSec, (long) plugin.getConfigManager().speedGrindingTimeFrame);
-    	long cutoff = now - (windowSec * 1000L);
+	private void purgeOldKills() {
+		long now = System.currentTimeMillis();
+		long windowSec = Math.max(
+				Math.max(plugin.getConfigManager().secondsToSearchForGrindingOnOtherFarms,
+						plugin.getConfigManager().secondsToSearchForGrindingOnEndermanFarms),
+				plugin.getConfigManager().secondsToSearchForGrinding);
+		windowSec = Math.max(windowSec, (long) plugin.getConfigManager().speedGrindingTimeFrame);
+		long cutoff = now - (windowSec * 1000L);
 
-
-    // Original map purge (must synchronize because purge runs async)
-    synchronized (killed_mobs) {
-        Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
-        while (itr.hasNext()) {
-            GrindingInformation gi = itr.next().getValue();
-            if (gi == null) {
-                itr.remove();
-                continue;
-            }
-            // Remove if outside time window or if the weak-referenced entity is gone.
-            if (gi.getTimeOfDeath() < cutoff || gi.getKilled() == null) {
-                itr.remove();
-            }
-        }
-    }
-
-	    // NEW: trim per-world queues from the head while entries are stale
-    	for (Deque<GrindingInformation> dq : killsByWorld.values()) {
-    		while (!dq.isEmpty()) {
-    			GrindingInformation head = dq.peekFirst();
-    			if (head == null || head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
-    				dq.pollFirst(); // drop stale
-    			} else {
-    				break; // rest are newer
-    			}
-    		}
-    	}
-    }
+		Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
+		while (itr.hasNext()) {
+			GrindingInformation gi = itr.next().getValue();
+			if (gi == null) {
+				itr.remove();
+				continue;
+			}
+			// Remove if outside time window or if the weak-referenced entity is gone.
+			if (gi.getTimeOfDeath() < cutoff || gi.getKilled() == null) {
+				itr.remove();
+			}
+		}
+	}
 }
-
