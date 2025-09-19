@@ -85,10 +85,6 @@ public class GrindingManager implements Listener {
 	 * @param killed
 	 */
 	public void registerDeath(LivingEntity killer, LivingEntity killed) {
-            if (!Bukkit.isPrimaryThread()) {
-                Bukkit.getScheduler().runTask(plugin, () -> registerDeath(killer, killed));
-                return;
-            }
 		// Do not track if grinding detection is disabled in this world.
 		if (killed == null || isGrindingDisabledInWorld(killed.getWorld()))
 			return;
