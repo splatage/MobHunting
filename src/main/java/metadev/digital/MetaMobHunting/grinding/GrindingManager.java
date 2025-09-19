@@ -13,8 +13,6 @@ import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.Collections; 
 import java.util.Deque;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
@@ -42,9 +40,8 @@ public class GrindingManager implements Listener {
 
 	private MobHunting plugin;
 	
-	// Per-world, time-ordered queue of recent kills (append on death, pop old in purge)
-    private final Map<UUID, Deque<GrindingInformation>> killsByWorld = new ConcurrentHashMap<>();
-
+	// Per-world, time-ordered queue of recent kills (main-thread only)
+    private final Map<UUID, Deque<GrindingInformation>> killsByWorld = new HashMap<>();
 
 	private boolean saveWhitelist = false;
 	private boolean saveBlacklist = false;
@@ -114,7 +111,7 @@ public void registerDeath(LivingEntity killer, LivingEntity killed) {
 
 		// NEW: per-world, time-ordered queue for fast same-world scans
 		final UUID wuid = world.getUID();
-        killsByWorld.computeIfAbsent(wuid, __ -> new ConcurrentLinkedDeque<>()).addLast(gi);
+        killsByWorld.computeIfAbsent(wuid, __ -> new LinkedList<>()).addLast(gi);
 	}
 }
 
