@@ -39,6 +39,8 @@ public class GrindingManager implements Listener {
 
 	private MobHunting plugin;
 
+    private GrindingDetectionWorker detectionWorker;
+
 	private boolean saveWhitelist = false;
 	private boolean saveBlacklist = false;
 
@@ -47,8 +49,6 @@ public class GrindingManager implements Listener {
 
 	private static HashMap<UUID, LinkedList<Area>> mBlacklistedAreas = new HashMap<>();
 	private static HashMap<UUID, LinkedList<Area>> mWhitelistedAreas = new HashMap<>();
-
-    private GrindingDetectionWorker detectionWorker;
 
 	public GrindingManager(MobHunting instance) {
 		this.plugin = instance;
