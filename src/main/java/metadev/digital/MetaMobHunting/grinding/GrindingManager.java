@@ -71,7 +71,7 @@ public class GrindingManager implements Listener {
 		windowSec = Math.max(windowSec, (long) plugin.getConfigManager().speedGrindingTimeFrame);
 		// Run every 30s..120s based on window, minimum 30s.
 		long purgeEveryTicks = 20L * Math.max(30, Math.min(120, (int) (windowSec / 2)));
-		Bukkit.getScheduler().runTaskTimerAsynchronously(instance, this::purgeOldKills, purgeEveryTicks, purgeEveryTicks);
+		Bukkit.getScheduler().runTaskTimer(instance, this::purgeOldKills, purgeEveryTicks, purgeEveryTicks);
 	}
 
 	public void saveData() {
