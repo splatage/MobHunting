@@ -1039,7 +1039,7 @@ public class GrindingManager implements Listener {
 
 			for (int n = 0; n < 5; n++) {
 				double y = kBy + 0.2 + 0.4 * n;
-				player.spawnParticle(Particle.SMOKE_NORMAL, kx, y, kz, 5);
+				player.spawnParticle(Particle.SMOKE, kx, y, kz, 5);
 			}
 		}
 
