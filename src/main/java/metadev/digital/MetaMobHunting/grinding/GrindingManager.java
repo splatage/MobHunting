@@ -35,8 +35,6 @@ import metadev.digital.metacustomitemslib.mobs.MobType;
 import metadev.digital.MetaMobHunting.MobHunting;
 import metadev.digital.MetaMobHunting.mobs.ExtendedMob;
 
-private GrindingDetectionWorker detectionWorker;
-
 public class GrindingManager implements Listener {
 
 	private MobHunting plugin;
@@ -49,6 +47,8 @@ public class GrindingManager implements Listener {
 
 	private static HashMap<UUID, LinkedList<Area>> mBlacklistedAreas = new HashMap<>();
 	private static HashMap<UUID, LinkedList<Area>> mWhitelistedAreas = new HashMap<>();
+
+    private GrindingDetectionWorker detectionWorker;
 
 	public GrindingManager(MobHunting instance) {
 		this.plugin = instance;
