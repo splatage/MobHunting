@@ -224,49 +224,7 @@ public boolean isNetherGoldXPFarm(LivingEntity killed, boolean silent) {
 			final long cutoff = now - (seconds * 1000L);
 
 			Area detectedGrindingArea = getGrindingArea(killedLoc);
-			if (detectedGrindingArea == null) {
-				// Iterate only recent kills in THIS world, newest->oldest; break at cutoff
-				final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
-				if (dq != null) {
-					// Opportunistic trimming of stale heads (keeps scans short)
-					for (;;) {
-						GrindingInformation head = dq.peekFirst();
-						if (head == null) break;
-						if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
-							dq.pollFirst();
-						} else {
-							break;
-						}
-					}
-					for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
-						GrindingInformation gi = it.next();
-						if (gi == null) continue;
-
-						// Stop scanning once we’re older than the window
-						if (gi.getTimeOfDeath() < cutoff) break;
-
-						Entity e = gi.getKilled();
-						if (e == null) continue; // let purge remove later
-						if (e.getEntityId() == killedId) continue;
-
-						// Match Pigmen (keeps your MobType logic)
-						if (e instanceof LivingEntity && MobType.getMobType((LivingEntity) e) == MobType.ZombiePigman) {
-							Location eLoc = e.getLocation();
-							if (eLoc != null && killedLoc.distanceSquared(eLoc) <= radiusSq) {
-								n++;
-								if (n >= numberOfDeaths) {
-									Area area = new Area(killedLoc, killRadius, numberOfDeaths);
-									MessageHelper.debug("New Nether Gold XP Farm detected at (%s,%s,%s,%s)",
-											area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
-											area.getCenter().getBlockY(), area.getCenter().getBlockZ());
-									registerKnownGrindingSpot(area);
-									return true;
-								}
-							}
-						}
-					}
-				}
-                else {
+			if (detectedGrindingArea != null) {
 				if (!silent) {
 					World w = detectedGrindingArea.getCenter().getWorld();
 					MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
@@ -276,6 +234,48 @@ public boolean isNetherGoldXPFarm(LivingEntity killed, boolean silent) {
 							detectedGrindingArea.getCenter().getBlockZ());
 				}
 				return true;
+			}
+
+			// Iterate only recent kills in THIS world, newest->oldest; break at cutoff
+			final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
+			if (dq != null) {
+				// Opportunistic trimming of stale heads (keeps scans short)
+				for (;;) {
+					GrindingInformation head = dq.peekFirst();
+					if (head == null) break;
+					if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
+						dq.pollFirst();
+					} else {
+						break;
+					}
+				}
+				for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
+					GrindingInformation gi = it.next();
+					if (gi == null) continue;
+
+					// Stop scanning once we’re older than the window
+					if (gi.getTimeOfDeath() < cutoff) break;
+
+					Entity e = gi.getKilled();
+					if (e == null) continue; // let purge remove later
+					if (e.getEntityId() == killedId) continue;
+
+					// Match Pigmen (keeps your MobType logic)
+					if (e instanceof LivingEntity && MobType.getMobType((LivingEntity) e) == MobType.ZombiePigman) {
+						Location eLoc = e.getLocation();
+						if (eLoc != null && killedLoc.distanceSquared(eLoc) <= radiusSq) {
+							n++;
+							if (n >= numberOfDeaths) {
+								Area area = new Area(killedLoc, killRadius, numberOfDeaths);
+								MessageHelper.debug("New Nether Gold XP Farm detected at (%s,%s,%s,%s)",
+										area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
+										area.getCenter().getBlockY(), area.getCenter().getBlockZ());
+								registerKnownGrindingSpot(area);
+								return true;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -321,45 +321,7 @@ public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
 			final long cutoff = now - (seconds * 1000L);
 
 			Area detectedGrindingArea = getGrindingArea(killedLoc);
-			if (detectedGrindingArea == null) {
-				final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
-				if (dq != null) {
-					// Opportunistic trimming of stale heads
-					for (;;) {
-						GrindingInformation head = dq.peekFirst();
-						if (head == null) break;
-						if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
-							dq.pollFirst();
-						} else {
-							break;
-						}
-					}
-					for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
-						GrindingInformation gi = it.next();
-						if (gi == null) continue;
-						if (gi.getTimeOfDeath() < cutoff) break;
-
-						Entity e = gi.getKilled();
-						if (e == null) continue;
-						if (e.getEntityId() == killedId) continue;
-
-						if (e.getType() == EntityType.ENDERMAN) {
-							Location eLoc = e.getLocation();
-							if (eLoc != null && killedLoc.distanceSquared(eLoc) <= radiusSq) {
-								n++;
-								if (n >= numberOfDeaths) {
-									Area area = new Area(killedLoc, killRadius, numberOfDeaths);
-									MessageHelper.debug("New Enderman Farm detected at (%s,%s,%s,%s)",
-											area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
-											area.getCenter().getBlockY(), area.getCenter().getBlockZ());
-									registerKnownGrindingSpot(area);
-									return true;
-								}
-							}
-						}
-					}
-				}
-                else {
+			if (detectedGrindingArea != null) {
 				if (!silent) {
 					World w = detectedGrindingArea.getCenter().getWorld();
 					MessageHelper.debug("This is a known Enderman Farm area: (%s,%s,%s,%s)",
@@ -369,6 +331,44 @@ public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
 							detectedGrindingArea.getCenter().getBlockZ());
 				}
 				return true;
+			}
+
+			final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
+			if (dq != null) {
+				// Opportunistic trimming of stale heads
+				for (;;) {
+					GrindingInformation head = dq.peekFirst();
+					if (head == null) break;
+					if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
+						dq.pollFirst();
+					} else {
+						break;
+					}
+				}
+				for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
+					GrindingInformation gi = it.next();
+					if (gi == null) continue;
+					if (gi.getTimeOfDeath() < cutoff) break;
+
+					Entity e = gi.getKilled();
+					if (e == null) continue;
+					if (e.getEntityId() == killedId) continue;
+
+					if (e.getType() == EntityType.ENDERMAN) {
+						Location eLoc = e.getLocation();
+						if (eLoc != null && killedLoc.distanceSquared(eLoc) <= radiusSq) {
+							n++;
+							if (n >= numberOfDeaths) {
+								Area area = new Area(killedLoc, killRadius, numberOfDeaths);
+								MessageHelper.debug("New Enderman Farm detected at (%s,%s,%s,%s)",
+										area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
+										area.getCenter().getBlockY(), area.getCenter().getBlockZ());
+								registerKnownGrindingSpot(area);
+								return true;
+							}
+						}
+					}
+				}
 			}
 		}
 	}
@@ -380,6 +380,7 @@ public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
 				killed.getLocation().getY(), killed.getLocation().getZ());
 	return false;
 }
+
 
 
 
@@ -409,46 +410,7 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 			final long cutoff = now - (seconds * 1000L);
 
 			Area detectedGrindingArea = getGrindingArea(killedLoc);
-			if (detectedGrindingArea == null) {
-				final Deque<GrindingInformation> dq = killsByWorld.get(killedWorld.getUID());
-				if (dq != null) {
-					// Opportunistic trimming of stale heads
-					for (;;) {
-						GrindingInformation head = dq.peekFirst();
-						if (head == null) break;
-						if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
-							dq.pollFirst();
-						} else {
-							break;
-						}
-					}
-					for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
-						GrindingInformation gi = it.next();
-						if (gi == null) continue;
-						if (gi.getTimeOfDeath() < cutoff) break;
-
-						Entity e = gi.getKilled();
-						if (e == null) continue;
-						if (e.getEntityId() == killedId) continue;
-
-						// NOTE: "other farm" logic in your original code did not filter type,
-						// so we keep it that way: any nearby mob death within the window counts.
-						Location eLoc = e.getLocation();
-						if (eLoc != null && killedLoc.distanceSquared(eLoc) <= radiusSq) {
-							n++;
-							if (n >= numberOfDeaths) {
-								Area area = new Area(killedLoc, killRadius, numberOfDeaths);
-								if (!silent)
-									MessageHelper.debug("New Generic / Other Farm detected at (%s,%s,%s,%s)",
-											area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
-											area.getCenter().getBlockY(), area.getCenter().getBlockZ());
-								registerKnownGrindingSpot(area);
-								return true;
-							}
-						}
-					}
-				}
-                else {
+			if (detectedGrindingArea != null) {
 				if (!silent)
 					MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
 							detectedGrindingArea.getCenter().getWorld() != null
@@ -458,6 +420,45 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 							detectedGrindingArea.getCenter().getBlockY(),
 							detectedGrindingArea.getCenter().getBlockZ());
 				return true;
+			}
+
+			final Deque<GrindingInformation> dq = killsByWorld.get(killedWorld.getUID());
+			if (dq != null) {
+				// Opportunistic trimming of stale heads
+				for (;;) {
+					GrindingInformation head = dq.peekFirst();
+					if (head == null) break;
+					if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
+						dq.pollFirst();
+					} else {
+						break;
+					}
+				}
+				for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
+					GrindingInformation gi = it.next();
+					if (gi == null) continue;
+					if (gi.getTimeOfDeath() < cutoff) break;
+
+					Entity e = gi.getKilled();
+					if (e == null) continue;
+					if (e.getEntityId() == killedId) continue;
+
+					// NOTE: "other farm" logic in your original code did not filter type,
+					// so we keep it that way: any nearby mob death within the window counts.
+					Location eLoc = e.getLocation();
+					if (eLoc != null && killedLoc.distanceSquared(eLoc) <= radiusSq) {
+						n++;
+						if (n >= numberOfDeaths) {
+							Area area = new Area(killedLoc, killRadius, numberOfDeaths);
+							if (!silent)
+								MessageHelper.debug("New Generic / Other Farm detected at (%s,%s,%s,%s)",
+										area.getCenter().getWorld().getName(), area.getCenter().getBlockX(),
+										area.getCenter().getBlockY(), area.getCenter().getBlockZ());
+							registerKnownGrindingSpot(area);
+							return true;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -469,6 +470,7 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 				killed.getLocation().getY(), killed.getLocation().getZ());
 	return false;
 }
+
 
 
 
@@ -488,12 +490,12 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 
     @EventHandler
     private void onWorldUnLoad(WorldUnloadEvent event) {
-        List<Area> areas = getWhitelistedAreas(event.getWorld());
-        if (areas != null) {
-            for (Area area : areas)
-                area.getCenter().setWorld(null);
-                killsByWorld.remove(event.getWorld().getUID()); // optional cleanup
-        }
+	    List<Area> areas = getWhitelistedAreas(event.getWorld());
+	    if (areas != null) {
+	    	for (Area area : areas)
+	    		area.getCenter().setWorld(null);
+	    }
+	    killsByWorld.remove(event.getWorld().getUID()); // optional cleanup
     }
 
 	// ****************************************************************
