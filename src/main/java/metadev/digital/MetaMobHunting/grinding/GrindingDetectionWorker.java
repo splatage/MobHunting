@@ -2,6 +2,7 @@ package metadev.digital.MetaMobHunting.grinding;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -124,7 +125,8 @@ final class GrindingDetectionWorker {
             if (dq.isEmpty()) continue;
 
             // Scan newest -> older (short; we stop early by time)
-            for (KillRecord r : dq.descendingIterator()) {
+            for (Iterator<KillRecord> it = dq.descendingIterator(); it.hasNext(); ) {
+                KillRecord r = it.next();
                 // Enderman VOID farm
                 if (r.type == EntityType.ENDERMAN && r.cause == DamageCause.VOID && enderRange > 0 && enderSec > 0) {
                     if (countNearby(dq, r, enderRange, enderSec, now,
@@ -153,9 +155,23 @@ final class GrindingDetectionWorker {
         }
     }
 
+    // Resolve the "pigman" type at runtime to be compatible with old/new APIs.
+    // Newer APIs: ZOMBIFIED_PIGLIN; older: PIG_ZOMBIE. Avoid direct enum refs to compile everywhere.
+    private static final EntityType ZP_TYPE;
+    static {
+        EntityType tmp = null;
+        try {
+            tmp = EntityType.valueOf("ZOMBIFIED_PIGLIN");
+        } catch (IllegalArgumentException ignored) {}
+        if (tmp == null) {
+            try {
+                tmp = EntityType.valueOf("PIG_ZOMBIE");
+            } catch (IllegalArgumentException ignored2) {}
+        }
+        ZP_TYPE = tmp;
+    }
     private static boolean isPigman(EntityType t) {
-        // Maintain original naming used in your codebase
-        return t == EntityType.PIG_ZOMBIE || t == EntityType.ZOMBIFIED_PIGLIN;
+        return ZP_TYPE != null && t == ZP_TYPE;
     }
 
     private interface RecPredicate { boolean test(KillRecord kr); }
@@ -166,7 +182,8 @@ final class GrindingDetectionWorker {
         final double r2 = range * range;
         int n = 0;
 
-        for (KillRecord k : dq.descendingIterator()) {
+        for (Iterator<KillRecord> it = dq.descendingIterator(); it.hasNext(); ) {
+            KillRecord k = it.next();
             if (k.timeMs < cutoff) break; // time-ordered → stop early
             if (k == center) continue;    // don’t count the same death
             if (pred != null && !pred.test(k)) continue;
