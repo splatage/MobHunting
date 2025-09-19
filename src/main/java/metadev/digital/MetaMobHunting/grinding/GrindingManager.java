@@ -225,9 +225,19 @@ public boolean isNetherGoldXPFarm(LivingEntity killed, boolean silent) {
 
 			Area detectedGrindingArea = getGrindingArea(killedLoc);
 			if (detectedGrindingArea == null) {
-				// NEW: iterate only recent kills in THIS world, newest->oldest; break at cutoff
+				// Iterate only recent kills in THIS world, newest->oldest; break at cutoff
 				final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
 				if (dq != null) {
+					// Opportunistic trimming of stale heads (keeps scans short)
+					for (;;) {
+						GrindingInformation head = dq.peekFirst();
+						if (head == null) break;
+						if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
+							dq.pollFirst();
+						} else {
+							break;
+						}
+					}
 					for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
 						GrindingInformation gi = it.next();
 						if (gi == null) continue;
@@ -256,7 +266,7 @@ public boolean isNetherGoldXPFarm(LivingEntity killed, boolean silent) {
 						}
 					}
 				}
-			} else {
+                else {
 				if (!silent) {
 					World w = detectedGrindingArea.getCenter().getWorld();
 					MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
@@ -314,6 +324,16 @@ public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
 			if (detectedGrindingArea == null) {
 				final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
 				if (dq != null) {
+					// Opportunistic trimming of stale heads
+					for (;;) {
+						GrindingInformation head = dq.peekFirst();
+						if (head == null) break;
+						if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
+							dq.pollFirst();
+						} else {
+							break;
+						}
+					}
 					for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
 						GrindingInformation gi = it.next();
 						if (gi == null) continue;
@@ -339,7 +359,7 @@ public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
 						}
 					}
 				}
-			} else {
+                else {
 				if (!silent) {
 					World w = detectedGrindingArea.getCenter().getWorld();
 					MessageHelper.debug("This is a known Enderman Farm area: (%s,%s,%s,%s)",
@@ -392,6 +412,16 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 			if (detectedGrindingArea == null) {
 				final Deque<GrindingInformation> dq = killsByWorld.get(killedWorld.getUID());
 				if (dq != null) {
+					// Opportunistic trimming of stale heads
+					for (;;) {
+						GrindingInformation head = dq.peekFirst();
+						if (head == null) break;
+						if (head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
+							dq.pollFirst();
+						} else {
+							break;
+						}
+					}
 					for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
 						GrindingInformation gi = it.next();
 						if (gi == null) continue;
@@ -418,7 +448,7 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 						}
 					}
 				}
-			} else {
+                else {
 				if (!silent)
 					MessageHelper.debug("This is a known grinding area: (%s,%s,%s,%s)",
 							detectedGrindingArea.getCenter().getWorld() != null
@@ -1116,8 +1146,8 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
         }
     }
 
-    // NEW: trim per-world queues from the head while entries are stale
-    for (Deque<GrindingInformation> dq : killsByWorld.values()) {
+	    // NEW: trim per-world queues from the head while entries are stale
+    	for (Deque<GrindingInformation> dq : killsByWorld.values()) {
     		while (!dq.isEmpty()) {
     			GrindingInformation head = dq.peekFirst();
     			if (head == null || head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
