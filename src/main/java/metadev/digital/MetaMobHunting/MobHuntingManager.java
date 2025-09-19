@@ -655,7 +655,12 @@ public class MobHuntingManager implements Listener {
 
 		}
 
-		plugin.getGrindingManager().registerDeath(killer, killed);
+        // Only track deaths for grinding detection if we will actually evaluate them.
+        if (plugin.getConfigManager().grindingDetectionEnabled
+            && !plugin.getGrindingManager().isGrindingDisabledInWorld(killed.getWorld())
+            && isHuntEnabledInWorld(killed.getWorld())) {
+            plugin.getGrindingManager().registerDeath(killer, killed);
+        }
 
 		// Grinding Farm detections
 		if (plugin.getConfigManager().grindingDetectionEnabled && plugin.getConfigManager().detectFarms

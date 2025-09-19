@@ -1,5 +1,6 @@
 package metadev.digital.MetaMobHunting.grinding;
 
+import java.lang.ref.WeakReference;
 import java.util.UUID;
 
 import org.bukkit.entity.Entity;
@@ -9,16 +10,16 @@ import metadev.digital.MetaMobHunting.MobHunting;
 public class GrindingInformation {
 
 	private int entityId;
-	private Entity killed;
+	private WeakReference<Entity> killedRef;
 	private UUID killer; //This is always a Player
 	private long timeOfDeath;
 	private double cDampnerRange = MobHunting.getInstance().getConfigManager().grindingDetectionRange;
 
 	GrindingInformation(UUID killer, Entity killed) {
 		entityId = killed.getEntityId();
-		this.killed = killed;
+		this.killedRef = new WeakReference<>(killed);
 		this.killer = killer; 
-		timeOfDeath=System.currentTimeMillis();
+		timeOfDeath = System.currentTimeMillis();
 		cDampnerRange = MobHunting.getInstance().getConfigManager().grindingDetectionRange;
 	}
 
@@ -33,7 +34,7 @@ public class GrindingInformation {
 	 * @return the killed
 	 */
 	public Entity getKilled() {
-		return killed;
+		return killedRef.get();
 	}
 
 	/**
@@ -72,3 +73,4 @@ public class GrindingInformation {
 	}
 
 }
+

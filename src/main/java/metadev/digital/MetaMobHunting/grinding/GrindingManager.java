@@ -19,6 +19,7 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -51,6 +52,16 @@ public class GrindingManager implements Listener {
 		if (!loadBlacklist(instance))
 			throw new RuntimeException();
 		Bukkit.getPluginManager().registerEvents(this, instance);
+
+		// Periodic purge to prevent unbounded growth when detectors aren't hit frequently.
+		long windowSec = Math.max(
+				Math.max(plugin.getConfigManager().secondsToSearchForGrindingOnOtherFarms,
+						plugin.getConfigManager().secondsToSearchForGrindingOnEndermanFarms),
+				plugin.getConfigManager().secondsToSearchForGrinding);
+		windowSec = Math.max(windowSec, (long) plugin.getConfigManager().speedGrindingTimeFrame);
+		// Run every 30s..120s based on window, minimum 30s.
+		long purgeEveryTicks = 20L * Math.max(30, Math.min(120, (int) (windowSec / 2)));
+		Bukkit.getScheduler().runTaskTimer(instance, this::purgeOldKills, purgeEveryTicks, purgeEveryTicks);
 	}
 
 	public void saveData() {
@@ -67,10 +78,14 @@ public class GrindingManager implements Listener {
 	/**
 	 * Register a kill for later inspection. Farming can be caught because most
 	 * farms kills the mobs by letting them fall down from a high place.
-	 * 
+	 *
 	 * @param killed
 	 */
 	public void registerDeath(LivingEntity killer, LivingEntity killed) {
+		// Do not track if grinding detection is disabled in this world.
+		if (killed == null || isGrindingDisabledInWorld(killed.getWorld()))
+			return;
+
 		GrindingInformation grindingInformation = new GrindingInformation(killer != null ? killer.getUniqueId() : null,
 				killed);
 		if (!isGrindingArea(killed.getLocation()) && !isWhitelisted(killed.getLocation())) {
@@ -81,7 +96,7 @@ public class GrindingManager implements Listener {
 	/**
 	 * Test if the same type of mobs is killed to fast. When players make a farm,
 	 * they tend to kill the mobs to fast.
-	 * 
+	 *
 	 * @param killed
 	 * @return
 	 */
@@ -100,6 +115,12 @@ public class GrindingManager implements Listener {
 				return false;
 			}
 			if (gi == null || gi.getKillerUUID() == null) {
+				continue;
+			}
+
+			// Purge entries whose entity has already been GC'ed (weak-ref cleared).
+			if (gi.getKilled() == null) {
+				to_be_deleted.add(gi.getEntityId());
 				continue;
 			}
 
@@ -135,7 +156,7 @@ public class GrindingManager implements Listener {
 
 	/**
 	 * Test if the killed mob is killed in a NetherGoldXPFarm
-	 * 
+	 *
 	 * @param killed
 	 * @param silent
 	 * @return true if the location is detected as a NetherGoldXPFarm, or if the
@@ -155,17 +176,21 @@ public class GrindingManager implements Listener {
 					while (itr.hasNext()) {
 						GrindingInformation gi = itr.next().getValue();
 
-						if (!killed.getWorld().equals(gi.getKilled().getWorld()))
+						Entity e = gi != null ? gi.getKilled() : null;
+						if (e == null) {
+							// Remove cleared/invalid entries to keep map tidy.
+							itr.remove();
+							continue;
+						}
+
+						if (!killed.getWorld().equals(e.getWorld()))
 							continue;
 
-						// if (killed.getType() == EntityType.ZOMBIFIED_PIGLIN &&
-						// gi.getKilled().getType() == killed.getType()
-						// && gi.getKilled().getEntityId() != killed.getEntityId()) {
-						if (MobType.getMobType(gi.getKilled()) == MobType.ZombiePigman
-								&& gi.getKilled().getEntityId() != killed.getEntityId()) {
+						if (MobType.getMobType((LivingEntity) e) == MobType.ZombiePigman
+								&& e.getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-									if (killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
+									if (killed.getLocation().distance(e.getLocation()) < killRadius) {
 										n++;
 										// MessageHelper.debug("This was
 										// not a Nether
@@ -211,7 +236,7 @@ public class GrindingManager implements Listener {
 
 	/**
 	 * Test if the killed mob is killed in a EndermanFarm
-	 * 
+	 *
 	 * @param killed
 	 * @param silent
 	 * @return true if the locatnewAreaion is detected as a EndermanFarm, or if the
@@ -231,20 +256,20 @@ public class GrindingManager implements Listener {
 					while (itr.hasNext()) {
 						GrindingInformation gi = itr.next().getValue();
 
-						if (!killed.getWorld().equals(gi.getKilled().getWorld()))
+						Entity e = gi != null ? gi.getKilled() : null;
+						if (e == null) {
+							itr.remove();
+							continue;
+						}
+
+						if (!killed.getWorld().equals(e.getWorld()))
 							continue;
 
-						if (killed.getType() == EntityType.ENDERMAN && gi.getKilled().getType() == killed.getType()
-								&& gi.getKilled().getEntityId() != killed.getEntityId()) {
+						if (killed.getType() == EntityType.ENDERMAN && e.getType() == killed.getType()
+								&& e.getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-									// if (killed.getLocation().clone().subtract(0, killed.getLocation().getY() +
-									// 65, 0)
-									// .distance(gi.getKilled().getLocation().clone().subtract(0,
-									// gi.getKilled().getLocation().getY() + 65, 0)) < killRadius) {
-									// n++;
-									// }
-									if (killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
+									if (killed.getLocation().distance(e.getLocation()) < killRadius) {
 										n++;
 									}
 								} else {
@@ -294,13 +319,19 @@ public class GrindingManager implements Listener {
 					while (itr.hasNext()) {
 						GrindingInformation gi = itr.next().getValue();
 
-						if (!killed.getWorld().equals(gi.getKilled().getWorld()))
+						Entity e = gi != null ? gi.getKilled() : null;
+						if (e == null) {
+							itr.remove();
+							continue;
+						}
+
+						if (!killed.getWorld().equals(e.getWorld()))
 							continue;
 
-						if (gi.getKilled().getEntityId() != killed.getEntityId()) {
+						if (e.getEntityId() != killed.getEntityId()) {
 							if (n < numberOfDeaths) {
 								if (now < gi.getTimeOfDeath() + seconds * 1000L) {
-									if (killed.getLocation().distance(gi.getKilled().getLocation()) < killRadius) {
+									if (killed.getLocation().distance(e.getLocation()) < killRadius) {
 										n++;
 									}
 								} else {
@@ -725,7 +756,7 @@ public class GrindingManager implements Listener {
 
 	/**
 	 * Check if Grindind detection is disabled in world
-	 * 
+	 *
 	 * @param world
 	 * @return true if Grinding is disabled.
 	 */
@@ -775,4 +806,31 @@ public class GrindingManager implements Listener {
 		}
 
 	}
+
+	// ---------------------------------------------------------------------
+	// Internal maintenance
+	// ---------------------------------------------------------------------
+	private void purgeOldKills() {
+		long now = System.currentTimeMillis();
+		long windowSec = Math.max(
+				Math.max(plugin.getConfigManager().secondsToSearchForGrindingOnOtherFarms,
+						plugin.getConfigManager().secondsToSearchForGrindingOnEndermanFarms),
+				plugin.getConfigManager().secondsToSearchForGrinding);
+		windowSec = Math.max(windowSec, (long) plugin.getConfigManager().speedGrindingTimeFrame);
+		long cutoff = now - (windowSec * 1000L);
+
+		Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
+		while (itr.hasNext()) {
+			GrindingInformation gi = itr.next().getValue();
+			if (gi == null) {
+				itr.remove();
+				continue;
+			}
+			// Remove if outside time window or if the weak-referenced entity is gone.
+			if (gi.getTimeOfDeath() < cutoff || gi.getKilled() == null) {
+				itr.remove();
+			}
+		}
+	}
 }
+
