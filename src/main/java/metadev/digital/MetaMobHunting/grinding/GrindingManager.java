@@ -64,7 +64,7 @@ public class GrindingManager implements Listener {
 		windowSec = Math.max(windowSec, (long) plugin.getConfigManager().speedGrindingTimeFrame);
 		// Run every 30s..120s based on window, minimum 30s.
 		long purgeEveryTicks = 20L * Math.max(30, Math.min(120, (int) (windowSec / 2)));
-		Bukkit.getScheduler().runTaskTimer(instance, this::purgeOldKills, purgeEveryTicks, purgeEveryTicks);
+		Bukkit.getScheduler().runTaskTimerAsynchronously(instance, this::purgeOldKills, purgeEveryTicks, purgeEveryTicks);
 	}
 
 	public void saveData() {
@@ -85,16 +85,28 @@ public class GrindingManager implements Listener {
 	 * @param killed
 	 */
 	public void registerDeath(LivingEntity killer, LivingEntity killed) {
-		// Do not track if grinding detection is disabled in this world.
-		if (killed == null || isGrindingDisabledInWorld(killed.getWorld()))
+		// Fast guards
+		if (killed == null)
 			return;
 
-		GrindingInformation grindingInformation = new GrindingInformation(killer != null ? killer.getUniqueId() : null,
-				killed);
-		if (!isGrindingArea(killed.getLocation()) && !isWhitelisted(killed.getLocation())) {
-			killed_mobs.put(killed.getEntityId(), grindingInformation);
+		final World world = killed.getWorld();
+		if (world == null || isGrindingDisabledInWorld(world))
+			return;
+
+		final Location loc = killed.getLocation();
+		if (loc == null || loc.getWorld() == null)
+			return;
+
+		// Only track if not in a known grinding or whitelisted area
+		if (!isGrindingArea(loc) && !isWhitelisted(loc)) {
+			GrindingInformation gi = new GrindingInformation(
+					(killer != null ? killer.getUniqueId() : null),
+					killed);
+			// killed_mobs is a synchronizedMap; put is thread-safe.
+			killed_mobs.put(killed.getEntityId(), gi);
 		}
 	}
+
 
 	/**
 	 * Test if the same type of mobs is killed to fast. When players make a farm,
@@ -453,45 +465,66 @@ public class GrindingManager implements Listener {
 	// Blacklist
 	// ****************************************************************
 	public LinkedList<Area> getKnownGrindingSpots(Location loc) {
-		if (mBlacklistedAreas.containsKey(loc.getWorld().getUID()))
-			return mBlacklistedAreas.get(loc.getWorld().getUID());
+		if (loc == null) return new LinkedList<>();
+		World w = loc.getWorld();
+		if (w == null) return new LinkedList<>();
+
+		if (mBlacklistedAreas.containsKey(w.getUID()))
+			return mBlacklistedAreas.get(w.getUID());
 		else
 			return new LinkedList<Area>();
 	}
 
+
 	public void addKnownGrindingSpot(Area area) {
-		LinkedList<Area> list = getKnownGrindingSpots(area.getCenter());
+		if (area == null) return;
+		Location c = area.getCenter();
+		if (c == null) return;
+		World w = c.getWorld();
+		if (w == null) return;
+
+		LinkedList<Area> list = getKnownGrindingSpots(c);
 		list.add(area);
-		mBlacklistedAreas.put(area.getCenter().getWorld().getUID(), list);
+		mBlacklistedAreas.put(w.getUID(), list);
 		saveBlacklist = true;
 	}
+
 
 	private boolean saveBlacklist() {
 		YamlConfiguration blacklist = new YamlConfiguration();
 		File file = new File(MobHunting.getInstance().getDataFolder(), "blacklist.yml");
 
-		for (Entry<UUID, LinkedList<Area>> entry : mBlacklistedAreas.entrySet()) {
-			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-			for (Area area : entry.getValue()) {
-				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("Center", Tools.toMap(area.getCenter()));
-				map.put("Radius", area.getRange());
-				map.put("Counter", area.getCounter());
-				map.put("Time", area.getTime());
-				list.add(map);
-			}
-			blacklist.set(entry.getKey().toString(), list);
-		}
-
 		try {
+			for (Entry<UUID, LinkedList<Area>> entry : mBlacklistedAreas.entrySet()) {
+				ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+				if (entry.getValue() == null) continue;
+
+				for (Area area : entry.getValue()) {
+					if (area == null || area.getCenter() == null) continue;
+
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("Center", Tools.toMap(area.getCenter()));
+					map.put("Radius", area.getRange());
+					map.put("Counter", area.getCounter());
+					map.put("Time", area.getTime());
+					list.add(map);
+				}
+				blacklist.set(entry.getKey().toString(), list);
+			}
+
 			blacklist.save(file);
 			saveBlacklist = false;
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
+		} catch (Exception e) {
+			// Defensive: catch any unexpected serialization issue
+			e.printStackTrace();
+			return false;
 		}
 	}
+
 
 	@SuppressWarnings("unchecked")
 	private boolean loadBlacklist(MobHunting instance) {
@@ -510,28 +543,58 @@ public class GrindingManager implements Listener {
 
 		mBlacklistedAreas.clear();
 
-		for (String worldId : blacklist.getKeys(false)) {
-			UUID world = UUID.fromString(worldId);
-			List<Map<String, Object>> list = (List<Map<String, Object>>) blacklist.getList(worldId);
-			LinkedList<Area> areas = new LinkedList<Area>();
+		try {
+			for (String worldId : blacklist.getKeys(false)) {
+				UUID worldUuid;
+				try {
+					worldUuid = UUID.fromString(worldId);
+				} catch (IllegalArgumentException ex) {
+					// Skip malformed key
+					continue;
+				}
 
-			if (list == null)
-				continue;
+				List<?> rawList = blacklist.getList(worldId);
+				if (rawList == null) continue;
 
-			for (Map<String, Object> map : list) {
-				Area area = new Area(Tools.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
-						(int) map.getOrDefault("Counter", 0),
-						(long) map.getOrDefault("Time", System.currentTimeMillis()));
-				areas.add(area);
-			}
+				LinkedList<Area> areas = new LinkedList<Area>();
+				for (Object o : rawList) {
+					if (!(o instanceof Map)) continue;
+					Map<String, Object> map = (Map<String, Object>) o;
 
-			for (World w : Bukkit.getWorlds()) {
-				if (w.getUID().equals(world)) {
-					mBlacklistedAreas.put(world, areas);
-					break;
+					try {
+						Object centerObj = map.get("Center");
+						if (!(centerObj instanceof Map)) continue;
+						Location center = Tools.fromMap((Map<String, Object>) centerObj);
+						if (center == null) continue;
+
+						Object r = map.get("Radius");
+						double radius = (r instanceof Number) ? ((Number) r).doubleValue() : 0D;
+
+						Object c = map.get("Counter");
+						int counter = (c instanceof Number) ? ((Number) c).intValue() : 0;
+
+						Object t = map.get("Time");
+						long time = (t instanceof Number) ? ((Number) t).longValue() : System.currentTimeMillis();
+
+						areas.add(new Area(center, radius, counter, time));
+					} catch (ClassCastException ex) {
+						// Skip malformed entry, continue loading others
+						continue;
+					}
+				}
+
+				// Only insert for currently loaded worlds (matches original behavior)
+				for (World w : Bukkit.getWorlds()) {
+					if (w.getUID().equals(worldUuid)) {
+						mBlacklistedAreas.put(worldUuid, areas);
+						break;
+					}
 				}
 			}
-
+		} catch (Exception e) {
+			// Defensive: avoid failing the whole load on a single bad node
+			e.printStackTrace();
+			// still return true so plugin can continue; file might be partially usable
 		}
 
 		return true;
@@ -561,55 +624,103 @@ public class GrindingManager implements Listener {
 	}
 
 	public Area getGrindingArea(Location location) {
+		if (location == null) return null;
+		final World world = location.getWorld();
+		if (world == null) return null;
+
 		LinkedList<Area> areas = getKnownGrindingSpots(location);
+		final double lx = location.getX();
+		final double ly = location.getY();
+		final double lz = location.getZ();
+
 		for (Area area : areas) {
-			if (area.getCenter().getWorld().equals(location.getWorld())) {
-				if (area.getCenter().distance(location) < area.getRange()) {
-					return area;
-				}
+			final Location c = area.getCenter();
+			final World cw = c.getWorld();
+			if (cw == null || !cw.equals(world)) continue;
+
+			final double dx = c.getX() - lx;
+			final double dy = c.getY() - ly;
+			final double dz = c.getZ() - lz;
+			if ((dx * dx + dy * dy + dz * dz) < (area.getRange() * area.getRange())) {
+				return area;
 			}
 		}
-
 		return null;
 	}
 
+
+
 	public boolean isGrindingArea(Location location) {
-		if (location != null) {
-			LinkedList<Area> areas = getKnownGrindingSpots(location);
-			for (Area area : areas) {
-				if (area.getCenter().getWorld() != null && area.getCenter().getWorld().equals(location.getWorld())) {
-					if (area.getCenter().distance(location) < area.getRange()) {
-						return true;
-					}
-				}
+		if (location == null) return false;
+		final World world = location.getWorld();
+		if (world == null) return false;
+
+		LinkedList<Area> areas = getKnownGrindingSpots(location);
+		final double lx = location.getX();
+		final double ly = location.getY();
+		final double lz = location.getZ();
+
+		for (Area area : areas) {
+			final Location c = area.getCenter();
+			final World cw = c.getWorld();
+			if (cw == null || !cw.equals(world)) continue;
+
+			final double dx = c.getX() - lx;
+			final double dy = c.getY() - ly;
+			final double dz = c.getZ() - lz;
+			if ((dx * dx + dy * dy + dz * dz) < (area.getRange() * area.getRange())) {
+				return true;
 			}
 		}
 		return false;
 	}
 
+
+
 	public void clearGrindingArea(Location location) {
+		if (location == null) return;
+		final World world = location.getWorld();
+		if (world == null) return;
+
+		final double lx = location.getX();
+		final double ly = location.getY();
+		final double lz = location.getZ();
+
 		Iterator<Area> it = getKnownGrindingSpots(location).iterator();
 		while (it.hasNext()) {
 			Area area = it.next();
+			final Location c = area.getCenter();
+			final World cw = c.getWorld();
 
-			if (area.getCenter().getWorld() == null || area.getCenter().getWorld().equals(location.getWorld())) {
-				if (area.getCenter().distance(location) < area.getRange()) {
+			// If the area's world is null (unloaded) or matches the location's world, consider removal.
+			if (cw == null || cw.equals(world)) {
+				final double dx = c.getX() - lx;
+				final double dy = c.getY() - ly;
+				final double dz = c.getZ() - lz;
+				if ((dx * dx + dy * dy + dz * dz) < (area.getRange() * area.getRange())) {
 					it.remove();
 				}
 			}
 		}
 	}
 
+
+
 	public void blacklistArea(Area newArea) {
-		LinkedList<Area> areas = mBlacklistedAreas.get(newArea.getCenter().getWorld().getUID());
+		if (newArea == null) return;
+		Location c = newArea.getCenter();
+		if (c == null) return;
+		World w = c.getWorld();
+		if (w == null) return;
+
+		LinkedList<Area> areas = mBlacklistedAreas.get(w.getUID());
 		if (areas == null) {
 			areas = new LinkedList<Area>();
-			mBlacklistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
 		}
 
 		for (Area area : areas) {
-			if (newArea.getCenter().getWorld().equals(area.getCenter().getWorld())) {
-				double dist = newArea.getCenter().distance(area.getCenter());
+			if (c.getWorld().equals(area.getCenter().getWorld())) {
+				double dist = c.distance(area.getCenter());
 
 				double remaining = dist;
 				remaining -= area.getRange();
@@ -620,76 +731,94 @@ public class GrindingManager implements Listener {
 						area.setRange(dist);
 
 					area.setCounter(newArea.getCounter() + 1);
-
+					mBlacklistedAreas.put(w.getUID(), areas);
+					saveBlacklist = true;
 					return;
 				}
 			}
 		}
 		areas.add(newArea);
-		mBlacklistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
+		mBlacklistedAreas.put(w.getUID(), areas);
 		saveBlacklist = true;
 	}
 
-	public void unBlacklistArea(Location location) {
-		LinkedList<Area> areas = mBlacklistedAreas.get(location.getWorld().getUID());
 
-		if (areas == null)
-			return;
+	public void unBlacklistArea(Location location) {
+		if (location == null) return;
+		World w = location.getWorld();
+		if (w == null) return;
+
+		LinkedList<Area> areas = mBlacklistedAreas.get(w.getUID());
+		if (areas == null) return;
 
 		Iterator<Area> it = areas.iterator();
 		while (it.hasNext()) {
 			Area area = it.next();
+			Location c = area.getCenter();
+			if (c == null) continue;
+			World cw = c.getWorld();
+			if (cw != null && !cw.equals(w)) continue;
 
-			if (area.getCenter().getWorld().equals(location.getWorld())) {
-				if (area.getCenter().distance(location) < area.getRange()) {
-					it.remove();
-				}
+			if (c.distance(location) < area.getRange()) {
+				it.remove();
 			}
 		}
 		if (areas.isEmpty())
-			mBlacklistedAreas.remove(location.getWorld().getUID());
+			mBlacklistedAreas.remove(w.getUID());
 		else
-			mBlacklistedAreas.put(location.getWorld().getUID(), areas);
+			mBlacklistedAreas.put(w.getUID(), areas);
 		saveBlacklist = true;
 	}
+
 
 	// ****************************************************************
 	// Whitelisted Areas
 	// ****************************************************************
 
 	public LinkedList<Area> getWhitelistedAreas(World world) {
+		if (world == null) return new LinkedList<>();
 		if (mWhitelistedAreas.containsKey(world.getUID()))
 			return mWhitelistedAreas.get(world.getUID());
 		else
 			return new LinkedList<Area>();
 	}
 
+
 	private boolean saveWhitelist() {
 		YamlConfiguration whitelist = new YamlConfiguration();
 		File file = new File(MobHunting.getInstance().getDataFolder(), "whitelist.yml");
 
-		for (Entry<UUID, LinkedList<Area>> entry : mWhitelistedAreas.entrySet()) {
-			ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-			for (Area area : entry.getValue()) {
-				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("Center", Tools.toMap(area.getCenter()));
-				map.put("Radius", area.getRange());
-				map.put("Counter", area.getCounter());
-				map.put("Time", area.getTime());
-				list.add(map);
-			}
-			whitelist.set(entry.getKey().toString(), list);
-		}
-
 		try {
+			for (Entry<UUID, LinkedList<Area>> entry : mWhitelistedAreas.entrySet()) {
+				ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+				if (entry.getValue() == null) continue;
+
+				for (Area area : entry.getValue()) {
+					if (area == null || area.getCenter() == null) continue;
+
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("Center", Tools.toMap(area.getCenter()));
+					map.put("Radius", area.getRange());
+					map.put("Counter", area.getCounter());
+					map.put("Time", area.getTime());
+					list.add(map);
+				}
+				whitelist.set(entry.getKey().toString(), list);
+			}
+
 			whitelist.save(file);
 			saveWhitelist = false;
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
+		} catch (Exception e) {
+			// Defensive: catch any unexpected serialization issue
+			e.printStackTrace();
+			return false;
 		}
 	}
+
 
 	@SuppressWarnings("unchecked")
 	private boolean loadWhitelist(MobHunting instance) {
@@ -711,67 +840,126 @@ public class GrindingManager implements Listener {
 
 		mWhitelistedAreas.clear();
 
-		for (String worldId : whitelist.getKeys(false)) {
-			UUID world = UUID.fromString(worldId);
-			List<Map<String, Object>> list = (List<Map<String, Object>>) whitelist.getList(worldId);
-			LinkedList<Area> areas = new LinkedList<Area>();
+		try {
+			for (String worldId : whitelist.getKeys(false)) {
+				UUID worldUuid;
+				try {
+					worldUuid = UUID.fromString(worldId);
+				} catch (IllegalArgumentException ex) {
+					// Skip malformed key
+					continue;
+				}
 
-			if (list == null)
-				continue;
+				List<?> rawList = whitelist.getList(worldId);
+				if (rawList == null) continue;
 
-			for (Map<String, Object> map : list) {
-				Area area = new Area(Tools.fromMap((Map<String, Object>) map.get("Center")), (Double) map.get("Radius"),
-						(int) map.getOrDefault("Counter", 0),
-						(long) map.getOrDefault("Time", System.currentTimeMillis()));
-				areas.add(area);
-			}
+				LinkedList<Area> areas = new LinkedList<Area>();
+				for (Object o : rawList) {
+					if (!(o instanceof Map)) continue;
+					Map<String, Object> map = (Map<String, Object>) o;
 
-			for (World w : Bukkit.getWorlds()) {
-				if (w.getUID().equals(world)) {
-					mWhitelistedAreas.put(world, areas);
-					break;
+					try {
+						Object centerObj = map.get("Center");
+						if (!(centerObj instanceof Map)) continue;
+						Location center = Tools.fromMap((Map<String, Object>) centerObj);
+						if (center == null) continue;
+
+						Object r = map.get("Radius");
+						double radius = (r instanceof Number) ? ((Number) r).doubleValue() : 0D;
+
+						Object c = map.get("Counter");
+						int counter = (c instanceof Number) ? ((Number) c).intValue() : 0;
+
+						Object t = map.get("Time");
+						long time = (t instanceof Number) ? ((Number) t).longValue() : System.currentTimeMillis();
+
+						areas.add(new Area(center, radius, counter, time));
+					} catch (ClassCastException ex) {
+						// Skip malformed entry, continue with others
+						continue;
+					}
+				}
+
+				// Only insert for currently loaded worlds (preserves original behavior)
+				for (World w : Bukkit.getWorlds()) {
+					if (w.getUID().equals(worldUuid)) {
+						mWhitelistedAreas.put(worldUuid, areas);
+						break;
+					}
 				}
 			}
+		} catch (Exception e) {
+			// Defensive: avoid failing the whole load on a single bad node
+			e.printStackTrace();
+			// still return true; partial lists are better than none
 		}
 
 		return true;
 	}
 
+
 	public boolean isWhitelisted(Location location) {
-		LinkedList<Area> areas = mWhitelistedAreas.get(location.getWorld().getUID());
-		if (areas == null)
-			return false;
+		if (location == null) return false;
+		World w = location.getWorld();
+		if (w == null) return false;
+
+		LinkedList<Area> areas = mWhitelistedAreas.get(w.getUID());
+		if (areas == null) return false;
+
 		for (Area area : areas) {
-			if (area.getCenter().distance(location) < area.getRange()) {
+			Location c = area.getCenter();
+			if (c == null || c.getWorld() == null || !c.getWorld().equals(w)) continue;
+			if (c.distance(location) < area.getRange()) {
 				return true;
 			}
 		}
 		return false;
 	}
 
+
+
 	public Area getWhitelistArea(Location location) {
-		LinkedList<Area> areas = getWhitelistedAreas(location.getWorld());
+		if (location == null) return null;
+		final World world = location.getWorld();
+		if (world == null) return null;
+
+		LinkedList<Area> areas = getWhitelistedAreas(world);
+		final double lx = location.getX();
+		final double ly = location.getY();
+		final double lz = location.getZ();
+
 		for (Area area : areas) {
-			if (area.getCenter().getWorld() != null && area.getCenter().getWorld().equals(location.getWorld())) {
-				if (area.getCenter().distance(location) < area.getRange()) {
-					return area;
-				}
+			final Location c = area.getCenter();
+			final World cw = c.getWorld();
+			if (cw == null || !cw.equals(world)) continue;
+
+			final double dx = c.getX() - lx;
+			final double dy = c.getY() - ly;
+			final double dz = c.getZ() - lz;
+			if ((dx * dx + dy * dy + dz * dz) < (area.getRange() * area.getRange())) {
+				return area;
 			}
 		}
 		return null;
 	}
 
+
 	public void whitelistArea(Area newArea) {
-		LinkedList<Area> areas = mWhitelistedAreas.get(newArea.getCenter().getWorld().getUID());
+		if (newArea == null) return;
+		Location c = newArea.getCenter();
+		if (c == null) return;
+		World w = c.getWorld();
+		if (w == null) return;
+
+		LinkedList<Area> areas = mWhitelistedAreas.get(w.getUID());
 		if (areas == null) {
 			areas = new LinkedList<Area>();
-			mWhitelistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
-
+			mWhitelistedAreas.put(w.getUID(), areas);
 		}
 
 		for (Area area : areas) {
-			if (newArea.getCenter().getWorld().equals(area.getCenter().getWorld())) {
-				double dist = newArea.getCenter().distance(area.getCenter());
+			if (c.getWorld().equals(area.getCenter().getWorld())) {
+				double dist = c.distance(area.getCenter());
 
 				double remaining = dist;
 				remaining -= area.getRange();
@@ -782,37 +970,43 @@ public class GrindingManager implements Listener {
 						area.setRange(dist);
 
 					area.setCounter(newArea.getCounter() + 1);
-
+					saveWhitelist = true;
 					return;
 				}
 			}
 		}
 		areas.add(newArea);
-		mWhitelistedAreas.put(newArea.getCenter().getWorld().getUID(), areas);
+		mWhitelistedAreas.put(w.getUID(), areas);
 		saveWhitelist = true;
 	}
 
-	public void unWhitelistArea(Location location) {
-		LinkedList<Area> areas = mWhitelistedAreas.get(location.getWorld().getUID());
 
-		if (areas == null)
-			return;
+	public void unWhitelistArea(Location location) {
+		if (location == null) return;
+		World w = location.getWorld();
+		if (w == null) return;
+
+		LinkedList<Area> areas = mWhitelistedAreas.get(w.getUID());
+		if (areas == null) return;
 
 		Iterator<Area> it = areas.iterator();
 		while (it.hasNext()) {
 			Area area = it.next();
+			Location c = area.getCenter();
+			if (c == null) continue;
+			World cw = c.getWorld();
+			if (cw != null && !cw.equals(w)) continue;
 
-			if (area.getCenter().getWorld().equals(location.getWorld())) {
-				if (area.getCenter().distance(location) < area.getRange())
-					it.remove();
-			}
+			if (c.distance(location) < area.getRange())
+				it.remove();
 		}
 		if (areas.isEmpty())
-			mWhitelistedAreas.remove(location.getWorld().getUID());
+			mWhitelistedAreas.remove(w.getUID());
 		else
-			mWhitelistedAreas.put(location.getWorld().getUID(), areas);
+			mWhitelistedAreas.put(w.getUID(), areas);
 		saveWhitelist = true;
 	}
+
 
 	/**
 	 * Check if Grindind detection is disabled in world
@@ -831,41 +1025,62 @@ public class GrindingManager implements Listener {
 
 	public void showGrindingArea(Player player, Area grindingArea, Location killedLocation) {
 
-		if (killedLocation != null) {
+		// Fast guard: no player or not online.
+		if (player == null || !player.isOnline())
+			return;
+
+		final World playerWorld = player.getWorld();
+
+		// Smoke column at killed location (only if same world as the viewer)
+		if (killedLocation != null && killedLocation.getWorld() == playerWorld) {
+			final double kx = killedLocation.getX();
+			final double kz = killedLocation.getZ();
+			final double kBy = killedLocation.getBlockY(); // int widened to double
+
 			for (int n = 0; n < 5; n++) {
-				if (player != null && player.isOnline()) {
-					double y = killedLocation.clone().getBlockY() + 0.2 + 0.4 * n;
-					player.spawnParticle(Particle.SMOKE, killedLocation.getX(), y, killedLocation.getZ(), 5);
-					if (grindingArea != null) {
-						double y2 = grindingArea.getCenter().clone().getBlockY() + 0.2 + n * 0.4;
-						player.spawnParticle(Particle.HEART, grindingArea.getCenter().getX(), y2,
-								grindingArea.getCenter().getZ(), 1);
-					}
-				}
+				double y = kBy + 0.2 + 0.4 * n;
+				player.spawnParticle(Particle.SMOKE_NORMAL, kx, y, kz, 5);
 			}
 		}
 
-		// Grinding Area
+		// Grinding Area visuals (only if area is present and in the same world as the viewer)
 		if (grindingArea != null) {
-			// Show center of grinding area
+			final Location center = grindingArea.getCenter();
+			final World centerWorld = center.getWorld();
+			if (centerWorld == null || centerWorld != playerWorld)
+				return;
+
+			final double cx = center.getX();
+			final double cz = center.getZ();
+			final double cBy = center.getBlockY();
+
+			// Show center of grinding area (hearts up the column)
 			for (int n = 0; n < 5; n++) {
-				double y = grindingArea.getCenter().clone().getBlockY() + 0.2 + 0.4 * n;
-				player.spawnParticle(Particle.HEART, grindingArea.getCenter().getX(), y,
-						grindingArea.getCenter().getZ(), 1);
+				double y = cBy + 0.2 + 0.4 * n;
+				player.spawnParticle(Particle.HEART, cx, y, cz, 1);
 			}
 
 			// Circle around the grinding area
-			for (int n = 0; n < 360; n = n + (int) (45 / plugin.getConfigManager().grindingDetectionRange)) {
-				double x = grindingArea.getCenter().clone().getBlockX() + 0.5
-						+ Math.cos(n) * (double) plugin.getConfigManager().grindingDetectionRange;
-				double y = grindingArea.getCenter().clone().getBlockY() + 0.2;
-				double z = grindingArea.getCenter().clone().getBlockZ() + 0.5
-						+ Math.sin(n) * (double) plugin.getConfigManager().grindingDetectionRange;
+			double range = plugin.getConfigManager().grindingDetectionRange;
+			if (range <= 0)
+				return; // guard against bad config
+
+			// Ensure a positive angular step (degrees), proportional to range like before
+			int stepDeg = Math.max(1, (int) (45 / range));
+
+			final double baseX = center.getBlockX() + 0.5;
+			final double baseZ = center.getBlockZ() + 0.5;
+			final double y = cBy + 0.2;
+
+			for (int deg = 0; deg < 360; deg += stepDeg) {
+				double rad = Math.toRadians(deg); // Java trig uses radians
+				double x = baseX + Math.cos(rad) * range;
+				double z = baseZ + Math.sin(rad) * range;
 				player.spawnParticle(Particle.HEART, x, y, z, 1);
 			}
 		}
-
 	}
+
 
 	// ---------------------------------------------------------------------
 	// Internal maintenance
