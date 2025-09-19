@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.Collections; 
-import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import metadev.digital.MetaMobHunting.Messages.MessageHelper;
 import org.bukkit.Bukkit;
@@ -41,7 +43,7 @@ public class GrindingManager implements Listener {
 	private MobHunting plugin;
 	
 	// Per-world, time-ordered queue of recent kills (append on death, pop old in purge)
-    private final Map<UUID, ArrayDeque<GrindingInformation>> killsByWorld = new HashMap<>();
+    private final Map<UUID, Deque<GrindingInformation>> killsByWorld = new ConcurrentHashMap<>();
 
 
 	private boolean saveWhitelist = false;
@@ -112,12 +114,7 @@ public void registerDeath(LivingEntity killer, LivingEntity killed) {
 
 		// NEW: per-world, time-ordered queue for fast same-world scans
 		final UUID wuid = world.getUID();
-		ArrayDeque<GrindingInformation> dq = killsByWorld.get(wuid);
-		if (dq == null) {
-			dq = new ArrayDeque<>();
-			killsByWorld.put(wuid, dq);
-		}
-		dq.addLast(gi);
+        killsByWorld.computeIfAbsent(wuid, __ -> new ConcurrentLinkedDeque<>()).addLast(gi);
 	}
 }
 
@@ -229,7 +226,7 @@ public boolean isNetherGoldXPFarm(LivingEntity killed, boolean silent) {
 			Area detectedGrindingArea = getGrindingArea(killedLoc);
 			if (detectedGrindingArea == null) {
 				// NEW: iterate only recent kills in THIS world, newest->oldest; break at cutoff
-				final ArrayDeque<GrindingInformation> dq = killsByWorld.get(world.getUID());
+				final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
 				if (dq != null) {
 					for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
 						GrindingInformation gi = it.next();
@@ -315,7 +312,7 @@ public boolean isEndermanFarm(LivingEntity killed, boolean silent) {
 
 			Area detectedGrindingArea = getGrindingArea(killedLoc);
 			if (detectedGrindingArea == null) {
-				final ArrayDeque<GrindingInformation> dq = killsByWorld.get(world.getUID());
+				final Deque<GrindingInformation> dq = killsByWorld.get(world.getUID());
 				if (dq != null) {
 					for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
 						GrindingInformation gi = it.next();
@@ -393,7 +390,7 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 
 			Area detectedGrindingArea = getGrindingArea(killedLoc);
 			if (detectedGrindingArea == null) {
-				final ArrayDeque<GrindingInformation> dq = killsByWorld.get(killedWorld.getUID());
+				final Deque<GrindingInformation> dq = killsByWorld.get(killedWorld.getUID());
 				if (dq != null) {
 					for (Iterator<GrindingInformation> it = dq.descendingIterator(); it.hasNext();) {
 						GrindingInformation gi = it.next();
@@ -1102,21 +1099,25 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
     	windowSec = Math.max(windowSec, (long) plugin.getConfigManager().speedGrindingTimeFrame);
     	long cutoff = now - (windowSec * 1000L);
 
-    	// Original map purge
-    	Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
-    	while (itr.hasNext()) {
-    		GrindingInformation gi = itr.next().getValue();
-    		if (gi == null) {
-    			itr.remove();
-    			continue;
-    		}
-    		if (gi.getTimeOfDeath() < cutoff || gi.getKilled() == null) {
-    			itr.remove();
-    		}
-    	}
 
-	    // NEW: trim per-world queues from the head while entries are stale
-    	for (ArrayDeque<GrindingInformation> dq : killsByWorld.values()) {
+    // Original map purge (must synchronize because purge runs async)
+    synchronized (killed_mobs) {
+        Iterator<Entry<Integer, GrindingInformation>> itr = killed_mobs.entrySet().iterator();
+        while (itr.hasNext()) {
+            GrindingInformation gi = itr.next().getValue();
+            if (gi == null) {
+                itr.remove();
+                continue;
+            }
+            // Remove if outside time window or if the weak-referenced entity is gone.
+            if (gi.getTimeOfDeath() < cutoff || gi.getKilled() == null) {
+                itr.remove();
+            }
+        }
+    }
+
+    // NEW: trim per-world queues from the head while entries are stale
+    for (Deque<GrindingInformation> dq : killsByWorld.values()) {
     		while (!dq.isEmpty()) {
     			GrindingInformation head = dq.peekFirst();
     			if (head == null || head.getTimeOfDeath() < cutoff || head.getKilled() == null) {
