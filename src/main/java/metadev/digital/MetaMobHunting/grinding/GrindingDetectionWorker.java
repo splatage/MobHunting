@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
@@ -55,6 +56,7 @@ final class GrindingDetectionWorker {
     private final MobHunting plugin;
     private final java.util.function.Consumer<DetectionResult> publishOnMain;
     private final ConcurrentLinkedQueue<KillRecord> queue = new ConcurrentLinkedQueue<>();
+
     // Worker-owned index. Accessed only on the async scheduler thread.
     private final Map<UUID, Deque<KillRecord>> byWorld = new ConcurrentHashMap<>();
 
@@ -62,7 +64,14 @@ final class GrindingDetectionWorker {
     private static final int BATCH_LIMIT = 512;     // drain per pass
     private static final int MAX_DEQUE_SIZE = 8000; // per world soft cap
 
-    // Allow manager to clear a world's buffer on unload
+    // --- Debug metrics (cheap) ---
+    private final LongAdder enqueued = new LongAdder();    // increments in offer()
+    private final LongAdder drained  = new LongAdder();    // adds drained per pass
+    private volatile long lastProcessNs;                   // duration of last process() run
+    private volatile int  lastDrainedCount;                // how many records drained last run
+    private volatile int  lastWorldsVisited;               // worlds scanned last run
+
+    // Allow manager to clear a world's buffer on unload (safe due to CHM semantics)
     void clearWorld(UUID worldId) {
         if (worldId != null) {
             byWorld.remove(worldId);
@@ -78,50 +87,92 @@ final class GrindingDetectionWorker {
 
     void offer(KillRecord r) {
         if (r == null) return;
-        // No rate limiting — main thread will bottleneck first; keep hot path cheap
+        // Hot path stays O(1)
         queue.offer(r);
+        enqueued.increment();
+    }
+
+    // Optional debug gauge (async). Call from manager if you want periodic logs.
+    void startDebugGauge(long periodTicks) {
+        Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
+            // Respect your plugin's debug gate—MessageHelper.debug() should no-op if disabled
+            long backlog = enqueued.longValue() - drained.longValue();
+
+            int worlds = byWorld.size();
+            int sumBuf = 0, maxBuf = 0;
+            for (Deque<KillRecord> dq : byWorld.values()) {
+                int s = dq.size();
+                sumBuf += s;
+                if (s > maxBuf) maxBuf = s;
+            }
+
+            MessageHelper.debug(
+                "GrindWorker: backlog=%d, drainedLast=%d, lastProc=%.3fms, worldsVisitedLast=%d, buffers(sum=%d, max=%d)",
+                backlog, lastDrainedCount, (lastProcessNs / 1_000_000.0), lastWorldsVisited, sumBuf, maxBuf
+            );
+        }, periodTicks, periodTicks);
     }
 
     // ----------------------------------------------------------------
     // Async loop (runs off the main thread)
     // ----------------------------------------------------------------
     private void process() {
+        final long t0 = System.nanoTime();
+
         // Drain a bounded batch each tick to avoid long async bursts
+        int drainedThisPass = 0;
         for (int i = 0; i < BATCH_LIMIT; i++) {
             KillRecord r = queue.poll();
             if (r == null) break;
+            drainedThisPass++;
             byWorld.computeIfAbsent(r.worldId, __ -> new ArrayDeque<>()).addLast(r);
         }
+        if (drainedThisPass > 0) {
+            drained.add(drainedThisPass);
+        }
+        lastDrainedCount = drainedThisPass;
 
-        if (byWorld.isEmpty()) return;
+        if (byWorld.isEmpty()) {
+            lastWorldsVisited = 0;
+            lastProcessNs = System.nanoTime() - t0;
+            return;
+        }
 
-        long now = System.currentTimeMillis();
+        final long now = System.currentTimeMillis();
 
         // Read config (no Bukkit calls)
-        var cfg = plugin.getConfigManager();
+        final var cfg = plugin.getConfigManager();
 
         // Windows/ranges
-        final long enderSec      = cfg.secondsToSearchForGrindingOnEndermanFarms;
-        final double enderRange  = cfg.rangeToSearchForGrindingOnEndermanFarms;
-        final int enderThresh    = cfg.numberOfDeathsWhenSearchingForGringdingOnEndermanFarms;
+        final long enderSec     = cfg.secondsToSearchForGrindingOnEndermanFarms;
+        final double enderRange = cfg.rangeToSearchForGrindingOnEndermanFarms;
+        final int enderThresh   = cfg.numberOfDeathsWhenSearchingForGringdingOnEndermanFarms;
 
-        final long goldSec       = cfg.secondsToSearchForGrinding;
-        final double goldRange   = cfg.rangeToSearchForGrinding;
-        final int goldThresh     = cfg.numberOfDeathsWhenSearchingForGringding;
+        final long goldSec      = cfg.secondsToSearchForGrinding;
+        final double goldRange  = cfg.rangeToSearchForGrinding;
+        final int goldThresh    = cfg.numberOfDeathsWhenSearchingForGringding;
 
-        final long otherSec      = cfg.secondsToSearchForGrindingOnOtherFarms;
-        final double otherRange  = cfg.rangeToSearchForGrindingOnOtherFarms;
-        final int otherThresh    = cfg.numberOfDeathsWhenSearchingForGringdingOnOtherFarms;
+        final long otherSec     = cfg.secondsToSearchForGrindingOnOtherFarms;
+        final double otherRange = cfg.rangeToSearchForGrindingOnOtherFarms;
+        final int otherThresh   = cfg.numberOfDeathsWhenSearchingForGringdingOnOtherFarms;
+
+        // Precompute once per pass
+        final long maxWindowSec = Math.max(Math.max(enderSec, goldSec), otherSec);
+        final boolean enderEnabled = (enderRange > 0D && enderSec > 0L && enderThresh > 0);
+        final boolean goldEnabled  = (goldRange  > 0D && goldSec  > 0L && goldThresh  > 0);
+        final boolean otherEnabled = (otherRange > 0D && otherSec > 0L && otherThresh > 0);
+
+        int worldsVisited = 0;
 
         // Process per world
         for (Map.Entry<UUID, Deque<KillRecord>> e : byWorld.entrySet()) {
-            UUID wid = e.getKey();
-            Deque<KillRecord> dq = e.getValue();
+            final UUID wid = e.getKey();
+            final Deque<KillRecord> dq = e.getValue();
             if (dq.isEmpty()) continue;
+            worldsVisited++;
 
             // Trim stale heads using the maximum window
-            long maxWindowSec = Math.max(Math.max(enderSec, goldSec), otherSec);
-            long cutoff = now - (maxWindowSec * 1000L);
+            final long cutoff = now - (maxWindowSec * 1000L);
             while (!dq.isEmpty()) {
                 KillRecord head = dq.peekFirst();
                 if (head == null || head.timeMs < cutoff) dq.pollFirst();
@@ -137,26 +188,24 @@ final class GrindingDetectionWorker {
                 KillRecord r = it.next();
 
                 // Enderman VOID farm
-                if (r.type == EntityType.ENDERMAN && r.cause == DamageCause.VOID && enderRange > 0 && enderSec > 0) {
+                if (enderEnabled && r.type == EntityType.ENDERMAN && r.cause == DamageCause.VOID) {
                     if (countNearby(dq, r, enderRange, enderSec, now,
                             /*filter*/ (kr) -> kr.type == EntityType.ENDERMAN && kr.cause == DamageCause.VOID,
-                            enderThresh)
-                        >= enderThresh) {
+                            enderThresh) >= enderThresh) {
                         schedulePublish(new DetectionResult(wid, r.x, r.y, r.z, enderRange, enderThresh));
                     }
                 }
 
                 // Nether Gold XP farm (ZombiePigman FALL)
-                if (isPigman(r.type) && r.cause == DamageCause.FALL && goldRange > 0 && goldSec > 0) {
+                if (goldEnabled && isPigman(r.type) && r.cause == DamageCause.FALL) {
                     if (countNearby(dq, r, goldRange, goldSec, now,
                             /*filter*/ (kr) -> isPigman(kr.type) && kr.cause == DamageCause.FALL,
-                            goldThresh)
-                        >= goldThresh) {
+                            goldThresh) >= goldThresh) {
                         schedulePublish(new DetectionResult(wid, r.x, r.y, r.z, goldRange, goldThresh));
                     }
 
                     // “Other farm” rule: neighbors of ANY type within other window/range
-                    if (otherRange > 0 && otherSec > 0) {
+                    if (otherEnabled) {
                         if (countNearby(dq, r, otherRange, otherSec, now, /*no filter*/ null, otherThresh) >= otherThresh) {
                             schedulePublish(new DetectionResult(wid, r.x, r.y, r.z, otherRange, otherThresh));
                         }
@@ -164,6 +213,9 @@ final class GrindingDetectionWorker {
                 }
             }
         }
+
+        lastWorldsVisited = worldsVisited;
+        lastProcessNs = System.nanoTime() - t0;
     }
 
     // Resolve the "pigman" type at runtime to be compatible with old/new APIs.
@@ -192,6 +244,7 @@ final class GrindingDetectionWorker {
                                    RecPredicate pred, int threshold) {
         final long cutoff = now - (windowSec * 1000L);
         final double r2 = range * range;
+        final double cx = center.x, cy = center.y, cz = center.z;
         int n = 0;
 
         for (Iterator<KillRecord> it = dq.descendingIterator(); it.hasNext(); ) {
@@ -200,9 +253,9 @@ final class GrindingDetectionWorker {
             if (k == center) continue;    // don’t count the same death
             if (pred != null && !pred.test(k)) continue;
 
-            double dx = k.x - center.x;
-            double dy = k.y - center.y;
-            double dz = k.z - center.z;
+            double dx = k.x - cx;
+            double dy = k.y - cy;
+            double dz = k.z - cz;
             if ((dx*dx + dy*dy + dz*dz) <= r2) {
                 if (++n >= threshold) return n;  // EARLY EXIT
             }
