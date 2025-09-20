@@ -64,7 +64,8 @@ final class GrindingDetectionWorker {
 
     // Limits
     private static final int BATCH_LIMIT = 512;     // drain per pass
-    private static final int MAX_DEQUE_SIZE = 20000; // per world soft cap
+    private static final int MAX_DEQUE_SIZE = 8000; // per world soft cap
+    private static final int GLOBAL_QUEUE_MAX = 20000; // cap inbound queue (approx)
 
     // Allow manager to clear a world's buffer on unload
     void clearWorld(UUID worldId) {
