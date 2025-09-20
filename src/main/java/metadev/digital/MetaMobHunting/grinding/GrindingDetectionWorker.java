@@ -7,10 +7,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.LongAdder;
 
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 
@@ -57,15 +55,12 @@ final class GrindingDetectionWorker {
     private final MobHunting plugin;
     private final java.util.function.Consumer<DetectionResult> publishOnMain;
     private final ConcurrentLinkedQueue<KillRecord> queue = new ConcurrentLinkedQueue<>();
-    // approximate, lock-free counter for queue length
-    private final LongAdder qsize = new LongAdder();
     // Worker-owned index. Accessed only on the async scheduler thread.
     private final Map<UUID, Deque<KillRecord>> byWorld = new ConcurrentHashMap<>();
 
     // Limits
     private static final int BATCH_LIMIT = 512;     // drain per pass
     private static final int MAX_DEQUE_SIZE = 8000; // per world soft cap
-    private static final int GLOBAL_QUEUE_MAX = 20000; // cap inbound queue (approx)
 
     // Allow manager to clear a world's buffer on unload
     void clearWorld(UUID worldId) {
@@ -83,10 +78,8 @@ final class GrindingDetectionWorker {
 
     void offer(KillRecord r) {
         if (r == null) return;
-        // never block the main thread; drop when above cap
-        if (qsize.longValue() >= GLOBAL_QUEUE_MAX) return;
+        // No rate limiting — main thread will bottleneck first; keep hot path cheap
         queue.offer(r);
-        qsize.increment();
     }
 
     // ----------------------------------------------------------------
@@ -97,7 +90,6 @@ final class GrindingDetectionWorker {
         for (int i = 0; i < BATCH_LIMIT; i++) {
             KillRecord r = queue.poll();
             if (r == null) break;
-            qsize.decrement();
             byWorld.computeIfAbsent(r.worldId, __ -> new ArrayDeque<>()).addLast(r);
         }
 
@@ -143,10 +135,12 @@ final class GrindingDetectionWorker {
             // Scan newest -> older (short; we stop early by time)
             for (Iterator<KillRecord> it = dq.descendingIterator(); it.hasNext(); ) {
                 KillRecord r = it.next();
+
                 // Enderman VOID farm
                 if (r.type == EntityType.ENDERMAN && r.cause == DamageCause.VOID && enderRange > 0 && enderSec > 0) {
                     if (countNearby(dq, r, enderRange, enderSec, now,
-                            /*filter*/ (kr) -> kr.type == EntityType.ENDERMAN && kr.cause == DamageCause.VOID)
+                            /*filter*/ (kr) -> kr.type == EntityType.ENDERMAN && kr.cause == DamageCause.VOID,
+                            enderThresh)
                         >= enderThresh) {
                         schedulePublish(new DetectionResult(wid, r.x, r.y, r.z, enderRange, enderThresh));
                     }
@@ -155,14 +149,15 @@ final class GrindingDetectionWorker {
                 // Nether Gold XP farm (ZombiePigman FALL)
                 if (isPigman(r.type) && r.cause == DamageCause.FALL && goldRange > 0 && goldSec > 0) {
                     if (countNearby(dq, r, goldRange, goldSec, now,
-                            /*filter*/ (kr) -> isPigman(kr.type) && kr.cause == DamageCause.FALL)
+                            /*filter*/ (kr) -> isPigman(kr.type) && kr.cause == DamageCause.FALL,
+                            goldThresh)
                         >= goldThresh) {
                         schedulePublish(new DetectionResult(wid, r.x, r.y, r.z, goldRange, goldThresh));
                     }
 
                     // “Other farm” rule: neighbors of ANY type within other window/range
                     if (otherRange > 0 && otherSec > 0) {
-                        if (countNearby(dq, r, otherRange, otherSec, now, /*no filter*/ null) >= otherThresh) {
+                        if (countNearby(dq, r, otherRange, otherSec, now, /*no filter*/ null, otherThresh) >= otherThresh) {
                             schedulePublish(new DetectionResult(wid, r.x, r.y, r.z, otherRange, otherThresh));
                         }
                     }
@@ -193,7 +188,8 @@ final class GrindingDetectionWorker {
     private interface RecPredicate { boolean test(KillRecord kr); }
 
     private static int countNearby(Deque<KillRecord> dq, KillRecord center,
-                                   double range, long windowSec, long now, RecPredicate pred) {
+                                   double range, long windowSec, long now,
+                                   RecPredicate pred, int threshold) {
         final long cutoff = now - (windowSec * 1000L);
         final double r2 = range * range;
         int n = 0;
@@ -208,7 +204,7 @@ final class GrindingDetectionWorker {
             double dy = k.y - center.y;
             double dz = k.z - center.z;
             if ((dx*dx + dy*dy + dz*dz) <= r2) {
-                n++;
+                if (++n >= threshold) return n;  // EARLY EXIT
             }
         }
         return n;
@@ -224,3 +220,4 @@ final class GrindingDetectionWorker {
         });
     }
 }
+
