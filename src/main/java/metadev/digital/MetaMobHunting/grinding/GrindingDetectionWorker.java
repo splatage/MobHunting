@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.LongAdder;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -56,12 +57,21 @@ final class GrindingDetectionWorker {
     private final MobHunting plugin;
     private final java.util.function.Consumer<DetectionResult> publishOnMain;
     private final ConcurrentLinkedQueue<KillRecord> queue = new ConcurrentLinkedQueue<>();
+    // approximate, lock-free counter for queue length
+    private final LongAdder qsize = new LongAdder();
     // Worker-owned index. Accessed only on the async scheduler thread.
     private final Map<UUID, Deque<KillRecord>> byWorld = new ConcurrentHashMap<>();
 
     // Limits
     private static final int BATCH_LIMIT = 512;     // drain per pass
-    private static final int MAX_DEQUE_SIZE = 8000; // per world soft cap
+    private static final int MAX_DEQUE_SIZE = 20000; // per world soft cap
+
+    // Allow manager to clear a world's buffer on unload
+    void clearWorld(UUID worldId) {
+        if (worldId != null) {
+            byWorld.remove(worldId);
+        }
+    }
 
     GrindingDetectionWorker(MobHunting plugin, java.util.function.Consumer<DetectionResult> publishOnMain) {
         this.plugin = plugin;
@@ -71,7 +81,11 @@ final class GrindingDetectionWorker {
     }
 
     void offer(KillRecord r) {
-        if (r != null) queue.offer(r);
+        if (r == null) return;
+        // never block the main thread; drop when above cap
+        if (qsize.longValue() >= GLOBAL_QUEUE_MAX) return;
+        queue.offer(r);
+        qsize.increment();
     }
 
     // ----------------------------------------------------------------
@@ -82,6 +96,7 @@ final class GrindingDetectionWorker {
         for (int i = 0; i < BATCH_LIMIT; i++) {
             KillRecord r = queue.poll();
             if (r == null) break;
+            qsize.decrement();
             byWorld.computeIfAbsent(r.worldId, __ -> new ArrayDeque<>()).addLast(r);
         }
 

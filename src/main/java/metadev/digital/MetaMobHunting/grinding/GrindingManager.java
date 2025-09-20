@@ -281,6 +281,10 @@ public boolean isOtherFarm(LivingEntity killed, boolean silent) {
 			for (Area area : areas)
 				area.getCenter().setWorld(null);
 		}
+        // NEW: drop async worker buffers for this world
+        if (detectionWorker != null) {
+            detectionWorker.clearWorld(event.getWorld().getUID());
+        }
 	}
 
 	// ****************************************************************
