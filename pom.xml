@@ -156,17 +156,6 @@
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
                     <createSourcesJar>false</createSourcesJar>
-                    <artifactSet>
-                        <includes>
-                            <include>org.bstats:*</include>
-                        </includes>
-                    </artifactSet>
-                    <relocations>
-                        <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>metadev.digital.MetaMobHunting</shadedPattern>
-                        </relocation>
-                    </relocations>
                 </configuration>
             </plugin>
         </plugins>
@@ -245,18 +234,6 @@
             <version>2.21.2</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/EssentialsX-2.21.2.jar</systemPath>
-        </dependency>
-
-        <!-- Bstats -->
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>3.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-base</artifactId>
-            <version>3.1.0</version>
         </dependency>
 
         <!-- Genesis Custom GUI (Formerly BossShop) TODO: replace with https://www.spigotmc.org/resources/genesis-custom-gui-and-shop-creator-by-magemonkey-studio-formerly-bossshoppro.104824/ -->
