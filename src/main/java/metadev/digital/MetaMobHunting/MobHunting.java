@@ -104,7 +104,6 @@ public class MobHunting extends JavaPlugin {
 	private AchievementManager mAchievementManager;
 	private BountyManager mBountyManager;
 	private ParticleManager mParticleManager = new ParticleManager();
-	private MetricsManager mMetricsManager;
 	private ExtendedMobManager mExtendedMobManager;
 	private IDataStore mStore;
 	private DataStoreManager mStoreManager;
@@ -201,25 +200,6 @@ public class MobHunting extends JavaPlugin {
 			break;
 		}
 		mConfig.saveConfig();
-
-		if (isbStatsEnabled())
-			MessageHelper.debug("bStat is enabled");
-		else {
-			MessageHelper.warning("=====================WARNING=============================");
-			MessageHelper.warning("The statistics collection is disabled. As developer I need the");
-			MessageHelper.warning("statistics from bStats.org. The statistics is 100% anonymous.");
-			MessageHelper.warning("https://bstats.org/plugin/bukkit/MobHunting");
-			MessageHelper.warning("Please enable this in /plugins/bStats/config.yml and get rid of this");
-			MessageHelper.warning("message. Loading will continue in 15 sec.");
-			MessageHelper.warning("=========================================================");
-			long now = System.currentTimeMillis();
-			while (System.currentTimeMillis() < now + 15000L) {
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-				}
-			}
-		}
 
 		mCompatibilityManager = new CompatibilityManager(this);
 
@@ -346,11 +326,6 @@ public class MobHunting extends JavaPlugin {
 				mAdvancementManager.getAdvancementsFromAchivements();
 		}
 
-		if (!Server.isGlowstoneServer()) {
-			mMetricsManager = new MetricsManager(this);
-			mMetricsManager.startBStatsMetrics();
-		}
-
 		// Handle online players when server admin do a /reload or /mh reload
 		if (Tools.getOnlinePlayersAmount() > 0) {
 			MessageHelper.debug("Reloading %s player settings from the database", Tools.getOnlinePlayersAmount());
@@ -411,13 +386,7 @@ public class MobHunting extends JavaPlugin {
 		MessageHelper.debug("MobHunting disabled.");
 	}
 
-	private boolean isbStatsEnabled() {
-		File bStatsFolder = new File(instance.getDataFolder().getParentFile(), "bStats");
-		File configFile = new File(bStatsFolder, "config.yml");
-		YamlConfiguration config = YamlConfiguration.loadConfiguration(configFile);
-		return config.getBoolean("enabled", true);
-	}
-
+	
 	// ************************************************************************************
 	// Managers and handlers
 	// ************************************************************************************
